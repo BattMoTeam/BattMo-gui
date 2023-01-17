@@ -25,15 +25,14 @@ celltypes = np.empty(len(cells), dtype=np.uint8)
 # TODO: Make this more general so grid can contain different celltypes
 nn = cells[0,0]
 
-match nn:
-    case 2:
-        ct = 3 # LINE
-    case 4:
-        ct = 9 # POLYGON - MRST export currently not working for 2D grids
-    case 8:
-        ct = 12 # HEXAHEDRON
-    case _:
-        print("Cell type not implemented")
+if nn == 2:
+    ct = 3 # LINE
+elif nn == 4:
+    ct = 9 # POLYGON - MRST export currently not working for 2D grids
+elif nn == 8:
+    ct = 12 # HEXAHEDRON
+else:
+    print("Cell type not implemented")
 
 
 celltypes[:] = pv.CellType(ct)
