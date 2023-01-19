@@ -7,25 +7,24 @@
     nc_elyte = model.Electrolyte.G.cells.num;
     nc_ne = model.NegativeElectrode.G.cells.num;
     nc_pe = model.PositiveElectrode.G.cells.num;
+    nc_neam = model.NegativeElectrode.ActiveMaterial.G.cells.num;
+    nc_peam = model.PositiveElectrode.ActiveMaterial.G.cells.num;    
     
     N_ne = model.NegativeElectrode.ActiveMaterial.SolidDiffusion.N;
     N_pe = model.PositiveElectrode.ActiveMaterial.SolidDiffusion.N;
-    
-    fname = fullfile(ROOTDIR,'..','..','output','runBattery1D_results.h5');
+
+
+%     fname = fullfile(ROOTDIR,'..','..','output','runBattery1D_resultsVTK.h5');
+
+    [filepath,name,ext] = fileparts(mfilename('fullpath'));
+    fname = fullfile(filepath,'..','data','runBattery3D_resultsVTK.h5');
 
     % Grid group
     gdim = model.G.griddim;
 
-    switch gdim
-        case 1
-            h5create(fname,'/Grid/x',[nc 1]);
-        case 2
-            h5create(fname,'/Grid/x',[nc 1]);
-            h5create(fname,'/Grid/y',[nc 1]);
-        case 3
-            error('Export not implemented for 3D grids')
-    end
-    
+    h5create(fname,'/Grid/points',size(points));
+    h5create(fname,'/Grid/cells',size(cells));  
+
     
     % GlobalVariables group
     h5create(fname,'/GlobalVariables/time',[nts 1]);
@@ -51,32 +50,32 @@
     h5create(fname,'/NegativeElectrode/IndexMap_ne',[nc_ne 1]); 
     for i = 1:nts
         datapath = ['/NegativeElectrode/',num2str(i),'/cSurface'];
-        h5create(fname,datapath,[nc_ne 1]);
+        h5create(fname,datapath,[nc_neam 1]);
         datapath = ['/NegativeElectrode/',num2str(i),'/phi'];
-        h5create(fname,datapath,[nc_ne 1]);
+        h5create(fname,datapath,[nc_neam 1]);
         datapath = ['/NegativeElectrode/',num2str(i),'/SolidDiffusion/c'];
-        h5create(fname,datapath,[nc_ne*N_ne 1]);
+        h5create(fname,datapath,[nc_neam*N_ne 1]);
     end    
     
     % PositiveElectrode group 
     h5create(fname,'/PositiveElectrode/IndexMap_ne',[nc_pe 1]); 
     for i = 1:nts
         datapath = ['/PositiveElectrode/',num2str(i),'/cSurface'];
-        h5create(fname,datapath,[nc_pe 1]);
+        h5create(fname,datapath,[nc_peam 1]);
         datapath = ['/PositiveElectrode/',num2str(i),'/phi'];
-        h5create(fname,datapath,[nc_pe 1]);
+        h5create(fname,datapath,[nc_peam 1]);
         datapath = ['/PositiveElectrode/',num2str(i),'/SolidDiffusion/c'];
-        h5create(fname,datapath,[nc_pe*N_pe 1]);
+        h5create(fname,datapath,[nc_peam*N_pe 1]);
     end        
     
     %% Write HDF5 datasets from state
 
     % Grid group
-    h5write(fname,'/Grid/x',model.G.cells.centroids(:,1));
-    if numel(model.G.cartDims) == 2
-        h5write(fname,'/Grid/y',model.G.cells.centroids(:,2));
-    end
-    
+    [points, cells] = getVTKPointsCells(model.G);
+
+    h5write(fname,'/Grid/points',points);    
+    h5write(fname,'/Grid/cells',cells);
+
     % GlobalVariables group
     outputvars = model.extractGlobalVariables(states);
     
@@ -92,7 +91,7 @@
     end
     
     % Electrolyte group 
-    h5write(fname,'/Electrolyte/IndexMap_elyte',model.Electrolyte.G.cells.indexMap);
+    h5write(fname,'/Electrolyte/IndexMap_elyte',model.Electrolyte.G.mappings.cellmap);
     for i = 1:nts
         datapath = ['/Electrolyte/',num2str(i),'/c'];
         h5write(fname,datapath,states{i}.Electrolyte.c);
@@ -101,7 +100,7 @@
     end    
     
     % NegativeElectrode group 
-    h5write(fname,'/NegativeElectrode/IndexMap_ne',model.NegativeElectrode.G.cells.indexMap);
+    h5write(fname,'/NegativeElectrode/IndexMap_ne',model.NegativeElectrode.G.mappings.cellmap);
     for i = 1:nts
         % Have put this in this group as it is defined on the cells in the main grid.
         % Maybe change it later?
@@ -114,7 +113,7 @@
     end    
     
     % PositiveElectrode group 
-    h5write(fname,'/PositiveElectrode/IndexMap_ne',model.PositiveElectrode.G.cells.indexMap);
+    h5write(fname,'/PositiveElectrode/IndexMap_ne',model.PositiveElectrode.G.mappings.cellmap);
     for i = 1:nts
         % Have put this in this group as it is defined on the cells in the main grid.
         % Maybe change it later?

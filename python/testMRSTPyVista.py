@@ -3,8 +3,15 @@ import pyvista as pv
 import numpy as np
 import os
 
+
+def mapDataToFullGrid(grid,data,indexMap):
+
+    full_data = np.empty(grid.n_cells,)
+    full_data[indexMap] = data
+    return full_data
+
 absolute_path = os.path.dirname(__file__)
-relative_path = "../data/jellyroll_Test.h5"
+relative_path = "../data/runBattery3D_resultsVTK.h5"
 fname = os.path.join(absolute_path, relative_path)
 
 
@@ -40,7 +47,13 @@ celltypes[:] = pv.CellType(ct)
 # Create grid
 grid = pv.UnstructuredGrid(cells, celltypes, points) 
 
-grid.plot(show_edges=True)
+data = f['Electrolyte']['100']['c'][:].ravel()
+indexMap = f['Electrolyte']['IndexMap_elyte'][:].ravel().astype(int)
+full_data = mapDataToFullGrid(grid,data,indexMap)
+
+#grid.plot(show_edges=True, jupyter_backend='ipyvtklink')
+grid.cell_data['c'] = full_data
+grid.plot(show_edges=False)
 
 
 f.close()
