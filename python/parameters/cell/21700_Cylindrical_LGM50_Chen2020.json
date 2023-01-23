@@ -1,0 +1,14 @@
+{   "Ambient temperature [K]": 298.15,
+    "Initial temperature [K]": 298.15,
+    "Reference temperature [K]": 298.15,
+    "Lower voltage cut-off [V]": 2.7,
+    "Upper voltage cut-off [V]": 4.2,
+    "Nominal cell capacity [A.h]": 12.5,
+    "Specific heat capacity [J.K-1.kg-1]": 913,
+    "Thermal conductivity [W.m-1.K-1]": 2.04,
+    "Density [kg.m-3]": 1847,
+    "Electrode area [m2]": 0.016808,
+    "Number of electrode pairs connected in parallel to make a cell": 34,
+    "External surface area [m2]": 0.0379,
+    "Volume [m3]": 0.000128
+}
