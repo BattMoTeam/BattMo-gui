@@ -1,4 +1,6 @@
 {
+"Header":{},
+"Parameters":{
   "cmax": 55554,
   "volumeFraction": 0.8,
   "volumetricSurfaceArea": 885000,
@@ -12,5 +14,6 @@
            "functionname" : "computeOCP_nmc111",
            "argumentlist" : ["cElectrode", "T", "cmax"]},
   "BruggemanCoefficient": 1.5
+}
 }
 

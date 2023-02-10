@@ -1,4 +1,6 @@
 {
+  "Header":{},
+"Parameters":{
   "cmax": 30555,
   "volumeFraction": 0.8,
   "volumetricSurfaceArea": 723600,
@@ -13,4 +15,5 @@
            "argumentlist" : ["cElectrode", "T", "cmax"]
           },
   "BruggemanCoefficient": 1.5
+}
 }

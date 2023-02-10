@@ -1,13 +1,21 @@
 import streamlit as st
 from PIL import Image
 import os
+import json
 
-THISDIR = os.path.realpath(os.path.dirname(__file__))
-RESOURCES_DIR = os.path.join(THISDIR, './resources/')
+from app_view import Heading, Tab, SubmitJob, ParametersForm
+from app_model import LoaderJsons
+
+THISDIR = os.path.realpath(os.path.dirname(__file__))  
+ 
 
 ######################################## INITIALIZATION FUNCTIONS ##################################
+
 @st.cache
-def load_images(resources_dir: str = RESOURCES_DIR)-> dict:
+def load_images(cwd:str = THISDIR)-> dict:
+
+    resources_dir = os.path.join(cwd, './resources/') 
+
     return {"logo":Image.open(resources_dir+"battmo_logo.png"), 
             "cell_coin":Image.open(resources_dir+"cell_coin.png"), 
             "cell_prismatic": Image.open(resources_dir+"cell_prismatic.png"),
@@ -17,119 +25,97 @@ def load_images(resources_dir: str = RESOURCES_DIR)-> dict:
             "elyte": Image.open(resources_dir+"elyte.png"),
             "current": Image.open(resources_dir+"current.png"),}
 
+
+# @st.cache
+def load_parameter_sets(cwd:str = THISDIR)-> dict:
+
+    params_dir = os.path.join(cwd, './parameters/')
+
+    available_params = LoaderJsons(location=params_dir)
+    return available_params.conform_params_to_appmodel()
+
+
+########    Inmutable dicts      ######
+IMAGES_DICT = load_images()
+DEFAULT_PARAMS = load_parameter_sets()
+
+
+
 ############################################# APP ################################################# 
 
 
-image_dict = load_images()
+Heading(IMAGES_DICT["logo"])
+
+cell_tab, pe_tab, ne_tab, elyte_tab, cycling_tab = st.tabs(["Cell", "Positive Electrode", "Negative Electrode",
+                                                            "Electrolyte", "Cycling Program"])
+
+st.markdown("#") #space
 
 
-######## Headings ######
+with cell_tab:               
 
-logo_col, title_col = st.columns([1,5]) 
+    Tab(IMAGES_DICT["cell_coin"], tab_title= "Cell")
 
-logo_col.image(image_dict["logo"])
-title_col.markdown("# BattMO")
-
-
-st.markdown("Framework for continuum modelling of electrochemical devices.")
-
-
-website_col, doi_col, github_col = st.columns([2,3,4])
-
-website_col.markdown("[BatteryModel.com](https://batterymodel.com/)")
-doi_col.markdown("[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)")
-github_col.markdown("[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)")
-
-st.markdown("""BattMO simulates the Current-Voltage response of a battery, using on Physics-based models. 
-            For each tab below, load pre-defined parameters, modify them and submit a simulation job.""")
+    cell_selected_paramset = st.selectbox(label= "",
+                                        options=list(DEFAULT_PARAMS.cell.keys()), #change with the model
+                                        index=0,
+                                        label_visibility="collapsed")
+    cell_form = ParametersForm(label="cell", default_parameters=DEFAULT_PARAMS.cell[cell_selected_paramset]) 
 
 
 
-cell_tab, pe_tab, ne_tab, elyte_tab = st.tabs(["Cell", "Positive Electrode", "Negative Electrode",
-                                                            "Electrolyte"])
-
-
-
-######## Cell ######
-
-with cell_tab:
-    st.markdown("### Cell")
-
-    cell_image_col, cell_widget_col = st.columns([1,5]) 
-    cell_image_col.image(image_dict["cell_coin"])
-    cell_widget_col.selectbox(label= "",
-                            options=["Coin cell", "Cylindrical cell", "Pouch cell", "Prismatic cell"],
-                            index=0,
-                            label_visibility="collapsed")
-
-    with st.expander("Parameters"):
-        st.json({"Diameter [mm]": 100,
-                "Height [mm]": 25})
-
-
-######## Positive Electrode ###### 
 with pe_tab:
-    st.markdown("### Positive Electrode")
+    Tab(IMAGES_DICT["plus"], tab_title = "Positive Electrode")
 
-    pe_image_col, pe_widget_col = st.columns([1,5]) 
-    pe_image_col.image(image_dict["plus"])
-    pe_widget_col.selectbox(label= "", key="pe",
-                            options=["LCO", "NCA", "NCM", "LFP"],
-                            index=0,
-                            label_visibility="hidden")
-
-    with st.expander("Parameters"):
-        st.json({"Particle radius [m]": 4.12e-06,
-                "Thickness [m]": 5.62e-05,})
+    pe_selected_paramset = st.selectbox(label= "",
+                                        options=list(DEFAULT_PARAMS.pe.keys()), #change with the model
+                                        index=0,
+                                        label_visibility="collapsed")
+    pe_form = ParametersForm(label="pe", default_parameters=DEFAULT_PARAMS.pe[pe_selected_paramset])
 
 
-######## Negative Electrode ###### 
+
 with ne_tab:
-    st.markdown("### Negative Electrode")
+    Tab(IMAGES_DICT["minus"], tab_title= "Negative Electrode")
 
-    ne_image_col, ne_widget_col = st.columns([1,5]) 
-    ne_image_col.image(image_dict["minus"])
-    ne_widget_col.selectbox(label= "",key="ne",
-                            options=["Graphite", "Silicon", "Si:Gr 1:100", "Si:Gr 2:100"],
-                            index=0,
-                            label_visibility="hidden")
-
-    with st.expander("Parameters"):
-        st.json({"Particle radius [m]": 4.12e-06,
-                "Thickness [m]": 5.62e-05})
+    ne_selected_paramset = st.selectbox(label= "",
+                                        options=list(DEFAULT_PARAMS.ne.keys()), #change with the model
+                                        index=0,
+                                        label_visibility="collapsed")
+    ne_form = ParametersForm(label="ne", default_parameters=DEFAULT_PARAMS.ne[ne_selected_paramset])
 
 
-######## Electrolyte ###### 
+
 with elyte_tab:
-    st.markdown("### Electrolyte")
+    Tab(IMAGES_DICT["elyte"], tab_title= "Electrolyte")
 
-    elyte_image_col, elyte_widget_col = st.columns([1,5]) 
-    elyte_image_col.image(image_dict["elyte"])
-    elyte_widget_col.selectbox(label= "",key="elyte",
-                            options=["LP57", "LP30", "LC30"],
-                            index=0,
-                            label_visibility="hidden")
-
-    with st.expander("Parameters"):
-        st.json({"Initial concentration [mol.m-3]": 1000,
-                "Cation transference number": 0.2594})
+    elyte_selected_paramset = st.selectbox(label= "",
+                                        options=list(DEFAULT_PARAMS.elyte.keys()), #change with the model
+                                        index=0,
+                                        label_visibility="collapsed")
+    elyte_form = ParametersForm(label="elyte", default_parameters=DEFAULT_PARAMS.elyte[elyte_selected_paramset])
 
 
 
-######## Cycling Protocol ###### 
+with cycling_tab:
+    Tab(IMAGES_DICT["current"], tab_title = "Cycling Program")
 
-cp_image_col, cp_widget_col = st.columns([1,5]) 
-cp_image_col.image(image_dict["current"])
-cp_widget_col.selectbox(label= "Cycling program",key="cp",
-                            options=["CC", "CV", "CCCV", "GITT"],
-                            index=0,
-                            label_visibility="hidden")
-
-with st.expander("Parameters"):
-    st.json({"Lower voltage cut-off [V]": 2.7,
-            "Upper voltage cut-off [V]": 4.2,})
+    cycling_selected_paramset = st.selectbox(label= "",
+                                        options=list(DEFAULT_PARAMS.cycling.keys()), #change with the model
+                                        index=0,
+                                        label_visibility="collapsed")
+    cycling_form = ParametersForm(label="cycling", default_parameters=DEFAULT_PARAMS.cycling[cycling_selected_paramset])
 
 
-######## Submit ###### 
-st.markdown("### Submit simulation")
-st.button("Submit") 
+user_parameters = {"cell":cell_form.user_inputs,
+        "pe":pe_form.user_inputs,
+        "ne":ne_form.user_inputs,
+        "elyte":elyte_form.user_inputs,
+        "cycling":cycling_form.user_inputs,}
+
+with st.expander("Json"):
+    st.json(user_parameters)
+
+
+SubmitJob(user_parameters = json.dumps(user_parameters, indent = 2))
+

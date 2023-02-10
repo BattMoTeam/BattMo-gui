@@ -1,4 +1,6 @@
 {
+"Header":{},
+"Parameters":{
     "specificHeatCapacity": 1518.0,
     "heatCapacity": 1836780.0,
     "thermalConductivity": 0.099,
@@ -21,4 +23,5 @@
     "Separator": { "filename": "ParameterData/BatteryComponentParameters/celgard2500_Xu.json",
                    "isFile": true },
     "BruggemanCoefficient": 1.5
+}
 }

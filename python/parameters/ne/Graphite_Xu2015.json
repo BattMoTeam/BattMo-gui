@@ -1,4 +1,6 @@
 {
+"Header":{},
+"Parameters":{
     "cmax": 31540,
     "volumeFraction": 0.7, 
     "volumetricSurfaceArea": 142372, 
@@ -12,4 +14,5 @@
             "functionname": "updateOCPFunc_LiC6_Xu",
             "argumentlist" : ["concentration", "temperature", "maximum concentration"]
            }
+}
 }
