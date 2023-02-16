@@ -19,7 +19,7 @@ def get_tree(d, indent=0):
 #############################
 # HIERARCHY OF APP MODEL ####
 # Parameter objects -> ParameterSet -> Model
-# Enables an API in this way: app_model.positive_electrode["paramset_name"].set_value("param_name", param_value)
+# Enables an API in this way: app_model.positive_electrode["parameter_set_name"].set_value("param_name", param_value)
 #############################
 
 

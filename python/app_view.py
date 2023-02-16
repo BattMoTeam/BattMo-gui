@@ -62,7 +62,7 @@ class ParametersForm:
                     widget_input = st.number_input(
                         label=param_key,
                         value=param_value.default,
-                        min_value= param_value.val_min,
+                        min_value=param_value.val_min,
                         max_value=param_value.val_max,
                         key=self.label + "_" + param_key
                     )
