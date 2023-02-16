@@ -1,0 +1,18 @@
+{
+    "Name": "21700_Cylindrical_LGM50_Chen2020",
+    "Category": "cell",
+    "Header":{},
+    "Parameters":{
+        "ambientTemperature": 298.15,
+        "initialTemperature": 298.15,
+        "referenceTemperature": 298.15,
+        "nominalCellCapacity": 12.5,
+        "specificHeatCapacity": 913,
+        "thermalConductivity": 2.04,
+        "Density": 1847,
+        "electrodeArea": 0.016808,
+        "numberParallelElectrodePairsWithinCell": 34,
+        "externalSurfaceArea": 0.0379,
+        "volume": 0.000128
+    }
+}
