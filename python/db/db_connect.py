@@ -7,7 +7,7 @@ db_name = "BattMo_gui.db"
 def get_sqlite_con_and_cur():
     current_path = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(current_path, db_name)
-    con = sqlite3.connect(db_path)
+    con = sqlite3.connect(db_path, check_same_thread=False)
     return con, con.cursor()
 
 
