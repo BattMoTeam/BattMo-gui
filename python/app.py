@@ -56,7 +56,7 @@ with cell_tab:
 
     Tab(IMAGES_DICT["cell_coin"], tab_title="Cell")
 
-    cell_selected_paramset = st.selectbox(
+    cell_selected_parameter_set = st.selectbox(
         label="",
         options=list(DEFAULT_PARAMS.cell.keys()),  # change with the model
         index=0,
@@ -64,13 +64,13 @@ with cell_tab:
     )
     cell_form = ParametersForm(
         label="cell",
-        default_parameters=DEFAULT_PARAMS.cell[cell_selected_paramset]
+        default_parameters=DEFAULT_PARAMS.cell[cell_selected_parameter_set]
     )
 
 with positive_electrode_tab:
     Tab(IMAGES_DICT["plus"], tab_title="Positive Electrode")
 
-    positive_electrode_selected_paramset = st.selectbox(
+    positive_electrode_selected_parameter_set = st.selectbox(
         label="",
         options=list(DEFAULT_PARAMS.positive_electrode.keys()),  # change with the model
         index=0,
@@ -78,13 +78,13 @@ with positive_electrode_tab:
     )
     positive_electrode_form = ParametersForm(
         label="positive_electrode",
-        default_parameters=DEFAULT_PARAMS.positive_electrode[positive_electrode_selected_paramset]
+        default_parameters=DEFAULT_PARAMS.positive_electrode[positive_electrode_selected_parameter_set]
     )
 
 with negative_electrode_tab:
     Tab(IMAGES_DICT["minus"], tab_title="Negative Electrode")
 
-    negative_electrode_selected_paramset = st.selectbox(
+    negative_electrode_selected_parameter_set = st.selectbox(
         label="",
         options=list(DEFAULT_PARAMS.negative_electrode.keys()),  # change with the model
         index=0,
@@ -92,13 +92,13 @@ with negative_electrode_tab:
     )
     negative_electrode_form = ParametersForm(
         label="negative_electrode",
-        default_parameters=DEFAULT_PARAMS.negative_electrode[negative_electrode_selected_paramset]
+        default_parameters=DEFAULT_PARAMS.negative_electrode[negative_electrode_selected_parameter_set]
     )
 
 with electrolyte_tab:
-    Tab(IMAGES_DICT["elyte"], tab_title="Electrolyte")
+    Tab(IMAGES_DICT["electrolyte"], tab_title="Electrolyte")
 
-    electrolyte_selected_paramset = st.selectbox(
+    electrolyte_selected_parameter_set = st.selectbox(
         label="",
         options=list(DEFAULT_PARAMS.electrolyte.keys()),  # change with the model
         index=0,
@@ -106,13 +106,13 @@ with electrolyte_tab:
     )
     electrolyte_form = ParametersForm(
         label="electrolyte",
-        default_parameters=DEFAULT_PARAMS.electrolyte[electrolyte_selected_paramset]
+        default_parameters=DEFAULT_PARAMS.electrolyte[electrolyte_selected_parameter_set]
     )
 
 with cycling_tab:
     Tab(IMAGES_DICT["current"], tab_title="Cycling Program")
 
-    cycling_selected_paramset = st.selectbox(
+    cycling_selected_parameter_set = st.selectbox(
         label="",
         options=list(DEFAULT_PARAMS.cycling.keys()),  # change with the model
         index=0,
@@ -120,7 +120,7 @@ with cycling_tab:
     )
     cycling_form = ParametersForm(
         label="cycling",
-        default_parameters=DEFAULT_PARAMS.cycling[cycling_selected_paramset]
+        default_parameters=DEFAULT_PARAMS.cycling[cycling_selected_parameter_set]
     )
 
 
