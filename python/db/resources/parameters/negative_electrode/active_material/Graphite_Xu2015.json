@@ -6,10 +6,11 @@
       "maximum_concentration": {
          "value": 31540,
          "unit": "mol/m3",
-         "max_value": 1e5,
-         "min_value": 1e3,
+         "max_value": 100000.0,
+         "min_value": 1000.0,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "volume_fraction": {
          "value": 0.7,
@@ -17,23 +18,26 @@
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "volumetric_surface_area": {
          "value": 142372,
          "unit": "m",
-         "max_value": 1e7,
+         "max_value": 10000000.0,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "density": {
          "value": 1852,
          "unit": "kg/m3",
-         "max_value": 1e4,
+         "max_value": 10000.0,
          "min_value": 100,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "number_of_electrons_transferred": {
          "value": 1,
@@ -41,23 +45,26 @@
          "max_value": 1,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "int"
       },
       "activation_energy_of_reaction": {
          "value": 4000,
          "unit": "J/mol/K",
-         "max_value": 1e5,
+         "max_value": 100000.0,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "reaction_rate_constant": {
          "value": 1.76e-11,
          "unit": "mol/m2/s",
-         "max_value": 1e-3,
+         "max_value": 0.001,
          "min_value": 1e-20,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "maximum_lithium_stoichiometry": {
          "value": 0.51873811,
@@ -65,7 +72,8 @@
          "max_value": 1,
          "min_value": 0.01,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "minimum_lithium_stoichiometry": {
          "value": 0.001,
@@ -73,12 +81,17 @@
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "open_circuit_potential": {
          "type": "function",
          "function_name": "updateOCPFunc_LiC6_Xu",
-         "argument_list": ["concentration", "temperature", "maximum_concentration"]
+         "argument_list": [
+            "concentration",
+            "temperature",
+            "maximum_concentration"
+         ]
       }
    }
 }

@@ -4,47 +4,49 @@
    "Header": {},
    "Parameters": {
       "thickness": {
-         "value": 11e-6,
+         "value": 1.1e-05,
          "unit": "m",
-         "max_value": 30e-6,
-         "min_value": 5e-6,
+         "max_value": 3e-05,
+         "min_value": 5e-06,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "density": {
          "value": 8950,
          "unit": "kg/m3",
-         "max_value": 1e4,
-         "min_value": 5e3,
+         "max_value": 10000.0,
+         "min_value": 5000.0,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
-
       "specific_heat_capacity": {
          "value": 385,
          "unit": "J/kg/K",
-         "max_value": 1e3,
+         "max_value": 1000.0,
          "min_value": 10,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
-
       "thermal_conductivity": {
          "value": 398,
          "unit": "W/m/K",
-         "max_value": 1e3,
+         "max_value": 1000.0,
          "min_value": 10,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
-
       "volume_fraction": {
          "value": 1,
          "unit": "1",
          "max_value": 1,
          "min_value": 0.01,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       }
    }
 }

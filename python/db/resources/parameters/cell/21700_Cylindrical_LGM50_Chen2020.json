@@ -9,7 +9,8 @@
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "initial_temperature": {
          "value": 298.15,
@@ -17,7 +18,8 @@
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "reference_temperature": {
          "value": 298.15,
@@ -25,7 +27,8 @@
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "nominal_cell_capacity": {
          "value": 12.5,
@@ -33,7 +36,8 @@
          "max_value": 1000,
          "min_value": 0,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "number_parallel_electrode_pairs_within_cell": {
          "value": 34,
@@ -41,23 +45,26 @@
          "max_value": 100,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "int"
       },
       "external_surface_area": {
          "value": 0.0379,
          "unit": "m2",
          "max_value": 10,
-         "min_value": 1e-6,
+         "min_value": 1e-06,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "volume": {
          "value": 0.000128,
          "unit": "m3",
          "max_value": 0.01,
-         "min_value": 1e-6,
+         "min_value": 1e-06,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       }
    }
 }

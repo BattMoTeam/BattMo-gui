@@ -6,12 +6,14 @@
       "include_current_collector": {
          "value": false,
          "description": "",
-         "is_shown_to_user": false
+         "is_shown_to_user": false,
+         "type": "bool"
       },
       "use_solid_diffusion_model": {
          "value": true,
          "description": "",
-         "is_shown_to_user": false
+         "is_shown_to_user": false,
+         "type": "bool"
       }
    }
 }

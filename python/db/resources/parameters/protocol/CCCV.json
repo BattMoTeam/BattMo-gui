@@ -9,7 +9,8 @@
          "max_value": 100,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "int"
       },
       "CRate": {
          "value": 1,
@@ -17,7 +18,8 @@
          "max_value": 10,
          "min_value": 0.01,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "lowerCutoffVoltage": {
          "value": 2.4,
@@ -25,7 +27,8 @@
          "max_value": 4,
          "min_value": 0,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "upperCutoffVoltage": {
          "value": 4.1,
@@ -33,23 +36,26 @@
          "max_value": 5,
          "min_value": 3,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "dIdtLimit": {
          "value": 0.01,
          "unit": "A/s",
          "max_value": 0.1,
-         "min_value": 1e-4,
+         "min_value": 0.0001,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "dEdtLimit": {
          "value": 0.01,
          "unit": "V/s",
          "max_value": 0.1,
-         "min_value": 1e-4,
+         "min_value": 0.0001,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       }
    }
 }

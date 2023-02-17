@@ -9,15 +9,17 @@
          "max_value": 10000,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "thermal_conductivity": {
          "value": 0.099,
          "unit": "W/m/K",
          "max_value": 1000,
-         "min_value": 1e-3,
+         "min_value": 0.001,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "density": {
          "value": 1210,
@@ -25,7 +27,8 @@
          "max_value": 10000,
          "min_value": 100,
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "int"
       },
       "conductivity": {
          "type": "function",
@@ -46,44 +49,50 @@
       "charge_carrier_name": {
          "value": "Li",
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "str"
       },
       "charge_carrier_charge_number": {
-            "value": 1,
-            "unit": "1",
-            "max_value": 1,
-            "min_value": 1,
-            "description": "",
-            "is_shown_to_user": true
+         "value": 1,
+         "unit": "1",
+         "max_value": 1,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int"
       },
       "charge_carrier_transference_number": {
-            "value": 0.399,
-            "unit": "1",
-            "max_value": 0.99,
-            "min_value": 0.01,
-            "description": "",
-            "is_shown_to_user": true
+         "value": 0.399,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float"
       },
       "counter_ion_name": {
          "value": "PF6",
          "description": "",
-         "is_shown_to_user": true
+         "is_shown_to_user": true,
+         "type": "str"
       },
       "counter_ion_charge_number": {
-            "value": -1,
-            "unit": "1",
-            "max_value": -1,
-            "min_value": -1,
-            "description": "",
-            "is_shown_to_user": true
-         },
-         "counter_ion_transference_number": {
-            "value": 0.601,
-            "unit": "1",
-            "max_value": 0.99,
-            "min_value": 0.01,
-            "description": "",
-            "is_shown_to_user": true
-         }
+         "value": -1,
+         "unit": "1",
+         "max_value": -1,
+         "min_value": -1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int"
+      },
+      "counter_ion_transference_number": {
+         "value": 0.601,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float"
+      }
    }
 }
