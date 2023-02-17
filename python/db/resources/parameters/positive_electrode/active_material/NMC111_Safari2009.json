@@ -1,0 +1,88 @@
+{
+   "Name": "NMC111_Safari2009",
+   "Category": "positive_electrode",
+   "Header": {},
+   "Parameters": {
+      "cmax": {
+         "value": 55554,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volumeFraction": {
+         "value": 0.8,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volumetricSurfaceArea": {
+         "value": 885000,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "density": {
+         "value": 4650,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "n": {
+         "value": 1,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "Eak": {
+         "value": 5000,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "k0": {
+         "value": 2.33e-11,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "theta100": {
+         "value": 0.4955,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "theta0": {
+         "value": 0.99174,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "OCP": {
+         "type": "function",
+         "functionname": "computeOCP_nmc111",
+         "argumentlist": [
+            "cElectrode",
+            "T",
+            "cmax"
+         ]
+      }
+   }
+}

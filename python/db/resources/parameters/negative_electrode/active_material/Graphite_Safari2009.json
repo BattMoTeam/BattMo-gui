@@ -1,0 +1,84 @@
+{
+   "Name": "Graphite_Safari2009",
+   "Category": "negative_electrode_active_material",
+   "Header": {},
+   "Parameters": {
+      "maximum_concentration": {
+         "value": 30555,
+         "unit": "mol/m3",
+         "max_value": 1e5,
+         "min_value": 1e3,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volume_fraction": {
+         "value": 0.8,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volumetric_surface_area": {
+         "value": 723600,
+         "unit": "m",
+         "max_value": 1e7,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "density": {
+         "value": 2240,
+         "unit": "kg/m3",
+         "max_value": 1e4,
+         "min_value": 100,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "number_of_electrons_transferred": {
+         "value": 1,
+         "unit": "1",
+         "max_value": 1,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "activation_energy_of_reaction": {
+         "value": 5000,
+         "unit": "J/mol/K",
+         "max_value": 1e5,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "reaction_rate_constant": {
+         "value": 5.031e-11,
+         "unit": "mol/m2/s",
+         "max_value": 1e-3,
+         "min_value": 1e-20,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "maximum_lithium_stoichiometry": {
+         "value": 0.88551,
+         "unit": "1",
+         "max_value": 1,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "minimum_lithium_stoichiometry": {
+         "value": 0.1429,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "open_circuit_potential": {
+         "type": "function",
+         "function_name": "computeOCP_graphite",
+         "argument_list": ["concentration", "temperature", "maximum_concentration"]
+      }
+   }
+}

@@ -1,28 +1,89 @@
 {
-  "Name": "LiPF6_Xu2015",
-  "Category": "electrolyte",
-  "Header":{},
-  "Parameters":{
-    "specificHeatCapacity": 1518.0,
-    "heatCapacity": 1836780.0,
-    "thermalConductivity": 0.099,
-    "density": 1210,
-    "Conductivity" : {
-      "type": "function",
-      "functionname" : "updateElectrolyteConductivityFunc_Xu",
-      "argumentlist" : ["concentration", "temperature"]
-    },
-    "DiffusionCoefficient" : {
-      "type": "function",
-      "functionname" : "updateDiffusionCoefficientFunc_Xu",
-      "argumentlist" : ["concentration", "temperature"]
-    },
-    "compnames": ["Li", "PF6"],
-    "chargeCarrierName": "Li",
-    "sp": {
-      "z": [1,-1],
-      "t": [0.399, 0.601]
-    },
-    "BruggemanCoefficient": 1.5
-  }
+   "Name": "LiPF6_Xu2015",
+   "Category": "electrolyte",
+   "Header": {},
+   "Parameters": {
+      "specific_heat_capacity": {
+         "value": 1518.0,
+         "unit": "J/kg/K",
+         "max_value": 10000,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "thermal_conductivity": {
+         "value": 0.099,
+         "unit": "W/m/K",
+         "max_value": 1000,
+         "min_value": 1e-3,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "density": {
+         "value": 1210,
+         "unit": "kg/m3",
+         "max_value": 10000,
+         "min_value": 100,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "conductivity": {
+         "type": "function",
+         "function_name": "updateElectrolyteConductivityFunc_Xu",
+         "argument_list": [
+            "concentration",
+            "temperature"
+         ]
+      },
+      "diffusion_coefficient": {
+         "type": "function",
+         "function_name": "updateDiffusionCoefficientFunc_Xu",
+         "argument_list": [
+            "concentration",
+            "temperature"
+         ]
+      },
+      "charge_carrier_name": {
+         "value": "Li",
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "charge_carrier_charge_number": {
+            "value": 1,
+            "unit": "1",
+            "max_value": 1,
+            "min_value": 1,
+            "description": "",
+            "is_shown_to_user": true
+      },
+      "charge_carrier_transference_number": {
+            "value": 0.399,
+            "unit": "1",
+            "max_value": 0.99,
+            "min_value": 0.01,
+            "description": "",
+            "is_shown_to_user": true
+      },
+      "counter_ion_name": {
+         "value": "PF6",
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "counter_ion_charge_number": {
+            "value": -1,
+            "unit": "1",
+            "max_value": -1,
+            "min_value": -1,
+            "description": "",
+            "is_shown_to_user": true
+         },
+         "counter_ion_transference_number": {
+            "value": 0.601,
+            "unit": "1",
+            "max_value": 0.99,
+            "min_value": 0.01,
+            "description": "",
+            "is_shown_to_user": true
+         }
+   }
 }

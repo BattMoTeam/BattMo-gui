@@ -1,0 +1,39 @@
+{
+   "Name": "PVDF",
+   "Category": "positive_electrode_binder",
+   "Header": {},
+   "Parameters": {
+      "density": {
+         "value": 1780,
+         "unit": "kg/m3",
+         "max_value": 1e4,
+         "min_value": 5e3,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "specific_heat_capacity": {
+         "value": 1400,
+         "unit": "J/kg/K",
+         "max_value": 1e4,
+         "min_value": 10,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "thermal_conductivity": {
+         "value": 0.165,
+         "unit": "W/m/K",
+         "max_value": 1e3,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volume_fraction": {
+         "value": 0.03,
+         "unit": "1",
+         "max_value": 0.2,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      }
+   }
+}

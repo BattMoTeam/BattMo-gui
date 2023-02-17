@@ -1,0 +1,55 @@
+{
+   "Name": "CCCV",
+   "Category": "protocol",
+   "Header": {},
+   "Parameters": {
+      "number_of_cycles": {
+         "value": 1,
+         "unit": "1",
+         "max_value": 100,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "CRate": {
+         "value": 1,
+         "unit": "1",
+         "max_value": 10,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "lowerCutoffVoltage": {
+         "value": 2.4,
+         "unit": "V",
+         "max_value": 4,
+         "min_value": 0,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "upperCutoffVoltage": {
+         "value": 4.1,
+         "unit": "V",
+         "max_value": 5,
+         "min_value": 3,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "dIdtLimit": {
+         "value": 0.01,
+         "unit": "A/s",
+         "max_value": 0.1,
+         "min_value": 1e-4,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "dEdtLimit": {
+         "value": 0.01,
+         "unit": "V/s",
+         "max_value": 0.1,
+         "min_value": 1e-4,
+         "description": "",
+         "is_shown_to_user": true
+      }
+   }
+}

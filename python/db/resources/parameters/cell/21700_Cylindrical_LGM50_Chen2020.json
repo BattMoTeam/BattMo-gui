@@ -1,18 +1,63 @@
 {
-    "Name": "21700_Cylindrical_LGM50_Chen2020",
-    "Category": "cell",
-    "Header":{},
-    "Parameters":{
-        "ambientTemperature": 298.15,
-        "initialTemperature": 298.15,
-        "referenceTemperature": 298.15,
-        "nominalCellCapacity": 12.5,
-        "specificHeatCapacity": 913,
-        "thermalConductivity": 2.04,
-        "Density": 1847,
-        "electrodeArea": 0.016808,
-        "numberParallelElectrodePairsWithinCell": 34,
-        "externalSurfaceArea": 0.0379,
-        "volume": 0.000128
-    }
+   "Name": "21700_Cylindrical_LGM50_Chen2020",
+   "Category": "cell",
+   "Header": {},
+   "Parameters": {
+      "ambient_temperature": {
+         "value": 298.15,
+         "unit": "K",
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "initial_temperature": {
+         "value": 298.15,
+         "unit": "K",
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "reference_temperature": {
+         "value": 298.15,
+         "unit": "K",
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "nominal_cell_capacity": {
+         "value": 12.5,
+         "unit": "A.h",
+         "max_value": 1000,
+         "min_value": 0,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "number_parallel_electrode_pairs_within_cell": {
+         "value": 34,
+         "unit": "1",
+         "max_value": 100,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "external_surface_area": {
+         "value": 0.0379,
+         "unit": "m2",
+         "max_value": 10,
+         "min_value": 1e-6,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volume": {
+         "value": 0.000128,
+         "unit": "m3",
+         "max_value": 0.01,
+         "min_value": 1e-6,
+         "description": "",
+         "is_shown_to_user": true
+      }
+   }
 }

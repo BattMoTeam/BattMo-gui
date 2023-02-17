@@ -1,18 +1,18 @@
 {
-   "Name": "celgard2500_Xu2015",
+   "Name": "celgard2325_Chen2020",
    "Category": "separator",
    "Header": {},
    "Parameters": {
       "thickness": {
-         "value": 0.4,
-         "unit": "1",
-         "max_value": 0.9,
-         "min_value": 0.1,
+         "value": 12e-6,
+         "unit": "m",
+         "max_value": 50e-6,
+         "min_value": 5e-6,
          "description": "",
          "is_shown_to_user": true
       },
       "porosity": {
-         "value": 0.4,
+         "value": 0.47,
          "unit": "1",
          "max_value": 0.9,
          "min_value": 0.1,
@@ -20,31 +20,31 @@
          "is_shown_to_user": true
       },
       "specific_heat_capacity": {
-         "value": 1692,
+         "value": null,
          "unit": "J/kg/K",
          "max_value": 1e4,
          "min_value": 10,
-         "description": "",
+         "description": "not included in datasource",
          "is_shown_to_user": true
       },
       "thermal_conductivity": {
-         "value": 0.334,
+         "value": null,
          "unit": "W/m/K",
          "max_value": 1e3,
          "min_value": 0.01,
-         "description": "",
+         "description": "not included in datasource",
          "is_shown_to_user": true
       },
       "density": {
-         "value": 779,
+         "value": null,
          "unit": "kg/m3",
          "max_value": 1e4,
          "min_value": 5e3,
-         "description": "",
+         "description": "not included in datasource",
          "is_shown_to_user": true
       },
       "bruggeman_coefficient": {
-         "value": 1.5,
+         "value": 2.57,
          "unit": "1",
          "max_value": 5,
          "min_value": 0.1,

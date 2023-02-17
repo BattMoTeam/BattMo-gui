@@ -1,0 +1,88 @@
+{
+   "Name": "LiFePO4_Xu2015",
+   "Category": "positive_electrode",
+   "Header": {},
+   "Parameters": {
+      "cmax": {
+         "value": 26390,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volumeFraction": {
+         "value": 0.72,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "volumetricSurfaceArea": {
+         "value": 1878260,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "density": {
+         "value": 991,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "n": {
+         "value": 1,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "Eak": {
+         "value": 4000,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "k0": {
+         "value": 3.626e-11,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "theta100": {
+         "value": 0.14778,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "theta0": {
+         "value": 0.999,
+         "unit": null,
+         "max_value": null,
+         "min_value": null,
+         "description": "",
+         "is_shown_to_user": true
+      },
+      "OCP": {
+         "type": "function",
+         "functionname": "updateOCPFunc_LFP_Xu",
+         "argumentlist": [
+            "concentration",
+            "temperature",
+            "maximum concentration"
+         ]
+      }
+   }
+}
