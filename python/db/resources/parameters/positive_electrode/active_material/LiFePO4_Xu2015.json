@@ -5,84 +5,93 @@
    "Parameters": {
       "maximum_concentration": {
          "value": 26390,
-         "unit": "mol/m3",
          "max_value": 100000.0,
          "min_value": 1000.0,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "mole.meter\u207b\u00b3",
+         "unit_dimension": "mol.m\u207b\u00b3"
       },
       "volume_fraction": {
          "value": 0.72,
-         "unit": "1",
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "volumetric_surface_area": {
          "value": 1878260,
-         "unit": "m",
          "max_value": 10000000.0,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
       },
       "density": {
          "value": 991,
-         "unit": "kg/m3",
          "max_value": 10000.0,
          "min_value": 100,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "kilogram.meter\u207b\u00b3",
+         "unit_dimension": "kg.m\u207b\u00b3"
       },
       "number_of_electrons_transferred": {
          "value": 1,
-         "unit": "1",
          "max_value": 1,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
-         "type": "int"
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "activation_energy_of_reaction": {
          "value": 4000,
-         "unit": "J/mol/K",
          "max_value": 100000.0,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "kg.m\u00b2.s\u207b\u00b2.mol\u207b\u00b9.K\u207b\u00b9"
       },
       "reaction_rate_constant": {
          "value": 3.626e-11,
-         "unit": "mol/m2/s",
          "max_value": 0.001,
          "min_value": 1e-20,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "mole.meter\u207b\u00b2.second\u207b\u00b9",
+         "unit_dimension": "mol.m\u207b\u00b2.s\u207b\u00b9"
       },
       "maximum_lithium_stoichiometry": {
          "value": 0.14778,
-         "unit": "1",
          "max_value": 1,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "minimum_lithium_stoichiometry": {
          "value": 0.999,
-         "unit": "1",
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "open_circuit_potential": {
          "type": "function",

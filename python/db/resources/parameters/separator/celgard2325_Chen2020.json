@@ -5,57 +5,63 @@
    "Parameters": {
       "thickness": {
          "value": 1.2e-05,
-         "unit": "m",
          "max_value": 5e-05,
          "min_value": 5e-06,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
       },
       "porosity": {
          "value": 0.47,
-         "unit": "1",
          "max_value": 0.9,
          "min_value": 0.1,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "specific_heat_capacity": {
          "value": null,
-         "unit": "J/kg/K",
          "max_value": 10000.0,
          "min_value": 10,
          "description": "not included in datasource",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "joule.kilogram.kelvin",
+         "unit_dimension": "kg\u00b2.m\u00b2.s\u207b\u00b2.K"
       },
       "thermal_conductivity": {
          "value": null,
-         "unit": "W/m/K",
          "max_value": 1000.0,
          "min_value": 0.01,
          "description": "not included in datasource",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "kg.m.s\u207b\u00b3.K\u207b\u00b9"
       },
       "density": {
          "value": null,
-         "unit": "kg/m3",
          "max_value": 10000.0,
          "min_value": 5000.0,
          "description": "not included in datasource",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "kilogram.meter\u207b\u00b3",
+         "unit_dimension": "kg.m\u207b\u00b3"
       },
       "bruggeman_coefficient": {
          "value": 2.57,
-         "unit": "1",
          "max_value": 5,
          "min_value": 0.1,
          "description": "",
          "is_shown_to_user": true,
-         "type": "float"
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
       }
    }
 }
