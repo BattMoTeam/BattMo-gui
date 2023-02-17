@@ -3,86 +3,82 @@
    "Category": "positive_electrode",
    "Header": {},
    "Parameters": {
-      "cmax": {
+      "maximum_concentration": {
          "value": 26390,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "mol/m3",
+         "max_value": 1e5,
+         "min_value": 1e3,
          "description": "",
          "is_shown_to_user": true
       },
-      "volumeFraction": {
+      "volume_fraction": {
          "value": 0.72,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true
       },
-      "volumetricSurfaceArea": {
+      "volumetric_surface_area": {
          "value": 1878260,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "m",
+         "max_value": 1e7,
+         "min_value": 1,
          "description": "",
          "is_shown_to_user": true
       },
       "density": {
          "value": 991,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "kg/m3",
+         "max_value": 1e4,
+         "min_value": 100,
          "description": "",
          "is_shown_to_user": true
       },
-      "n": {
+      "number_of_electrons_transferred": {
          "value": 1,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "1",
+         "max_value": 1,
+         "min_value": 1,
          "description": "",
          "is_shown_to_user": true
       },
-      "Eak": {
+      "activation_energy_of_reaction": {
          "value": 4000,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "J/mol/K",
+         "max_value": 1e5,
+         "min_value": 1,
          "description": "",
          "is_shown_to_user": true
       },
-      "k0": {
+      "reaction_rate_constant": {
          "value": 3.626e-11,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "mol/m2/s",
+         "max_value": 1e-3,
+         "min_value": 1e-20,
          "description": "",
          "is_shown_to_user": true
       },
-      "theta100": {
+      "maximum_lithium_stoichiometry": {
          "value": 0.14778,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "1",
+         "max_value": 1,
+         "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true
       },
-      "theta0": {
+      "minimum_lithium_stoichiometry": {
          "value": 0.999,
-         "unit": null,
-         "max_value": null,
-         "min_value": null,
+         "unit": "1",
+         "max_value": 0.99,
+         "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true
       },
-      "OCP": {
+      "open_circuit_potential": {
          "type": "function",
-         "functionname": "updateOCPFunc_LFP_Xu",
-         "argumentlist": [
-            "concentration",
-            "temperature",
-            "maximum concentration"
-         ]
+         "function_name": "updateOCPFunc_LFP_Xu",
+         "argument_list": ["concentration", "temperature", "maximum_concentration"]
       }
    }
 }
