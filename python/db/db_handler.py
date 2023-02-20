@@ -4,11 +4,39 @@ from .db_BaseHandler import BaseHandler
 class ParameterHandler(BaseHandler):
     def __init__(self):
         self._table_name = "parameter"
-        self._columns = "name, value, value_type, parameter_set_id, is_shown_to_user"
+        self._columns = "name, value, type, unit_name, unit_dimension, max_value, min_value, parameter_set_id, is_shown_to_user, description"
 
-    def insert_value(self, name, value, value_type, parameter_set_id, is_shown_to_user=True):
+    def insert_value(
+            self,
+            name,
+            parameter_set_id,
+            value=None,
+            type=None,
+            unit_name=None,
+            unit_dimension=None,
+            max_value=None,
+            min_value=None,
+            is_shown_to_user=True,
+            description=None
+    ):
+        assert name is not None, "parameter's name can't be None"
+        assert parameter_set_id is not None, "parameter's name can't be None"
+
         return self._insert_value_query(
-            values=(name, value, value_type, parameter_set_id, is_shown_to_user)
+            values=None,
+            specify_columns=True,
+            columns_and_values={
+                "name": name,
+                "value": value,
+                "type": type,
+                "unit_name": unit_name,
+                "unit_dimension": unit_dimension,
+                "max_value": max_value,
+                "min_value": min_value,
+                "parameter_set_id": parameter_set_id,
+                "is_shown_to_user": is_shown_to_user,
+                "description": description
+            }
         )
 
     def get_id_from_name_and_parameter_set_id(self, name, parameter_set_id):
@@ -37,9 +65,13 @@ class ParameterSetHandler(BaseHandler):
         self._table_name = "parameter_set"
         self._columns = "name, category_id, header_id"
 
-    def insert_value(self, name, category_id, headers_id):
+    def insert_value(self, name, category_id, header_id):
+        assert name is not None, "parameter_set's name can't be None"
+        assert category_id is not None, "parameter_set's category_id can't be None"
+        assert header_id is not None, "parameter_set's header_id can't be None"
+
         return self._insert_value_query(
-            values=(name, category_id, headers_id)
+            values=(name, category_id, header_id)
         )
 
     def get_id_by_name_and_category(self, name, category_id):
@@ -59,19 +91,28 @@ class ParameterSetHandler(BaseHandler):
 class CategoryHandler(BaseHandler):
     def __init__(self):
         self._table_name = "category"
+        self._columns = "name, tab_id, description"
+
+    def insert_value(self, name, tab_id, description=""):
+        assert name is not None, "Category's name can't be None"
+        assert tab_id is not None, "Category's tab_id can't be None"
+
+        return self._insert_value_query(
+            values=(name, tab_id, description)
+        )
+
+
+class TabHandler(BaseHandler):
+    def __init__(self):
+        self._table_name = "tab"
         self._columns = "name, description"
 
-    def insert_value(self, name, description):
-        assert name is not None, "Category's name can't be None"
+    def insert_value(self, name, description=""):
+        assert name is not None, "Tab's name can't be None"
 
-        if description:
-            return self._insert_value_query(
-                values=(name, description)
-            )
-        else:
-            return self._insert_value_query(
-                values=(name, "")
-            )
+        return self._insert_value_query(
+            values=(name, description)
+        )
 
 
 class ParameterSetHeaderHandler(BaseHandler):
@@ -79,9 +120,15 @@ class ParameterSetHeaderHandler(BaseHandler):
         self._table_name = "parameter_set_header"
         self._columns = "doi, description"
 
-    def insert_value(self, doi, description):
+    def insert_value(self, doi, description=""):
+        assert doi is not None, "parameter_set_header's doi can't be None"
         return self._insert_value_query(
-            values=(doi, description)
+            values=None,
+            specify_columns=True,
+            columns_and_values={
+                "doi": doi,
+                "description": description
+            }
         )
 
     def get_id_from_doi(self, doi):

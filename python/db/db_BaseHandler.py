@@ -11,8 +11,26 @@ class BaseHandler:
     def insert_value(self, **kwargs):
         assert False, "must be overridden"
 
-    def _insert_value_query(self, values):
-        cur.execute("INSERT INTO {} ({}) VALUES {}".format(self._table_name, self._columns, values))
+    def _insert_value_query(self, values, specify_columns=False, columns_and_values=None):
+        if specify_columns:
+            assert columns_and_values, "must specify columns_and_values arg"
+            columns = []
+            values = []
+            for column in columns_and_values:
+                value = columns_and_values.get(column)
+                if value:
+                    columns.append(column)
+                    values.append(value)
+
+            query = "INSERT INTO {} ({}) VALUES {}".format(
+                self._table_name,
+                ", ".join(columns),
+                tuple(values)
+            )
+        else:
+            query = "INSERT INTO {} ({}) VALUES {}".format(self._table_name, self._columns, values)
+
+        cur.execute(query)
         con.commit()
         return cur.lastrowid
 
@@ -52,13 +70,16 @@ class BaseHandler:
         sql_set = []
         for column in columns_and_values:
             value = columns_and_values.get(column)
-            if isinstance(value, str):
-                sql_set.append("{} = '{}'".format(column, value))
-            else:
-                sql_set.append("{} = {}".format(column, value))
-        sql_query = "UPDATE {} SET {} WHERE id={}".format(self._table_name, ', '.join(sql_set), id)
-        cur.execute(sql_query)
-        con.commit()
+            if value:
+                if isinstance(value, str):
+                    sql_set.append("{} = '{}'".format(column, value))
+                else:
+                    sql_set.append("{} = {}".format(column, value))
+
+        if bool(sql_set):  # else, nothing to upddate
+            sql_query = "UPDATE {} SET {} WHERE id={}".format(self._table_name, ', '.join(sql_set), id)
+            cur.execute(sql_query)
+            con.commit()
 
     def delete_by_id(self, id):
         cur.execute("DELETE FROM %s WHERE id=%d" % (self._table_name, id))

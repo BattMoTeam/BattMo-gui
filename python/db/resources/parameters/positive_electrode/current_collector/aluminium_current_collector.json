@@ -1,6 +1,6 @@
 {
    "Name": "aluminium_current_collector",
-   "Category": "",
+   "Category": "positive_electrode_current_collector",
    "Header": {},
    "Parameters": {
       "thickness": {

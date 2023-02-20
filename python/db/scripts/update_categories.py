@@ -2,6 +2,7 @@ from python.db import db_handler
 from python.db import db_connect
 
 sql_category = db_handler.CategoryHandler()
+sql_tab = db_handler.TabHandler()
 
 
 def get_resource_as_json():
@@ -14,12 +15,13 @@ def update_category_from_json(resource_file):
     """
     resource_file: {
         "categories": {
-            "type_1": {
-                "name": "new_type_1",
-                "description": "this new category is used for this type of electrode"
+            "category_name_1": {
+                "tab_name": "tab_1",
+                "description": "this new category is used for this type of electrode,
+                                which will be displayed on tab_1"
             },
-            "type_2": {
-                "name": "existing_type",
+            "category_name_2": {
+                "tab_name": "tab_2",
                 "description": "this category exists but has new description"
             }
         }
@@ -32,29 +34,36 @@ def update_category_from_json(resource_file):
     updated_types = []
     existing_ids_to_be_deleted = sql_category.get_all_ids()
 
-    for category in categories:
-        name = categories.get(category).get("name")
-        description = categories.get(category).get("description")
+    for category_name in categories:
+        tab_name = categories.get(category_name).get("tab_name")
+        tab_id = sql_tab.get_id_from_name(tab_name)
 
-        if name:
-            category_id = sql_category.get_id_from_name(name)
+        if tab_id:
+
+            description = categories.get(category_name).get("description")
+
+            category_id = sql_category.get_id_from_name(category_name)
             if category_id:  # existing type, only update description
                 sql_category.update_by_id(
                     id=category_id,
-                    columns_and_values={'description': description}
+                    columns_and_values={
+                        "tab_id": tab_id,
+                        "description": description
+                    }
                 )
-                updated_types.append(name)
+                updated_types.append(category_name)
                 existing_ids_to_be_deleted.remove(category_id)
 
             else:  # non-existing type, create it
                 sql_category.insert_value(
-                    name=name,
+                    name=category_name,
+                    tab_id=tab_id,
                     description=description
                 )
-                new_types.append(name)
-
+                new_types.append(category_name)
         else:
-            print("category's name can't be None.")
+            print("Tab name = {} is not specified in the SQL table Tabs".format(tab_name))
+            print("Category {} has not be saved in db since tab_name {} is not in db".format(category_name, tab_name))
 
     # Delete unused types which remain in the sql table
     deleted_types = []

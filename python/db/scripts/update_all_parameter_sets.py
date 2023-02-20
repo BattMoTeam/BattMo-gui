@@ -10,7 +10,20 @@ sql_parameter_set_header = db_handler.ParameterSetHeaderHandler()
 #####################################
 #    UPDATE PARAMETER SET
 #####################################
-def update_parameter_set_from_json(parameter_set):
+
+class ParameterField(object):
+    def __init__(self):
+        self.value = "value"
+        self.type = "type"
+        self.unit_name = "unit_name"
+        self.unit_dimension = "unit_dimension"
+        self.max_value = "max_value"
+        self.min_value = "min_value"
+        self.is_shown_to_user = "is_shown_to_user"
+        self.description = "description"
+
+
+def update_parameter_set_from_json(parameter_set, path):
     """
     parameter_set: {
         "Name": "file_name",
@@ -20,11 +33,28 @@ def update_parameter_set_from_json(parameter_set):
         },
         "Category": "electrolyte",
         "Parameters":{
-            "initialTemperature": 298.15,
-            "electrodeArea": 0.016808,
+            "maximum_concentration": {
+                "value": 31540,
+                "max_value": 100000.0,
+                "min_value": 1000.0,
+                "description": "",
+                "is_shown_to_user": true,
+                "type": "float",
+                "unit_name": "mole.meter\u207b\u00b3",
+                "unit_dimension": "mol.m\u207b\u00b3"
+            },
+            "volume_fraction": {
+                "value": 0.7,
+                "max_value": 0.99,
+                "min_value": 0.01,
+                "description": "",
+                "is_shown_to_user": true,
+                "type": "float",
+                "unit_name": "1",
+                "unit_dimension": "1"
+            },
             "etc": "etc"
         }
-
     }
     """
     name = parameter_set.get("Name")
@@ -32,13 +62,13 @@ def update_parameter_set_from_json(parameter_set):
     category = parameter_set.get("Category")
     parameters = parameter_set.get("Parameters")
 
-    assert name is not None, "parameter_set must have a name"
-    assert header is not None, "parameter_set must have header"
-    assert category is not None, "category is not defined"
-    assert parameters is not None, "parameter_set has no parameters"
+    assert name is not None, "Name of parameter_set {} must have a name".format(path)
+    assert header is not None, "Header of parameter_set {} is not defined".format(name)
+    assert category is not None, "Category of parameter_set {} is not defined".format(name)
+    assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
 
     category_id = sql_category.get_id_from_name(category)
-    assert category_id is not None, "Category = {} is not specified in categories.json".format(category)
+    assert category_id is not None, "Category = {} is not specified in categories.json. path={}".format(category, path)
 
     header_id = create_or_update_header(header)
     parameter_set_id, parameter_set_already_exists = create_or_update_parameter_set(
@@ -46,18 +76,20 @@ def update_parameter_set_from_json(parameter_set):
         category_id=category_id,
         header_id=header_id
     )
-
+    fields = ParameterField()
     if parameter_set_already_exists:
         print("\n Updating {}".format(name))
         update_parameters(
             parameters=parameters,
-            parameter_set_id=parameter_set_id
+            parameter_set_id=parameter_set_id,
+            fields=fields
         )
     else:
         print("\n Creating {}".format(name))
         add_parameters(
             parameters=parameters,
-            parameter_set_id=parameter_set_id
+            parameter_set_id=parameter_set_id,
+            fields=fields
         )
     return parameter_set_id, parameter_set_already_exists
 
@@ -66,7 +98,14 @@ def create_or_update_header(header):
     doi = header.get("DOI")
     description = header.get("description")
 
+    if doi is None:
+        doi = 'doi'
+
+    if description is None:
+        description = ""
+
     header_id = sql_parameter_set_header.get_id_from_doi(doi)
+
     if header_id:
         sql_parameter_set_header.update_by_id(
             id=header_id,
@@ -76,8 +115,8 @@ def create_or_update_header(header):
 
     else:
         return sql_parameter_set_header.insert_value(
-            doi='doi',
-            description='description'
+            doi=doi,
+            description=description
         )
 
 
@@ -88,7 +127,8 @@ def create_or_update_parameter_set(name, category_id, header_id):
         sql_parameter_set.update_by_id(
             id=parameter_set_id,
             columns_and_values={
-                "category_id": category_id
+                "category_id": category_id,
+                "header_id": header_id
             }
         )
         return parameter_set_id, True
@@ -96,59 +136,74 @@ def create_or_update_parameter_set(name, category_id, header_id):
         return sql_parameter_set.insert_value(
             name=name,
             category_id=category_id,
-            headers_id=header_id
+            header_id=header_id
         ), False
 
 
-def add_parameters(parameters, parameter_set_id):
+def add_parameters(parameters, parameter_set_id, fields):
     added_parameters = []
     for parameter in parameters:
-        value = parameters.get(parameter)
-        value_type = type(value).__name__
-        formatted_value = format_value(value, value_type)
+        details = parameters.get(parameter)
+        value = details.get(fields.value)
+        value_type = details.get(fields.type)
+        formatted_value = format_value(value, value_type, details)
+        description = details.get(fields.description)
 
         sql_parameter.insert_value(
             name=parameter,
-            value=formatted_value,
-            value_type=value_type,
             parameter_set_id=parameter_set_id,
-            is_shown_to_user=value_type not in ["dict", "list"]
+            value=formatted_value,
+            type=value_type,
+            unit_name=details.get(fields.unit_name),
+            unit_dimension=details.get(fields.unit_dimension),
+            max_value=details.get(fields.max_value),
+            min_value=details.get(fields.min_value),
+            is_shown_to_user=details.get(fields.is_shown_to_user),
+            description=description if description else ""
         )
         added_parameters.append(parameter)
     print('  Added parameters: ', added_parameters)
 
 
-def update_parameters(parameters, parameter_set_id):
+def update_parameters(parameters, parameter_set_id, fields):
     new_parameters = {}
     existing_ids_to_be_deleted = sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
+
     for parameter in parameters:
+        details = parameters.get(parameter)
         parameter_id = sql_parameter.get_id_from_name_and_parameter_set_id(
             name=parameter,
             parameter_set_id=parameter_set_id
         )
-        if parameter_id:
-            value = parameters.get(parameter)
-            value_type = type(value).__name__
-            formatted_value = format_value(value, value_type)
+        if parameter_id:  # existing parameter, update fields
+            value = details.get(fields.value)
+            value_type = details.get(fields.type)
+            formatted_value = format_value(value, value_type, details)
             try:
                 sql_parameter.update_by_id(
                     id=parameter_id,
                     columns_and_values={
                         "value": formatted_value,
-                        "value_type": value_type,
-                        "is_shown_to_user": value_type not in ["dict", "list"]
+                        "type": value_type,
+                        "unit_name": details.get(fields.unit_name),
+                        "unit_dimension": details.get(fields.unit_dimension),
+                        "max_value": details.get(fields.max_value),
+                        "min_value": details.get(fields.min_value),
+                        "is_shown_to_user": details.get(fields.is_shown_to_user),
+                        "description": details.get(fields.description),
                     }
                 )
                 existing_ids_to_be_deleted.remove(parameter_id)
             except:
-                # SQL query in update_by_id could fail for str containing quotes
+                # SQL query in update_by_id could fail, for example for str containing quotes
                 # In that case, we delete and recreate the parameter instead of updating it
-                new_parameters[parameter] = parameters.get(parameter)
-        else:
-            new_parameters[parameter] = parameters.get(parameter)
+                new_parameters[parameter] = details
+
+        else:  # non-existing parameter, create it
+            new_parameters[parameter] = details
 
     # add new params and delete unused ones
-    add_parameters(new_parameters, parameter_set_id)
+    add_parameters(new_parameters, parameter_set_id, fields)
 
     deleted_parameters = []
     for id_to_delete in existing_ids_to_be_deleted:
@@ -157,8 +212,11 @@ def update_parameters(parameters, parameter_set_id):
     print('  Deleted parameters: ', deleted_parameters)
 
 
-def format_value(value, value_type):
-    return value if value_type == "str" else str(value)
+def format_value(value, value_type, details):
+    if value is None:
+        return str(details) if value_type == "function" else None
+    else:
+        return value if value_type == "str" else str(value)
 
 
 #####################################
@@ -192,7 +250,7 @@ def execute_script():
     existing_ids_to_be_deleted = sql_parameter_set.get_all_ids()
     for file_path in all_file_path:
         file_as_json = db_connect.get_json_from_path(file_path)
-        parameter_set_id, parameter_set_already_exists = update_parameter_set_from_json(file_as_json)
+        parameter_set_id, parameter_set_already_exists = update_parameter_set_from_json(file_as_json, file_path)
         if parameter_set_already_exists:
             existing_ids_to_be_deleted.remove(parameter_set_id)
 

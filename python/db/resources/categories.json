@@ -1,32 +1,69 @@
 {
     "categories": {
         "cell": {
-            "name": "cell",
+            "tab_name": "cell",
             "description": ""
         },
-
-        "cycling": {
-            "name": "cycling",
+        "protocol": {
+            "tab_name": "protocol",
             "description": ""
         },
-
         "electrolyte": {
-            "name": "electrolyte",
+            "tab_name": "electrolyte",
             "description": ""
         },
 
-        "negative_electrode": {
-            "name": "negative_electrode",
+
+        "negative_electrode_active_material": {
+            "tab_name": "negative_electrode",
+            "description": ""
+        },
+        "negative_electrode_binder": {
+            "tab_name": "negative_electrode",
+            "description": ""
+        },
+        "negative_electrode_additive": {
+            "tab_name": "negative_electrode",
+            "description": ""
+        },
+        "negative_electrode_current_collector": {
+            "tab_name": "negative_electrode",
+            "description": ""
+        },
+        "negative_electrode_properties": {
+            "tab_name": "negative_electrode",
             "description": ""
         },
 
-        "positive_electrode": {
-            "name": "positive_electrode",
+
+        "positive_electrode_active_material": {
+            "tab_name": "positive_electrode",
             "description": ""
         },
+        "positive_electrode_binder": {
+            "tab_name": "positive_electrode",
+            "description": ""
+        },
+        "positive_electrode_additive": {
+            "tab_name": "positive_electrode",
+            "description": ""
+        },
+        "positive_electrode_current_collector": {
+            "tab_name": "positive_electrode",
+            "description": ""
+        },
+        "positive_electrode_electrode_properties": {
+            "tab_name": "positive_electrode",
+            "description": ""
+        },
+
 
         "separator": {
-            "name": "separator",
+            "tab_name": "separator",
+            "description": ""
+        },
+        "model_properties": {
+            "tab_name": "model",
             "description": ""
         }
     }

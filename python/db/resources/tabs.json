@@ -1,0 +1,25 @@
+{
+    "tabs": {
+        "cell": {
+            "description": ""
+        },
+        "protocol": {
+            "description": ""
+        },
+        "electrolyte": {
+            "description": ""
+        },
+        "negative_electrode": {
+            "description": ""
+        },
+        "positive_electrode": {
+            "description": ""
+        },
+        "separator": {
+            "description": ""
+        },
+        "model": {
+            "description": ""
+        }
+    }
+}

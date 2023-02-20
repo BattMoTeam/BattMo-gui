@@ -26,6 +26,11 @@ def get_path_to_categories():
     return os.path.join(get_path_to_db_dir(), "resources", file_name)
 
 
+def get_path_to_tabs():
+    file_name = "tabs.json"
+    return os.path.join(get_path_to_db_dir(), "resources", file_name)
+
+
 def get_all_parameter_files_path():
     all_files = []
     for root, _, files in os.walk(get_path_to_parameters_dir()):
