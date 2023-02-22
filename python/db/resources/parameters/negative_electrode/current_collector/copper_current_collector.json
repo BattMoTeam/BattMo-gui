@@ -1,6 +1,6 @@
 {
    "Name": "Copper_current_collector",
-   "Category": "negative_electrode_binder",
+   "Category": "negative_electrode_current_collector",
    "Header": {},
    "Parameters": {
       "thickness": {

@@ -6,7 +6,7 @@
       "density": {
          "value": 1780,
          "max_value": 10000.0,
-         "min_value": 5000.0,
+         "min_value": 100,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",

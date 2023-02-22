@@ -1,24 +1,31 @@
 {
     "tabs": {
         "cell": {
-            "description": ""
-        },
-        "protocol": {
-            "description": ""
-        },
-        "electrolyte": {
-            "description": ""
-        },
-        "negative_electrode": {
+            "display_name": "Cell",
             "description": ""
         },
         "positive_electrode": {
+            "display_name": "Positive Electrode",
+            "description": ""
+        },
+        "negative_electrode": {
+            "display_name": "Negative Electrode",
+            "description": ""
+        },
+        "electrolyte": {
+            "display_name": "Electrolyte",
             "description": ""
         },
         "separator": {
+            "display_name": "Separator",
+            "description": ""
+        },
+        "protocol": {
+            "display_name": "Protocol",
             "description": ""
         },
         "model": {
+            "display_name": "Model",
             "description": ""
         }
     }
