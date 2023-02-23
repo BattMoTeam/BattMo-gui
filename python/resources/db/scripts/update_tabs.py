@@ -1,5 +1,4 @@
-from python.db import db_handler
-from python.db import db_connect
+from python.resources.db import db_handler, db_connect
 
 sql_tab = db_handler.TabHandler()
 
@@ -31,8 +30,9 @@ def update_tab_from_json(resource_file):
     existing_ids_to_be_deleted = sql_tab.get_all_ids()
 
     for tab_name in tabs:
-
-        description = tabs.get(tab_name).get("description")
+        details = tabs.get(tab_name)
+        display_name = details.get("display_name")
+        description = details.get("description")
         tab_id = sql_tab.get_id_from_name(tab_name)
 
         if tab_id:  # existing type, only update description
@@ -46,6 +46,7 @@ def update_tab_from_json(resource_file):
         else:  # non-existing type, create it
             sql_tab.insert_value(
                 name=tab_name,
+                display_name=display_name,
                 description=description
             )
             new_types.append(tab_name)

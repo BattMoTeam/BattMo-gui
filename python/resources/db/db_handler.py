@@ -101,17 +101,24 @@ class CategoryHandler(BaseHandler):
             values=(name, tab_id, description)
         )
 
+    def get_all_by_tab_id(self, tab_id):
+        return self.select(
+            values='*',
+            where='tab_id=%d' % tab_id
+        )
+
 
 class TabHandler(BaseHandler):
     def __init__(self):
         self._table_name = "tab"
-        self._columns = "name, description"
+        self._columns = "name, display_name, description"
 
-    def insert_value(self, name, description=""):
+    def insert_value(self, name, display_name, description=""):
         assert name is not None, "Tab's name can't be None"
+        assert display_name is not None, "Tab's name can't be None"
 
         return self._insert_value_query(
-            values=(name, description)
+            values=(name, display_name, description)
         )
 
 

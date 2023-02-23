@@ -70,7 +70,7 @@ class BaseHandler:
         sql_set = []
         for column in columns_and_values:
             value = columns_and_values.get(column)
-            if value:
+            if value is not None:
                 if isinstance(value, str):
                     sql_set.append("{} = '{}'".format(column, value))
                 else:

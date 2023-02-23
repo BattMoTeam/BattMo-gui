@@ -11,7 +11,7 @@ def mapDataToFullGrid(grid,data,indexMap):
     return full_data
 
 absolute_path = os.path.dirname(__file__)
-relative_path = "../data/runBattery3D_resultsVTK.h5"
+relative_path = "../../data/runBattery3D_resultsVTK.h5"
 fname = os.path.join(absolute_path, relative_path)
 
 

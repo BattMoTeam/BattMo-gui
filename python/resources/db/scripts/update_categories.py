@@ -1,5 +1,4 @@
-from python.db import db_handler
-from python.db import db_connect
+from python.resources.db import db_handler, db_connect
 
 sql_category = db_handler.CategoryHandler()
 sql_tab = db_handler.TabHandler()

@@ -1,5 +1,4 @@
-from python.db import db_handler
-from python.db import db_connect
+from python.resources.db import db_handler, db_connect
 
 sql_parameter = db_handler.ParameterHandler()
 sql_parameter_set = db_handler.ParameterSetHandler()
@@ -102,7 +101,7 @@ def create_or_update_header(header):
         doi = 'doi'
 
     if description is None:
-        description = ""
+        description = " "
 
     header_id = sql_parameter_set_header.get_id_from_doi(doi)
 

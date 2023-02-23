@@ -1,4 +1,5 @@
-from python.db import db_connect
+from python.resources.db import db_connect
+
 con, cur = db_connect.get_sqlite_con_and_cur()
 
 
@@ -53,12 +54,13 @@ cur.execute("""
 
 ########################################################
 #       tab
-#       name, description
+#       name, display_name, description
 ########################################################
 cur.execute("""
     CREATE TABLE IF NOT EXISTS tab(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name VARCHAR(40) NOT NULL,
+        display_name VARCHAR(40) NOT NULL,
         description VARCHAR(255) NULL DEFAULT ""
     )
 """)
