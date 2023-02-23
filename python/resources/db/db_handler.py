@@ -91,14 +91,21 @@ class ParameterSetHandler(BaseHandler):
 class CategoryHandler(BaseHandler):
     def __init__(self):
         self._table_name = "category"
-        self._columns = "name, tab_id, description"
+        self._columns = "name, display_name, tab_id, description"
 
-    def insert_value(self, name, tab_id, description=""):
+    def insert_value(self, name, tab_id, display_name=None, description=""):
         assert name is not None, "Category's name can't be None"
         assert tab_id is not None, "Category's tab_id can't be None"
 
         return self._insert_value_query(
-            values=(name, tab_id, description)
+            values=None,
+            specify_columns=True,
+            columns_and_values={
+                "name": name,
+                "display_name": display_name,
+                "tab_id": tab_id,
+                "description": description
+            }
         )
 
     def get_all_by_tab_id(self, tab_id):

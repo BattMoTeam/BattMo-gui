@@ -40,12 +40,13 @@ cur.execute("""
 
 ########################################################
 #       category
-#       name, tab_id, description
+#       name, display_name, tab_id, description
 ########################################################
 cur.execute("""
     CREATE TABLE IF NOT EXISTS category(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name VARCHAR(40) NOT NULL,
+        display_name VARCHAR(40) NOT NULL DEFAULT "",
         tab_id INT NOT NULL,
         description VARCHAR(255) NULL DEFAULT ""
     )

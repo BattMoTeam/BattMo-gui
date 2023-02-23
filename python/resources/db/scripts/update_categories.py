@@ -21,6 +21,7 @@ def update_category_from_json(resource_file):
             },
             "category_name_2": {
                 "tab_name": "tab_2",
+                "display_name": "Tab 2",
                 "description": "this category exists but has new description"
             }
         }
@@ -40,6 +41,7 @@ def update_category_from_json(resource_file):
         if tab_id:
 
             description = categories.get(category_name).get("description")
+            display_name = categories.get(category_name).get("display_name")
 
             category_id = sql_category.get_id_from_name(category_name)
             if category_id:  # existing type, only update description
@@ -47,6 +49,7 @@ def update_category_from_json(resource_file):
                     id=category_id,
                     columns_and_values={
                         "tab_id": tab_id,
+                        "display_name": display_name,
                         "description": description
                     }
                 )
@@ -57,6 +60,7 @@ def update_category_from_json(resource_file):
                 sql_category.insert_value(
                     name=category_name,
                     tab_id=tab_id,
+                    display_name=display_name,
                     description=description
                 )
                 new_types.append(category_name)

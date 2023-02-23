@@ -15,44 +15,54 @@
 
 
         "negative_electrode_active_material": {
+            "display_name": "Active Material",
             "tab_name": "negative_electrode",
             "description": ""
         },
         "negative_electrode_binder": {
+            "display_name": "Binder",
             "tab_name": "negative_electrode",
             "description": ""
         },
         "negative_electrode_additive": {
+            "display_name": "Additive",
             "tab_name": "negative_electrode",
             "description": ""
         },
         "negative_electrode_current_collector": {
+            "display_name": "Current collector",
             "tab_name": "negative_electrode",
             "description": ""
         },
         "negative_electrode_properties": {
+            "display_name": "Electrode properties",
             "tab_name": "negative_electrode",
             "description": ""
         },
 
 
         "positive_electrode_active_material": {
+            "display_name": "Active Material",
             "tab_name": "positive_electrode",
             "description": ""
         },
         "positive_electrode_binder": {
+            "display_name": "Binder",
             "tab_name": "positive_electrode",
             "description": ""
         },
         "positive_electrode_additive": {
+            "display_name": "Additive",
             "tab_name": "positive_electrode",
             "description": ""
         },
         "positive_electrode_current_collector": {
+            "display_name": "Current collector",
             "tab_name": "positive_electrode",
             "description": ""
         },
         "positive_electrode_properties": {
+            "display_name": "Electrode properties",
             "tab_name": "positive_electrode",
             "description": ""
         },

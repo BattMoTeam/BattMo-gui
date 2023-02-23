@@ -1,15 +1,53 @@
-
+import os
+import json
+from PIL import Image
 import streamlit as st
-from app_model import OptionsParameter, NumericalParameter, BooleanParameter
+from app_model import *
 
 
-class Heading:
+class AppController:
+    def __init__(self):
+        self.current_path = os.path.dirname(os.path.abspath(__file__))
+
+        self.image_dict = self.load_images()
+        self.logo = self.get_logo()
+
+    def get_path_to_images(self):
+        return os.path.join(self.current_path, 'resources', 'images')
+
+    def get_logo(self):
+        return Image.open(os.path.join(self.get_path_to_images(), "battmo_logo.png"))
+
+    def load_images(self):
+        path_to_images = self.get_path_to_images()
+
+        def join_path(path):
+            return os.path.join(path_to_images, path)
+
+        # TBD, images for all, proper naming
+        return {
+            "0": Image.open(join_path("cell_coin.png")),
+            "9": Image.open(join_path("cell_prismatic.png")),
+            "4": Image.open(join_path("cell_cylindrical.png")),
+            "1": Image.open(join_path("plus.png")),
+            "2": Image.open(join_path("minus.png")),
+            "3": Image.open(join_path("electrolyte.png")),
+            "5": Image.open(join_path("current.png")),
+            "6": Image.open(join_path("current.png")),
+            "7": Image.open(join_path("current.png")),
+            "8": Image.open(join_path("current.png"))
+        }
+
+
+class InitializeHeading:
 
     title = "BattMo"
     subtitle = "Framework for continuum modelling of electrochemical devices."
-    description = """BattMO simulates the Current-Voltage response of a battery, using on Physics-based
-models. For each tab below, load pre-defined parameters, modify them and submit a 
-simulation job."""
+    description = """
+        BattMO simulates the Current-Voltage response of a battery, using on Physics-based
+        models. For each tab below, load pre-defined parameters, modify them and submit a 
+        simulation job.
+    """
 
     md_website = "[BatteryModel.com](https://batterymodel.com/)"
     md_doi = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
@@ -25,102 +63,131 @@ simulation job."""
 
     def render_title(self): 
         # Title and subtitle
-        logo_col, title_col = st.columns([1,5])
+        logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
-        title_col.title(Heading.title)
-        st.text(Heading.subtitle)
+        title_col.title(InitializeHeading.title)
+        st.text(InitializeHeading.subtitle)
 
     def render_external_links(self):
         # External links
         website_col, doi_col, github_col = st.columns([2, 3, 4])
-        website_col.markdown(Heading.md_website)
-        doi_col.markdown(Heading.md_doi)
-        github_col.markdown(Heading.md_github)
+        website_col.markdown(InitializeHeading.md_website)
+        doi_col.markdown(InitializeHeading.md_doi)
+        github_col.markdown(InitializeHeading.md_github)
 
     def render_description(self):
         # Description
-        st.text(Heading.description) 
+        st.text(InitializeHeading.description)
 
 
-class ParametersForm:
+class InitializeTabs:
+    def __init__(self, db_helper, images):
+        self.image_dict = images
+        self.db = db_helper
+        self.formatter = FormatParameters()
+        self.all_tabs = st.tabs(self.db.all_tab_display_names)
 
-    def __init__(self, label: str, default_parameters: dict):
-        self.label = label
-        self.default_parameters = default_parameters        
-        self.user_inputs = {} 
-        self.button_on = False
-        self.render_form()
+        st.markdown("#")  # space
+        self.user_input = {}
+        self.initialize_tabs()
 
-    def render_form(self):       
+    def initialize_tabs(self):
+        for tab in self.all_tabs:
+            tab_parameters = {}
+            tab_index = self.db.get_tab_index_from_st_tab(tab)
+            db_tab_id = self.db.all_tab_id[tab_index]
 
-        with st.form(self.label):
+            # logo and title
+            self.set_logo_and_title(tab, tab_index)
 
-            for param_key, param_value in self.default_parameters.items():
+            categories = self.db.get_categories_from_tab_id(db_tab_id)
+            has_subcategories = len(categories) > 1
 
-                if isinstance(param_value, NumericalParameter):
+            for category in categories:
 
-                    widget_input = st.number_input(
-                        label=param_key,
-                        value=param_value.default,
-                        min_value=param_value.val_min,
-                        max_value=param_value.val_max,
-                        key=self.label + "_" + param_key
+                selected_parameter_set, category_name = self.create_parameter_set_dropdown(
+                    tab=tab,
+                    category=category,
+                    has_subcategories=has_subcategories
+                )
+
+                category_parameters = self.create_parameter_form(
+                    tab=tab,
+                    category_name=category_name,
+                    selected_parameter_set=selected_parameter_set
+                )
+
+                if has_subcategories:
+                    tab_parameters.update(category_parameters)
+                else:
+                    tab_parameters[category_name] = category_parameters
+
+            self.user_input[self.db.all_tab_names[tab_index]] = tab_parameters
+
+    def set_logo_and_title(self, tab, tab_index):
+        image_column, title_column = tab.columns([1, 5])
+        image_column.image(self.image_dict[str(tab_index)])
+        title_column.markdown("###")
+        title_column.subheader(self.db.all_tab_display_names[tab_index])
+
+    def create_parameter_set_dropdown(self, tab, category, has_subcategories):
+        category_id, category_name, category_display_name, _, _ = category
+        selected_parameter_set = tab.selectbox(
+            label=category_display_name,
+            options=self.db.get_all_parameter_sets_by_category_id(category_id),
+            key=str(category_id),
+            label_visibility="visible" if has_subcategories else "collapsed"
+        )
+        return selected_parameter_set, category_name
+
+    def create_parameter_form(self, tab, category_name, selected_parameter_set):
+        parameter_form = tab.form(category_name)
+        raw_parameters = self.db.extract_parameters_by_parameter_set_name(selected_parameter_set)
+        formatted_parameters = self.formatter.format_parameters(raw_parameters)
+
+        category_parameters = {}
+        for parameter in formatted_parameters:
+            value_for_json = parameter.value
+
+            if parameter.is_shown_to_user:
+                user_input = None
+
+                if isinstance(parameter, NumericalParameter):
+                    user_input = parameter_form.number_input(
+                        label=parameter.name,
+                        value=parameter.value,
+                        min_value=parameter.min_value,
+                        max_value=parameter.max_value,
+                        key=str(parameter.id) + category_name
                     )
 
-                elif isinstance(param_value, OptionsParameter):
-
-                    widget_input = st.selectbox(
-                        label=param_key,
-                        options=param_value.options,
+                elif isinstance(parameter, StrParameter):
+                    parameter_form.selectbox(
+                        label=parameter.name,
+                        options=[parameter.value],
                         index=0,
-                        key=self.label + "_" + param_key
+                        key=str(parameter.id) + category_name
                     )
 
-                elif isinstance(param_value, BooleanParameter):
+                if user_input:
+                    value_for_json = user_input
 
-                    widget_input = st.checkbox(
-                        label=param_key,
-                        value=param_value.default,
-                        key=self.label + "_" + param_key
-                    )
+            category_parameters[parameter.name] = value_for_json
 
-                self.user_inputs.update({param_key: widget_input})
+        parameter_form.form_submit_button("Save")
 
-            self.button_on = st.form_submit_button("Save")
+        return category_parameters
 
 
-class Tab:
-
-    def __init__(self, logo, tab_title: str):
-        self.logo = logo
-        self.tab_title = tab_title
-
-        self.render_tab()
-
-    def render_tab(self):
-        # logo and selections
-        tab_image_col, tab_title_col = st.columns([1, 5])
-        tab_image_col.image(self.logo)
-        tab_title_col.markdown("###")
-        tab_title_col.subheader(self.tab_title)
-        # tab_title_col.selectbox(label= "",
-        #                     options=list(self.parameter_sets.keys()), #change with the model
-        #                     index=0,
-        #                     label_visibility="hidden", 
-        #                     key=self.tab_id+"_sets")
-
-    def render_parameters(self):
-
-        with st.expander("Parameters"):  # change with the model
-            st.json({
-                "Diameter [mm]": 100,
-                "Height [mm]": 25
-            })
+class JsonViewer:
+    def __init__(self, user_parameters_input):
+        expander = st.expander("Json")
+        expander.json(user_parameters_input)
 
 
 class SubmitJob:
     def __init__(self, user_parameters):
-        self.user_parameters = user_parameters
+        self.user_parameters = json.dumps(user_parameters, indent=2)
         self.render_submit_btn()
         st.markdown("#")  # space
 
