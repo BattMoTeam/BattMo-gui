@@ -1,7 +1,6 @@
 import streamlit as st
-
-from resources.db.db_helper import Helper
-from app_view import AppController, InitializeHeading, InitializeTabs, JsonViewer, SubmitJob
+from app_controller import AppController
+from resources.db.db_helper import DBHelper
 
 
 @st.cache_data
@@ -11,24 +10,17 @@ def get_app_controller():
 
 @st.cache_data
 def get_db_helper():
-    return Helper()
+    return DBHelper()
 
 
 def run_app():
-    app_controller = get_app_controller()
-    db_helper = get_db_helper()
+    app = get_app_controller()
 
-    InitializeHeading(app_controller.logo)
+    app.set_heading()
+    user_input = app.set_tabs().user_input
 
-    parameters = InitializeTabs(
-        db_helper=db_helper,
-        images=app_controller.image_dict
-    )
-    user_input = parameters.user_input
-
-    JsonViewer(user_input)
-
-    SubmitJob(user_parameters=user_input)
+    app.set_json_viewer(user_input)
+    app.submit(user_input)
 
 
 if __name__ == "__main__":

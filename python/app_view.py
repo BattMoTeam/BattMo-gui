@@ -1,97 +1,75 @@
 import os
-import json
 from PIL import Image
+
+import json
 import streamlit as st
-from app_model import *
+from app_parameter_model import *
 
 
-class AppController:
-    def __init__(self):
-        self.current_path = os.path.dirname(os.path.abspath(__file__))
-
-        self.image_dict = self.load_images()
-        self.logo = self.get_logo()
-
-    def get_path_to_images(self):
-        return os.path.join(self.current_path, 'resources', 'images')
-
-    def get_logo(self):
-        return Image.open(os.path.join(self.get_path_to_images(), "battmo_logo.png"))
-
-    def load_images(self):
-        path_to_images = self.get_path_to_images()
-
-        def join_path(path):
-            return os.path.join(path_to_images, path)
-
-        # TBD, images for all, proper naming
-        return {
-            "0": Image.open(join_path("cell_coin.png")),
-            "9": Image.open(join_path("cell_prismatic.png")),
-            "4": Image.open(join_path("cell_cylindrical.png")),
-            "1": Image.open(join_path("plus.png")),
-            "2": Image.open(join_path("minus.png")),
-            "3": Image.open(join_path("electrolyte.png")),
-            "5": Image.open(join_path("current.png")),
-            "6": Image.open(join_path("current.png")),
-            "7": Image.open(join_path("current.png")),
-            "8": Image.open(join_path("current.png"))
-        }
+def st_space(space_number=1):
+    for _ in range(space_number):
+        st.markdown("#")
 
 
-class InitializeHeading:
-
-    title = "BattMo"
-    subtitle = "Framework for continuum modelling of electrochemical devices."
-    description = """
-        BattMO simulates the Current-Voltage response of a battery, using on Physics-based
-        models. For each tab below, load pre-defined parameters, modify them and submit a 
-        simulation job.
-    """
-
-    md_website = "[BatteryModel.com](https://batterymodel.com/)"
-    md_doi = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
-    md_github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
-
+class SetHeading:
     def __init__(self, logo):
         self.logo = logo
 
-        self.render_title()
-        self.render_external_links()
-        self.render_description()
-        st.markdown("#")  # space
+        self.title = "BattMo"
+        self.subtitle = "Framework for continuum modelling of electrochemical devices."
+        self.description = """
+            BattMO simulates the Current-Voltage response of a battery, using on Physics-based
+            models. For each tab below, load pre-defined parameters, modify them and submit a 
+            simulation job.
+        """
 
-    def render_title(self): 
+        self.website = "[BatteryModel.com](https://batterymodel.com/)"
+        self.doi = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
+        self.github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
+
+        # Set heading
+        self.set_heading()
+
+    def set_heading(self):
+        self.set_title_and_logo()
+        self.set_external_links()
+        self.set_description()
+        st_space()
+
+    def set_title_and_logo(self):
         # Title and subtitle
         logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
-        title_col.title(InitializeHeading.title)
-        st.text(InitializeHeading.subtitle)
+        title_col.title(self.title)
+        st.text(self.subtitle)
 
-    def render_external_links(self):
+    def set_external_links(self):
         # External links
         website_col, doi_col, github_col = st.columns([2, 3, 4])
-        website_col.markdown(InitializeHeading.md_website)
-        doi_col.markdown(InitializeHeading.md_doi)
-        github_col.markdown(InitializeHeading.md_github)
+        website_col.markdown(self.website)
+        doi_col.markdown(self.doi)
+        github_col.markdown(self.github)
 
-    def render_description(self):
+    def set_description(self):
         # Description
-        st.text(InitializeHeading.description)
+        st.text(self.description)
 
 
-class InitializeTabs:
+class SetTabs:
     def __init__(self, db_helper, images):
-        self.image_dict = images
         self.db = db_helper
+        self.image_dict = images
+
         self.formatter = FormatParameters()
+
+        # Initialize tabs
         self.all_tabs = st.tabs(self.db.all_tab_display_names)
-
-        st.markdown("#")  # space
         self.user_input = {}
-        self.initialize_tabs()
 
-    def initialize_tabs(self):
+        # Fill tabs
+        self.set_tabs()
+
+    def set_tabs(self):
         for tab in self.all_tabs:
             tab_parameters = {}
             tab_index = self.db.get_tab_index_from_st_tab(tab)
@@ -100,6 +78,7 @@ class InitializeTabs:
             # logo and title
             self.set_logo_and_title(tab, tab_index)
 
+            # get tab's categories
             categories = self.db.get_categories_from_tab_id(db_tab_id)
             has_subcategories = len(categories) > 1
 
@@ -118,9 +97,9 @@ class InitializeTabs:
                 )
 
                 if has_subcategories:
-                    tab_parameters.update(category_parameters)
-                else:
                     tab_parameters[category_name] = category_parameters
+                else:
+                    tab_parameters.update(category_parameters)
 
             self.user_input[self.db.all_tab_names[tab_index]] = tab_parameters
 
@@ -180,23 +159,68 @@ class InitializeTabs:
 
 
 class JsonViewer:
-    def __init__(self, user_parameters_input):
-        expander = st.expander("Json")
-        expander.json(user_parameters_input)
+    def __init__(self, json_data):
+        self.json_data = json_data
+        self.label = "Json"
+
+        self.set_json_viewer()
+
+    def set_json_viewer(self):
+        viewer = st.expander(self.label)
+        viewer.json(self.json_data)
 
 
 class SubmitJob:
     def __init__(self, user_parameters):
-        self.user_parameters = json.dumps(user_parameters, indent=2)
-        self.render_submit_btn()
-        st.markdown("#")  # space
+        self.header = "Submit simulation"
 
-    def render_submit_btn(self):
+        self.button_label = "Save Input parameters"
 
-        st.markdown("### Submit simulation")
+        self.file_data = json.dumps(user_parameters, indent=2)
+        self.file_name = "battmo_input_parameters.json"
+        self.file_mime_type = "application/json"
+
+        self.set_submit_button()
+
+    def set_submit_button(self):
+        # set header
+        st.markdown("### " + self.header)
+
+        # set download button
         st.download_button(
-            label="Save Input parameters",
-            data=self.user_parameters,
-            file_name="battmo_input_parameters.json",
-            mime="application/json"
+            label=self.button_label,
+            data=self.file_data,
+            file_name=self.file_name,
+            mime=self.file_mime_type
         )
+
+
+class LoadImages:
+    def __init__(self, path_to_images):
+        self.path_to_images = path_to_images
+        self.current_path = os.path.dirname(os.path.abspath(__file__))
+
+        self.image_dict = self.load_images()
+        self.logo = self.get_logo()
+
+    def get_logo(self):
+        return Image.open(os.path.join(self.path_to_images, "battmo_logo.png"))
+
+    def load_images(self):
+        def join_path(path):
+            return os.path.join(self.path_to_images, path)
+
+        # TBD, images for all, proper naming
+        return {
+            "0": Image.open(join_path("cell_coin.png")),
+            "9": Image.open(join_path("cell_prismatic.png")),
+            "4": Image.open(join_path("cell_cylindrical.png")),
+            "1": Image.open(join_path("plus.png")),
+            "2": Image.open(join_path("minus.png")),
+            "3": Image.open(join_path("electrolyte.png")),
+            "5": Image.open(join_path("current.png")),
+            "6": Image.open(join_path("current.png")),
+            "7": Image.open(join_path("current.png")),
+            "8": Image.open(join_path("current.png"))
+        }
+

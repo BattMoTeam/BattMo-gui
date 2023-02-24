@@ -1,7 +1,9 @@
 #############################
-# HIERARCHY OF APP MODEL ####
-# Parameter objects -> ParameterSet -> Model
-# Enables an API in this way: app_model.positive_electrode["parameter_set_name"].set_value("param_name", param_value)
+# app_parameter_model all the parameter objects corresponding to the different parameter types existing in db.
+# handled parameter_types : {'str', 'bool', 'int', 'float', 'function'}
+#
+# When running app.py,
+# the db_handler ParameterHandler checks if this list of handled parameters covers all the existing types
 #############################
 
 class Parameter(object):
@@ -32,16 +34,19 @@ class NumericalParameter(Parameter):
 
 class StrParameter(Parameter):
     def __init__(self, id, name, parameter_set_id, value, is_shown_to_user, description, type=str.__name__):
+        # value's type is str. no changes needed on the value
         super().__init__(id, name, parameter_set_id, value, type, is_shown_to_user, description)
 
 
 class BooleanParameter(Parameter):
     def __init__(self, id, name, parameter_set_id, value, is_shown_to_user, description, type=bool.__name__):
+        # value's type is str of bool. bool(value) returns the initial bool
         super().__init__(id, name, parameter_set_id, bool(value), type, is_shown_to_user, description)
 
 
 class FunctionParameter(Parameter):
     def __init__(self, id, name, parameter_set_id, value, type, is_shown_to_user, description):
+        # value's type is str of dict. eval(value) returns the initial dict
         super().__init__(id, name, parameter_set_id, eval(value), type, is_shown_to_user, description)
 
 
@@ -64,7 +69,7 @@ class FormatParameters:
                 max_value, \
                 min_value,  \
                 is_shown_to_user, \
-                description = parameter  # according to db_initialize
+                description = parameter  # according to db_model
 
             if parameter_type in [int.__name__, float.__name__]:
                 if value is not None:  # TBD : what to do when not included in data source
