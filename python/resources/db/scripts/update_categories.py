@@ -1,12 +1,12 @@
-from python.resources.db import db_handler, db_connect
+from python.resources.db import db_handler, db_access
 
 sql_category = db_handler.CategoryHandler()
 sql_tab = db_handler.TabHandler()
 
 
 def get_resource_as_json():
-    return db_connect.get_json_from_path(
-        db_connect.get_path_to_categories()
+    return db_access.get_json_from_path(
+        db_access.get_path_to_categories()
     )
 
 

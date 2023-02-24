@@ -1,5 +1,5 @@
-from . import db_connect
-con, cur = db_connect.get_sqlite_con_and_cur()
+from . import db_access
+con, cur = db_access.get_sqlite_con_and_cur()
 
 
 class BaseHandler:

@@ -5,6 +5,8 @@ class ParameterHandler(BaseHandler):
     def __init__(self):
         self._table_name = "parameter"
         self._columns = "name, value, type, unit_name, unit_dimension, max_value, min_value, parameter_set_id, is_shown_to_user, description"
+        self.types_handled = {'str', 'bool', 'int', 'float', 'function'}
+        self.assert_all_types_are_handled()
 
     def insert_value(
             self,
@@ -58,6 +60,20 @@ class ParameterHandler(BaseHandler):
             values='*',
             where='parameter_set_id=%d' % parameter_set_id
         )
+
+    def get_all_types(self):
+        res = self.select(values="type")
+        return set([a[0] for a in res])
+
+    def assert_all_types_are_handled(self):
+        """
+        Parameters are formatted in app_parameter_model.py
+        Its code has to handle all the parameter types existing in db
+        """
+        all_types = self.get_all_types()
+        assert all_types == self.types_handled, \
+            "\n Not all parameter types are handled. Please handle missing type in app_parameter_model.py" \
+            "\n types_handled={} \n all_types={}".format(self.types_handled, all_types)
 
 
 class ParameterSetHandler(BaseHandler):

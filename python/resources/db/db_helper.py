@@ -1,7 +1,7 @@
 from . import db_handler
 
 
-class Helper:
+class DBHelper:
 
     def __init__(self):
         self.sql_parameter = db_handler.ParameterHandler()

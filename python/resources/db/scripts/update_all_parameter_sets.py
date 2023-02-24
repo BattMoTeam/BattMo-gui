@@ -1,4 +1,4 @@
-from python.resources.db import db_handler, db_connect
+from python.resources.db import db_handler, db_access
 
 sql_parameter = db_handler.ParameterHandler()
 sql_parameter_set = db_handler.ParameterSetHandler()
@@ -241,14 +241,14 @@ def delete_parameter_set_by_id(parameter_set_id):
 #    RUN SCRIPT
 #####################################
 def get_all_resources():
-    return db_connect.get_all_parameter_files_path()
+    return db_access.get_all_parameter_files_path()
 
 
 def execute_script():
     all_file_path = get_all_resources()
     existing_ids_to_be_deleted = sql_parameter_set.get_all_ids()
     for file_path in all_file_path:
-        file_as_json = db_connect.get_json_from_path(file_path)
+        file_as_json = db_access.get_json_from_path(file_path)
         parameter_set_id, parameter_set_already_exists = update_parameter_set_from_json(file_as_json, file_path)
         if parameter_set_already_exists:
             existing_ids_to_be_deleted.remove(parameter_set_id)

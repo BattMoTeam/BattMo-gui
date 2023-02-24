@@ -1,6 +1,6 @@
-from python.resources.db import db_connect
+from python.resources.db import db_access
 
-con, cur = db_connect.get_sqlite_con_and_cur()
+con, cur = db_access.get_sqlite_con_and_cur()
 
 
 ########################################################
@@ -46,7 +46,7 @@ cur.execute("""
     CREATE TABLE IF NOT EXISTS category(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name VARCHAR(40) NOT NULL,
-        display_name VARCHAR(40) NOT NULL DEFAULT "",
+        display_name VARCHAR(40) NOT NULL DEFAULT " ",
         tab_id INT NOT NULL,
         description VARCHAR(255) NULL DEFAULT ""
     )
