@@ -1,0 +1,57 @@
+{
+   "Name": "aluminium_current_collector",
+   "Category": "positive_electrode_current_collector",
+   "Header": {},
+   "Parameters": {
+      "thickness": {
+         "value": 1.73e-05,
+         "max_value": 3e-05,
+         "min_value": 5e-06,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
+      "density": {
+         "value": 2710,
+         "max_value": 10000.0,
+         "min_value": 100.0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "kilogram.meter\u207b\u00b3",
+         "unit_dimension": "kg.m\u207b\u00b3"
+      },
+      "specific_heat_capacity": {
+         "value": 903,
+         "max_value": 1000.0,
+         "min_value": 10,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "joule.kilogram.kelvin",
+         "unit_dimension": "kg\u00b2.m\u00b2.s\u207b\u00b2.K"
+      },
+      "thermal_conductivity": {
+         "value": 238,
+         "max_value": 1000.0,
+         "min_value": 10,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "kg.m.s\u207b\u00b3.K\u207b\u00b9"
+      },
+      "volume_fraction": {
+         "value": 1,
+         "max_value": 1,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      }
+   }
+}

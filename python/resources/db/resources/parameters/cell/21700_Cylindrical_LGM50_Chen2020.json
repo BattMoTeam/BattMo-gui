@@ -1,0 +1,77 @@
+{
+   "Name": "21700_Cylindrical_LGM50_Chen2020",
+   "Category": "cell",
+   "Header": {},
+   "Parameters": {
+      "ambient_temperature": {
+         "value": 298.15,
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "kelvin",
+         "unit_dimension": "K"
+      },
+      "initial_temperature": {
+         "value": 298.15,
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "kelvin",
+         "unit_dimension": "K"
+      },
+      "reference_temperature": {
+         "value": 298.15,
+         "max_value": 373.15,
+         "min_value": 238.15,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "kelvin",
+         "unit_dimension": "K"
+      },
+      "nominal_cell_capacity": {
+         "value": 12.5,
+         "max_value": 1000,
+         "min_value": 0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "ampere.second",
+         "unit_dimension": "A.s"
+      },
+      "number_parallel_electrode_pairs_within_cell": {
+         "value": 34,
+         "max_value": 100,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "external_surface_area": {
+         "value": 0.0379,
+         "max_value": 10,
+         "min_value": 1e-06,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter\u00b2",
+         "unit_dimension": "m\u00b2"
+      },
+      "volume": {
+         "value": 0.000128,
+         "max_value": 0.01,
+         "min_value": 1e-06,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter\u00b3",
+         "unit_dimension": "m\u00b3"
+      }
+   }
+}

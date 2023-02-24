@@ -1,0 +1,106 @@
+{
+   "Name": "NMC111_Safari2009",
+   "Category": "positive_electrode_active_material",
+   "Header": {},
+   "Parameters": {
+      "maximum_concentration": {
+         "value": 55554,
+         "max_value": 100000.0,
+         "min_value": 1000.0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "mole.meter\u207b\u00b3",
+         "unit_dimension": "mol.m\u207b\u00b3"
+      },
+      "volume_fraction": {
+         "value": 0.8,
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "volumetric_surface_area": {
+         "value": 885000,
+         "max_value": 10000000.0,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
+      "density": {
+         "value": 4650,
+         "max_value": 10000.0,
+         "min_value": 100,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "kilogram.meter\u207b\u00b3",
+         "unit_dimension": "kg.m\u207b\u00b3"
+      },
+      "number_of_electrons_transferred": {
+         "value": 1,
+         "max_value": 1,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "activation_energy_of_reaction": {
+         "value": 5000,
+         "max_value": 100000.0,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "kg.m\u00b2.s\u207b\u00b2.mol\u207b\u00b9.K\u207b\u00b9"
+      },
+      "reaction_rate_constant": {
+         "value": 2.33e-11,
+         "max_value": 0.001,
+         "min_value": 1e-20,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "mole.meter\u207b\u00b2.second\u207b\u00b9",
+         "unit_dimension": "mol.m\u207b\u00b2.s\u207b\u00b9"
+      },
+      "maximum_lithium_stoichiometry": {
+         "value": 0.4955,
+         "max_value": 1,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "minimum_lithium_stoichiometry": {
+         "value": 0.99174,
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "open_circuit_potential": {
+         "type": "function",
+         "function_name": "computeOCP_nmc111",
+         "argument_list": [
+            "concentration",
+            "temperature",
+            "maximum_concentration"
+         ]
+      }
+   }
+}
