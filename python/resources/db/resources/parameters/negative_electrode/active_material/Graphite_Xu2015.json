@@ -86,7 +86,7 @@
       "minimum_lithium_stoichiometry": {
          "value": 0.001,
          "max_value": 0.99,
-         "min_value": 0.01,
+         "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
