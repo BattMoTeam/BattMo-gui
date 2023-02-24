@@ -80,14 +80,35 @@ class SetTabs:
 
             # get tab's categories
             categories = self.db.get_categories_from_tab_id(db_tab_id)
-            has_subcategories = len(categories) > 1
+            len_categories = len(categories)
 
-            for category in categories:
+            if len_categories > 1:  # create one sub tab per category
+                all_category_display_names = [a[2] for a in categories]
+                all_sub_tabs = tab.tabs(all_category_display_names)
 
-                selected_parameter_set, category_name = self.create_parameter_set_dropdown(
+                for i in range(len_categories):
+                    category_id, category_name, _, _, _ = categories[i]
+
+                    selected_parameter_set = self.create_parameter_set_dropdown(
+                        tab=all_sub_tabs[i],
+                        category_id=category_id,
+                        category_name=category_name
+                    )
+
+                    category_parameters = self.create_parameter_form(
+                        tab=all_sub_tabs[i],
+                        category_name=category_name,
+                        selected_parameter_set=selected_parameter_set
+                    )
+
+                    tab_parameters[category_name] = category_parameters
+            else:  # no sub tab is needed
+                category_id, category_name, _, _, _ = categories[0]
+
+                selected_parameter_set = self.create_parameter_set_dropdown(
                     tab=tab,
-                    category=category,
-                    has_subcategories=has_subcategories
+                    category_id=category_id,
+                    category_name=category_name
                 )
 
                 category_parameters = self.create_parameter_form(
@@ -96,11 +117,9 @@ class SetTabs:
                     selected_parameter_set=selected_parameter_set
                 )
 
-                if has_subcategories:
-                    tab_parameters[category_name] = category_parameters
-                else:
-                    tab_parameters.update(category_parameters)
+                tab_parameters.update(category_parameters)
 
+            # tab is fully defined, its parameters are saved in the user_input dict
             self.user_input[self.db.all_tab_names[tab_index]] = tab_parameters
 
     def set_logo_and_title(self, tab, tab_index):
@@ -109,15 +128,14 @@ class SetTabs:
         title_column.markdown("###")
         title_column.subheader(self.db.all_tab_display_names[tab_index])
 
-    def create_parameter_set_dropdown(self, tab, category, has_subcategories):
-        category_id, category_name, category_display_name, _, _ = category
+    def create_parameter_set_dropdown(self, tab, category_id, category_name):
         selected_parameter_set = tab.selectbox(
-            label=category_display_name,
+            label=category_name,
             options=self.db.get_all_parameter_sets_by_category_id(category_id),
             key=str(category_id),
-            label_visibility="visible" if has_subcategories else "collapsed"
+            label_visibility="collapsed"
         )
-        return selected_parameter_set, category_name
+        return selected_parameter_set
 
     def create_parameter_form(self, tab, category_name, selected_parameter_set):
         parameter_form = tab.form(category_name)
