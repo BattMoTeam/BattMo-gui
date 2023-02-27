@@ -10,12 +10,18 @@ class Parameter(object):
 
     def __init__(self, id, name, parameter_set_id, value, type, is_shown_to_user, description):
         self.id = id
-        self.name = name
+        self.name = self.format_name(name)
         self.parameter_set_id = parameter_set_id
         self.value = value
         self.type = type
         self.is_shown_to_user = is_shown_to_user
         self.description = description
+
+    def format_name(self, name):
+        words = name.split("_")
+        first_word = words[0]
+        words[0] = first_word[0].upper() + first_word[1:]
+        return " ".join(words)
 
 
 class NumericalParameter(Parameter):
@@ -29,6 +35,11 @@ class NumericalParameter(Parameter):
         self.unit_name = unit_name
         self.unit_dimension = unit_dimension
         formatted_value = float(value) if type == float.__name__ else int(value)
+
+        max_readable_value = 10000
+        min_readable_value = 0.001
+        is_readable = max_readable_value > formatted_value > min_readable_value
+        self.format = "%g" if is_readable else "%e"
         super().__init__(id, name, parameter_set_id, formatted_value, type, is_shown_to_user, description)
 
 
