@@ -151,7 +151,7 @@ class SetTabs:
 
                 if isinstance(parameter, NumericalParameter):
                     user_input = parameter_form.number_input(
-                        label=parameter.name,
+                        label=parameter.display_name,
                         value=parameter.value,
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,

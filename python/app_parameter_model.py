@@ -10,7 +10,8 @@ class Parameter(object):
 
     def __init__(self, id, name, parameter_set_id, value, type, is_shown_to_user, description):
         self.id = id
-        self.name = self.format_name(name)
+        self.name = name
+        self.display_name = self.format_name(name)
         self.parameter_set_id = parameter_set_id
         self.value = value
         self.type = type
