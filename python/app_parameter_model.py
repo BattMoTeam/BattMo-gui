@@ -141,7 +141,7 @@ class FormatParameters:
                     parameter_set_id=parameter_set_id,
                     value=value,
                     type=parameter_type,
-                    is_shown_to_user=is_shown_to_user,
+                    is_shown_to_user=False,
                     description=description
                 ))
 

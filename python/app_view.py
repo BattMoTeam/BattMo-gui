@@ -95,7 +95,7 @@ class SetTabs:
                         category_name=category_name
                     )
 
-                    category_parameters = self.create_parameter_form(
+                    category_parameters = self.create_parameter_form_if_needed(
                         tab=all_sub_tabs[i],
                         category_name=category_name,
                         selected_parameter_set=selected_parameter_set
@@ -111,7 +111,7 @@ class SetTabs:
                     category_name=category_name
                 )
 
-                category_parameters = self.create_parameter_form(
+                category_parameters = self.create_parameter_form_if_needed(
                     tab=tab,
                     category_name=category_name,
                     selected_parameter_set=selected_parameter_set
@@ -137,11 +137,28 @@ class SetTabs:
         )
         return selected_parameter_set
 
-    def create_parameter_form(self, tab, category_name, selected_parameter_set):
-        parameter_form = tab.form(category_name)
+    def create_parameter_form_if_needed(self, tab, category_name, selected_parameter_set):
+
         raw_parameters = self.db.extract_parameters_by_parameter_set_name(selected_parameter_set)
         formatted_parameters = self.formatter.format_parameters(raw_parameters)
 
+        has_shown_parameters = self.assert_has_shown_parameters(formatted_parameters)
+
+        if has_shown_parameters:
+            return self.create_parameter_form(
+                tab=tab,
+                category_name=category_name,
+                formatted_parameters=formatted_parameters
+            )
+        else:
+            category_parameters = {}
+            for parameter in formatted_parameters:
+                category_parameters[parameter.name] = parameter.value
+
+            return category_parameters
+
+    def create_parameter_form(self, tab, category_name, formatted_parameters):
+        parameter_form = tab.form(category_name)
         category_parameters = {}
         for parameter in formatted_parameters:
             value_for_json = parameter.value
@@ -167,7 +184,7 @@ class SetTabs:
                         key=str(parameter.id) + category_name
                     )
 
-                if user_input:
+                if user_input is not None:
                     value_for_json = user_input
 
             category_parameters[parameter.name] = value_for_json
@@ -175,6 +192,13 @@ class SetTabs:
         parameter_form.form_submit_button("Save")
 
         return category_parameters
+
+    def assert_has_shown_parameters(self, formatted_parameters):
+        for parameter in formatted_parameters:
+            if parameter.is_shown_to_user:
+                return True
+
+        return False
 
 
 class JsonViewer:
