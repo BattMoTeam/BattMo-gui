@@ -8,18 +8,22 @@
 
 class Parameter(object):
 
-    def __init__(self, id, name, parameter_set_id, value, type, is_shown_to_user, description):
+    def __init__(self, id, name, parameter_set_id, value, type, is_shown_to_user, description, display_name=None):
         self.id = id
         self.name = name
-        self.display_name = self.format_name(name)
         self.parameter_set_id = parameter_set_id
         self.value = value
         self.type = type
         self.is_shown_to_user = is_shown_to_user
         self.description = description
 
-    def format_name(self, name):
-        words = name.split("_")
+        if display_name is None:
+            self.display_name = self.format_name()
+        else:
+            self.display_name = display_name
+
+    def format_name(self):
+        words = self.name.split("_")
         first_word = words[0]
         words[0] = first_word[0].upper() + first_word[1:]
         return " ".join(words)
@@ -31,6 +35,7 @@ class NumericalParameter(Parameter):
             id, name, parameter_set_id, value, type, is_shown_to_user, description,
             min_value, max_value, unit_name, unit_dimension
     ):
+        self.raw_name = name
         self.min_value = float(min_value) if type == float.__name__ else int(min_value)
         self.max_value = float(max_value) if type == float.__name__ else int(max_value)
         self.unit_name = unit_name
@@ -41,7 +46,15 @@ class NumericalParameter(Parameter):
         min_readable_value = 0.001
         is_readable = max_readable_value > formatted_value > min_readable_value
         self.format = "%g" if is_readable else "%e"
-        super().__init__(id, name, parameter_set_id, formatted_value, type, is_shown_to_user, description)
+        super().__init__(id, name, parameter_set_id, formatted_value, type, is_shown_to_user, description, self.format_name())
+
+    def format_name(self):
+        words = self.raw_name.split("_")
+        first_word = words[0]
+        words[0] = first_word[0].upper() + first_word[1:]
+        new_name = " ".join(words)
+
+        return new_name + "  (" + self.unit_dimension + ")"
 
 
 class StrParameter(Parameter):

@@ -31,7 +31,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "volt",
-         "unit_dimension": "kg.m\u00b2.s\u207b\u00b3.A\u207b\u00b9"
+         "unit_dimension": "V"
       },
       "upper_cutoff_voltage": {
          "value": 4.1,
@@ -41,7 +41,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "volt",
-         "unit_dimension": "kg.m\u00b2.s\u207b\u00b3.A\u207b\u00b9"
+         "unit_dimension": "V"
       },
       "d_idt_limit": {
          "value": 0.01,
@@ -61,7 +61,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "volt.second\u207b\u00b9",
-         "unit_dimension": "kg.m\u00b2.s\u207b\u2074.A\u207b\u00b9"
+         "unit_dimension": "V.s\u207b\u00b9"
       }
    }
 }

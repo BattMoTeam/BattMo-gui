@@ -61,7 +61,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "kg.m\u00b2.s\u207b\u00b2.mol\u207b\u00b9.K\u207b\u00b9"
+         "unit_dimension": "J.mol\u207b\u00b9.K\u207b\u00b9"
       },
       "reaction_rate_constant": {
          "value": 1.76e-11,

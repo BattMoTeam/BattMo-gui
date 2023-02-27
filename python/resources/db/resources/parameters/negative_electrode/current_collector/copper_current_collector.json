@@ -31,7 +31,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "joule.kilogram.kelvin",
-         "unit_dimension": "kg\u00b2.m\u00b2.s\u207b\u00b2.K"
+         "unit_dimension": "J.kg.K"
       },
       "thermal_conductivity": {
          "value": 398,
@@ -41,7 +41,7 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "kg.m.s\u207b\u00b3.K\u207b\u00b9"
+         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
       },
       "volume_fraction": {
          "value": 1,
