@@ -30,8 +30,8 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.kilogram.kelvin",
-         "unit_dimension": "J.kg.K"
+         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
       },
       "thermal_conductivity": {
          "value": 398,

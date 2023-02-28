@@ -40,8 +40,8 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "ampere.second",
-         "unit_dimension": "A.s"
+         "unit_name": "ampere.hour",
+         "unit_dimension": "A.h"
       },
       "number_parallel_electrode_pairs_within_cell": {
          "value": 34,
