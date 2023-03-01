@@ -173,7 +173,8 @@ class SetTabs:
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,
                         key=str(parameter.id) + category_name,
-                        format=parameter.format
+                        format=parameter.format,
+                        step=parameter.increment
                     )
 
                 elif isinstance(parameter, StrParameter):

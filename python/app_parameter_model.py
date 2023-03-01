@@ -5,6 +5,7 @@
 # When running app.py,
 # the db_handler ParameterHandler checks if this list of handled parameters covers all the existing types
 #############################
+from math import ceil
 
 class Parameter(object):
 
@@ -50,6 +51,9 @@ class NumericalParameter(Parameter):
         self.format = None
         self.set_format()
 
+        self.increment = None
+        self.set_increment()
+
         super().__init__(id, name, parameter_set_id, self.formatted_value, self.type, is_shown_to_user, description, self.formatted_name)
 
     def format_name(self):
@@ -69,6 +73,22 @@ class NumericalParameter(Parameter):
             min_readable_value = 0.001
             is_readable = max_readable_value > self.formatted_value > min_readable_value
             self.format = "%g" if is_readable else "%e"
+
+    def set_increment(self):
+
+        if self.type == float.__name__:
+
+            five_percent_of_value = "%e" % (0.05 * self.formatted_value)
+
+            decimal, exponential = five_percent_of_value.split("e")
+
+            self.increment = round(
+                float(ceil(float(decimal)) * 10 ** int(exponential)),
+                2
+            )
+
+        else:
+            self.increment = 1
 
 
 class StrParameter(Parameter):
