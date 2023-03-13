@@ -5,6 +5,7 @@
 # When running app.py,
 # the db_handler ParameterHandler checks if this list of handled parameters covers all the existing types
 #############################
+from math import ceil
 
 class Parameter(object):
 
@@ -35,18 +36,25 @@ class NumericalParameter(Parameter):
             id, name, parameter_set_id, value, type, is_shown_to_user, description,
             min_value, max_value, unit_name, unit_dimension
     ):
-        self.raw_name = name
+
         self.min_value = float(min_value) if type == float.__name__ else int(min_value)
         self.max_value = float(max_value) if type == float.__name__ else int(max_value)
         self.unit_name = unit_name
         self.unit_dimension = unit_dimension
-        formatted_value = float(value) if type == float.__name__ else int(value)
+        self.formatted_value = float(value) if type == float.__name__ else int(value)
 
-        max_readable_value = 10000
-        min_readable_value = 0.001
-        is_readable = max_readable_value > formatted_value > min_readable_value
-        self.format = "%g" if is_readable else "%e"
-        super().__init__(id, name, parameter_set_id, formatted_value, type, is_shown_to_user, description, self.format_name())
+        self.raw_name = name
+        self.formatted_name = None
+        self.format_name()
+
+        self.type = type
+        self.format = None
+        self.set_format()
+
+        self.increment = None
+        self.set_increment()
+
+        super().__init__(id, name, parameter_set_id, self.formatted_value, self.type, is_shown_to_user, description, self.formatted_name)
 
     def format_name(self):
         words = self.raw_name.split("_")
@@ -54,7 +62,33 @@ class NumericalParameter(Parameter):
         words[0] = first_word[0].upper() + first_word[1:]
         new_name = " ".join(words)
 
-        return new_name + "  (" + self.unit_dimension + ")"
+        self.formatted_name = new_name + "  (" + self.unit_dimension + ")"
+
+    def set_format(self):
+        if self.type == int.__name__:
+            self.format = "%d"
+
+        else:
+            max_readable_value = 10000
+            min_readable_value = 0.001
+            is_readable = max_readable_value > self.formatted_value > min_readable_value
+            self.format = "%g" if is_readable else "%e"
+
+    def set_increment(self):
+
+        if self.type == float.__name__:
+
+            five_percent_of_value = "%e" % (0.05 * self.formatted_value)
+
+            decimal, exponential = five_percent_of_value.split("e")
+
+            self.increment = round(
+                float(ceil(float(decimal)) * 10 ** int(exponential)),
+                2
+            )
+
+        else:
+            self.increment = 1
 
 
 class StrParameter(Parameter):
