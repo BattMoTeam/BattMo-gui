@@ -7,7 +7,7 @@ from update_all_parameter_sets import UpdateParameterSets
 
 if __name__ == "__main__":
     # 1. Templates
-    UpdateTemplates(print_details=False).execute_script()
+    UpdateTemplates().execute_script()
 
     # 2. Models (depend on templates)
     UpdateModels().execute_script()
