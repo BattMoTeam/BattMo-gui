@@ -1,0 +1,49 @@
+{
+    "models": {
+        "P2D": {
+            "description": "",
+            "parameters": {
+                "include_current_collector": {
+                     "value": false,
+                     "description": "",
+                     "type": "bool"
+                  },
+                  "use_solid_diffusion_model": {
+                     "value": true,
+                     "description": "",
+                     "type": "bool"
+                  }
+            }
+        },
+        "P3D": {
+            "description": "",
+            "parameters": {
+                "include_current_collector": {
+                     "value": false,
+                     "description": "",
+                     "type": "bool"
+                  },
+                  "use_solid_diffusion_model": {
+                     "value": true,
+                     "description": "",
+                     "type": "bool"
+                  }
+            }
+        },
+        "P4D": {
+            "description": "",
+            "parameters": {
+                "include_current_collector": {
+                     "value": false,
+                     "description": "",
+                     "type": "bool"
+                  },
+                  "use_solid_diffusion_model": {
+                     "value": true,
+                     "description": "",
+                     "type": "bool"
+                  }
+            }
+        }
+    }
+}

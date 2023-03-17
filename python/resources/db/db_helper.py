@@ -8,7 +8,6 @@ class DBHelper:
         self.sql_parameter_set = db_handler.ParameterSetHandler()
         self.sql_category = db_handler.CategoryHandler()
         self.sql_tab = db_handler.TabHandler()
-        self.sql_parameter_set_header = db_handler.ParameterSetHeaderHandler()
         self.all_tab_display_names = self.get_tabs_display_names()
         self.all_tab_names = self.get_tabs_names()
         self.all_tab_id = self.st_tab_id_to_db_tab_id()

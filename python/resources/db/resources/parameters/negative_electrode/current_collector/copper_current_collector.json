@@ -3,55 +3,10 @@
    "Category": "negative_electrode_current_collector",
    "Header": {},
    "Parameters": {
-      "thickness": {
-         "value": 1.1e-05,
-         "max_value": 3e-05,
-         "min_value": 5e-06,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
-      },
-      "density": {
-         "value": 8950,
-         "max_value": 10000.0,
-         "min_value": 5000.0,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit_name": "kilogram.meter\u207b\u00b3",
-         "unit_dimension": "kg.m\u207b\u00b3"
-      },
-      "specific_heat_capacity": {
-         "value": 385,
-         "max_value": 1000.0,
-         "min_value": 10,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
-      },
-      "thermal_conductivity": {
-         "value": 398,
-         "max_value": 1000.0,
-         "min_value": 10,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
-      },
-      "volume_fraction": {
-         "value": 1,
-         "max_value": 1,
-         "min_value": 0.01,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
-      }
+      "thickness": 1.1e-05,
+      "density": 8950,
+      "specific_heat_capacity": 385,
+      "thermal_conductivity": 398,
+      "volume_fraction": 1
    }
 }
