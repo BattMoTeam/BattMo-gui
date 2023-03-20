@@ -107,7 +107,7 @@ class TemplateParameterHandler(BaseHandler):
         self._table_name = "template_parameter"
         self._columns = "name, template_id, type, unit_name, unit_dimension, max_value, min_value, is_shown_to_user, description"
         self.types_handled = {'str', 'bool', 'int', 'float', 'function'}
-        # self.assert_all_types_are_handled()
+        self.assert_all_types_are_handled()
 
     def insert_value(
             self,
@@ -176,7 +176,7 @@ class TemplateParameterHandler(BaseHandler):
         Its code has to handle all the parameter types existing in db
         """
         all_types = self.get_all_types()
-        assert all_types == self.types_handled, \
+        assert all_types.issubset(self.types_handled), \
             "\n Not all parameter types are handled. Please handle missing type in app_parameter_model.py" \
             "\n types_handled={} \n all_types={}".format(self.types_handled, all_types)
 

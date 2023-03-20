@@ -4,7 +4,7 @@
    "Parameters": {
       "thickness": {
          "max_value": 0.9,
-         "min_value": 0.1,
+         "min_value": 5e-06,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
