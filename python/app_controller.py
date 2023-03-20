@@ -15,8 +15,11 @@ class AppController:
     def set_heading(self):
         return SetHeading(self.images.logo)
 
-    def set_tabs(self):
-        return SetTabs(self.db, self.images.image_dict)
+    def set_model_choice(self):
+        return SetModelChoice(self.db, self.images.image_dict)
+
+    def set_tabs(self, model_id):
+        return SetTabs(self.db, self.images.image_dict, model_id)
 
     def set_json_viewer(self, json_data):
         return JsonViewer(json_data)
