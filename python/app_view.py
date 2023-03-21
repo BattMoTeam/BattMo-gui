@@ -37,6 +37,7 @@ class SetHeading:
         st_space()
 
     def set_title_and_logo(self):
+        st.set_page_config(page_title=self.title, page_icon=self.logo)
         # Title and subtitle
         logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
@@ -55,10 +56,54 @@ class SetHeading:
         st.text(self.description)
 
 
-class SetTabs:
+class SetModelChoice:
     def __init__(self, db_helper, images):
         self.db = db_helper
         self.image_dict = images
+
+        self.title = "Model"
+        self.selected_model = None
+
+        # Set Model choice
+        self.set_model_choice()
+
+    def set_model_choice(self):
+        self.set_logo_and_title()
+        self.set_dropdown()
+        st_space()
+
+    def set_logo_and_title(self):
+        image_column, title_column = st.columns([1, 5])
+        image_column.image(self.image_dict["6"])
+        title_column.markdown("###")
+        title_column.subheader(self.title)
+
+    def set_dropdown(self):
+        models_as_dict = self.db.get_models_as_dict()
+        selected_model_id = st.selectbox(
+            label="model choice",
+            options=[model_id for model_id in models_as_dict],
+            format_func=lambda x: models_as_dict.get(x),
+            key="model_choice",
+            label_visibility="visible"
+        )
+        self.selected_model = selected_model_id
+
+    def create_parameter_set_dropdown(self, tab, category_id, category_name):
+        selected_parameter_set = tab.selectbox(
+            label=category_name,
+            options=self.db.get_all_parameter_sets_by_category_id(category_id),
+            key=str(category_id),
+            label_visibility="collapsed"
+        )
+        return selected_parameter_set
+
+
+class SetTabs:
+    def __init__(self, db_helper, images, model_id):
+        self.db = db_helper
+        self.image_dict = images
+        self.model_templates = self.db.get_templates_by_id(model_id)
 
         self.formatter = FormatParameters()
 
@@ -83,39 +128,21 @@ class SetTabs:
             len_categories = len(categories)
 
             if len_categories > 1:  # create one sub tab per category
+
                 all_category_display_names = [a[2] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
+                i = 0
 
-                for i in range(len_categories):
-                    category_id, category_name, _, _, _ = categories[i]
+                for category in categories:
 
-                    selected_parameter_set = self.create_parameter_set_dropdown(
-                        tab=all_sub_tabs[i],
-                        category_id=category_id,
-                        category_name=category_name
-                    )
+                    category_parameters = self.fill_category(category, all_sub_tabs[i])
+                    i += 1
 
-                    category_parameters = self.create_parameter_form_if_needed(
-                        tab=all_sub_tabs[i],
-                        category_name=category_name,
-                        selected_parameter_set=selected_parameter_set
-                    )
+                    tab_parameters[category[1]] = category_parameters
 
-                    tab_parameters[category_name] = category_parameters
             else:  # no sub tab is needed
-                category_id, category_name, _, _, _ = categories[0]
 
-                selected_parameter_set = self.create_parameter_set_dropdown(
-                    tab=tab,
-                    category_id=category_id,
-                    category_name=category_name
-                )
-
-                category_parameters = self.create_parameter_form_if_needed(
-                    tab=tab,
-                    category_name=category_name,
-                    selected_parameter_set=selected_parameter_set
-                )
+                category_parameters = self.fill_category(categories[0], tab)
 
                 tab_parameters.update(category_parameters)
 
@@ -128,78 +155,62 @@ class SetTabs:
         title_column.markdown("###")
         title_column.subheader(self.db.all_tab_display_names[tab_index])
 
-    def create_parameter_set_dropdown(self, tab, category_id, category_name):
-        selected_parameter_set = tab.selectbox(
-            label=category_name,
-            options=self.db.get_all_parameter_sets_by_category_id(category_id),
-            key=str(category_id),
-            label_visibility="collapsed"
-        )
-        return selected_parameter_set
-
-    def create_parameter_form_if_needed(self, tab, category_name, selected_parameter_set):
-
-        raw_parameters = self.db.extract_parameters_by_parameter_set_name(selected_parameter_set)
-        formatted_parameters = self.formatter.format_parameters(raw_parameters)
-
-        has_shown_parameters = self.assert_has_shown_parameters(formatted_parameters)
-
-        if has_shown_parameters:
-            return self.create_parameter_form(
-                tab=tab,
-                category_name=category_name,
-                formatted_parameters=formatted_parameters
-            )
-        else:
-            category_parameters = {}
-            for parameter in formatted_parameters:
-                category_parameters[parameter.name] = parameter.value
-
-            return category_parameters
-
-    def create_parameter_form(self, tab, category_name, formatted_parameters):
-        parameter_form = tab.form(category_name)
+    def fill_category(self, category, tab):
+        category_id, category_name, _, _, default_template_id, _ = category
         category_parameters = {}
-        for parameter in formatted_parameters:
-            value_for_json = parameter.value
+        select_box_col, input_col = tab.columns([4, 5])
 
+        template_name = self.model_templates.get(category_name)
+        template_id = self.db.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+
+        raw_template_parameters = self.db.get_template_parameters_from_template_id(template_id)
+
+        parameter_sets = self.db.get_all_parameter_sets_by_category_id(category_id)
+
+        parameter_sets_name_by_id = {}
+        for id, name, _ in parameter_sets:
+            parameter_sets_name_by_id[id] = name
+
+        raw_parameters = []
+        for parameter_set_id in parameter_sets_name_by_id:
+            raw_parameters += self.db.extract_parameters_by_parameter_set_id(parameter_set_id)
+
+        formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
+
+        for parameter_id in formatted_parameters:
+            parameter = formatted_parameters.get(parameter_id)
             if parameter.is_shown_to_user:
-                user_input = None
+                selected_value_id = select_box_col.selectbox(
+                    label=parameter.display_name,
+                    options=parameter.options,
+                    key="{}_{}".format(category_id, parameter_id),
+                    label_visibility="visible",
+                    format_func=lambda x: parameter.options.get(x).display_name
+                )
 
                 if isinstance(parameter, NumericalParameter):
-                    user_input = parameter_form.number_input(
-                        label=parameter.display_name,
-                        value=parameter.value,
+                    user_input = input_col.number_input(
+                        label=parameter.unit,
+                        value=parameter.options.get(selected_value_id).value,
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,
-                        key=str(parameter.id) + category_name,
+                        key="input_{}_{}".format(category_id, parameter_id),
                         format=parameter.format,
-                        step=parameter.increment
+                        step=parameter.increment,
+                        label_visibility="visible"
                     )
-
-                elif isinstance(parameter, StrParameter):
-                    parameter_form.selectbox(
-                        label=parameter.name,
-                        options=[parameter.value],
-                        index=0,
-                        key=str(parameter.id) + category_name
+                else:
+                    user_input = input_col.selectbox(
+                        label=parameter.display_name,
+                        options=[parameter.options.get(selected_value_id).value],
+                        key="input_{}_{}".format(category_id, parameter_id),
+                        label_visibility="hidden",
                     )
+                parameter.set_selected_value(user_input)
 
-                if user_input is not None:
-                    value_for_json = user_input
-
-            category_parameters[parameter.name] = value_for_json
-
-        parameter_form.form_submit_button("Save")
+            category_parameters[parameter.name] = parameter.selected_value
 
         return category_parameters
-
-    def assert_has_shown_parameters(self, formatted_parameters):
-        for parameter in formatted_parameters:
-            if parameter.is_shown_to_user:
-                return True
-
-        return False
 
 
 class JsonViewer:
@@ -258,13 +269,13 @@ class LoadImages:
         return {
             "0": Image.open(join_path("cell_coin.png")),
             "9": Image.open(join_path("cell_prismatic.png")),
-            "4": Image.open(join_path("cell_cylindrical.png")),
+            "4": Image.open(join_path("plus.png")),
             "1": Image.open(join_path("plus.png")),
             "2": Image.open(join_path("minus.png")),
             "3": Image.open(join_path("electrolyte.png")),
             "5": Image.open(join_path("current.png")),
             "6": Image.open(join_path("current.png")),
             "7": Image.open(join_path("current.png")),
-            "8": Image.open(join_path("current.png"))
+            "8": Image.open(join_path("cell_cylindrical.png"))
         }
 

@@ -18,7 +18,7 @@ class BaseHandler:
             values = []
             for column in columns_and_values:
                 value = columns_and_values.get(column)
-                if value:
+                if value is not None:
                     columns.append(column)
                     values.append(value)
 
@@ -28,7 +28,10 @@ class BaseHandler:
                 tuple(values)
             )
         else:
-            query = "INSERT INTO {} ({}) VALUES {}".format(self._table_name, self._columns, values)
+            if len(values) == 1:
+                query = "INSERT INTO {} ({}) VALUES ({})".format(self._table_name, self._columns, values[0])
+            else:
+                query = "INSERT INTO {} ({}) VALUES {}".format(self._table_name, self._columns, values)
 
         cur.execute(query)
         con.commit()
@@ -76,7 +79,7 @@ class BaseHandler:
                 else:
                     sql_set.append("{} = {}".format(column, value))
 
-        if bool(sql_set):  # else, nothing to upddate
+        if bool(sql_set):  # else, nothing to update
             sql_query = "UPDATE {} SET {} WHERE id={}".format(self._table_name, ', '.join(sql_set), id)
             cur.execute(sql_query)
             con.commit()

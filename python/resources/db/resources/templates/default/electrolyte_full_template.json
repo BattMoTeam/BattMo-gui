@@ -1,0 +1,85 @@
+{
+   "Type": "template",
+   "Name": "electrolyte_full_template",
+   "Parameters": {
+      "specific_heat_capacity": {
+         "max_value": 10000,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+      },
+      "thermal_conductivity": {
+         "max_value": 1000,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+      },
+      "density": {
+         "max_value": 10000,
+         "min_value": 100,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "kilogram.meter\u207b\u00b3",
+         "unit_dimension": "kg.m\u207b\u00b3"
+      },
+      "conductivity": {
+         "type": "function"
+      },
+      "diffusion_coefficient": {
+         "type": "function"
+      },
+      "charge_carrier_name": {
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "str"
+      },
+      "charge_carrier_charge_number": {
+         "max_value": 1,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "charge_carrier_transference_number": {
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "counter_ion_name": {
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "str"
+      },
+      "counter_ion_charge_number": {
+         "max_value": -1,
+         "min_value": -1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "counter_ion_transference_number": {
+         "max_value": 0.99,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      }
+   }
+}

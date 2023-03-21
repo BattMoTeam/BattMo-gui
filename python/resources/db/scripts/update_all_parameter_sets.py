@@ -1,261 +1,248 @@
 from python.resources.db import db_handler, db_access
 
-sql_parameter = db_handler.ParameterHandler()
-sql_parameter_set = db_handler.ParameterSetHandler()
-sql_category = db_handler.CategoryHandler()
-sql_parameter_set_header = db_handler.ParameterSetHeaderHandler()
-
 
 #####################################
 #    UPDATE PARAMETER SET
 #####################################
-
-class ParameterField(object):
-    def __init__(self):
-        self.value = "value"
-        self.type = "type"
-        self.unit_name = "unit_name"
-        self.unit_dimension = "unit_dimension"
-        self.max_value = "max_value"
-        self.min_value = "min_value"
-        self.is_shown_to_user = "is_shown_to_user"
-        self.description = "description"
+class Parameter(object):
+    def __init__(self, name, parameter_set_id, template_parameter_id, value=None):
+        self.name = name
+        self.parameter_set_id = parameter_set_id
+        self.template_parameter_id = template_parameter_id
+        self.value = value
 
 
-def update_parameter_set_from_json(parameter_set, path):
-    """
-    parameter_set: {
-        "Name": "file_name",
-        "Header":{
-            "DOI": "EMMO_12345",
-            "description": "new parameter_set for electrolyte from Chen 2020"
-        },
-        "Category": "electrolyte",
-        "Parameters":{
-            "maximum_concentration": {
-                "value": 31540,
-                "max_value": 100000.0,
-                "min_value": 1000.0,
-                "description": "",
-                "is_shown_to_user": true,
-                "type": "float",
-                "unit_name": "mole.meter\u207b\u00b3",
-                "unit_dimension": "mol.m\u207b\u00b3"
-            },
-            "volume_fraction": {
-                "value": 0.7,
-                "max_value": 0.99,
-                "min_value": 0.01,
-                "description": "",
-                "is_shown_to_user": true,
-                "type": "float",
-                "unit_name": "1",
-                "unit_dimension": "1"
-            },
-            "etc": "etc"
-        }
-    }
-    """
-    name = parameter_set.get("Name")
-    header = parameter_set.get("Header")
-    category = parameter_set.get("Category")
-    parameters = parameter_set.get("Parameters")
+class UpdateParameterSets:
 
-    assert name is not None, "Name of parameter_set {} must have a name".format(path)
-    assert header is not None, "Header of parameter_set {} is not defined".format(name)
-    assert category is not None, "Category of parameter_set {} is not defined".format(name)
-    assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
+    def __init__(self, print_details=False):
+        self.template_type = "template"
+        self.sql_parameter = db_handler.ParameterHandler()
+        self.sql_parameter_set = db_handler.ParameterSetHandler()
+        self.sql_category = db_handler.CategoryHandler()
+        self.sql_template = db_handler.TemplateHandler()
+        self.sql_template_parameter = db_handler.TemplateParameterHandler()
+        self.print_details = print_details
 
-    category_id = sql_category.get_id_from_name(category)
-    assert category_id is not None, "Category = {} is not specified in categories.json. path={}".format(category, path)
-
-    header_id = create_or_update_header(header)
-    parameter_set_id, parameter_set_already_exists = create_or_update_parameter_set(
-        name=name,
-        category_id=category_id,
-        header_id=header_id
-    )
-    fields = ParameterField()
-    if parameter_set_already_exists:
-        print("\n Updating {}".format(name))
-        update_parameters(
-            parameters=parameters,
-            parameter_set_id=parameter_set_id,
-            fields=fields
-        )
-    else:
-        print("\n Creating {}".format(name))
-        add_parameters(
-            parameters=parameters,
-            parameter_set_id=parameter_set_id,
-            fields=fields
-        )
-    return parameter_set_id, parameter_set_already_exists
-
-
-def create_or_update_header(header):
-    doi = header.get("DOI")
-    description = header.get("description")
-
-    if doi is None:
-        doi = 'doi'
-
-    if description is None:
-        description = " "
-
-    header_id = sql_parameter_set_header.get_id_from_doi(doi)
-
-    if header_id:
-        sql_parameter_set_header.update_by_id(
-            id=header_id,
-            columns_and_values={'description': description},
-        )
-        return header_id
-
-    else:
-        return sql_parameter_set_header.insert_value(
-            doi=doi,
-            description=description
-        )
-
-
-def create_or_update_parameter_set(name, category_id, header_id):
-    parameter_set_id = sql_parameter_set.get_id_by_name_and_category(name, category_id)
-
-    if parameter_set_id:
-        sql_parameter_set.update_by_id(
-            id=parameter_set_id,
-            columns_and_values={
-                "category_id": category_id,
-                "header_id": header_id
+    def update_parameter_set_from_json(self, parameter_set, path):
+        """
+        parameter_set: {
+            "Name": "file_name",
+            "Category": "electrolyte",
+            "Parameters": {
+                "specific_heat_capacity": 1518.0,
+                "thermal_conductivity": 0.099,
+                "density": 1210,
+                "conductivity": {
+                    "function_name": "updateElectrolyteConductivityFunc_Xu",
+                    "argument_list": [
+                    "concentration",
+                    "temperature"
+                    ]
+                },
+                "charge_carrier_name": "Li",
+                "charge_carrier_charge_number": 1,
+                "charge_carrier_transference_number": 0.399
+                "etc": "etc"
             }
-        )
-        return parameter_set_id, True
-    else:
-        return sql_parameter_set.insert_value(
+        }
+        """
+        name = parameter_set.get("Name")
+        type = parameter_set.get("Type")
+        category = parameter_set.get("Category")
+        parameters = parameter_set.get("Parameters")
+
+        if type == self.template_type:
+            return None, False
+
+        assert name is not None, "Name of parameter_set {} must have a name".format(path)
+        assert category is not None, "Category of parameter_set {} is not defined".format(name)
+        assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
+
+        category_id = self.sql_category.get_id_from_name(category)
+        assert category_id is not None, "Category = {} is not specified in categories.json. path={}".format(category, path)
+
+        parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
             name=name,
-            category_id=category_id,
-            header_id=header_id
-        ), False
+            category_id=category_id
+        )
 
-
-def add_parameters(parameters, parameter_set_id, fields):
-    added_parameters = []
-    for parameter in parameters:
-        details = parameters.get(parameter)
-        value = details.get(fields.value)
-        value_type = details.get(fields.type)
-        formatted_value = format_value(value, value_type, details)
-        description = details.get(fields.description)
-
-        sql_parameter.insert_value(
-            name=parameter,
+        formatted_parameters = self.format_parameters(
+            parameters=parameters,
             parameter_set_id=parameter_set_id,
-            value=formatted_value,
-            type=value_type,
-            unit_name=details.get(fields.unit_name),
-            unit_dimension=details.get(fields.unit_dimension),
-            max_value=details.get(fields.max_value),
-            min_value=details.get(fields.min_value),
-            is_shown_to_user=details.get(fields.is_shown_to_user),
-            description=description if description else ""
+            category_id=category_id
         )
-        added_parameters.append(parameter)
-    print('  Added parameters: ', added_parameters)
 
-
-def update_parameters(parameters, parameter_set_id, fields):
-    new_parameters = {}
-    existing_ids_to_be_deleted = sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
-
-    for parameter in parameters:
-        details = parameters.get(parameter)
-        parameter_id = sql_parameter.get_id_from_name_and_parameter_set_id(
-            name=parameter,
-            parameter_set_id=parameter_set_id
-        )
-        if parameter_id:  # existing parameter, update fields
-            value = details.get(fields.value)
-            value_type = details.get(fields.type)
-            formatted_value = format_value(value, value_type, details)
-            try:
-                sql_parameter.update_by_id(
-                    id=parameter_id,
-                    columns_and_values={
-                        "value": formatted_value,
-                        "type": value_type,
-                        "unit_name": details.get(fields.unit_name),
-                        "unit_dimension": details.get(fields.unit_dimension),
-                        "max_value": details.get(fields.max_value),
-                        "min_value": details.get(fields.min_value),
-                        "is_shown_to_user": details.get(fields.is_shown_to_user),
-                        "description": details.get(fields.description),
-                    }
-                )
-                existing_ids_to_be_deleted.remove(parameter_id)
-            except:
-                # SQL query in update_by_id could fail, for example for str containing quotes
-                # In that case, we delete and recreate the parameter instead of updating it
-                new_parameters[parameter] = details
-
-        else:  # non-existing parameter, create it
-            new_parameters[parameter] = details
-
-    # add new params and delete unused ones
-    add_parameters(new_parameters, parameter_set_id, fields)
-
-    deleted_parameters = []
-    for id_to_delete in existing_ids_to_be_deleted:
-        deleted_parameters.append(sql_parameter.get_name_from_id(id_to_delete))
-        sql_parameter.delete_by_id(id_to_delete)
-    print('  Deleted parameters: ', deleted_parameters)
-
-
-def format_value(value, value_type, details):
-    if value is None:
-        return str(details) if value_type == "function" else None
-    else:
-        return value if value_type == "str" else str(value)
-
-
-#####################################
-#    DELETE PARAMETER SET
-#####################################
-def delete_parameter_set_by_id(parameter_set_id):
-    parameter_set = sql_parameter_set.select_by_id(parameter_set_id)
-    if parameter_set:
-        _, name, category_id, header_id = parameter_set
-        parameter_ids = sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
-
-        sql_parameter_set.delete_by_id(parameter_set_id)
-        sql_parameter_set_header.delete_by_id(header_id)
-        for parameter_id in parameter_ids:
-            sql_parameter.delete_by_id(parameter_id)
-        print("\n Parameter_set(name = {}, type={}) has been deleted.".format(
-            name,
-            sql_category.get_name_from_id(category_id)
-        ))
-
-
-#####################################
-#    RUN SCRIPT
-#####################################
-def get_all_resources():
-    return db_access.get_all_parameter_files_path()
-
-
-def execute_script():
-    all_file_path = get_all_resources()
-    existing_ids_to_be_deleted = sql_parameter_set.get_all_ids()
-    for file_path in all_file_path:
-        file_as_json = db_access.get_json_from_path(file_path)
-        parameter_set_id, parameter_set_already_exists = update_parameter_set_from_json(file_as_json, file_path)
         if parameter_set_already_exists:
-            existing_ids_to_be_deleted.remove(parameter_set_id)
+            if self.print_details:
+                print("\n Updating {}".format(name))
+            self.update_parameters(parameters=formatted_parameters)
 
-    for id_to_be_deleted in existing_ids_to_be_deleted:
-        delete_parameter_set_by_id(id_to_be_deleted)
+        else:
+            if self.print_details:
+                print("\n Creating {}".format(name))
+            self.add_parameters(parameters=formatted_parameters)
+
+        return parameter_set_id, parameter_set_already_exists, name
+
+    def create_or_update_parameter_set(self, name, category_id):
+        parameter_set_id = self.sql_parameter_set.get_id_by_name_and_category(name, category_id)
+
+        if parameter_set_id:
+            return parameter_set_id, True
+        else:
+            return self.sql_parameter_set.insert_value(
+                name=name,
+                category_id=category_id
+            ), False
+
+    def format_parameters(self, parameters, parameter_set_id, category_id):
+        template_id = self.sql_category.get_default_template_id_by_id(category_id)
+        raw_template_parameters = self.sql_template_parameter.get_id_name_and_type_by_template_id(template_id)
+        template_parameters = {}
+        template_parameters_types = {}
+        for tp_id, tp_name, tp_type in raw_template_parameters:
+            template_parameters[tp_name] = tp_id
+            template_parameters_types[tp_name] = tp_type
+
+        formatted_parameters = []
+        for parameter_name in parameters:
+
+            template_parameter_id = template_parameters.get(parameter_name)
+            if template_parameter_id is None:
+                print("Warning !! parameter {} has no corresponding template parameter".format(parameter_name))
+                formatted_value = None
+
+            else:
+                value = parameters.get(parameter_name)
+                value_type = template_parameters_types.get(parameter_name)
+                formatted_value = self.format_value(value, value_type)
+
+            formatted_parameters.append(Parameter(
+                name=parameter_name,
+                parameter_set_id=parameter_set_id,
+                template_parameter_id=template_parameter_id,
+                value=formatted_value
+            ))
+
+        return formatted_parameters
+
+    def format_value(self, value, value_type):
+        if value is None:
+            return None
+
+        elif value_type == "str":
+            return value
+
+        else:
+            return str(value)
+
+    def add_parameters(self, parameters):
+        added_parameters = []
+        for parameter in parameters:
+            self.sql_parameter.insert_value(
+                name=parameter.name,
+                parameter_set_id=parameter.parameter_set_id,
+                template_parameter_id=parameter.template_parameter_id,
+                value=parameter.value
+            )
+            added_parameters.append(parameter.name)
+
+        if self.print_details:
+            print('  Added parameters: ', added_parameters)
+
+    def update_parameters(self, parameters):
+        if not parameters:
+            return
+        parameter_set_id = parameters[0].parameter_set_id
+
+        new_parameters = []
+        existing_ids_to_be_deleted = self.sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
+
+        for parameter in parameters:
+            parameter_id = self.sql_parameter.get_id_from_name_and_parameter_set_id(
+                name=parameter.name,
+                parameter_set_id=parameter_set_id
+            )
+            if parameter_id:  # existing parameter, update fields
+                try:
+                    # print("try")
+                    self.sql_parameter.update_by_id(
+                        id=parameter_id,
+                        columns_and_values={
+                            "name": parameter.name,
+                            "parameter_set_id": parameter.parameter_set_id,
+                            "template_parameter_id": parameter.template_parameter_id,
+                            "value": parameter.value
+                        }
+                    )
+                    existing_ids_to_be_deleted.remove(parameter_id)
+                except:
+                    # print("except")
+                    # SQL query in update_by_id could fail, for example for str containing quotes
+                    # In that case, we delete and recreate the parameter instead of updating it
+                    new_parameters.append(parameter)
+
+            else:  # non-existing parameter, create it
+                new_parameters.append(parameter)
+
+        # add new params and delete unused ones
+        self.add_parameters(new_parameters)
+
+        deleted_parameters = []
+        for id_to_delete in existing_ids_to_be_deleted:
+            deleted_parameters.append(self.sql_parameter.get_name_from_id(id_to_delete))
+            self.sql_parameter.delete_by_id(id_to_delete)
+
+        if self.print_details:
+            print('  Deleted parameters: ', deleted_parameters)
+
+    #####################################
+    #    DELETE PARAMETER SET
+    #####################################
+    def delete_parameter_set_by_id(self, parameter_set_id):
+        parameter_set = self.sql_parameter_set.select_by_id(parameter_set_id)
+        if parameter_set:
+            _, name, category_id, header_id = parameter_set
+            parameter_ids = self.sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
+
+            self.sql_parameter_set.delete_by_id(parameter_set_id)
+            for parameter_id in parameter_ids:
+                self.sql_parameter.delete_by_id(parameter_id)
+            print("\n Parameter_set(name = {}, type={}) has been deleted.".format(
+                name,
+                self.sql_category.get_name_from_id(category_id)
+            ))
+            return name
+
+    #####################################
+    #    RUN SCRIPT
+    #####################################
+    def get_all_resources(self):
+        return db_access.get_all_parameter_files_path()
+
+    def execute_script(self):
+        all_file_path = self.get_all_resources()
+        existing_ids_to_be_deleted = self.sql_parameter_set.get_all_ids()
+
+        new_or_updated = []
+        deleted = []
+
+        for file_path in all_file_path:
+            file_as_json = db_access.get_json_from_path(file_path)
+            parameter_set_id, parameter_set_already_exists, name = self.update_parameter_set_from_json(file_as_json, file_path)
+            new_or_updated.append(name)
+            if parameter_set_already_exists:
+                existing_ids_to_be_deleted.remove(parameter_set_id)
+
+        for id_to_be_deleted in existing_ids_to_be_deleted:
+            deleted.append(self.delete_parameter_set_by_id(id_to_be_deleted))
+
+        print("\n SQL tables parameter and parameter_set are up to date according to the templates resource files")
+        if new_or_updated:
+            print(" Created or updated parameter_set : ", new_or_updated)
+        if deleted:
+            print(" Deleted parameter_set: ", deleted)
 
 
 if __name__ == "__main__":
-    execute_script()
+    UpdateParameterSets(print_details=True).execute_script()
