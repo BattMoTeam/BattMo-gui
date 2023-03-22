@@ -37,7 +37,6 @@ class SetHeading:
         st_space()
 
     def set_title_and_logo(self):
-        # st.set_page_config(page_title=self.title, page_icon=self.logo)
         # Title and subtitle
         logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
@@ -109,7 +108,7 @@ class SetTabs:
 
         # Initialize tabs
         self.all_tabs = st.tabs(self.db.all_tab_display_names)
-        self.user_input = {}
+        self.user_input = {"model": self.db.get_model_parameters_as_dict(model_id)}
 
         # Fill tabs
         self.set_tabs()

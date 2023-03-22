@@ -9,6 +9,7 @@ class DBHelper:
         self.sql_category = db_handler.CategoryHandler()
         self.sql_tab = db_handler.TabHandler()
         self.sql_model = db_handler.ModelHandler()
+        self.sql_model_parameter = db_handler.ModelParameterHandler()
         self.sql_template = db_handler.TemplateHandler()
         self.sql_template_parameter = db_handler.TemplateParameterHandler()
 
@@ -77,6 +78,22 @@ class DBHelper:
             where="id=%d" % model_id
         )
         return eval(res[0]) if res else None
+
+    def get_model_parameters_as_dict(self, model_id):
+        parameters = self.sql_model_parameter.get_all_by_model_id(model_id)
+        res = {}
+        for parameter in parameters:
+            _, name, _, value, value_type, _ = parameter
+            if value_type == "bool":
+                res[name] = bool(value)
+            elif value_type == "str":
+                res[name] = value
+            elif value_type == "float":
+                res[name] = float(value)
+            else:
+                assert False, "model parameter type={} not handled. name={}".format(value_type, name)
+
+        return res
 
     #####################################
     # TEMPLATE
