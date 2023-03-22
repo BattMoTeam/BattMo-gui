@@ -1,19 +1,12 @@
 from app_view import *
-from resources.db.db_helper import DBHelper
 
 
 class AppController:
-    def __init__(self):
+    def __init__(self, images, db_helper):
         self.path_to_python_dir = os.path.dirname(os.path.abspath(__file__))
 
-        self.images = LoadImages(self.get_path_to_images())
-        self.db = DBHelper()
-
-    def get_path_to_images(self):
-        return os.path.join(self.path_to_python_dir, 'resources', 'images')
-
-    def set_heading(self):
-        return SetHeading(self.images.logo)
+        self.images = images
+        self.db = db_helper
 
     def set_model_choice(self):
         return SetModelChoice(self.db, self.images.image_dict)
