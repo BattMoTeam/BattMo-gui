@@ -37,7 +37,7 @@ class SetHeading:
         st_space()
 
     def set_title_and_logo(self):
-        st.set_page_config(page_title=self.title, page_icon=self.logo)
+        # st.set_page_config(page_title=self.title, page_icon=self.logo)
         # Title and subtitle
         logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
