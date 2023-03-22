@@ -11,6 +11,24 @@
          "unit_name": "meter",
          "unit_dimension": "m"
       },
+      "length": {
+         "max_value": 1,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
+      "width": {
+         "max_value": 1,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
       "porosity": {
          "max_value": 0.9,
          "min_value": 0.1,

@@ -20,14 +20,23 @@
          "unit_name": "1",
          "unit_dimension": "1"
       },
-      "face_area": {
+      "length": {
          "max_value": 1,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter\u00b2",
-         "unit_dimension": "m\u00b2"
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
+      "width": {
+         "max_value": 1,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
       },
       "bruggeman_coefficient": {
          "max_value": 5,

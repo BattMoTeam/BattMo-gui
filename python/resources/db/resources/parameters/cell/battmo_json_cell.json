@@ -1,0 +1,9 @@
+{
+   "Name": "TBD_battmo_json_cell",
+   "Category": "cell",
+   "Header": {},
+   "Parameters": {
+      "external_heat_transfer_coefficient": 1000,
+      "initial_state_of_charge": 0.99
+   }
+}

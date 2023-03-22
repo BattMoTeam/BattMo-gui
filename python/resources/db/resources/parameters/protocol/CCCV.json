@@ -3,6 +3,8 @@
    "Category": "protocol",
    "Header": {},
    "Parameters": {
+      "protocol_name": "IEswitch",
+      "initial_step_type": "discharging",
       "number_of_cycles": 1,
       "c_rate": 1,
       "lower_cutoff_voltage": 2.4,
