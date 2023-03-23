@@ -8,6 +8,8 @@
       "diffusion_pre_exponential_factor": 3.9e-14,
       "particle_radius": 1e-6,
       "number_of_discrete_cells_electrode": 10,
-      "number_of_discrete_cells_particle_radius": 10
+      "number_of_discrete_cells_particle_radius": 10,
+      "specific_heat_capacity": 632,
+      "thermal_conductivity": 1.04
    }
 }
