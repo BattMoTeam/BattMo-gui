@@ -56,9 +56,8 @@ class SetHeading:
 
 
 class SetModelChoice:
-    def __init__(self, db_helper, images):
+    def __init__(self, db_helper):
         self.db = db_helper
-        self.image_dict = images
 
         self.title = "Model"
         self.selected_model = None
@@ -67,15 +66,12 @@ class SetModelChoice:
         self.set_model_choice()
 
     def set_model_choice(self):
-        self.set_logo_and_title()
+        self.set_title()
         self.set_dropdown()
         st_space()
 
-    def set_logo_and_title(self):
-        image_column, title_column = st.columns([1, 5])
-        image_column.image(self.image_dict["6"])
-        title_column.markdown("###")
-        title_column.subheader(self.title)
+    def set_title(self):
+        st.markdown("### " + self.title)
 
     def set_dropdown(self):
         models_as_dict = self.db.get_models_as_dict()
@@ -84,18 +80,9 @@ class SetModelChoice:
             options=[model_id for model_id in models_as_dict],
             format_func=lambda x: models_as_dict.get(x),
             key="model_choice",
-            label_visibility="visible"
-        )
-        self.selected_model = selected_model_id
-
-    def create_parameter_set_dropdown(self, tab, category_id, category_name):
-        selected_parameter_set = tab.selectbox(
-            label=category_name,
-            options=self.db.get_all_parameter_sets_by_category_id(category_id),
-            key=str(category_id),
             label_visibility="collapsed"
         )
-        return selected_parameter_set
+        self.selected_model = selected_model_id
 
 
 class SetTabs:
@@ -107,11 +94,16 @@ class SetTabs:
         self.formatter = FormatParameters()
 
         # Initialize tabs
+        self.title = "Parameters"
+        self.set_title()
         self.all_tabs = st.tabs(self.db.all_tab_display_names)
         self.user_input = {"model": self.db.get_model_parameters_as_dict(model_id)}
 
         # Fill tabs
         self.set_tabs()
+
+    def set_title(self):
+        st.markdown("### " + self.title)
 
     def set_tabs(self):
         for tab in self.all_tabs:
@@ -151,7 +143,7 @@ class SetTabs:
     def set_logo_and_title(self, tab, tab_index):
         image_column, title_column = tab.columns([1, 5])
         image_column.image(self.image_dict[str(tab_index)])
-        title_column.markdown("###")
+        title_column.text(" ")
         title_column.subheader(self.db.all_tab_display_names[tab_index])
 
     def fill_category(self, category, tab):
@@ -264,17 +256,23 @@ class LoadImages:
         def join_path(path):
             return os.path.join(self.path_to_images, path)
 
+        l, w = 80, 80
+
+        def image_open(file_name):
+            image = Image.open(join_path(file_name))
+            return image.resize((l, w))
+
         # TBD, images for all, proper naming
         return {
-            "0": Image.open(join_path("cell_coin.png")),
-            "9": Image.open(join_path("cell_prismatic.png")),
-            "4": Image.open(join_path("plus.png")),
-            "1": Image.open(join_path("plus.png")),
-            "2": Image.open(join_path("minus.png")),
-            "3": Image.open(join_path("electrolyte.png")),
-            "5": Image.open(join_path("current.png")),
-            "6": Image.open(join_path("current.png")),
-            "7": Image.open(join_path("current.png")),
-            "8": Image.open(join_path("cell_cylindrical.png"))
+            "0": image_open("cell_coin.png"),
+            "9": image_open("cell_prismatic.png"),
+            "4": image_open("plus.png"),
+            "1": image_open("plus.png"),
+            "2": image_open("minus.png"),
+            "3": image_open("electrolyte.png"),
+            "5": image_open("current.png"),
+            "6": image_open("current.png"),
+            "7": image_open("current.png"),
+            "8": image_open("cell_cylindrical.png")
         }
 

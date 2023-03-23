@@ -10,7 +10,7 @@ class AppController:
         self.db = db_helper
 
     def set_model_choice(self):
-        return SetModelChoice(self.db, self.images)
+        return SetModelChoice(self.db)
 
     def set_tabs(self, model_id):
         return SetTabs(self.db, self.images, model_id)
