@@ -1,0 +1,15 @@
+{
+   "Name": "TBD_battmo_json_pe_am",
+   "Category": "positive_electrode_active_material",
+   "Header": {},
+   "Parameters": {
+      "electronic_conductivity": 100,
+      "activation_energy_of_diffusion": 5e3,
+      "diffusion_pre_exponential_factor": 1e-14,
+      "particle_radius": 1e-6,
+      "number_of_discrete_cells_electrode": 10,
+      "number_of_discrete_cells_particle_radius": 10,
+      "specific_heat_capacity": 700,
+      "thermal_conductivity": 2.1
+   }
+}

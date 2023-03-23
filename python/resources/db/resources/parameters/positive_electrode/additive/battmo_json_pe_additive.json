@@ -1,0 +1,8 @@
+{
+   "Name": "TBD_battmo_json_pe_additive",
+   "Category": "positive_electrode_additive",
+   "Header": {},
+   "Parameters": {
+      "electronic_conductivity": 100
+   }
+}

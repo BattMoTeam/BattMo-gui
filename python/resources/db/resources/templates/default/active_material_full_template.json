@@ -38,6 +38,33 @@
          "unit_name": "kilogram.meter\u207b\u00b3",
          "unit_dimension": "kg.m\u207b\u00b3"
       },
+      "specific_heat_capacity": {
+         "max_value": 10000.0,
+         "min_value": 10,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+      },
+      "thermal_conductivity": {
+         "max_value": 1000.0,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+      },
+      "electronic_conductivity": {
+         "max_value": 7e7,
+         "min_value": 0.1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "siemens.meter\u207b\u00b9",
+         "unit_dimension": "S.m\u207b\u00b9"
+      },
       "number_of_electrons_transferred": {
          "max_value": 1,
          "min_value": 1,
@@ -80,6 +107,51 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "activation_energy_of_diffusion": {
+         "max_value": 100000.0,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
+         "unit_dimension": "J.mol\u207b\u00b9.K\u207b\u00b9"
+      },
+      "diffusion_pre_exponential_factor": {
+         "max_value": 1,
+         "min_value": 1e-15,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "second\u207b\u00b9",
+         "unit_dimension": "s\u207b\u00b9"
+      },
+      "number_of_discrete_cells_electrode": {
+         "max_value": 30,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
+      },
+      "particle_radius": {
+         "max_value": 1e-3,
+         "min_value": 1e-7,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit_name": "meter",
+         "unit_dimension": "m"
+      },
+      "number_of_discrete_cells_particle_radius": {
+         "max_value": 30,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
          "unit_name": "1",
          "unit_dimension": "1"
       },

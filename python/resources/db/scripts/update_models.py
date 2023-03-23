@@ -117,6 +117,9 @@ class UpdateModels:
                     description=description
                 )
 
+        for id_to_delete in existing_ids_to_be_deleted:
+            self.sql_model_parameter.delete_by_id(id_to_delete)
+
     def execute_script(self):
         return self.update_model_from_json(self.get_resource_as_json())
 

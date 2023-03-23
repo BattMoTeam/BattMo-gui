@@ -2,6 +2,16 @@
    "Type": "template",
    "Name": "protocol_full_template",
    "Parameters": {
+      "protocol_name": {
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "str"
+      },
+      "initial_step_type": {
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "str"
+      },
       "number_of_cycles": {
          "max_value": 100,
          "min_value": 1,

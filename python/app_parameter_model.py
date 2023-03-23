@@ -69,7 +69,7 @@ class NumericalParameter(TemplateParameter):
             max_readable_value = 10000
             min_readable_value = 0.001
             is_readable = self.max_value < max_readable_value and self.min_value > min_readable_value
-            self.format = "%g" if is_readable else "%.3e"
+            self.format = "%g" if is_readable else "%.2e"
 
     def set_increment(self):
 

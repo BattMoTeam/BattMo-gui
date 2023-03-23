@@ -9,15 +9,15 @@
       "conductivity": {
          "function_name": "updateElectrolyteConductivityFunc_Xu",
          "argument_list": [
-            "concentration",
-            "temperature"
+           "c",
+           "T"
          ]
       },
       "diffusion_coefficient": {
          "function_name": "updateDiffusionCoefficientFunc_Xu",
          "argument_list": [
-            "concentration",
-            "temperature"
+           "c",
+           "T"
          ]
       },
       "charge_carrier_name": "Li",
@@ -25,6 +25,7 @@
       "charge_carrier_transference_number": 0.399,
       "counter_ion_name": "PF6",
       "counter_ion_charge_number": -1,
-      "counter_ion_transference_number": 0.601
+      "counter_ion_transference_number": 0.601,
+      "bruggeman_coefficient": 1.5
    }
 }

@@ -15,10 +15,10 @@
       "open_circuit_potential": {
          "function_name": "updateOCPFunc_LFP_Xu",
          "argument_list": [
-            "concentration",
-            "temperature",
-            "maximum_concentration"
-         ]
+            "cElectrode",
+            "T",
+            "cmax"
+          ]
       }
    }
 }

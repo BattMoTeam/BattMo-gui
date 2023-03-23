@@ -5,7 +5,8 @@
    "Parameters": {
       "coating_thickness": 8.67e-05,
       "coating_porosity": 0.2,
-      "face_area": 0.035,
+      "length": 0.01,
+      "width": 0.01,
       "bruggeman_coefficient": 1.5
    }
 }

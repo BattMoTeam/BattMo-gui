@@ -7,6 +7,7 @@
       "density": 2710,
       "specific_heat_capacity": 903,
       "thermal_conductivity": 238,
+      "electronic_conductivity": 3.55e7,
       "volume_fraction": 1
    }
 }

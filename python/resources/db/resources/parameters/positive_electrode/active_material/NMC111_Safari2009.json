@@ -15,10 +15,10 @@
       "open_circuit_potential": {
          "function_name": "computeOCP_nmc111",
          "argument_list": [
-            "concentration",
-            "temperature",
-            "maximum_concentration"
-         ]
+            "cElectrode",
+            "T",
+            "cmax"
+          ]
       }
    }
 }
