@@ -3,6 +3,11 @@
         "P2D": {
             "description": "",
             "parameters": {
+              "use_thermal": {
+                   "value": true,
+                   "description": "",
+                   "type": "bool"
+              },
               "include_current_collector": {
                    "value": false,
                    "description": "",

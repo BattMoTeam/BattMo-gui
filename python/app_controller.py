@@ -1,3 +1,4 @@
+import match_json
 from app_view import *
 from resources.db.db_helper import DBHelper
 
@@ -15,11 +16,16 @@ class AppController:
     def set_tabs(self, model_id):
         return SetTabs(self.db, self.images, model_id)
 
-    def set_json_viewer(self, json_data):
+    def set_json_viewer(self, json_data, label=None):
+        if label:
+            return JsonViewer(json_data, label)
         return JsonViewer(json_data)
 
-    def submit(self, user_parameters):
-        return SubmitJob(user_parameters)
+    def submit(self, gui_parameters, battmo_parameters):
+        return SubmitJob(gui_parameters, battmo_parameters)
+
+    def match_json(self, gui_dict):
+        return match_json.get_batt_mo_dict_from_gui_dict(gui_dict)
 
 
 #####################################

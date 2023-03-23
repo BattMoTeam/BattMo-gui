@@ -205,9 +205,9 @@ class SetTabs:
 
 
 class JsonViewer:
-    def __init__(self, json_data):
+    def __init__(self, json_data, label="Json"):
         self.json_data = json_data
-        self.label = "Json"
+        self.label = label
 
         self.set_json_viewer()
 
@@ -217,14 +217,18 @@ class JsonViewer:
 
 
 class SubmitJob:
-    def __init__(self, user_parameters):
-        self.header = "Submit simulation"
+    def __init__(self, gui_dict, battmo_dict):
+        self.header = "Save parameters"
 
-        self.button_label = "Save Input parameters"
+        self.gui_button_label = "Save GUI output parameters"
+        self.battmo_button_label = "Save BattMo input parameters"
 
-        self.file_data = json.dumps(user_parameters, indent=2)
-        self.file_name = "battmo_input_parameters.json"
         self.file_mime_type = "application/json"
+        self.gui_file_data = json.dumps(gui_dict, indent=2)
+        self.gui_file_name = "gui_output_parameters.json"
+
+        self.battmo_file_data = json.dumps(battmo_dict, indent=2)
+        self.battmo_file_name = "battmo_input_parameters.json"
 
         self.set_submit_button()
 
@@ -234,9 +238,15 @@ class SubmitJob:
 
         # set download button
         st.download_button(
-            label=self.button_label,
-            data=self.file_data,
-            file_name=self.file_name,
+            label=self.gui_button_label,
+            data=self.gui_file_data,
+            file_name=self.gui_file_name,
+            mime=self.file_mime_type
+        )
+        st.download_button(
+            label=self.battmo_button_label,
+            data=self.battmo_file_data,
+            file_name=self.battmo_file_name,
             mime=self.file_mime_type
         )
 
