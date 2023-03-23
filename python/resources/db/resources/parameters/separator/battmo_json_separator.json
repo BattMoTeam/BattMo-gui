@@ -4,6 +4,7 @@
    "Header": {},
    "Parameters": {
       "length": 0.01,
-      "width": 0.01
+      "width": 0.01,
+      "number_of_discrete_cells_separator": 10
    }
 }

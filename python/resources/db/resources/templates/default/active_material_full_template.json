@@ -108,7 +108,16 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "second\u207b\u00b9",
-         "unit_dimension": "second\u207b\u00b9"
+         "unit_dimension": "s\u207b\u00b9"
+      },
+      "number_of_discrete_cells_electrode": {
+         "max_value": 30,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "particle_radius": {
          "max_value": 1e-3,
@@ -117,7 +126,16 @@
          "is_shown_to_user": true,
          "type": "float",
          "unit_name": "meter",
-         "unit_dimension": "meter"
+         "unit_dimension": "m"
+      },
+      "number_of_discrete_cells_particle_radius": {
+         "max_value": 30,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit_name": "1",
+         "unit_dimension": "1"
       },
       "open_circuit_potential": {
          "type": "function"
