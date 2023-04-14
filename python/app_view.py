@@ -4,6 +4,7 @@ from PIL import Image
 import json
 import streamlit as st
 from app_parameter_model import *
+from resources.db import db_helper
 
 
 def st_space(space_number=1):
@@ -56,8 +57,7 @@ class SetHeading:
 
 
 class SetModelChoice:
-    def __init__(self, db_helper):
-        self.db = db_helper
+    def __init__(self):
 
         self.title = "Model"
         self.selected_model = None
@@ -74,7 +74,7 @@ class SetModelChoice:
         st.markdown("### " + self.title)
 
     def set_dropdown(self):
-        models_as_dict = self.db.get_models_as_dict()
+        models_as_dict = db_helper.get_models_as_dict()
         selected_model_id = st.selectbox(
             label="model choice",
             options=[model_id for model_id in models_as_dict],
@@ -86,18 +86,20 @@ class SetModelChoice:
 
 
 class SetTabs:
-    def __init__(self, db_helper, images, model_id):
-        self.db = db_helper
+    def __init__(self, images, model_id, context):
         self.image_dict = images
-        self.model_templates = self.db.get_templates_by_id(model_id)
+        self.model_templates = db_helper.get_templates_by_id(model_id)
 
         self.formatter = FormatParameters()
 
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
-        self.all_tabs = st.tabs(self.db.all_tab_display_names)
-        self.user_input = {"model": self.db.get_model_parameters_as_dict(model_id)}
+        self.all_tabs = st.tabs(db_helper.all_tab_display_names)
+        self.user_input = {
+            "@context": context,
+            "model": db_helper.get_model_parameters_as_dict(model_id)
+        }
 
         # Fill tabs
         self.set_tabs()
@@ -108,19 +110,24 @@ class SetTabs:
     def set_tabs(self):
         for tab in self.all_tabs:
             tab_parameters = {}
-            tab_index = self.db.get_tab_index_from_st_tab(tab)
-            db_tab_id = self.db.all_tab_id[tab_index]
+            tab_index = db_helper.get_tab_index_from_st_tab(tab)
+            db_tab_id = db_helper.all_tab_id[tab_index]
 
             # logo and title
             self.set_logo_and_title(tab, tab_index)
 
             # get tab's categories
-            categories = self.db.get_categories_from_tab_id(db_tab_id)
+            categories = db_helper.get_categories_from_tab_id(db_tab_id)
             len_categories = len(categories)
 
             if len_categories > 1:  # create one sub tab per category
+                context_type = db_helper.get_context_type_by_id(db_tab_id)
+                tab_parameters = {
+                    "label": db_helper.all_tab_display_names[tab_index],
+                    "@type": context_type
+                }
 
-                all_category_display_names = [a[2] for a in categories]
+                all_category_display_names = [a[3] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
 
@@ -129,7 +136,7 @@ class SetTabs:
                     category_parameters = self.fill_category(category, all_sub_tabs[i])
                     i += 1
 
-                    tab_parameters[category[1]] = category_parameters
+                    tab_parameters["hasElectrodeConstituent"] = category_parameters
 
             else:  # no sub tab is needed
 
@@ -138,25 +145,25 @@ class SetTabs:
                 tab_parameters.update(category_parameters)
 
             # tab is fully defined, its parameters are saved in the user_input dict
-            self.user_input[self.db.all_tab_names[tab_index]] = tab_parameters
+            self.user_input[db_helper.all_tab_names[tab_index]] = tab_parameters
 
     def set_logo_and_title(self, tab, tab_index):
         image_column, title_column = tab.columns([1, 5])
         image_column.image(self.image_dict[str(tab_index)])
         title_column.text(" ")
-        title_column.subheader(self.db.all_tab_display_names[tab_index])
+        title_column.subheader(db_helper.all_tab_display_names[tab_index])
 
     def fill_category(self, category, tab):
-        category_id, category_name, _, _, default_template_id, _ = category
-        category_parameters = {}
+        category_id, category_name, context_type, _, _, default_template_id, _ = category
+        category_parameters = []
         select_box_col, input_col = tab.columns([4, 5])
 
         template_name = self.model_templates.get(category_name)
-        template_id = self.db.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+        template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
-        raw_template_parameters = self.db.get_template_parameters_from_template_id(template_id)
+        raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
 
-        parameter_sets = self.db.get_all_parameter_sets_by_category_id(category_id)
+        parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
 
         parameter_sets_name_by_id = {}
         for id, name, _ in parameter_sets:
@@ -164,7 +171,7 @@ class SetTabs:
 
         raw_parameters = []
         for parameter_set_id in parameter_sets_name_by_id:
-            raw_parameters += self.db.extract_parameters_by_parameter_set_id(parameter_set_id)
+            raw_parameters += db_helper.extract_parameters_by_parameter_set_id(parameter_set_id)
 
         formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
 
@@ -199,9 +206,21 @@ class SetTabs:
                     )
                 parameter.set_selected_value(user_input)
 
-            category_parameters[parameter.name] = parameter.selected_value
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type,
+                "value": parameter.selected_value
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = parameter.unit
 
-        return category_parameters
+            category_parameters.append(parameter_details)
+
+        return {
+            "label": category_name,
+            "@type": context_type,
+            "hasQuantitativeProperty": category_parameters
+        }
 
 
 class JsonViewer:

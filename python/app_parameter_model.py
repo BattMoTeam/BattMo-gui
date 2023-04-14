@@ -10,10 +10,11 @@ from math import ceil
 
 class TemplateParameter(object):
 
-    def __init__(self, id, name, template_id, type, is_shown_to_user, description, display_name=None, selected_value=None):
+    def __init__(self, id, name, template_id, type, is_shown_to_user, description, context_type=None, display_name=None, selected_value=None):
         self.id = id
         self.name = name
         self.template_id = template_id
+        self.context_type = context_type
         self.type = type
         self.is_shown_to_user = is_shown_to_user
         self.description = description
@@ -44,13 +45,13 @@ class TemplateParameter(object):
 class NumericalParameter(TemplateParameter):
     def __init__(
             self,
-            id, name, template_id, type, is_shown_to_user, description,
-            min_value, max_value, unit_name, unit_dimension
+            id, name, template_id, context_type, type, is_shown_to_user, description,
+            min_value, max_value, unit
     ):
 
         self.min_value = float(min_value) if type == float.__name__ else int(min_value)
         self.max_value = float(max_value) if type == float.__name__ else int(max_value)
-        self.unit = unit_dimension
+        self.unit = unit
 
         self.type = type
         self.format = None
@@ -59,7 +60,15 @@ class NumericalParameter(TemplateParameter):
         self.increment = None
         self.set_increment()
 
-        super().__init__(id, name, template_id, self.type, is_shown_to_user, description)
+        super().__init__(
+            id=id,
+            name=name,
+            template_id=template_id,
+            context_type=context_type,
+            type=self.type,
+            is_shown_to_user=is_shown_to_user,
+            description=description
+        )
 
     def set_format(self):
         if self.type == int.__name__:
@@ -89,21 +98,34 @@ class NumericalParameter(TemplateParameter):
 
 
 class StrParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, is_shown_to_user, description, type=str.__name__):
-        super().__init__(id, name, template_id, type, is_shown_to_user, description)
+    def __init__(self, id, name, template_id, context_type, is_shown_to_user, description, type=str.__name__):
+        super().__init__(
+            id=id,
+            name=name,
+            template_id=template_id,
+            context_type=context_type,
+            type=type,
+            is_shown_to_user=is_shown_to_user,
+            description=description
+        )
 
 
 class BooleanParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, is_shown_to_user, description, type=bool.__name__):
-        super().__init__(id, name, template_id, type, is_shown_to_user, description)
+    def __init__(self, id, name, template_id, context_type, is_shown_to_user, description, type=bool.__name__):
+        super().__init__(
+            id=id,
+            name=name,
+            template_id=template_id,
+            context_type=context_type,
+            type=type,
+            is_shown_to_user=is_shown_to_user,
+            description=description
+        )
 
 
 class FunctionParameter(TemplateParameter):
     def __init__(self, id, name, template_id, type, is_shown_to_user, description):
         super().__init__(id, name, template_id, type, is_shown_to_user, description)
-
-
-USER_DEFINED = "User defined"
 
 
 class Option(object):
@@ -117,11 +139,6 @@ class Option(object):
     def set_display_name(self):
         if self.display_name is None:
             self.display_name = self.parameter_set
-
-
-class UserDefined(Option):
-    def __init__(self):
-        super().__init__(display_name=USER_DEFINED)
 
 
 class FormatParameters:
@@ -143,7 +160,14 @@ class FormatParameters:
             template_parameter = formatted_parameters.get(template_parameter_id)
 
             if isinstance(template_parameter, NumericalParameter):
-                formatted_value = int(value) if template_parameter.type == "int" else float(value)
+                if template_parameter.type == "int":
+                    formatted_value = int(value)
+                elif template_parameter.type == "float":
+                    formatted_value = float(value)
+                else:
+                    assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
+                        parameter_id, template_parameter.type
+                    )
             elif isinstance(template_parameter, StrParameter):
                 formatted_value = value
             elif isinstance(template_parameter, BooleanParameter):
@@ -169,9 +193,9 @@ class FormatParameters:
             parameter_id, \
                 name, \
                 template_id, \
+                context_type, \
                 parameter_type, \
-                unit_name, \
-                unit_dimension, \
+                unit, \
                 max_value, \
                 min_value, \
                 is_shown_to_user, \
@@ -183,13 +207,13 @@ class FormatParameters:
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
+                    context_type=context_type,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description,
                     min_value=min_value,
                     max_value=max_value,
-                    unit_name=unit_name,
-                    unit_dimension=unit_dimension
+                    unit=unit
                 )
 
             elif parameter_type == bool.__name__:
@@ -197,6 +221,7 @@ class FormatParameters:
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
+                    context_type=context_type,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description
@@ -207,6 +232,7 @@ class FormatParameters:
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
+                    context_type=context_type,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description
