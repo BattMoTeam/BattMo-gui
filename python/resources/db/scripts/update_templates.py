@@ -3,9 +3,10 @@ from python.resources.db import db_handler, db_access
 
 class TemplateField(object):
     def __init__(self):
+        self.context_type = "context_type"
+        self.context_type_iri = "context_type_iri"
         self.type = "type"
-        self.unit_name = "unit_name"
-        self.unit_dimension = "unit_dimension"
+        self.unit = "unit"
         self.max_value = "max_value"
         self.min_value = "min_value"
         self.is_shown_to_user = "is_shown_to_user"
@@ -32,8 +33,7 @@ class UpdateTemplates:
                     "description": "",
                     "is_shown_to_user": true,
                     "type": "float",
-                    "unit_name": "mole.meter\u207b\u00b3",
-                    "unit_dimension": "mol.m\u207b\u00b3"
+                    "unit": "mol.m\u207b\u00b3"
                 },
                 "volume_fraction": {
                     "max_value": 0.99,
@@ -41,8 +41,7 @@ class UpdateTemplates:
                     "description": "",
                     "is_shown_to_user": true,
                     "type": "float",
-                    "unit_name": "1",
-                    "unit_dimension": "1"
+                    "unit": "1"
                 },
                 "diffusion_coefficient": {
                     "type": "function"
@@ -105,9 +104,10 @@ class UpdateTemplates:
             self.sql_template_parameter.insert_value(
                 name=parameter,
                 template_id=template_id,
+                context_type=details.get(fields.context_type),
+                context_type_iri=details.get(fields.context_type_iri),
                 type=details.get(fields.type),
-                unit_name=details.get(fields.unit_name),
-                unit_dimension=details.get(fields.unit_dimension),
+                unit=details.get(fields.unit),
                 max_value=details.get(fields.max_value),
                 min_value=details.get(fields.min_value),
                 is_shown_to_user=details.get(fields.is_shown_to_user),
@@ -132,9 +132,10 @@ class UpdateTemplates:
                     self.sql_template_parameter.update_by_id(
                         id=parameter_id,
                         columns_and_values={
+                            "context_type": details.get(fields.context_type),
+                            "context_type_iri": details.get(fields.context_type_iri),
                             "type": details.get(fields.type),
-                            "unit_name": details.get(fields.unit_name),
-                            "unit_dimension": details.get(fields.unit_dimension),
+                            "unit": details.get(fields.unit),
                             "max_value": details.get(fields.max_value),
                             "min_value": details.get(fields.min_value),
                             "is_shown_to_user": details.get(fields.is_shown_to_user),

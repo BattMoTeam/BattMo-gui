@@ -105,7 +105,7 @@ class TemplateHandler(BaseHandler):
 class TemplateParameterHandler(BaseHandler):
     def __init__(self):
         self._table_name = "template_parameter"
-        self._columns = "name, template_id, context_type, type, unit, max_value, min_value, is_shown_to_user, description"
+        self._columns = "name, template_id, context_type, context_type_iri, type, unit, max_value, min_value, is_shown_to_user, description"
         self.types_handled = {'str', 'bool', 'int', 'float', 'function'}
         self.assert_all_types_are_handled()
 
@@ -114,6 +114,7 @@ class TemplateParameterHandler(BaseHandler):
             name,
             template_id,
             context_type=None,
+            context_type_iri=None,
             type=None,
             unit=None,
             max_value=None,
@@ -131,6 +132,7 @@ class TemplateParameterHandler(BaseHandler):
                 "name": name,
                 "template_id": template_id,
                 "context_type": context_type,
+                "context_type_iri": context_type_iri,
                 "type": type,
                 "unit": unit,
                 "max_value": max_value,
@@ -254,9 +256,9 @@ class ModelParameterHandler(BaseHandler):
 class TabHandler(BaseHandler):
     def __init__(self):
         self._table_name = "tab"
-        self._columns = "name, display_name, context_type, description"
+        self._columns = "name, display_name, context_type, context_type_iri, description"
 
-    def insert_value(self, name, display_name, context_type=None, description=""):
+    def insert_value(self, name, display_name, context_type=None, context_type_iri=None, description=""):
         assert name is not None, "Tab's name can't be None"
         assert display_name is not None, "Tab's display_name can't be None"
 
@@ -266,6 +268,7 @@ class TabHandler(BaseHandler):
             columns_and_values={
                 "name": name,
                 "context_type": context_type,
+                "context_type_iri": context_type_iri,
                 "display_name": display_name,
                 "description": description
             }
@@ -278,9 +281,9 @@ class TabHandler(BaseHandler):
 class CategoryHandler(BaseHandler):
     def __init__(self):
         self._table_name = "category"
-        self._columns = "name, context_type, display_name, tab_id, default_template_id, description"
+        self._columns = "name, context_type, context_type_iri, emmo_relation, display_name, tab_id, default_template_id, description"
 
-    def insert_value(self, name, tab_id, default_template_id, context_type=None, display_name=None, description=""):
+    def insert_value(self, name, tab_id, default_template_id, context_type=None, context_type_iri=None, emmo_relation=None, display_name=None, description=""):
         assert name is not None, "Category's name can't be None"
         assert tab_id is not None, "Category's tab_id can't be None"
         assert default_template_id is not None, "Category's default_template_id can't be None"
@@ -291,6 +294,8 @@ class CategoryHandler(BaseHandler):
             columns_and_values={
                 "name": name,
                 "context_type": context_type,
+                "context_type_iri": context_type_iri,
+                "emmo_relation": emmo_relation,
                 "display_name": display_name,
                 "tab_id": tab_id,
                 "default_template_id": default_template_id,

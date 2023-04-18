@@ -3,67 +3,74 @@
    "Name": "separator_full_template",
    "Parameters": {
       "thickness": {
+         "context_type": "emmo:Thickness",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
          "max_value": 0.9,
          "min_value": 5e-06,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "length": {
+         "context_type": "emmo:Length",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
          "max_value": 1,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "width": {
+         "context_type": "emmo:Width",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
          "max_value": 1,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "porosity": {
+         "context_type": "emmo:Porosity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
          "max_value": 0.9,
          "min_value": 0.1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "specific_heat_capacity": {
+         "context_type": "emmo:SpecificHeatCapacity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000.0,
          "min_value": 10,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
       },
       "thermal_conductivity": {
+         "context_type": "emmo:ThermalConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000.0,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
       },
       "density": {
+         "context_type": "emmo:Density",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000.0,
          "min_value": 100.0,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "kilogram.meter\u207b\u00b3",
-         "unit_dimension": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3"
       },
       "bruggeman_coefficient": {
          "max_value": 5,
@@ -71,17 +78,17 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "number_of_discrete_cells_separator": {
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 30,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       }
    }
 }

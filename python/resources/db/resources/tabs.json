@@ -5,10 +5,14 @@
             "description": ""
         },
         "positive_electrode": {
+            "context_type": "echem:PositiveElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Positive Electrode",
             "description": ""
         },
         "negative_electrode": {
+            "context_type": "echem:NegativeElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Negative Electrode",
             "description": ""
         },

@@ -10,11 +10,12 @@ from math import ceil
 
 class TemplateParameter(object):
 
-    def __init__(self, id, name, template_id, type, is_shown_to_user, description, context_type=None, display_name=None, selected_value=None):
+    def __init__(self, id, name, template_id, type, is_shown_to_user, description, context_type=None, context_type_iri=None, display_name=None, selected_value=None):
         self.id = id
         self.name = name
         self.template_id = template_id
         self.context_type = context_type
+        self.context_type_iri = context_type_iri
         self.type = type
         self.is_shown_to_user = is_shown_to_user
         self.description = description
@@ -45,7 +46,7 @@ class TemplateParameter(object):
 class NumericalParameter(TemplateParameter):
     def __init__(
             self,
-            id, name, template_id, context_type, type, is_shown_to_user, description,
+            id, name, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
             min_value, max_value, unit
     ):
 
@@ -65,6 +66,7 @@ class NumericalParameter(TemplateParameter):
             name=name,
             template_id=template_id,
             context_type=context_type,
+            context_type_iri=context_type_iri,
             type=self.type,
             is_shown_to_user=is_shown_to_user,
             description=description
@@ -98,12 +100,13 @@ class NumericalParameter(TemplateParameter):
 
 
 class StrParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, context_type, is_shown_to_user, description, type=str.__name__):
+    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description, type=str.__name__):
         super().__init__(
             id=id,
             name=name,
             template_id=template_id,
             context_type=context_type,
+            context_type_iri=context_type_iri,
             type=type,
             is_shown_to_user=is_shown_to_user,
             description=description
@@ -111,12 +114,13 @@ class StrParameter(TemplateParameter):
 
 
 class BooleanParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, context_type, is_shown_to_user, description, type=bool.__name__):
+    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description, type=bool.__name__):
         super().__init__(
             id=id,
             name=name,
             template_id=template_id,
             context_type=context_type,
+            context_type_iri=context_type_iri,
             type=type,
             is_shown_to_user=is_shown_to_user,
             description=description
@@ -194,6 +198,7 @@ class FormatParameters:
                 name, \
                 template_id, \
                 context_type, \
+                context_type_iri, \
                 parameter_type, \
                 unit, \
                 max_value, \
@@ -208,6 +213,7 @@ class FormatParameters:
                     name=name,
                     template_id=template_id,
                     context_type=context_type,
+                    context_type_iri=context_type_iri,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description,
@@ -222,6 +228,7 @@ class FormatParameters:
                     name=name,
                     template_id=template_id,
                     context_type=context_type,
+                    context_type_iri=context_type_iri,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description
@@ -233,6 +240,7 @@ class FormatParameters:
                     name=name,
                     template_id=template_id,
                     context_type=context_type,
+                    context_type_iri=context_type_iri,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
                     description=description

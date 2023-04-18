@@ -13,13 +13,14 @@
          "type": "str"
       },
       "number_of_cycles": {
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 100,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "c_rate": {
          "max_value": 10,
@@ -27,8 +28,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "lower_cutoff_voltage": {
          "max_value": 4,
@@ -36,8 +36,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "volt",
-         "unit_dimension": "V"
+         "unit": "V"
       },
       "upper_cutoff_voltage": {
          "max_value": 5,
@@ -45,8 +44,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "volt",
-         "unit_dimension": "V"
+         "unit": "V"
       },
       "d_idt_limit": {
          "max_value": 0.1,
@@ -54,8 +52,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "ampere.second\u207b\u00b9",
-         "unit_dimension": "A.s\u207b\u00b9"
+         "unit": "A.s\u207b\u00b9"
       },
       "d_edt_limit": {
          "max_value": 0.1,
@@ -63,8 +60,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "volt.second\u207b\u00b9",
-         "unit_dimension": "V.s\u207b\u00b9"
+         "unit": "V.s\u207b\u00b9"
       }
    }
 }
