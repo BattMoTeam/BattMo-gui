@@ -66,12 +66,12 @@ def get_tabs_names():
 
 
 @st.cache_data
-def get_context_type_by_id(id):
+def get_context_type_and_iri_by_id(id):
     res = sql_tab().select_one(
-        values='context_type',
+        values='context_type, context_type_iri',
         where='id=%d' % id
     )
-    return res[0] if res else None
+    return res[0], res[1] if res else None
 
 
 @st.cache_data
