@@ -10,15 +10,12 @@
         "hasQuantitativeProperty": "emmo:hasQuantitativeProperty",
         "hasConstituent": "emmo:hasConstituent",
         "hasActiveMaterial": "echem:hasActiveMaterial",
-        "hasPart": "emmo:hasPart",
         "value": "emmo:hasQuantityValue",
         "unit": "emmo:hasReferenceUnit",
         "label": "skos:prefLabel"
     },
     "categories": {
         "cell": {
-            "context_type": "battery:BatteryCell",
-            "context_type_iri": "http://emmo.info/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
             "tab_name": "cell",
             "description": "",
             "default_template": "cell_full_template"
@@ -29,8 +26,6 @@
             "default_template": "protocol_full_template"
         },
         "electrolyte": {
-            "context_type": "echem:Electrolyte",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_fb0d9eef_92af_4628_8814_e065ca255d59",
             "tab_name": "electrolyte",
             "description": "",
             "default_template": "electrolyte_full_template"
@@ -72,6 +67,8 @@
             "default_template": "current_collector_full_template"
         },
         "negative_electrode_properties": {
+            "context_type": "emmo:NominalProperty",
+            "context_type_iri": "http://emmo.info/emmo#EMMO_909415d1_7c43_4d5e_bbeb_7e1910159f66",
             "display_name": "Electrode properties",
             "tab_name": "negative_electrode",
             "description": "",
@@ -114,6 +111,8 @@
             "default_template": "current_collector_full_template"
         },
         "positive_electrode_properties": {
+            "context_type": "emmo:NominalProperty",
+            "context_type_iri": "http://emmo.info/emmo#EMMO_909415d1_7c43_4d5e_bbeb_7e1910159f66",
             "display_name": "Electrode properties",
             "tab_name": "positive_electrode",
             "description": "",
@@ -122,8 +121,6 @@
 
 
         "separator": {
-            "context_type": "echem:Separator",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
             "tab_name": "separator",
             "description": "",
             "default_template": "separator_full_template"

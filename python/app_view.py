@@ -91,6 +91,7 @@ class SetTabs:
         self.model_templates = db_helper.get_templates_by_id(model_id)
 
         self.formatter = FormatParameters()
+        self.has_quantitative_property = "hasQuantitativeProperty"
 
         # Initialize tabs
         self.title = "Parameters"
@@ -98,7 +99,7 @@ class SetTabs:
         self.all_tabs = st.tabs(db_helper.all_tab_display_names)
         self.user_input = {
             "@context": context,
-            "model": db_helper.get_model_parameters_as_dict(model_id)
+            "battery:P2DModel": db_helper.get_model_parameters_as_dict(model_id)
         }
 
         # Fill tabs
@@ -109,43 +110,63 @@ class SetTabs:
 
     def set_tabs(self):
         for tab in self.all_tabs:
-            tab_parameters = {}
             tab_index = db_helper.get_tab_index_from_st_tab(tab)
             db_tab_id = db_helper.all_tab_id[tab_index]
+
+            tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
+            tab_parameters = {
+                "label": db_helper.all_tab_display_names[tab_index],
+                "@type": tab_context_type + "  " + tab_context_type_iri
+            }
 
             # logo and title
             self.set_logo_and_title(tab, tab_index)
 
             # get tab's categories
             categories = db_helper.get_categories_from_tab_id(db_tab_id)
-            len_categories = len(categories)
 
-            if len_categories > 1:  # create one sub tab per category
-                context_type = db_helper.get_context_type_by_id(db_tab_id)
-                tab_parameters = {
-                    "label": db_helper.all_tab_display_names[tab_index],
-                    "@type": context_type
-                }
+            if len(categories) > 1:  # create one sub tab per category
 
-                all_category_display_names = [a[3] for a in categories]
+                all_category_display_names = [a[5] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
 
                 for category in categories:
+                    category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = category
 
-                    category_parameters = self.fill_category(category, all_sub_tabs[i])
+                    category_parameters, emmo_relation = self.fill_category(
+                        category_id=category_id,
+                        category_name=category_name,
+                        emmo_relation=emmo_relation,
+                        default_template_id=default_template_id,
+                        tab=all_sub_tabs[i]
+                    )
                     i += 1
 
-                    tab_parameters["hasElectrodeConstituent"] = category_parameters
+                    category_parameters["label"] = category_name
+                    category_parameters["@type"] = category_context_type + "  " + category_context_type_iri
+
+                    if emmo_relation is None:
+                        tab_parameters[category_context_type] = category_parameters
+
+                    else:
+                        tab_parameters[emmo_relation] = [category_parameters]
 
             else:  # no sub tab is needed
 
-                category_parameters = self.fill_category(categories[0], tab)
+                category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = categories[0]
+                category_parameters, _ = self.fill_category(
+                        category_id=category_id,
+                        category_name=category_name,
+                        emmo_relation=emmo_relation,
+                        default_template_id=default_template_id,
+                        tab=tab
+                    )
 
                 tab_parameters.update(category_parameters)
 
             # tab is fully defined, its parameters are saved in the user_input dict
-            self.user_input[db_helper.all_tab_names[tab_index]] = tab_parameters
+            self.user_input[tab_context_type] = tab_parameters
 
     def set_logo_and_title(self, tab, tab_index):
         image_column, title_column = tab.columns([1, 5])
@@ -153,8 +174,8 @@ class SetTabs:
         title_column.text(" ")
         title_column.subheader(db_helper.all_tab_display_names[tab_index])
 
-    def fill_category(self, category, tab):
-        category_id, category_name, context_type, _, _, default_template_id, _ = category
+    def fill_category(self, category_id, category_name, emmo_relation, default_template_id, tab):
+
         category_parameters = []
         select_box_col, input_col = tab.columns([4, 5])
 
@@ -179,7 +200,7 @@ class SetTabs:
             parameter = formatted_parameters.get(parameter_id)
             if parameter.is_shown_to_user:
                 selected_value_id = select_box_col.selectbox(
-                    label=parameter.display_name,
+                    label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
                     options=parameter.options,
                     key="{}_{}".format(category_id, parameter_id),
                     label_visibility="visible",
@@ -208,7 +229,7 @@ class SetTabs:
 
             parameter_details = {
                 "label": parameter.name,
-                "@type": parameter.context_type,
+                "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
                 "value": parameter.selected_value
             }
             if isinstance(parameter, NumericalParameter):
@@ -216,11 +237,7 @@ class SetTabs:
 
             category_parameters.append(parameter_details)
 
-        return {
-            "label": category_name,
-            "@type": context_type,
-            "hasQuantitativeProperty": category_parameters
-        }
+        return {self.has_quantitative_property: category_parameters}, emmo_relation
 
 
 class JsonViewer:
