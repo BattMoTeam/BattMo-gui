@@ -33,6 +33,8 @@ class UpdateTabs:
 
         for tab_name in tabs:
             details = tabs.get(tab_name)
+            context_type = details.get("context_type")
+            context_type_iri = details.get("context_type_iri")
             display_name = details.get("display_name")
             description = details.get("description")
             tab_id = self.sql_tab.get_id_from_name(tab_name)
@@ -42,6 +44,8 @@ class UpdateTabs:
                     id=tab_id,
                     columns_and_values={
                         "display_name": display_name,
+                        "context_type": context_type,
+                        "context_type_iri": context_type_iri,
                         "description": description
                     }
                 )
@@ -52,6 +56,8 @@ class UpdateTabs:
                 self.sql_tab.insert_value(
                     name=tab_name,
                     display_name=display_name,
+                    context_type=context_type,
+                    context_type_iri=context_type_iri,
                     description=description
                 )
                 new_types.append(tab_name)
@@ -69,7 +75,6 @@ class UpdateTabs:
             print(" New tabs: ", new_types)
         if deleted_types:
             print(" Deleted tabs: ", deleted_types)
-
 
     def execute_script(self):
         return self.update_tab_from_json(self.get_resource_as_json())

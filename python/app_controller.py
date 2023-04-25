@@ -1,20 +1,20 @@
 import match_json
+from resources.db import db_access
 from app_view import *
-from resources.db.db_helper import DBHelper
 
 
 class AppController:
-    def __init__(self, images, db_helper):
+    def __init__(self, images, context):
         self.path_to_python_dir = os.path.dirname(os.path.abspath(__file__))
 
         self.images = images
-        self.db = db_helper
+        self.context = context
 
     def set_model_choice(self):
-        return SetModelChoice(self.db)
+        return SetModelChoice()
 
     def set_tabs(self, model_id):
-        return SetTabs(self.db, self.images, model_id)
+        return SetTabs(self.images, model_id, self.context)
 
     def set_json_viewer(self, json_data, label=None):
         if label:
@@ -33,22 +33,12 @@ class AppController:
 #####################################
 @st.cache_data
 def get_app_controller():
-    return AppController(get_image_dict(), get_db_helper())
+    return AppController(get_image_dict(), get_context())
 
 
 @st.cache_data
 def set_heading():
     return SetHeading(get_logo())
-
-
-#####################################
-# Page config
-#####################################
-def set_page_config():
-    st.set_page_config(
-        page_title="BattMo",
-        page_icon=Image.open(os.path.join(get_path_to_images(), "battmo_logo.png"))
-    )
 
 
 #####################################
@@ -74,8 +64,8 @@ def get_logo():
 
 
 #####################################
-# db helper
+# context
 #####################################
 @st.cache_data
-def get_db_helper():
-    return DBHelper()
+def get_context():
+    return db_access.get_json_from_path(db_access.get_path_to_categories()).get("context")

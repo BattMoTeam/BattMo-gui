@@ -42,16 +42,17 @@ if __name__ == "__main__":
 
     ########################################################
     #       template_parameter
-    #       name, template_id, type, unit_name, unit_dimension, max_value, min_value, is_shown_to_user, description
+    #       name, template_id, context_type, context_type_iri, type, unit, max_value, min_value, is_shown_to_user, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS template_parameter(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(255) NOT NULL,
             template_id INT NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
             type VARCHAR(40) DEFAULT NULL,
-            unit_name VARCHAR(40) DEFAULT NULL,
-            unit_dimension VARCHAR(40) DEFAULT NULL,
+            unit VARCHAR(40) DEFAULT NULL,
             max_value VARCHAR(255) DEFAULT NULL,
             min_value VARCHAR(255) DEFAULT NULL,
             is_shown_to_user TINYINT NOT NULL DEFAULT 1,
@@ -89,25 +90,30 @@ if __name__ == "__main__":
 
     ########################################################
     #       tab
-    #       name, display_name, description
+    #       name, display_name, context_type, context_type_iri, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS tab(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
             display_name VARCHAR(40) NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
 
     ########################################################
     #       category
-    #       name, display_name, tab_id, default_template_id, description
+    #       name, context_type, context_type_iri, emmo_relation, display_name, tab_id, default_template_id, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS category(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            emmo_relation VARCHAR(40) DEFAULT NULL,
             display_name VARCHAR(40) NOT NULL DEFAULT " ",
             tab_id INT NOT NULL,
             default_template_id INT NOT NULL,

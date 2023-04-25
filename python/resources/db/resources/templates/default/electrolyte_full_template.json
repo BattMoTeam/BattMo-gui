@@ -3,31 +3,34 @@
    "Name": "electrolyte_full_template",
    "Parameters": {
       "specific_heat_capacity": {
+         "context_type": "emmo:SpecificHeatCapacity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
       },
       "thermal_conductivity": {
+         "context_type": "emmo:ThermalConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
       },
       "density": {
+         "context_type": "emmo:Density",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000,
          "min_value": 100,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "kilogram.meter\u207b\u00b3",
-         "unit_dimension": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3"
       },
       "conductivity": {
          "type": "function"
@@ -36,18 +39,21 @@
          "type": "function"
       },
       "charge_carrier_name": {
+         "context_type": "echem:ChargeCarrierIon",
+         "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_d1042a12_e4be_4992_86cb_59420ef4e05c",
          "description": "",
          "is_shown_to_user": true,
          "type": "str"
       },
       "charge_carrier_charge_number": {
+         "context_type": "emmo:ChargeNumber",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
          "max_value": 1,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "charge_carrier_transference_number": {
          "max_value": 0.99,
@@ -55,8 +61,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "counter_ion_name": {
          "description": "",
@@ -64,13 +69,14 @@
          "type": "str"
       },
       "counter_ion_charge_number": {
+         "context_type": "emmo:ChargeNumber",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
          "max_value": -1,
          "min_value": -1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "counter_ion_transference_number": {
          "max_value": 0.99,
@@ -78,8 +84,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "bruggeman_coefficient": {
          "max_value": 5,
@@ -87,8 +92,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       }
    }
 }

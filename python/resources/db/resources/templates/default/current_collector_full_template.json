@@ -3,58 +3,64 @@
    "Name": "current_collector_full_template",
    "Parameters": {
       "thickness": {
+         "context_type": "emmo:Thickness",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
          "max_value": 3e-05,
          "min_value": 5e-06,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "density": {
+         "context_type": "emmo:Density",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000.0,
          "min_value": 2000.0,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "kilogram.meter\u207b\u00b3",
-         "unit_dimension": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3"
       },
       "specific_heat_capacity": {
+         "context_type": "emmo:SpecificHeatCapacity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 1000.0,
          "min_value": 10,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
       },
       "thermal_conductivity": {
+         "context_type": "emmo:ThermalConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000.0,
          "min_value": 10,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
       },
       "electronic_conductivity": {
+         "context_type": "emmo:ElectricConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
          "max_value": 7e7,
          "min_value": 0.1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "siemens.meter\u207b\u00b9",
-         "unit_dimension": "S.m\u207b\u00b9"
+         "unit": "S.m\u207b\u00b9"
       },
       "volume_fraction": {
+         "context_type": "emmo:VolumeFraction",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
          "max_value": 1,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       }
    }
 }

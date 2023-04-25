@@ -3,40 +3,44 @@
    "Name": "electrode_properties_full_template",
    "Parameters": {
       "coating_thickness": {
+         "context_type": "emmo:Thickness",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
          "max_value": 0.0002,
          "min_value": 1e-05,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "coating_porosity": {
+         "context_type": "emmo:Porosity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
          "max_value": 0.9,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "length": {
+         "context_type": "emmo:Length",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
          "max_value": 1,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "width": {
+         "context_type": "emmo:Width",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
          "max_value": 1,
          "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "bruggeman_coefficient": {
          "max_value": 5,
@@ -44,8 +48,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       }
    }
 }

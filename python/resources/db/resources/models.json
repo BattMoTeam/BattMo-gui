@@ -39,16 +39,6 @@
                  "type": "float"
               }
             }
-        },
-        "P3D": {
-            "description": "",
-            "parameters": {
-            }
-        },
-        "P4D": {
-            "description": "",
-            "parameters": {
-            }
         }
     }
 }

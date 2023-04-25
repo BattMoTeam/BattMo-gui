@@ -3,22 +3,24 @@
    "Name": "active_material_full_template",
    "Parameters": {
       "maximum_concentration": {
+         "context_type": "emmo:Concentration",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_a356870d_409a_4de6_a910_0d8498e593ff",
          "max_value": 100000.0,
          "min_value": 1000.0,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "mole.meter\u207b\u00b3",
-         "unit_dimension": "mol.m\u207b\u00b3"
+         "unit": "mol.m\u207b\u00b3"
       },
       "volume_fraction": {
+         "context_type": "emmo:VolumeFraction",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "volumetric_surface_area": {
          "max_value": 10000000.0,
@@ -26,62 +28,67 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "density": {
+         "context_type": "emmo:Density",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000.0,
          "min_value": 100,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "kilogram.meter\u207b\u00b3",
-         "unit_dimension": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3"
       },
       "specific_heat_capacity": {
+         "context_type": "emmo:SpecificHeatCapacity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000.0,
          "min_value": 10,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.kilogram\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
       },
       "thermal_conductivity": {
+         "context_type": "emmo:ThermalConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000.0,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "watt.meter\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
       },
       "electronic_conductivity": {
+         "context_type": "emmo:ElectricConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
          "max_value": 7e7,
          "min_value": 0.1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "siemens.meter\u207b\u00b9",
-         "unit_dimension": "S.m\u207b\u00b9"
+         "unit": "S.m\u207b\u00b9"
       },
       "number_of_electrons_transferred": {
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 1,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "activation_energy_of_reaction": {
+         "context_type": "emmo:Energy",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
          "max_value": 100000.0,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.mol\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.mol\u207b\u00b9.K\u207b\u00b9"
       },
       "reaction_rate_constant": {
          "max_value": 0.001,
@@ -89,35 +96,37 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "mole.meter\u207b\u00b2.second\u207b\u00b9",
-         "unit_dimension": "mol.m\u207b\u00b2.s\u207b\u00b9"
+         "unit": "mol.m\u207b\u00b2.s\u207b\u00b9"
       },
       "maximum_lithium_stoichiometry": {
+         "context_type": "emmo:StoichiometricNumberOfSubstance",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
          "max_value": 1,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "minimum_lithium_stoichiometry": {
+         "context_type": "emmo:StoichiometricNumberOfSubstance",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
          "max_value": 0.999,
          "min_value": 0.01,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "activation_energy_of_diffusion": {
+         "context_type": "emmo:Energy",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
          "max_value": 100000.0,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "joule.mole\u207b\u00b9.kelvin\u207b\u00b9",
-         "unit_dimension": "J.mol\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.mol\u207b\u00b9.K\u207b\u00b9"
       },
       "diffusion_pre_exponential_factor": {
          "max_value": 1,
@@ -125,35 +134,37 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "second\u207b\u00b9",
-         "unit_dimension": "s\u207b\u00b9"
+         "unit": "s\u207b\u00b9"
       },
       "number_of_discrete_cells_electrode": {
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 30,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "particle_radius": {
+         "context_type": "emmo:Radius",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
          "max_value": 1e-3,
          "min_value": 1e-7,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit_name": "meter",
-         "unit_dimension": "m"
+         "unit": "m"
       },
       "number_of_discrete_cells_particle_radius": {
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 30,
          "min_value": 1,
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit_name": "1",
-         "unit_dimension": "1"
+         "unit": "1"
       },
       "open_circuit_potential": {
          "type": "function"

@@ -4,6 +4,7 @@ from PIL import Image
 import json
 import streamlit as st
 from app_parameter_model import *
+from resources.db import db_helper
 
 
 def st_space(space_number=1):
@@ -56,8 +57,7 @@ class SetHeading:
 
 
 class SetModelChoice:
-    def __init__(self, db_helper):
-        self.db = db_helper
+    def __init__(self):
 
         self.title = "Model"
         self.selected_model = None
@@ -74,7 +74,7 @@ class SetModelChoice:
         st.markdown("### " + self.title)
 
     def set_dropdown(self):
-        models_as_dict = self.db.get_models_as_dict()
+        models_as_dict = db_helper.get_models_as_dict()
         selected_model_id = st.selectbox(
             label="model choice",
             options=[model_id for model_id in models_as_dict],
@@ -86,18 +86,21 @@ class SetModelChoice:
 
 
 class SetTabs:
-    def __init__(self, db_helper, images, model_id):
-        self.db = db_helper
+    def __init__(self, images, model_id, context):
         self.image_dict = images
-        self.model_templates = self.db.get_templates_by_id(model_id)
+        self.model_templates = db_helper.get_templates_by_id(model_id)
 
         self.formatter = FormatParameters()
+        self.has_quantitative_property = "hasQuantitativeProperty"
 
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
-        self.all_tabs = st.tabs(self.db.all_tab_display_names)
-        self.user_input = {"model": self.db.get_model_parameters_as_dict(model_id)}
+        self.all_tabs = st.tabs(db_helper.all_tab_display_names)
+        self.user_input = {
+            "@context": context,
+            "battery:P2DModel": db_helper.get_model_parameters_as_dict(model_id)
+        }
 
         # Fill tabs
         self.set_tabs()
@@ -107,56 +110,81 @@ class SetTabs:
 
     def set_tabs(self):
         for tab in self.all_tabs:
-            tab_parameters = {}
-            tab_index = self.db.get_tab_index_from_st_tab(tab)
-            db_tab_id = self.db.all_tab_id[tab_index]
+            tab_index = db_helper.get_tab_index_from_st_tab(tab)
+            db_tab_id = db_helper.all_tab_id[tab_index]
+
+            tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
+            tab_parameters = {
+                "label": db_helper.all_tab_display_names[tab_index],
+                "@type": tab_context_type + "  " + tab_context_type_iri
+            }
 
             # logo and title
             self.set_logo_and_title(tab, tab_index)
 
             # get tab's categories
-            categories = self.db.get_categories_from_tab_id(db_tab_id)
-            len_categories = len(categories)
+            categories = db_helper.get_categories_from_tab_id(db_tab_id)
 
-            if len_categories > 1:  # create one sub tab per category
+            if len(categories) > 1:  # create one sub tab per category
 
-                all_category_display_names = [a[2] for a in categories]
+                all_category_display_names = [a[5] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
 
                 for category in categories:
+                    category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = category
 
-                    category_parameters = self.fill_category(category, all_sub_tabs[i])
+                    category_parameters, emmo_relation = self.fill_category(
+                        category_id=category_id,
+                        category_name=category_name,
+                        emmo_relation=emmo_relation,
+                        default_template_id=default_template_id,
+                        tab=all_sub_tabs[i]
+                    )
                     i += 1
 
-                    tab_parameters[category[1]] = category_parameters
+                    category_parameters["label"] = category_name
+                    category_parameters["@type"] = category_context_type + "  " + category_context_type_iri
+
+                    if emmo_relation is None:
+                        tab_parameters[category_context_type] = category_parameters
+
+                    else:
+                        tab_parameters[emmo_relation] = [category_parameters]
 
             else:  # no sub tab is needed
 
-                category_parameters = self.fill_category(categories[0], tab)
+                category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = categories[0]
+                category_parameters, _ = self.fill_category(
+                        category_id=category_id,
+                        category_name=category_name,
+                        emmo_relation=emmo_relation,
+                        default_template_id=default_template_id,
+                        tab=tab
+                    )
 
                 tab_parameters.update(category_parameters)
 
             # tab is fully defined, its parameters are saved in the user_input dict
-            self.user_input[self.db.all_tab_names[tab_index]] = tab_parameters
+            self.user_input[tab_context_type] = tab_parameters
 
     def set_logo_and_title(self, tab, tab_index):
         image_column, title_column = tab.columns([1, 5])
         image_column.image(self.image_dict[str(tab_index)])
         title_column.text(" ")
-        title_column.subheader(self.db.all_tab_display_names[tab_index])
+        title_column.subheader(db_helper.all_tab_display_names[tab_index])
 
-    def fill_category(self, category, tab):
-        category_id, category_name, _, _, default_template_id, _ = category
-        category_parameters = {}
+    def fill_category(self, category_id, category_name, emmo_relation, default_template_id, tab):
+
+        category_parameters = []
         select_box_col, input_col = tab.columns([4, 5])
 
         template_name = self.model_templates.get(category_name)
-        template_id = self.db.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+        template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
-        raw_template_parameters = self.db.get_template_parameters_from_template_id(template_id)
+        raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
 
-        parameter_sets = self.db.get_all_parameter_sets_by_category_id(category_id)
+        parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
 
         parameter_sets_name_by_id = {}
         for id, name, _ in parameter_sets:
@@ -164,7 +192,7 @@ class SetTabs:
 
         raw_parameters = []
         for parameter_set_id in parameter_sets_name_by_id:
-            raw_parameters += self.db.extract_parameters_by_parameter_set_id(parameter_set_id)
+            raw_parameters += db_helper.extract_parameters_by_parameter_set_id(parameter_set_id)
 
         formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
 
@@ -172,7 +200,7 @@ class SetTabs:
             parameter = formatted_parameters.get(parameter_id)
             if parameter.is_shown_to_user:
                 selected_value_id = select_box_col.selectbox(
-                    label=parameter.display_name,
+                    label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
                     options=parameter.options,
                     key="{}_{}".format(category_id, parameter_id),
                     label_visibility="visible",
@@ -199,9 +227,37 @@ class SetTabs:
                     )
                 parameter.set_selected_value(user_input)
 
-            category_parameters[parameter.name] = parameter.selected_value
+            formatted_value_dict = parameter.selected_value
 
-        return category_parameters
+            if isinstance(parameter, NumericalParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    "hasNumericalData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    "hasStringData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    "hasStringData": parameter.selected_value
+                }
+
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
+                "value": formatted_value_dict
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = parameter.unit
+
+            category_parameters.append(parameter_details)
+
+        return {self.has_quantitative_property: category_parameters}, emmo_relation
 
 
 class JsonViewer:
