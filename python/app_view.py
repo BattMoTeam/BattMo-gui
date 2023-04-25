@@ -227,10 +227,30 @@ class SetTabs:
                     )
                 parameter.set_selected_value(user_input)
 
+            formatted_value_dict = parameter.selected_value
+
+            if isinstance(parameter, NumericalParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    "hasNumericalData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    "hasStringData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    "hasStringData": parameter.selected_value
+                }
+
             parameter_details = {
                 "label": parameter.name,
                 "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
-                "value": parameter.selected_value
+                "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
                 parameter_details["unit"] = parameter.unit

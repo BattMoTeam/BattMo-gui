@@ -10,6 +10,8 @@
         "hasQuantitativeProperty": "emmo:hasQuantitativeProperty",
         "hasConstituent": "emmo:hasConstituent",
         "hasActiveMaterial": "echem:hasActiveMaterial",
+        "hasNumericalData": "emmo:hasNumericalData",
+        "hasStringData": "emmo:hasStringData",
         "value": "emmo:hasQuantityValue",
         "unit": "emmo:hasReferenceUnit",
         "label": "skos:prefLabel"
