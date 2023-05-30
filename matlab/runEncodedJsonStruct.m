@@ -15,7 +15,7 @@ function result = runEncodedJsonStruct()
     result_time = time/hour;
 
 
-    plotDashboard(output.model, output.states, 'step', 0);
+%    plotDashboard(output.model, output.states, 'step', 0);
 
     result = [result_E, result_I, result_time];
 
