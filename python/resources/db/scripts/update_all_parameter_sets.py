@@ -33,7 +33,7 @@ class UpdateParameterSets:
                 "thermal_conductivity": 0.099,
                 "density": 1210,
                 "conductivity": {
-                    "function_name": "updateElectrolyteConductivityFunc_Xu",
+                    "functionname": "updateElectrolyteConductivityFunc_Xu",
                     "argument_list": [
                     "concentration",
                     "temperature"

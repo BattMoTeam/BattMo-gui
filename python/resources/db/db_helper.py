@@ -97,6 +97,14 @@ def get_categories_from_tab_id(tab_id):
 
 
 #####################################
+# PARAMETER
+#####################################
+@st.cache_data
+def get_parameter_id_from_template_parameter_and_parameter_set(template_parameter_id, parameter_set_id):
+    return sql_parameter().get_id_from_template_parameter_id_and_parameter_set_id(template_parameter_id, parameter_set_id)
+
+
+#####################################
 # PARAMETER SET
 #####################################
 @st.cache_data
@@ -141,7 +149,7 @@ def get_model_parameters_as_dict(model_id):
     for parameter in parameters:
         _, name, _, value, value_type, _ = parameter
         if value_type == "bool":
-            res[name] = bool(value)
+            res[name] = bool(int(value))
         elif value_type == "str":
             res[name] = value
         elif value_type == "float":

@@ -13,7 +13,7 @@
       "maximum_lithium_stoichiometry": 0.14778,
       "minimum_lithium_stoichiometry":0.999,
       "open_circuit_potential": {
-         "function_name": "updateOCPFunc_LFP_Xu",
+         "functionname": "computeOCPFunc_LFP_Xu",
          "argument_list": [
             "cElectrode",
             "T",

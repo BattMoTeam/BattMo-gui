@@ -2,14 +2,25 @@ import os
 from PIL import Image
 
 import json
+import pickle
+import match_json
 import streamlit as st
 from app_parameter_model import *
-from resources.db import db_helper
+from resources.db import db_helper, db_access
+from oct2py import Oct2Py
 
 
-def st_space(space_number=1):
-    for _ in range(space_number):
-        st.markdown("#")
+def st_space(tab=None, space_width=1, space_number=1):
+    space = ""
+    for _ in range(space_width):
+        space += "#"
+
+    if tab:
+        for _ in range(space_number):
+            tab.markdown(space)
+    else:
+        for _ in range(space_number):
+            st.markdown(space)
 
 
 class SetHeading:
@@ -155,13 +166,24 @@ class SetTabs:
             else:  # no sub tab is needed
 
                 category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = categories[0]
-                category_parameters, _ = self.fill_category(
+
+                if category_name == "protocol":
+                    category_parameters, _ = self.fill_category_protocol(
                         category_id=category_id,
                         category_name=category_name,
                         emmo_relation=emmo_relation,
                         default_template_id=default_template_id,
                         tab=tab
                     )
+
+                else:
+                    category_parameters, _ = self.fill_category(
+                            category_id=category_id,
+                            category_name=category_name,
+                            emmo_relation=emmo_relation,
+                            default_template_id=default_template_id,
+                            tab=tab
+                        )
 
                 tab_parameters.update(category_parameters)
 
@@ -218,12 +240,117 @@ class SetTabs:
                         step=parameter.increment,
                         label_visibility="visible"
                     )
+                elif isinstance(parameter, FunctionParameter):
+                    user_input = input_col.selectbox(
+                        label=parameter.display_name,
+                        options=[parameter.options.get(selected_value_id).value.get("functionname")],
+                        key="input_{}_{}".format(category_id, parameter_id),
+                        label_visibility="hidden",
+                    )
                 else:
                     user_input = input_col.selectbox(
                         label=parameter.display_name,
                         options=[parameter.options.get(selected_value_id).value],
                         key="input_{}_{}".format(category_id, parameter_id),
                         label_visibility="hidden",
+                    )
+                parameter.set_selected_value(user_input)
+
+            formatted_value_dict = parameter.selected_value
+
+            if isinstance(parameter, NumericalParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    "hasNumericalData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    "hasStringData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    "hasStringData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, FunctionParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    "hasStringData": parameter.selected_value
+                }
+
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
+                "value": formatted_value_dict
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = parameter.unit
+
+            category_parameters.append(parameter_details)
+
+        return {self.has_quantitative_property: category_parameters}, emmo_relation
+
+    def fill_category_protocol(self, category_id, category_name, emmo_relation, default_template_id, tab):
+
+        category_parameters = []
+
+        template_name = self.model_templates.get(category_name)
+        template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+
+        raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
+
+        parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
+
+        parameter_sets_name_by_id = {}
+        for id, name, _ in parameter_sets:
+            parameter_sets_name_by_id[id] = name
+
+        selected_parameter_set_id = tab.selectbox(
+            label="Protocol",
+            options=parameter_sets_name_by_id,
+            key="{}_{}".format(category_id, "parameter_sets"),
+            label_visibility="visible",
+            format_func=lambda x: parameter_sets_name_by_id.get(x)
+        )
+
+        raw_parameters = db_helper.extract_parameters_by_parameter_set_id(selected_parameter_set_id)
+
+        formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
+
+        for parameter_id in formatted_parameters:
+            parameter = formatted_parameters.get(parameter_id)
+            if parameter.is_shown_to_user:
+                selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                    template_parameter_id=parameter.id,
+                    parameter_set_id=selected_parameter_set_id
+                )
+                st_space(tab)
+                name_col, input_col = tab.columns([1, 2])
+
+                if isinstance(parameter, NumericalParameter):
+                    name_col.write(parameter.display_name + " (" + parameter.unit + ")")
+
+                    user_input = input_col.number_input(
+                        label=parameter.name,
+                        value=parameter.options.get(selected_parameter_id).value,
+                        min_value=parameter.min_value,
+                        max_value=parameter.max_value,
+                        key="input_{}_{}".format(category_id, parameter_id),
+                        format=parameter.format,
+                        step=parameter.increment,
+                        label_visibility="collapsed"
+                    )
+                else:
+                    name_col.write(parameter.display_name)
+                    user_input = input_col.selectbox(
+                        label=parameter.display_name,
+                        options=[parameter.options.get(selected_parameter_id).value],
+                        key="input_{}_{}".format(category_id, parameter_id),
+                        label_visibility="collapsed",
                     )
                 parameter.set_selected_value(user_input)
 
@@ -272,19 +399,16 @@ class JsonViewer:
         viewer.json(self.json_data)
 
 
-class SubmitJob:
-    def __init__(self, gui_dict, battmo_dict):
+class SaveParameters:
+    def __init__(self, gui_parameters):
         self.header = "Save parameters"
 
-        self.gui_button_label = "Save GUI output parameters"
-        self.battmo_button_label = "Save BattMo input parameters"
+        self.download_button_label = "Download parameters - Json LD format"
 
-        self.file_mime_type = "application/json"
-        self.gui_file_data = json.dumps(gui_dict, indent=2)
+        self.gui_parameters = gui_parameters
+        self.gui_file_data = json.dumps(gui_parameters, indent=2)
         self.gui_file_name = "gui_output_parameters.json"
-
-        self.battmo_file_data = json.dumps(battmo_dict, indent=2)
-        self.battmo_file_name = "battmo_input_parameters.json"
+        self.file_mime_type = "application/json"
 
         self.set_submit_button()
 
@@ -294,17 +418,109 @@ class SubmitJob:
 
         # set download button
         st.download_button(
-            label=self.gui_button_label,
+            label=self.download_button_label,
             data=self.gui_file_data,
             file_name=self.gui_file_name,
             mime=self.file_mime_type
         )
+
+        st.button(
+            label="Save Parameters",
+            on_click=self.on_click_save_file
+        )
+
+    def on_click_save_file(self):
+        path_to_battmo_input = db_access.get_path_to_battmo_input()
+        with open(path_to_battmo_input, "w") as new_file:
+            json.dump(
+                self.gui_parameters,
+                new_file,
+                indent=3)
+
+        # Format parameters from json-LD to needed format
+        path_to_battmo_formatted_input = db_access.get_path_to_battmo_formatted_input()
+        with open(path_to_battmo_formatted_input, "w") as new_file:
+            json.dump(
+                match_json.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                new_file,
+                indent=3
+            )
+
+        st.success("Your parameters are saved! Run the simulation to get your results.")
+
+
+class RunSimulation:
+    def __init__(self):
+        self.header = "Run Simulation"
+
+        self.gui_button_label = "Save GUI output parameters"
+        self.battmo_button_label = "Save BattMo input parameters"
+
+        with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
+            self.gui_parameters = json.load(json_gui_parameters)
+
+        self.download_header = "Download parameters"
+        self.download_label = "Json LD format"
+        self.gui_file_data = json.dumps(self.gui_parameters, indent=2)
+        self.gui_file_name = "json_ld_parameters.json"
+        self.file_mime_type = "application/json"
+
+        with open(db_access.get_path_to_battmo_formatted_input()) as json_formatted_gui_parameters:
+            self.formatted_gui_parameters = json.load(json_formatted_gui_parameters)
+
+        self.download_label_formatted_parameters = "BattMo format"
+        self.formatted_parameters_file_data = json.dumps(self.formatted_gui_parameters, indent=2)
+        self.formatted_parameters_file_name = "battmo_formatted_parameters.json"
+
+        self.set_submit_button()
+
+    def set_submit_button(self):
+        # set Download header
+        st.markdown("### " + self.download_header)
+
+        # set download button
         st.download_button(
-            label=self.battmo_button_label,
-            data=self.battmo_file_data,
-            file_name=self.battmo_file_name,
+            label=self.download_label,
+            data=self.gui_file_data,
+            file_name=self.gui_file_name,
             mime=self.file_mime_type
         )
+
+        st.download_button(
+            label=self.download_label_formatted_parameters,
+            data=self.formatted_parameters_file_data,
+            file_name=self.formatted_parameters_file_name,
+            mime=self.file_mime_type
+        )
+
+        # set RUN header
+        st.markdown("### " + self.header)
+
+        # set RUN button
+        st.button(
+            label="RUN",
+            on_click=self.octave_on_click
+        )
+
+    def octave_on_click(self):
+        st.info("Simulation is running, it might take some time. \nThank you for using BattMo!")
+
+        # Initialize Octave, call startupBattMo, then run simulation
+        oc = Oct2Py()
+
+        oc.addpath(db_access.get_path_to_matlab_dir())
+
+        oc.startupBattMo()
+        print("\n--- startupBattMo done")
+        print("\n--- runEncodedJsonStruct")
+        result = oc.runEncodedJsonStruct()
+        print("\n--- runEncodedJsonStruct done")
+
+        # Save results in file as python object
+        with open("battmo_result", "wb") as new_pickle_file:
+            pickle.dump(result, new_pickle_file)
+
+        st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
 
 class LoadImages:

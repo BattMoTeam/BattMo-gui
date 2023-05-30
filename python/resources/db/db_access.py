@@ -57,4 +57,26 @@ def get_all_template_files_path():
 
 
 def get_json_from_path(path):
-    return json.load(open(path))
+    with open(path) as file_content:
+        return json.load(file_content)
+
+
+def get_path_to_python_dir():
+    return os.path.dirname(os.path.dirname(get_path_to_db_dir()))
+
+
+def get_path_to_matlab_dir():
+    path_to_battmo_gui = os.path.dirname(get_path_to_python_dir())
+    return os.path.join(path_to_battmo_gui, "matlab")
+
+
+def get_path_to_battmo_input():
+    return os.path.join(get_path_to_matlab_dir(), "battmo_input.json")
+
+
+def get_path_to_battmo_input_backup():
+    return os.path.join(get_path_to_matlab_dir(), "battmo_input_correct_backup.json")
+
+
+def get_path_to_battmo_formatted_input():
+    return os.path.join(get_path_to_matlab_dir(), "battmo_formatted_input.json")
