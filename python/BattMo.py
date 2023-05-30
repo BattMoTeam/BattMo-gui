@@ -12,21 +12,11 @@ st.set_page_config(
 ##############################
 
 # set config before import to avoid streamlit error
-from app_controller import *
+from app_controller import set_heading
 
 
 def run_app():
-
-    app = get_app_controller()
-
     set_heading()
-    model_id = app.set_model_choice().selected_model
-    gui_parameters = app.set_tabs(model_id).user_input
-    # battmo_parameters = app.match_json(gui_parameters)
-
-    app.set_json_viewer(gui_parameters, "GUI output")
-    # app.set_json_viewer(battmo_parameters, "BattMo input")
-    app.submit(gui_parameters, gui_parameters)
 
 
 if __name__ == "__main__":
