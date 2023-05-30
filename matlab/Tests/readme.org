@@ -1,0 +1,97 @@
+* Information about the BattMo tests
+
+** Octave vs MATLAB
+
+   The tests only run in MATLAB.
+
+** Running the tests (simple commands)
+
+   The tests are run using the command `runtests`. To run all the
+   tests in path, run ~runtests~.
+
+   To run all the tests in the folder 'Tests', run ~runtests('Tests', includeSubfolders, true)~.
+   
+   To only run the test ~TestBattery1D~, run ~runtests('TestBattery1D')~.
+
+
+** Running the tests (some more advanced commands)
+
+   To stop on first failure, run
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     import matlab.unittest.TestRunner
+     import matlab.unittest.plugins.StopOnFailuresPlugin
+     suite = testsuite('TestBattery1D');
+     runner = testrunner('textoutput');
+     runner.addPlugin(StopOnFailuresPlugin)
+     results = runner.run(suite);
+   #+end_src
+   The results of the tests come as TestResult classes
+
+   To run in parallel
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     import matlab.unittest.TestRunner
+     suite = TestSuite.fromClass(?TestBattery1D);
+     runner = TestRunner.withNoPlugins();
+     result = runner.runInParallel(suite);
+     result.table()
+   #+end_src
+   In the last line the results are converted to a table for easier visualization.
+
+   Note that, when running in parallel, we need to setup the mrst modules before (call to ~mrstModule add
+   modulname~). It appears that calling ~mrstModule~ inside ~TestCase~ constructor does not work.
+   
+
+   We can filter the suite by given the value of a parameter. For example, in the following, we run only the short
+   versions for the tests (only a few timesteps).
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     import matlab.unittest.selectors.HasParameter;
+     suite = TestSuite.fromClass(?TestBattery1D);
+     suite = suite.selectIf(HasParameter('Property', 'testSize', 'Value', 'short'));
+     suite.run();
+   #+end_src
+
+   We can also use matlab standard way (no selector), as in the following example
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     suite = TestSuite.fromClass(?TestRunExamples);
+     names = arrayfun(@(test) test.Parameterization.Value, suite, 'un', false);
+     ind = ismember(names, {'runBattery1D', ...
+                            'runBattery2D'    , ...
+                            'runBattery3D'    , ...
+                            'runBattery2DMech', ...
+                            'runChen2020'});
+     suite = suite(ind);
+     suite.run()
+   #+end_src
+   
+   Through plugins, we can add extra output in the tests
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     import matlab.unittest.TestRunner
+     import matlab.unittest.plugins.*
+     suite = TestSuite.fromClass(?TestBattery1D);
+     runner = TestRunner.withNoPlugins();
+     outputstream = ToFile('report.txt');
+     runner.addPlugin(DiagnosticsOutputPlugin(outputstream));
+     runner.addPlugin(DiagnosticsRecordingPlugin('IncludingPassingDiagnostics',true));
+     result = runner.run(suite);
+   #+end_src
+   Then, look at structure ~result(1).Details.DiagnosticRecord~ and the file ~report.txt~
+   
+** Generate Reference Data
+
+   Reference data is created by setting the property ~createReferenceData~ to true as an external parameter,
+   #+begin_src matlab
+     import matlab.unittest.TestSuite;
+     import matlab.unittest.parameters.Parameter;
+     param = Parameter.fromData("createReferenceData", {true});
+     suite = TestSuite.fromFolder('TestExamples', 'ExternalParameters', param);
+     result = suite.run()
+   #+end_src
+
+   Reference data are then saved in ~mat~ files found in ~TestExamples/ReferenceData~. 
+
+

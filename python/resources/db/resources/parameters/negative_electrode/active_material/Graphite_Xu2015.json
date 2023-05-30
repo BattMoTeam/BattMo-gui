@@ -13,7 +13,7 @@
       "maximum_lithium_stoichiometry": 0.51873811,
       "minimum_lithium_stoichiometry": 0.001,
       "open_circuit_potential": {
-         "function_name": "updateOCPFunc_LiC6_Xu",
+         "functionname": "computeOCPFunc_LiC6_Xu",
          "argument_list": [
             "cElectrode",
             "T",

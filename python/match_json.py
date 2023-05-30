@@ -1,23 +1,54 @@
-class Electrode(object):
-    def __init__(self, name, parameters):
-        assert name in ["positive", "negative"], "name {} not handled".format(name)
+def get_dict_from_has_quantitative(has_quantitative):
+    new_dict = {}
+    for item in has_quantitative:
+        item_value_type = item.get("value", {}).get("@type", None)
+        if item_value_type == "emmo:Numerical":
+            new_dict[item.get("label")] = item.get("value", {}).get("hasNumericalData")
+        elif item_value_type == "emmo:String":
+            new_dict[item.get("label")] = item.get("value", {}).get("hasStringData")
+        elif item_value_type is None:
+            new_dict[item.get("label")] = item.get("value", {})
+        else:
+            assert False, "item not handled. {}".format(item)
 
-        self.am = parameters.get("{}_electrode_active_material".format(name))
-        self.binder = parameters.get("{}_electrode_binder".format(name))
-        self.add = parameters.get("{}_electrode_additive".format(name))
-        self.cc = parameters.get("{}_electrode_current_collector".format(name))
-        self.properties = parameters.get("{}_electrode_properties".format(name))
+    return new_dict
+
+
+class Electrode(object):
+    def __init__(self, am, binder, add, cc, prop):
+
+        self.am = get_dict_from_has_quantitative(am)
+        self.binder = get_dict_from_has_quantitative(binder)
+        self.add = get_dict_from_has_quantitative(add)
+        self.cc = get_dict_from_has_quantitative(cc)
+        self.properties = get_dict_from_has_quantitative(prop)
 
 
 class GuiDict(object):
     def __init__(self, gui_dict):
-        self.model = gui_dict.get("model")
-        self.cell = gui_dict.get("cell")
-        self.pe = Electrode("positive", gui_dict.get("positive_electrode"))
-        self.ne = Electrode("negative", gui_dict.get("negative_electrode"))
-        self.elyte = gui_dict.get("electrolyte")
-        self.sep = gui_dict.get("separator")
-        self.protocol = gui_dict.get("protocol")
+        self.model = gui_dict.get("battery:P2DModel")
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("hasQuantitativeProperty"))
+
+        self.raw_pe = gui_dict.get("echem:PositiveElectrode")
+        self.pe = Electrode(
+            am=self.raw_pe.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
+            binder=self.raw_pe.get("echem:Binder").get("hasQuantitativeProperty"),
+            add=self.raw_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            cc=self.raw_pe.get("hasConstituent")[0].get("hasQuantitativeProperty"),
+            prop=self.raw_pe.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+        )
+
+        self.raw_ne = gui_dict.get("echem:NegativeElectrode")
+        self.ne = Electrode(
+            am=self.raw_ne.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
+            binder=self.raw_ne.get("echem:Binder").get("hasQuantitativeProperty"),
+            add=self.raw_ne.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
+            prop=self.raw_ne.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+        )
+        self.elyte = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("hasQuantitativeProperty"))
+        self.sep = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("hasQuantitativeProperty"))
+        self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("hasQuantitativeProperty"))
 
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
@@ -50,7 +81,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "k0": p.ne.am.get("reaction_rate_constant"),
                     "theta100": p.ne.am.get("maximum_lithium_stoichiometry"),
                     "theta0": p.ne.am.get("minimum_lithium_stoichiometry"),
-                    "OCP": p.ne.am.get("open_circuit_potential"),
+                    "OCP": {
+                        "functionname": p.ne.am.get("open_circuit_potential"),
+                        "argumentlist": ["cElectrode", "T", "cmax"]
+                    },
                     "BruggemanCoefficient": p.ne.properties.get("bruggeman_coefficient")
                 },
                 "diffusionModelType": p.model.get("solid_diffusion_model_type"),
@@ -88,7 +122,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "k0": p.pe.am.get("reaction_rate_constant"),
                     "theta100": p.pe.am.get("maximum_lithium_stoichiometry"),
                     "theta0": p.pe.am.get("minimum_lithium_stoichiometry"),
-                    "OCP": p.pe.am.get("open_circuit_potential"),
+                    "OCP": {
+                        "functionname": p.pe.am.get("open_circuit_potential"),
+                        "argumentlist": ["cElectrode", "T", "cmax"]
+                    },
                     "BruggemanCoefficient": p.pe.properties.get("bruggeman_coefficient")
                 },
                 "diffusionModelType": p.model.get("solid_diffusion_model_type"),
@@ -119,8 +156,14 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "specificHeatCapacity": p.elyte.get("specific_heat_capacity"),
             "thermalConductivity": p.elyte.get("thermal_conductivity"),
             "density": p.elyte.get("density"),
-            "Conductivity": p.elyte.get("conductivity"),
-            "DiffusionCoefficient": p.elyte.get("diffusion_coefficient"),
+            "Conductivity": {
+                "functionname": p.elyte.get("conductivity"),
+                "argumentlist": ["c", "T"]
+            },
+            "DiffusionCoefficient": {
+                "functionname": p.elyte.get("diffusion_coefficient"),
+                "argumentlist": ["c", "T"]
+            },
             "compnames": [
                 p.elyte.get("charge_carrier_name"),
                 p.elyte.get("counter_ion_name")

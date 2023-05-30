@@ -21,8 +21,11 @@ class AppController:
             return JsonViewer(json_data, label)
         return JsonViewer(json_data)
 
-    def submit(self, gui_parameters, battmo_parameters):
-        return SubmitJob(gui_parameters, battmo_parameters)
+    def save_parameters(self, gui_parameters):
+        return SaveParameters(gui_parameters)
+
+    def run_simulation(self):
+        return RunSimulation()
 
     def match_json(self, gui_dict):
         return match_json.get_batt_mo_dict_from_gui_dict(gui_dict)

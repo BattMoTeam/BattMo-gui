@@ -252,7 +252,7 @@ class FormatParameters:
                     name=name,
                     template_id=template_id,
                     type=parameter_type,
-                    is_shown_to_user=False,
+                    is_shown_to_user=True,
                     description=description
                 )
 

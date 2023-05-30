@@ -4,7 +4,7 @@
             "description": "",
             "parameters": {
               "use_thermal": {
-                   "value": true,
+                   "value": false,
                    "description": "",
                    "type": "bool"
               },
