@@ -4,7 +4,7 @@ import streamlit as st
 
 ##############################
 # Page Config
-path_to_images = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'images')
+path_to_images = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../resources', 'images')
 st.set_page_config(
     page_title="BattMo",
     page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png"))
