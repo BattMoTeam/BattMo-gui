@@ -127,7 +127,7 @@ class SetTabs:
             tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_parameters = {
                 "label": db_helper.all_tab_display_names[tab_index],
-                "@type": tab_context_type + "  " + tab_context_type_iri
+                "@type": tab_context_type_iri
             }
 
             # logo and title
@@ -155,7 +155,7 @@ class SetTabs:
                     i += 1
 
                     category_parameters["label"] = category_name
-                    category_parameters["@type"] = category_context_type + "  " + category_context_type_iri
+                    category_parameters["@type"] = category_context_type_iri
 
                     if emmo_relation is None:
                         tab_parameters[category_context_type] = category_parameters
@@ -284,7 +284,7 @@ class SetTabs:
 
             parameter_details = {
                 "label": parameter.name,
-                "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
+                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
@@ -376,7 +376,7 @@ class SetTabs:
 
             parameter_details = {
                 "label": parameter.name,
-                "@type": parameter.context_type + "  " + parameter.context_type_iri if parameter.context_type and parameter.context_type_iri else "None",
+                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
