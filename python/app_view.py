@@ -510,7 +510,7 @@ class RunSimulation:
 
         oc.addpath(db_access.get_path_to_matlab_dir())
 
-        oc.startupBattMo()
+        oc.startupBattMoGui()
         print("\n--- startupBattMo done")
         print("\n--- runEncodedJsonStruct")
         result = oc.runEncodedJsonStruct()
