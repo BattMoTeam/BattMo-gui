@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     ########################################################
     #       template_parameter
-    #       name, template_id, context_type, context_type_iri, type, unit, max_value, min_value, is_shown_to_user, description
+    #       name, template_id, context_type, context_type_iri, type, unit, unit_name, unit_iri, max_value, min_value, is_shown_to_user, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS template_parameter(
@@ -53,6 +53,8 @@ if __name__ == "__main__":
             context_type_iri VARCHAR(40) DEFAULT NULL,
             type VARCHAR(40) DEFAULT NULL,
             unit VARCHAR(40) DEFAULT NULL,
+            unit_name VARCHAR(40) DEFAULT NULL,
+            unit_iri VARCHAR(40) DEFAULT NULL,
             max_value VARCHAR(255) DEFAULT NULL,
             min_value VARCHAR(255) DEFAULT NULL,
             is_shown_to_user TINYINT NOT NULL DEFAULT 1,
@@ -75,7 +77,7 @@ if __name__ == "__main__":
 
     ########################################################
     #       model_parameter
-    #       name, model_id, value, type, description
+    #       name, model_id, value, type, unit, unit_name, unit_iri, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS model_parameter(
@@ -84,6 +86,9 @@ if __name__ == "__main__":
             model_id INT NOT NULL,
             value VARCHAR(255) DEFAULT NULL,
             type VARCHAR(40) DEFAULT NULL,
+            unit VARCHAR(40) DEFAULT NULL,
+            unit_name VARCHAR(40) DEFAULT NULL,
+            unit_iri VARCHAR(40) DEFAULT NULL,
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)

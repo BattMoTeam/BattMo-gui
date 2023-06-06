@@ -112,7 +112,7 @@ class TemplateHandler(BaseHandler):
 class TemplateParameterHandler(BaseHandler):
     def __init__(self):
         self._table_name = "template_parameter"
-        self._columns = "name, template_id, context_type, context_type_iri, type, unit, max_value, min_value, is_shown_to_user, description"
+        self._columns = "name, template_id, context_type, context_type_iri, type, unit, unit_name, unit_iri, max_value, min_value, is_shown_to_user, description"
         self.types_handled = {'str', 'bool', 'int', 'float', 'function'}
         self.assert_all_types_are_handled()
 
@@ -124,6 +124,8 @@ class TemplateParameterHandler(BaseHandler):
             context_type_iri=None,
             type=None,
             unit=None,
+            unit_name=None,
+            unit_iri=None,
             max_value=None,
             min_value=None,
             is_shown_to_user=True,
@@ -142,6 +144,8 @@ class TemplateParameterHandler(BaseHandler):
                 "context_type_iri": context_type_iri,
                 "type": type,
                 "unit": unit,
+                "unit_name": unit_name,
+                "unit_iri": unit_iri,
                 "max_value": max_value,
                 "min_value": min_value,
                 "is_shown_to_user": is_shown_to_user,
@@ -218,9 +222,9 @@ class ModelHandler(BaseHandler):
 class ModelParameterHandler(BaseHandler):
     def __init__(self):
         self._table_name = "model_parameter"
-        self._columns = "name, model_id, value, type, description"
+        self._columns = "name, model_id, value, type, unit, unit_name, unit_iri, description"
 
-    def insert_value(self, name, model_id, value=None, type=None, description=""):
+    def insert_value(self, name, model_id, value=None, type=None, unit=None, unit_name=None, unit_iri=None, description=""):
         assert name is not None, "Model parameter's name can't be None"
         assert model_id is not None, "Model parameter's model_id can't be None"
 
@@ -232,6 +236,9 @@ class ModelParameterHandler(BaseHandler):
                 "model_id": model_id,
                 "value": value,
                 "type": type,
+                "unit": unit,
+                "unit_name": unit_name,
+                "unit_iri": unit_iri,
                 "description": description
             }
         )

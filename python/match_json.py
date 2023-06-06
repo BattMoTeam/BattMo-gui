@@ -6,6 +6,8 @@ def get_dict_from_has_quantitative(has_quantitative):
             new_dict[item.get("label")] = item.get("value", {}).get("hasNumericalData")
         elif item_value_type == "emmo:String":
             new_dict[item.get("label")] = item.get("value", {}).get("hasStringData")
+        elif item_value_type == "emmo:Boolean":
+            new_dict[item.get("label")] = bool(item.get("value", {}).get("hasStringData"))
         elif item_value_type is None:
             new_dict[item.get("label")] = item.get("value", {})
         else:
@@ -26,7 +28,7 @@ class Electrode(object):
 
 class GuiDict(object):
     def __init__(self, gui_dict):
-        self.model = gui_dict.get("battery:P2DModel")
+        self.model = get_dict_from_has_quantitative(gui_dict.get("battery:P2DModel").get("hasQuantitativeProperty"))
         self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("hasQuantitativeProperty"))
 
         self.raw_pe = gui_dict.get("echem:PositiveElectrode")
