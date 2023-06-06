@@ -10,7 +10,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "density": {
          "context_type": "emmo:Density",
@@ -20,7 +22,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3",
+         "unit_name": "GramPerCubicMetre",
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre"
       },
       "specific_heat_capacity": {
          "context_type": "emmo:SpecificHeatCapacity",
@@ -30,7 +34,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "JoulePerKiloGramKelvin",
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin"
       },
       "thermal_conductivity": {
          "context_type": "emmo:ThermalConductivity",
@@ -40,7 +46,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "WattPerMetreKelvin",
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin"
       },
       "electronic_conductivity": {
          "context_type": "emmo:ElectricConductivity",
@@ -50,7 +58,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "S.m\u207b\u00b9"
+         "unit": "S.m\u207b\u00b9",
+         "unit_name": "SiemensPerMetre",
+         "unit_iri": "http://emmo.info/emmo#SiemensPerMetre"
       },
       "volume_fraction": {
          "context_type": "emmo:VolumeFraction",
@@ -60,7 +70,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       }
    }
 }

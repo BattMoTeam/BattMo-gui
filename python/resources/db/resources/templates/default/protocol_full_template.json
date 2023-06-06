@@ -20,7 +20,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "c_rate": {
          "max_value": 10,
@@ -28,7 +30,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "lower_cutoff_voltage": {
          "max_value": 4,
@@ -36,7 +40,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "V"
+         "unit": "V",
+         "unit_name": "Volt",
+         "unit_iri": "http://emmo.info/emmo#Volt"
       },
       "upper_cutoff_voltage": {
          "max_value": 5,
@@ -44,7 +50,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "V"
+         "unit": "V",
+         "unit_name": "Volt",
+         "unit_iri": "http://emmo.info/emmo#Volt"
       },
       "d_idt_limit": {
          "max_value": 0.1,
@@ -60,7 +68,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "V.s\u207b\u00b9"
+         "unit": "V.s\u207b\u00b9",
+         "unit_name": "VoltPerSecond",
+         "unit_iri": "http://emmo.info/emmo#VoltPerSecond"
       }
    }
 }

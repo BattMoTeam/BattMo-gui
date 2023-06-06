@@ -10,7 +10,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "length": {
          "context_type": "emmo:Length",
@@ -20,7 +22,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "width": {
          "context_type": "emmo:Width",
@@ -30,7 +34,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "porosity": {
          "context_type": "emmo:Porosity",
@@ -40,7 +46,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "specific_heat_capacity": {
          "context_type": "emmo:SpecificHeatCapacity",
@@ -50,7 +58,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9"
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "JoulePerKiloGramKelvin",
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin"
       },
       "thermal_conductivity": {
          "context_type": "emmo:ThermalConductivity",
@@ -60,7 +70,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "W.m\u207b\u00b9.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "WattPerMetreKelvin",
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin"
       },
       "density": {
          "context_type": "emmo:Density",
@@ -70,7 +82,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "kg.m\u207b\u00b3"
+         "unit": "kg.m\u207b\u00b3",
+         "unit_name": "GramPerCubicMetre",
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre"
       },
       "bruggeman_coefficient": {
          "max_value": 5,
@@ -78,7 +92,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "number_of_discrete_cells_separator": {
          "context_type": "emmo:NumberOfEntities",
@@ -88,7 +104,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       }
    }
 }

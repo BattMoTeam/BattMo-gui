@@ -25,8 +25,11 @@
               },
               "time_step_duration": {
                  "value": 100,
-                 "description": "seconds",
-                 "type": "float"
+                 "description": "",
+                 "type": "float",
+                 "unit": "s",
+                 "unit_name": "Second",
+                 "unit_iri": "http://emmo.info/emmo#Second"
               },
               "use_ramp_up": {
                 "value": true,
@@ -35,8 +38,11 @@
               },
               "ramp_up_time": {
                 "value": 10,
-                 "description": "seconds?",
-                 "type": "float"
+                 "description": "",
+                 "type": "float",
+                 "unit": "s",
+                 "unit_name": "Second",
+                 "unit_iri": "http://emmo.info/emmo#Second"
               }
             }
         }

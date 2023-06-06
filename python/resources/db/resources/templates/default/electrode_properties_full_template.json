@@ -10,7 +10,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "coating_porosity": {
          "context_type": "emmo:Porosity",
@@ -20,7 +22,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "length": {
          "context_type": "emmo:Length",
@@ -30,7 +34,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "width": {
          "context_type": "emmo:Width",
@@ -40,7 +46,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "http://emmo.info/emmo#Metre"
       },
       "bruggeman_coefficient": {
          "max_value": 5,
@@ -48,7 +56,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       }
    }
 }
