@@ -110,7 +110,9 @@ class SetTabs:
         self.all_tabs = st.tabs(db_helper.all_tab_display_names)
         self.user_input = {
             "@context": context,
-            "battery:P2DModel": db_helper.get_model_parameters_as_dict(model_id)
+            "battery:P2DModel": {
+                "hasQuantitativeProperty": db_helper.get_model_parameters_as_dict(model_id)
+            }
         }
 
         # Fill tabs
@@ -231,7 +233,7 @@ class SetTabs:
 
                 if isinstance(parameter, NumericalParameter):
                     user_input = input_col.number_input(
-                        label=parameter.unit,
+                        label="[{}]({})".format(parameter.unit, parameter.unit_iri),
                         value=parameter.options.get(selected_value_id).value,
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,
@@ -288,7 +290,7 @@ class SetTabs:
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = parameter.unit
+                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
             category_parameters.append(parameter_details)
 
@@ -332,7 +334,7 @@ class SetTabs:
                 name_col, input_col = tab.columns([1, 2])
 
                 if isinstance(parameter, NumericalParameter):
-                    name_col.write(parameter.display_name + " (" + parameter.unit + ")")
+                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
 
                     user_input = input_col.number_input(
                         label=parameter.name,
@@ -380,7 +382,7 @@ class SetTabs:
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = parameter.unit
+                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
             category_parameters.append(parameter_details)
 

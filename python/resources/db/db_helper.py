@@ -145,19 +145,38 @@ def get_templates_by_id(model_id):
 @st.cache_data
 def get_model_parameters_as_dict(model_id):
     parameters = sql_model_parameter().get_all_by_model_id(model_id)
-    res = {}
+    model_quantitative_properties = []
+
     for parameter in parameters:
-        _, name, _, value, value_type, _ = parameter
+        _, name, _, value, value_type, _, unit_name, _, _ = parameter
+
+        parameter_details = {
+            "label": name
+        }
+
         if value_type == "bool":
-            res[name] = bool(int(value))
+            formatted_value_dict = {
+                "@type": "emmo:Boolean",
+                "hasStringData": bool(int(value))
+            }
         elif value_type == "str":
-            res[name] = value
+            formatted_value_dict = {
+                "@type": "emmo:String",
+                "hasStringData": value
+            }
         elif value_type == "float":
-            res[name] = float(value)
+            formatted_value_dict = {
+                "@type": "emmo:Numerical",
+                "hasNumericalData": float(value)
+            }
+            parameter_details["unit"] = "emmo:"+unit_name
         else:
             assert False, "model parameter type={} not handled. name={}".format(value_type, name)
 
-    return res
+        parameter_details["value"] = formatted_value_dict
+        model_quantitative_properties.append(parameter_details)
+
+    return model_quantitative_properties
 
 
 #####################################

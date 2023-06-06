@@ -94,6 +94,9 @@ class UpdateModels:
             details = parameters.get(parameter_name)
             value = details.get("value")
             value_type = details.get("type")
+            unit = details.get("unit")
+            unit_name = details.get("unit_name")
+            unit_iri = details.get("unit_iri")
             description = details.get("description")
             parameter_id = self.sql_model_parameter.get_id_from_name_and_model_id(parameter_name, model_id)
 
@@ -103,6 +106,9 @@ class UpdateModels:
                     columns_and_values={
                         "value": value,
                         "type": value_type,
+                        "unit": unit,
+                        "unit_name": unit_name,
+                        "unit_iri": unit_iri,
                         "description": description
                     }
                 )
@@ -114,6 +120,9 @@ class UpdateModels:
                     model_id=model_id,
                     value=value,
                     type=value_type,
+                    unit=unit,
+                    unit_name=unit_name,
+                    unit_iri=unit_iri,
                     description=description
                 )
 

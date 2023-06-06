@@ -47,12 +47,14 @@ class NumericalParameter(TemplateParameter):
     def __init__(
             self,
             id, name, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
-            min_value, max_value, unit
+            min_value, max_value, unit, unit_name, unit_iri
     ):
 
         self.min_value = float(min_value) if type == float.__name__ else int(min_value)
         self.max_value = float(max_value) if type == float.__name__ else int(max_value)
         self.unit = unit
+        self.unit_name = unit_name
+        self.unit_iri = unit_iri
 
         self.type = type
         self.format = None
@@ -201,6 +203,8 @@ class FormatParameters:
                 context_type_iri, \
                 parameter_type, \
                 unit, \
+                unit_name, \
+                unit_iri, \
                 max_value, \
                 min_value, \
                 is_shown_to_user, \
@@ -219,7 +223,9 @@ class FormatParameters:
                     description=description,
                     min_value=min_value,
                     max_value=max_value,
-                    unit=unit
+                    unit=unit,
+                    unit_name=unit_name,
+                    unit_iri=unit_iri
                 )
 
             elif parameter_type == bool.__name__:

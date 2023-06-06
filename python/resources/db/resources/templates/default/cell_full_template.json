@@ -10,7 +10,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "K"
+         "unit": "K",
+         "unit_name": "Kelvin",
+         "unit_iri": "http://emmo.info/emmo#Kelvin"
       },
       "initial_temperature": {
          "context_type": "echem:InititalThermodynamicTemperature",
@@ -20,7 +22,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "K"
+         "unit": "K",
+         "unit_name": "Kelvin",
+         "unit_iri": "http://emmo.info/emmo#Kelvin"
       },
       "reference_temperature": {
          "context_type": "echem:ReferenceThermodynamicTemperature",
@@ -30,7 +34,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "K"
+         "unit": "K",
+         "unit_name": "Kelvin",
+         "unit_iri": "http://emmo.info/emmo#Kelvin"
       },
       "external_heat_transfer_coefficient": {
          "context_type": "emmo:CoefficientOfHeatTransfer",
@@ -40,7 +46,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "W.m\u207b\u00b2.K\u207b\u00b9"
+         "unit": "W.m\u207b\u00b2.K\u207b\u00b9",
+         "unit_name": "WattPerSquareMetreKelvin",
+         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin"
       },
       "initial_state_of_charge": {
          "context_type": "battery:StateOfCharge",
@@ -50,7 +58,9 @@
          "description": "SOC",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "nominal_cell_capacity": {
          "max_value": 1000,
@@ -58,7 +68,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "A.h"
+         "unit": "A.h",
+         "unit_name": "AmpereHour",
+         "unit_iri": "http://emmo.info/emmo#AmpereHour"
       },
       "number_parallel_electrode_pairs_within_cell": {
          "context_type": "emmo:NumberOfEntities",
@@ -68,7 +80,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "int",
-         "unit": "1"
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
       "external_surface_area": {
          "max_value": 10,
@@ -76,7 +90,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m\u00b2"
+         "unit": "m\u00b2",
+         "unit_name": "SquareMetre",
+         "unit_iri": "http://emmo.info/emmo#SquareMetre"
       },
       "volume": {
          "context_type": "emmo:Volume",
@@ -86,7 +102,9 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m\u00b3"
+         "unit": "m\u00b3",
+         "unit_name": "CubicMetre",
+         "unit_iri": "http://emmo.info/emmo#CubicMetre"
       }
    }
 }

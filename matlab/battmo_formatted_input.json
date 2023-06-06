@@ -95,7 +95,7 @@
    },
    "Electrolyte": {
       "Separator": {
-         "thickness": 0.4,
+         "thickness": 1.2e-05,
          "N": 10,
          "porosity": 0.55,
          "specificHeatCapacity": 1692.0,

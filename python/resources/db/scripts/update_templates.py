@@ -7,6 +7,8 @@ class TemplateField(object):
         self.context_type_iri = "context_type_iri"
         self.type = "type"
         self.unit = "unit"
+        self.unit_name = "unit_name"
+        self.unit_iri = "unit_iri"
         self.max_value = "max_value"
         self.min_value = "min_value"
         self.is_shown_to_user = "is_shown_to_user"
@@ -33,7 +35,9 @@ class UpdateTemplates:
                     "description": "",
                     "is_shown_to_user": true,
                     "type": "float",
-                    "unit": "mol.m\u207b\u00b3"
+                    "unit": "mol.m\u207b\u00b3",
+                    "unit_name": "MolePerCubicMetre",
+                    "unit_iri": "http://emmo.info/emmo#MolePerCubicMetre"
                 },
                 "volume_fraction": {
                     "max_value": 0.99,
@@ -41,7 +45,9 @@ class UpdateTemplates:
                     "description": "",
                     "is_shown_to_user": true,
                     "type": "float",
-                    "unit": "1"
+                    "unit": "1",
+                    "unit_name": "UnitOne",
+                    "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                 },
                 "diffusion_coefficient": {
                     "type": "function"
@@ -108,6 +114,8 @@ class UpdateTemplates:
                 context_type_iri=details.get(fields.context_type_iri),
                 type=details.get(fields.type),
                 unit=details.get(fields.unit),
+                unit_name=details.get(fields.unit_name),
+                unit_iri=details.get(fields.unit_iri),
                 max_value=details.get(fields.max_value),
                 min_value=details.get(fields.min_value),
                 is_shown_to_user=details.get(fields.is_shown_to_user),
@@ -136,6 +144,8 @@ class UpdateTemplates:
                             "context_type_iri": details.get(fields.context_type_iri),
                             "type": details.get(fields.type),
                             "unit": details.get(fields.unit),
+                            "unit_name": details.get(fields.unit_name),
+                            "unit_iri": details.get(fields.unit_iri),
                             "max_value": details.get(fields.max_value),
                             "min_value": details.get(fields.min_value),
                             "is_shown_to_user": details.get(fields.is_shown_to_user),
