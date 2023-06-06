@@ -66,38 +66,42 @@ def get_graph_initial_limits():
     phimax_pe = max(positive_electrode_potential[0])
     phimin_pe = min(positive_electrode_potential[0])
 
-    return xmin, \
-        xmax, \
-        cmin_elyte, \
-        cmax_elyte, \
-        cmin_ne, \
-        cmax_ne, \
-        cmin_pe, \
-        cmax_pe, \
-        phimax_elyte, \
-        phimin_elyte, \
-        phimax_ne, \
-        phimin_ne, \
-        phimax_pe, \
+    return [
+        xmin,
+        xmax,
+        cmin_elyte,
+        cmax_elyte,
+        cmin_ne,
+        cmax_ne,
+        cmin_pe,
+        cmax_pe,
+        phimax_elyte,
+        phimin_elyte,
+        phimax_ne,
+        phimin_ne,
+        phimax_pe,
         phimin_pe
+    ]
 
 
 @st.cache_data
 def get_graph_limits_from_state(state):
-    xmin, \
-        xmax, \
-        init_cmin_elyte, \
-        init_cmax_elyte, \
-        init_cmin_ne, \
-        init_cmax_ne, \
-        init_cmin_pe, \
-        init_cmax_pe, \
-        init_phimax_elyte, \
-        init_phimin_elyte, \
-        init_phimax_ne, \
-        init_phimin_ne, \
-        init_phimax_pe, \
-        init_phimin_pe = get_graph_initial_limits()
+    [
+        xmin,
+        xmax,
+        init_cmin_elyte,
+        init_cmax_elyte,
+        init_cmin_ne,
+        init_cmax_ne,
+        init_cmin_pe,
+        init_cmax_pe,
+        init_phimax_elyte,
+        init_phimin_elyte,
+        init_phimax_ne,
+        init_phimin_ne,
+        init_phimax_pe,
+        init_phimin_pe
+    ] = get_graph_initial_limits()
 
     cmax_elyte = max(init_cmax_elyte, max(electrolyte_concentration[state]))
     cmin_elyte = min(init_cmin_elyte, min(electrolyte_concentration[state]))
@@ -117,43 +121,62 @@ def get_graph_limits_from_state(state):
     phimax_pe = max(init_phimax_pe, max(positive_electrode_potential[state]))
     phimin_pe = min(init_phimin_pe, min(positive_electrode_potential[state]))
 
-    return cmin_elyte, \
-        cmax_elyte, \
-        cmin_ne, \
-        cmax_ne, \
-        cmin_pe, \
-        cmax_pe,\
-        phimax_elyte, \
-        phimin_elyte, \
-        phimax_ne, \
-        phimin_ne, \
-        phimax_pe, \
+    return [
+        cmin_elyte,
+        cmax_elyte,
+        cmin_ne,
+        cmax_ne,
+        cmin_pe,
+        cmax_pe,
+        phimax_elyte,
+        phimin_elyte,
+        phimax_ne,
+        phimin_ne,
+        phimax_pe,
         phimin_pe
+    ]
+
+
+@st.cache_data
+def get_min_difference():
+    diff = []
+    n = len(time_values)
+    for i in range(1, n):
+        diff.append(round(time_values[i][0] - time_values[i - 1][0], 5))
+    return float(min(diff))
 
 
 def run_page():
 
-    state = st.slider(
-        label="Select a step",
-        min_value=0,
-        max_value=number_of_states-1
+    selected_time = st.slider(
+        label="Select a time (hours)",
+        min_value=0.0,
+        max_value=time_values[number_of_states-1][0],
+        step=get_min_difference()
     )
+    state = 0
+    while time_values[state][0] < selected_time:
+        state += 1
 
     ne, elyte, pe, cell = st.columns(4)
 
-    xmin, xmax, _, _, _, _, _, _, _, _, _, _, _, _ = get_graph_initial_limits()
-    cmin_elyte, \
-        cmax_elyte, \
-        cmin_ne, \
-        cmax_ne, \
-        cmin_pe, \
-        cmax_pe, \
-        phimax_elyte, \
-        phimin_elyte, \
-        phimax_ne, \
-        phimin_ne, \
-        phimax_pe, \
-        phimin_pe = get_graph_limits_from_state(state)
+    initial_graph_limits = get_graph_initial_limits()
+    xmin = initial_graph_limits[0]
+    xmax = initial_graph_limits[1]
+    [
+        cmin_elyte,
+        cmax_elyte,
+        cmin_ne,
+        cmax_ne,
+        cmin_pe,
+        cmax_pe,
+        phimax_elyte,
+        phimin_elyte,
+        phimax_ne,
+        phimin_ne,
+        phimax_pe,
+        phimin_pe
+    ] = get_graph_limits_from_state(state)
 
     # Negative Electrode Concentration
     ne_c_fig, ne_c_ax = plt.subplots()
