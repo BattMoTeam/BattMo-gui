@@ -17,9 +17,11 @@ st.set_page_config(
 )
 ##############################
 
+# Retrieve latest results
 with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_result:
     result = pickle.load(pickle_result)
 
+# Convert it to numpy object
 np_result = np.array(result)[0]
 
 # cf runEncodedJsonStruct.m
@@ -146,8 +148,114 @@ def get_min_difference():
     return float(min(diff))
 
 
-def run_page():
+def create_subplot(x_data, y_data, title, x_label, x_min=None, x_max=None, y_min=None, y_max=None, vertical_line=None):
+    fig, ax = plt.subplots()
+    ax.plot(x_data, y_data)
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
 
+    if x_max:
+        ax.set_xlim(x_min, x_max)
+    if y_max:
+        ax.set_ylim(y_min, y_max)
+
+    if vertical_line:
+        ax.axvline(x=vertical_line, color='k', linestyle="dashed")
+
+    return fig
+
+
+def create_colormap(x_data, y_data, z_data, title, x_label, y_label, cbar_label):
+
+    x_color, y_color = np.meshgrid(x_data, y_data)
+    fig, ax = plt.subplots()
+
+    # Precision is set to 100 (change to 10 for lower precision, to 1000 for higher precision)
+    # The lower the precision, the faster it runs
+    color_map = ax.contourf(x_color, y_color, z_data, 100)
+    cbar = fig.colorbar(color_map)
+    cbar.ax.set_ylabel(cbar_label)
+
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+
+    return fig
+
+
+def get_ne_c_color():
+    return create_colormap(
+        x_data=negative_electrode_grid.cells.centroids,
+        y_data=time_values,
+        z_data=negative_electrode_concentration,
+        title="Negative Electrode - Concentration",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Concentration  /  mol . L-1"
+    )
+
+
+def get_ne_p_color():
+    return create_colormap(
+        x_data=negative_electrode_grid.cells.centroids,
+        y_data=time_values,
+        z_data=negative_electrode_potential,
+        title="Negative Electrode - Potential",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Potential  /  V"
+    )
+
+
+def get_pe_c_color():
+    return create_colormap(
+        x_data=positive_electrode_grid.cells.centroids,
+        y_data=time_values,
+        z_data=positive_electrode_concentration,
+        title="Positive Electrode - Concentration",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Concentration  /  mol . L-1"
+    )
+
+
+def get_pe_p_color():
+    return create_colormap(
+        x_data=positive_electrode_grid.cells.centroids,
+        y_data=time_values,
+        z_data=positive_electrode_potential,
+        title="Positive Electrode - Potential",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Potential  /  V"
+    )
+
+
+def get_elyte_c_color():
+    return create_colormap(
+        x_data=electrolyte_grid.cells.centroids,
+        y_data=time_values,
+        z_data=electrolyte_concentration,
+        title="Electrolyte - Concentration",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Concentration  /  mol . L-1"
+    )
+
+
+def get_elyte_p_color():
+    return create_colormap(
+        x_data=electrolyte_grid.cells.centroids,
+        y_data=time_values,
+        z_data=electrolyte_potential,
+        title="Electrolyte - Potential",
+        x_label="Position  /  m",
+        y_label="Time  /  h",
+        cbar_label="Potential  /  V"
+    )
+
+
+def set_dynamic_dashboard():
     selected_time = st.slider(
         label="Select a time (hours)",
         min_value=0.0,
@@ -157,8 +265,6 @@ def run_page():
     state = 0
     while time_values[state][0] < selected_time:
         state += 1
-
-    ne, elyte, pe, cell = st.columns(4)
 
     initial_graph_limits = get_graph_initial_limits()
     xmin = initial_graph_limits[0]
@@ -179,81 +285,143 @@ def run_page():
     ] = get_graph_limits_from_state(state)
 
     # Negative Electrode Concentration
-    ne_c_fig, ne_c_ax = plt.subplots()
-    ne_c_ax.plot(negative_electrode_grid.cells.centroids, negative_electrode_concentration[state])
-    ne_c_ax.set_title("Negative Electrode Concentration  /  mol . L-1")
-    ne_c_ax.set_xlabel("Position  /  m")
-    ne_c_ax.set_xlim(xmin, xmax)
-    ne_c_ax.set_ylim(cmin_ne, cmax_ne)
+    ne_concentration = create_subplot(
+        x_data=negative_electrode_grid.cells.centroids,
+        y_data=negative_electrode_concentration[state],
+        title="Negative Electrode Concentration  /  mol . L-1",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=cmin_ne,
+        y_max=cmax_ne
+    )
 
     # Electrolyte Concentration
-    elyte_c_fig, elyte_c_ax = plt.subplots()
-    elyte_c_ax.plot(electrolyte_grid.cells.centroids, electrolyte_concentration[state])
-    elyte_c_ax.set_title("Electrolyte Concentration  /  mol . L-1")
-    elyte_c_ax.set_xlabel("Position  /  m")
-    elyte_c_ax.set_xlim(xmin, xmax)
-    elyte_c_ax.set_ylim(cmin_elyte, cmax_elyte)
+    elyte_concentration = create_subplot(
+        x_data=electrolyte_grid.cells.centroids,
+        y_data=electrolyte_concentration[state],
+        title="Electrolyte Concentration  /  mol . L-1",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=cmin_elyte,
+        y_max=cmax_elyte
+    )
 
     # Positive Electrode Concentration
-    pe_c_fig, pe_c_ax = plt.subplots()
-    pe_c_ax.plot(positive_electrode_grid.cells.centroids, positive_electrode_concentration[state])
-    pe_c_ax.set_title("Positive Electrode Concentration  /  mol . L-1")
-    pe_c_ax.set_xlabel("Position  /  m")
-    pe_c_ax.set_xlim(xmin, xmax)
-    pe_c_ax.set_ylim(cmin_pe, cmax_pe)
+    pe_concentration = create_subplot(
+        x_data=positive_electrode_grid.cells.centroids,
+        y_data=positive_electrode_concentration[state],
+        title="Positive Electrode Concentration  /  mol . L-1",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=cmin_pe,
+        y_max=cmax_pe
+    )
 
     # Cell Current
-    cell_current_fig, cell_current_ax = plt.subplots()
-    cell_current_ax.plot(time_values, cell_current)
-    cell_current_ax.set_title("Cell Current  /  A")
-    cell_current_ax.set_xlabel("Time  /  h")
-    cell_current_ax.axvline(x=time_values[state], color='k', linestyle="dashed")
+    cell_current_fig = create_subplot(
+        x_data=time_values,
+        y_data=cell_current,
+        title="Cell Current  /  A",
+        x_label="Time  /  h",
+        vertical_line=time_values[state]
+    )
 
     # Negative Electrode Potential
-    ne_p_fig, ne_p_ax = plt.subplots()
-    ne_p_ax.plot(negative_electrode_grid.cells.centroids, negative_electrode_potential[state])
-    ne_p_ax.set_title("Negative Electrode Potential  /  V")
-    ne_p_ax.set_xlabel("Position  /  m")
-    ne_p_ax.set_xlim(xmin, xmax)
-    ne_p_ax.set_ylim(phimin_ne, phimax_ne)
+    ne_potential = create_subplot(
+        x_data=negative_electrode_grid.cells.centroids,
+        y_data=negative_electrode_potential[state],
+        title="Negative Electrode Potential  /  V",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=phimin_ne,
+        y_max=phimax_ne
+    )
 
     # Electrolyte Potential
-    elyte_p_fig, elyte_p_ax = plt.subplots()
-    elyte_p_ax.plot(electrolyte_grid.cells.centroids, electrolyte_potential[state])
-    elyte_p_ax.set_title("Electrolyte Potential  /  V")
-    elyte_p_ax.set_xlabel("Position  /  m")
-    elyte_p_ax.set_xlim(xmin, xmax)
-    elyte_p_ax.set_ylim(phimin_elyte, phimax_elyte)
+    elyte_potential = create_subplot(
+        x_data=electrolyte_grid.cells.centroids,
+        y_data=electrolyte_potential[state],
+        title="Electrolyte Potential  /  V",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=phimin_elyte,
+        y_max=phimax_elyte
+    )
 
     # Positive Electrode Potential
-    pe_p_fig, pe_p_ax = plt.subplots()
-    pe_p_ax.plot(positive_electrode_grid.cells.centroids, positive_electrode_potential[state])
-    pe_p_ax.set_title("Positive Electrode Potential  /  V")
-    pe_p_ax.set_xlabel("Position  /  m")
-    pe_p_ax.set_xlim(xmin, xmax)
-    pe_p_ax.set_ylim(phimin_pe, phimax_pe)
+    pe_potential = create_subplot(
+        x_data=positive_electrode_grid.cells.centroids,
+        y_data=positive_electrode_potential[state],
+        title="Positive Electrode Potential  /  V",
+        x_label="Position  /  m",
+        x_min=xmin,
+        x_max=xmax,
+        y_min=phimin_pe,
+        y_max=phimax_pe
+    )
 
     # Cell Voltage
-    cell_vol_fig, cell_vol_ax = plt.subplots()
-    cell_vol_ax.plot(time_values, cell_voltage)
-    cell_vol_ax.set_title("Cell Voltage  /  V")
-    cell_vol_ax.set_xlabel("Time  /  h")
-    cell_vol_ax.axvline(x=time_values[state], color='k', linestyle="dashed")
+    cell_voltage_fig = create_subplot(
+        x_data=time_values,
+        y_data=cell_voltage,
+        title="Cell Voltage  /  V",
+        x_label="Time  /  h",
+        vertical_line=time_values[state]
+    )
 
     ######################
     # Set streamlit plot
     ######################
-    ne.pyplot(ne_c_fig)
-    ne.pyplot(ne_p_fig)
 
-    elyte.pyplot(elyte_c_fig)
-    elyte.pyplot(elyte_p_fig)
+    ne, elyte, pe, cell = st.columns(4)
 
-    pe.pyplot(pe_c_fig)
-    pe.pyplot(pe_p_fig)
+    ne.pyplot(ne_concentration)
+    ne.pyplot(ne_potential)
+
+    elyte.pyplot(elyte_concentration)
+    elyte.pyplot(elyte_potential)
+
+    pe.pyplot(pe_concentration)
+    pe.pyplot(pe_potential)
 
     cell.pyplot(cell_current_fig)
-    cell.pyplot(cell_vol_fig)
+    cell.pyplot(cell_voltage_fig)
+
+
+def set_colormaps():
+    # Colormaps
+    ne_color, elyte_color, pe_color = st.columns(3)
+
+    ne_color.pyplot(get_ne_c_color())
+    ne_color.pyplot(get_ne_p_color())
+
+    elyte_color.pyplot(get_elyte_c_color())
+    elyte_color.pyplot(get_elyte_p_color())
+
+    pe_color.pyplot(get_pe_c_color())
+    pe_color.pyplot(get_pe_p_color())
+
+
+def run_page():
+    display_dynamic_dashboard = st.checkbox(
+        label="Dynamic dashboard",
+        value=True
+    )
+    display_colormaps = st.checkbox(
+        label="Colormaps",
+        value=False
+    )
+
+    if display_dynamic_dashboard:
+        set_dynamic_dashboard()
+
+    if display_colormaps:
+        set_colormaps()
 
 
 if __name__ == "__main__":
