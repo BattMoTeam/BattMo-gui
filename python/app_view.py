@@ -524,6 +524,9 @@ class RunSimulation:
 
         st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
+        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+        st.cache_data.clear()
+
 
 class LoadImages:
     def __init__(self, path_to_images):

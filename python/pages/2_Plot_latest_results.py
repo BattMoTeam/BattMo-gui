@@ -1,5 +1,7 @@
 import os
 import pickle
+import io
+import h5py
 import numpy as np
 from PIL import Image
 import streamlit as st
@@ -183,6 +185,7 @@ def create_colormap(x_data, y_data, z_data, title, x_label, y_label, cbar_label)
     return fig
 
 
+@st.cache_data
 def get_ne_c_color():
     return create_colormap(
         x_data=negative_electrode_grid.cells.centroids,
@@ -195,6 +198,7 @@ def get_ne_c_color():
     )
 
 
+@st.cache_data
 def get_ne_p_color():
     return create_colormap(
         x_data=negative_electrode_grid.cells.centroids,
@@ -207,6 +211,7 @@ def get_ne_p_color():
     )
 
 
+@st.cache_data
 def get_pe_c_color():
     return create_colormap(
         x_data=positive_electrode_grid.cells.centroids,
@@ -219,6 +224,7 @@ def get_pe_c_color():
     )
 
 
+@st.cache_data
 def get_pe_p_color():
     return create_colormap(
         x_data=positive_electrode_grid.cells.centroids,
@@ -231,6 +237,7 @@ def get_pe_p_color():
     )
 
 
+@st.cache_data
 def get_elyte_c_color():
     return create_colormap(
         x_data=electrolyte_grid.cells.centroids,
@@ -243,6 +250,7 @@ def get_elyte_c_color():
     )
 
 
+@st.cache_data
 def get_elyte_p_color():
     return create_colormap(
         x_data=electrolyte_grid.cells.centroids,
@@ -407,6 +415,76 @@ def set_colormaps():
     pe_color.pyplot(get_pe_p_color())
 
 
+# Create hdf5 from numpy arrays, result cached to optimize software.
+# Cache cleared after generating new results (cf RunSimulation)
+@st.cache_data
+def prepare_h5_file():
+    bio = io.BytesIO()
+    # cf https://stackoverflow.com/questions/73157377/how-to-download-various-data-from-streamlit-to-hdf5-file-with-st-download-butto
+
+    with h5py.File(bio, "w") as f:
+        f.attrs['number_of_states'] = number_of_states
+
+        f.create_dataset("time_values", data=time_values)
+        f.create_dataset("cell_voltage", data=cell_voltage)
+        f.create_dataset("cell_current", data=cell_current)
+
+        grids = f.create_group("grids")
+        grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid.cells.centroids)
+        grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid.cells.centroids)
+        grids.create_dataset("electrolyte_grid", data=electrolyte_grid.cells.centroids)
+
+        concentrations = f.create_group("concentrations")
+
+        negative_electrode_concentrations = concentrations.create_group("negative_electrode")
+        electrolyte_concentrations = concentrations.create_group("electrolyte")
+        positive_electrode_concentrations = concentrations.create_group("positive_electrode")
+
+        potentials = f.create_group("potentials")
+
+        negative_electrode_potentials = potentials.create_group("negative_electrode")
+        electrolyte_potentials = potentials.create_group("electrolyte")
+        positive_electrode_potentials = potentials.create_group("positive_electrode")
+
+        for i in range(number_of_states):
+            negative_electrode_concentrations.create_dataset(
+                "ne_c_state_{}".format(i),
+                data=np.array(negative_electrode_concentration[i], dtype=float)
+            )
+            positive_electrode_concentrations.create_dataset(
+                "pe_c_state_{}".format(i),
+                data=np.array(positive_electrode_concentration[i], dtype=float)
+            )
+            electrolyte_concentrations.create_dataset(
+                "elyte_c_state_{}".format(i),
+                data=np.array(electrolyte_concentration[i], dtype=float)
+            )
+
+            negative_electrode_potentials.create_dataset(
+                "ne_p_state_{}".format(i),
+                data=np.array(negative_electrode_potential[i], dtype=float)
+            )
+            positive_electrode_potentials.create_dataset(
+                "pe_p_state_{}".format(i),
+                data=np.array(positive_electrode_potential[i], dtype=float)
+            )
+            electrolyte_potentials.create_dataset(
+                "elyte_p_state_{}".format(i),
+                data=np.array(electrolyte_potential[i], dtype=float)
+            )
+
+    return bio
+
+
+def set_download_button():
+    st.download_button(
+        label="HDF5 Results",
+        file_name="hdf5_results",
+        data=prepare_h5_file(),
+        mime="application/x-hdf"
+    )
+
+
 def run_page():
     display_dynamic_dashboard = st.checkbox(
         label="Dynamic dashboard",
@@ -416,6 +494,14 @@ def run_page():
         label="Colormaps",
         value=False
     )
+
+    download_h5 = st.checkbox(
+        label="Download results",
+        value=False
+    )
+
+    if download_h5:
+        set_download_button()
 
     if display_dynamic_dashboard:
         set_dynamic_dashboard()
