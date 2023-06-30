@@ -19,6 +19,12 @@ st.set_page_config(
 )
 ##############################
 
+##############################
+# Remember user changed values
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+##############################
+
 # Retrieve latest results
 with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_result:
     result = pickle.load(pickle_result)

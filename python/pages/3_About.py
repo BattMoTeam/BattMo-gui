@@ -11,6 +11,12 @@ st.set_page_config(
 )
 ##############################
 
+##############################
+# Remember user changed values
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+##############################
+
 # set config before import to avoid streamlit error
 from app_controller import set_heading
 

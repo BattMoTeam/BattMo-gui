@@ -17,6 +17,11 @@ st.set_page_config(
 sys.path.insert(0, path_to_python_dir)
 from app_controller import get_app_controller
 
+##############################
+# Remember user changed values
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+##############################
 
 def run_page():
 
