@@ -45,6 +45,7 @@ class UpdateModels:
 
         new_types = []
         updated_types = []
+        # every item which is not updated will be deleted, so we don't keep useless items in db
         existing_ids_to_be_deleted = self.sql_model.get_all_ids()
 
         for model_name in models:

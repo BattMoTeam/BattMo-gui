@@ -3,6 +3,9 @@ con, cur = db_access.get_sqlite_con_and_cur()
 
 
 class BaseHandler:
+    """
+    Base class for all handlers (every handler refers to a precise table, this one is common to all)
+    """
     def __init__(self):
         self._table_name = ""
         self._columns = ""
@@ -11,27 +14,22 @@ class BaseHandler:
     def insert_value(self, **kwargs):
         assert False, "must be overridden"
 
-    def _insert_value_query(self, values, specify_columns=False, columns_and_values=None):
-        if specify_columns:
-            assert columns_and_values, "must specify columns_and_values arg"
-            columns = []
-            values = []
-            for column in columns_and_values:
-                value = columns_and_values.get(column)
-                if value is not None:
-                    columns.append(column)
-                    values.append(value)
+    def _insert_value_query(self, columns_and_values):
 
-            query = "INSERT INTO {} ({}) VALUES {}".format(
-                self._table_name,
-                ", ".join(columns),
-                tuple(values)
-            )
-        else:
-            if len(values) == 1:
-                query = "INSERT INTO {} ({}) VALUES ({})".format(self._table_name, self._columns, values[0])
-            else:
-                query = "INSERT INTO {} ({}) VALUES {}".format(self._table_name, self._columns, values)
+        assert columns_and_values, "must specify columns_and_values arg"
+        columns = []
+        values = []
+        for column in columns_and_values:
+            value = columns_and_values.get(column)
+            if value is not None:
+                columns.append(column)
+                values.append(value)
+
+        query = "INSERT INTO {} ({}) VALUES {}".format(
+            self._table_name,
+            ", ".join(columns),
+            tuple(values)
+        )
 
         cur.execute(query)
         con.commit()

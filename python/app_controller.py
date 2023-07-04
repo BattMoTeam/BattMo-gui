@@ -1,9 +1,11 @@
-import match_json
-from resources.db import db_access
 from app_view import *
 
 
 class AppController:
+    """
+    Centralize app features in a single class
+    Use cache data when it's possible to optimize software's performance
+    """
     def __init__(self, images, context):
         self.path_to_python_dir = os.path.dirname(os.path.abspath(__file__))
 

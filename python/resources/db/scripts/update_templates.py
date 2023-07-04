@@ -127,6 +127,7 @@ class UpdateTemplates:
 
     def update_parameters(self, parameters, template_id, fields):
         new_parameters = {}
+        # every item which is not updated will be deleted, so we don't keep useless items in db
         existing_ids_to_be_deleted = self.sql_template_parameter.get_all_ids_by_template_id(template_id)
 
         for parameter in parameters:
