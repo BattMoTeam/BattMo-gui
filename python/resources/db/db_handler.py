@@ -21,8 +21,6 @@ class ParameterHandler(BaseHandler):
         assert template_parameter_id is not None, "parameter's template_parameter_id can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "value": value,
@@ -72,7 +70,10 @@ class ParameterSetHandler(BaseHandler):
         assert category_id is not None, "parameter_set's category_id can't be None"
 
         return self._insert_value_query(
-            values=(name, category_id)
+            columns_and_values={
+                "name": name,
+                "category_id": category_id
+            }
         )
 
     def get_id_by_name_and_category(self, name, category_id):
@@ -102,7 +103,7 @@ class TemplateHandler(BaseHandler):
         assert name is not None, "parameter_set's name can't be None"
 
         return self._insert_value_query(
-            values=("'{}'".format(name),)
+            columns_and_values={"name": "'{}'".format(name)}
         )
 
 
@@ -135,8 +136,6 @@ class TemplateParameterHandler(BaseHandler):
         assert template_id is not None, "template parameter's template_id can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "template_id": template_id,
@@ -206,8 +205,6 @@ class ModelHandler(BaseHandler):
         assert name is not None, "Model's name can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "templates": templates,
@@ -229,8 +226,6 @@ class ModelParameterHandler(BaseHandler):
         assert model_id is not None, "Model parameter's model_id can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "model_id": model_id,
@@ -277,8 +272,6 @@ class TabHandler(BaseHandler):
         assert display_name is not None, "Tab's display_name can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "context_type": context_type,
@@ -303,8 +296,6 @@ class CategoryHandler(BaseHandler):
         assert default_template_id is not None, "Category's default_template_id can't be None"
 
         return self._insert_value_query(
-            values=None,
-            specify_columns=True,
             columns_and_values={
                 "name": name,
                 "context_type": context_type,

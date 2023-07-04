@@ -11,6 +11,9 @@ from oct2py import Oct2Py
 
 
 def st_space(tab=None, space_width=1, space_number=1):
+    """
+    function meant to be a shortcut for adding space in streamlit. Not important.
+    """
     space = ""
     for _ in range(space_width):
         space += "#"
@@ -24,6 +27,9 @@ def st_space(tab=None, space_width=1, space_number=1):
 
 
 class SetHeading:
+    """
+    Only used in the "About" tab, nothing important here, opened for complete modification.
+    """
     def __init__(self, logo):
         self.logo = logo
 
@@ -68,6 +74,10 @@ class SetHeading:
 
 
 class SetModelChoice:
+    """
+    Rendering of small section for model choice.
+    For now (03/07/23) only P2D is used, so there's no "real" choice; could be removed if we stick to P2D only
+    """
     def __init__(self):
 
         self.title = "Model"
@@ -97,17 +107,46 @@ class SetModelChoice:
 
 
 class SetTabs:
+    """
+    - Rendering of almost all the Define Parameter tab
+    - formatting parameters, json data creation
+
+    Steps and hierarchy:
+
+    - Model is chosen, cf class SetModelChoice (for now only P2D, but might be other choices later)
+    -  corresponding templates are retrieved from database (db). cf templates in python/resources/db/resources/templates
+        2 options for each category: either a custom template is defined, or if not the default template is used.
+        Currently (03/07/23) only default templates are defined.
+
+    - initialize tabs:
+        create tab, check if there's more than one category
+        if more than one, create subtabs (st.tab in a st.tab)
+
+    - fill each category:
+        retrieve raw parameters from db
+        format them by creating python objects (easier to handle)
+        create st.selectbox and number_input etc
+
+        careful to optimize this section because it's rerun by streamlit at every click for every single parameter.
+    """
     def __init__(self, images, model_id, context):
+        # image dict stored for easier access
         self.image_dict = images
+
+        # retrieve corresponding templates
         self.model_templates = db_helper.get_templates_by_id(model_id)
 
+        # initialize formatter
         self.formatter = FormatParameters()
+
         self.has_quantitative_property = "hasQuantitativeProperty"
 
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
         self.all_tabs = st.tabs(db_helper.all_tab_display_names)
+
+        # user_input is the dict containing all the json LD data
         self.user_input = {
             "@context": context,
             "battery:P2DModel": {
@@ -163,6 +202,8 @@ class SetTabs:
                         tab_parameters[category_context_type] = category_parameters
 
                     else:
+                        # emmo relations are used to define the json ld structure.
+                        # This can be changed, nothing important here, it's just the json file rendering.
                         tab_parameters[emmo_relation] = [category_parameters]
 
             else:  # no sub tab is needed
@@ -170,6 +211,8 @@ class SetTabs:
                 category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = categories[0]
 
                 if category_name == "protocol":
+                    # different way of filling parameters for protocol section, the idea is to choose the name of the
+                    # protocol and then the parameters are filled. Could be done also for the Cell tab
                     category_parameters, _ = self.fill_category_protocol(
                         category_id=category_id,
                         category_name=category_name,
@@ -201,13 +244,17 @@ class SetTabs:
     def fill_category(self, category_id, category_name, emmo_relation, default_template_id, tab):
 
         category_parameters = []
+        # define streamlit columns
         select_box_col, input_col = tab.columns([4, 5])
 
+        # get custom template if it exists or default one
         template_name = self.model_templates.get(category_name)
         template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
+        # get corresponding template parameters from db
         raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
 
+        # get parameter sets corresponding to category, then parameters from each set
         parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
 
         parameter_sets_name_by_id = {}
@@ -218,11 +265,15 @@ class SetTabs:
         for parameter_set_id in parameter_sets_name_by_id:
             raw_parameters += db_helper.extract_parameters_by_parameter_set_id(parameter_set_id)
 
+        # format all those parameters: use template parameters for metadata, and parameters for values.
+        # all information is packed in a single python object
+        # formatted_parameters is a dict containing those python objects
         formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
 
         for parameter_id in formatted_parameters:
             parameter = formatted_parameters.get(parameter_id)
             if parameter.is_shown_to_user:
+                # selectbox for left column (parameter sets)
                 selected_value_id = select_box_col.selectbox(
                     label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
                     options=parameter.options,
@@ -231,6 +282,7 @@ class SetTabs:
                     format_func=lambda x: parameter.options.get(x).display_name
                 )
 
+                # number input / selectbox for right column, depending on the parameter type
                 if isinstance(parameter, NumericalParameter):
                     user_input = input_col.number_input(
                         label="[{}]({})".format(parameter.unit, parameter.unit_iri),
@@ -260,6 +312,7 @@ class SetTabs:
 
             formatted_value_dict = parameter.selected_value
 
+            # add selected value to json dict, with correct formatting depending on type
             if isinstance(parameter, NumericalParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
@@ -297,6 +350,9 @@ class SetTabs:
         return {self.has_quantitative_property: category_parameters}, emmo_relation
 
     def fill_category_protocol(self, category_id, category_name, emmo_relation, default_template_id, tab):
+        """
+        same idea as fill category, just choosing a Protocol to set all params
+        """
 
         category_parameters = []
 
@@ -390,6 +446,10 @@ class SetTabs:
 
 
 class JsonViewer:
+    """
+    Used in Run Simulation to be able to visualize the json contents.
+    Might not be necessary, mostly used for debugging; TBD if you keep using it
+    """
     def __init__(self, json_data, label="Json"):
         self.json_data = json_data
         self.label = label
@@ -402,6 +462,11 @@ class JsonViewer:
 
 
 class SaveParameters:
+    """
+    Rendering of Save Parameters section in Define Parameters tab
+
+    Can be improved, to make it more obvious that it is needed to save before running simulation
+    """
     def __init__(self, gui_parameters):
         self.header = "Save parameters"
 
@@ -433,6 +498,7 @@ class SaveParameters:
 
     def on_click_save_file(self):
         path_to_battmo_input = db_access.get_path_to_battmo_input()
+        # save parameters in json file
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(
                 self.gui_parameters,
@@ -441,6 +507,7 @@ class SaveParameters:
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = db_access.get_path_to_battmo_formatted_input()
+        # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
                 match_json.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
@@ -452,12 +519,16 @@ class SaveParameters:
 
 
 class RunSimulation:
+    """
+    Rendering of Run Simulation tab
+    """
     def __init__(self):
         self.header = "Run Simulation"
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
 
+        # retrieve saved parameters from json file
         with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
             self.gui_parameters = json.load(json_gui_parameters)
 
@@ -467,6 +538,7 @@ class RunSimulation:
         self.gui_file_name = "json_ld_parameters.json"
         self.file_mime_type = "application/json"
 
+        # retrieve saved formatted parameters from json file
         with open(db_access.get_path_to_battmo_formatted_input()) as json_formatted_gui_parameters:
             self.formatted_gui_parameters = json.load(json_formatted_gui_parameters)
 
@@ -505,20 +577,54 @@ class RunSimulation:
         )
 
     def octave_on_click(self):
+        """
+        Call BattMo code from the GUI
+        BattMo code is stored in matlab directory as matlab files, it's called using oct2py (Octave)
+        """
         st.info("Simulation is running, it might take some time. \nThank you for using BattMo!")
 
-        # Initialize Octave, call startupBattMo, then run simulation
+        # Initialize Octave environment
         oc = Oct2Py()
 
+        # add path to matlab directory containing BattMo code
         oc.addpath(db_access.get_path_to_matlab_dir())
 
+        # run startupBattMo (needed to setup BattMo env)
+        """
+        The octave tool Oct2py() allows to run matlab functions, not scripts. 
+        Therefore the startupBattMo script has been transformed into a function to be runnable by oct2py.
+        
+        oct2py only retrieves the first result variable, even if several are defined. 
+        
+        example:
+        
+            function [result_1, result_2] = example_function()
+                result_1 = 1.56;
+                result_2 = 33;
+            end
+            
+            
+            then oc.example_function() will return result_1 only, and I didn't find a clean way to retrieve result_2, 
+            except by doing this:
+            
+            function results = example_function_bis()
+                result_1 = 1.56;
+                result_2 = 33;
+                
+                results = {result_1, result_2}
+            end
+            
+            then oc.example_function_bis() will return results which contains both result_1 and result_2 
+        """
         oc.startupBattMoGui()
         print("\n--- startupBattMo done")
         print("\n--- runEncodedJsonStruct")
+
+        # once BattMo env is set, run P2D model with json input, retrieve all results needed for plotting tab
         result = oc.runEncodedJsonStruct()
         print("\n--- runEncodedJsonStruct done")
 
-        # Save results in file as python object
+        # Save results in file as python object, to retrieve it later from plotting tab
         with open("battmo_result", "wb") as new_pickle_file:
             pickle.dump(result, new_pickle_file)
 
@@ -529,6 +635,11 @@ class RunSimulation:
 
 
 class LoadImages:
+    """
+    Get images as python objects
+    - logo is used for page_icon and in "About" section
+    - image_dict stores images used in Define_parameters
+    """
     def __init__(self, path_to_images):
         self.path_to_images = path_to_images
         self.current_path = os.path.dirname(os.path.abspath(__file__))
@@ -543,13 +654,20 @@ class LoadImages:
         def join_path(path):
             return os.path.join(self.path_to_images, path)
 
+        # images are resized for better rendering
+
         l, w = 80, 80
 
         def image_open(file_name):
             image = Image.open(join_path(file_name))
             return image.resize((l, w))
 
-        # TBD, images for all, proper naming
+        """
+        This dict has to be refactored, it needs at least:
+        - images for every parameter category
+        - proper naming
+        - remove useless items
+        """
         return {
             "0": image_open("cell_coin.png"),
             "9": image_open("cell_prismatic.png"),

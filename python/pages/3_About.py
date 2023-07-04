@@ -11,7 +11,7 @@ st.set_page_config(
 )
 ##############################
 
-# set config before import to avoid streamlit error
+# set config is done before import to avoid streamlit error
 from app_controller import set_heading
 
 

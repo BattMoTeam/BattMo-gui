@@ -2,6 +2,8 @@ import streamlit as st
 from . import db_handler
 
 """
+Functions called from GUI code to access db.
+
 @st.cache_data is used for every db query to optimize software's performance
 """
 

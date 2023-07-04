@@ -1,4 +1,18 @@
 from python.resources.db import db_access
+"""
+Important links between tables:
+
+- a template has template_parameters
+- a parameter has parameters
+- a parameter refers to a template_parameter (which contains its metadata)
+
+- a category pertains to a tab
+- a category has an assigned default template
+
+- a model can have custom templates for each category; if not, default template is used
+- a model has model_parameters
+
+"""
 
 if __name__ == "__main__":
     con, cur = db_access.get_sqlite_con_and_cur()
@@ -125,17 +139,3 @@ if __name__ == "__main__":
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
-
-    # DO WE NEED HEADERS FOR PARAMETER SET?
-    # NOT FOR NOW
-    # ########################################################
-    # #       parameter_set_header
-    # #       doi, description
-    # ########################################################
-    # cur.execute("""
-    #     CREATE TABLE IF NOT EXISTS parameter_set_header(
-    #         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    #         doi VARCHAR(40) NOT NULL,
-    #         description VARCHAR(255) NULL DEFAULT ""
-    #     )
-    # """)

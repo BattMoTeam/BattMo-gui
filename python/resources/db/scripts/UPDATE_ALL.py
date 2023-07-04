@@ -1,14 +1,17 @@
-import os
-from python.resources.db import db_handler
 from update_templates import UpdateTemplates
 from update_models import UpdateModels
 from update_tabs import UpdateTabs
 from update_categories import UpdateCategories
 from update_all_parameter_sets import UpdateParameterSets
 
+"""
+Update all db tables, according to the information stored in the different json files.
+Those files are located in the directory python/resources/db/resources
+"""
 
 if __name__ == "__main__":
-    # IF NEEDED Reset table to update template parameters' order
+    # IF NEEDED, uncomment following lines to reset table, in order to update template parameters' order
+    #
     # sql_template_parameter = db_handler.TemplateParameterHandler()
     # sql_template_parameter.drop_table(confirm=True)
     # os.system("db_model.py")
