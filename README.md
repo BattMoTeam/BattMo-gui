@@ -24,7 +24,7 @@ with the submodule option `--recurse-submodules`, as follows:
 
 `git clone --recurse-submodules https://github.com/BattMoTeam/BattMo-gui.git`
 
-Go in the BattMo-gui directory and install the required pyhton packages, as follows:
+Go in the BattMo-gui directory and install the required python packages, as follows:
 
 `cd BattMo-gui; pip install -r requirements.txt`
 
