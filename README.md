@@ -24,9 +24,14 @@ with the submodule option `--recurse-submodules`, as follows:
 
 `git clone --recurse-submodules https://github.com/BattMoTeam/BattMo-gui.git`
 
-Then run the streamlit app from a terminal, as follows:
+Go in the BattMo-gui directory and install the required pyhton packages, as follows:
 
-`streamlit run <path_to_directory_with_repo>/BattMo-gui/python/Define_parameters.py`
+`cd BattMo-gui; pip install -r requirements.txt`
+
+
+Finally, run the streamlit app as follows:
+
+`streamlit run python/Define_parameters.py`
 
 
 ## Development structure
