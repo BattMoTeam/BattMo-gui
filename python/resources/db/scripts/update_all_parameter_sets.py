@@ -127,6 +127,9 @@ class UpdateParameterSets:
         return formatted_parameters
 
     def format_value(self, value, value_type):
+        """
+        Values are stored as string: if it's already a string, str(value) will fail
+        """
         if value is None:
             return None
 
@@ -156,6 +159,7 @@ class UpdateParameterSets:
         parameter_set_id = parameters[0].parameter_set_id
 
         new_parameters = []
+        # every item which is not updated will be deleted, so we don't keep useless items in db
         existing_ids_to_be_deleted = self.sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
 
         for parameter in parameters:
@@ -165,7 +169,6 @@ class UpdateParameterSets:
             )
             if parameter_id:  # existing parameter, update fields
                 try:
-                    # print("try")
                     self.sql_parameter.update_by_id(
                         id=parameter_id,
                         columns_and_values={
@@ -177,7 +180,6 @@ class UpdateParameterSets:
                     )
                     existing_ids_to_be_deleted.remove(parameter_id)
                 except:
-                    # print("except")
                     # SQL query in update_by_id could fail, for example for str containing quotes
                     # In that case, we delete and recreate the parameter instead of updating it
                     new_parameters.append(parameter)

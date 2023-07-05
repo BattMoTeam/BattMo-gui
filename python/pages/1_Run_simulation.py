@@ -15,7 +15,7 @@ st.set_page_config(
 )
 ##############################
 
-# set config before import to avoid streamlit error
+# set config is done before import to avoid streamlit error
 sys.path.insert(0, path_to_python_dir)
 from app_controller import get_app_controller
 from resources.db import db_access
@@ -25,6 +25,7 @@ from resources.db import db_access
 for k, v in st.session_state.items():
     st.session_state[k] = v
 ##############################
+
 
 def run_page():
 

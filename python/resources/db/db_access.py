@@ -3,6 +3,10 @@ import json
 import sqlite3
 db_name = "BattMo_gui.db"
 
+"""
+Get paths and connections to files
+"""
+
 
 def get_sqlite_con_and_cur():
     current_path = os.path.dirname(os.path.abspath(__file__))

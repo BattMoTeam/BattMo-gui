@@ -9,6 +9,9 @@ from math import ceil
 
 
 class TemplateParameter(object):
+    """
+    Base object containing basic information, common to all parameter types
+    """
 
     def __init__(self, id, name, template_id, type, is_shown_to_user, description, context_type=None, context_type_iri=None, display_name=None, selected_value=None):
         self.id = id
@@ -85,6 +88,10 @@ class NumericalParameter(TemplateParameter):
             self.format = "%g" if is_readable else "%.2e"
 
     def set_increment(self):
+        """
+        Calculates increment from min and max values.
+        Increment is used to define the number input widget.
+        """
 
         if self.type == float.__name__:
             average_value = 0.5*(self.min_value + self.max_value)
@@ -154,6 +161,7 @@ class FormatParameters:
         self.user_defined_id = 0
 
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
+        # initialize from template parameters
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
         for parameter in raw_parameters:
@@ -184,6 +192,7 @@ class FormatParameters:
             else:
                 assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
 
+            # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option(
                 formatted_value=formatted_value,
                 parameter_set=parameter_sets_name_by_id.get(parameter_set_id)
@@ -253,6 +262,8 @@ class FormatParameters:
                 )
 
             elif parameter_type == self.type_function:
+                # function parameters should be changed, using a more robust way to define them.
+                # for now functions are defined as string (ex: computeOCP_nmc111)
                 initialized_parameters[parameter_id] = FunctionParameter(
                     id=parameter_id,
                     name=name,

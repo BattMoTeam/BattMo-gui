@@ -1080,7 +1080,7 @@
             "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
             "value": {
                "@type": "emmo:Numerical",
-               "hasNumericalData": 0.47
+               "hasNumericalData": 0.4
             },
             "unit": "emmo:UnitOne"
          },
