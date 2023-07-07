@@ -4,6 +4,8 @@ from update_tabs import UpdateTabs
 from update_categories import UpdateCategories
 from update_all_parameter_sets import UpdateParameterSets
 
+
+
 """
 Update all db tables, according to the information stored in the different json files.
 Those files are located in the directory python/resources/db/resources

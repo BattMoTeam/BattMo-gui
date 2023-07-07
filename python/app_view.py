@@ -145,7 +145,7 @@ class SetTabs:
         # image dict stored for easier access
         self.image_dict = images
 
-        # retrieve corresponding templates
+        # retrieve corresponding templates (not implemented yet)
         self.model_templates = db_helper.get_templates_by_id(model_id)
 
         # initialize formatter
@@ -300,10 +300,6 @@ class SetTabs:
 
                 # number input / selectbox for right column, depending on the parameter type
                 if isinstance(parameter, NumericalParameter):
-                    print("value2: ","[{}]({})".format(parameter.display_name, parameter.context_type_iri),parameter.options[selected_value_id].value)#st.session_state.number_value)
-
-                    #if selected_value_id:
-                    
 
                     user_input = input_col.number_input(
                         label="[{}]({})".format(parameter.unit, parameter.unit_iri),
