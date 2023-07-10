@@ -19,6 +19,8 @@ def reset_func(category_id, parameter_id, parameter):
     value = parameter.options[st.session_state["select_{}_{}".format(category_id, parameter_id)]].value
     if isinstance(parameter, FunctionParameter):
         value = value.get("functionname")
+    else:
+        value = value
     st.session_state["input_{}_{}".format(category_id, parameter_id)] = value
 
 
@@ -153,6 +155,10 @@ class SetTabs:
 
         self.has_quantitative_property = "hasQuantitativeProperty"
 
+        # Create info box
+        self.info = "Push on the 'Save Parameters' button at the bottom of the page to update the parameters for the simulation."
+        self.set_info()
+
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
@@ -168,6 +174,9 @@ class SetTabs:
 
         # Fill tabs
         self.set_tabs()
+
+    def set_info(self):
+        st.info(self.info)
 
     def set_title(self):
         st.markdown("### " + self.title)
