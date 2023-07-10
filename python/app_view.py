@@ -8,6 +8,20 @@ import streamlit as st
 from app_parameter_model import *
 from resources.db import db_helper, db_access
 from oct2py import Oct2Py
+from copy import deepcopy
+from uuid import uuid4
+
+
+def reset_func(category_id, parameter_id, parameter):
+    """
+    Function needed for the selectboxes and number_inputs to work properly together.
+    """
+    value = parameter.options[st.session_state["select_{}_{}".format(category_id, parameter_id)]].value
+    if isinstance(parameter, FunctionParameter):
+        value = value.get("functionname")
+    else:
+        value = value
+    st.session_state["input_{}_{}".format(category_id, parameter_id)] = value
 
 
 def st_space(tab=None, space_width=1, space_number=1):
@@ -133,13 +147,17 @@ class SetTabs:
         # image dict stored for easier access
         self.image_dict = images
 
-        # retrieve corresponding templates
+        # retrieve corresponding templates (not implemented yet)
         self.model_templates = db_helper.get_templates_by_id(model_id)
 
         # initialize formatter
         self.formatter = FormatParameters()
 
         self.has_quantitative_property = "hasQuantitativeProperty"
+
+        # Create info box
+        self.info = "Push on the 'Save Parameters' button at the bottom of the page to update the parameters for the simulation."
+        self.set_info()
 
         # Initialize tabs
         self.title = "Parameters"
@@ -156,6 +174,9 @@ class SetTabs:
 
         # Fill tabs
         self.set_tabs()
+
+    def set_info(self):
+        st.info(self.info)
 
     def set_title(self):
         st.markdown("### " + self.title)
@@ -273,20 +294,25 @@ class SetTabs:
         for parameter_id in formatted_parameters:
             parameter = formatted_parameters.get(parameter_id)
             if parameter.is_shown_to_user:
+
                 # selectbox for left column (parameter sets)
                 selected_value_id = select_box_col.selectbox(
                     label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
                     options=parameter.options,
-                    key="{}_{}".format(category_id, parameter_id),
+                    key="select_{}_{}".format(category_id, parameter_id),
                     label_visibility="visible",
-                    format_func=lambda x: parameter.options.get(x).display_name
+                    format_func=lambda x: parameter.options.get(x).display_name,
+                    on_change=reset_func,
+                    args=(category_id, parameter_id, parameter)
                 )
+
 
                 # number input / selectbox for right column, depending on the parameter type
                 if isinstance(parameter, NumericalParameter):
+
                     user_input = input_col.number_input(
                         label="[{}]({})".format(parameter.unit, parameter.unit_iri),
-                        value=parameter.options.get(selected_value_id).value,
+                        value=parameter.options[selected_value_id].value,
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,
                         key="input_{}_{}".format(category_id, parameter_id),

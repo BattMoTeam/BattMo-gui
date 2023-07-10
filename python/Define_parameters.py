@@ -17,6 +17,16 @@ st.set_page_config(
 sys.path.insert(0, path_to_python_dir)
 from app_controller import get_app_controller
 
+##############################
+# Remember user changed values when switching between pages
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+
+#Remember widget actions when switching between pages (for example: selectbox choice)
+st.session_state.update(st.session_state)
+##############################
+
+
 
 def run_page():
 

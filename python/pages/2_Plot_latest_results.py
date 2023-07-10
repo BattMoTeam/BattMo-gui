@@ -17,7 +17,16 @@ st.set_page_config(
     page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png")),
     layout="wide"
 )
+
 ##############################
+# Remember user changed values
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+
+#Remember widget actions when switching between pages (for example: selectbox choice)
+st.session_state.update(st.session_state)
+##############################
+
 
 # Retrieve latest results
 with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_result:

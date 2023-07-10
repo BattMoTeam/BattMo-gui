@@ -20,6 +20,12 @@ sys.path.insert(0, path_to_python_dir)
 from app_controller import get_app_controller
 from resources.db import db_access
 
+##############################
+# Remember user changed values
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+##############################
+
 
 def run_page():
 
