@@ -603,6 +603,14 @@ class RunSimulation:
         )
 
     def octave_on_click(self):
+
+        ##############################
+        # Remember user changed values
+        for k, v in st.session_state.items():
+            st.session_state[k] = v
+        ##############################
+
+
         """
         Call BattMo code from the GUI
         BattMo code is stored in matlab directory as matlab files, it's called using oct2py (Octave)
