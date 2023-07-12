@@ -32,8 +32,11 @@ st.session_state.update(st.session_state)
 with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_result:
     result = pickle.load(pickle_result)
 
+
 # Convert it to numpy object
 np_result = np.array(result)[0]
+
+print("result = ", np_result)
 
 # cf runEncodedJsonStruct.m
 [
@@ -52,7 +55,7 @@ np_result = np.array(result)[0]
     positive_electrode_potential
 
 ] = np_result
-
+print("result2 = ", np_result)
 number_of_states = int(number_of_states)
 
 
@@ -495,6 +498,8 @@ def set_download_button():
 
 
 def run_page():
+
+    
     display_dynamic_dashboard = st.checkbox(
         label="Dynamic dashboard",
         value=True

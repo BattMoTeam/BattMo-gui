@@ -79,12 +79,12 @@ def get_path_to_BattMoJulia_dir():
 
 
 def get_path_to_battmo_input():
-    return os.path.join(get_path_to_matlab_dir(), "battmo_input.json")
+    return os.path.join(get_path_to_BattMoJulia_dir(), "battmo_input.json")
 
 
 def get_path_to_battmo_input_backup():
-    return os.path.join(get_path_to_matlab_dir(), "battmo_input_correct_backup.json")
+    return os.path.join(get_path_to_BattMoJulia_dir(), "battmo_input_correct_backup.json")
 
 
 def get_path_to_battmo_formatted_input():
-    return os.path.join(get_path_to_matlab_dir(), "battmo_formatted_input.json")
+    return os.path.join(get_path_to_BattMoJulia_dir(), "battmo_formatted_input.json")

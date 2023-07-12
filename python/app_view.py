@@ -614,6 +614,7 @@ class RunSimulation:
 
         if julia_version == True:
 
+
             ##############################
             # Set page directory to base level to allow for module import from different folder
             path_to_python_module = os.path.dirname(os.path.abspath(__file__))
@@ -639,76 +640,85 @@ class RunSimulation:
 
             #Path to input parameters
 
+            print("Julia files included")
 
+            json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
+            #json_file = db_access.get_path_to_battmo_formatted_input()
+            run_battery_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(), "runBattery_1d.jl")
             #Call Julia function
-            result = Main.runP2DBattery(2, "matlab/battmo_formatted_input.json")
+            time,E = Main.runP2DBattery(json_file)
 
-
+            result = {"time":time,"E":E}
+            print("output = ", result)
             # Save results in file as python object, to retrieve it later from plotting tab
-            with open("battmo_result", "wb") as new_pickle_file:
+            with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
                 pickle.dump(result, new_pickle_file)
 
             st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
+
+
             # clear cache to get new data in hdf5 file (cf Plot_latest_results)
             st.cache_data.clear()
+
 
         else:
-            """
-            Call BattMo code from the GUI
-            BattMo code is stored in matlab directory as matlab files, it's called using oct2py (Octave)
-            """
-            st.info("Simulation is running, it might take some time. \nThank you for using BattMo!")
+            print("ELSE")
+            # """
+            # Call BattMo code from the GUI
+            # BattMo code is stored in matlab directory as matlab files, it's called using oct2py (Octave)
+            # """
+            # st.info("Simulation is running, it might take some time. \nThank you for using BattMo!")
 
-            # Initialize Octave environment
-            oc = Oct2Py()
+            # # Initialize Octave environment
+            # oc = Oct2Py()
 
-            # add path to matlab directory containing BattMo code
-            oc.addpath(db_access.get_path_to_matlab_dir())
+            # # add path to matlab directory containing BattMo code
+            # oc.addpath(db_access.get_path_to_matlab_dir())
 
-            # run startupBattMo (needed to setup BattMo env)
-            """
-            The octave tool Oct2py() allows to run matlab functions, not scripts. 
-            Therefore the startupBattMo script has been transformed into a function to be runnable by oct2py.
+            # # run startupBattMo (needed to setup BattMo env)
+            # """
+            # The octave tool Oct2py() allows to run matlab functions, not scripts. 
+            # Therefore the startupBattMo script has been transformed into a function to be runnable by oct2py.
             
-            oct2py only retrieves the first result variable, even if several are defined. 
+            # oct2py only retrieves the first result variable, even if several are defined. 
             
-            example:
+            # example:
             
-                function [result_1, result_2] = example_function()
-                    result_1 = 1.56;
-                    result_2 = 33;
-                end
+            #     function [result_1, result_2] = example_function()
+            #         result_1 = 1.56;
+            #         result_2 = 33;
+            #     end
                 
                 
-                then oc.example_function() will return result_1 only, and I didn't find a clean way to retrieve result_2, 
-                except by doing this:
+            #     then oc.example_function() will return result_1 only, and I didn't find a clean way to retrieve result_2, 
+            #     except by doing this:
                 
-                function results = example_function_bis()
-                    result_1 = 1.56;
-                    result_2 = 33;
+            #     function results = example_function_bis()
+            #         result_1 = 1.56;
+            #         result_2 = 33;
                     
-                    results = {result_1, result_2}
-                end
+            #         results = {result_1, result_2}
+            #     end
                 
-                then oc.example_function_bis() will return results which contains both result_1 and result_2 
-            """
-            oc.startupBattMoGui()
-            print("\n--- startupBattMo done")
-            print("\n--- runEncodedJsonStruct")
+            #     then oc.example_function_bis() will return results which contains both result_1 and result_2 
+            # """
+            # oc.startupBattMoGui()
+            # print("\n--- startupBattMo done")
+            # print("\n--- runEncodedJsonStruct")
 
-            # once BattMo env is set, run P2D model with json input, retrieve all results needed for plotting tab
-            result = oc.runEncodedJsonStruct()
-            print("\n--- runEncodedJsonStruct done")
+            # # once BattMo env is set, run P2D model with json input, retrieve all results needed for plotting tab
+            # result = oc.runEncodedJsonStruct()
+            # print("\n--- runEncodedJsonStruct done")
 
-            # Save results in file as python object, to retrieve it later from plotting tab
-            with open("battmo_result", "wb") as new_pickle_file:
-                pickle.dump(result, new_pickle_file)
+            # # Save results in file as python object, to retrieve it later from plotting tab
+            # with open("battmo_result", "wb") as new_pickle_file:
+            #     pickle.dump(result, new_pickle_file)
 
-            st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+            # st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
-            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-            st.cache_data.clear()
+            # # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+            # st.cache_data.clear()
 
 
 class LoadImages:
