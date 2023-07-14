@@ -1,11 +1,13 @@
 
 import julia
 import matplotlib as plt
-import PythonCall as pc
+import numpy as np
+
 
 #Initialize Julia (only needed for first execution)
 #julia.install()
-
+from julia.api import Julia
+jl = Julia(compiled_modules=True)
 #Import the Julia module
 from julia import Main
 
@@ -19,12 +21,14 @@ Main.include("BattMoJulia/runP2DBattery.jl")
 #path_input = "matlab/battmo_formatted_input.json"
 
 #Call Julia function
-y, time, E, states, extra = Main.runP2DBattery(2, "BattMoJulia\p2d_40_jl.json")
+output = Main.runP2DBattery("BattMoJulia\p2d_40_jl.json")
 
-extra = pc.Py(extra)
+
+
+#print(max(output))
 
 
 # print("time = ",time)
 # print("E = ",E)
-print(extra("timesteps"))
+
 

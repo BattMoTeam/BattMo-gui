@@ -34,9 +34,9 @@ with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_res
 
 
 # Convert it to numpy object
-np_result = np.array(result)[0]
+#np_result = np.array(result)
 
-print("result = ", np_result)
+#print("result = ", np_result)
 
 # cf runEncodedJsonStruct.m
 [
@@ -54,24 +54,26 @@ print("result = ", np_result)
     electrolyte_potential,
     positive_electrode_potential
 
-] = np_result
-print("result2 = ", np_result)
-number_of_states = int(number_of_states)
+] = result #np_result
+# print("result2 = ", np_result)
+# number_of_states = int(number_of_states)
 
+negative_electrode_concentration = np.array(negative_electrode_concentration)[:,0]
+positive_electrode_concentration =np.array(positive_electrode_concentration)[:,0]
 
 @st.cache_data
 def get_graph_initial_limits():
-    xmin = min(electrolyte_grid.nodes.coords)
-    xmax = max(electrolyte_grid.nodes.coords)
+    xmin = min(np.squeeze(electrolyte_grid[1]))
+    xmax = max(np.squeeze(electrolyte_grid[1]))
 
     cmax_elyte = max(electrolyte_concentration[0])
     cmin_elyte = min(electrolyte_concentration[0])
 
-    cmax_ne = max(negative_electrode_concentration[0])
-    cmin_ne = min(negative_electrode_concentration[0])
+    cmax_ne = max(np.squeeze(negative_electrode_concentration[0]))
+    cmin_ne = min(np.squeeze(negative_electrode_concentration[0]))
 
-    cmax_pe = max(positive_electrode_concentration[0])
-    cmin_pe = min(positive_electrode_concentration[0])
+    cmax_pe = max(np.squeeze(positive_electrode_concentration[0]))
+    cmin_pe = min(np.squeeze(positive_electrode_concentration[0]))
 
     phimax_elyte = max(electrolyte_potential[0])
     phimin_elyte = min(electrolyte_potential[0])
@@ -158,7 +160,7 @@ def get_min_difference():
     diff = []
     n = len(time_values)
     for i in range(1, n):
-        diff.append(round(time_values[i][0] - time_values[i - 1][0], 5))
+        diff.append(round(time_values[i] - time_values[i - 1], 5))
     return float(min(diff))
 
 
@@ -200,7 +202,7 @@ def create_colormap(x_data, y_data, z_data, title, x_label, y_label, cbar_label)
 @st.cache_data
 def get_ne_c_color():
     return create_colormap(
-        x_data=negative_electrode_grid.cells.centroids,
+        x_data=negative_electrode_grid[0],
         y_data=time_values,
         z_data=negative_electrode_concentration,
         title="Negative Electrode - Concentration",
@@ -213,7 +215,7 @@ def get_ne_c_color():
 @st.cache_data
 def get_ne_p_color():
     return create_colormap(
-        x_data=negative_electrode_grid.cells.centroids,
+        x_data=negative_electrode_grid[0],
         y_data=time_values,
         z_data=negative_electrode_potential,
         title="Negative Electrode - Potential",
@@ -226,7 +228,7 @@ def get_ne_p_color():
 @st.cache_data
 def get_pe_c_color():
     return create_colormap(
-        x_data=positive_electrode_grid.cells.centroids,
+        x_data=positive_electrode_grid[0],
         y_data=time_values,
         z_data=positive_electrode_concentration,
         title="Positive Electrode - Concentration",
@@ -239,7 +241,7 @@ def get_pe_c_color():
 @st.cache_data
 def get_pe_p_color():
     return create_colormap(
-        x_data=positive_electrode_grid.cells.centroids,
+        x_data=positive_electrode_grid[0],
         y_data=time_values,
         z_data=positive_electrode_potential,
         title="Positive Electrode - Potential",
@@ -252,7 +254,7 @@ def get_pe_p_color():
 @st.cache_data
 def get_elyte_c_color():
     return create_colormap(
-        x_data=electrolyte_grid.cells.centroids,
+        x_data=electrolyte_grid[0],
         y_data=time_values,
         z_data=electrolyte_concentration,
         title="Electrolyte - Concentration",
@@ -265,7 +267,7 @@ def get_elyte_c_color():
 @st.cache_data
 def get_elyte_p_color():
     return create_colormap(
-        x_data=electrolyte_grid.cells.centroids,
+        x_data=electrolyte_grid[0],
         y_data=time_values,
         z_data=electrolyte_potential,
         title="Electrolyte - Potential",
@@ -279,11 +281,11 @@ def set_dynamic_dashboard():
     selected_time = st.slider(
         label="Select a time (hours)",
         min_value=0.0,
-        max_value=time_values[number_of_states-1][0],
+        max_value=max(time_values),
         step=get_min_difference()
     )
     state = 0
-    while time_values[state][0] < selected_time:
+    while time_values[state] < selected_time:
         state += 1
 
     initial_graph_limits = get_graph_initial_limits()
@@ -306,7 +308,7 @@ def set_dynamic_dashboard():
 
     # Negative Electrode Concentration
     ne_concentration = create_subplot(
-        x_data=negative_electrode_grid.cells.centroids,
+        x_data=np.squeeze(negative_electrode_grid[0]),
         y_data=negative_electrode_concentration[state],
         title="Negative Electrode Concentration  /  mol . L-1",
         x_label="Position  /  m",
@@ -318,7 +320,7 @@ def set_dynamic_dashboard():
 
     # Electrolyte Concentration
     elyte_concentration = create_subplot(
-        x_data=electrolyte_grid.cells.centroids,
+        x_data=np.squeeze(electrolyte_grid[0]),
         y_data=electrolyte_concentration[state],
         title="Electrolyte Concentration  /  mol . L-1",
         x_label="Position  /  m",
@@ -330,7 +332,7 @@ def set_dynamic_dashboard():
 
     # Positive Electrode Concentration
     pe_concentration = create_subplot(
-        x_data=positive_electrode_grid.cells.centroids,
+        x_data=np.squeeze(positive_electrode_grid[0]),
         y_data=positive_electrode_concentration[state],
         title="Positive Electrode Concentration  /  mol . L-1",
         x_label="Position  /  m",
@@ -351,7 +353,7 @@ def set_dynamic_dashboard():
 
     # Negative Electrode Potential
     ne_potential = create_subplot(
-        x_data=negative_electrode_grid.cells.centroids,
+        x_data=np.squeeze(negative_electrode_grid[0]),
         y_data=negative_electrode_potential[state],
         title="Negative Electrode Potential  /  V",
         x_label="Position  /  m",
@@ -363,7 +365,7 @@ def set_dynamic_dashboard():
 
     # Electrolyte Potential
     elyte_potential = create_subplot(
-        x_data=electrolyte_grid.cells.centroids,
+        x_data=np.squeeze(electrolyte_grid[0]),
         y_data=electrolyte_potential[state],
         title="Electrolyte Potential  /  V",
         x_label="Position  /  m",
@@ -375,7 +377,7 @@ def set_dynamic_dashboard():
 
     # Positive Electrode Potential
     pe_potential = create_subplot(
-        x_data=positive_electrode_grid.cells.centroids,
+        x_data=np.squeeze(positive_electrode_grid[0]),
         y_data=positive_electrode_potential[state],
         title="Positive Electrode Potential  /  V",
         x_label="Position  /  m",
@@ -442,9 +444,9 @@ def prepare_h5_file():
         f.create_dataset("cell_current", data=cell_current)
 
         grids = f.create_group("grids")
-        grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid.cells.centroids)
-        grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid.cells.centroids)
-        grids.create_dataset("electrolyte_grid", data=electrolyte_grid.cells.centroids)
+        grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid[1])
+        grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid[1])
+        grids.create_dataset("electrolyte_grid", data=electrolyte_grid[1])
 
         concentrations = f.create_group("concentrations")
 

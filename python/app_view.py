@@ -644,12 +644,11 @@ class RunSimulation:
 
             json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
             #json_file = db_access.get_path_to_battmo_formatted_input()
-            run_battery_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(), "runBattery_1d.jl")
+            
             #Call Julia function
-            time,E = Main.runP2DBattery(json_file)
+            result = Main.runP2DBattery(json_file)
 
-            result = {"time":time,"E":E}
-            print("output = ", result)
+            
             # Save results in file as python object, to retrieve it later from plotting tab
             with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
                 pickle.dump(result, new_pickle_file)
