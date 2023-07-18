@@ -7,7 +7,7 @@
 # Pkg.add("PlutoUI")
 # Pkg.add("Measures")
 
-using BattMo, JSON,Jutul, PlutoUI, Measures
+using BattMo, Jutul
 
 
 
