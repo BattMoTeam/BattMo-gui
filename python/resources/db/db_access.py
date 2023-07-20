@@ -77,6 +77,9 @@ def get_path_to_BattMoJulia_dir():
     path_to_battmo_gui = os.path.dirname(get_path_to_python_dir())
     return os.path.join(path_to_battmo_gui, "BattMoJulia")
 
+def get_path_to_runp2dbattery():
+    return os.path.join(get_path_to_BattMoJulia_dir(), "runP2DBattery.jl")
+
 
 def get_path_to_battmo_input():
     return os.path.join(get_path_to_BattMoJulia_dir(), "battmo_input.json")
