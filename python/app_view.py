@@ -642,7 +642,7 @@ class RunSimulation:
 
             print("Julia files included")
 
-            json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
+            json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(), "battmo_formatted_input.json") #
             #json_file = db_access.get_path_to_battmo_formatted_input()
             
             #Call Julia function

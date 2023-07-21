@@ -9,7 +9,7 @@
                    "type": "bool"
               },
               "include_current_collector": {
-                   "value": false,
+                   "value": true,
                    "description": "",
                    "type": "bool"
               },
