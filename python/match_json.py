@@ -76,11 +76,11 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": json_ld.pe.properties.get("length") * json_ld.pe.properties.get("width")
+            "faceArea": 1 #json_ld.pe.properties.get("length") * json_ld.pe.properties.get("width")
         },
         "NegativeElectrode": {
             "ActiveMaterial": {
-                "thickness": json_ld.ne.properties.get("coating_thickness"),
+                "thickness": 6.4e-05,# json_ld.ne.properties.get("coating_thickness"),
                 "N": number_of_discrete_cells_electrode,
                 #"specificHeatCapacity": json_ld.ne.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.ne.am.get("thermal_conductivity"),
@@ -107,9 +107,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 },
                 "diffusionModelType": json_ld.model.get("solid_diffusion_model_type"),
                 "SolidDiffusion": {
-                    "EaD": json_ld.ne.am.get("activation_energy_of_diffusion"),
-                    "D0": json_ld.ne.am.get("diffusion_pre_exponential_factor"),
-                    "rp": json_ld.ne.am.get("particle_radius"),
+                    "EaD": 0,#json_ld.ne.am.get("activation_energy_of_diffusion"),
+                    "D0": 3.3e-14,#json_ld.ne.am.get("diffusion_pre_exponential_factor"),
+                    "rp":5.86e-06,#json_ld.ne.am.get("particle_radius"),
                     "N": number_of_discrete_cells_electrode
                 }
             },
@@ -124,7 +124,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "PositiveElectrode": {
             "ActiveMaterial": {
-                "thickness": json_ld.pe.properties.get("coating_thickness"),
+                "thickness": 5.7e-05,#json_ld.pe.properties.get("coating_thickness"),
                 "N": number_of_discrete_cells_electrode,
                 #"specificHeatCapacity": json_ld.pe.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.pe.am.get("thermal_conductivity"),
@@ -133,15 +133,15 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "electricalConductivity": json_ld.pe.am.get("electronic_conductivity"),
                 "BruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient"),
                 "Interface": {
-                    "cmax": json_ld.pe.am.get("maximum_concentration"),
-                    "volumeFraction": json_ld.pe.am.get("volume_fraction"),
-                    "volumetricSurfaceArea": json_ld.pe.am.get("volumetric_surface_area"),
+                    "cmax": 55554,#json_ld.pe.am.get("maximum_concentration"),
+                    "volumeFraction": 0.8,#json_ld.pe.am.get("volume_fraction"),
+                    "volumetricSurfaceArea": 885000,#json_ld.pe.am.get("volumetric_surface_area"),
                     #"density": json_ld.pe.am.get("density"),
                     "n": json_ld.pe.am.get("number_of_electrons_transferred"),
-                    "Eak": json_ld.pe.am.get("activation_energy_of_reaction"),
-                    "k0": json_ld.pe.am.get("reaction_rate_constant"),
-                    "theta100": json_ld.pe.am.get("maximum_lithium_stoichiometry"),
-                    "theta0": json_ld.pe.am.get("minimum_lithium_stoichiometry"),
+                    "Eak": 5000,#json_ld.pe.am.get("activation_energy_of_reaction"),
+                    "k0": 2.33e-11,#json_ld.pe.am.get("reaction_rate_constant"),
+                    "theta100": 0.4955,#json_ld.pe.am.get("maximum_lithium_stoichiometry"),
+                    "theta0": 0.99174,#json_ld.pe.am.get("minimum_lithium_stoichiometry"),
                     "OCP": {
                         "type": "function",
                         "functionname": "compute_ocp_nmc111",
@@ -152,9 +152,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 },
                 "diffusionModelType": json_ld.model.get("solid_diffusion_model_type"),
                 "SolidDiffusion": {
-                    "EaD": json_ld.pe.am.get("activation_energy_of_diffusion"),
-                    "D0": json_ld.pe.am.get("diffusion_pre_exponential_factor"),
-                    "rp": json_ld.pe.am.get("particle_radius"),
+                    "EaD": 0, #json_ld.pe.am.get("activation_energy_of_diffusion"),
+                    "D0": 4e-15,#json_ld.pe.am.get("diffusion_pre_exponential_factor"),
+                    "rp": 5.22e-6,#json_ld.pe.am.get("particle_radius"),
                     "N": number_of_discrete_cells_electrode
                 }
             },
@@ -169,25 +169,25 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "Electrolyte": {
             "Separator": {
-                "thickness": json_ld.sep.get("thickness"),
+                "thickness": 1.5e-05,#json_ld.sep.get("thickness"),
                 "N": number_of_discrete_cells_electrode,
                 "porosity": 0.55,
                 #"specificHeatCapacity": json_ld.sep.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.sep.get("thermal_conductivity"),
                 #"density": json_ld.sep.get("density"),
-                "BruggemanCoefficient": json_ld.sep.get("bruggeman_coefficient")
+                "BruggemanCoefficient": 1.5#json_ld.sep.get("bruggeman_coefficient")
             },
             #"specificHeatCapacity": json_ld.elyte.get("specific_heat_capacity"),
             #"thermalConductivity": json_ld.elyte.get("thermal_conductivity"),
             #"density": json_ld.elyte.get("density"),
             "Conductivity": {
                 "type": "function",
-                "functionname": json_ld.elyte.get("conductivity"),
+                "functionname": "computeElectrolyteConductivity_default", #json_ld.elyte.get("conductivity"),
                 "argumentlist": ["c", "T"]
             },
             "DiffusionCoefficient": {
                 "type": "function",
-                "functionname": json_ld.elyte.get("diffusion_coefficient"),
+                "functionname": "computeDiffusionCoefficient_default", #json_ld.elyte.get("diffusion_coefficient"),
                 "argumentlist": ["c", "T"]
             },
             # "compnames": [

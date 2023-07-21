@@ -52,8 +52,10 @@ function runP2DBattery(json_file)
     negative_electrode_grid = [centroids_NAM, boundaries_NAM]
     electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE]
     positive_electrode_grid = [centroids_PAM, boundaries_PAM]
-
-
+    print([state[:BPP][:Phi] for state in states])
+    #print("time =", time_values.shape)
+    print("V =", cell_voltage)
+    print("I =", cell_current)  
     #output = negative_electrode_concentration
     output = [number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential];
 
