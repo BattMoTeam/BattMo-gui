@@ -13,6 +13,10 @@ from uuid import uuid4
 import sys
 
 
+        
+
+
+
 def reset_func(category_id, parameter_id, parameter):
     """
     Function needed for the selectboxes and number_inputs to work properly together.
@@ -544,13 +548,101 @@ class SaveParameters:
 
         st.success("Your parameters are saved! Run the simulation to get your results.")
 
+@st.cache_data
+def runP2DBattery_init_false():
+    print("False")
+    global initi
+    initi = False
+
+@st.cache_data
+def runP2DBattery_init_true():
+
+    global initi
+    initi = True
+    print("True") 
+       
+@st.cache_data
+def octave_on_click():
+
+    ##############################
+    # Remember user changed values
+    for k, v in st.session_state.items():
+        st.session_state[k] = v
+    ##############################
+    import julia
+    from julia import Main
+    
+    
+    ##############################
+    # Set page directory to base level to allow for module import from different folder
+    path_to_python_module = os.path.dirname(os.path.abspath(__file__))
+    os.chdir("..")
+    path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
+    sys.path.insert(0, path_to_python_module)
+    
+    ##############################
+    json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
+    #from julia import Julia
+    #julia = Julia()
+    #julia.eval("@eval Main import Base.MainInclude: include")
+    #Add the BattMo,jl code directory to the Julia module path
+    #Main.eval('push!(LOAD_PATH, db_access.get_path_to_BattMoJulia_dir())')
+    if initi == False:
+
+        julia.install()
+        Main.eval('push!(LOAD_PATH, "BattMoJulia")')
+        Main.include(db_access.get_path_to_runp2dbattery())
+
+        
+
+
+        print("init was done")
+        result = Main.runP2DBattery(json_file)
+        runP2DBattery_init_true()
+    else:
+        print("else")
+        result = Main.runP2DBattery(json_file)
+    ###Include julia file that is a function that runs the simulation with the input  parameters###
+    
+
+        # if 'jl' not in st.session_state:
+        #     st.session_state['jl'] = jl
+
+        #self.runP2DBattery_init_true
+
+    #Path to input parameters
+    #from julia import Main
+    
+    
+    
+    #json_file = db_access.get_path_to_battmo_formatted_input()
+    
+    #Call Julia function
+    
+
+    
+    # Save results in file as python object, to retrieve it later from plotting tab
+    with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+        pickle.dump(result, new_pickle_file)
+
+    st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+
+
+
+    # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+    st.cache_data.clear()
 
 class RunSimulation:
     """
     Rendering of Run Simulation tab
     """
     def __init__(self):
-        self.header = "Run Simulation"
+        self.run_header = "Run Simulation"
+        self.init_header = "Initialize simulation setup"
+        self.init_info = """This button initializes the setup between this GUI and the BattMo toolbox. 
+                            Push this button only the first simulation! Because of this, the first 
+                            simulation will be slow, but next simulations will be very quick."""
+        
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
@@ -573,7 +665,12 @@ class RunSimulation:
         self.formatted_parameters_file_data = json.dumps(self.formatted_gui_parameters, indent=2)
         self.formatted_parameters_file_name = "battmo_formatted_parameters.json"
 
+        #self.push_battmo_folder = 'push!(LOAD_PATH, "BattMoJulia")'
+        self.runP2DBattery_path = db_access.get_path_to_runp2dbattery()
+
+        #self.set_init_button()        
         self.set_submit_button()
+
 
     def set_submit_button(self):
         # set Download header
@@ -594,130 +691,45 @@ class RunSimulation:
             mime=self.file_mime_type
         )
 
+        # set init header
+        st.markdown("### " + self.init_header)
+
+        st.info(self.init_info)
+
+        #set Pyjulia initialization button
+        st.button(
+            label="Initialize",
+            on_click=runP2DBattery_init_false
+            #disabled=True
+            
+        )
+
         # set RUN header
-        st.markdown("### " + self.header)
+        st.markdown("### " + self.run_header)
 
         # set RUN button
         st.button(
             label="RUN",
-            on_click=self.octave_on_click
+            on_click= octave_on_click
+            #args = (initi,)
+            
         )
-
-    def octave_on_click(self):
-
-        ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
-        ##############################
-        julia_version = True
-
-        if julia_version == True:
+    
 
 
-            ##############################
-            # Set page directory to base level to allow for module import from different folder
-            path_to_python_module = os.path.dirname(os.path.abspath(__file__))
-            os.chdir("..")
-            path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
-            sys.path.insert(0, path_to_python_module)
-            
-            ##############################
-            
-            #from julia import Julia
-            #julia = Julia()
-            #julia.eval("@eval Main import Base.MainInclude: include")
-            #Add the BattMo,jl code directory to the Julia module path
-            #Main.eval('push!(LOAD_PATH, db_access.get_path_to_BattMoJulia_dir())')
-
-            from julia import Main
-
-            Main.eval('push!(LOAD_PATH, "BattMoJulia")')
-            
-
-            ###Include julia file that is a function that runs the simulation with the input  parameters###
-            Main.include("BattMoJulia/runP2DBattery.jl")
-
-            #Path to input parameters
-
-            print("Julia files included")
-
-            json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(), "battmo_formatted_input.json") #
-            #json_file = db_access.get_path_to_battmo_formatted_input()
-            
-            #Call Julia function
-            result = Main.runP2DBattery(json_file)
-
-            
-            # Save results in file as python object, to retrieve it later from plotting tab
-            with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-                pickle.dump(result, new_pickle_file)
-
-            st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+        # json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
+        # print("Julia files included")
+        # result = jl.runP2DBattery(json_file)
 
 
+        # with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+        #     pickle.dump(result, new_pickle_file)
 
-            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-            st.cache_data.clear()
+        # st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+        
+      
 
 
-        else:
-            print("ELSE")
-            # """
-            # Call BattMo code from the GUI
-            # BattMo code is stored in matlab directory as matlab files, it's called using oct2py (Octave)
-            # """
-            # st.info("Simulation is running, it might take some time. \nThank you for using BattMo!")
-
-            # # Initialize Octave environment
-            # oc = Oct2Py()
-
-            # # add path to matlab directory containing BattMo code
-            # oc.addpath(db_access.get_path_to_matlab_dir())
-
-            # # run startupBattMo (needed to setup BattMo env)
-            # """
-            # The octave tool Oct2py() allows to run matlab functions, not scripts. 
-            # Therefore the startupBattMo script has been transformed into a function to be runnable by oct2py.
-            
-            # oct2py only retrieves the first result variable, even if several are defined. 
-            
-            # example:
-            
-            #     function [result_1, result_2] = example_function()
-            #         result_1 = 1.56;
-            #         result_2 = 33;
-            #     end
-                
-                
-            #     then oc.example_function() will return result_1 only, and I didn't find a clean way to retrieve result_2, 
-            #     except by doing this:
-                
-            #     function results = example_function_bis()
-            #         result_1 = 1.56;
-            #         result_2 = 33;
-                    
-            #         results = {result_1, result_2}
-            #     end
-                
-            #     then oc.example_function_bis() will return results which contains both result_1 and result_2 
-            # """
-            # oc.startupBattMoGui()
-            # print("\n--- startupBattMo done")
-            # print("\n--- runEncodedJsonStruct")
-
-            # # once BattMo env is set, run P2D model with json input, retrieve all results needed for plotting tab
-            # result = oc.runEncodedJsonStruct()
-            # print("\n--- runEncodedJsonStruct done")
-
-            # # Save results in file as python object, to retrieve it later from plotting tab
-            # with open("battmo_result", "wb") as new_pickle_file:
-            #     pickle.dump(result, new_pickle_file)
-
-            # st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
-
-            # # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-            # st.cache_data.clear()
 
 
 class LoadImages:

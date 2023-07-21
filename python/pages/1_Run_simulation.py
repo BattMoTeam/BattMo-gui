@@ -27,8 +27,10 @@ for k, v in st.session_state.items():
 ##############################
 
 
-def run_page():
 
+def run_page():
+   
+   
     app = get_app_controller()
 
     with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
