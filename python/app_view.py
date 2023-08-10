@@ -14,7 +14,8 @@ import sys
 
 
         
-
+if 'initi' not in st.session_state:
+    st.session_state.initi = None
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -551,18 +552,18 @@ class SaveParameters:
 @st.cache_data
 def runP2DBattery_init_false():
     print("False")
-    global initi
-    initi = False
+    st.success("Simulation is initialized.")
+    st.session_state.initi = False
 
 @st.cache_data
 def runP2DBattery_init_true():
 
-    global initi
-    initi = True
+    
+    st.session_state.initi = True
     print("True") 
        
 @st.cache_data
-def octave_on_click():
+def octave_on_click(initi,json_file):
 
     ##############################
     # Remember user changed values
@@ -581,7 +582,7 @@ def octave_on_click():
     sys.path.insert(0, path_to_python_module)
     
     ##############################
-    json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
+    
     #from julia import Julia
     #julia = Julia()
     #julia.eval("@eval Main import Base.MainInclude: include")
@@ -589,7 +590,7 @@ def octave_on_click():
     #Main.eval('push!(LOAD_PATH, db_access.get_path_to_BattMoJulia_dir())')
     if initi == False:
 
-        julia.install()
+        #julia.install()
         Main.eval('push!(LOAD_PATH, "BattMoJulia")')
         Main.include(db_access.get_path_to_runp2dbattery())
 
@@ -599,9 +600,12 @@ def octave_on_click():
         print("init was done")
         result = Main.runP2DBattery(json_file)
         runP2DBattery_init_true()
-    else:
+    if initi == True:
         print("else")
         result = Main.runP2DBattery(json_file)
+
+    else:
+        st.warning("You must initialize the simulation first.")
     ###Include julia file that is a function that runs the simulation with the input  parameters###
     
 
@@ -646,7 +650,8 @@ class RunSimulation:
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
-
+        self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
+        #self.session_state = i
         # retrieve saved parameters from json file
         with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
             self.gui_parameters = json.load(json_gui_parameters)
@@ -671,6 +676,8 @@ class RunSimulation:
         #self.set_init_button()        
         self.set_submit_button()
 
+    if 'initi' not in st.session_state:
+        st.session_state.initi = None
 
     def set_submit_button(self):
         # set Download header
@@ -710,8 +717,8 @@ class RunSimulation:
         # set RUN button
         st.button(
             label="RUN",
-            on_click= octave_on_click
-            #args = (initi,)
+            on_click= octave_on_click,
+            args = (st.session_state.initi ,self.json_file)
             
         )
     

@@ -4,6 +4,7 @@ import json
 from PIL import Image
 import streamlit as st
 
+
 ##############################
 # Page Config
 path_to_python_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,11 +27,14 @@ for k, v in st.session_state.items():
     st.session_state[k] = v
 ##############################
 
-
+if 'initi' not in st.session_state:
+    st.session_state.initi = None
 
 def run_page():
    
-   
+
+
+    i = st.session_state.initi   
     app = get_app_controller()
 
     with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
