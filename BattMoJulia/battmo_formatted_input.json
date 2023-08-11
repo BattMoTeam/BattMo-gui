@@ -1,7 +1,7 @@
 {
    "Geometry": {
       "case": "1D",
-      "faceArea": 1
+      "faceArea": 0.0001
    },
    "NegativeElectrode": {
       "ActiveMaterial": {
@@ -118,13 +118,13 @@
    "Control": {
       "controlPolicy": "IEswitch",
       "initialControl": "discharging",
-      "CRate": 2.0,
+      "CRate": 1.0,
       "lowerCutoffVoltage": 2.4,
       "tup": 0.1
    },
    "TimeStepping": {
-      "totalTime": 3600.0,
-      "N": 36.0,
+      "totalTime": 7200.0,
+      "N": 72.0,
       "useRampup": true,
       "rampupTime": 10.0
    }

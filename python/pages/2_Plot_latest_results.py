@@ -58,8 +58,7 @@ with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_res
 # print("result2 = ", np_result)
 # number_of_states = int(number_of_states)
 
-print("V =", cell_voltage)
-print("I =", cell_current)
+#print("pep =",positive_electrode_concentration.shape)
 
 negative_electrode_concentration = np.array(negative_electrode_concentration)[:,0]
 positive_electrode_concentration =np.array(positive_electrode_concentration)[:,0]

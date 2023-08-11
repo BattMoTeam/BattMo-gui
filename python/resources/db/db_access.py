@@ -20,6 +20,10 @@ def get_path_to_db_dir():
     python_dir = os.path.abspath(os.path.join(current_path, os.pardir))
     return os.path.join(python_dir, "db")
 
+def get_path_to_gui_dir():
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.dirname(os.path.dirname(os.path.dirname(current_path)))
+
 
 def get_path_to_parameters_dir():
     return os.path.join(get_path_to_db_dir(), "resources", "parameters")

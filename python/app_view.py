@@ -576,11 +576,13 @@ def octave_on_click(initi,json_file):
     
     ##############################
     # Set page directory to base level to allow for module import from different folder
-    path_to_python_module = os.path.dirname(os.path.abspath(__file__))
-    os.chdir("..")
-    path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
-    sys.path.insert(0, path_to_python_module)
-    
+    # path_to_python_module = os.path.dirname(os.path.abspath(__file__))
+    # os.chdir("..")
+    # path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
+    # sys.path.insert(0, path_to_python_module)
+
+    sys.path.insert(0, db_access.get_path_to_gui_dir())
+    print(sys.path)
     ##############################
     
     #from julia import Julia
@@ -588,7 +590,25 @@ def octave_on_click(initi,json_file):
     #julia.eval("@eval Main import Base.MainInclude: include")
     #Add the BattMo,jl code directory to the Julia module path
     #Main.eval('push!(LOAD_PATH, db_access.get_path_to_BattMoJulia_dir())')
-    if initi == False:
+
+    if initi == True:
+
+        Main.eval('push!(LOAD_PATH, "BattMoJulia")')
+        Main.include(db_access.get_path_to_runp2dbattery())
+        print("else")
+        result = Main.runP2DBattery(json_file)
+
+        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+            pickle.dump(result, new_pickle_file)
+
+        st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+
+
+
+        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+        st.cache_data.clear()
+
+    if initi == False:  
 
         #julia.install()
         Main.eval('push!(LOAD_PATH, "BattMoJulia")')
@@ -600,9 +620,17 @@ def octave_on_click(initi,json_file):
         print("init was done")
         result = Main.runP2DBattery(json_file)
         runP2DBattery_init_true()
-    if initi == True:
-        print("else")
-        result = Main.runP2DBattery(json_file)
+
+        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+            pickle.dump(result, new_pickle_file)
+
+        st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+
+
+
+    # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+        st.cache_data.clear()
+
 
     else:
         st.warning("You must initialize the simulation first.")
@@ -626,15 +654,7 @@ def octave_on_click(initi,json_file):
 
     
     # Save results in file as python object, to retrieve it later from plotting tab
-    with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-        pickle.dump(result, new_pickle_file)
 
-    st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
-
-
-
-    # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-    st.cache_data.clear()
 
 class RunSimulation:
     """
