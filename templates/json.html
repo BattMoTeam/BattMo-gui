@@ -1,7 +1,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
         $(function() {
-          $('a#test').on('click', function(e) {
+          $('a#RUN').on('click', function(e) {
             e.preventDefault()
             $.getJSON('/background_process_test',
                 function(data) {
@@ -15,9 +15,9 @@
 
 //button
 <div class='container'>
-    <h3>Test</h3>
+    <h3>Run simulation</h3>
         <form>
-            <a href=# id=test><button class='btn btn-default'>Test</button></a>
+            <a href=# id=RUN><button class='btn btn-default'>RUN</button></a>
         </form>
 
 </div>
