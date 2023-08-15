@@ -7,11 +7,11 @@ import match_json
 import streamlit as st
 from app_parameter_model import *
 from resources.db import db_helper, db_access
-from oct2py import Oct2Py
+#from oct2py import Oct2Py
 from copy import deepcopy
 from uuid import uuid4
 import sys
-
+import requests
 
         
 if 'initi' not in st.session_state:
@@ -549,111 +549,51 @@ class SaveParameters:
 
         st.success("Your parameters are saved! Run the simulation to get your results.")
 
-@st.cache_data
+#@st.cache_data
 def runP2DBattery_init_false():
+
+    requests.post('http://127.0.0.1:5000/multi', json = {'setup': True})
+    
     print("False")
     st.success("Simulation is initialized.")
     st.session_state.initi = False
 
-@st.cache_data
-def runP2DBattery_init_true():
+# @st.cache_data
+# def runP2DBattery_init_true():
 
     
-    st.session_state.initi = True
-    print("True") 
+#     st.session_state.initi = True
+#     print("True") 
        
-@st.cache_data
-def octave_on_click(initi,json_file):
+#@st.cache_data
+def octave_on_click(json_file):
 
     ##############################
     # Remember user changed values
     for k, v in st.session_state.items():
         st.session_state[k] = v
     ##############################
-    import julia
-    from julia import Main
-    
-    
+
     ##############################
     # Set page directory to base level to allow for module import from different folder
-    # path_to_python_module = os.path.dirname(os.path.abspath(__file__))
-    # os.chdir("..")
-    # path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
-    # sys.path.insert(0, path_to_python_module)
 
     sys.path.insert(0, db_access.get_path_to_gui_dir())
     print(sys.path)
     ##############################
+
+    requests.post('http://127.0.0.1:5000/run_simulation', data = "BattMoJulia/battmo_formatted_input.json")
     
-    #from julia import Julia
-    #julia = Julia()
-    #julia.eval("@eval Main import Base.MainInclude: include")
-    #Add the BattMo,jl code directory to the Julia module path
-    #Main.eval('push!(LOAD_PATH, db_access.get_path_to_BattMoJulia_dir())')
+    
+    # with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+    #     pickle.dump(result, new_pickle_file)
 
-    if initi == True:
-
-        Main.eval('push!(LOAD_PATH, "BattMoJulia")')
-        Main.include(db_access.get_path_to_runp2dbattery())
-        print("else")
-        result = Main.runP2DBattery(json_file)
-
-        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-            pickle.dump(result, new_pickle_file)
-
-        st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
-
-
-
-        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-        st.cache_data.clear()
-
-    if initi == False:  
-
-        #julia.install()
-        Main.eval('push!(LOAD_PATH, "BattMoJulia")')
-        Main.include(db_access.get_path_to_runp2dbattery())
-
-        
-
-
-        print("init was done")
-        result = Main.runP2DBattery(json_file)
-        runP2DBattery_init_true()
-
-        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-            pickle.dump(result, new_pickle_file)
-
-        st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
+    st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
 
 
     # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-        st.cache_data.clear()
+    st.cache_data.clear()
 
-
-    else:
-        st.warning("You must initialize the simulation first.")
-    ###Include julia file that is a function that runs the simulation with the input  parameters###
-    
-
-        # if 'jl' not in st.session_state:
-        #     st.session_state['jl'] = jl
-
-        #self.runP2DBattery_init_true
-
-    #Path to input parameters
-    #from julia import Main
-    
-    
-    
-    #json_file = db_access.get_path_to_battmo_formatted_input()
-    
-    #Call Julia function
-    
-
-    
-    # Save results in file as python object, to retrieve it later from plotting tab
 
 
 class RunSimulation:
@@ -738,7 +678,7 @@ class RunSimulation:
         st.button(
             label="RUN",
             on_click= octave_on_click,
-            args = (st.session_state.initi ,self.json_file)
+            args = ( self.json_file, )
             
         )
     
