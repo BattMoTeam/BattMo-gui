@@ -578,10 +578,19 @@ def octave_on_click(json_file):
     # Set page directory to base level to allow for module import from different folder
 
     sys.path.insert(0, db_access.get_path_to_gui_dir())
-    print(sys.path)
+    
     ##############################
 
-    requests.post('http://127.0.0.1:5000/run_simulation', data = "BattMoJulia/battmo_formatted_input.json")
+
+    # with open('BattMoJulia/battmo_formatted_input.json', 'r') as j:
+    #     jso = json.loads(j.read())  
+
+    # print("json =", jso) 
+    
+
+    r = requests.put('http://127.0.0.1:5000/run_simulation', data = {'data': True}).json()
+
+    print("r =", r)
     
     
     # with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:

@@ -1165,7 +1165,7 @@
             "@type": "None",
             "value": {
                "@type": "emmo:Numerical",
-               "hasNumericalData": 1.0
+               "hasNumericalData": 2.0
             },
             "unit": "emmo:UnitOne"
          },
