@@ -1,3 +1,0 @@
-import julia
-
-julia.install()
