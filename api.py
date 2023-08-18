@@ -19,8 +19,7 @@ def run_julia(q):
     Main.include("BattMoJulia/runP2DBattery.jl")   
     print("run")
     while True:
-        
-        #print(filled)
+
         if q.get():
             output = Main.runP2DBattery.runP2DBatt("BattMoJulia/battmo_formatted_input.json")
             print("Output = ", output[0])
@@ -30,6 +29,10 @@ def run_julia(q):
             print("wait")
             time.sleep(2)
 
+
+##############################
+# Create flask app
+##############################
 
 app = Flask(__name__)
 api = Api(app)
@@ -63,19 +66,6 @@ if __name__ == '__main__':
     app.run(debug=True, use_reloader = True)
 
 
-
-
-
-
-
-
-
-        
- 
-    
-##############################
-# Create flask app
-##############################
 
 
 # @app.route('/run_simulation', methods = ['GET', 'POST'])
