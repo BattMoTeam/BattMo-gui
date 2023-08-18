@@ -76,7 +76,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": 1 #json_ld.pe.properties.get("length") * json_ld.pe.properties.get("width")
+            "faceArea": 1#json_ld.pe.properties.get("length") * json_ld.pe.properties.get("width")
         },
         "NegativeElectrode": {
             "ActiveMaterial": {

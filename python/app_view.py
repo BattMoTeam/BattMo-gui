@@ -611,9 +611,7 @@ class RunSimulation:
     """
     def __init__(self):
         self.run_header = "Run Simulation"
-        self.init_header = "Initialize simulation setup"
-        self.init_info = """This button initializes the setup between this GUI and the BattMo toolbox. 
-                            Push this button only the first simulation! Because of this, the first 
+        self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first 
                             simulation will be slow, but next simulations will be very quick."""
         
 
@@ -645,8 +643,6 @@ class RunSimulation:
         #self.set_init_button()        
         self.set_submit_button()
 
-    if 'initi' not in st.session_state:
-        st.session_state.initi = None
 
     def set_submit_button(self):
         # set Download header
@@ -667,21 +663,11 @@ class RunSimulation:
             mime=self.file_mime_type
         )
 
-        # set init header
-        st.markdown("### " + self.init_header)
-
-        st.info(self.init_info)
-
-        #set Pyjulia initialization button
-        st.button(
-            label="Initialize",
-            on_click=runP2DBattery_init_false
-            #disabled=True
-            
-        )
 
         # set RUN header
         st.markdown("### " + self.run_header)
+
+        st.info(self.run_info)
 
         # set RUN button
         st.button(

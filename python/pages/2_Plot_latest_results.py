@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 import streamlit as st
 import matplotlib.pyplot as plt
+import time
 
 
 ##############################
@@ -58,7 +59,7 @@ with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_res
 # print("result2 = ", np_result)
 # number_of_states = int(number_of_states)
 
-#print("pep =",positive_electrode_concentration.shape)
+#print(time_values)
 
 negative_electrode_concentration = np.array(negative_electrode_concentration)[:,0]
 positive_electrode_concentration =np.array(positive_electrode_concentration)[:,0]
@@ -123,25 +124,57 @@ def get_graph_limits_from_state(state):
         init_phimin_pe
     ] = get_graph_initial_limits()
 
-    cmax_elyte = max(init_cmax_elyte, max(electrolyte_concentration[state]))
-    cmin_elyte = min(init_cmin_elyte, min(electrolyte_concentration[state]))
+    cmax_elyte_sub = max(electrolyte_concentration[state])
+    cmin_elyte_sub = min(electrolyte_concentration[state])
 
-    cmax_ne = max(init_cmax_ne, max(negative_electrode_concentration[state]))
-    cmin_ne = min(init_cmin_ne, min(negative_electrode_concentration[state]))
+    cmax_ne_sub = max(negative_electrode_concentration[state])
+    cmin_ne_sub = min(negative_electrode_concentration[state])
 
-    cmax_pe = max(init_cmax_pe, max(positive_electrode_concentration[state]))
-    cmin_pe = min(init_cmin_pe, min(positive_electrode_concentration[state]))
+    cmax_pe_sub = max(positive_electrode_concentration[state])
+    cmin_pe_sub = min(positive_electrode_concentration[state])
 
-    phimax_elyte = max(init_phimax_elyte, max(electrolyte_potential[state]))
-    phimin_elyte = min(init_phimin_elyte, min(electrolyte_potential[state]))
+    phimax_elyte_sub = max(electrolyte_potential[state])
+    phimin_elyte_sub =min(electrolyte_potential[state])
 
-    phimax_ne = max(init_phimax_ne, max(negative_electrode_potential[state]))
-    phimin_ne = min(init_phimin_ne, min(negative_electrode_potential[state]))
+    phimax_ne_sub = max(negative_electrode_potential[state])
+    phimin_ne_sub = min(negative_electrode_potential[state])
 
-    phimax_pe = max(init_phimax_pe, max(positive_electrode_potential[state]))
-    phimin_pe = min(init_phimin_pe, min(positive_electrode_potential[state]))
+    phimax_pe_sub = max(positive_electrode_potential[state])
+    phimin_pe_sub = min(positive_electrode_potential[state])
+
+    cmax_elyte = max(init_cmax_elyte, cmax_elyte_sub)
+    cmin_elyte = min(init_cmin_elyte, cmin_elyte_sub)
+
+    cmax_ne = max(init_cmax_ne, cmax_ne_sub)
+    cmin_ne = min(init_cmin_ne, cmin_ne_sub)
+
+    cmax_pe = max(init_cmax_pe, cmax_pe_sub)
+    cmin_pe = min(init_cmin_pe, cmin_pe_sub)
+
+    phimax_elyte = max(init_phimax_elyte, phimax_elyte_sub)
+    phimin_elyte = min(init_phimin_elyte, phimin_elyte_sub)
+
+    phimax_ne = max(init_phimax_ne, phimax_ne_sub)
+    phimin_ne = min(init_phimin_ne, phimin_ne_sub)
+
+    phimax_pe = max(init_phimax_pe, phimax_pe_sub)
+    phimin_pe = min(init_phimin_pe, phimin_pe_sub)
+
+
 
     return [
+        cmax_elyte_sub,
+        cmin_elyte_sub,
+        cmax_ne_sub, 
+        cmin_ne_sub, 
+        cmax_pe_sub,
+        cmin_pe_sub,
+        phimax_elyte_sub, 
+        phimin_elyte_sub,
+        phimax_ne_sub,
+        phimin_ne_sub,
+        phimax_pe_sub,
+        phimin_pe_sub,
         cmin_elyte,
         cmax_elyte,
         cmin_ne,
@@ -166,16 +199,20 @@ def get_min_difference():
     return float(min(diff))
 
 
-def create_subplot(x_data, y_data, title, x_label, x_min=None, x_max=None, y_min=None, y_max=None, vertical_line=None):
+def create_subplot(x_data, y_data, title, x_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
     fig, ax = plt.subplots()
     ax.plot(x_data, y_data)
     ax.set_title(title)
     ax.set_xlabel(x_label)
+    ax.get_yaxis().get_major_formatter().set_useOffset(False)
 
     if x_max:
         ax.set_xlim(x_min, x_max)
-    if y_max:
+    if y_max and y_min != y_max:
         ax.set_ylim(y_min, y_max)
+    if y_max and abs(y_min_sub- y_max_sub) <= 0.001:
+        delta = y_min_sub/10
+        ax.set_ylim(y_min - delta, y_max + delta)
 
     if vertical_line:
         ax.axvline(x=vertical_line, color='k', linestyle="dashed")
@@ -278,22 +315,24 @@ def get_elyte_p_color():
         cbar_label="Potential  /  V"
     )
 
-
-def set_dynamic_dashboard():
-    selected_time = st.slider(
-        label="Select a time (hours)",
-        min_value=0.0,
-        max_value=max(time_values),
-        step=get_min_difference()
-    )
-    state = 0
-    while time_values[state] < selected_time:
-        state += 1
-
+def view_plots(state):
+    
     initial_graph_limits = get_graph_initial_limits()
     xmin = initial_graph_limits[0]
     xmax = initial_graph_limits[1]
     [
+        cmax_elyte_sub,
+        cmin_elyte_sub,
+        cmax_ne_sub, 
+        cmin_ne_sub, 
+        cmax_pe_sub,
+        cmin_pe_sub,
+        phimax_elyte_sub, 
+        phimin_elyte_sub,
+        phimax_ne_sub,
+        phimin_ne_sub,
+        phimax_pe_sub,
+        phimin_pe_sub,
         cmin_elyte,
         cmax_elyte,
         cmin_ne,
@@ -317,7 +356,9 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=cmin_ne,
-        y_max=cmax_ne
+        y_max=cmax_ne,
+        y_min_sub = cmin_ne_sub,
+        y_max_sub = cmax_ne_sub
     )
 
     # Electrolyte Concentration
@@ -329,9 +370,11 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=cmin_elyte,
-        y_max=cmax_elyte
+        y_max=cmax_elyte,
+        y_min_sub = cmin_elyte_sub,
+        y_max_sub = cmax_elyte_sub
     )
-
+    
     # Positive Electrode Concentration
     pe_concentration = create_subplot(
         x_data=np.squeeze(positive_electrode_grid[0]),
@@ -341,7 +384,9 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=cmin_pe,
-        y_max=cmax_pe
+        y_max=cmax_pe,
+        y_min_sub = cmin_pe_sub,
+        y_max_sub = cmax_pe_sub
     )
 
     # Cell Current
@@ -362,7 +407,9 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=phimin_ne,
-        y_max=phimax_ne
+        y_max=phimax_ne,
+        y_min_sub = phimin_ne_sub,
+        y_max_sub = phimax_ne_sub
     )
 
     # Electrolyte Potential
@@ -374,7 +421,9 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=phimin_elyte,
-        y_max=phimax_elyte
+        y_max=phimax_elyte,
+        y_min_sub = phimin_elyte_sub,
+        y_max_sub = phimax_elyte_sub
     )
 
     # Positive Electrode Potential
@@ -386,7 +435,10 @@ def set_dynamic_dashboard():
         x_min=xmin,
         x_max=xmax,
         y_min=phimin_pe,
-        y_max=phimax_pe
+        y_max=phimax_pe,
+        y_min_sub = phimin_pe_sub,
+        y_max_sub = phimax_pe_sub
+        
     )
 
     # Cell Voltage
@@ -404,17 +456,72 @@ def set_dynamic_dashboard():
 
     ne, elyte, pe, cell = st.columns(4)
 
-    ne.pyplot(ne_concentration)
-    ne.pyplot(ne_potential)
+    ne.pyplot(ne_concentration, clear_figure=True)
+    ne.pyplot(ne_potential, clear_figure=True)
 
-    elyte.pyplot(elyte_concentration)
-    elyte.pyplot(elyte_potential)
+    elyte.pyplot(elyte_concentration, clear_figure=True)
+    elyte.pyplot(elyte_potential, clear_figure=True)
 
-    pe.pyplot(pe_concentration)
-    pe.pyplot(pe_potential)
+    pe.pyplot(pe_concentration, clear_figure=True)
+    pe.pyplot(pe_potential, clear_figure=True)
 
-    cell.pyplot(cell_current_fig)
-    cell.pyplot(cell_voltage_fig)
+    cell.pyplot(cell_current_fig, clear_figure=True)
+    cell.pyplot(cell_voltage_fig, clear_figure=True)
+
+def run_dynamic_dashboard():
+    time_step = 0
+    init_time_value = 0.0
+    max_time_value = max(time_values)
+    step_size = get_min_difference()
+    time_array = np.arange(init_time_value,max_time_value,step_size)
+    #print(time_array)
+
+    while time_step <= len(time_values):
+
+        value = time_array[time_step]
+        time_step += 1
+        selected_time = st.slider(
+            key = ("RunDynamicDashboard%s" % time_step),
+            label="Select a time (hours)",
+            min_value=init_time_value,
+            max_value= max_time_value,
+            step=step_size,
+            value = value
+        )
+        
+
+        time.sleep(0.5)
+
+    state = 0
+    while time_values[state] < selected_time:
+        state += 1
+
+    view_plots(state)
+    
+
+    #set_dynamic_dashboard()
+
+
+def set_dynamic_dashboard():
+    init_time_value = 0.0
+    max_time_value = max(time_values)
+    step_size = get_min_difference()
+    selected_time = st.slider(
+        key = "DynamicDashboard",
+        label="Select a time (hours)",
+        min_value=init_time_value,
+        max_value= max_time_value,
+        step=step_size
+        )
+
+
+    state = 0
+    while time_values[state] < selected_time:
+        state += 1
+
+    view_plots(state)
+
+
 
 
 def set_colormaps():
@@ -501,6 +608,8 @@ def set_download_button():
     )
 
 
+    
+
 def run_page():
 
     
@@ -508,6 +617,8 @@ def run_page():
         label="Dynamic dashboard",
         value=True
     )
+
+
     display_colormaps = st.checkbox(
         label="Colormaps",
         value=False
@@ -518,14 +629,23 @@ def run_page():
         value=False
     )
 
+
     if download_h5:
         set_download_button()
 
     if display_dynamic_dashboard:
         set_dynamic_dashboard()
 
+        # run_dashboard = st.button(
+        #     label = "Run dynamic dashboard")
+        
+        # if run_dashboard:
+        #     run_dynamic_dashboard()
+
     if display_colormaps:
         set_colormaps()
+
+    
 
 
 if __name__ == "__main__":
