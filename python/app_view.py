@@ -12,6 +12,8 @@ from copy import deepcopy
 from uuid import uuid4
 import sys
 import requests
+from flask_restful import Resource
+
 
         
 if 'initi' not in st.session_state:
@@ -549,23 +551,8 @@ class SaveParameters:
 
         st.success("Your parameters are saved! Run the simulation to get your results.")
 
-#@st.cache_data
-def runP2DBattery_init_false():
 
-    requests.post('http://127.0.0.1:5000/multi', json = {'setup': True})
-    
-    print("False")
-    st.success("Simulation is initialized.")
-    st.session_state.initi = False
 
-# @st.cache_data
-# def runP2DBattery_init_true():
-
-    
-#     st.session_state.initi = True
-#     print("True") 
-       
-#@st.cache_data
 def octave_on_click(json_file):
 
     ##############################
@@ -582,19 +569,21 @@ def octave_on_click(json_file):
     ##############################
 
 
-    # with open('BattMoJulia/battmo_formatted_input.json', 'r') as j:
-    #     jso = json.loads(j.read())  
 
-    # print("json =", jso) 
-    
+    uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
+                                                                            'InputFile':'battmo_formatted_input.json',
+                                                                            'JuliaModelFolder':'BattMoJulia',
+                                                                            'JuliaModel': 'runP2DBattery.jl'}).json()
 
-    r = requests.put('http://127.0.0.1:5000/run_simulation', data = {'data': True}).json()
 
-    print("r =", r)
-    
-    
-    # with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-    #     pickle.dump(result, new_pickle_file)
+
+
+    with open(os.path.join("results", uuids), "rb") as pickle_result:
+        result = pickle.load(pickle_result)
+
+    with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+                pickle.dump(result, new_pickle_file)
+
 
     st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
 
@@ -618,7 +607,7 @@ class RunSimulation:
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
         self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
-        #self.session_state = i
+        
         # retrieve saved parameters from json file
         with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
             self.gui_parameters = json.load(json_gui_parameters)
@@ -676,19 +665,6 @@ class RunSimulation:
             args = ( self.json_file, )
             
         )
-    
-
-
-        # json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"p2d_40_jl.json")
-        # print("Julia files included")
-        # result = jl.runP2DBattery(json_file)
-
-
-        # with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-        #     pickle.dump(result, new_pickle_file)
-
-        # st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
-        
       
 
 

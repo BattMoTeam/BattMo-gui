@@ -1,33 +1,45 @@
-from flask import Flask, render_template, request
-import multiprocessing 
+from flask import Flask, request
+import multiprocessing
 from multiprocessing import Queue
 import time
 import json
-import requests
 from flask_restful import Resource, Api
 import pickle
+from uuid import uuid4
+import os
 
 
 
 ##############################
 # RUN JULIA CODE FUNCTION
 ##############################
- 
-def run_julia(q):
-    
+
+def run_julia(q_in,q_out):
+
     from julia import Main
-    Main.include("BattMoJulia/runP2DBattery.jl")   
+    Main.include("BattMoJulia/runP2DBattery.jl")
     print("run")
+
     while True:
 
-        if q.get():
-            output = Main.runP2DBattery.runP2DBatt("BattMoJulia/battmo_formatted_input.json")
+        if uuid_str:= q_in.get():
+            uuid_str = str(uuid_str)
+            file_name = "%s.json" % uuid_str
+            output = Main.runP2DBattery.runP2DBatt(file_name)
             print("Output = ", output[0])
-            with open("python/battmo_result", "wb") as new_pickle_file:
+            os.remove(file_name)
+
+            with open(os.path.join("results",uuid_str), "wb") as new_pickle_file:
                 pickle.dump(output, new_pickle_file)
+
+
+            q_out.put(uuid_str)
+            print("...")
         else:
             print("wait")
             time.sleep(2)
+
+
 
 
 ##############################
@@ -38,31 +50,59 @@ app = Flask(__name__)
 api = Api(app)
 
 
-
 class run_simulation(Resource):
-    def get(self, run):
 
-        return {'running': run}
-    
-    def put(self):
-        run = request.form['data']
-        #uuid = uuid4()
-        print("running = ", run)
+    def get(self):
+
+        data = request.form
+
+        input_file = data['InputFolder'] + '/' + data['InputFile']
+        print(input_file)
+        with open(input_file, 'r') as j:
+            json_data = json.loads(j.read()) 
+
+
+        uuids = uuid4()
+        uuid_str = str(uuids)
+        file_name = "%s.json" % uuid_str
+
+        with open(file_name, "w") as temp_input_file:
+            json.dump( json_data,temp_input_file)
+
+        print("temp file was made")
+
+        q_in.put(uuid_str)
+
+        print("q_in is filled")
+        running = True
+
+        while running == True:
+            if uuids := q_out.get():
+                print("q_out has been filled")
+                running = False
+            else:
+                time.sleep(1)
+               
+        uuid_str = str(uuids)
+
+        return uuid_str
+
+    def post(self):
         
-        q.put(run)
-        
-        #p.join()
-        return {'running': run}
+        return ("nothing")
 
 
 api.add_resource(run_simulation, '/run_simulation')
 
 
+
 if __name__ == '__main__':
     multiprocessing.set_start_method("spawn")
-    q = Queue()
-    p = multiprocessing.Process(name = 'p',target = run_julia, args=(q, )) 
+    q_in = Queue()
+    q_out = Queue()
+    p = multiprocessing.Process(name = 'p',target = run_julia, args=(q_in,q_out ))
     p.start()
+
     app.run(debug=True, use_reloader = True)
 
 
@@ -87,11 +127,11 @@ if __name__ == '__main__':
 #     q = Queue()
 #     q.put(ID)
 
-        
-    
-#     p = multiprocessing.Process(name = 'p',target = run_julia, args = (q,)) 
+
+
+#     p = multiprocessing.Process(name = 'p',target = run_julia, args = (q,))
 #     p.start()
-  
+
 
 
 #     print("simulation finished")
@@ -105,11 +145,11 @@ if __name__ == '__main__':
 #     file_path = ID +".json"
 #     output = Main.runP2DBattery.runP2DBatt(file_path)
 #     print("Output = ", output[0])
-    
-    
+
+
 #     # while True:
 
-        
+
 #     #     filled = q.empty
 
 #     #     if filled == False:
@@ -126,7 +166,7 @@ if __name__ == '__main__':
 #     #         time.sleep(2)
 
 
-    
+
 # @app.route ("/home")
 # def home():
 #     return render_template('home.html')

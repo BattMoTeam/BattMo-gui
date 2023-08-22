@@ -87,7 +87,7 @@
       "Separator": {
          "thickness": 1.5e-05,
          "N": 10,
-         "porosity": 0.55,
+         "porosity": 0.47,
          "BruggemanCoefficient": 1.5
       },
       "Conductivity": {

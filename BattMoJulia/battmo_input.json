@@ -29,7 +29,7 @@
             "label": "include_current_collector",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": true
+               "hasStringData": false
             }
          },
          {

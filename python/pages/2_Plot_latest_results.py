@@ -7,6 +7,7 @@ from PIL import Image
 import streamlit as st
 import matplotlib.pyplot as plt
 import time
+from queue import Queue
 
 
 ##############################
@@ -201,7 +202,10 @@ def get_min_difference():
 
 def create_subplot(x_data, y_data, title, x_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
     fig, ax = plt.subplots()
+
+
     ax.plot(x_data, y_data)
+
     ax.set_title(title)
     ax.set_xlabel(x_label)
     ax.get_yaxis().get_major_formatter().set_useOffset(False)
@@ -210,7 +214,7 @@ def create_subplot(x_data, y_data, title, x_label, x_min=None, y_min_sub=None, y
         ax.set_xlim(x_min, x_max)
     if y_max and y_min != y_max:
         ax.set_ylim(y_min, y_max)
-    if y_max and abs(y_min_sub- y_max_sub) <= 0.001:
+    if y_max and y_min_sub and abs(y_min_sub- y_max_sub) <= 0.001:
         delta = y_min_sub/10
         ax.set_ylim(y_min - delta, y_max + delta)
 
@@ -315,7 +319,7 @@ def get_elyte_p_color():
         cbar_label="Potential  /  V"
     )
 
-def view_plots(state):
+def view_plots_static(state):
     
     initial_graph_limits = get_graph_initial_limits()
     xmin = initial_graph_limits[0]
@@ -468,35 +472,232 @@ def view_plots(state):
     cell.pyplot(cell_current_fig, clear_figure=True)
     cell.pyplot(cell_voltage_fig, clear_figure=True)
 
+
+def view_plots_dynamic(state, q):
+    
+    [time_value,
+    negative_electrode_concentration_time_step,
+    electrolyte_concentration_time_step,
+    positive_electrode_concentration_time_step,
+    negative_electrode_potential_time_step,
+    electrolyte_potential_time_step,
+    positive_electrode_potential_time_step] = q.get()
+
+
+    initial_graph_limits = get_graph_initial_limits()
+    xmin = initial_graph_limits[0]
+    xmax = initial_graph_limits[1]
+    [
+        cmax_elyte_sub,
+        cmin_elyte_sub,
+        cmax_ne_sub, 
+        cmin_ne_sub, 
+        cmax_pe_sub,
+        cmin_pe_sub,
+        phimax_elyte_sub, 
+        phimin_elyte_sub,
+        phimax_ne_sub,
+        phimin_ne_sub,
+        phimax_pe_sub,
+        phimin_pe_sub,
+        cmin_elyte,
+        cmax_elyte,
+        cmin_ne,
+        cmax_ne,
+        cmin_pe,
+        cmax_pe,
+        phimax_elyte,
+        phimin_elyte,
+        phimax_ne,
+        phimin_ne,
+        phimax_pe,
+        phimin_pe
+    ] = get_graph_limits_from_state(state)
+
+
+
 def run_dynamic_dashboard():
+    #q = Queue()
+
     time_step = 0
     init_time_value = 0.0
     max_time_value = max(time_values)
     step_size = get_min_difference()
     time_array = np.arange(init_time_value,max_time_value,step_size)
+
+    cmax_elyte_sub_full = np.amax(electrolyte_concentration)
+    cmin_elyte_sub_full = np.amin(electrolyte_concentration)
+
+    cmax_ne_sub_full =np.amax(negative_electrode_concentration)
+    cmin_ne_sub_full = np.amin(negative_electrode_concentration)
+
+    cmax_pe_sub_full = np.amax(positive_electrode_concentration)
+    cmin_pe_sub_full = np.amin(positive_electrode_concentration)
+
+    phimax_elyte_sub_full = np.amax(electrolyte_potential)
+    phimin_elyte_sub_full =np.amin(electrolyte_potential)
+
+    phimax_ne_sub_full = np.amax(negative_electrode_potential)
+    phimin_ne_sub_full = np.amin(negative_electrode_potential)
+
+    phimax_pe_sub_full = np.amax(positive_electrode_potential)
+    phimin_pe_sub_full = np.amin(positive_electrode_potential)
     #print(time_array)
 
-    while time_step <= len(time_values):
+    # fig, ax = plt.subplots()
 
-        value = time_array[time_step]
-        time_step += 1
-        selected_time = st.slider(
-            key = ("RunDynamicDashboard%s" % time_step),
-            label="Select a time (hours)",
-            min_value=init_time_value,
-            max_value= max_time_value,
-            step=step_size,
-            value = value
-        )
+    # line, = ax.plot([])
+    # ax.set_title(title)
+    # ax.set_xlabel(x_label)
+    # ax.get_yaxis().get_major_formatter().set_useOffset(False)
+
+
+        #ax.axvline(x=vertical_line, color='k', linestyle="dashed")
+
+
+    # Negative Electrode Concentration
+    ne_concentration, ax_ne_c = plt.subplots()
+    line_ne_c, = ax_ne_c.plot([])
+        #x_data=np.squeeze(negative_electrode_grid[0]),
+        #y_data=negative_electrode_concentration_time_step,
+        #title="Negative Electrode Concentration  /  mol . L-1",
+        #x_label="Position  /  m",
+    ax_ne_c.set_ylim(24,28)
+
+    
+
+    # # Electrolyte Concentration
+    # elyte_concentration = create_subplot(
+    #     x_data=np.squeeze(electrolyte_grid[0]),
+    #     #y_data=electrolyte_concentration_time_step,
+    #     title="Electrolyte Concentration  /  mol . L-1",
+    #     x_label="Position  /  m",
+    #     y_min=cmin_elyte_sub_full,
+    #     y_max=cmax_elyte_sub_full,
+
+    # )
+    
+    # # Positive Electrode Concentration
+    # pe_concentration = create_subplot(
+    #     x_data=np.squeeze(positive_electrode_grid[0]),
+    #     #y_data=positive_electrode_concentration_time_step,
+    #     title="Positive Electrode Concentration  /  mol . L-1",
+    #     x_label="Position  /  m",
+    #     y_min=cmin_pe_sub_full,
+    #     y_max=cmax_pe_sub_full,
+
+    # )
+
+    # # Cell Current
+    # cell_current_fig = create_subplot(
+    #     x_data=time_values,
+    #     y_data=cell_current,
+    #     title="Cell Current  /  A",
+    #     x_label="Time  /  h",
+    #     #vertical_line=time_value
+    # )
+
+    # # Negative Electrode Potential
+    # ne_potential = create_subplot(
+    #     x_data=np.squeeze(negative_electrode_grid[0]),
+    #     #y_data=negative_electrode_potential_time_step,
+    #     title="Negative Electrode Potential  /  V",
+    #     x_label="Position  /  m",
+    #     y_min=phimin_ne_sub_full,
+    #     y_max=phimax_ne_sub_full,
+
+    # )
+
+    # # Electrolyte Potential
+    # elyte_potential = create_subplot(
+    #     x_data=np.squeeze(electrolyte_grid[0]),
+    #    # y_data=electrolyte_potential_time_step,
+    #     title="Electrolyte Potential  /  V",
+    #     x_label="Position  /  m",
+    #     y_min=phimin_elyte_sub_full,
+    #     y_max=phimax_elyte_sub_full,
+
+    # )
+
+    # # Positive Electrode Potential
+    # pe_potential = create_subplot(
+    #     x_data=np.squeeze(positive_electrode_grid[0]),
+    #     #y_data=positive_electrode_potential_time_step,
+    #     title="Positive Electrode Potential  /  V",
+    #     x_label="Position  /  m",
+    #     y_min=phimin_pe_sub_full,
+    #     y_max=phimax_pe_sub_full,
+
         
+    # )
+
+    # # Cell Voltage
+    # cell_voltage_fig = create_subplot(
+    #     x_data=time_values,
+    #     y_data=cell_voltage,
+    #     title="Cell Voltage  /  V",
+    #     x_label="Time  /  h",
+    #     #vertical_line=time_value
+    # )
+
+
+
+    while time_step <= len(time_values)-1:
+
+        #value = time_array[time_step]
+        
+
+        new_data = [ 
+
+            # time_values[time_step],
+            negative_electrode_concentration[time_step],
+            # electrolyte_concentration[time_step],
+            # positive_electrode_concentration[time_step],
+            # negative_electrode_potential[time_step],
+            # electrolyte_potential[time_step],
+            # positive_electrode_potential[time_step]
+
+        ]
+
+        #q.put(new_data)
+
+        line_ne_c.set_data(np.squeeze(negative_electrode_grid[0]),negative_electrode_concentration[time_step])
+
+        # selected_time = st.slider(
+        #     key = ("RunDynamicDashboard%s" % time_step),
+        #     label="Select a time (hours)",
+        #     min_value=init_time_value,
+        #     max_value= max_time_value,
+        #     step=step_size,
+        #     value = value
+        # )
+        #view_plots_dynamic(time_step, q)
 
         time.sleep(0.5)
 
-    state = 0
-    while time_values[state] < selected_time:
-        state += 1
+        #line_ne_c.set_data([],[])
+        time_step += 1
 
-    view_plots(state)
+        #plt.show
+
+        ######################
+        # Set streamlit plot
+        ######################
+
+        #ne, elyte, pe, cell = st.columns(4)
+
+        st.pyplot(ne_concentration)
+    
+    # ne.pyplot(ne_potential, clear_figure=True)
+
+    # elyte.pyplot(elyte_concentration, clear_figure=True)
+    # elyte.pyplot(elyte_potential, clear_figure=True)
+
+    # pe.pyplot(pe_concentration, clear_figure=True)
+    # pe.pyplot(pe_potential, clear_figure=True)
+
+    # cell.pyplot(cell_current_fig, clear_figure=True)
+    # cell.pyplot(cell_voltage_fig, clear_figure=True) 
     
 
     #set_dynamic_dashboard()
@@ -519,7 +720,7 @@ def set_dynamic_dashboard():
     while time_values[state] < selected_time:
         state += 1
 
-    view_plots(state)
+    view_plots_static(state)
 
 
 
@@ -636,11 +837,11 @@ def run_page():
     if display_dynamic_dashboard:
         set_dynamic_dashboard()
 
-        # run_dashboard = st.button(
-        #     label = "Run dynamic dashboard")
+        run_dashboard = st.button(
+            label = "Run dynamic dashboard")
         
-        # if run_dashboard:
-        #     run_dynamic_dashboard()
+        if run_dashboard:
+            run_dynamic_dashboard()
 
     if display_colormaps:
         set_colormaps()

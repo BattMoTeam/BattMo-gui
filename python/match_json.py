@@ -171,7 +171,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Separator": {
                 "thickness": 1.5e-05,#json_ld.sep.get("thickness"),
                 "N": number_of_discrete_cells_electrode,
-                "porosity": 0.55,
+                "porosity": json_ld.sep.get("porosity"),
                 #"specificHeatCapacity": json_ld.sep.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.sep.get("thermal_conductivity"),
                 #"density": json_ld.sep.get("density"),
@@ -205,7 +205,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.cell.get("initial_temperature"),
         #"use_thermal": json_ld.model.get("use_thermal"),
-        "include_current_collectors": False, #json_ld.model.get("include_current_collector"),
+        "include_current_collectors": json_ld.model.get("include_current_collector"),
         #"use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),
         "Control": {
             "controlPolicy": json_ld.protocol.get("protocol_name"),
