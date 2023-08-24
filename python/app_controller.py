@@ -14,6 +14,9 @@ class AppController:
 
     def set_model_choice(self):
         return SetModelChoice()
+    
+    def set_basis_input_tabs(self):
+        return SetBasisInputTabs(self.images)
 
     def set_tabs(self, model_id):
         return SetTabs(self.images, model_id, self.context)

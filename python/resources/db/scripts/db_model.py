@@ -1,4 +1,14 @@
-from python.resources.db import db_access
+import sys
+import os
+##############################
+# Set page directory to base level to allow for module import from different folder
+path_to_python_module = os.path.dirname(os.path.abspath(__file__))
+os.chdir("..")
+path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
+sys.path.insert(0, path_to_python_module)
+##############################
+
+import python.resources.db.db_access as db_access
 """
 Important links between tables:
 
@@ -15,6 +25,7 @@ Important links between tables:
 """
 
 if __name__ == "__main__":
+
     con, cur = db_access.get_sqlite_con_and_cur()
 
     ########################################################
@@ -113,6 +124,21 @@ if __name__ == "__main__":
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS tab(
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            display_name VARCHAR(40) NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            description VARCHAR(255) NULL DEFAULT ""
+        )
+    """)
+
+    ########################################################
+    #       basis_tab
+    #       name, display_name, context_type, context_type_iri, description
+    ########################################################
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS basis_tab(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
             display_name VARCHAR(40) NOT NULL,

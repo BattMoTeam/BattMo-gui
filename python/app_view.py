@@ -128,6 +128,178 @@ class SetModelChoice:
         self.selected_model = selected_model_id
 
 
+class SetBasisInputTabs:
+    def __init__(self, images):
+
+        self.image_dict = images
+
+        #Initialize tabs
+        self.title = "Parameters"
+        self.set_title()
+        self.set_basis_tabs()
+
+    def set_title(self):
+        st.markdown("### " + self.title)
+
+    def set_basis_tabs(self):
+
+        Electrodes, Electrolyte, Seperator, Protocol, BC = st.tabs(["Electrodes", "Electrolyte", "Seperator", "Protocol", "Boundary Conditions"])
+        
+        with Electrodes:
+            image_collumn_electrodes,image2_collumn_electrodes, title_electrodes = st.columns([0.9,0.9,6])
+            image_collumn_electrodes.image(self.image_dict['2'])
+            image2_collumn_electrodes.image(self.image_dict['1'])
+            with title_electrodes:
+                st.text(" ")
+                st.subheader("Electrodes")
+
+            NE, PE = st.tabs(["Negative Electrode", "Positive Electrode"])
+            with NE:
+                parameter_NE_AM, selectbox_NE_AM, volumefraction_NE_AM = st.columns(3)
+                parameter_NE_B, selectbox_NE_B, volumefraction_NE_B = st.columns(3)
+                parameter_NE_Ad, selectbox_NE_Ad, volumefraction_NE_Ad = st.columns(3)
+
+                with parameter_NE_AM:
+                    st.markdown("###### "+ "Component")
+                
+                    st.markdown("Active Material")
+                with selectbox_NE_AM:
+                    st.markdown("###### "+ "Material")
+                    NE_AM_choice = st.selectbox('Material', ('Graphite_Xu2015', 'Graphite_Safari2009', 'User Defined'), key = "NE_AM_choice",label_visibility="collapsed")
+                with volumefraction_NE_AM:
+                    st.markdown("###### "+ "Volume Fraction []")
+                    volume_fraction_NE_AM = st.number_input(label = "Volume fraction",key = "volume fraction input NE AM", label_visibility="collapsed")
+                if NE_AM_choice == 'User Defined':
+                    NE_AM_exp = st.expander("Define active material parameters")
+                    with NE_AM_exp:
+                        st.write("parameter form")
+
+                with parameter_NE_B:
+                    st.markdown("Binder")
+                with selectbox_NE_B:
+                    NE_B_choice = st.selectbox('Material', ('PVDF', 'User Defined'), key = "NE_B_choice",label_visibility="collapsed")
+                with volumefraction_NE_B:
+                    volume_fraction_NE_B = st.number_input(label = "Volume fraction",key = "volume fraction input NE B", label_visibility="collapsed")
+                if NE_B_choice == 'User Defined':
+                    NE_B_exp = st.expander("Define binder parameters")
+                    with NE_B_exp:
+                        st.write("parameter form")
+                with parameter_NE_Ad:
+                    st.markdown("Additive")
+                with selectbox_NE_Ad:
+                    NE_Ad_choice = st.selectbox('Material', ('carbon_black', 'User Defined'), key = "NE_Ad_choice",label_visibility="collapsed")
+                with volumefraction_NE_Ad:
+                    volume_fraction_NE_Ad = st.number_input(label = "Volume fraction",key = "volume fraction input NE Ad", label_visibility="collapsed")
+                if NE_Ad_choice == 'User Defined':
+                    NE_Ad_exp = st.expander("Define additive parameters")
+                    with NE_Ad_exp:
+                        st.write("parameter form")
+
+                    #Electrode_properties = st.tabs(["Electrode properties"])
+                st.markdown("###### " + "Electrode properties")
+
+                electrode_properties_NE, graphics_Electrodes_NE = st.columns([2,1])
+                with graphics_Electrodes_NE:
+                    st.markdown("Coating porosity []")
+                with electrode_properties_NE:
+                    parameter_Electrodes_porosity_NE, input_Electrodes_porosity_NE = st.columns(2)
+                    with parameter_Electrodes_porosity_NE: 
+                        st.markdown("Coating porosity []")
+                    with input_Electrodes_porosity_NE: 
+                        coating_porosity_NE = st.number_input(label = "Coating Porosity",key = "coating porosity input NE", label_visibility="collapsed")
+                    parameter_Electrodes_mass_load_NE, input_Electrodes_mass_load_NE = st.columns(2)
+                    with parameter_Electrodes_mass_load_NE: 
+                        st.markdown("Mass loading []")
+                    with input_Electrodes_mass_load_NE: 
+                        mass_loading_NE = st.number_input(label = "Mass loading",key = "mass loading input NE", label_visibility="collapsed")
+                    parameter_Electrodes_thickness_NE, input_Electrodes_thickness_NE = st.columns(2)
+                    with parameter_Electrodes_thickness_NE: 
+                        st.markdown("Coating thickness []")
+                    with input_Electrodes_thickness_NE: 
+                        coating_thickness_NE = st.number_input(label = "Coating thickness",key = "coating thickness input NE", label_visibility="collapsed")
+            with PE:
+                parameter_PE_AM, selectbox_PE_AM, volumefraction_PE_AM = st.columns(3)
+                parameter_PE_B, selectbox_PE_B, volumefraction_PE_B = st.columns(3)
+                parameter_PE_Ad, selectbox_PE_Ad, volumefraction_PE_Ad = st.columns(3)
+
+                with parameter_PE_AM:
+                    st.markdown("###### "+ "Component")
+                    st.markdown("Active Material")
+                with selectbox_PE_AM:
+                    st.markdown("###### "+ "Material")
+                    PE_AM_choice = st.selectbox('Material', ('Graphite_Xu2015', 'Graphite_Safari2009', 'User Defined'), key = "PE_AM_choice",label_visibility="collapsed")
+                with volumefraction_PE_AM:
+                    st.markdown("###### "+ "Volume Fraction []")
+                    volume_fraction_PE_AM = st.number_input(label = "Volume fraction",key = "volume fraction input PE AM", label_visibility="collapsed")
+                if PE_AM_choice == 'User Defined':
+                    PE_AM_exp = st.expander("Define active material parameters")
+                    with NE_AM_exp:
+                        st.write("parameter form")
+
+                with parameter_PE_B:
+                    st.markdown("Binder")
+                with selectbox_PE_B:
+                    PE_B_choice = st.selectbox('Material', ('PVDF', 'User DefiPed'), key = "PE_B_choice",label_visibility="collapsed")
+                with volumefraction_PE_B:
+                    volume_fraction_PE_B = st.number_input(label = "Volume fraction",key = "volume fraction input PE B", label_visibility="collapsed")
+                if PE_B_choice == 'User Defined':
+                    PE_B_exp = st.expander("Define binder parameters")
+                    with PE_B_exp:
+                        st.write("parameter form")
+                with parameter_PE_Ad:
+                    st.markdown("Additive")
+                with selectbox_PE_Ad:
+                    PE_Ad_choice = st.selectbox('Material', ('carbon_black', 'User Defined'), key = "PE_Ad_choice",label_visibility="collapsed")
+                with volumefraction_PE_Ad:
+                    volume_fraction_PE_Ad = st.number_input(label = "Volume fraction",key = "volume fraction input PE Ad", label_visibility="collapsed")
+                if PE_Ad_choice == 'User Defined':
+                    PE_Ad_exp = st.expander("Define additive parameters")
+                    with PE_Ad_exp:
+                        st.write("parameter form")
+
+                #Electrode_properties = st.tabs(["Electrode properties"])
+                st.markdown("###### " + "Electrode properties")
+
+                electrode_properties, graphics_Electrodes = st.columns([2,1])
+                with graphics_Electrodes:
+                    st.markdown("Coating porosity []")
+                with electrode_properties:
+                    parameter_Electrodes_porosity, input_Electrodes_porosity = st.columns(2)
+                    with parameter_Electrodes_porosity: 
+                        st.markdown("Coating porosity []")
+                    with input_Electrodes_porosity: 
+                        coating_porosity = st.number_input(label = "Coating Porosity",key = "coating porosity input", label_visibility="collapsed")
+                    parameter_Electrodes_mass_load, input_Electrodes_mass_load = st.columns(2)
+                    with parameter_Electrodes_mass_load: 
+                        st.markdown("Mass loading []")
+                    with input_Electrodes_mass_load: 
+                        coating_porosity = st.number_input(label = "Mass loading",key = "mass loading input", label_visibility="collapsed")
+                    parameter_Electrodes_thickness, input_Electrodes_thickness = st.columns(2)
+                    with parameter_Electrodes_thickness: 
+                        st.markdown("Coating thickness []")
+                    with input_Electrodes_thickness: 
+                        coating_porosity = st.number_input(label = "Coating thickness",key = "coating thickness input", label_visibility="collapsed")
+            st.divider()
+            
+            n_to_p_parameter, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,2.5,0.5,2.5,3])
+
+            with n_to_p_parameter:
+                st.markdown("N/P ratio")
+            with n_to_p_value_n:
+                n_to_p_n = st.number_input(label = "ntop_n", key = "ntop_n", value = 1.0, label_visibility="collapsed")
+            with to:
+                st.markdown(" / ")
+            with n_to_p_value_p:
+                n_to_p_p = st.number_input(label = "ntop_p", key = "ntop_p", value = 1.2, label_visibility="collapsed")
+
+        st.divider()
+
+
+            
+
+
+    
+
 class SetTabs:
     """
     - Rendering of almost all the Define Parameter tab
@@ -656,7 +828,7 @@ class RunSimulation:
         # set RUN header
         st.markdown("### " + self.run_header)
 
-        st.info(self.run_info)
+        #st.info(self.run_info)
 
         # set RUN button
         st.button(

@@ -51,6 +51,14 @@ def sql_template_parameter():
 #####################################
 # TAB
 #####################################
+
+@st.cache_data
+def get_basis_tabs_display_names():
+    res = sql_tab().select(
+        values='display_name'
+    )
+    return [a[0] for a in res]
+
 @st.cache_data
 def get_tabs_display_names():
     res = sql_tab().select(
@@ -188,7 +196,7 @@ def get_model_parameters_as_dict(model_id):
 def get_template_parameters_from_template_id(template_id):
     return sql_template_parameter().get_all_by_template_id(template_id)
 
-
+all_basis_tab_display_names = get_basis_tabs_display_names()
 all_tab_display_names = get_tabs_display_names()
 all_tab_names = get_tabs_names()
 all_tab_id = st_tab_id_to_db_tab_id()

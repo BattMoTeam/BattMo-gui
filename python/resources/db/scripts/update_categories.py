@@ -55,7 +55,8 @@ class UpdateCategories:
             tab_id = self.sql_tab.get_id_from_name(tab_name)
 
             if tab_id:
-
+                model_name = details.get("model_name")
+                difficulty = details.get("difficulty")
                 context_type = details.get("context_type")
                 context_type_iri = details.get("context_type_iri")
                 emmo_relation = details.get("emmo_relation")
@@ -74,6 +75,8 @@ class UpdateCategories:
                         id=category_id,
                         columns_and_values={
                             "tab_id": tab_id,
+                            "model_name": model_name,
+                            "difficulty": difficulty,
                             "context_type": context_type,
                             "context_type_iri": context_type_iri,
                             "emmo_relation": emmo_relation,
@@ -89,6 +92,8 @@ class UpdateCategories:
                     self.sql_category.insert_value(
                         name=category_name,
                         tab_id=tab_id,
+                        model_name=model_name,
+                        difficulty=difficulty,
                         context_type=context_type,
                         context_type_iri=context_type_iri,
                         emmo_relation=emmo_relation,

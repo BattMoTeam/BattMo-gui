@@ -280,6 +280,28 @@ class TabHandler(BaseHandler):
                 "description": description
             }
         )
+    
+#####################################
+# BASIS TAB
+#####################################
+class BasisTabHandler(BaseHandler):
+    def __init__(self):
+        self._table_name = "basis_tab"
+        self._columns = "name, display_name, context_type, context_type_iri, description"
+
+    def insert_value(self, name, display_name, context_type=None, context_type_iri=None, description=""):
+        assert name is not None, "Tab's name can't be None"
+        assert display_name is not None, "Tab's display_name can't be None"
+
+        return self._insert_value_query(
+            columns_and_values={
+                "name": name,
+                "context_type": context_type,
+                "context_type_iri": context_type_iri,
+                "display_name": display_name,
+                "description": description
+            }
+        )
 
 
 #####################################

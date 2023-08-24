@@ -33,9 +33,17 @@ def run_page():
     app = get_app_controller()
 
     model_id = app.set_model_choice().selected_model
-    gui_parameters = app.set_tabs(model_id).user_input
 
-    app.save_parameters(gui_parameters)
+    app.set_basis_input_tabs()
+
+    advanced_input = st.checkbox(
+        label ="Show advanced parameter input",
+        key = "AdvancedInput")
+    
+    if advanced_input:
+        gui_parameters = app.set_tabs(model_id).user_input
+
+    #app.save_parameters(gui_parameters)
 
 
 if __name__ == "__main__":

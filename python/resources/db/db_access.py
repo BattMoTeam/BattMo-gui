@@ -42,6 +42,10 @@ def get_path_to_tabs():
     file_name = "tabs.json"
     return os.path.join(get_path_to_db_dir(), "resources", file_name)
 
+def get_path_to_basis_tabs():
+    file_name = "basis_tabs.json"
+    return os.path.join(get_path_to_db_dir(), "resources", file_name)
+
 
 def get_path_to_models():
     file_name = "models.json"

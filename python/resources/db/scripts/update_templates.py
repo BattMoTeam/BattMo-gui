@@ -17,6 +17,9 @@ import python.resources.db.db_access as db_access
 
 class TemplateField(object):
     def __init__(self):
+        self.model_name = "model_name"
+        self.par_class = "par_class"
+        self.difficulty = "difficulty"
         self.context_type = "context_type"
         self.context_type_iri = "context_type_iri"
         self.type = "type"
@@ -124,6 +127,9 @@ class UpdateTemplates:
             self.sql_template_parameter.insert_value(
                 name=parameter,
                 template_id=template_id,
+                model_name=details.get(fields.model_name),
+                par_class=details.get(fields.par_class),
+                difficulty=details.get(fields.difficulty),
                 context_type=details.get(fields.context_type),
                 context_type_iri=details.get(fields.context_type_iri),
                 type=details.get(fields.type),
@@ -155,6 +161,9 @@ class UpdateTemplates:
                     self.sql_template_parameter.update_by_id(
                         id=parameter_id,
                         columns_and_values={
+                            "model_name": details.get(fields.model_name),
+                            "par_class": details.get(fields.par_class),
+                            "difficulty": details.get(fields.difficulty),
                             "context_type": details.get(fields.context_type),
                             "context_type_iri": details.get(fields.context_type_iri),
                             "type": details.get(fields.type),

@@ -1,6 +1,7 @@
 from update_templates import UpdateTemplates
 from update_models import UpdateModels
 from update_tabs import UpdateTabs
+from update_basis_tabs import UpdateBasisTabs
 from update_categories import UpdateCategories
 from update_all_parameter_sets import UpdateParameterSets
 
@@ -32,3 +33,5 @@ if __name__ == "__main__":
 
     # 5. Parameter sets (depend on templates and categories)
     UpdateParameterSets().execute_script()
+
+
