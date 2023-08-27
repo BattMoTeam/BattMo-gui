@@ -4,7 +4,7 @@
    "Parameters": {
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
@@ -19,7 +19,7 @@
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
@@ -34,7 +34,7 @@
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Density",
          "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
@@ -49,19 +49,19 @@
       },
       "conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "type": "function"
       },
       "diffusion_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "type": "function"
       },
       "charge_carrier_name": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "echem:ChargeCarrierIon",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_d1042a12_e4be_4992_86cb_59420ef4e05c",
@@ -71,7 +71,7 @@
       },
       "charge_carrier_charge_number": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ChargeNumber",
          "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
@@ -86,7 +86,7 @@
       },
       "charge_carrier_transference_number": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.99,
          "min_value": 0.01,
@@ -99,7 +99,7 @@
       },
       "counter_ion_name": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "description": "",
          "is_shown_to_user": true,
@@ -107,7 +107,7 @@
       },
       "counter_ion_charge_number": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ChargeNumber",
          "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
@@ -122,7 +122,7 @@
       },
       "counter_ion_transference_number": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.99,
          "min_value": 0.01,
@@ -135,7 +135,7 @@
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 5,
          "min_value": 0.1,
@@ -148,7 +148,7 @@
       },
       "concentration": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "max_value": 10000,
          "min_value": 0.0,
@@ -159,9 +159,9 @@
          "unit_name": "MolPerLiter",
          "unit_iri": ""
       },
-      "EC/DMC": {
+      "EC_DMC": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "max_value": 100,
          "min_value": 0.0,

@@ -1,7 +1,7 @@
 {
-   "Name": "TBD_battmo_json_ne_am",
-   "Category": "negative_electrode_active_material",
+   "Name": "negative_electrode_active_material",
    "Header": {},
+   "component": "negative_electrode_active_material",
    "Parameters": {
       "electronic_conductivity": 100,
       "activation_energy_of_diffusion": 5e3,

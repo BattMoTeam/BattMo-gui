@@ -28,6 +28,17 @@ if __name__ == "__main__":
 
     con, cur = db_access.get_sqlite_con_and_cur()
 
+    cur.execute("DROP TABLE parameter")
+    cur.execute("DROP TABLE parameter_set")
+    cur.execute("DROP TABLE template")
+    cur.execute("DROP TABLE template_parameter")
+    cur.execute("DROP TABLE model")
+    cur.execute("DROP TABLE model_parameter")
+    cur.execute("DROP TABLE tab")
+    cur.execute("DROP TABLE category")
+    cur.execute("DROP TABLE component")
+    cur.execute("DROP TABLE material")
+
     ########################################################
     #       parameter
     #       name, parameter_set_id, template_parameter_id, value
@@ -50,7 +61,7 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS parameter_set(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
-            category_id INT NOT NULL
+            component_id VARCHAR(40) DEFAULT NULL
         )
     """)
 
@@ -73,6 +84,10 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS template_parameter(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(255) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            par_class VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT NOT NULL,
             template_id INT NOT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
@@ -89,13 +104,12 @@ if __name__ == "__main__":
 
     ########################################################
     #       model
-    #       name, templates, description
+    #       name, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS model(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
-            templates VARCHAR(255) NULL DEFAULT "{}",
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
@@ -126,6 +140,9 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS tab(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
             display_name VARCHAR(40) NOT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
@@ -133,20 +150,6 @@ if __name__ == "__main__":
         )
     """)
 
-    ########################################################
-    #       basis_tab
-    #       name, display_name, context_type, context_type_iri, description
-    ########################################################
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS basis_tab(
-            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            name VARCHAR(40) NOT NULL,
-            display_name VARCHAR(40) NOT NULL,
-            context_type VARCHAR(40) DEFAULT NULL,
-            context_type_iri VARCHAR(40) DEFAULT NULL,
-            description VARCHAR(255) NULL DEFAULT ""
-        )
-    """)
 
     ########################################################
     #       category
@@ -156,6 +159,9 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS category(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
             emmo_relation VARCHAR(40) DEFAULT NULL,
@@ -165,3 +171,53 @@ if __name__ == "__main__":
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
+
+    ########################################################
+    #       component
+    #       name, display_name, context_type, context_type_iri, description
+    ########################################################
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS component(
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
+            default_template VARCHAR(40) DEFAULT NULL,
+            display_name VARCHAR(40) NOT NULL,
+            emmo_relation VARCHAR(40) DEFAULT NULL,
+            category_id INT NOT NULL,
+            default_template_id INT NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            description VARCHAR(255) NULL DEFAULT ""
+        )
+    """)
+    ########################################################
+    #       material
+    #       name, model_name, difficulty, display_name, context_type, context_type_iri, description
+    ########################################################
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS material(
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
+            category_id INT DEFAULT NULL,
+            display_name VARCHAR(40) NOT NULL,
+            number_of_components INTEGER DEFAULT NULL,
+            component_name_1 VARCHAR(40) DEFAULT NULL,
+            component_name_2 VARCHAR(40) DEFAULT NULL,
+            default_material VARCHAR(255) DEFAULT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            component_id_1 INT DEFAULT NULL,
+            component_id_2 INT DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            description VARCHAR(255) NULL DEFAULT ""
+        )
+    """)
+
+
+    data=cur.execute('''SELECT * FROM category''')
+    print(data.description)

@@ -4,7 +4,7 @@
    "Parameters": {
       "ambient_temperature": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:AmbientThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_39a44af0_0e1a_4859_b550_bdabad64386e",
@@ -19,7 +19,7 @@
       },
       "initial_temperature": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:InititalThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_9c9b80a4_a00b_4b91_8e17_3a7831f2bf2f",
@@ -34,7 +34,7 @@
       },
       "reference_temperature": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:ReferenceThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
@@ -49,7 +49,7 @@
       },
       "external_heat_transfer_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:CoefficientOfHeatTransfer",
          "context_type_iri": "http://emmo.info/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
@@ -64,7 +64,7 @@
       },
       "initial_state_of_charge": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "battery:StateOfCharge",
          "context_type_iri": "http://emmo.info/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
@@ -77,9 +77,37 @@
          "unit_name": "UnitOne",
          "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
+      "nominal_cell_capacity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "max_value": 1000,
+         "min_value": 0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "A.h",
+         "unit_name": "AmpereHour",
+         "unit_iri": "http://emmo.info/emmo#AmpereHour"
+      },
+      "number_parallel_electrode_pairs_within_cell": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+         "max_value": 100,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+      },
       "external_surface_area": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 10,
          "min_value": 1e-06,
@@ -92,7 +120,7 @@
       },
       "volume": {
          "model_name": "p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Volume",
          "context_type_iri": "http://emmo.info/emmo#EMMO_f1a51559_aa3d_43a0_9327_918039f0dfed",

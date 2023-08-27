@@ -1,7 +1,7 @@
 {
    "Name": "PVDF",
-   "Category": "positive_electrode_binder",
    "Header": {},
+   "component": "positive_electrode_binder",
    "Parameters": {
       "density": 1780,
       "specific_heat_capacity": 1400,

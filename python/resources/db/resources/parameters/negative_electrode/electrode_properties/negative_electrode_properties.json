@@ -1,7 +1,7 @@
 {
-   "Name": "negative_electrode_properties",
-   "Category": "negative_electrode_properties",
+   "Name": "negative_electrode",
    "Header": {},
+   "component": "negative_electrode_properties",
    "Parameters": {
       "coating_thickness": 8.67e-05,
       "coating_porosity": 0.2,

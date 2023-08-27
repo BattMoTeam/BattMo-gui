@@ -1,7 +1,7 @@
 {
-   "Name": "TBD_battmo_json_pe_binder",
-   "Category": "positive_electrode_binder",
+   "Name": "positive_electrode_binder",
    "Header": {},
+   "component": "positive_electrode_binder",
    "Parameters": {
       "electronic_conductivity": 100
    }

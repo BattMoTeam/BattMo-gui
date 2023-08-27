@@ -34,6 +34,8 @@ def run_page():
 
     model_id = app.set_model_choice().selected_model
 
+    #basis, advanced = app.get_tab_data(model_id)
+
     app.set_basis_input_tabs()
 
     advanced_input = st.checkbox(

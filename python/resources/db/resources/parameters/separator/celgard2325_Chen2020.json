@@ -1,6 +1,6 @@
 {
    "Name": "celgard2325_Chen2020",
-   "Category": "separator",
+   "component": "separator_materials",
    "Header": {},
    "Parameters": {
       "thickness": 1.2e-05,

@@ -1,6 +1,6 @@
 {
    "Name": "celgard2500_Xu2015",
-   "Category": "separator",
+   "component": "separator_materials",
    "Header": {},
    "Parameters": {
       "thickness": 0.4,

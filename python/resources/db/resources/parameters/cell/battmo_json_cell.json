@@ -1,9 +1,16 @@
 {
-   "Name": "TBD_battmo_json_cell",
-   "Category": "cell",
+   "Name": "boundary_conditions",
    "Header": {},
+   "component": "boundary_conditions",
    "Parameters": {
       "external_heat_transfer_coefficient": 1000,
-      "initial_state_of_charge": 0.99
+      "initial_state_of_charge": 0.99,
+      "ambient_temperature": 298.15,
+      "initial_temperature": 298.15,
+      "reference_temperature": 298.15,
+      "nominal_cell_capacity": 12.5,
+      "number_parallel_electrode_pairs_within_cell": 34,
+      "external_surface_area": 0.0379,
+      "volume": 0.000128
    }
 }

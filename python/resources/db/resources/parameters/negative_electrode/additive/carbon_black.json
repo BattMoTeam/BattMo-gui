@@ -1,7 +1,7 @@
 {
    "Name": "carbon_black",
-   "Category": "negative_electrode_additive",
    "Header": {},
+   "component": "negative_electrode_additive",
    "Parameters": {
       "density": 1800,
       "specific_heat_capacity": 300,

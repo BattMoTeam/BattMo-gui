@@ -1,7 +1,7 @@
 {
    "Name": "Graphite_Xu2015",
-   "Category": "negative_electrode_active_material",
    "Header": {},
+   "component": "negative_electrode_active_material",
    "Parameters": {
       "maximum_concentration": 31540,
       "volume_fraction": 0.7,

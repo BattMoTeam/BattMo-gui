@@ -36,6 +36,8 @@
             "difficulty": "basis_advanced",
             "tab_name": "electrolyte",
             "description": "",
+            "context_type": "echem:Electrolyte",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_fb0d9eef_92af_4628_8814_e065ca255d59",
             "default_template": "electrolyte_full_template"
         },
         "negative_electrode": {
@@ -44,9 +46,9 @@
             "context_type": "echem:NegativeElectrode",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Negative electrode",
-            "tab_name": "Electrodes",
+            "tab_name": "electrodes",
             "description": "",
-            "default_template": "negative_electrode_full_template"
+            "default_template": "electrode_properties_full_template"
         },
         "positive_electrode": {
             "model_name": "p2d_p3d_p4d",
@@ -54,9 +56,9 @@
             "context_type": "echem:PositiveElectrode",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Positive Electrode",
-            "tab_name": "positive_electrode",
+            "tab_name": "electrodes",
             "description": "",
-            "default_template": "positive_electrode_full_template"
+            "default_template": "electrode_properties_full_template"
         },
         "separator": {
             "model_name": "p2d_p3d_p4d",

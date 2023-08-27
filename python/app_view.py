@@ -128,6 +128,13 @@ class SetModelChoice:
         self.selected_model = selected_model_id
 
 
+# class GetTabData:
+#     def __init__(self):
+
+#     def get_sql_data(self):
+
+#         #Get data relevent to chosen model
+
 class SetBasisInputTabs:
     def __init__(self, images):
 

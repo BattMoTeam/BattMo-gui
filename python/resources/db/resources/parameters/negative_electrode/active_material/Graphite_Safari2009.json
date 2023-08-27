@@ -1,7 +1,7 @@
 {
    "Name": "Graphite_Safari2009",
-   "Category": "negative_electrode_active_material",
    "Header": {},
+   "component": "negative_electrode_active_material",
    "Parameters": {
       "maximum_concentration": 30555,
       "volume_fraction": 0.8,

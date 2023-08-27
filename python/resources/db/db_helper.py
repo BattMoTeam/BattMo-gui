@@ -136,7 +136,7 @@ def get_models_as_dict():
     models_as_dict = {}
 
     for model in models:
-        model_id, model_name, _, _ = model
+        model_id, model_name, _ = model
 
         models_as_dict[model_id] = model_name
 

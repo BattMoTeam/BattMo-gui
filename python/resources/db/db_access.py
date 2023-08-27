@@ -37,6 +37,13 @@ def get_path_to_categories():
     file_name = "categories.json"
     return os.path.join(get_path_to_db_dir(), "resources", file_name)
 
+def get_path_to_components():
+    file_name = "components.json"
+    return os.path.join(get_path_to_db_dir(), "resources", file_name)
+
+def get_path_to_materials():
+    file_name = "materials.json"
+    return os.path.join(get_path_to_db_dir(), "resources", file_name)
 
 def get_path_to_tabs():
     file_name = "tabs.json"

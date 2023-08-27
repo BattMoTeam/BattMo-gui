@@ -1,6 +1,6 @@
 {
    "Name": "TBD_battmo_json_separator",
-   "Category": "separator",
+   "component": "separator_properties",
    "Header": {},
    "Parameters": {
       "length": 0.01,

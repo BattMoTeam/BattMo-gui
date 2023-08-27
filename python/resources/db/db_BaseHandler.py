@@ -15,23 +15,24 @@ class BaseHandler:
         assert False, "must be overridden"
 
     def _insert_value_query(self, columns_and_values):
-
         assert columns_and_values, "must specify columns_and_values arg"
         columns = []
         values = []
         for column in columns_and_values:
             value = columns_and_values.get(column)
+            print("value = ",value)
             if value is not None:
                 columns.append(column)
                 values.append(value)
 
-        query = "INSERT INTO {} ({}) VALUES {}".format(
+        query = "INSERT INTO {} ({}) VALUES ({})".format(
             self._table_name,
+            #column,
             ", ".join(columns),
-            tuple(values)
+            ", ".join(['?'] * len(values))
         )
-
-        cur.execute(query)
+        print(query)
+        cur.execute(query, tuple(values))
         con.commit()
         return cur.lastrowid
 

@@ -4,7 +4,7 @@
    "Parameters": {
       "thickness": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Thickness",
          "context_type_iri": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
@@ -19,7 +19,7 @@
       },
       "length": {
          "model_name": "p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Length",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
@@ -34,7 +34,7 @@
       },
       "width": {
          "model_name": "p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Width",
          "context_type_iri": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
@@ -49,7 +49,7 @@
       },
       "porosity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Porosity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
@@ -64,7 +64,7 @@
       },
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
@@ -79,7 +79,7 @@
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
@@ -94,7 +94,7 @@
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Density",
          "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
@@ -109,7 +109,7 @@
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "max_value": 5,
          "min_value": 0.1,
@@ -122,7 +122,7 @@
       },
       "number_of_discrete_cells_separator": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",

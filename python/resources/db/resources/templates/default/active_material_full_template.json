@@ -4,7 +4,7 @@
    "Parameters": {
       "maximum_concentration": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Concentration",
          "context_type_iri": "http://emmo.info/emmo#EMMO_a356870d_409a_4de6_a910_0d8498e593ff",
@@ -19,7 +19,7 @@
       },
       "volume_fraction": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:VolumeFraction",
          "context_type_iri": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
@@ -34,7 +34,7 @@
       },
       "volumetric_surface_area": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 10000000.0,
          "min_value": 1,
@@ -47,7 +47,7 @@
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Density",
          "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
@@ -62,7 +62,7 @@
       },
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
@@ -77,7 +77,7 @@
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
@@ -92,7 +92,7 @@
       },
       "electronic_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ElectricConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
@@ -107,7 +107,7 @@
       },
       "number_of_electrons_transferred": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
@@ -122,7 +122,7 @@
       },
       "activation_energy_of_reaction": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Energy",
          "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
@@ -137,7 +137,7 @@
       },
       "reaction_rate_constant": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.001,
          "min_value": 1e-20,
@@ -150,7 +150,7 @@
       },
       "maximum_lithium_stoichiometry": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:StoichiometricNumberOfSubstance",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
@@ -165,7 +165,7 @@
       },
       "minimum_lithium_stoichiometry": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:StoichiometricNumberOfSubstance",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
@@ -180,7 +180,7 @@
       },
       "activation_energy_of_diffusion": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Energy",
          "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
@@ -195,7 +195,7 @@
       },
       "diffusion_pre_exponential_factor": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 1,
          "min_value": 1e-15,
@@ -208,7 +208,7 @@
       },
       "number_of_discrete_cells_electrode": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
@@ -223,7 +223,7 @@
       },
       "particle_radius": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Radius",
          "context_type_iri": "http://emmo.info/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
@@ -238,7 +238,7 @@
       },
       "number_of_discrete_cells_particle_radius": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
@@ -253,7 +253,7 @@
       },
       "open_circuit_potential": {
          "model_name": "p2d_p3d_p4d",
-         "class": "material",
+         "par_class": "material",
          "difficulty": "basis",
          "type": "function"
       }

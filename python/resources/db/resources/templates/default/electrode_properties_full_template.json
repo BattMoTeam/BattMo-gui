@@ -4,7 +4,7 @@
    "Parameters": {
       "coating_thickness": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Thickness",
          "context_type_iri": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
@@ -19,7 +19,7 @@
       },
       "coating_porosity": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Porosity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
@@ -34,7 +34,7 @@
       },
       "length": {
          "model_name": "p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Length",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
@@ -49,7 +49,7 @@
       },
       "width": {
          "model_name": "p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Width",
          "context_type_iri": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
@@ -64,7 +64,7 @@
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 5,
          "min_value": 0.1,
@@ -75,9 +75,22 @@
          "unit_name": "UnitOne",
          "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
       },
-      "N/P_ratio": {
+      "n_to_p_negative": {
          "model_name": "p2d_p3d_p4d",
-         "class": "non_material",
+         "par_class": "non_material",
+         "difficulty": "basis",
+         "max_value": 100,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+      },
+      "n_to_p_positive": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
          "difficulty": "basis",
          "max_value": 100,
          "min_value": 0.0,

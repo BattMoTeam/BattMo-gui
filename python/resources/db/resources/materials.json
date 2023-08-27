@@ -1,5 +1,5 @@
 {
-    "Materials":{
+    "materials":{
         "Graphite_Safari2009":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -69,6 +69,54 @@
             "display_name": "NMC111 (Safari-2009)",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_active_material",
+            "description": "",
+            "default_material": true
+
+        },
+        "celgard2325_Chen2020":{
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "basis",
+            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "display_name": "Celgard2325 (Chen-2020)",
+            "number_of_components": 1,
+            "component_name_1": "separator_materials",
+            "description": "",
+            "default_material": true
+
+        },
+        "celgard2500_Xu2015":{
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "basis",
+            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "display_name": "Celgard2500 (Xu-2015)",
+            "number_of_components": 1,
+            "component_name_1": "separator_materials",
+            "description": "",
+            "default_material": true
+
+        },
+        "aluminium":{
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "basis",
+            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "display_name": "Aluminium",
+            "number_of_components": 1,
+            "component_name_1": "positive_electrode_current_collector_materials",
+            "description": "",
+            "default_material": true
+
+        },
+        "copper":{
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "basis",
+            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "display_name": "Copper",
+            "number_of_components": 1,
+            "component_name_1": "negative_electrode_current_collector_materials",
             "description": "",
             "default_material": true
 

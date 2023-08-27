@@ -1,7 +1,7 @@
 {
    "Name": "NMC111_Safari2009",
-   "Category": "positive_electrode_active_material",
    "Header": {},
+   "component": "positive_electrode_active_material",
    "Parameters": {
       "maximum_concentration": 55554,
       "volume_fraction": 0.8,
