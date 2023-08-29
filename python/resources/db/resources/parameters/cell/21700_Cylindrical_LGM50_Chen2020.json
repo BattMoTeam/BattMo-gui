@@ -2,6 +2,7 @@
    "Name": "21700_Cylindrical_LGM50_Chen2020",
    "Header": {},
    "component": "boundary_conditions",
+   "material": false,
    "Parameters": {
       "ambient_temperature": 298.15,
       "initial_temperature": 298.15,

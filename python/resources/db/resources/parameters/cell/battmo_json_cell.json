@@ -2,6 +2,7 @@
    "Name": "boundary_conditions",
    "Header": {},
    "component": "boundary_conditions",
+   "material": false,
    "Parameters": {
       "external_heat_transfer_coefficient": 1000,
       "initial_state_of_charge": 0.99,

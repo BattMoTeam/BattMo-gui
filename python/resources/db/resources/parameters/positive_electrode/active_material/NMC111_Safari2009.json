@@ -2,9 +2,9 @@
    "Name": "NMC111_Safari2009",
    "Header": {},
    "component": "positive_electrode_active_material",
+   "material": true,
    "Parameters": {
       "maximum_concentration": 55554,
-      "volume_fraction": 0.8,
       "volumetric_surface_area": 885000,
       "density": 4650,
       "number_of_electrons_transferred": 1,

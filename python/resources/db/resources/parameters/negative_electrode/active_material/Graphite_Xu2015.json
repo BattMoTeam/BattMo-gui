@@ -2,9 +2,9 @@
    "Name": "Graphite_Xu2015",
    "Header": {},
    "component": "negative_electrode_active_material",
+   "material": true,
    "Parameters": {
       "maximum_concentration": 31540,
-      "volume_fraction": 0.7,
       "volumetric_surface_area": 142372,
       "density": 1852,
       "number_of_electrons_transferred": 1,

@@ -2,6 +2,7 @@
    "Name": "positive_electrode",
    "Header": {},
    "component": "positive_electrode_properties",
+   "material": false,
    "Parameters": {
       "coating_thickness": 8.67e-05,
       "coating_porosity": 0.2,

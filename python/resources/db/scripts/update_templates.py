@@ -30,6 +30,7 @@ class TemplateField(object):
         self.min_value = "min_value"
         self.is_shown_to_user = "is_shown_to_user"
         self.description = "description"
+        self.display_name = "display_name"
 
 
 class UpdateTemplates:
@@ -160,7 +161,8 @@ class UpdateTemplates:
                 max_value=details.get(fields.max_value),
                 min_value=details.get(fields.min_value),
                 is_shown_to_user=details.get(fields.is_shown_to_user),
-                description=details.get(fields.description)
+                description=details.get(fields.description),
+                display_name = details.get(fields.display_name)
             )
             added_parameters.append(parameter)
         if self.print_details:
@@ -196,6 +198,7 @@ class UpdateTemplates:
                             "min_value": details.get(fields.min_value),
                             "is_shown_to_user": details.get(fields.is_shown_to_user),
                             "description": details.get(fields.description),
+                            "display_name": details.get(fields.display_name)
                         }
                     )
                     existing_ids_to_be_deleted.remove(parameter_id)

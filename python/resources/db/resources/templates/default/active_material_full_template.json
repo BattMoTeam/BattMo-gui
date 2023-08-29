@@ -15,7 +15,8 @@
          "type": "float",
          "unit": "mol.m\u207b\u00b3",
          "unit_name": "MolePerCubicMetre",
-         "unit_iri": "http://emmo.info/emmo#MolePerCubicMetre"
+         "unit_iri": "http://emmo.info/emmo#MolePerCubicMetre",
+         "display_name": "Maximum concentration"
       },
       "volume_fraction": {
          "model_name": "p2d_p3d_p4d",
@@ -30,7 +31,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Volume Fraction"
       },
       "volumetric_surface_area": {
          "model_name": "p2d_p3d_p4d",
@@ -43,7 +45,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Volumetric surface area"
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
@@ -58,7 +61,8 @@
          "type": "float",
          "unit": "kg.m\u207b\u00b3",
          "unit_name": "GramPerCubicMetre",
-         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre"
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
+         "display_name": "Density"
       },
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
@@ -73,7 +77,8 @@
          "type": "float",
          "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerKiloGramKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin"
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin",
+         "display_name": "Specific heat capacity"
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
@@ -88,7 +93,8 @@
          "type": "float",
          "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "WattPerMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin"
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin",
+         "display_name": "Thermal conductivity"
       },
       "electronic_conductivity": {
          "model_name": "p2d_p3d_p4d",
@@ -103,7 +109,8 @@
          "type": "float",
          "unit": "S.m\u207b\u00b9",
          "unit_name": "SiemensPerMetre",
-         "unit_iri": "http://emmo.info/emmo#SiemensPerMetre"
+         "unit_iri": "http://emmo.info/emmo#SiemensPerMetre",
+         "display_name": "Electronic conductivity"
       },
       "number_of_electrons_transferred": {
          "model_name": "p2d_p3d_p4d",
@@ -118,7 +125,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of electrons transferred"
       },
       "activation_energy_of_reaction": {
          "model_name": "p2d_p3d_p4d",
@@ -133,7 +141,8 @@
          "type": "float",
          "unit": "J.mol\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerMoleKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerMoleKelvin"
+         "unit_iri": "http://emmo.info/emmo#JoulePerMoleKelvin",
+         "display_name": "Activation energy of reaction"
       },
       "reaction_rate_constant": {
          "model_name": "p2d_p3d_p4d",
@@ -146,7 +155,8 @@
          "type": "float",
          "unit": "mol.m\u207b\u00b2.s\u207b\u00b9",
          "unit_name": "MolePerSquareMetrePerSecond",
-         "unit_iri": "http://emmo.info/emmo#MolePerSquareMetrePerSecond"
+         "unit_iri": "http://emmo.info/emmo#MolePerSquareMetrePerSecond",
+         "display_name": "Reaction rate constant"
       },
       "maximum_lithium_stoichiometry": {
          "model_name": "p2d_p3d_p4d",
@@ -161,7 +171,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Maximum lithium stoichiometry"
       },
       "minimum_lithium_stoichiometry": {
          "model_name": "p2d_p3d_p4d",
@@ -176,7 +187,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Minimum lithium stoichiometry"
       },
       "activation_energy_of_diffusion": {
          "model_name": "p2d_p3d_p4d",
@@ -191,7 +203,8 @@
          "type": "float",
          "unit": "J.mol\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerMoleKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerMoleKelvin"
+         "unit_iri": "http://emmo.info/emmo#JoulePerMoleKelvin",
+         "display_name": "Activation energy of diffusion"
       },
       "diffusion_pre_exponential_factor": {
          "model_name": "p2d_p3d_p4d",
@@ -204,7 +217,8 @@
          "type": "float",
          "unit": "s\u207b\u00b9",
          "unit_name": "ReciprocalSecond",
-         "unit_iri": "http://emmo.info/emmo#ReciprocalSecond"
+         "unit_iri": "http://emmo.info/emmo#ReciprocalSecond",
+         "display_name": "Diffusion pre exponential factor"
       },
       "number_of_discrete_cells_electrode": {
          "model_name": "p2d_p3d_p4d",
@@ -219,7 +233,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of discrete cells electrode"
       },
       "particle_radius": {
          "model_name": "p2d_p3d_p4d",
@@ -234,7 +249,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Particle radius"
       },
       "number_of_discrete_cells_particle_radius": {
          "model_name": "p2d_p3d_p4d",
@@ -249,13 +265,15 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of discrete cells particle radius"
       },
       "open_circuit_potential": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
-         "type": "function"
+         "type": "function",
+         "display_name": "Open circuit potential"
       }
    }
 }

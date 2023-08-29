@@ -8,7 +8,8 @@
          "difficulty": "basis",
          "description": "",
          "is_shown_to_user": true,
-         "type": "str"
+         "type": "str",
+         "display_name": "Protocol name"
       },
       "initial_step_type": {
          "model_name": "p2d_p3d_p4d",
@@ -16,7 +17,8 @@
          "difficulty": "advanced",
          "description": "",
          "is_shown_to_user": true,
-         "type": "str"
+         "type": "str",
+         "display_name": "Initial step type"
       },
       "number_of_cycles": {
          "model_name": "p2d_p3d_p4d",
@@ -31,7 +33,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of cycles"
       },
       "c_rate": {
          "model_name": "p2d_p3d_p4d",
@@ -44,7 +47,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Crate"
       },
       "lower_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
@@ -57,7 +61,8 @@
          "type": "float",
          "unit": "V",
          "unit_name": "Volt",
-         "unit_iri": "http://emmo.info/emmo#Volt"
+         "unit_iri": "http://emmo.info/emmo#Volt",
+         "display_name": "Lower cutoff voltage"
       },
       "upper_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
@@ -70,7 +75,8 @@
          "type": "float",
          "unit": "V",
          "unit_name": "Volt",
-         "unit_iri": "http://emmo.info/emmo#Volt"
+         "unit_iri": "http://emmo.info/emmo#Volt",
+         "display_name": "Upper cutoff coltage"
       },
       "d_idt_limit": {
          "model_name": "p2d_p3d_p4d",
@@ -81,7 +87,8 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "A.s\u207b\u00b9"
+         "unit": "A.s\u207b\u00b9",
+         "display_name": "d idt limit"
       },
       "d_edt_limit": {
          "model_name": "p2d_p3d_p4d",
@@ -94,7 +101,8 @@
          "type": "float",
          "unit": "V.s\u207b\u00b9",
          "unit_name": "VoltPerSecond",
-         "unit_iri": "http://emmo.info/emmo#VoltPerSecond"
+         "unit_iri": "http://emmo.info/emmo#VoltPerSecond",
+         "display_name": "d edt limit"
       }
    }
 }

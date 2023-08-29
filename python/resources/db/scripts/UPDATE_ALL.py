@@ -8,6 +8,8 @@ from update_all_parameter_sets import UpdateParameterSets
 import os
 
 import python.resources.db.db_handler as db_handler
+import python.resources.db.db_access as  db_access
+
 
 """
 Update all db tables, according to the information stored in the different json files.
@@ -23,6 +25,7 @@ if __name__ == "__main__":
 
     # 1. Models (independent)
     UpdateModels().execute_script()
+    
 
     # 2. Templates (depends on models)
     UpdateTemplates().execute_script()
@@ -39,7 +42,49 @@ if __name__ == "__main__":
     # 6. Materials (depend on models, components)
     UpdateMaterials().execute_script()
 
+   
+
     # 5. Parameter sets (depend on templates and components)
     UpdateParameterSets().execute_script()
 
+    con, cur = db_access.get_sqlite_con_and_cur()
+    data=cur.execute('''SELECT * FROM component''')
+    # Fetch all rows from the result
+    data = cur.fetchall()
 
+    # Check if there are columns to describe
+    if cur.description:
+        # Print the column information
+        print("Column names:", [col[0] for col in cur.description])
+    else:
+        print("No columns to describe (empty result set)")
+
+    # Print the retrieved data
+    for row in data:
+        print(row)
+        
+    # Don't forget to close the cursor and connection when done
+    cur.close()
+    con.close()
+
+# Uncomment to see data in material table:
+
+# con, cur = db_access.get_sqlite_con_and_cur()
+# data=cur.execute('''SELECT * FROM material''')
+# # Fetch all rows from the result
+# data = cur.fetchall()
+
+# # Check if there are columns to describe
+# if cur.description:
+#     # Print the column information
+#     print("Column names:", [col[0] for col in cur.description])
+# else:
+#     print("No columns to describe (empty result set)")
+
+# # Print the retrieved data
+# for row in data:
+#     print(row)
+    
+# # Don't forget to close the cursor and connection when done
+# cur.close()
+# con.close()

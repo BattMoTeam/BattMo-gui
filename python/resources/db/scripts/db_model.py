@@ -50,6 +50,7 @@ if __name__ == "__main__":
             parameter_set_id INT NOT NULL,
             template_parameter_id INT NOT NULL,
             value VARCHAR(255) DEFAULT NULL
+            
         )
     """)
 
@@ -61,7 +62,10 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS parameter_set(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
-            component_id VARCHAR(40) DEFAULT NULL
+            component_id INT DEFAULT NULL,
+            material INTEGER DEFAULT NULL,
+            material_id INTEGER DEFAULT NULL
+            
         )
     """)
 
@@ -97,8 +101,9 @@ if __name__ == "__main__":
             unit_iri VARCHAR(40) DEFAULT NULL,
             max_value VARCHAR(255) DEFAULT NULL,
             min_value VARCHAR(255) DEFAULT NULL,
-            is_shown_to_user TINYINT NOT NULL DEFAULT 1,
-            description VARCHAR(255) NULL DEFAULT ""
+            is_shown_to_user INTEGER NOT NULL DEFAULT 1,
+            description VARCHAR(255) NULL DEFAULT "",
+            display_name VARCHAR(255) DEFAULT NULL
         )
     """)
 
@@ -182,6 +187,7 @@ if __name__ == "__main__":
             name VARCHAR(40) NOT NULL,
             model_name VARCHAR(40) DEFAULT NULL,
             difficulty VARCHAR(40) DEFAULT NULL,
+            material INTEGER DEFAULT NULL,
             model_id INT DEFAULT NULL,
             default_template VARCHAR(40) DEFAULT NULL,
             display_name VARCHAR(40) NOT NULL,

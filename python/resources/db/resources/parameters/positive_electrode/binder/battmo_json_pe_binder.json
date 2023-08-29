@@ -2,7 +2,9 @@
    "Name": "positive_electrode_binder",
    "Header": {},
    "component": "positive_electrode_binder",
+   "material": false,
    "Parameters": {
-      "electronic_conductivity": 100
+      "electronic_conductivity": 100,
+      "volume_fraction": 0.03
    }
 }

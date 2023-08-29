@@ -15,7 +15,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Coating thickness"
       },
       "coating_porosity": {
          "model_name": "p2d_p3d_p4d",
@@ -30,7 +31,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Coating porosity"
       },
       "length": {
          "model_name": "p4d",
@@ -45,7 +47,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Length"
       },
       "width": {
          "model_name": "p3d_p4d",
@@ -60,7 +63,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Width"
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
@@ -73,7 +77,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Bruggeman coefficient"
       },
       "n_to_p_negative": {
          "model_name": "p2d_p3d_p4d",
@@ -86,7 +91,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "N/P ratio"
       },
       "n_to_p_positive": {
          "model_name": "p2d_p3d_p4d",
@@ -99,7 +105,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "N/P ratio"
       }
    }
 }

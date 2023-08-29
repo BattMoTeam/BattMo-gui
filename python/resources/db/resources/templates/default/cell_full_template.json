@@ -15,7 +15,8 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Ambient temperature"
       },
       "initial_temperature": {
          "model_name": "p2d_p3d_p4d",
@@ -30,7 +31,8 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Initial temperature"
       },
       "reference_temperature": {
          "model_name": "p2d_p3d_p4d",
@@ -45,7 +47,8 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Reference temperature"
       },
       "external_heat_transfer_coefficient": {
          "model_name": "p2d_p3d_p4d",
@@ -60,7 +63,8 @@
          "type": "float",
          "unit": "W.m\u207b\u00b2.K\u207b\u00b9",
          "unit_name": "WattPerSquareMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin"
+         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin",
+         "display_name": "External heat transfer coefficient"
       },
       "initial_state_of_charge": {
          "model_name": "p2d_p3d_p4d",
@@ -75,7 +79,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Initial state of charge"
       },
       "nominal_cell_capacity": {
          "model_name": "p2d_p3d_p4d",
@@ -88,7 +93,8 @@
          "type": "float",
          "unit": "A.h",
          "unit_name": "AmpereHour",
-         "unit_iri": "http://emmo.info/emmo#AmpereHour"
+         "unit_iri": "http://emmo.info/emmo#AmpereHour",
+         "display_name": "Nominal cell capacity"
       },
       "number_parallel_electrode_pairs_within_cell": {
          "model_name": "p2d_p3d_p4d",
@@ -103,7 +109,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of parallel electrode pairs within cell"
       },
       "external_surface_area": {
          "model_name": "p2d_p3d_p4d",
@@ -116,7 +123,8 @@
          "type": "float",
          "unit": "m\u00b2",
          "unit_name": "SquareMetre",
-         "unit_iri": "http://emmo.info/emmo#SquareMetre"
+         "unit_iri": "http://emmo.info/emmo#SquareMetre",
+         "display_name": "External surface area"
       },
       "volume": {
          "model_name": "p4d",
@@ -131,7 +139,8 @@
          "type": "float",
          "unit": "m\u00b3",
          "unit_name": "CubicMetre",
-         "unit_iri": "http://emmo.info/emmo#CubicMetre"
+         "unit_iri": "http://emmo.info/emmo#CubicMetre",
+         "display_name": "Volume"
       }
    }
 }

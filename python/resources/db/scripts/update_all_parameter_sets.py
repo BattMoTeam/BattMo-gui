@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 
 ##############################
 # Set page directory to base level to allow for module import from different folder
@@ -9,18 +10,19 @@ path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
 sys.path.insert(0, path_to_python_module)
 ##############################
 
-from python.resources.db import db_handler, db_access
+from python.resources.db import db_handler, db_access, db_helper
 
 
 #####################################
 #    UPDATE PARAMETER SET
 #####################################
 class Parameter(object):
-    def __init__(self, name, parameter_set_id, template_parameter_id, value=None):
+    def __init__(self, name, parameter_set_id, template_parameter_id, display_name, value=None):
         self.name = name
         self.parameter_set_id = parameter_set_id
         self.template_parameter_id = template_parameter_id
         self.value = value
+        self.display_name = display_name
 
 
 class UpdateParameterSets:
@@ -62,7 +64,7 @@ class UpdateParameterSets:
         name = parameter_set.get("Name")
         type = parameter_set.get("Type")
         component = parameter_set.get("component")
-        material = parameter_set.get("material")
+        material = int(parameter_set.get("material"))
         parameters = parameter_set.get("Parameters")
 
         if type == self.template_type:
@@ -73,17 +75,39 @@ class UpdateParameterSets:
         assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
 
         component_id = self.sql_component.get_id_from_name(component)
+        display_name = parameter_set.get("display_name")  #not correct yet
         assert component_id is not None, "component = {} is not specified in components.json. path={}".format(component, path)
+        
+        #test = self.sql_materials.get_material_id_by_parameter_set_name(component_id)
+        #print("test=", test)
+        #material = int(self.sql_parameter_set.get_material_from_name(name))
+        print("material=",material)
+        print("name=",name)
+        if material == True:
+            
 
-        parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
-            name=name,
-            component_id=component_id
-        )
+            material_id = np.squeeze(db_helper.get_material_id_by_parameter_set_name(name)).astype(str)
+            
+            parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
+                name=name,
+                component_id=component_id,
+                material= material,
+                material_id = material_id
+            )
+        
+        else:
+            parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
+                name=name,
+                component_id=component_id,
+                material= material,
+                material_id = None
+            )
 
         formatted_parameters = self.format_parameters(
             parameters=parameters,
             parameter_set_id=parameter_set_id,
-            component_id=component_id
+            component_id=component_id,
+            display_name = display_name
         )
 
         if parameter_set_already_exists:
@@ -98,18 +122,20 @@ class UpdateParameterSets:
 
         return parameter_set_id, parameter_set_already_exists, name
 
-    def create_or_update_parameter_set(self, name, component_id):
+    def create_or_update_parameter_set(self, name, component_id, material, material_id):
         parameter_set_id = self.sql_parameter_set.get_id_by_name_and_category(name, component_id)
-
+        
         if parameter_set_id:
             return parameter_set_id, True
         else:
             return self.sql_parameter_set.insert_value(
                 name=name,
-                component_id=component_id
+                component_id=component_id,
+                material= material,
+                material_id = material_id
             ), False
 
-    def format_parameters(self, parameters, parameter_set_id, component_id):
+    def format_parameters(self, parameters, parameter_set_id, component_id, display_name):
         template_id = self.sql_component.get_default_template_id_by_id(component_id)
         raw_template_parameters = self.sql_template_parameter.get_id_name_and_type_by_template_id(template_id)
         template_parameters = {}
@@ -130,12 +156,14 @@ class UpdateParameterSets:
                 value = parameters.get(parameter_name)
                 value_type = template_parameters_types.get(parameter_name)
                 formatted_value = self.format_value(value, value_type)
+                
 
             formatted_parameters.append(Parameter(
                 name=parameter_name,
                 parameter_set_id=parameter_set_id,
                 template_parameter_id=template_parameter_id,
-                value=formatted_value
+                value=formatted_value,
+                display_name = display_name
             ))
 
         return formatted_parameters

@@ -13,4 +13,4 @@ RUN jill install 1.9.2 --confirm
 RUN python -c "import julia; julia.install()"
 
 # Helpful Development Packages
-RUN julia -e 'using Pkg; Pkg.add(["BattMo", "Jutul"])'
+RUN julia -e 'using Pkg; Pkg.add(["Jutul","BattMo"])'

@@ -2,8 +2,10 @@
    "Name": "positive_electrode_active_material",
    "Header": {},
    "component": "positive_electrode_active_material",
+   "material": false,
    "Parameters": {
-      "electronic_conductivity": 100,
+      "electronic_conductivity": 100.0,
+      "volume_fraction": 0.72,
       "activation_energy_of_diffusion": 5e3,
       "diffusion_pre_exponential_factor": 1e-14,
       "particle_radius": 1e-6,

@@ -15,11 +15,6 @@ import requests
 from flask_restful import Resource
 
 
-        
-if 'initi' not in st.session_state:
-    st.session_state.initi = None
-
-
 def reset_func(category_id, parameter_id, parameter):
     """
     Function needed for the selectboxes and number_inputs to work properly together.
@@ -128,12 +123,18 @@ class SetModelChoice:
         self.selected_model = selected_model_id
 
 
-# class GetTabData:
-#     def __init__(self):
+class GetTabData:
+    def __init__(self):
 
-#     def get_sql_data(self):
+        self.basis_tabs = db_helper.all_basis_tab_display_names
+        self.advanced_tabs = db_helper.all_advanced_tab_display_names
 
-#         #Get data relevent to chosen model
+    def get_sql_data(self,model_id):
+
+        print("nothing")
+
+        # Get data relevent to chosen model
+
 
 class SetBasisInputTabs:
     def __init__(self, images):
@@ -333,9 +334,10 @@ class SetTabs:
     def __init__(self, images, model_id, context):
         # image dict stored for easier access
         self.image_dict = images
+        self.model_id = model_id
 
         # retrieve corresponding templates (not implemented yet)
-        self.model_templates = db_helper.get_templates_by_id(model_id)
+        #self.model_templates = db_helper.get_templates_by_id(model_id)
 
         # initialize formatter
         self.formatter = FormatParameters()
@@ -349,7 +351,7 @@ class SetTabs:
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
-        self.all_tabs = st.tabs(db_helper.all_tab_display_names)
+        self.all_tabs = st.tabs(db_helper.get_basis_tabs_display_names(model_id))
 
         # user_input is the dict containing all the json LD data
         self.user_input = {
@@ -371,11 +373,11 @@ class SetTabs:
     def set_tabs(self):
         for tab in self.all_tabs:
             tab_index = db_helper.get_tab_index_from_st_tab(tab)
-            db_tab_id = db_helper.all_tab_id[tab_index]
+            db_tab_id = db_helper.get_db_tab_id(tab_index)
 
             tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_parameters = {
-                "label": db_helper.all_tab_display_names[tab_index],
+                "label": db_helper.get_basis_tabs_display_names(self.model_id)[tab_index],
                 "@type": tab_context_type_iri
             }
 
@@ -383,19 +385,20 @@ class SetTabs:
             self.set_logo_and_title(tab, tab_index)
 
             # get tab's categories
-            categories = db_helper.get_categories_from_tab_id(db_tab_id)
+            categories = db_helper.get_basis_categories_from_tab_id(db_tab_id)
 
             if len(categories) > 1:  # create one sub tab per category
 
-                all_category_display_names = [a[5] for a in categories]
+                all_category_display_names = [a[8] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
 
                 for category in categories:
-                    category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = category
+                    category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
                     category_parameters, emmo_relation = self.fill_category(
                         category_id=category_id,
+                        category_display_name=category_display_name,
                         category_name=category_name,
                         emmo_relation=emmo_relation,
                         default_template_id=default_template_id,
@@ -403,7 +406,7 @@ class SetTabs:
                     )
                     i += 1
 
-                    category_parameters["label"] = category_name
+                    category_parameters["label"] = category_display_name
                     category_parameters["@type"] = category_context_type_iri
 
                     if emmo_relation is None:
@@ -416,27 +419,29 @@ class SetTabs:
 
             else:  # no sub tab is needed
 
-                category_id, category_name, category_context_type, category_context_type_iri, emmo_relation, _, _, default_template_id, _ = categories[0]
+                category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
 
-                if category_name == "protocol":
-                    # different way of filling parameters for protocol section, the idea is to choose the name of the
-                    # protocol and then the parameters are filled. Could be done also for the Cell tab
-                    category_parameters, _ = self.fill_category_protocol(
+                # if category_name == "protocol":
+                #     # different way of filling parameters for protocol section, the idea is to choose the name of the
+                #     # protocol and then the parameters are filled. Could be done also for the Cell tab
+                #     category_parameters, _ = self.fill_category_protocol(
+                #         category_id=category_id,
+                #         category_display_name= category_display_name,
+                #         category_name=category_name,
+                #         emmo_relation=emmo_relation,
+                #         default_template_id=default_template_id,
+                #         tab=tab
+                # #     )
+
+                # else:
+                category_parameters, _ = self.fill_category(
                         category_id=category_id,
+                        category_display_name =category_display_name,
                         category_name=category_name,
                         emmo_relation=emmo_relation,
                         default_template_id=default_template_id,
                         tab=tab
                     )
-
-                else:
-                    category_parameters, _ = self.fill_category(
-                            category_id=category_id,
-                            category_name=category_name,
-                            emmo_relation=emmo_relation,
-                            default_template_id=default_template_id,
-                            tab=tab
-                        )
 
                 tab_parameters.update(category_parameters)
 
@@ -444,132 +449,192 @@ class SetTabs:
             self.user_input[tab_context_type] = tab_parameters
 
     def set_logo_and_title(self, tab, tab_index):
-        image_column, title_column = tab.columns([1, 5])
-        image_column.image(self.image_dict[str(tab_index)])
-        title_column.text(" ")
-        title_column.subheader(db_helper.all_tab_display_names[tab_index])
+        if tab_index == 0:
+            image_collumn,image_collumn_2, title_column = st.columns([0.9,0.9,6])
+            image_collumn.image(self.image_dict[str(tab_index)])
+            image_collumn_2.image(self.image_dict[str(tab_index+1)])
+        else:
 
-    def fill_category(self, category_id, category_name, emmo_relation, default_template_id, tab):
+            image_column, title_column = tab.columns([1, 5])
+            image_column.image(self.image_dict[str(tab_index+1)])
+
+        title_column.text(" ")
+        title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_id)[tab_index])
+
+    def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab):
 
         category_parameters = []
-        # define streamlit columns
-        select_box_col, input_col = tab.columns([4, 5])
+
+        # get components associated with material parameter sets
+        material_components = db_helper.get_material_components_from_category_id(category_id)
+        
+        
+        if category_name == "negative_electrode" or category_name == "positive_electrode":
+            component_col, material_col, vf_col = tab.columns(3)
+            component_col.text("Component")
+            material_col.text("Material")
+            vf_col.text("Volume Fraction []")
+
+            # define streamlit columns
+            for material_component in material_components:
+                
+                #material_component_data = material_components[material_component]
+                material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
+                #materials = db_helper.get_material_from_component_id(material_component_id)
+
+                #material_display_names = db_helper.get_material_names_from_component_id(material_component_id)
+                print("material_comp=", material_component_id)
+                component_col, material_col, vf_col = tab.columns(3)
+                component_col.text(material_comp_display_name)
+                #for material in materials:
+                    #material_data = materials[material]
+                    #material_id,_,_,_,_,_,material_display_name,_,_,_,_,material_context_type,_,_,material_context_type_iri,_ = materials
+
+                # get corresponding template parameters from db
+                material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id)
+                print("raw=",material_raw_template_parameters)
+
+
+                # get parameter sets corresponding to component, then parameters from each set
+                material_parameter_sets = db_helper.get_all_material_by_component_id(material_component_id)
+                print("param_sets=",material_parameter_sets)
+
+                material_parameter_sets_name_by_id = {}
+                for id, name, _,_,_ in material_parameter_sets:
+                    material_parameter_sets_name_by_id[id] = name
+
+                print("param_sets_name_by_id=",material_parameter_sets_name_by_id)
+
+                material_raw_parameters = []
+                for material_parameter_set_id in material_parameter_sets_name_by_id:
+                    material_raw_parameters += db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id)
+                
+                print("mat_raw=",material_raw_parameters)
+                        
+                # format all those parameters: use template parameters for metadata, and parameters for values.
+                # all information is packed in a single python object
+                # formatted_parameters is a dict containing those python objects
+                material_formatted_parameters, material_display_names = self.formatter.format_parameter_sets(material_parameter_sets, material_raw_template_parameters, material_raw_parameters)
+                #material_formatted_parameters = self.formatter.format_parameters(material_raw_parameters, material_raw_template_parameters, material_parameter_sets_name_by_id)
+                
+                
+
+                # for material_parameter_set in material_display_names:
+                #     material = material_formatted_parameters.get(material_parameter_set)
+                #     print("options", material.options)
+                
+                selected_value_id = material_col.selectbox(
+                    label="[{}]({})".format(material_comp_display_name, material_comp_context_type_iri),
+                    options=material_formatted_parameters.options,
+                    key="select_{}_{}".format(material_component_id, material_parameter_set_id),
+                    label_visibility="collapsed",
+                    format_func=lambda x: material_formatted_parameters.options.get(x).display
+                    #on_change=reset_func,
+                    #args=(material_component_id, material_parameter_set_id, material)
+                )
+
+                volume_fraction_raw_template = db_helper.get_vf_template_by_template_id(material_comp_default_template_id)
+                
+                volume_fraction_raw_value = db_helper.get_vf_value_by_parameter_set_id(material_component_id)
 
         # get custom template if it exists or default one
-        template_name = self.model_templates.get(category_name)
-        template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+        #template_name = self.model_templates.get(category_name)
+        #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
-        # get corresponding template parameters from db
-        raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
-
-        # get parameter sets corresponding to category, then parameters from each set
-        parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
-
-        parameter_sets_name_by_id = {}
-        for id, name, _ in parameter_sets:
-            parameter_sets_name_by_id[id] = name
-
-        raw_parameters = []
-        for parameter_set_id in parameter_sets_name_by_id:
-            raw_parameters += db_helper.extract_parameters_by_parameter_set_id(parameter_set_id)
-
-        # format all those parameters: use template parameters for metadata, and parameters for values.
-        # all information is packed in a single python object
-        # formatted_parameters is a dict containing those python objects
-        formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
-
-        for parameter_id in formatted_parameters:
-            parameter = formatted_parameters.get(parameter_id)
-            if parameter.is_shown_to_user:
+    
 
                 # selectbox for left column (parameter sets)
-                selected_value_id = select_box_col.selectbox(
-                    label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
-                    options=parameter.options,
-                    key="select_{}_{}".format(category_id, parameter_id),
-                    label_visibility="visible",
-                    format_func=lambda x: parameter.options.get(x).display_name,
-                    on_change=reset_func,
-                    args=(category_id, parameter_id, parameter)
-                )
+                # selected_value_id = select_box_col.selectbox(
+                #     label="[{}]({})".format(parameter.display_name, parameter.context_type_iri),
+                #     options=parameter.options,
+                #     key="select_{}_{}".format(category_id, parameter_id),
+                #     label_visibility="visible",
+                #     format_func=lambda x: parameter.options.get(x).display_name,
+                #     on_change=reset_func,
+                #     args=(category_id, parameter_id, parameter)
+                # )
 
 
                 # number input / selectbox for right column, depending on the parameter type
-                if isinstance(parameter, NumericalParameter):
+                # if isinstance(parameter, NumericalParameter):
 
-                    user_input = input_col.number_input(
-                        label="[{}]({})".format(parameter.unit, parameter.unit_iri),
-                        value=parameter.options[selected_value_id].value,
-                        min_value=parameter.min_value,
-                        max_value=parameter.max_value,
-                        key="input_{}_{}".format(category_id, parameter_id),
-                        format=parameter.format,
-                        step=parameter.increment,
-                        label_visibility="visible"
-                    )
-                elif isinstance(parameter, FunctionParameter):
-                    user_input = input_col.selectbox(
-                        label=parameter.display_name,
-                        options=[parameter.options.get(selected_value_id).value.get("functionname")],
-                        key="input_{}_{}".format(category_id, parameter_id),
-                        label_visibility="hidden",
-                    )
-                else:
-                    user_input = input_col.selectbox(
-                        label=parameter.display_name,
-                        options=[parameter.options.get(selected_value_id).value],
-                        key="input_{}_{}".format(category_id, parameter_id),
-                        label_visibility="hidden",
-                    )
-                parameter.set_selected_value(user_input)
+                #     user_input = input_col.number_input(
+                #         label="[{}]({})".format(parameter.unit, parameter.unit_iri),
+                #         value=parameter.options[selected_value_id].value,
+                #         min_value=parameter.min_value,
+                #         max_value=parameter.max_value,
+                #         key="input_{}_{}".format(category_id, parameter_id),
+                #         format=parameter.format,
+                #         step=parameter.increment,
+                #         label_visibility="visible"
+                #     )
+                # elif isinstance(parameter, FunctionParameter):
+                #     user_input = input_col.selectbox(
+                #         label=parameter.display_name,
+                #         options=[parameter.options.get(selected_value_id).value.get("functionname")],
+                #         key="input_{}_{}".format(category_id, parameter_id),
+                #         label_visibility="hidden",
+                #     )
+                # else:
+                #     user_input = input_col.selectbox(
+                #         label=parameter.display_name,
+                #         options=[parameter.options.get(selected_value_id).value],
+                #         key="input_{}_{}".format(category_id, parameter_id),
+                #         label_visibility="hidden",
+                #     )
+                print("select=", selected_value_id)
+                material_formatted_parameters.set_selected_value(selected_value_id)
 
-            formatted_value_dict = parameter.selected_value
+            formatted_value_dict = material_formatted_parameters.selected_value
 
             # add selected value to json dict, with correct formatting depending on type
-            if isinstance(parameter, NumericalParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:Numerical",
-                    "hasNumericalData": parameter.selected_value
-                }
-
-            elif isinstance(parameter, StrParameter):
-                formatted_value_dict = {
+            formatted_value_dict = {
                     "@type": "emmo:String",
-                    "hasStringData": parameter.selected_value
+                    "hasStringData": material_formatted_parameters.selected_value
                 }
 
-            elif isinstance(parameter, BooleanParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:Boolean",
-                    "hasStringData": parameter.selected_value
-                }
+            
+            # if isinstance(material, NumericalParameter):
+            #     formatted_value_dict = {
+            #         "@type": "emmo:Numerical",
+            #         "hasNumericalData": parameter.selected_value
+            #     }
 
-            elif isinstance(parameter, FunctionParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:String",
-                    "hasStringData": parameter.selected_value
-                }
 
-            parameter_details = {
-                "label": parameter.name,
-                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                
+
+            # elif isinstance(parameter, BooleanParameter):
+            #     formatted_value_dict = {
+            #         "@type": "emmo:Boolean",
+            #         "hasStringData": parameter.selected_value
+            #     }
+
+            # elif isinstance(parameter, FunctionParameter):
+            #     formatted_value_dict = {
+            #         "@type": "emmo:String",
+            #         "hasStringData": parameter.selected_value
+            #     }
+
+            material_details = {
+                "label": material_formatted_parameters.name,
+                "@type": material_formatted_parameters.context_type_iri if material_formatted_parameters.context_type_iri else "None",
                 "value": formatted_value_dict
             }
-            if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+            # if isinstance(parameter, NumericalParameter):
+            #     parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
-            category_parameters.append(parameter_details)
+            category_parameters.append(material_details)
 
         return {self.has_quantitative_property: category_parameters}, emmo_relation
 
-    def fill_category_protocol(self, category_id, category_name, emmo_relation, default_template_id, tab):
+    def fill_category_protocol(self, category_id,category_display_name, category_name, emmo_relation, default_template_id, tab):
         """
         same idea as fill category, just choosing a Protocol to set all params
         """
 
         category_parameters = []
 
-        template_name = self.model_templates.get(category_name)
+        #template_name = self.model_templates.get(category_name)
         template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
         raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
@@ -884,12 +949,12 @@ class LoadImages:
         - remove useless items
         """
         return {
-            "0": image_open("cell_coin.png"),
+            "4": image_open("cell_coin.png"),
             "9": image_open("cell_prismatic.png"),
-            "4": image_open("plus.png"),
+            "3": image_open("plus.png"),
             "1": image_open("plus.png"),
-            "2": image_open("minus.png"),
-            "3": image_open("electrolyte.png"),
+            "0": image_open("minus.png"),
+            "2": image_open("electrolyte.png"),
             "5": image_open("current.png"),
             "6": image_open("current.png"),
             "7": image_open("current.png"),

@@ -15,7 +15,8 @@
          "type": "float",
          "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerKiloGramKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin"
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin",
+         "display_name": "Specific heat capacity"
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
@@ -30,7 +31,8 @@
          "type": "float",
          "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "WattPerMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin"
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin",
+         "display_name": "Thermal conductivity"
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
@@ -45,19 +47,22 @@
          "type": "int",
          "unit": "kg.m\u207b\u00b3",
          "unit_name": "GramPerCubicMetre",
-         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre"
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
+         "display_name": "Density"
       },
       "conductivity": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
-         "type": "function"
+         "type": "function",
+         "display_name": "Conductivity"
       },
       "diffusion_coefficient": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
-         "type": "function"
+         "type": "function",
+         "display_name": "Diffusion coefficient"
       },
       "charge_carrier_name": {
          "model_name": "p2d_p3d_p4d",
@@ -67,7 +72,8 @@
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_d1042a12_e4be_4992_86cb_59420ef4e05c",
          "description": "",
          "is_shown_to_user": true,
-         "type": "str"
+         "type": "str",
+         "display_name": "Charge carrier name"
       },
       "charge_carrier_charge_number": {
          "model_name": "p2d_p3d_p4d",
@@ -82,7 +88,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Charge carrier charge number"
       },
       "charge_carrier_transference_number": {
          "model_name": "p2d_p3d_p4d",
@@ -95,7 +102,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Charge carrier transference number"
       },
       "counter_ion_name": {
          "model_name": "p2d_p3d_p4d",
@@ -118,7 +126,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Counter ion charge number"
       },
       "counter_ion_transference_number": {
          "model_name": "p2d_p3d_p4d",
@@ -131,7 +140,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Counter ion transference number"
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
@@ -144,7 +154,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Bruggeman coefficient"
       },
       "concentration": {
          "model_name": "p2d_p3d_p4d",
@@ -157,9 +168,10 @@
          "type": "float",
          "unit": "mol.L\u207b",
          "unit_name": "MolPerLiter",
-         "unit_iri": ""
+         "unit_iri": "",
+         "display_name": "Concentration"
       },
-      "EC_DMC": {
+      "EC_": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
@@ -170,7 +182,22 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "EC/DMC"
+      },
+      "_DMC": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "basis",
+         "max_value": 100,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "EC/DMC"
       }
    }
 }

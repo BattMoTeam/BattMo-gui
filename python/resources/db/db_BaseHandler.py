@@ -31,8 +31,10 @@ class BaseHandler:
             ", ".join(columns),
             ", ".join(['?'] * len(values))
         )
-        print(query)
-        cur.execute(query, tuple(values))
+        
+        # Convert values to strings
+        string_values = [str(val) for val in values]
+        cur.execute(query, tuple(string_values))
         con.commit()
         return cur.lastrowid
 

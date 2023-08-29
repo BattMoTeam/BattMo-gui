@@ -2,6 +2,7 @@
     "Name": "Electrodes",
     "Header": {},
     "component": "electrode_properties",
+    "material": false,
     "Parameters": {
        "n_to_p_negative": 0.0,
        "n_to_p_positive": 0.0

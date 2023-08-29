@@ -15,7 +15,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Separator full template"
       },
       "length": {
          "model_name": "p4d",
@@ -30,7 +31,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Length"
       },
       "width": {
          "model_name": "p3d_p4d",
@@ -45,7 +47,8 @@
          "type": "float",
          "unit": "m",
          "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre"
+         "unit_iri": "http://emmo.info/emmo#Metre",
+         "display_name": "Width"
       },
       "porosity": {
          "model_name": "p2d_p3d_p4d",
@@ -60,7 +63,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Porosity"
       },
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
@@ -75,7 +79,8 @@
          "type": "float",
          "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerKiloGramKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin"
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin",
+         "display_name": "Specific heat capacity"
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
@@ -90,7 +95,8 @@
          "type": "float",
          "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "WattPerMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin"
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin",
+         "display_name": "Thermal conductivity"
       },
       "density": {
          "model_name": "p2d_p3d_p4d",
@@ -105,7 +111,8 @@
          "type": "float",
          "unit": "kg.m\u207b\u00b3",
          "unit_name": "GramPerCubicMetre",
-         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre"
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
+         "display_name": "Density"
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
@@ -118,7 +125,8 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Bruggeman coefficient"
       },
       "number_of_discrete_cells_separator": {
          "model_name": "p2d_p3d_p4d",
@@ -133,7 +141,8 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of discrete cells"
       }
    }
 }

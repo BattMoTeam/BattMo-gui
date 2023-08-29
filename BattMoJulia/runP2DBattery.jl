@@ -6,6 +6,8 @@
 # Pkg.add("Jutul")
 # Pkg.add("PlutoUI")
 # Pkg.add("Measures")
+
+
 module runP2DBattery
 
     using BattMo, Jutul

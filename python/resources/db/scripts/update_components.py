@@ -71,6 +71,7 @@ class UpdateComponents:
                     model_id = self.sql_model.get_model_id_from_model_name(model)
 
                 model_name = details.get("model_name")
+                material = int(details.get("material"))
                 difficulty = details.get("difficulty")
                 context_type = details.get("context_type")
                 context_type_iri = details.get("context_type_iri")
@@ -92,6 +93,7 @@ class UpdateComponents:
                             "category_id": category_id,
                             "model_name": model_name,
                             "difficulty": difficulty,
+                            "material": material,
                             "model_id": model_id,
                             "context_type": context_type,
                             "context_type_iri": context_type_iri,
@@ -110,6 +112,7 @@ class UpdateComponents:
                         category_id=category_id,
                         model_name=model_name,
                         difficulty=difficulty,
+                        material = material,
                         model_id = model_id,
                         context_type=context_type,
                         context_type_iri=context_type_iri,

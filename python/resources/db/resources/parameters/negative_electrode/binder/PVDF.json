@@ -2,10 +2,11 @@
    "Name": "PVDF",
    "Header": {},
    "component": "negative_electrode_binder",
+   "material": true,
    "Parameters": {
       "density": 1780,
       "specific_heat_capacity": 1400,
-      "thermal_conductivity": 0.165,
-      "volume_fraction": 0.03
+      "thermal_conductivity": 0.165
+      
    }
 }
