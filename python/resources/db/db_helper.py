@@ -1,5 +1,6 @@
 import streamlit as st
 from . import db_handler
+import numpy as np
 
 """
 Functions called from GUI code to access db.
@@ -124,6 +125,7 @@ def get_db_tab_id(tab_index):
     return res[tab_index]
 
 
+
 def get_tab_index_from_st_tab(st_tab):
     # according to st.tabs container structure
     return st_tab._provided_cursor._parent_path[1]
@@ -151,13 +153,22 @@ def get_material_components_from_category_id(category_id):
     )
     return res
 
-def get_vf_parameter_set_id_by_component_id(component_id):
+@st.cache_data
+def get_non_material_components_from_category_id(category_id):
     res = sql_component().select(
-        values = 'default_template_id',
-        where="component_id_1=%d or component_id_2=%d " % (component_id,component_id)
+        values = '*',
+        where="category_id=%d AND material = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (category_id,0)
     )
-    return [a[0] for a in res]
+    return np.squeeze(res)
 
+
+@st.cache_data
+def get_n_to_p_component_by_tab_id(tab_id):
+    res = sql_component().select(
+        values = '*',
+        where="tab_id=%d AND material = 0 AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return np.squeeze(res)
 
 #####################################
 # MATERIAL
@@ -227,6 +238,48 @@ def get_all_material_by_component_id(component_id):
             values='*',
             where="component_id=%d AND material = %d"  % (component_id,1)
         )
+
+def get_vf_parameter_set_id_by_component_id(component_id):
+    res = np.squeeze(sql_parameter_set().select(
+        values = 'id, name',
+        where="component_id=%d AND material = %d" % (component_id,0)
+    )).astype(str)
+    return res
+
+def get_n_p_parameter_set_id_by_component_id(component_id):
+    res = np.squeeze(sql_parameter_set().select(
+        values = 'id,name',
+        where="component_id=%d AND material = %d" % (component_id,0)
+    )).astype(str)
+    return res
+
+def get_non_material_set_id_by_component_id(component_id):
+    res = sql_parameter_set().select(
+        values = '*',
+        where="component_id=%d AND material = %d" % (component_id,0)
+    )
+    return res
+
+def get_vf_raw_parameter_by_parameter_set_id(parameter_set_id):
+    res = sql_parameter().select(
+        values = '*',
+        where="parameter_set_id=%d AND name = 'volume_fraction'" % parameter_set_id
+    )
+    return res
+
+def get_n_p_parameter_by_template_id(parameter_set_id):
+    res = sql_parameter().select(
+        values = '*',
+        where="parameter_set_id=%d" % parameter_set_id
+    )
+    return res
+
+def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(template_parameter_id,parameter_set_id):
+    res = sql_parameter().select(
+        values = '*',
+        where="template_parameter_id=%d AND parameter_set_id=%d" % (template_parameter_id,parameter_set_id)
+    )
+    return res
 
 
 #####################################
@@ -309,6 +362,18 @@ def get_vf_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
             where="template_id=%d AND name = '%s'" % (template_id,"volume_fraction")
+        )
+
+def get_non_material_template_by_template_id(template_id, model_id):
+    return sql_template_parameter().select(
+            values='*',
+            where="template_id=%d AND par_class = '%s' AND model_id = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (template_id,"non_material",model_id)
+        )
+
+def get_n_p_template_by_template_id(template_id):
+    return sql_template_parameter().select(
+            values='*',
+            where="template_id=%d AND par_class = '%s' AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (template_id,"non_material")
         )
 
 #all_basis_tab_display_names = get_basis_tabs_display_names(model_id)

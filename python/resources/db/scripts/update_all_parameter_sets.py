@@ -246,7 +246,7 @@ class UpdateParameterSets:
     def delete_parameter_set_by_id(self, parameter_set_id):
         parameter_set = self.sql_parameter_set.select_by_id(parameter_set_id)
         if parameter_set:
-            _, name, component_id = parameter_set
+            _, name, component_id,_,_ = parameter_set
             component_id = int(component_id)
             parameter_ids = self.sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
 

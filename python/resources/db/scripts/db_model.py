@@ -192,7 +192,8 @@ if __name__ == "__main__":
             default_template VARCHAR(40) DEFAULT NULL,
             display_name VARCHAR(40) NOT NULL,
             emmo_relation VARCHAR(40) DEFAULT NULL,
-            category_id INT NOT NULL,
+            category_id INT DEFAULT NULL,
+            tab_id INT DEFAULT NULL,
             default_template_id INT NOT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
@@ -225,5 +226,5 @@ if __name__ == "__main__":
     """)
 
 
-    data=cur.execute('''SELECT * FROM category''')
+    data=cur.execute('''SELECT * FROM component''')
     print(data.description)

@@ -48,7 +48,7 @@
             "display_name": "Negative electrode",
             "tab_name": "electrodes",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         },
         "positive_electrode": {
             "model_name": "p2d_p3d_p4d",
@@ -58,14 +58,14 @@
             "display_name": "Positive Electrode",
             "tab_name": "electrodes",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         },
         "separator": {
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis_advanced",
             "tab_name": "separator",
             "description": "",
-            "default_template": "separator_full_template"
+            "default_template": "separator_properties"
         },      
         "negative_electrode_active_material": {
             "model_name": "p2d_p3d_p4d",
@@ -106,7 +106,7 @@
             "display_name": "Electrode properties",
             "tab_name": "negative_electrode",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         },
         "positive_electrode_active_material": {
             "model_name": "p2d_p3d_p4d",
@@ -147,7 +147,7 @@
             "display_name": "Electrode properties",
             "tab_name": "positive_electrode",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         } 
     }
 }

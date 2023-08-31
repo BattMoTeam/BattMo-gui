@@ -101,7 +101,7 @@
             "display_name": "Positive electrode properties",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         },
         "negative_electrode_properties": {
             "model_name": "p2d_p3d_p4d",
@@ -112,7 +112,7 @@
             "display_name": "Negative electrode properties",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "n_p_electrode_properties_full_template"
         },
         "protocol_properties": {
             "model_name": "p2d_p3d_p4d",
@@ -134,7 +134,7 @@
             "display_name": "Separator materials",
             "category_name": "separator",
             "description": "",
-            "default_template": "separator_full_template"
+            "default_template": "separator_materials"
         },
         "separator_properties": {
             "model_name": "p2d_p3d_p4d",
@@ -145,7 +145,7 @@
             "display_name": "Separator properties",
             "category_name": "separator",
             "description": "",
-            "default_template": "separator_full_template"
+            "default_template": "separator_properties"
         },
         "boundary_conditions": {
             "model_name": "p2d_p3d_p4d",
@@ -165,7 +165,7 @@
             "context_type": "echem:Electrolyte",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
             "display_name": "Electrode properties",
-            "category_name": "positive_electrode",
+            "tab_name": "electrodes",
             "description": "",
             "default_template": "electrode_properties_full_template"
         },

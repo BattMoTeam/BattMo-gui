@@ -36,16 +36,16 @@ def run_page():
 
     #basis, advanced = app.get_tab_data(model_id)
 
-    app.set_basis_input_tabs()
+    #app.set_basis_input_tabs()
 
-    advanced_input = st.checkbox(
-        label ="Show advanced parameter input",
-        key = "AdvancedInput")
+    gui_parameters = app.set_tabs(model_id).user_input
+
     
-    if advanced_input:
-        gui_parameters = app.set_tabs(model_id).user_input
 
-    #app.save_parameters(gui_parameters)
+    with st.expander("Show advanced parameter input"):
+        st.write("advanced input")
+
+    app.save_parameters(gui_parameters)
 
 
 if __name__ == "__main__":

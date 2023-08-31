@@ -384,9 +384,9 @@ class ComponentHandler(BaseHandler):
         self._table_name = "component"
         self._columns = "name, model_name, difficulty,material, context_type, context_type_iri, emmo_relation, display_name, category_id, default_template_id, description"
 
-    def insert_value(self, name, category_id,material, model_id, default_template_id,model_name=None, difficulty=None, context_type=None, context_type_iri=None, emmo_relation=None, display_name=None, description=""):
+    def insert_value(self, name,material, model_id, default_template_id, category_id=None,tab_id=None,model_name=None, difficulty=None, context_type=None, context_type_iri=None, emmo_relation=None, display_name=None, description=""):
         assert name is not None, "Category's name can't be None"
-        assert category_id is not None, "Components's category_id can't be None"
+        #assert category_id is not None, "Components's category_id can't be None"
         assert default_template_id is not None, "Category's default_template_id can't be None"
 
         return self._insert_value_query(
@@ -401,6 +401,7 @@ class ComponentHandler(BaseHandler):
                 "emmo_relation": emmo_relation,
                 "display_name": display_name,
                 "category_id": category_id,
+                "tab_id": tab_id,
                 "default_template_id": default_template_id,
                 "description": description
             }

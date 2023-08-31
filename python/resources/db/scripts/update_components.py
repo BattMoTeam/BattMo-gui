@@ -17,7 +17,7 @@ class UpdateComponents:
     def __init__(self):
         self.sql_component = db_handler.ComponentHandler()
         self.sql_category = db_handler.CategoryHandler()
-        #self.sql_tab = db_handler.TabHandler()
+        self.sql_tab = db_handler.TabHandler()
         self.sql_template = db_handler.TemplateHandler()
         self.sql_model = db_handler.ModelHandler()
 
@@ -54,11 +54,13 @@ class UpdateComponents:
         for component_name in components:
             details = components.get(component_name)
             category_name = details.get("category_name")
+            tab_name = details.get("tab_name")
             model_name = details.get("model_name")
 
             category_id = self.sql_category.get_id_from_name(category_name)
+            tab_id = self.sql_tab.get_id_from_name(tab_name)
 
-            if category_id:
+            if category_id or tab_id:
 
                 if model_name == "p2d_p3d_p4d":
                     model = "P2D"
@@ -91,6 +93,7 @@ class UpdateComponents:
                         id=component_id,
                         columns_and_values={
                             "category_id": category_id,
+                            "tab_id":tab_id,
                             "model_name": model_name,
                             "difficulty": difficulty,
                             "material": material,
@@ -110,6 +113,7 @@ class UpdateComponents:
                     self.sql_component.insert_value(
                         name=component_name,
                         category_id=category_id,
+                        tab_id=tab_id,
                         model_name=model_name,
                         difficulty=difficulty,
                         material = material,

@@ -364,6 +364,7 @@ class SetTabs:
         # Fill tabs
         self.set_tabs()
 
+
     def set_info(self):
         st.info(self.info)
 
@@ -374,6 +375,8 @@ class SetTabs:
         for tab in self.all_tabs:
             tab_index = db_helper.get_tab_index_from_st_tab(tab)
             db_tab_id = db_helper.get_db_tab_id(tab_index)
+            
+            
 
             tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_parameters = {
@@ -383,6 +386,7 @@ class SetTabs:
 
             # logo and title
             self.set_logo_and_title(tab, tab_index)
+            
 
             # get tab's categories
             categories = db_helper.get_basis_categories_from_tab_id(db_tab_id)
@@ -416,41 +420,89 @@ class SetTabs:
                         # emmo relations are used to define the json ld structure.
                         # This can be changed, nothing important here, it's just the json file rendering.
                         tab_parameters[emmo_relation] = [category_parameters]
+                
+                
+
+                with tab:
+                    st.divider()
+                    n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,2.5,0.5,2.5,3])
+                    n_to_p_parameter_col.text("N/P ratio []")
+                    to.text("/")
+                    n_to_p_component = db_helper.get_n_to_p_component_by_tab_id(db_tab_id)  
+
+                    n_to_p_component_id, n_to_p_component_name, _,_,_,_,_,n_to_p_comp_display_name,_,_,_,n_to_p_comp_default_template_id,n_to_p_comp_context_type,n_to_p_comp_context_type_iri,_ = n_to_p_component     
+                    n_to_p_ratio_raw_template = db_helper.get_n_p_template_by_template_id(n_to_p_comp_default_template_id)
+                    
+                    n_to_p_parameter_set_id, n_to_p_parameter_set_name = db_helper.get_n_p_parameter_set_id_by_component_id(n_to_p_component_id)
+                    n_to_p_parameter_set_id=int(n_to_p_parameter_set_id)
+                    n_to_p_parameter_set_name= str(n_to_p_parameter_set_name)
+                    
+                    n_to_p_ratio_raw_parameter = db_helper.get_n_p_parameter_by_template_id(n_to_p_parameter_set_id)
+
+                    
+                    formatted_n_to_p_parameters = self.formatter.format_parameters(n_to_p_ratio_raw_parameter, n_to_p_ratio_raw_template,n_to_p_parameter_set_name )
+                    
+                    columns = (n_to_p_value_n, n_to_p_value_p)
+                    ind = 0
+                    for parameter_id in formatted_n_to_p_parameters:
+                        n_to_p_parameter = formatted_n_to_p_parameters.get(parameter_id)
+                        column = columns[ind]
+                        if n_to_p_parameter.is_shown_to_user:
+                            selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                                template_parameter_id=n_to_p_parameter.id,
+                                parameter_set_id=n_to_p_parameter_set_id
+                    )
+                        
+                        user_input = column.number_input(
+                            label=n_to_p_parameter.name,
+                            value=n_to_p_parameter.default_value,
+                            min_value=n_to_p_parameter.min_value,
+                            max_value=n_to_p_parameter.max_value,
+                            key="input_{}_{}".format(category_id, n_to_p_parameter.id),
+                            format=n_to_p_parameter.format,
+                            step=n_to_p_parameter.increment,
+                            label_visibility="collapsed"
+                            )
+                        ind += 1
+            
 
             else:  # no sub tab is needed
 
                 category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
 
-                # if category_name == "protocol":
-                #     # different way of filling parameters for protocol section, the idea is to choose the name of the
-                #     # protocol and then the parameters are filled. Could be done also for the Cell tab
-                #     category_parameters, _ = self.fill_category_protocol(
-                #         category_id=category_id,
-                #         category_display_name= category_display_name,
-                #         category_name=category_name,
-                #         emmo_relation=emmo_relation,
-                #         default_template_id=default_template_id,
-                #         tab=tab
-                # #     )
-
-                # else:
-                category_parameters, _ = self.fill_category(
+                if category_name == "protocol":
+                    
+                    # different way of filling parameters for protocol section, the idea is to choose the name of the
+                    # protocol and then the parameters are filled. Could be done also for the Cell tab
+                    category_parameters, _ = self.fill_category_protocol(
                         category_id=category_id,
-                        category_display_name =category_display_name,
+                        category_display_name= category_display_name,
                         category_name=category_name,
                         emmo_relation=emmo_relation,
                         default_template_id=default_template_id,
                         tab=tab
                     )
 
+                else:
+                    category_parameters, _ = self.fill_category(
+                            category_id=category_id,
+                            category_display_name =category_display_name,
+                            category_name=category_name,
+                            emmo_relation=emmo_relation,
+                            default_template_id=default_template_id,
+                            tab=tab
+                        )
+
                 tab_parameters.update(category_parameters)
 
             # tab is fully defined, its parameters are saved in the user_input dict
             self.user_input[tab_context_type] = tab_parameters
 
+        st.divider()
+
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
-            image_collumn,image_collumn_2, title_column = st.columns([0.9,0.9,6])
+            image_collumn,image_collumn_2, title_column = tab.columns([0.9,0.9,6])
             image_collumn.image(self.image_dict[str(tab_index)])
             image_collumn_2.image(self.image_dict[str(tab_index+1)])
         else:
@@ -461,82 +513,175 @@ class SetTabs:
         title_column.text(" ")
         title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_id)[tab_index])
 
+
+    def fill_vf_column(self, vf_col,category_id,material_comp_default_template_id,material_component_id):
+
+        
+
+        volume_fraction_raw_template = db_helper.get_vf_template_by_template_id(material_comp_default_template_id)
+            
+        vf_parameter_set_id, vf_parameters_set_name = db_helper.get_vf_parameter_set_id_by_component_id(material_component_id)
+        vf_parameter_set_id = int(vf_parameter_set_id)
+        vf_parameters_set_name = str(vf_parameters_set_name)
+
+        volume_fraction_raw = db_helper.get_vf_raw_parameter_by_parameter_set_id(vf_parameter_set_id)
+
+        
+        formatted_vf_parameters = self.formatter.format_parameters(volume_fraction_raw, volume_fraction_raw_template,vf_parameters_set_name )
+        
+
+        for parameter_id in formatted_vf_parameters:
+            vf_parameter = formatted_vf_parameters.get(parameter_id)
+            if vf_parameter.is_shown_to_user:
+                selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                    template_parameter_id=vf_parameter.id,
+                    parameter_set_id=vf_parameter_set_id
+        )
+            print("parameter2=", vf_parameter)
+            user_input = vf_col.number_input(
+                label=vf_parameter.name,
+                value=vf_parameter.default_value,
+                min_value=vf_parameter.min_value,
+                max_value=vf_parameter.max_value,
+                key="input_{}_{}".format(category_id, vf_parameter.id),
+                format=vf_parameter.format,
+                step=vf_parameter.increment,
+                label_visibility="collapsed"
+                )
+            
+        return vf_parameter, user_input
+            
+    def fill_material_column(self,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri):
+        
+        
+        # get corresponding template parameters from db
+        material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id)
+
+        # get parameter sets corresponding to component, then parameters from each set
+        material_parameter_sets = db_helper.get_all_material_by_component_id(material_component_id)
+
+        material_parameter_sets_name_by_id = {}
+        for id, name, _,_,_ in material_parameter_sets:
+            material_parameter_sets_name_by_id[id] = name
+
+        material_raw_parameters = []
+        for material_parameter_set_id in material_parameter_sets_name_by_id:
+            material_raw_parameters += db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id)
+                
+        # format all those parameters: use template parameters for metadata, and parameters for values.
+        # all information is packed in a single python object
+        # formatted_parameters is a dict containing those python objects
+        material_formatted_parameters, material_display_names = self.formatter.format_parameter_sets(material_parameter_sets, material_raw_template_parameters, material_raw_parameters)
+
+        selected_value_id = material_col.selectbox(
+            label="[{}]({})".format(material_comp_display_name, material_comp_context_type_iri),
+            options=material_formatted_parameters.options,
+            key="select_{}_{}".format(material_component_id, material_parameter_set_id),
+            label_visibility="collapsed",
+            format_func=lambda x: material_formatted_parameters.options.get(x).display
+            #on_change=reset_func,
+            #args=(material_component_id, material_parameter_set_id, material)
+        )
+        return material_formatted_parameters, selected_value_id
+    
+    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id):
+        non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,model_id)
+        
+        
+        
+        non_material_parameter_sets_name_by_id = {}
+        non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
+
+        non_material_parameters_raw = []
+        for non_material_parameter_raw_template in non_material_parameters_raw_template:
+
+            non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
+            print("name=", name)
+            non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
+            
+            non_material_parameters_raw.append(non_material_parameter_raw)
+        
+        formatted_non_material_parameters = self.formatter.format_parameters(list(non_material_parameters_raw), non_material_parameters_raw_template,non_material_parameter_sets_name_by_id )
+                
+        for non_material_parameter_id in formatted_non_material_parameters:
+            non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+            if non_material_parameter.is_shown_to_user:
+                selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                    template_parameter_id=non_material_parameter.id,
+                    parameter_set_id=non_material_parameter_set_id
+                )
+
+            property_col.text(non_material_parameter.display_name + " []")
+            
+            user_input = value_col.number_input(
+                label=non_material_parameter.name,
+                value=non_material_parameter.default_value,
+                min_value=non_material_parameter.min_value,
+                max_value=non_material_parameter.max_value,
+                key="input_{}_{}".format(category_id, non_material_parameter.id),
+                format=non_material_parameter.format,
+                step=non_material_parameter.increment,
+                label_visibility="collapsed"
+                )
+        return non_material_parameter,user_input
+
     def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab):
 
         category_parameters = []
 
         # get components associated with material parameter sets
+        
         material_components = db_helper.get_material_components_from_category_id(category_id)
         
-        
         if category_name == "negative_electrode" or category_name == "positive_electrode":
+        # define streamlit columns
             component_col, material_col, vf_col = tab.columns(3)
             component_col.text("Component")
             material_col.text("Material")
             vf_col.text("Volume Fraction []")
 
-            # define streamlit columns
             for material_component in material_components:
+                material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
                 
-                #material_component_data = material_components[material_component]
-                material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
-                #materials = db_helper.get_material_from_component_id(material_component_id)
+                
 
-                #material_display_names = db_helper.get_material_names_from_component_id(material_component_id)
-                print("material_comp=", material_component_id)
-                component_col, material_col, vf_col = tab.columns(3)
+                vf_parameter, user_input = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id)
+
+                
                 component_col.text(material_comp_display_name)
-                #for material in materials:
-                    #material_data = materials[material]
-                    #material_id,_,_,_,_,_,material_display_name,_,_,_,_,material_context_type,_,_,material_context_type_iri,_ = materials
-
-                # get corresponding template parameters from db
-                material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id)
-                print("raw=",material_raw_template_parameters)
-
-
-                # get parameter sets corresponding to component, then parameters from each set
-                material_parameter_sets = db_helper.get_all_material_by_component_id(material_component_id)
-                print("param_sets=",material_parameter_sets)
-
-                material_parameter_sets_name_by_id = {}
-                for id, name, _,_,_ in material_parameter_sets:
-                    material_parameter_sets_name_by_id[id] = name
-
-                print("param_sets_name_by_id=",material_parameter_sets_name_by_id)
-
-                material_raw_parameters = []
-                for material_parameter_set_id in material_parameter_sets_name_by_id:
-                    material_raw_parameters += db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id)
+        
+                material_formatted_parameters,selected_value_id = self.fill_material_column(material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri)
                 
-                print("mat_raw=",material_raw_parameters)
-                        
-                # format all those parameters: use template parameters for metadata, and parameters for values.
-                # all information is packed in a single python object
-                # formatted_parameters is a dict containing those python objects
-                material_formatted_parameters, material_display_names = self.formatter.format_parameter_sets(material_parameter_sets, material_raw_template_parameters, material_raw_parameters)
-                #material_formatted_parameters = self.formatter.format_parameters(material_raw_parameters, material_raw_template_parameters, material_parameter_sets_name_by_id)
+                material_formatted_parameters.set_selected_value(selected_value_id)
+
+                
+                formatted_value_dict = material_formatted_parameters.selected_value
+
+                # add selected value to json dict, with correct formatting depending on type
+                formatted_value_dict = {
+                        "@type": "emmo:String",
+                        "hasStringData": material_formatted_parameters.selected_value
+                    }
+                material_details = {
+                    "label": material_formatted_parameters.name,
+                    "@type": material_formatted_parameters.context_type_iri if material_formatted_parameters.context_type_iri else "None",
+                    "value": formatted_value_dict
+                 }
                 
                 
-
-                # for material_parameter_set in material_display_names:
-                #     material = material_formatted_parameters.get(material_parameter_set)
-                #     print("options", material.options)
                 
-                selected_value_id = material_col.selectbox(
-                    label="[{}]({})".format(material_comp_display_name, material_comp_context_type_iri),
-                    options=material_formatted_parameters.options,
-                    key="select_{}_{}".format(material_component_id, material_parameter_set_id),
-                    label_visibility="collapsed",
-                    format_func=lambda x: material_formatted_parameters.options.get(x).display
-                    #on_change=reset_func,
-                    #args=(material_component_id, material_parameter_set_id, material)
-                )
+            non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
 
-                volume_fraction_raw_template = db_helper.get_vf_template_by_template_id(material_comp_default_template_id)
-                
-                volume_fraction_raw_value = db_helper.get_vf_value_by_parameter_set_id(material_component_id)
-
+            non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+            
+            tab.text(non_material_comp_display_name)
+            property_col, value_col= tab.columns((1,2))
+            non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
+            
+            non_material_parameter,user_input = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id)
+            
+        
+            
         # get custom template if it exists or default one
         #template_name = self.model_templates.get(category_name)
         #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
@@ -582,16 +727,9 @@ class SetTabs:
                 #         key="input_{}_{}".format(category_id, parameter_id),
                 #         label_visibility="hidden",
                 #     )
-                print("select=", selected_value_id)
-                material_formatted_parameters.set_selected_value(selected_value_id)
+                
 
-            formatted_value_dict = material_formatted_parameters.selected_value
-
-            # add selected value to json dict, with correct formatting depending on type
-            formatted_value_dict = {
-                    "@type": "emmo:String",
-                    "hasStringData": material_formatted_parameters.selected_value
-                }
+            
 
             
             # if isinstance(material, NumericalParameter):
@@ -615,15 +753,51 @@ class SetTabs:
             #         "hasStringData": parameter.selected_value
             #     }
 
-            material_details = {
-                "label": material_formatted_parameters.name,
-                "@type": material_formatted_parameters.context_type_iri if material_formatted_parameters.context_type_iri else "None",
-                "value": formatted_value_dict
-            }
+            
             # if isinstance(parameter, NumericalParameter):
             #     parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+        else:
+            if category_name == "electrolyte" or category_name == "separator":
+                component_col, material_col = tab.columns((1,2))
+                
+                material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_components[0]
+                    
+                    
+                component_col.text(material_comp_display_name)
+        
+                material_formatted_parameters,selected_value_id = self.fill_material_column(material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri)
+                
+                material_formatted_parameters.set_selected_value(selected_value_id)
 
-            category_parameters.append(material_details)
+                
+                formatted_value_dict = material_formatted_parameters.selected_value
+
+                # add selected value to json dict, with correct formatting depending on type
+                formatted_value_dict = {
+                        "@type": "emmo:String",
+                        "hasStringData": material_formatted_parameters.selected_value
+                    }
+                material_details = {
+                    "label": material_formatted_parameters.name,
+                    "@type": material_formatted_parameters.context_type_iri if material_formatted_parameters.context_type_iri else "None",
+                    "value": formatted_value_dict
+                    }
+                
+            
+            
+            non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
+
+            non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+            if category_name == "separator" or category_name == "boundary_conditions":
+
+                tab.text(non_material_comp_display_name)
+                property_col, value_col= tab.columns((1,2))
+                non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)[0]
+                
+                non_material_parameter,user_input = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id)
+            
+
+        #category_parameters.append(material_details)
 
         return {self.has_quantitative_property: category_parameters}, emmo_relation
 
@@ -633,16 +807,20 @@ class SetTabs:
         """
 
         category_parameters = []
+        non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
+
+        non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+            
 
         #template_name = self.model_templates.get(category_name)
-        template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+        #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
-        raw_template_parameters = db_helper.get_template_parameters_from_template_id(template_id)
+        raw_template_parameters = db_helper.get_non_material_template_by_template_id(default_template_id,self.model_id)
 
-        parameter_sets = db_helper.get_all_parameter_sets_by_category_id(category_id)
+        parameter_sets = db_helper.get_all_parameter_sets_by_component_id(non_material_component_id)
 
         parameter_sets_name_by_id = {}
-        for id, name, _ in parameter_sets:
+        for id, name, _,_,_ in parameter_sets:
             parameter_sets_name_by_id[id] = name
 
         selected_parameter_set_id = tab.selectbox(
@@ -675,7 +853,7 @@ class SetTabs:
                         value=parameter.options.get(selected_parameter_id).value,
                         min_value=parameter.min_value,
                         max_value=parameter.max_value,
-                        key="input_{}_{}".format(category_id, parameter_id),
+                        key="input_{}_{}".format(non_material_component_id, parameter_id),
                         format=parameter.format,
                         step=parameter.increment,
                         label_visibility="collapsed"
@@ -685,7 +863,7 @@ class SetTabs:
                     user_input = input_col.selectbox(
                         label=parameter.display_name,
                         options=[parameter.options.get(selected_parameter_id).value],
-                        key="input_{}_{}".format(category_id, parameter_id),
+                        key="input_{}_{}".format(non_material_component_id, parameter_id),
                         label_visibility="collapsed",
                     )
                 parameter.set_selected_value(user_input)

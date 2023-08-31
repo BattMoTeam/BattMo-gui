@@ -14,7 +14,7 @@
       "initial_step_type": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "description": "",
          "is_shown_to_user": true,
          "type": "str",
@@ -23,7 +23,7 @@
       "number_of_cycles": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 100,
@@ -81,7 +81,7 @@
       "d_idt_limit": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "max_value": 0.1,
          "min_value": 0.0001,
          "description": "",
@@ -93,7 +93,7 @@
       "d_edt_limit": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "max_value": 0.1,
          "min_value": 0.0001,
          "description": "",
