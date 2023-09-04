@@ -52,7 +52,7 @@ class ParameterHandler(BaseHandler):
     def get_id_from_template_parameter_id_and_parameter_set_id(self, template_parameter_id, parameter_set_id):
         res = self.select_one(
             values="id",
-            where="template_parameter_id=%d and parameter_set_id=%d" % (template_parameter_id, parameter_set_id)
+            where="template_parameter_id=%d and parameter_set_id=%d" % (int(template_parameter_id), int(parameter_set_id))
         )
         return res[0] if res else None
 

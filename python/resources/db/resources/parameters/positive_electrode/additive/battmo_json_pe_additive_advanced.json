@@ -1,9 +1,9 @@
 {
    "Name": "positive_electrode_additive",
    "Header": {},
-   "component": "positive_electrode_additive",
+   "component": "positive_electrode_additive_advanced",
    "material": false,
    "Parameters": {
-      "volume_fraction": 0.03
+      "electronic_conductivity": 100
    }
 }

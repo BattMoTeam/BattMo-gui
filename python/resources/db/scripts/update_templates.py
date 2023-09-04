@@ -96,44 +96,46 @@ class UpdateTemplates:
         )
         fields = TemplateField()
 
-        
+        # Can be adapted to add the model_id links:
         for parameter in parameters:
             details = parameters.get(parameter)
             model = details.get("model_name")
-            if model == "p2d_p3d_p4d":
-                model_name = "P2D" 
+            print("model_name=", model)
+            if model == 'p2d_p3d_p4d':
+                model_name = 'P2D' 
                 model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
                 
-            if model == "p3d_p4d":
-                model_name = "P3D" 
+            if model == 'p3d_p4d':
+                model_name = 'P3D' 
                 model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
-            if model == "p4d":
-                model_name = "P4D" 
+            if model == 'p4d':
+                model_name = 'P4D' 
                 model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
+            print("model_id=", model_id)
+        if template_already_exists:
+            if self.print_details:
+                print("\n Updating {}".format(name))
 
-            if template_already_exists:
-                if self.print_details:
-                    print("\n Updating {}".format(name))
+            self.update_parameters(
+                parameters=parameters,
+                template_id=template_id,
+                model_id=model_id,
+                fields=fields
+            )
+            print("model_id2=",model_id)
+        else:
+            if self.print_details:
+                print("\n Creating {}".format(name))
 
-                self.update_parameters(
-                    parameters=parameters,
-                    template_id=template_id,
-                    model_id=model_id,
-                    fields=fields
-                )
-            else:
-                if self.print_details:
-                    print("\n Creating {}".format(name))
+            self.add_parameters(
+                parameters=parameters,
+                template_id=template_id,
+                model_id=model_id,
+                fields=fields
+            )
 
-                self.add_parameters(
-                    parameters=parameters,
-                    template_id=template_id,
-                    model_id=model_id,
-                    fields=fields
-                )
-
-            
-            return template_id, template_already_exists, name
+        
+        return template_id, template_already_exists, name, model_id
 
 
     def create_or_update_parameter_set(self, name):
@@ -181,6 +183,7 @@ class UpdateTemplates:
             )
             if parameter_id:  # existing parameter, update fields
                 try:
+                    print("model_id3=",model_id)
                     self.sql_template_parameter.update_by_id(
                         id=parameter_id,
                         columns_and_values={
@@ -251,7 +254,7 @@ class UpdateTemplates:
 
         for file_path in all_file_path:
             file_as_json = db_access.get_json_from_path(file_path)
-            template_id, template_already_exists, name = self.update_template_from_json(file_as_json, file_path)
+            template_id, template_already_exists, name, model_id = self.update_template_from_json(file_as_json, file_path)
             new_or_updated.append(name)
             
             if template_already_exists:

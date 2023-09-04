@@ -66,8 +66,8 @@
       },
       "specific_heat_capacity": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000.0,
@@ -82,8 +82,8 @@
       },
       "thermal_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000.0,
@@ -98,8 +98,8 @@
       },
       "electronic_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:ElectricConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
          "max_value": 7e7,
@@ -208,8 +208,8 @@
       },
       "diffusion_pre_exponential_factor": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "max_value": 1,
          "min_value": 1e-15,
          "description": "",

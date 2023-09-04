@@ -1,0 +1,11 @@
+{
+   "Name": "TBD_battmo_json_separator_advanced",
+   "component": "separator_advanced",
+   "material": false,
+   "Header": {},
+   "Parameters": {
+      "length": 0.01,
+      "width": 0.01,
+      "number_of_discrete_cells_separator": 10
+   }
+}

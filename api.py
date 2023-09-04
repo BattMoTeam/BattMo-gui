@@ -9,19 +9,6 @@ from uuid import uuid4
 import os
 
 
-
-def run_julia(q_in,q_out):
-    from julia import Main
-    Main.include("BattMoJulia/runP2DBattery.jl")
-
-    while True:
-
-        if uuid_str:= q_in.get():
-            
-            output = Main.runP2DBattery.runP2DBatt(file_name)
-            
-            q_out.put(uuid_str)
-
 ##############################
 # RUN JULIA CODE FUNCTION
 ##############################

@@ -83,7 +83,7 @@
 
         "electrolyte_properties": {
             "model_name": "p2d_p3d_p4d",
-            "difficulty": "basis",
+            "difficulty": "basis_advanced",
             "material": false,
             "context_type": "echem:Electrolyte",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
@@ -116,7 +116,7 @@
         },
         "protocol_properties": {
             "model_name": "p2d_p3d_p4d",
-            "difficulty": "basis",
+            "difficulty": "basis_advanced",
             "material": false,
             "context_type": "echem:Electrolyte",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
@@ -147,9 +147,20 @@
             "description": "",
             "default_template": "separator_properties"
         },
+        "separator_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": false,
+            "context_type": "echem:Electrolyte",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "display_name": "Separator properties",
+            "category_name": "separator",
+            "description": "",
+            "default_template": "separator_properties"
+        },
         "boundary_conditions": {
             "model_name": "p2d_p3d_p4d",
-            "difficulty": "basis",
+            "difficulty": "basis_advanced",
             "material": false,
             "context_type": "echem:Electrolyte",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
@@ -190,9 +201,99 @@
             "category_name": "positive_electrode",
             "description": "",
             "default_template": "current_collector_full_template"
-        }
+        },
+        "negative_electrode_active_material_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:ActiveMaterial",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261",
+            "emmo_relation": "hasActiveMaterial",
+            "display_name": "Active Material",
+            "category_name": "negative_electrode_active_material",
+            "description": "",
+            "default_template": "active_material_full_template"
+        },
+        "negative_electrode_binder_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:Binder",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
+            "display_name": "Binder",
+            "category_name": "negative_electrode_binder",
+            "description": "",
+            "default_template": "binder_full_template"
+        },
+        "negative_electrode_additive_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:ConductiveAdditive",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "display_name": "Additive",
+            "category_name": "negative_electrode_additive",
+            "description": "",
+            "default_template": "additive_full_template"
+        },
 
-        
+        "positive_electrode_active_material_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:ActiveMaterial",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261",
+            "emmo_relation": "hasActiveMaterial",
+            "display_name": "Active Material",
+            "category_name": "positive_electrode_active_material",
+            "description": "",
+            "default_template": "active_material_full_template"
+        },
+        "positive_electrode_binder_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:Binder",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
+            "display_name": "Binder",
+            "category_name": "positive_electrode_binder",
+            "description": "",
+            "default_template": "binder_full_template"
+        },
+        "positive_electrode_additive_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": true,
+            "context_type": "echem:ConductiveAdditive",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "display_name": "Additive",
+            "category_name": "positive_electrode_additive",
+            "description": "",
+            "default_template": "additive_full_template"
+
+        },
+        "positive_electrode_properties_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": false,
+            "context_type": "echem:Electrolyte",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "display_name": "Positive electrode properties",
+            "category_name": "positive_electrode_properties",
+            "description": "",
+            "default_template": "n_p_electrode_properties_full_template"
+        },
+        "negative_electrode_properties_advanced": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "material": false,
+            "context_type": "echem:Electrolyte",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "display_name": "Negative electrode properties",
+            "category_name": "negative_electrode_properties",
+            "description": "",
+            "default_template": "n_p_electrode_properties_full_template"
+        }
 
     }
 }

@@ -30,6 +30,8 @@ if __name__ == "__main__":
     # 2. Templates (depends on models)
     UpdateTemplates().execute_script()
 
+    
+
     # 3. Tabs (depends on models)
     UpdateTabs().execute_script()
 
@@ -47,25 +49,7 @@ if __name__ == "__main__":
     # 5. Parameter sets (depend on templates and components)
     UpdateParameterSets().execute_script()
 
-    con, cur = db_access.get_sqlite_con_and_cur()
-    data=cur.execute('''SELECT * FROM component''')
-    # Fetch all rows from the result
-    data = cur.fetchall()
-
-    # Check if there are columns to describe
-    if cur.description:
-        # Print the column information
-        print("Column names:", [col[0] for col in cur.description])
-    else:
-        print("No columns to describe (empty result set)")
-
-    # Print the retrieved data
-    for row in data:
-        print(row)
-        
-    # Don't forget to close the cursor and connection when done
-    cur.close()
-    con.close()
+    
 
 # Uncomment to see data in material table:
 

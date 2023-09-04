@@ -3,9 +3,25 @@
         "electrodes": {
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:PositiveElectrode",
+            "context_type": "echem:Electrode",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Electrodes",
+            "description": ""
+        },
+        "negative_electrode": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "context_type": "echem:NegativeElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
+            "display_name": "Negative electrode",
+            "description": ""
+        },
+        "positive_electrode": {
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "advanced",
+            "context_type": "echem:PositiveElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
+            "display_name": "Positive electrode",
             "description": ""
         },
         "electrolyte": {
@@ -38,22 +54,6 @@
             "display_name": "Protocol",
             "context_type": "echem:CyclingProcess",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_d3e2d213_d078_4b9a_8beb_62f063e57d69",
-            "description": ""
-        },
-        "negative_electrode": {
-            "model_name": "p2d_p3d_p4d",
-            "difficulty": "advanced",
-            "context_type": "echem:NegativeElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
-            "display_name": "Negative electrode",
-            "description": ""
-        },
-        "positive_electrode": {
-            "model_name": "p2d_p3d_p4d",
-            "difficulty": "advanced",
-            "context_type": "echem:PositiveElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
-            "display_name": "Positive electrode",
             "description": ""
         }
     }

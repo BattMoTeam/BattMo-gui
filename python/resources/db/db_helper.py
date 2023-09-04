@@ -61,18 +61,26 @@ def sql_template_parameter():
 # TAB
 #####################################
 
-@st.cache_data
-def get_basis_tabs_display_names():
-    res = sql_tab().select(
-        values='display_name'
-    )
-    return [a[0] for a in res]
+# @st.cache_data
+# def get_basis_tabs_display_names():
+#     res = sql_tab().select(
+#         values='display_name'
+#     )
+#     return [a[0] for a in res]
 
 @st.cache_data
 def get_tabs_display_names(model_id):
     res = sql_tab().select(
         values='display_name',
         where = "model_id = %s" % model_id
+    )
+    return [a[0] for a in res]
+
+@st.cache_data
+def get_tabs_display_name_from_id(tab_id):
+    res = sql_tab().select(
+        values='display_name',
+        where = "id = %d" % tab_id
     )
     return [a[0] for a in res]
 
@@ -85,12 +93,37 @@ def get_basis_tabs_display_names(model_id):
     return [a[0] for a in res]
 
 @st.cache_data
+def get_basis_tab_names(model_id):
+    res = sql_tab().select(
+        values='name',
+        where="model_id='%d' and difficulty= 'basis' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
+    )
+    return [a[0] for a in res]
+
+@st.cache_data
 def get_advanced_tabs_display_names(model_id):
     res = sql_tab().select(
         values='display_name',
-        where="model_id='%d' and difficulty= 'advanced' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
+        where="model_id='%d' AND (difficulty= 'advanced' OR difficulty= 'basis_advanced')" % model_id
     )
     return [a[0] for a in res]
+
+@st.cache_data
+def get_ne_advanced_tab_display_names(model_id):
+    res = sql_tab().select(
+        values='display_name',
+        where="model_id='%d' AND name = 'negative_electrode'" % model_id
+    )
+    return [a[0] for a in res]
+
+@st.cache_data
+def get_pe_advanced_tab_display_names(model_id):
+    res = sql_tab().select(
+        values='display_name',
+        where="model_id='%d' AND name = 'positive_electrode'" % model_id
+    )
+    return [a[0] for a in res]
+
 
 
 @st.cache_data
@@ -118,11 +151,28 @@ def st_tab_id_to_db_tab_id():
     return [a[0] for a in res]
 
 @st.cache_data
-def get_db_tab_id(tab_index):
+def get_db_tab_id(model_id):
     res = sql_tab().select(
         values='id',
+        where="model_id='%d' and difficulty= 'basis' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
     )
-    return res[tab_index]
+    return res
+
+@st.cache_data
+def get_ne_advanced_db_tab_id(model_id):
+    res = sql_tab().select(
+        values='id',
+        where="model_id='%d' AND name = 'negative_electrode'" % model_id
+    )
+    return res
+
+@st.cache_data
+def get_pe_advanced_db_tab_id(model_id):
+    res = sql_tab().select(
+        values='id',
+        where="model_id='%d' AND name = 'positive_electrode'" % model_id
+    )
+    return res
 
 
 
@@ -138,7 +188,30 @@ def get_tab_index_from_st_tab(st_tab):
 def get_basis_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values = '*',
-        where="tab_id=%d and (difficulty = 'basis' or difficulty = 'basis_advanced')" % tab_id
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return res
+@st.cache_data
+def get_basis_categories_display_names(tab_id):
+    res = sql_category().select(
+        values = 'display_name',
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return res
+
+@st.cache_data
+def get_categories_context_type_iri(tab_id):
+    res = sql_category().select(
+        values = 'context_type_iri',
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return res
+
+@st.cache_data
+def get_advanced_categories_from_tab_id(tab_id):
+    res = sql_category().select(
+        values = '*',
+        where="tab_id=%d AND (difficulty = 'advanced' or difficulty = 'basis_advanced')" % tab_id
     )
     return res
 
@@ -158,6 +231,14 @@ def get_non_material_components_from_category_id(category_id):
     res = sql_component().select(
         values = '*',
         where="category_id=%d AND material = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (category_id,0)
+    )
+    return np.squeeze(res)
+
+@st.cache_data
+def get_advanced_components_from_category_id(category_id):
+    res = sql_component().select(
+        values = '*',
+        where="category_id=%d AND (difficulty = 'advanced' OR difficulty = 'basis_advanced')" % category_id
     )
     return np.squeeze(res)
 
@@ -260,6 +341,7 @@ def get_non_material_set_id_by_component_id(component_id):
     )
     return res
 
+
 def get_vf_raw_parameter_by_parameter_set_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
@@ -278,6 +360,13 @@ def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id
     res = sql_parameter().select(
         values = '*',
         where="template_parameter_id=%d AND parameter_set_id=%d" % (template_parameter_id,parameter_set_id)
+    )
+    return res
+
+def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_set_id):
+    res = sql_parameter().select(
+        values = '*',
+        where="template_parameter_id=%d AND parameter_set_id=%d" % (int(template_parameter_id),int(parameter_set_id))
     )
     return res
 
@@ -367,8 +456,15 @@ def get_vf_template_by_template_id(template_id):
 def get_non_material_template_by_template_id(template_id, model_id):
     return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND par_class = '%s' AND model_id = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (template_id,"non_material",model_id)
+            where="template_id=%d AND par_class = '%s' AND model_name = 'p2d_p3d_p4d' AND difficulty = 'basis'" % (template_id,"non_material")
         )
+
+def get_advanced_template_by_template_id(template_id):
+    res = sql_template_parameter().select(
+            values='*',
+            where="template_id=%d AND model_name = 'p2d_p3d_p4d' AND difficulty = 'advanced'" % template_id
+        )
+    return res
 
 def get_n_p_template_by_template_id(template_id):
     return sql_template_parameter().select(

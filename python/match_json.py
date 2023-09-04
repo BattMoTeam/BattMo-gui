@@ -45,10 +45,11 @@ class GuiDict(object):
     def __init__(self, gui_dict):
         self.model = get_dict_from_has_quantitative(gui_dict.get("battery:P2DModel").get("hasQuantitativeProperty"))
         self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("hasQuantitativeProperty"))
-
-        self.raw_pe = gui_dict.get("echem:PositiveElectrode")
+        self.raw_ele = gui_dict.get("echem:Electrode")
+        self.raw_ele_pe = self.raw_ele.get("echem:PositiveElectrode")
+        print("PE=",self.raw_ele)
         self.pe = Electrode(
-            am=self.raw_pe.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
+            am=self.raw_ele_pe.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
             binder=self.raw_pe.get("echem:Binder").get("hasQuantitativeProperty"),
             add=self.raw_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
             cc=self.raw_pe.get("hasConstituent")[0].get("hasQuantitativeProperty"),

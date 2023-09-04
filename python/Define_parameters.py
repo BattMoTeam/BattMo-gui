@@ -40,11 +40,7 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    
-
-    with st.expander("Show advanced parameter input"):
-        st.write("advanced input")
-
+    print("Gui=", gui_parameters)
     app.save_parameters(gui_parameters)
 
 

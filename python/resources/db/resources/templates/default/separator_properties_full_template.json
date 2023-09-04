@@ -21,7 +21,7 @@
       "length": {
          "model_name": "p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "context_type": "emmo:Length",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
          "max_value": 1,
@@ -37,7 +37,7 @@
       "width": {
          "model_name": "p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "context_type": "emmo:Width",
          "context_type_iri": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
          "max_value": 1,

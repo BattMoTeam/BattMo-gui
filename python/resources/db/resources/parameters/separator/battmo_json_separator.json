@@ -4,9 +4,6 @@
    "material": false,
    "Header": {},
    "Parameters": {
-      "length": 0.01,
-      "width": 0.01,
-      "number_of_discrete_cells_separator": 10,
       "thickness": 0.4,
       "porosity": 0.4,
       "bruggeman_coefficient": 1.5
