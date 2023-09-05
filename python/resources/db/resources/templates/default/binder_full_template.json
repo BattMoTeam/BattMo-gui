@@ -52,8 +52,8 @@
       },
       "electronic_conductivity": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:ElectricConductivity",
          "context_type_iri": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
          "max_value": 7e7,

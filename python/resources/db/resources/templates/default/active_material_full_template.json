@@ -192,8 +192,8 @@
       },
       "activation_energy_of_diffusion": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:Energy",
          "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
          "max_value": 100000.0,

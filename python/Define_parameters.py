@@ -2,6 +2,7 @@ import os
 import sys
 from PIL import Image
 import streamlit as st
+import pprint
 
 ##############################
 # Page Config
@@ -40,7 +41,10 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    print("Gui=", gui_parameters)
+    # print("...")
+    # pp = pprint.PrettyPrinter(indent=4)
+    # pp.pprint(gui_parameters)
+    # pdb.set_state()
     app.save_parameters(gui_parameters)
 
 

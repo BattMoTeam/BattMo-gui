@@ -195,9 +195,11 @@ class FunctionParameter(TemplateParameter):
 
 
 class Option_material(object):
-    def __init__(self, parameter_set_display_name=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
+    def __init__(self, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
         self.display_name = parameter_set_display_name
         self.parameter_set_id =parameter_set_id
+        self.parameters = parameters
+        self.parameter_ids = parameter_ids
         self.parameter_names = parameter_names
         self.parameter_values = parameter_values
         self.parameter_display_names = parameter_display_names
@@ -248,12 +250,12 @@ class FormatParameters:
             _, \
             _ , \
             material_id = parameter_set
-            print("mat =",parameter_sets)
+            print("mat =",parameter_set)
             material_display_name = db_helper.get_display_name_from_material_id(material_id)
             material_display_names.append(material_display_name)
             
             # Create list with parameter set ids
-            raw_parameters_set_ids = [sub_list[2] for sub_list in raw_parameters]
+            raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters])
             print("par_set_ids=", raw_parameters_set_ids)
             parameter_ids = []
             parameter_names = []
@@ -265,7 +267,11 @@ class FormatParameters:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
                 #print("index =", parameter_set_id_index)
+                print(index)
+                print("set_id",raw_parameters_set_ids[index])
+                print("id=", parameter_set_id)
                 if raw_parameters_set_ids[index] == parameter_set_id:
+                    
                     parameter_id, \
                     parameter_name, \
                     _, \
@@ -277,7 +283,7 @@ class FormatParameters:
                     template_parameter_ids.append(template_parameter_id)
                     parameter_values.append(parameter_value)
 
-                    index +=1
+                index +=1
             print("par_names=", parameter_names)
             values = []
             for i,value in enumerate(parameter_values):
@@ -304,6 +310,7 @@ class FormatParameters:
                         formatted_value = bool(value)
                     elif isinstance(template_parameter, FunctionParameter):
                         formatted_value = eval(value)
+                        print("function_par =", parameter_name)
                         
                     else:
                         print("value =", value)
@@ -326,7 +333,8 @@ class FormatParameters:
                             parameter_set=material_parameter_sets_name_by_id.get(parameter_set_id),
                             parameter_display_name = parameter_display_name
                         )
-                    template_parameter.add_option(parameter_id, new_option)
+                    template_parameter.add_option(parameter_set_id, new_option)
+                    print("template=",template_parameter.options )
 
             formatted_material = formatted_materials.get(str(material_component_id))
 
@@ -341,6 +349,8 @@ class FormatParameters:
             new_option = Option_material(
                 parameter_set_display_name = formatted_display_name,
                 parameter_set_id = parameter_set_id,
+                parameters = formatted_parameters,
+                parameter_ids = parameter_ids,
                 parameter_names = parameter_names,
                 parameter_values=values,
                 parameter_display_names = parameter_display_name
