@@ -1748,6 +1748,110 @@ class SetTabs:
 
             category_parameters[material_comp_context_type] = component_parameters
 
+
+            material_choice = formatted_materials.options.get(selected_value_id).display_name
+            print("mat_opt=", material_choice)
+            material = formatted_materials.options.get(selected_value_id)
+            parameters = material.parameters
+            
+            
+            if material_choice == "User Defined":
+
+                component_parameters = []
+                ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
+                    
+                with ex:
+                    for parameter_id in parameters:
+                        parameter = parameters.get(parameter_id)
+                        parameter_options =parameter.options.get(selected_value_id)
+                        print(parameter)
+
+                        if not isinstance(parameter, FunctionParameter):
+                            property_col, value_col= ex.columns((1.5,2))
+
+                            if isinstance(parameter, StrParameter):
+                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
+
+
+                                user_input = value_col.text_input(
+                                label=parameter.name,
+                                value=parameter_options.value,
+                                key="input_{}_{}".format(category_id, parameter.id),
+                                label_visibility="collapsed"
+                                )
+
+                                
+                                
+                            else:
+                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+
+                                user_input = value_col.number_input(
+                                label=parameter.name,
+                                value=parameter.min_value,
+                                min_value=parameter.min_value,
+                                max_value=parameter.max_value,
+                                key="input_{}_{}".format(category_id, parameter.id),
+                                format=parameter.format,
+                                step=parameter.increment,
+                                label_visibility="collapsed"
+                                )
+                            #property_col.text(" ")
+
+
+                            
+                        
+
+                        if parameter:
+                            if isinstance(parameter, FunctionParameter): 
+                                parameter.set_selected_value(parameter.default_value)
+                            else:
+                                parameter.set_selected_value(user_input)
+
+                            formatted_value_dict = parameter.selected_value
+                            if isinstance(parameter, NumericalParameter):
+                                formatted_value_dict = {
+                                    "@type": "emmo:Numerical",
+                                    "hasNumericalData": parameter.selected_value
+                                }
+
+                            elif isinstance(parameter, StrParameter):
+                                formatted_value_dict = {
+                                    "@type": "emmo:String",
+                                    "hasStringData": parameter.selected_value
+                                }
+
+                            elif isinstance(parameter, BooleanParameter):
+                                formatted_value_dict = {
+                                    "@type": "emmo:Boolean",
+                                    "hasStringData": parameter.selected_value
+                                }
+                            
+                            # elif isinstance(non_material_parameter, FunctionParameter):
+                            #     formatted_value_dict = {
+                            #         "@type": "emmo:Function",
+                            #         "hasStringData": non_material_parameter.selected_value
+                            #     }
+
+                            parameter_details = {
+                                "label": parameter.name,
+                                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                                "value": formatted_value_dict
+                            }
+                            if isinstance(parameter, NumericalParameter):
+                                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+
+                            component_parameters.append(parameter_details)
+
+                    component_parameters = self.create_component_parameters_dict(component_parameters)
+            
+
+                    component_parameters["label"] = material_comp_display_name
+                    component_parameters["@type"] = material_comp_context_type_iri
+
+                    
+                    
+                    category_parameters[material_comp_context_type] = component_parameters
+
             
             
         
