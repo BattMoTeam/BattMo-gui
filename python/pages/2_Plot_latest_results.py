@@ -837,11 +837,11 @@ def run_page():
     if display_dynamic_dashboard:
         set_dynamic_dashboard()
 
-        run_dashboard = st.button(
-            label = "Run dynamic dashboard")
+        # run_dashboard = st.button(
+        #     label = "Run dynamic dashboard")
         
-        if run_dashboard:
-            run_dynamic_dashboard()
+        # if run_dashboard:
+        #     run_dynamic_dashboard()
 
     if display_colormaps:
         set_colormaps()

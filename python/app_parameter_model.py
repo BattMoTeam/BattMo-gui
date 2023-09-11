@@ -240,10 +240,11 @@ class FormatParameters:
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
         #print("ja=",raw_template_parameters)
     
-        
+        #if np.ndim(parameter_sets)> 1:
 
 
         material_display_names = []
+        print("par_set=",parameter_sets )
         for parameter_set in parameter_sets:
             parameter_set_id, \
             parameter_set, \
@@ -251,7 +252,7 @@ class FormatParameters:
             _ , \
             material_id = parameter_set
             print("mat =",parameter_set)
-            material_display_name = db_helper.get_display_name_from_material_id(material_id)
+            material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
             material_display_names.append(material_display_name)
             
             # Create list with parameter set ids
@@ -347,7 +348,7 @@ class FormatParameters:
             print("for_mat=", formatted_material)
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option_material(
-                parameter_set_display_name = formatted_display_name,
+                parameter_set_display_name = formatted_display_name[0],
                 parameter_set_id = parameter_set_id,
                 parameters = formatted_parameters,
                 parameter_ids = parameter_ids,
@@ -359,7 +360,7 @@ class FormatParameters:
             #template_parameter.set_selected_value(formatted_value)
             formatted_material.add_option(parameter_set_id , new_option)
         
-        return formatted_parameters, formatted_material
+        return formatted_parameters, formatted_material,formatted_materials
 
 
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):

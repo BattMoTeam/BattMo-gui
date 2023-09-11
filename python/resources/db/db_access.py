@@ -32,6 +32,10 @@ def get_path_to_parameters_dir():
 def get_path_to_templates_dir():
     return os.path.join(get_path_to_db_dir(), "resources", "templates")
 
+def get_path_to_schema_dir():
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    python_dir = os.path.abspath(os.path.join(current_path, os.pardir))
+    return os.path.join(python_dir, "form_schema")
 
 def get_path_to_categories():
     file_name = "categories.json"

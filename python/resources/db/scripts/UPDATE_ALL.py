@@ -53,22 +53,22 @@ if __name__ == "__main__":
 
 # Uncomment to see data in material table:
 
-# con, cur = db_access.get_sqlite_con_and_cur()
-# data=cur.execute('''SELECT * FROM material''')
-# # Fetch all rows from the result
-# data = cur.fetchall()
+con, cur = db_access.get_sqlite_con_and_cur()
+data=cur.execute('''SELECT * FROM parameter''')
+# Fetch all rows from the result
+data = cur.fetchall()
 
-# # Check if there are columns to describe
-# if cur.description:
-#     # Print the column information
-#     print("Column names:", [col[0] for col in cur.description])
-# else:
-#     print("No columns to describe (empty result set)")
+# Check if there are columns to describe
+if cur.description:
+    # Print the column information
+    print("Column names:", [col[0] for col in cur.description])
+else:
+    print("No columns to describe (empty result set)")
 
-# # Print the retrieved data
-# for row in data:
-#     print(row)
+# Print the retrieved data
+for row in data:
+    print(row)
     
-# # Don't forget to close the cursor and connection when done
-# cur.close()
-# con.close()
+# Don't forget to close the cursor and connection when done
+cur.close()
+con.close()

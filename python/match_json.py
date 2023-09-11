@@ -5,36 +5,47 @@
 # Also many namings are not explicit enough (ex: "sp": {"z": ..., "t": ...} )
 # It must be refactored on the BattMo side to get something more robust
 ######################
-
+import numpy as np
+from itertools import chain
 
 def get_dict_from_has_quantitative(has_quantitative):
     """
     Simplifies json ld dict to increase readability in this file
     """
     new_dict = {}
+    # if type(has_quantitative) == list:
+    #     has_quantitative = has_quantitative[0]
+    print("quant=", has_quantitative)
     for item in has_quantitative:
-        item_value_type = item.get("value", {}).get("@type", None)
-        if item_value_type == "emmo:Numerical":
-            new_dict[item.get("label")] = item.get("value", {}).get("hasNumericalData")
-        elif item_value_type == "emmo:String":
-            new_dict[item.get("label")] = item.get("value", {}).get("hasStringData")
-        elif item_value_type == "emmo:Boolean":
-            new_dict[item.get("label")] = bool(item.get("value", {}).get("hasStringData"))
-        elif item_value_type is None:
-            new_dict[item.get("label")] = item.get("value", {})
-        else:
-            assert False, "item not handled. {}".format(item)
+
+        #if type(item) ==list:
+        
+        # item =list(chain.from_iterable(item))
+        # print("item2=", item)
+        if type(item) != str:
+            item_value_type = item.get("value", {}).get("@type", None)
+            if item_value_type == "emmo:Numerical":
+                new_dict[item.get("label")] = item.get("value", {}).get("hasNumericalData")
+            elif item_value_type == "emmo:String":
+                new_dict[item.get("label")] = item.get("value", {}).get("hasStringData")
+            elif item_value_type == "emmo:Boolean":
+                new_dict[item.get("label")] = bool(item.get("value", {}).get("hasStringData"))
+            elif item_value_type is None:
+                new_dict[item.get("label")] = item.get("value", {})
+            else:
+                assert False, "item not handled. {}".format(item)
 
     return new_dict
 
 
 class Electrode(object):
-    def __init__(self, am, binder, add, cc, prop):
+    def __init__(self, am, binder, add, prop):
+        print("am=",am)
 
         self.am = get_dict_from_has_quantitative(am)
         self.binder = get_dict_from_has_quantitative(binder)
         self.add = get_dict_from_has_quantitative(add)
-        self.cc = get_dict_from_has_quantitative(cc)
+        #self.cc = get_dict_from_has_quantitative(cc)
         self.properties = get_dict_from_has_quantitative(prop)
 
 
@@ -44,34 +55,38 @@ class GuiDict(object):
     """
     def __init__(self, gui_dict):
         self.model = get_dict_from_has_quantitative(gui_dict.get("battery:P2DModel").get("hasQuantitativeProperty"))
-        self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("hasQuantitativeProperty"))
-        self.raw_ele = gui_dict.get("echem:Electrode")
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("battery:BatteryCell").get("battery:BatteryCell").get("battery:BatteryCell").get("hasQuantitativeProperty"))
+        self.raw_ele = gui_dict.get("echem:Electrode").get("echem:Electrode")
         self.raw_ele_pe = self.raw_ele.get("echem:PositiveElectrode")
-        print("PE=",self.raw_ele)
+        self.raw_ele_ne = self.raw_ele.get("echem:NegativeElectrode")
+        print("PE=",self.raw_ele_pe)
         self.pe = Electrode(
-            am=self.raw_ele_pe.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
-            binder=self.raw_pe.get("echem:Binder").get("hasQuantitativeProperty"),
-            add=self.raw_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
-            cc=self.raw_pe.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_pe.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+            
+            am=self.raw_ele_pe.get("echem:ActiveMaterial").get("hasQuantitativeProperty"),
+            binder=self.raw_ele_pe.get("echem:Binder").get("hasQuantitativeProperty"),
+            add=self.raw_ele_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            #cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_pe.get("echem:NominalProperty").get("hasQuantitativeProperty"),
         )
 
-        self.raw_ne = gui_dict.get("echem:NegativeElectrode")
+        
         self.ne = Electrode(
-            am=self.raw_ne.get("hasActiveMaterial")[0].get("hasQuantitativeProperty"),
-            binder=self.raw_ne.get("echem:Binder").get("hasQuantitativeProperty"),
-            add=self.raw_ne.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
-            cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ne.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+            am=self.raw_ele_ne.get("echem:ActiveMaterial").get("hasQuantitativeProperty"),
+            binder=self.raw_ele_ne.get("echem:Binder").get("hasQuantitativeProperty"),
+            add=self.raw_ele_ne.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            #cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
+            prop=self.raw_ele_ne.get("echem:NominalProperty").get("hasQuantitativeProperty"),
         )
-        self.elyte = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("hasQuantitativeProperty"))
-        self.sep = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("hasQuantitativeProperty"))
-        self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("hasQuantitativeProperty"))
-
+        
+        self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("echem:ElectrolyteMaterial").get("hasQuantitativeProperty"))
+        self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:SeparatorMaterial").get("hasQuantitativeProperty"))
+        self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
+        self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("hasQuantitativeProperty"))
+        self.el = get_dict_from_has_quantitative(self.raw_ele.get("echem:Electrode").get("hasQuantitativeProperty"))
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
-    number_of_discrete_cells_electrode = json_ld.pe.am.get("number_of_discrete_cells_electrode")
+    number_of_discrete_cells_electrode = json_ld.ne.properties.get("number_of_discrete_cells_electrode")
     total_time = 2 / json_ld.protocol.get("c_rate") * json_ld.protocol.get("number_of_cycles") * 3600
 
     return {
@@ -87,7 +102,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 #"thermalConductivity": json_ld.ne.am.get("thermal_conductivity"),
                 #"InterDiffusionCoefficient": 1e-14,
                # "InterDiffusionCoefficientComment": "from Ecker 2015",
-                "electricalConductivity": json_ld.ne.am.get("electronic_conductivity"),
+                "electricalConductivity": json_ld.ne.properties.get("electronic_conductivity"),
                 "BruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient"),
                 "Interface": {
                     "cmax": json_ld.ne.am.get("maximum_concentration"),
@@ -101,7 +116,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "theta0": json_ld.ne.am.get("minimum_lithium_stoichiometry"),
                     "OCP": {
                         "type": "function",
-                        "functionname": json_ld.ne.am.get("open_circuit_potential"),
+                        "functionname": "compute_ocp_graphite",#json_ld.ne.am.get("open_circuit_potential"),
                         "argumentlist": ["cElectrode", "T", "cmax"]
                     },
                     "BruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient")
@@ -115,7 +130,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 }
             },
             "CurrentCollector": {
-                "EffectiveElectricalConductivity": json_ld.ne.cc.get("electronic_conductivity"),
+                "EffectiveElectricalConductivity":35500000.0,# json_ld.ne.cc.get("electronic_conductivity"),
                 "N" : 5,
                 "thickness" : 25e-6 
                 #"thermalConductivity": json_ld.ne.cc.get("thermal_conductivity"),
@@ -131,7 +146,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 #"thermalConductivity": json_ld.pe.am.get("thermal_conductivity"),
                 #"InterDiffusionCoefficient": 1e-14,
                 #"InterDiffusionCoefficientComment": "from Ecker 2015",
-                "electricalConductivity": json_ld.pe.am.get("electronic_conductivity"),
+                "electricalConductivity": json_ld.pe.properties.get("electronic_conductivity"),
                 "BruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient"),
                 "Interface": {
                     "cmax": 55554,#json_ld.pe.am.get("maximum_concentration"),
@@ -160,7 +175,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 }
             },
             "CurrentCollector": {
-                "EffectiveElectricalConductivity": json_ld.pe.cc.get("electronic_conductivity"),
+                "EffectiveElectricalConductivity": 59600000.0,#json_ld.pe.cc.get("electronic_conductivity"),
                 "N" : 5,
                 "thickness" : 15e-6
                 #"thermalConductivity": json_ld.pe.cc.get("thermal_conductivity"),
@@ -172,7 +187,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Separator": {
                 "thickness": 1.5e-05,#json_ld.sep.get("thickness"),
                 "N": number_of_discrete_cells_electrode,
-                "porosity": json_ld.sep.get("porosity"),
+                "porosity": json_ld.sep_prop.get("porosity"),
                 #"specificHeatCapacity": json_ld.sep.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.sep.get("thermal_conductivity"),
                 #"density": json_ld.sep.get("density"),
@@ -196,17 +211,17 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             #     json_ld.elyte.get("counter_ion_name")
             # ],
             "sp": {
-                "z": json_ld.elyte.get("charge_carrier_charge_number"),
-                "t": json_ld.elyte.get("counter_ion_transference_number")
+                "z": json_ld.elyte_mat.get("charge_carrier_charge_number"),
+                "t": json_ld.elyte_mat.get("counter_ion_transference_number")
             },
-            "BruggemanCoefficient": json_ld.elyte.get("bruggeman_coefficient")
+            "BruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient")
         },
         #"G": [],
         "SOC": json_ld.cell.get("initial_state_of_charge"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.cell.get("initial_temperature"),
         #"use_thermal": json_ld.model.get("use_thermal"),
-        "include_current_collectors": json_ld.model.get("include_current_collector"),
+        "include_current_collectors": False, #json_ld.model.get("include_current_collector"),
         #"use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),
         "Control": {
             "controlPolicy": json_ld.protocol.get("protocol_name"),

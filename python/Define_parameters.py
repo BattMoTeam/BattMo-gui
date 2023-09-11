@@ -3,6 +3,7 @@ import sys
 from PIL import Image
 import streamlit as st
 import pprint
+import pdb
 
 ##############################
 # Page Config
@@ -23,7 +24,7 @@ from app_controller import get_app_controller
 for k, v in st.session_state.items():
     st.session_state[k] = v
 
-#Remember widget actions when switching between pages (for example: selectbox choice)
+# Remember widget actions when switching between pages (for example: selectbox choice)
 st.session_state.update(st.session_state)
 ##############################
 
@@ -41,10 +42,10 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    # print("...")
-    # pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(gui_parameters)
-    # pdb.set_state()
+    # pp = pprint.PrettyPrinter(indent=2)
+    # pp.pprint(gui_parameters["echem:Electrode"])
+    # pdb.set_trace()
+    
     app.save_parameters(gui_parameters)
 
 

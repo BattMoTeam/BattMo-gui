@@ -21,12 +21,14 @@
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis_advanced",
             "tab_name": "boundary_conditions",
+            "context_type": "battery:BatteryCell",
             "description": "",
             "default_template": "cell_full_template"
         },
         "protocol": {
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis_advanced",
+            "context_type": "echem:CyclingProcess",
             "tab_name": "protocol",
             "description": "",
             "default_template": "protocol_full_template"
@@ -64,6 +66,7 @@
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis_advanced",
             "tab_name": "separator",
+            "context_type": "echem:Separator",
             "description": "",
             "default_template": "separator_properties"
         },      
