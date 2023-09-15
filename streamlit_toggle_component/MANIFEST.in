@@ -1,0 +1,3 @@
+recursive-include src/st_toggle_component/frontend *
+include README.md
+include LICENSE

@@ -66,6 +66,9 @@ class BaseHandler:
 
     def select_all(self):
         return cur.execute("SELECT * FROM %s" % self._table_name).fetchall()
+    
+    def select_shown_to_user(self):
+        return cur.execute("SELECT * FROM %s WHERE show_to_user= %d" % (self._table_name,1)).fetchall()
 
     def update_by_id(self, id, columns_and_values):
         """

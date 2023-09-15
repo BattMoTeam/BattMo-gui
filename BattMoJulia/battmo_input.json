@@ -215,7 +215,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.03
+                        "hasNumericalData": 0.1
                      },
                      "unit": "emmo:UnitOne"
                   }
@@ -230,7 +230,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 100.0
+                        "hasNumericalData": 1800.0
                      },
                      "unit": "emmo:GramPerCubicMetre"
                   },
@@ -239,7 +239,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.0
+                        "hasNumericalData": 300.0
                      },
                      "unit": "emmo:JoulePerKiloGramKelvin"
                   },
@@ -248,7 +248,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.01
+                        "hasNumericalData": 0.5
                      },
                      "unit": "emmo:WattPerMetreKelvin"
                   },
@@ -257,7 +257,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.03
+                        "hasNumericalData": 0.1
                      },
                      "unit": "emmo:UnitOne"
                   }
@@ -284,6 +284,15 @@
                         "hasNumericalData": 0.2
                      },
                      "unit": "emmo:UnitOne"
+                  },
+                  {
+                     "label": "mass_loading",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 10.0
+                     },
+                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "specific_heat_capacity",
@@ -529,7 +538,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.03
+                        "hasNumericalData": 0.14
                      },
                      "unit": "emmo:UnitOne"
                   }
@@ -544,7 +553,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 100.0
+                        "hasNumericalData": 1800.0
                      },
                      "unit": "emmo:GramPerCubicMetre"
                   },
@@ -553,7 +562,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.0
+                        "hasNumericalData": 300.0
                      },
                      "unit": "emmo:JoulePerKiloGramKelvin"
                   },
@@ -562,7 +571,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.01
+                        "hasNumericalData": 0.5
                      },
                      "unit": "emmo:WattPerMetreKelvin"
                   },
@@ -571,7 +580,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.03
+                        "hasNumericalData": 0.14
                      },
                      "unit": "emmo:UnitOne"
                   }
@@ -598,6 +607,15 @@
                         "hasNumericalData": 0.2
                      },
                      "unit": "emmo:UnitOne"
+                  },
+                  {
+                     "label": "mass_loading",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 10.0
+                     },
+                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "specific_heat_capacity",
@@ -1021,7 +1039,7 @@
                      "@type": "None",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 12.5
+                        "hasNumericalData": null
                      },
                      "unit": "emmo:AmpereHour"
                   },
@@ -1030,7 +1048,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 34
+                        "hasNumericalData": null
                      },
                      "unit": "emmo:UnitOne"
                   },

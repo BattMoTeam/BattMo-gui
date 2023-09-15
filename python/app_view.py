@@ -15,6 +15,7 @@ import requests
 from flask_restful import Resource
 import pdb
 from jsonschema import validate, ValidationError
+from streamlit_toggle_component.src.st_toggle_component import st_toggle_component
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -377,6 +378,124 @@ class SetTabs:
     def create_component_parameters_dict(self,component_parameters):
         return {self.has_quantitative_property: component_parameters}
     
+
+    def validate_volume_fraction(self, vf_sum,category_display_name):
+        if vf_sum != 1.0:
+            st.warning("The sum of the '%s' material volume fractions is not equal to 1." % (category_display_name))
+
+    
+    def set_check_col(self,toggle_states, check_col, i, ac,category_id,non_material_parameter):
+        # Create a dictionary to store toggle states
+        
+
+        st.title("Toggle System")
+
+        for name, state in toggle_states.items():
+            toggle_states[name] = check_col.checkbox(label =name, 
+                                                   value =state,
+                                                   key = "toggle_{}_{}".format(category_id, non_material_parameter.id),
+                                                   label_visibility="collapsed")
+
+        # Count the number of active toggles
+        active_count = sum(toggle_states.values())
+
+        # If more than 2 toggles are active, deactivate the extra ones
+        if active_count > 2:
+            for name in toggle_states:
+                if toggle_states[name] and active_count > 2:
+                    toggle_states[name] = False
+                    active_count -= 1
+
+        for name, state in toggle_states.items():
+            st.write(f"{name}: {state}")
+
+        # Display the count of active toggles
+        st.write(f"Active Count: {active_count}")
+        
+        
+        # if state[0]==True and state[1]==True and ac == 3:
+        #     print("1")
+        #     state[i]=False
+        #     activated = False
+        #     #tog_disabled = True
+        # elif state[0]==False and state[1]==True and ac == 3:
+        #     print("2")
+            
+        #     state[i]=True
+        #     activated = True
+        #     #tog_disabled = False
+        # elif state[1]==True and state[2]==True and ac == 1:
+        #     print("3")
+
+        #     state[i]=False
+        #     activated = False
+        #     #tog_disabled = True
+        # elif state[0]==True and state[2]==True and ac == 2:
+        #     print("4")
+
+        #     state[i]=False
+        #     activated = False
+        #     #tog_disabled = True
+        # else:
+        #     print("5")
+
+        #     state[i]=True
+        #     activated = True
+        #     #tog_disabled = False
+
+        # if check_col != None:
+            
+        #     tog = check_col.toggle(
+        #         label ="Activate",
+        #         value = state[i],
+        #         key = "toggle_{}_{}".format(category_id, non_material_parameter.id),
+        #         label_visibility="collapsed",
+        #         disabled = False
+        #         )
+
+        #     check_col.text(" ")
+        #     if tog:
+        #         disabled = False
+        #         state[i]=True
+                
+                
+        #     else:
+        #         disabled = True
+        #         state[i]=False
+        #     print("i=",i)
+        #     print("state=", state)
+
+        #     if state[0]==True and state[1]==True and ac == 3:
+        #         print("1")
+        #         state[i]=False
+        #         activated = False
+        #         #tog_disabled = True
+        #     elif state[0]==False and state[1]==True and ac == 3:
+        #         state[i]=True
+        #         activated = True
+        #         #tog_disabled = False
+        #     elif state[1]==True and state[2]==True and ac == 1:
+        #         print("2")
+
+        #         state[i]=False
+        #         activated = False
+        #         #tog_disabled = True
+        #     elif state[0]==True and state[2]==True and ac == 2:
+        #         print("3")
+
+        #         state[i]=False
+        #         activated = False
+        #         #tog_disabled = True
+        #     else:
+        #         print("4")
+
+        #         state[i]=True
+        #         activated = True
+        # else:
+        #     disabled = False
+        
+        return toggle_states#, disabled
+
 
     def schema_to_form(self,p,schema):
         with st.form("active_material_form"):
@@ -1023,12 +1142,12 @@ class SetTabs:
         title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_id)[tab_index])
 
 
-    def fill_vf_column(self, vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,emmo_relation=None):
+    def fill_vf_column(self, vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,emmo_relation=None):
 
         
-
+        
         volume_fraction_raw_template = db_helper.get_vf_template_by_template_id(material_comp_default_template_id)
-            
+        print("vf_temp=", volume_fraction_raw_template)  
         vf_parameter_set_id, vf_parameters_set_name = db_helper.get_vf_parameter_set_id_by_component_id(material_component_id)
         vf_parameter_set_id = int(vf_parameter_set_id)
         vf_parameters_set_name = str(vf_parameters_set_name)
@@ -1094,9 +1213,9 @@ class SetTabs:
                     parameter_details["unit"] = "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit
 
                 component_parameters.append(parameter_details)
-
+                vf_sum += vf_parameter.selected_value 
         
-        return vf_parameter, user_input, component_parameters, emmo_relation
+        return vf_parameter, user_input, component_parameters, emmo_relation, vf_sum
             
     def fill_material_column(self,component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, emmo_relation = None):
         
@@ -1210,7 +1329,7 @@ class SetTabs:
         
 
     
-    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters):
+    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters, check_col,non_material_component_name):
         non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,model_id)
         
         
@@ -1218,6 +1337,7 @@ class SetTabs:
         non_material_parameter_sets_name_by_id = {}
         non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
 
+        parameter_names = []
         non_material_parameters_raw = []
         for non_material_parameter_raw_template in non_material_parameters_raw_template:
 
@@ -1225,10 +1345,49 @@ class SetTabs:
 
             non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
             
+            parameter_names.append(name)
             non_material_parameters_raw.append(non_material_parameter_raw)
         non_material_parameters_raw = tuple(non_material_parameters_raw)
         formatted_non_material_parameters = self.formatter.format_parameters(non_material_parameters_raw, non_material_parameters_raw_template,non_material_parameter_sets_name_by_id )
-                
+
+        if check_col:
+            with check_col:
+                placeholder = st.empty()
+        ac = 1 
+        i = 0
+        toggle_names = parameter_names
+        
+        if 'states_ne' not in st.session_state:
+            state = {}
+            for name in parameter_names:
+                state[name] = False
+            st.session_state.states_ne = state
+            #st.session_state.states_ne = [False,False,False]
+            print(st.session_state.states_ne) 
+
+        if 'states_pe' not in st.session_state:
+            state = {}
+            for name in parameter_names:
+                state[name] = False
+            st.session_state.states_pe = state
+            #st.session_state.states_pe = {"toggle1":False,"toggle2":False,"toggle3":False}
+            #st.session_state.states_pe = [False,False,False]
+            print(st.session_state.states_pe) 
+
+        def custom_toggle(labels, values, key,quantity, limit):
+            
+            
+
+            if type(values) == dict:
+                states = values
+                values = []
+                for label,value in states.items():
+                    values.append(value)
+
+
+            return st_toggle_component(labels=labels, initial_values= values, key = key, quantity=quantity,limit=limit)
+            
+        
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
             if non_material_parameter.is_shown_to_user:
@@ -1236,13 +1395,68 @@ class SetTabs:
                     template_parameter_id=non_material_parameter.id,
                     parameter_set_id=non_material_parameter_set_id
                 )
+            disabled = False
+            if check_col:
+                
+                
+                if non_material_component_name == "negative_electrode_properties":
+                    
+                    with placeholder:
+                        print("state_ses=", st.session_state.states_ne)
+                        states_ne = custom_toggle(labels =toggle_names,values =st.session_state.states_ne,  key="toggle_{}_{}".format(category_id, non_material_parameter.id),quantity = 3, limit=2)
+                        print("state=", states_ne)
+                        if states_ne != st.session_state.states_ne:
+                            st.session_state.states_ne = states_ne
+                            st.experimental_rerun()
+                        if st.session_state.states_ne:
 
-            
+                            for toggle_name, value in st.session_state.states_ne.items():
+                                print("toggle_name =", toggle_name)
+                                print(non_material_parameter.optionsname[i])
+                                if toggle_name == non_material_parameter.name[i] and bool(value) == False:
+                                    disabled = True
+                                elif toggle_name == non_material_parameter.name[i] and bool(value) == True:
+                                    disabled = False
+                        
+                        
+                    #state= self.set_check_col(st.session_state.state_ne, check_col, i, ac,category_id,non_material_parameter)
+                    #st.session_state.state_ne[i] = state[i]
+                if non_material_component_name == "positive_electrode_properties":
+                    
+                    with placeholder:
+
+                        
+                        states_pe = custom_toggle(labels=toggle_names,values =st.session_state.states_pe,key="toggle_{}_{}".format(category_id, non_material_parameter.id),quantity = 3, limit=2)
+                        
+                        print("state=", states_pe)
+                        if states_pe != st.session_state.states_pe:
+                            st.session_state.states_pe = states_pe
+                            
+                            st.experimental_rerun()
+                        if st.session_state.states_pe:
+                            for toggle_name, value in st.session_state.states_pe.items():
+                                if toggle_name == non_material_parameter.name[i] and value == False:
+                                    disabled = True
+                                elif toggle_name == non_material_parameter.name[i] and value == True:
+                                    disabled = False
+
+                            
+
+                        # if states_pe[i] != st.session_state.states_pe[i]:
+                        #     st.session_state.states_pe = states_pe
+                        #     st.experimental_rerun()
+                    #state= self.set_check_col(st.session_state.state_pe, check_col, i, ac,category_id,non_material_parameter)
+                    #st.session_state.state_pe[i] = state[i]
+
             property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " (" + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri) + ")")
 
             property_col.text(" ")
-
-
+            
+            
+            
+                
+            i +=1
+            ac += 1
             user_input = value_col.number_input(
                 label=non_material_parameter.name,
                 value=non_material_parameter.default_value,
@@ -1251,7 +1465,8 @@ class SetTabs:
                 key="input_{}_{}".format(category_id, non_material_parameter.id),
                 format=non_material_parameter.format,
                 step=non_material_parameter.increment,
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                disabled = disabled
                 )
             
 
@@ -1291,6 +1506,9 @@ class SetTabs:
                     parameter_details["unit"] = "emmo:"+non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit
 
                 component_parameters.append(parameter_details)
+
+        
+
         return non_material_parameter,user_input, {self.has_quantitative_property: component_parameters}
     
     def fill_electrode_tab_comp(self, db_tab_id ,emmo_relation):
@@ -1436,7 +1654,7 @@ class SetTabs:
                     vf_display_name = tuple(np.squeeze(db_helper.get_vf_template_by_template_id(material_comp_default_template_id)))
             vf_col.write("[{}]({})".format(vf_display_name, vf_context_type_iri) + " (" + "[{}]({})".format(vf_unit, vf_unit_iri) + ")")
 
-            
+            vf_sum = 0
             for material_component in material_components:
                 component_parameters = []
                 material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
@@ -1556,7 +1774,7 @@ class SetTabs:
                         category_parameters[material_comp_context_type] = component_parameters
                 
                 component_parameters = []
-                vf_parameter, user_input, component_parameter,_ = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,emmo_relation=None)
+                vf_parameter, user_input, component_parameter,_,vf_sum = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,emmo_relation=None)
 
                 component_parameters = self.create_component_parameters_dict(component_parameters)
 
@@ -1591,19 +1809,21 @@ class SetTabs:
                         # ex.write(form_data)
       
                     
-                
+            self.validate_volume_fraction(vf_sum, category_display_name)    
             
             non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
             component_parameters = []
             non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
             
             tab.markdown("**%s**" % non_material_comp_display_name)
-            property_col, value_col= tab.columns((1,2))
+            check_col, property_col, value_col= tab.columns((1,1,2))
+
+            
             non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
             
-            non_material_parameter,user_input,component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters)
+            non_material_parameter,user_input,component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters, check_col,non_material_component_name)
 
-
+            #pdb.set_trace()
             component_parameters["label"] = non_material_comp_display_name
             component_parameters["@type"] = non_material_comp_context_type_iri
 
@@ -1866,7 +2086,7 @@ class SetTabs:
             property_col, value_col= tab.columns((1,2))
             non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)[0]
             
-            non_material_parameter,user_input, component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters)
+            non_material_parameter,user_input, component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters, check_col = None,non_material_component_name = None)
             
             #component_parameters = self.create_component_parameters_dict(component_parameters)
             component_parameters["label"] = non_material_comp_display_name
@@ -2207,7 +2427,7 @@ def octave_on_click(json_file):
     ##############################
 
 
-    print(sys.path)
+    #print(sys.path)
     print(db_access.get_path_to_gui_dir())
     uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
                                                                             'InputFile':'battmo_formatted_input.json',

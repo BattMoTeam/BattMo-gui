@@ -115,6 +115,7 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS model(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            show_to_user INTEGER DEFAULT NULL,
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)

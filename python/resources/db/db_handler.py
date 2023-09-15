@@ -233,14 +233,15 @@ class TemplateParameterHandler(BaseHandler):
 class ModelHandler(BaseHandler):
     def __init__(self):
         self._table_name = "model"
-        self._columns = "name, templates, description"
+        self._columns = "name, show_to_user, description"
 
-    def insert_value(self, name, templates="{}", description=""):
+    def insert_value(self, name,show_to_user, templates="{}", description=""):
         assert name is not None, "Model's name can't be None"
 
         return self._insert_value_query(
             columns_and_values={
                 "name": name,
+                "show_to_user": show_to_user,
                 "description": description
             }
         )

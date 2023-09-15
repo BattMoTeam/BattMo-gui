@@ -376,11 +376,15 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 #####################################
 @st.cache_data
 def get_models_as_dict():
-    models = sql_model().select_all()
+    models = sql_model().select(
+        values = '*',
+        where = "show_to_user = '1'" 
+    )
+    print("models=",models )
     models_as_dict = {}
 
     for model in models:
-        model_id, model_name, _ = model
+        model_id, model_name, _,_ = model
 
         models_as_dict[model_id] = model_name
 

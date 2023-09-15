@@ -2,6 +2,7 @@
     "models": {
       "P2D": {
          "description": "",
+         "show_to_user": true,
          "parameters": {
             "use_thermal": {
                   "value": false,
@@ -10,7 +11,7 @@
             },
             "include_current_collector": {
                   "value": false,
-                  "description": "",
+                  "description": "option to include current collectors in the simulation",
                   "type": "bool"
             },
             "use_solid_diffusion_model": {
@@ -33,12 +34,12 @@
             },
             "use_ramp_up": {
                "value": true,
-               "description": "",
+               "description": "simulation option to use a ramp up time at the beginning of the simulation",
                "type": "bool"
             },
             "ramp_up_time": {
                "value": 10,
-               "description": "",
+               "description": "duration of the switch between changing from rest, discharging, or charging",
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
@@ -48,6 +49,7 @@
       },
       "P3D": {
          "description": "",
+         "show_to_user": false,
          "parameters": {
             "use_thermal": {
                   "value": false,
@@ -56,7 +58,7 @@
             },
             "include_current_collector": {
                   "value": false,
-                  "description": "",
+                  "description": "option to include current collectors in the simulation",
                   "type": "bool"
             },
             "use_solid_diffusion_model": {
@@ -84,7 +86,7 @@
             },
             "ramp_up_time": {
                "value": 10,
-               "description": "",
+               "description": "duration of the switch between changing from rest, discharging, or charging",
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
@@ -96,6 +98,7 @@
        },
       "P4D": {
          "description": "",
+         "show_to_user": false,
          "parameters": {
             "use_thermal": {
                   "value": false,
@@ -104,7 +107,7 @@
             },
             "include_current_collector": {
                   "value": false,
-                  "description": "",
+                  "description": "option to include current collectors in the simulation",
                   "type": "bool"
             },
             "use_solid_diffusion_model": {
@@ -127,7 +130,7 @@
             },
             "use_ramp_up": {
                "value": true,
-               "description": "",
+               "description": "duration of the switch between changing from rest, discharging, or charging",
                "type": "bool"
             },
             "ramp_up_time": {

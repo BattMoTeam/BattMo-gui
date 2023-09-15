@@ -5,6 +5,7 @@
    "material": false,
    "Parameters": {
       "coating_thickness": 8.67e-05,
-      "coating_porosity": 0.2
+      "coating_porosity": 0.2,
+      "mass_loading": 10
    }
 }
