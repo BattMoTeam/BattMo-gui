@@ -272,7 +272,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 8.67e-05
+                        "hasNumericalData": 5.813953488372093e-06
                      },
                      "unit": "emmo:Metre"
                   },

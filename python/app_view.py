@@ -307,9 +307,49 @@ class SetBasisInputTabs:
         st.divider()
 
 
-            
+def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name):
+        """
+        Function needed for the checkboxes and number_inputs to work properly together.
+        """
+        print("session1= ", st.session_state[checkbox_key])
 
+        #st.session_state[checkbox_key] = new_value
+        state_count ="state_count_" + str(category_id)
+        states = "states_" + str(category_id)
+        
+        if st.session_state[checkbox_key]==True:
+            print("ok")
+            st.session_state[state_count] += 1
+            st.session_state[states][parameter_name] = True
+            #st.experimental_rerun()
 
+        elif st.session_state[checkbox_key]== False:
+            st.session_state[state_count] -= 1
+            st.session_state[states][parameter_name] = False
+            #st.experimental_rerun()
+        print("state_count=", st.session_state[state_count])
+        if st.session_state[state_count] >2:
+            st.session_state[checkbox_key] = False
+            st.session_state[state_count] -= 1
+            st.session_state[states][parameter_name] = False
+            tab.warning("Only two of three parameters can be defined. The third one is calculated.")
+            #st.experimental_rerun()
+
+        elif st.session_state[state_count] < 2:
+            tab.warning("Enable at least two of three parameters.")
+                   
+
+def calc_mass_loading(density_mix, thickness, porosity):
+        ml = thickness*density_mix*1000*(1-porosity)
+        return ml
+    
+def calc_thickness( density_mix, mass_loading, porosity):
+    th = mass_loading/(density_mix*1000*(1-porosity))
+    return th
+
+def calc_porosity( density_mix, thickness, mass_loading):
+    por = 1-(mass_loading/(thickness*density_mix*1000))
+    return por
     
 
 class SetTabs:
@@ -379,40 +419,7 @@ class SetTabs:
     def create_component_parameters_dict(self,component_parameters):
         return {self.has_quantitative_property: component_parameters}
     
-    def checkbox_input_connect(self,checkbox_key, tab, category_id, parameter_name):
-        """
-        Function needed for the checkboxes and number_inputs to work properly together.
-        """
-        state_count= "state_count_" + str(category_id)
-        states = "states_" + str(category_id)
-        if st.session_state[checkbox_key]:
-
-            st.session_state.state_count += 1
-            st.session_state.states[parameter_name] = True
-
-        else:
-            st.session_state.state_count -= 1
-            st.session_state.states[parameter_name] = False
-
-        if st.session_state.states["coating_thickness"] and st.session_state.states["coating_porosity"]:
-            par = self.calc_mass_loading()
-        elif st.session_state.states["coating_thickness"] and st.session_state.states["mass_loading"]:
-            par = self.calc_porosity()
-        elif st.session_state.states["mass_loading"] and st.session_state.states["coating_porosity"]:
-            par = self.calc_thickness()
-        else:
-            par = None
-            tab.warning("Enable at least two of three parameters.")
-        
-
-
-        if st.session_state.state_count >2:
-            st.session_state[checkbox_key] = False
-            st.session_state.state_count -= 1
-            tab.warning("Only two of three parameters can be defined. The third one is calculated.")
-            #st.experimental_rerun()
-
-        return par
+    
 
     
 
@@ -434,17 +441,7 @@ class SetTabs:
         print(density_mix)
         return density_mix
     
-    def calc_mass_loading(self, density_mix, thickness, porosity):
-        ml = thickness/(density_mix*(1-porosity))
-        return ml
     
-    def calc_thickness(self, density_mix, mass_loading, porosity):
-        th = mass_loading/(density_mix*(1-porosity))
-        return th
-    
-    def calc_porosity(self, density_mix, thickness, mass_loading):
-        por = 1-(thickness/mass_loading*density_mix)
-        return por
 
     def set_check_col(self,toggle_states, check_col, i, ac,category_id,non_material_parameter):
         # Create a dictionary to store toggle states
@@ -1060,17 +1057,23 @@ class SetTabs:
                 all_category_display_names = [a[8] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
+                mass_loadings = {}
 
                 for category in categories:
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
                     state_count= "state_count_" + str(category_id)
                     states = "states_" + str(category_id)
+                    
 
                     if state_count not in st.session_state:
-                        st.session_state.state_count = 0
+                        st.session_state[state_count] = 0
 
                     if states not in st.session_state:
-                        st.session_state.states = {}
+                        st.session_state[states] = {"coating_thickness": False, "coating_porosity": False, "mass_loading": False}
+
+                 
+                    
+
 
                 for category in categories:
 
@@ -1082,14 +1085,15 @@ class SetTabs:
                     
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
-                    category_parameters, emmo_relation = self.fill_category(
+                    category_parameters, emmo_relation, mass_loadings = self.fill_category(
                         category_id=category_id,
                         category_display_name=category_display_name,
                         category_name=category_name,
                         emmo_relation=emmo_relation,
                         default_template_id=default_template_id,
                         tab=all_sub_tabs[i],
-                        category_parameters = category_parameters
+                        category_parameters = category_parameters,
+                        mass_loadings = mass_loadings
                     )
                     i += 1
                     
@@ -1115,7 +1119,7 @@ class SetTabs:
                     st.divider()
 
 
-                    category_parameters, emmo_relation = self.fill_electrode_tab_comp( db_tab_id ,emmo_relation = None)
+                    category_parameters, emmo_relation = self.fill_electrode_tab_comp( db_tab_id ,mass_loadings,category_id,emmo_relation = None)
 
 
                     
@@ -1169,14 +1173,15 @@ class SetTabs:
                     # category_parameters["@type"] = category_context_type_iri
 
                 else:
-                    category_parameters, _ = self.fill_category(
+                    category_parameters, _,_ = self.fill_category(
                             category_id=category_id,
                             category_display_name =category_display_name,
                             category_name=category_name,
                             emmo_relation=emmo_relation,
                             default_template_id=default_template_id,
                             tab=tab,
-                            category_parameters = category_parameters
+                            category_parameters = category_parameters,
+                            mass_loadings = None
                         )
                     
                     
@@ -1404,7 +1409,7 @@ class SetTabs:
         
 
     
-    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters, check_col,non_material_component_name,tab, density):
+    def fill_non_material_component(self,category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters, check_col,non_material_component_name,tab, density_mix, mass_loadings):
         non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,model_id)
         
         
@@ -1475,12 +1480,6 @@ class SetTabs:
             checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter.id)
             state_key = state_prefix + checkbox_key
             
-            if state_key not in st.session_state:
-                state = {}
-                for id in parameter_id:
-                    state[id] = False
-                st.session_state[state_key] = state
-                print("state1=", st.session_state[state_key])
             
             if check_col:
 
@@ -1492,9 +1491,17 @@ class SetTabs:
                 #with placeholder:
                     #print("state_ses=", st.session_state.state)
                     #st.session_state[state_key][non_material_parameter_id] = custom_toggle(labels =toggle_names,id = non_material_parameter_id,values =st.session_state[state_key],  key=checkbox_key,quantity = 3, limit=2, on_change = checkbox_input_connect, args = (state_key, non_material_parameter.id, checkbox_key,input_key))
-                state = check_col.toggle(label = checkbox_key, key = checkbox_key, value= st.session_state[checkbox_key], on_change = self.checkbox_input_connect,args = (checkbox_key, tab, category_id, non_material_parameter.name),label_visibility="collapsed")
-                check_col.text(" ")   
-                print("state_count=", st.session_state.state_count)
+                with check_col:
+                    state = st.toggle(label = checkbox_key, 
+                                      key = checkbox_key, 
+                                      value= st.session_state[checkbox_key], 
+                                      on_change = checkbox_input_connect,
+                                      args = (checkbox_key, tab, category_id, non_material_parameter.name),
+                                      label_visibility="collapsed")
+                    st.text(" ")  
+                    print("staet=",state)
+                    print("session2=", st.session_state[checkbox_key])
+                    
 
                         
                     #print("state_ses2=", st.session_state.state)
@@ -1586,6 +1593,8 @@ class SetTabs:
                 #         "hasStringData": non_material_parameter.selected_value
                 #     }
 
+                
+
                 parameter_details = {
                     "label": non_material_parameter.name,
                     "@type": non_material_parameter.context_type_iri if non_material_parameter.context_type_iri else "None",
@@ -1596,14 +1605,47 @@ class SetTabs:
 
                 component_parameters.append(parameter_details)
 
-        
+                if non_material_parameter.name == "coating_thickness":
+                    thickness = non_material_parameter.selected_value
+                elif non_material_parameter.name == "coating_porosity":
+                    porosity = non_material_parameter.selected_value
+                elif non_material_parameter.name == "mass_loading":
+                    mass_loading= non_material_parameter.selected_value
+                    mass_loadings[category_name]=mass_loading
 
-        return non_material_parameter,user_input, {self.has_quantitative_property: component_parameters}
+        
+        if check_col:
+            states = "states_" + str(category_id)
+            print("comp1= ", st.session_state[states])
+            if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
+                par_value = calc_mass_loading(density_mix, thickness, porosity)
+                par_index = 2
+                print("par_value=", par_value)
+                mass_loadings[category_name]=par_value
+                tab.write("Mass loading has now a value of {}".format(par_value))
+            elif st.session_state[states]["coating_thickness"] and st.session_state[states]["mass_loading"]:
+                par_value = calc_porosity(density_mix, thickness, mass_loading)
+                par_index = 1
+                tab.write("Coating porosity has now a value of {}".format(par_value))
+
+            elif st.session_state[states]["mass_loading"] and st.session_state[states]["coating_porosity"]:
+                par_value = calc_thickness(density_mix, mass_loading, porosity)
+                
+                par_index = 0
+                tab.write("Coating thickness has now a value of {}".format(par_value))
+
+            else:
+                par_value = None
+
+            if par_value != None:
+                component_parameters[par_index]["value"]["hasNumericalData"]=par_value
+            print("comp2= ", component_parameters)
+        return non_material_parameter,user_input, {self.has_quantitative_property: component_parameters}, mass_loadings
     
-    def fill_electrode_tab_comp(self, db_tab_id ,emmo_relation):
+    def fill_electrode_tab_comp(self, db_tab_id,mass_loadings,category_id ,emmo_relation):
 
         category_parameters = []
-        n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,2.5,0.5,2.5,3])
+        n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,3.5,0.5,3.5,3])
 
         to.text("/")
         n_to_p_component = db_helper.get_n_to_p_component_by_tab_id(db_tab_id)  
@@ -1638,15 +1680,42 @@ class SetTabs:
         n_to_p_parameter_set_name= str(n_to_p_parameter_set_name)
         
         n_to_p_ratio_raw_parameter = db_helper.get_n_p_parameter_by_template_id(n_to_p_parameter_set_id)
-
-        
         formatted_n_to_p_parameters = self.formatter.format_parameters(n_to_p_ratio_raw_parameter, n_to_p_ratio_raw_template,n_to_p_parameter_set_name )
         
+        for parameter_id in formatted_n_to_p_parameters:
+            n_to_p_parameter = formatted_n_to_p_parameters.get(parameter_id)
+            input_key = "input_{}_{}".format(db_tab_id, n_to_p_parameter.id)
+            if input_key not in st.session_state:
+                st.session_state[input_key] = n_to_p_parameter.default_value,
+        
+        
+        st.write(mass_loadings)
+        mass_load_n = mass_loadings["negative_electrode"]
+        mass_load_p = mass_loadings["positive_electrode"]
+
+        mass_loadings = [mass_load_n, mass_load_p] 
+        mass_loadings = np.divide(mass_loadings,mass_load_n)
+        mass_load = "mass_load_"+ str(category_id)
+        
+
+        st.write(mass_loadings)
+        #ratio = mass_loadings["negative_electrode"]/mass_loadings["positive_electrode"]
+
+        
+
+
+        
+
         columns = (n_to_p_value_n, n_to_p_value_p)
         ind = 0
         for parameter_id in formatted_n_to_p_parameters:
             n_to_p_parameter = formatted_n_to_p_parameters.get(parameter_id)
+            input_key = "input_{}_{}".format(db_tab_id, n_to_p_parameter.id)
             column = columns[ind]
+            st.session_state[input_key] = mass_loadings[ind]
+
+            #mass_load = mass_loadings[ind]
+            #st.write(mass_load)
             if n_to_p_parameter.is_shown_to_user:
                 selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                     template_parameter_id=n_to_p_parameter.id,
@@ -1655,13 +1724,14 @@ class SetTabs:
             
             user_input = column.number_input(
                 label=n_to_p_parameter.name,
-                value=n_to_p_parameter.default_value,
+                value=st.session_state[input_key],
                 min_value=n_to_p_parameter.min_value,
                 max_value=n_to_p_parameter.max_value,
-                key="input_{}_{}".format(db_tab_id, n_to_p_parameter.id),
+                key=input_key,
                 format=n_to_p_parameter.format,
                 step=n_to_p_parameter.increment,
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                disabled = True
                 )
             ind += 1
 
@@ -1706,7 +1776,7 @@ class SetTabs:
         return {self.has_quantitative_property: category_parameters}, emmo_relation
         
 
-    def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,selected_am_value_id=None):
+    def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,selected_am_value_id=None):
 
         
 
@@ -1853,7 +1923,7 @@ class SetTabs:
 
                                 component_parameters.append(parameter_details)
                                 if parameter.name == "density":
-                                    density[material_component_id] = parameter.value
+                                    density[material_component_id] = parameter.selected_value
                                     
 
                         component_parameters = self.create_component_parameters_dict(component_parameters)
@@ -1915,7 +1985,7 @@ class SetTabs:
             
             non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
             
-            non_material_parameter,user_input,component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters, check_col,non_material_component_name,tab, density)
+            non_material_parameter,user_input,component_parameters, mass_loadings = self.fill_non_material_component(category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters, check_col,non_material_component_name,tab, density_mix, mass_loadings)
 
             #pdb.set_trace()
             component_parameters["label"] = non_material_comp_display_name
@@ -2180,7 +2250,7 @@ class SetTabs:
             property_col, value_col= tab.columns((1,2))
             non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)[0]
             
-            non_material_parameter,user_input, component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters, check_col = None,non_material_component_name = None, tab = None, density = None)
+            non_material_parameter,user_input, component_parameters,_ = self.fill_non_material_component(category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters, check_col = None,non_material_component_name = None, tab = None, density_mix = None, mass_loadings = None)
             
             #component_parameters = self.create_component_parameters_dict(component_parameters)
             component_parameters["label"] = non_material_comp_display_name
@@ -2316,7 +2386,7 @@ class SetTabs:
             category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
 
             
-        return category_parameters, emmo_relation
+        return category_parameters, emmo_relation, mass_loadings
 
     def fill_category_protocol(self, category_id,category_display_name, category_name, emmo_relation, default_template_id, tab,category_parameters):
         """

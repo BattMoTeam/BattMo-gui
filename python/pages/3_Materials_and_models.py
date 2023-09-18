@@ -16,8 +16,10 @@ sys.path.insert(0, path_to_python_dir)
 
 from resources.db import db_access
 
-label = ["A","B","C"]
-values = st_toggle_component(label, initial_values=[False,False,False])
+if "tog" not in st.session_state:
+    st.session_state["tog"] = True
+#label = ["A","B","C"]
+values = st.toggle("tog", key = "tog", value= st.session_state["tog"])
 st.write(values)
 
 
