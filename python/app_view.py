@@ -30,6 +30,7 @@ def reset_func(category_id, parameter_id, parameter):
     st.session_state["input_{}_{}".format(category_id, parameter_id)] = value
 
 
+
 def st_space(tab=None, space_width=1, space_number=1):
     """
     function meant to be a shortcut for adding space in streamlit. Not important.
@@ -378,12 +379,73 @@ class SetTabs:
     def create_component_parameters_dict(self,component_parameters):
         return {self.has_quantitative_property: component_parameters}
     
+    def checkbox_input_connect(self,checkbox_key, tab, category_id, parameter_name):
+        """
+        Function needed for the checkboxes and number_inputs to work properly together.
+        """
+        state_count= "state_count_" + str(category_id)
+        states = "states_" + str(category_id)
+        if st.session_state[checkbox_key]:
 
-    def validate_volume_fraction(self, vf_sum,category_display_name):
-        if vf_sum != 1.0:
-            st.warning("The sum of the '%s' material volume fractions is not equal to 1." % (category_display_name))
+            st.session_state.state_count += 1
+            st.session_state.states[parameter_name] = True
+
+        else:
+            st.session_state.state_count -= 1
+            st.session_state.states[parameter_name] = False
+
+        if st.session_state.states["coating_thickness"] and st.session_state.states["coating_porosity"]:
+            par = self.calc_mass_loading()
+        elif st.session_state.states["coating_thickness"] and st.session_state.states["mass_loading"]:
+            par = self.calc_porosity()
+        elif st.session_state.states["mass_loading"] and st.session_state.states["coating_porosity"]:
+            par = self.calc_thickness()
+        else:
+            par = None
+            tab.warning("Enable at least two of three parameters.")
+        
+
+
+        if st.session_state.state_count >2:
+            st.session_state[checkbox_key] = False
+            st.session_state.state_count -= 1
+            tab.warning("Only two of three parameters can be defined. The third one is calculated.")
+            #st.experimental_rerun()
+
+        return par
 
     
+
+    def validate_volume_fraction(self, vf_sum,category_display_name,tab):
+        vf_summing = 0
+        for id, value in vf_sum.items():
+            vf_summing += value
+        if vf_summing != 1.0:
+            tab.warning("The sum of the '%s' material volume fractions is not equal to 1." % (category_display_name))
+        
+
+    def calc_density_mix(self, vf, density):
+        print("dens=", density)
+        print("vf=",vf)
+        density_mix=0
+        for id, weight in vf.items():
+            print("id=", id)
+            density_mix += weight*density.get(id)
+        print(density_mix)
+        return density_mix
+    
+    def calc_mass_loading(self, density_mix, thickness, porosity):
+        ml = thickness/(density_mix*(1-porosity))
+        return ml
+    
+    def calc_thickness(self, density_mix, mass_loading, porosity):
+        th = mass_loading/(density_mix*(1-porosity))
+        return th
+    
+    def calc_porosity(self, density_mix, thickness, mass_loading):
+        por = 1-(thickness/mass_loading*density_mix)
+        return por
+
     def set_check_col(self,toggle_states, check_col, i, ac,category_id,non_material_parameter):
         # Create a dictionary to store toggle states
         
@@ -1000,6 +1062,17 @@ class SetTabs:
                 i = 0
 
                 for category in categories:
+                    category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
+                    state_count= "state_count_" + str(category_id)
+                    states = "states_" + str(category_id)
+
+                    if state_count not in st.session_state:
+                        st.session_state.state_count = 0
+
+                    if states not in st.session_state:
+                        st.session_state.states = {}
+
+                for category in categories:
 
                     category_parameters = {
                         "label": db_helper.get_basis_categories_display_names(db_tab_id)[i],
@@ -1142,7 +1215,7 @@ class SetTabs:
         title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_id)[tab_index])
 
 
-    def fill_vf_column(self, vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,emmo_relation=None):
+    def fill_vf_column(self, vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,tab,emmo_relation=None):
 
         
         
@@ -1213,11 +1286,11 @@ class SetTabs:
                     parameter_details["unit"] = "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit
 
                 component_parameters.append(parameter_details)
-                vf_sum += vf_parameter.selected_value 
+                vf_sum[material_component_id] = vf_parameter.selected_value 
         
         return vf_parameter, user_input, component_parameters, emmo_relation, vf_sum
             
-    def fill_material_column(self,component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, emmo_relation = None):
+    def fill_material_column(self,component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density, emmo_relation = None):
         
         component_parameters = []
         # get corresponding template parameters from db
@@ -1323,13 +1396,15 @@ class SetTabs:
                     parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
                 component_parameters.append(parameter_details)
+                if parameter.name == "density" and density != None:
+                    density[material_component_id] = set_parameter.value
+                
 
-        
-        return material_formatted_parameters,formatted_component, selected_value_id, component_parameters, emmo_relation
+        return material_formatted_parameters,formatted_component, selected_value_id, component_parameters, emmo_relation, density
         
 
     
-    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters, check_col,non_material_component_name):
+    def fill_non_material_component(self,category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters, check_col,non_material_component_name,tab, density):
         non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,model_id)
         
         
@@ -1337,7 +1412,7 @@ class SetTabs:
         non_material_parameter_sets_name_by_id = {}
         non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
 
-        parameter_names = []
+        parameter_id = []
         non_material_parameters_raw = []
         for non_material_parameter_raw_template in non_material_parameters_raw_template:
 
@@ -1345,7 +1420,7 @@ class SetTabs:
 
             non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
             
-            parameter_names.append(name)
+            parameter_id.append(str(non_material_parameter_id))
             non_material_parameters_raw.append(non_material_parameter_raw)
         non_material_parameters_raw = tuple(non_material_parameters_raw)
         formatted_non_material_parameters = self.formatter.format_parameters(non_material_parameters_raw, non_material_parameters_raw_template,non_material_parameter_sets_name_by_id )
@@ -1355,26 +1430,13 @@ class SetTabs:
                 placeholder = st.empty()
         ac = 1 
         i = 0
-        toggle_names = parameter_names
         
-        if 'states_ne' not in st.session_state:
-            state = {}
-            for name in parameter_names:
-                state[name] = False
-            st.session_state.states_ne = state
-            #st.session_state.states_ne = [False,False,False]
-            print(st.session_state.states_ne) 
+        toggle_names = parameter_id
+        
+        
+        
 
-        if 'states_pe' not in st.session_state:
-            state = {}
-            for name in parameter_names:
-                state[name] = False
-            st.session_state.states_pe = state
-            #st.session_state.states_pe = {"toggle1":False,"toggle2":False,"toggle3":False}
-            #st.session_state.states_pe = [False,False,False]
-            print(st.session_state.states_pe) 
-
-        def custom_toggle(labels, values, key,quantity, limit):
+        def custom_toggle(labels,id, values, key,quantity, limit, on_change, args):
             
             
 
@@ -1384,9 +1446,23 @@ class SetTabs:
                 for label,value in states.items():
                     values.append(value)
 
+                print("args1=", values)
+            return st_toggle_component(labels=labels,id =id, initial_values= values, key = key, quantity=quantity,limit=limit, on_change = on_change, args= args)
+        # Initialize session state values outside of the loop
+        state_prefix = "state_"  # A prefix for state keys
+        for non_material_parameter_id in formatted_non_material_parameters:
+            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter_id)
+            input_key = "input_{}_{}".format(category_id, non_material_parameter_id)
+            state_key = state_prefix + checkbox_key
 
-            return st_toggle_component(labels=labels, initial_values= values, key = key, quantity=quantity,limit=limit)
-            
+            if checkbox_key not in st.session_state:
+                st.session_state[checkbox_key] = False
+
+            if state_key not in st.session_state:
+                state = {}
+                for id in parameter_id:
+                    state[id] = False
+                st.session_state[state_key] = state   
         
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
@@ -1395,50 +1471,63 @@ class SetTabs:
                     template_parameter_id=non_material_parameter.id,
                     parameter_set_id=non_material_parameter_set_id
                 )
-            disabled = False
+            input_key = "input_{}_{}".format(category_id, non_material_parameter.id)
+            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter.id)
+            state_key = state_prefix + checkbox_key
+            
+            if state_key not in st.session_state:
+                state = {}
+                for id in parameter_id:
+                    state[id] = False
+                st.session_state[state_key] = state
+                print("state1=", st.session_state[state_key])
+            
             if check_col:
-                
-                
-                if non_material_component_name == "negative_electrode_properties":
-                    
-                    with placeholder:
-                        print("state_ses=", st.session_state.states_ne)
-                        states_ne = custom_toggle(labels =toggle_names,values =st.session_state.states_ne,  key="toggle_{}_{}".format(category_id, non_material_parameter.id),quantity = 3, limit=2)
-                        print("state=", states_ne)
-                        if states_ne != st.session_state.states_ne:
-                            st.session_state.states_ne = states_ne
-                            st.experimental_rerun()
-                        if st.session_state.states_ne:
 
-                            for toggle_name, value in st.session_state.states_ne.items():
-                                print("toggle_name =", toggle_name)
-                                print(non_material_parameter.optionsname[i])
-                                if toggle_name == non_material_parameter.name[i] and bool(value) == False:
-                                    disabled = True
-                                elif toggle_name == non_material_parameter.name[i] and bool(value) == True:
-                                    disabled = False
+                    
+                print("key=", checkbox_key)
+
+                #if non_material_component_name == "negative_electrode_properties":
+                    
+                #with placeholder:
+                    #print("state_ses=", st.session_state.state)
+                    #st.session_state[state_key][non_material_parameter_id] = custom_toggle(labels =toggle_names,id = non_material_parameter_id,values =st.session_state[state_key],  key=checkbox_key,quantity = 3, limit=2, on_change = checkbox_input_connect, args = (state_key, non_material_parameter.id, checkbox_key,input_key))
+                state = check_col.toggle(label = checkbox_key, key = checkbox_key, value= st.session_state[checkbox_key], on_change = self.checkbox_input_connect,args = (checkbox_key, tab, category_id, non_material_parameter.name),label_visibility="collapsed")
+                check_col.text(" ")   
+                print("state_count=", st.session_state.state_count)
+
+                        
+                    #print("state_ses2=", st.session_state.state)
+                    # if st.session_state[checkbox_key]:
+                    #     for toggle_name, value in state.items():
+                    #             if toggle_name == str(non_material_parameter.id) and value == False:
+                    #                 st.session_state[input_key] = True
+                    #             elif toggle_name == str(non_material_parameter.id) and value == True:
+                    #                 st.session_state[input_key] = False
+
+                        
                         
                         
                     #state= self.set_check_col(st.session_state.state_ne, check_col, i, ac,category_id,non_material_parameter)
                     #st.session_state.state_ne[i] = state[i]
-                if non_material_component_name == "positive_electrode_properties":
+                # if non_material_component_name == "positive_electrode_properties":
                     
-                    with placeholder:
+                #     with placeholder:
 
                         
-                        states_pe = custom_toggle(labels=toggle_names,values =st.session_state.states_pe,key="toggle_{}_{}".format(category_id, non_material_parameter.id),quantity = 3, limit=2)
+                #         states_pe = custom_toggle(labels=toggle_names,values =st.session_state.states_pe,key=checkbox_key,quantity = 3, limit=2)
                         
-                        print("state=", states_pe)
-                        if states_pe != st.session_state.states_pe:
-                            st.session_state.states_pe = states_pe
+                #         print("state=", states_pe)
+                #         if st.session_state[str(checkbox_key)]:
+                #             st.session_state.states_pe = states_pe
                             
-                            st.experimental_rerun()
-                        if st.session_state.states_pe:
-                            for toggle_name, value in st.session_state.states_pe.items():
-                                if toggle_name == non_material_parameter.name[i] and value == False:
-                                    disabled = True
-                                elif toggle_name == non_material_parameter.name[i] and value == True:
-                                    disabled = False
+                #             #st.experimental_rerun()
+                #         #if st.session_state.states_pe:
+                #             for toggle_name, value in st.session_state.states_pe.items():
+                #                 if toggle_name == str(non_material_parameter.id) and value == False:
+                #                     st.session_state.disabled = True
+                #                 elif toggle_name == str(non_material_parameter.id) and value == True:
+                #                     st.session_state.disabled = False
 
                             
 
@@ -1453,7 +1542,7 @@ class SetTabs:
             property_col.text(" ")
             
             
-            
+            print("check =", st.session_state[state_key][non_material_parameter_id])
                 
             i +=1
             ac += 1
@@ -1462,11 +1551,11 @@ class SetTabs:
                 value=non_material_parameter.default_value,
                 min_value=non_material_parameter.min_value,
                 max_value=non_material_parameter.max_value,
-                key="input_{}_{}".format(category_id, non_material_parameter.id),
+                key=input_key,
                 format=non_material_parameter.format,
                 step=non_material_parameter.increment,
                 label_visibility="collapsed",
-                disabled = disabled
+                disabled = not st.session_state[checkbox_key]
                 )
             
 
@@ -1654,7 +1743,8 @@ class SetTabs:
                     vf_display_name = tuple(np.squeeze(db_helper.get_vf_template_by_template_id(material_comp_default_template_id)))
             vf_col.write("[{}]({})".format(vf_display_name, vf_context_type_iri) + " (" + "[{}]({})".format(vf_unit, vf_unit_iri) + ")")
 
-            vf_sum = 0
+            vf_sum = {}
+            density = {}
             for material_component in material_components:
                 component_parameters = []
                 material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
@@ -1666,7 +1756,7 @@ class SetTabs:
                 component_col.text(" ")
                 
             
-                material_formatted_parameters,formatted_materials, selected_value_id, component_parameter_mat, emmo_relation = self.fill_material_column(component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters)
+                material_formatted_parameters,formatted_materials, selected_value_id, component_parameter_mat, emmo_relation, density = self.fill_material_column(component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters,density)
                    
 
                 component_parameters.extend(component_parameter_mat)
@@ -1762,6 +1852,9 @@ class SetTabs:
                                     parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
                                 component_parameters.append(parameter_details)
+                                if parameter.name == "density":
+                                    density[material_component_id] = parameter.value
+                                    
 
                         component_parameters = self.create_component_parameters_dict(component_parameters)
                 
@@ -1774,7 +1867,7 @@ class SetTabs:
                         category_parameters[material_comp_context_type] = component_parameters
                 
                 component_parameters = []
-                vf_parameter, user_input, component_parameter,_,vf_sum = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,emmo_relation=None)
+                vf_parameter, user_input, component_parameter,_,vf_sum = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,tab,emmo_relation=None)
 
                 component_parameters = self.create_component_parameters_dict(component_parameters)
 
@@ -1808,20 +1901,21 @@ class SetTabs:
                         # form_data = self.schema_to_form(ex,schema)
                         # ex.write(form_data)
       
-                    
-            self.validate_volume_fraction(vf_sum, category_display_name)    
+            print("dens=", density)        
+            self.validate_volume_fraction(vf_sum, category_display_name,tab)
+            density_mix = self.calc_density_mix(vf_sum, density)  
             
             non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
             component_parameters = []
             non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
             
             tab.markdown("**%s**" % non_material_comp_display_name)
-            check_col, property_col, value_col= tab.columns((1,1,2))
+            check_col, property_col, value_col= tab.columns((0.3,1,2))
 
             
             non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
             
-            non_material_parameter,user_input,component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters, check_col,non_material_component_name)
+            non_material_parameter,user_input,component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters, check_col,non_material_component_name,tab, density)
 
             #pdb.set_trace()
             component_parameters["label"] = non_material_comp_display_name
@@ -1925,7 +2019,7 @@ class SetTabs:
                 
             component_col.markdown("**%s**" % material_comp_display_name)
     
-            material_formatted_parameters,formatted_materials,selected_value_id, component_parameters,_ = self.fill_material_column(component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_components[0], category_parameters)
+            material_formatted_parameters,formatted_materials,selected_value_id, component_parameters,_,_ = self.fill_material_column(component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_components[0], category_parameters, density=None)
             
             #formatted_materials.set_selected_value(selected_value_id)
 
@@ -2086,7 +2180,7 @@ class SetTabs:
             property_col, value_col= tab.columns((1,2))
             non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)[0]
             
-            non_material_parameter,user_input, component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters, check_col = None,non_material_component_name = None)
+            non_material_parameter,user_input, component_parameters = self.fill_non_material_component(category_id,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id,component_parameters, check_col = None,non_material_component_name = None, tab = None, density = None)
             
             #component_parameters = self.create_component_parameters_dict(component_parameters)
             component_parameters["label"] = non_material_comp_display_name

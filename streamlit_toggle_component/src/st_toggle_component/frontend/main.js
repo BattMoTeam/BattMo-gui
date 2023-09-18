@@ -6,15 +6,18 @@
 function onRender(event) {
   if (!window.rendered) {
     // Get the quantity and limit values from the event detail
-    const { labels, initial_values, quantity, limit } = event.detail.args;  
+    const { labels,id, initial_values, quantity, limit, on_change, args } = event.detail.args;  
 
 
     // Initialize an object to hold checkbox values
     const checkboxValues = {};
+    // initial_values.forEach((value, index) => {
+    //   checkboxValues[labels[index]] = value;
+    // });
 
     // Function to send the values of all toggles to Streamlit
     const sendValues = () => {
-      parent.postMessage({ sentinel: 'streamlit', ...checkboxValues }, '*');
+      parent.postMessage({ sentinel: 'streamlit', ...checkboxValues[id] }, '*');
     };
 
     // Function to handle checkbox change events
@@ -39,12 +42,17 @@ function onRender(event) {
       // Send the updated values to Streamlit
       sendValues();
       Streamlit.setComponentValue(checkboxValues);
-      
-      const inputId = `input_${category_id}_${non_material_parameter.id}`;
-      const inputElement = document.getElementById(inputId);
 
-      // Update the disabled state of the input element based on the checkbox state
-      inputElement.disabled = !checkbox.checked;
+      // Call the JavaScript function specified by on_change_str
+      if (on_change) {
+        on_change(args); // Call the function by its name
+      }
+      
+      // const inputId = `input_${category_id}_${non_material_parameter.id}`;
+      // const inputElement = document.getElementById(inputId);
+
+      // // Update the disabled state of the input element based on the checkbox state
+      // inputElement.disabled = !checkbox.checked;
     };
 
     // Get the container for toggles
@@ -53,7 +61,7 @@ function onRender(event) {
     // Create checkboxes based on the quantity argument
     for (let i = 0; i < quantity; i++) {
       const toggleId = labels[i]; // Use i to access the correct label from the labels array
-      // Initialize the checkboxValues object with initial values
+      
       checkboxValues[toggleId] = false;
 
       // Create a label element for the checkbox

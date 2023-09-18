@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Callable, Any, Tuple
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -14,11 +14,17 @@ _component_func = components.declare_component(
 # Create the python function that will be called
 def st_toggle_component(
     labels: List[str],
+    id : int,
     initial_values: List[bool],
     key: Optional[str] = None,
     quantity: Optional[int] = 3,
-    limit: Optional[int] = 2
+    limit: Optional[int] = 2,
+    on_change: Optional[Callable[..., None]] = None,
+    args: Optional[Tuple[Any, ...]] = None
 )-> Dict[str, bool]:
+    
+    # if args is None:
+    #     args = ()  # Initialize args as an empty tuple if not provided
     
 
     # Ensure the number of labels matches the number of values
@@ -28,16 +34,21 @@ def st_toggle_component(
     # Create a dictionary from labels and values
     toggle_dict = {label: value for label, value in zip(labels, initial_values)}
 
+    if on_change is not None and args is not None:
+        on_change(*args)  # Call the on_change function with arguments
 
     """
     Add a descriptive docstring
     """
     component_value = _component_func(
         labels = labels,
+        id= id,
         initial_values = toggle_dict,
         key=key,
         quantity = quantity,
         limit=limit,
+        on_change = None,
+        args = args,
         default = toggle_dict
     )
     
