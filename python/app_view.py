@@ -307,7 +307,7 @@ class SetBasisInputTabs:
         st.divider()
 
 
-def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name):
+def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_material_parameter):
         """
         Function needed for the checkboxes and number_inputs to work properly together.
         """
@@ -337,6 +337,66 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name):
 
         elif st.session_state[state_count] < 2:
             tab.warning("Enable at least two of three parameters.")
+        else:
+            pass
+            # if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
+            #     input_key = "input_key_{}_{}".format(category_id, "mass_loading")
+            #     empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
+            #     input_value = "input_value_{}_{}".format(category_id, "mass_loading")
+
+                
+            #     user_input = st.session_state[empty_key].number_input(
+            #         label=non_material_parameter.name,
+            #         value=st.session_state[input_value],
+            #         min_value=non_material_parameter.min_value,
+            #         max_value=non_material_parameter.max_value,
+            #         key=input_key,
+            #         format=non_material_parameter.format,
+            #         step=non_material_parameter.increment,
+            #         label_visibility="collapsed",
+            #         disabled = not st.session_state[checkbox_key]
+            #         )   
+                
+                
+            # elif st.session_state[states]["coating_thickness"] and st.session_state[states]["mass_loading"]:
+            #     input_key = "input_key_{}_{}".format(category_id, "coating_porosity")
+            #     empty_key = "empty_{}_{}".format(category_id,"coating_porosity") 
+            #     input_value = "input_value_{}_{}".format(category_id, "coating_porosity")
+
+            #     print("val=", st.session_state[input_value])
+            #     user_input = st.session_state[empty_key].number_input(
+            #         label=non_material_parameter.name,
+            #         value=st.session_state[input_value],
+            #         min_value=non_material_parameter.min_value,
+            #         max_value=non_material_parameter.max_value,
+            #         key=input_key,
+            #         format=non_material_parameter.format,
+            #         step=non_material_parameter.increment,
+            #         label_visibility="collapsed",
+            #         disabled = not st.session_state[checkbox_key]
+            #         )
+                
+
+
+            # elif st.session_state[states]["mass_loading"] and st.session_state[states]["coating_porosity"]:
+            #     input_key = "input_key_{}_{}".format(category_id, "coating_thickness")
+            #     empty_key = "empty_{}_{}".format(category_id,"coating_thickness") 
+            #     input_value = "input_value_{}_{}".format(category_id, "coating_thickness")
+
+                
+            #     user_input = st.session_state[empty_key].number_input(
+            #         label=non_material_parameter.name,
+            #         value=st.session_state[input_value],
+            #         min_value=non_material_parameter.min_value,
+            #         max_value=non_material_parameter.max_value,
+            #         key=input_key,
+            #         format=non_material_parameter.format,
+            #         step=non_material_parameter.increment,
+            #         label_visibility="collapsed",
+            #         disabled = not st.session_state[checkbox_key]
+            #         )
+                
+
                    
 
 def calc_mass_loading(density_mix, thickness, porosity):
@@ -1453,96 +1513,83 @@ class SetTabs:
 
                 print("args1=", values)
             return st_toggle_component(labels=labels,id =id, initial_values= values, key = key, quantity=quantity,limit=limit, on_change = on_change, args= args)
+        
+        parameter_names =[]
         # Initialize session state values outside of the loop
         state_prefix = "state_"  # A prefix for state keys
         for non_material_parameter_id in formatted_non_material_parameters:
-            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter_id)
-            input_key = "input_{}_{}".format(category_id, non_material_parameter_id)
+            non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+            non_material_parameter_name = non_material_parameter.name
+            parameter_names.append(non_material_parameter_name)
+            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter_name)
+            input_key = "input_{}_{}".format(category_id, non_material_parameter_name)
             state_key = state_prefix + checkbox_key
+            input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
+            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
+
 
             if checkbox_key not in st.session_state:
                 st.session_state[checkbox_key] = False
+
+            if input_value not in st.session_state:
+                st.session_state[input_value] = None
+
+            # if empty_key not in st.session_state:
+            #     with value_col:
+            #         st.session_state[empty_key] = st.empty()
+                
+
 
             if state_key not in st.session_state:
                 state = {}
                 for id in parameter_id:
                     state[id] = False
                 st.session_state[state_key] = state   
+
+        
         
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+            non_material_parameter_name = non_material_parameter.name
             if non_material_parameter.is_shown_to_user:
                 selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                     template_parameter_id=non_material_parameter.id,
                     parameter_set_id=non_material_parameter_set_id
                 )
-            input_key = "input_{}_{}".format(category_id, non_material_parameter.id)
-            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter.id)
+            input_key = "input_{}_{}".format(category_id, non_material_parameter_name)
+            checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter_name)
             state_key = state_prefix + checkbox_key
+            input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
+            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
+
             
-            
+
+
             if check_col:
+                with value_col:
+                    if i == 0:
+                        co_th_place = st.empty()
+                    elif i == 1:
+                        co_po_place = st.empty()
+                    elif i == 2:
+                        ml_place = st.empty()
 
                     
                 print("key=", checkbox_key)
 
-                #if non_material_component_name == "negative_electrode_properties":
-                    
-                #with placeholder:
-                    #print("state_ses=", st.session_state.state)
-                    #st.session_state[state_key][non_material_parameter_id] = custom_toggle(labels =toggle_names,id = non_material_parameter_id,values =st.session_state[state_key],  key=checkbox_key,quantity = 3, limit=2, on_change = checkbox_input_connect, args = (state_key, non_material_parameter.id, checkbox_key,input_key))
+               
                 with check_col:
                     state = st.toggle(label = checkbox_key, 
                                       key = checkbox_key, 
                                       value= st.session_state[checkbox_key], 
                                       on_change = checkbox_input_connect,
-                                      args = (checkbox_key, tab, category_id, non_material_parameter.name),
+                                      args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
                                       label_visibility="collapsed")
                     st.text(" ")  
                     print("staet=",state)
                     print("session2=", st.session_state[checkbox_key])
                     
 
-                        
-                    #print("state_ses2=", st.session_state.state)
-                    # if st.session_state[checkbox_key]:
-                    #     for toggle_name, value in state.items():
-                    #             if toggle_name == str(non_material_parameter.id) and value == False:
-                    #                 st.session_state[input_key] = True
-                    #             elif toggle_name == str(non_material_parameter.id) and value == True:
-                    #                 st.session_state[input_key] = False
-
-                        
-                        
-                        
-                    #state= self.set_check_col(st.session_state.state_ne, check_col, i, ac,category_id,non_material_parameter)
-                    #st.session_state.state_ne[i] = state[i]
-                # if non_material_component_name == "positive_electrode_properties":
-                    
-                #     with placeholder:
-
-                        
-                #         states_pe = custom_toggle(labels=toggle_names,values =st.session_state.states_pe,key=checkbox_key,quantity = 3, limit=2)
-                        
-                #         print("state=", states_pe)
-                #         if st.session_state[str(checkbox_key)]:
-                #             st.session_state.states_pe = states_pe
-                            
-                #             #st.experimental_rerun()
-                #         #if st.session_state.states_pe:
-                #             for toggle_name, value in st.session_state.states_pe.items():
-                #                 if toggle_name == str(non_material_parameter.id) and value == False:
-                #                     st.session_state.disabled = True
-                #                 elif toggle_name == str(non_material_parameter.id) and value == True:
-                #                     st.session_state.disabled = False
-
-                            
-
-                        # if states_pe[i] != st.session_state.states_pe[i]:
-                        #     st.session_state.states_pe = states_pe
-                        #     st.experimental_rerun()
-                    #state= self.set_check_col(st.session_state.state_pe, check_col, i, ac,category_id,non_material_parameter)
-                    #st.session_state.state_pe[i] = state[i]
 
             property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " (" + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri) + ")")
 
@@ -1551,19 +1598,54 @@ class SetTabs:
             
             print("check =", st.session_state[state_key][non_material_parameter_id])
                 
-            i +=1
-            ac += 1
-            user_input = value_col.number_input(
-                label=non_material_parameter.name,
-                value=non_material_parameter.default_value,
-                min_value=non_material_parameter.min_value,
-                max_value=non_material_parameter.max_value,
-                key=input_key,
-                format=non_material_parameter.format,
-                step=non_material_parameter.increment,
-                label_visibility="collapsed",
-                disabled = not st.session_state[checkbox_key]
-                )
+           
+
+
+            if not st.session_state[input_value]:
+                st.session_state[input_value] = non_material_parameter.default_value
+
+                
+            else:
+                pass
+                #user_input = st.session_state[input_value]
+            
+             
+                
+                    
+            if not check_col:
+                user_input = value_col.number_input(
+                    label=non_material_parameter.name,
+                    value=non_material_parameter.default_value,
+                    min_value=non_material_parameter.min_value,
+                    max_value=non_material_parameter.max_value,
+                    key=input_key,
+                    format=non_material_parameter.format,
+                    step=non_material_parameter.increment,
+                    label_visibility="collapsed",
+                    disabled = False
+                    )
+                       
+            if check_col:  
+                if i ==0:
+                    place = co_th_place
+                elif i == 1:
+                    place = co_po_place 
+                elif i ==2:
+                    place = ml_place
+
+
+                user_input = place.number_input(
+                        label=non_material_parameter.name,
+                        value=st.session_state[input_value],
+                        min_value=non_material_parameter.min_value,
+                        max_value=non_material_parameter.max_value,
+                        key=input_key,
+                        format=non_material_parameter.format,
+                        step=non_material_parameter.increment,
+                        label_visibility="collapsed",
+                        disabled = not st.session_state[checkbox_key]
+                        )
+             
             
 
             if non_material_parameter:
@@ -1612,34 +1694,145 @@ class SetTabs:
                 elif non_material_parameter.name == "mass_loading":
                     mass_loading= non_material_parameter.selected_value
                     mass_loadings[category_name]=mass_loading
-
+            i +=1
+            ac += 1
         
         if check_col:
             states = "states_" + str(category_id)
+            
+
+
             print("comp1= ", st.session_state[states])
             if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
-                par_value = calc_mass_loading(density_mix, thickness, porosity)
-                par_index = 2
-                print("par_value=", par_value)
-                mass_loadings[category_name]=par_value
-                tab.write("Mass loading has now a value of {}".format(par_value))
+                for non_material_parameter_id in formatted_non_material_parameters:
+                    non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+                    non_material_parameter_name = non_material_parameter.name
+                    if non_material_parameter_name == "mass_loading":
+                        par_value_ml = calc_mass_loading(density_mix, thickness, porosity)
+                        par_index = 2
+                        #print("par_value=", par_value)
+                        mass_loadings[category_name]=par_value_ml
+                        input_key = "input_key_{}_{}".format(category_id, "mass_loading")
+                        empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
+                        input_value = "input_value_{}_{}".format(category_id, "mass_loading")
+                        checkbox_key= "checkbox_{}_{}".format(category_id, "mass_loading")
+
+                        st.session_state[input_value] = par_value_ml
+                        tab.write("Mass loading has now a value of {}".format(par_value_ml))
+
+                        if st.session_state[input_value] > non_material_parameter.max_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+
+                        elif st.session_state[input_value] < non_material_parameter.min_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+                            
+                        
+
+                        user_input = ml_place.number_input(
+                            label=non_material_parameter.name,
+                            value=st.session_state[input_value],
+                            min_value=non_material_parameter.min_value,
+                            max_value=non_material_parameter.max_value,
+                            key=input_value+str(np.random.rand(100)),
+                            format=non_material_parameter.format,
+                            step=non_material_parameter.increment,
+                            label_visibility="collapsed",
+                            disabled = not st.session_state[checkbox_key]
+                            )
+                
+                
             elif st.session_state[states]["coating_thickness"] and st.session_state[states]["mass_loading"]:
-                par_value = calc_porosity(density_mix, thickness, mass_loading)
-                par_index = 1
-                tab.write("Coating porosity has now a value of {}".format(par_value))
+                for non_material_parameter_id in formatted_non_material_parameters:
+                    non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+                    non_material_parameter_name = non_material_parameter.name
+                    if non_material_parameter_name == "coating_porosity":
+                        par_value_co = calc_porosity(density_mix, thickness, mass_loading)
+                        par_index = 1
+                        
+                        input_key = "input_key_{}_{}".format(category_id, "coating_porosity")
+                        empty_key = "empty_{}_{}".format(category_id,"coating_porosity") 
+                        input_value = "input_value_{}_{}".format(category_id, "coating_porosity")
+                        checkbox_key= "checkbox_{}_{}".format(category_id, "coating_porosity")
+
+                        st.session_state[input_value] = par_value_co
+                        if st.session_state[input_value] > non_material_parameter.max_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+
+                        elif st.session_state[input_value] < non_material_parameter.min_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+                            
+                        
+                        
+                        user_input = co_po_place.number_input(
+                            label=non_material_parameter.name,
+                            value=st.session_state[input_value],
+                            min_value=non_material_parameter.min_value,
+                            max_value=non_material_parameter.max_value,
+                            key=input_value+str(np.random.rand(100)),
+                            format=non_material_parameter.format,
+                            step=non_material_parameter.increment,
+                            label_visibility="collapsed",
+                            disabled = not st.session_state[checkbox_key]
+                            )
+                    
+                        tab.write("Coating porosity has now a value of {}".format(par_value_co))
+                    
+
 
             elif st.session_state[states]["mass_loading"] and st.session_state[states]["coating_porosity"]:
-                par_value = calc_thickness(density_mix, mass_loading, porosity)
-                
-                par_index = 0
-                tab.write("Coating thickness has now a value of {}".format(par_value))
+                for non_material_parameter_id in formatted_non_material_parameters:
+                    non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
+                    non_material_parameter_name = non_material_parameter.name
+                    if non_material_parameter_name == "coating_thickness":
+                        par_value_th = calc_thickness(density_mix, mass_loading, porosity)
+                        
+                        input_key = "input_key_{}_{}".format(category_id, "coating_thickness")
+                        empty_key = "empty_{}_{}".format(category_id,"coating_thickness") 
+                        input_value = "input_value_{}_{}".format(category_id, "coating_thickness")
+                        checkbox_key= "checkbox_{}_{}".format(category_id, "coating_thickness")
+
+                        st.session_state[input_value] = par_value_th
+                        if st.session_state[input_value] > non_material_parameter.max_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+
+                        elif st.session_state[input_value] < non_material_parameter.min_value:
+                            tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
+                            st.session_state[input_value] = non_material_parameter.default_value
+                            
+                                
+                        
+                        user_input = co_th_place.number_input(
+                            label=non_material_parameter.name,
+                            value=st.session_state[input_value],
+                            min_value=non_material_parameter.min_value,
+                            max_value=non_material_parameter.max_value,
+                            key=input_value+str(np.random.rand(100)),
+                            format=non_material_parameter.format,
+                            step=non_material_parameter.increment,
+                            label_visibility="collapsed",
+                            disabled = not st.session_state[checkbox_key]
+                            )
+                        par_index = 0
+                        tab.write("Coating thickness has now a value of {}".format(par_value_th))
+                        
+
 
             else:
-                par_value = None
+                st.session_state["input_value_{}_{}".format(category_id, "coating_thickness")] = None
+                st.session_state["input_value_{}_{}".format(category_id, "coating_porosity")] = None
+                st.session_state["input_value_{}_{}".format(category_id, "mass_loading")] = None
+                st.experimental_rerun
 
-            if par_value != None:
-                component_parameters[par_index]["value"]["hasNumericalData"]=par_value
-            print("comp2= ", component_parameters)
+
+            if st.session_state[input_value]:
+                component_parameters[par_index]["value"]["hasNumericalData"]=st.session_state[input_value]
+                st.experimental_rerun
+
         return non_material_parameter,user_input, {self.has_quantitative_property: component_parameters}, mass_loadings
     
     def fill_electrode_tab_comp(self, db_tab_id,mass_loadings,category_id ,emmo_relation):
@@ -1689,7 +1882,7 @@ class SetTabs:
                 st.session_state[input_key] = n_to_p_parameter.default_value,
         
         
-        st.write(mass_loadings)
+       
         mass_load_n = mass_loadings["negative_electrode"]
         mass_load_p = mass_loadings["positive_electrode"]
 
@@ -1698,7 +1891,6 @@ class SetTabs:
         mass_load = "mass_load_"+ str(category_id)
         
 
-        st.write(mass_loadings)
         #ratio = mass_loadings["negative_electrode"]/mass_loadings["positive_electrode"]
 
         
