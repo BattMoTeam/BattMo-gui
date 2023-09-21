@@ -46,7 +46,11 @@ def run_page():
     # pp.pprint(gui_parameters["echem:Electrode"])
     # pdb.set_trace()
     
+    
+
     app.save_parameters(gui_parameters)
+
+    app.run_simulation()
 
 
 if __name__ == "__main__":

@@ -176,123 +176,6 @@
                         "hasNumericalData": 0.8
                      },
                      "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Active Material",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261"
-            },
-            "echem:Binder": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "density",
-                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1780.0
-                     },
-                     "unit": "emmo:GramPerCubicMetre"
-                  },
-                  {
-                     "label": "specific_heat_capacity",
-                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1400.0
-                     },
-                     "unit": "emmo:JoulePerKiloGramKelvin"
-                  },
-                  {
-                     "label": "thermal_conductivity",
-                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.165
-                     },
-                     "unit": "emmo:WattPerMetreKelvin"
-                  },
-                  {
-                     "label": "volume_fraction",
-                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.1
-                     },
-                     "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Binder",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e"
-            },
-            "echem:ConductiveAdditive": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "density",
-                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1800.0
-                     },
-                     "unit": "emmo:GramPerCubicMetre"
-                  },
-                  {
-                     "label": "specific_heat_capacity",
-                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 300.0
-                     },
-                     "unit": "emmo:JoulePerKiloGramKelvin"
-                  },
-                  {
-                     "label": "thermal_conductivity",
-                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.5
-                     },
-                     "unit": "emmo:WattPerMetreKelvin"
-                  },
-                  {
-                     "label": "volume_fraction",
-                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.1
-                     },
-                     "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Additive",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594"
-            },
-            "echem:NominalProperty": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "coating_thickness",
-                     "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 5.813953488372093e-06
-                     },
-                     "unit": "emmo:Metre"
-                  },
-                  {
-                     "label": "coating_porosity",
-                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.2
-                     },
-                     "unit": "emmo:UnitOne"
-                  },
-                  {
-                     "label": "mass_loading",
-                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.0
-                     },
-                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "specific_heat_capacity",
@@ -365,6 +248,48 @@
                         "hasNumericalData": 10
                      },
                      "unit": "emmo:UnitOne"
+                  }
+               ],
+               "label": "Active Material",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261"
+            },
+            "echem:Binder": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "density",
+                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1780.0
+                     },
+                     "unit": "emmo:GramPerCubicMetre"
+                  },
+                  {
+                     "label": "specific_heat_capacity",
+                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1400.0
+                     },
+                     "unit": "emmo:JoulePerKiloGramKelvin"
+                  },
+                  {
+                     "label": "thermal_conductivity",
+                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.165
+                     },
+                     "unit": "emmo:WattPerMetreKelvin"
+                  },
+                  {
+                     "label": "volume_fraction",
+                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.1
+                     },
+                     "unit": "emmo:UnitOne"
                   },
                   {
                      "label": "electronic_conductivity",
@@ -374,6 +299,48 @@
                         "hasNumericalData": 100.0
                      },
                      "unit": "emmo:SiemensPerMetre"
+                  }
+               ],
+               "label": "Binder",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e"
+            },
+            "echem:ConductiveAdditive": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "density",
+                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1800.0
+                     },
+                     "unit": "emmo:GramPerCubicMetre"
+                  },
+                  {
+                     "label": "specific_heat_capacity",
+                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 300.0
+                     },
+                     "unit": "emmo:JoulePerKiloGramKelvin"
+                  },
+                  {
+                     "label": "thermal_conductivity",
+                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.5
+                     },
+                     "unit": "emmo:WattPerMetreKelvin"
+                  },
+                  {
+                     "label": "volume_fraction",
+                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.1
+                     },
+                     "unit": "emmo:UnitOne"
                   },
                   {
                      "label": "electronic_conductivity",
@@ -383,6 +350,39 @@
                         "hasNumericalData": 100.0
                      },
                      "unit": "emmo:SiemensPerMetre"
+                  }
+               ],
+               "label": "Additive",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594"
+            },
+            "emmo:NominalProperty": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "coating_thickness",
+                     "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 8.67e-05
+                     },
+                     "unit": "emmo:Metre"
+                  },
+                  {
+                     "label": "coating_porosity",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.2
+                     },
+                     "unit": "emmo:UnitOne"
+                  },
+                  {
+                     "label": "mass_loading",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 10.0
+                     },
+                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "bruggeman_coefficient",
@@ -499,123 +499,6 @@
                         "hasNumericalData": 0.72
                      },
                      "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Active Material",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261"
-            },
-            "echem:Binder": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "density",
-                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1780.0
-                     },
-                     "unit": "emmo:GramPerCubicMetre"
-                  },
-                  {
-                     "label": "specific_heat_capacity",
-                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1400.0
-                     },
-                     "unit": "emmo:JoulePerKiloGramKelvin"
-                  },
-                  {
-                     "label": "thermal_conductivity",
-                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.165
-                     },
-                     "unit": "emmo:WattPerMetreKelvin"
-                  },
-                  {
-                     "label": "volume_fraction",
-                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.14
-                     },
-                     "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Binder",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e"
-            },
-            "echem:ConductiveAdditive": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "density",
-                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 1800.0
-                     },
-                     "unit": "emmo:GramPerCubicMetre"
-                  },
-                  {
-                     "label": "specific_heat_capacity",
-                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 300.0
-                     },
-                     "unit": "emmo:JoulePerKiloGramKelvin"
-                  },
-                  {
-                     "label": "thermal_conductivity",
-                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.5
-                     },
-                     "unit": "emmo:WattPerMetreKelvin"
-                  },
-                  {
-                     "label": "volume_fraction",
-                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.14
-                     },
-                     "unit": "emmo:UnitOne"
-                  }
-               ],
-               "label": "Additive",
-               "@type": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594"
-            },
-            "echem:NominalProperty": {
-               "hasQuantitativeProperty": [
-                  {
-                     "label": "coating_thickness",
-                     "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 8.67e-05
-                     },
-                     "unit": "emmo:Metre"
-                  },
-                  {
-                     "label": "coating_porosity",
-                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.2
-                     },
-                     "unit": "emmo:UnitOne"
-                  },
-                  {
-                     "label": "mass_loading",
-                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.0
-                     },
-                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "specific_heat_capacity",
@@ -688,6 +571,48 @@
                         "hasNumericalData": 10
                      },
                      "unit": "emmo:UnitOne"
+                  }
+               ],
+               "label": "Active Material",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261"
+            },
+            "echem:Binder": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "density",
+                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1780.0
+                     },
+                     "unit": "emmo:GramPerCubicMetre"
+                  },
+                  {
+                     "label": "specific_heat_capacity",
+                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1400.0
+                     },
+                     "unit": "emmo:JoulePerKiloGramKelvin"
+                  },
+                  {
+                     "label": "thermal_conductivity",
+                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.165
+                     },
+                     "unit": "emmo:WattPerMetreKelvin"
+                  },
+                  {
+                     "label": "volume_fraction",
+                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.14
+                     },
+                     "unit": "emmo:UnitOne"
                   },
                   {
                      "label": "electronic_conductivity",
@@ -697,6 +622,48 @@
                         "hasNumericalData": 100.0
                      },
                      "unit": "emmo:SiemensPerMetre"
+                  }
+               ],
+               "label": "Binder",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e"
+            },
+            "echem:ConductiveAdditive": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "density",
+                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1800.0
+                     },
+                     "unit": "emmo:GramPerCubicMetre"
+                  },
+                  {
+                     "label": "specific_heat_capacity",
+                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 300.0
+                     },
+                     "unit": "emmo:JoulePerKiloGramKelvin"
+                  },
+                  {
+                     "label": "thermal_conductivity",
+                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.5
+                     },
+                     "unit": "emmo:WattPerMetreKelvin"
+                  },
+                  {
+                     "label": "volume_fraction",
+                     "@type": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.14
+                     },
+                     "unit": "emmo:UnitOne"
                   },
                   {
                      "label": "electronic_conductivity",
@@ -706,6 +673,39 @@
                         "hasNumericalData": 100.0
                      },
                      "unit": "emmo:SiemensPerMetre"
+                  }
+               ],
+               "label": "Additive",
+               "@type": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594"
+            },
+            "emmo:NominalProperty": {
+               "hasQuantitativeProperty": [
+                  {
+                     "label": "coating_thickness",
+                     "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.000167
+                     },
+                     "unit": "emmo:Metre"
+                  },
+                  {
+                     "label": "coating_porosity",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.15
+                     },
+                     "unit": "emmo:UnitOne"
+                  },
+                  {
+                     "label": "mass_loading",
+                     "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 10.0
+                     },
+                     "unit": "emmo:GramPerCubicMeter"
                   },
                   {
                      "label": "bruggeman_coefficient",
@@ -728,7 +728,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.0
+                     "hasNumericalData": 1.0
                   },
                   "unit": "emmo:UnitOne"
                },
@@ -737,7 +737,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.0
+                     "hasNumericalData": 1.0
                   },
                   "unit": "emmo:UnitOne"
                }

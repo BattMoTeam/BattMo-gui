@@ -44,7 +44,7 @@ def run_page():
     app.set_json_viewer(gui_parameters, "Json LD format")
     app.set_json_viewer(battmo_parameters, "BattMo format")
 
-    app.run_simulation()
+    
 
 
 if __name__ == "__main__":

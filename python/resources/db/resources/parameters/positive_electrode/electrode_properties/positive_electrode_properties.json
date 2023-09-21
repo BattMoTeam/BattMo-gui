@@ -4,8 +4,8 @@
    "component": "positive_electrode_properties",
    "material": false,
    "Parameters": {
-      "coating_thickness": 8.67e-05,
-      "coating_porosity": 0.2,
+      "coating_thickness": 1.67e-04,
+      "coating_porosity": 0.15,
       "mass_loading": 10
    }
 }

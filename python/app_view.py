@@ -16,6 +16,7 @@ from flask_restful import Resource
 import pdb
 from jsonschema import validate, ValidationError
 from streamlit_toggle_component.src.st_toggle_component import st_toggle_component
+import sympy as sp
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -400,6 +401,7 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
                    
 
 def calc_mass_loading(density_mix, thickness, porosity):
+        
         ml = thickness*density_mix*1000*(1-porosity)
         return ml
     
@@ -450,7 +452,7 @@ class SetTabs:
 
         # Create info box
         self.info = "Push on the 'Save Parameters' button at the bottom of the page to update the parameters for the simulation."
-        self.set_info()
+        #self.set_info()
 
         # Initialize tabs
         self.title = "Parameters"
@@ -663,7 +665,7 @@ class SetTabs:
             return form_data
 
     def set_pe_advanced_tabs(self, tab,category_display_name, category_parameters):
-        component_parameters = []
+        
         advanced_pe_input= tab.expander("Show '{}' advanced parameters".format(category_display_name))
         all_advanced_tabs = advanced_pe_input.tabs(db_helper.get_pe_advanced_tab_display_names(self.model_id))
         db_tab_ids_advanced = db_helper.get_pe_advanced_db_tab_id(self.model_id)
@@ -689,7 +691,7 @@ class SetTabs:
                 i = 0
 
                 for category in categories_advanced:
-                    
+                    component_parameters = []
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
                     
@@ -803,7 +805,7 @@ class SetTabs:
                     # component_parameters["label"] = non_material_comp_display_name
                     # component_parameters["@type"] = non_material_comp_context_type_iri
 
-        category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
+                        category_parameters[category_context_type][self.has_quantitative_property] += component_parameters
 
     
     
@@ -816,7 +818,7 @@ class SetTabs:
                     
 
     def set_ne_advanced_tabs(self, tab, category_display_name,category_parameters):
-        component_parameters = []
+        
         advanced_ne_input=tab.expander("Show '{}' advanced parameters".format(category_display_name))
         all_advanced_tabs = advanced_ne_input.tabs(db_helper.get_ne_advanced_tab_display_names(self.model_id))
         db_tab_ids_advanced = db_helper.get_ne_advanced_db_tab_id(self.model_id)
@@ -843,6 +845,7 @@ class SetTabs:
                 i = 0
 
                 for category in categories_advanced:
+                    component_parameters = []
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
                     
@@ -962,7 +965,7 @@ class SetTabs:
                     #component_parameters["label"] = non_material_comp_display_name
                     #component_parameters["@type"] = non_material_comp_context_type_iri
 
-                category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
+                    category_parameters[category_context_type][self.has_quantitative_property] += component_parameters
                 
                 
                 #pdb.set_trace()
@@ -1838,9 +1841,10 @@ class SetTabs:
     def fill_electrode_tab_comp(self, db_tab_id,mass_loadings,category_id ,emmo_relation):
 
         category_parameters = []
-        n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,3.5,0.5,3.5,3])
+        n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1,1.5,0.5,3,7])
 
-        to.text("/")
+        
+        to.markdown("### " + "/")
         n_to_p_component = db_helper.get_n_to_p_component_by_tab_id(db_tab_id)  
 
         n_to_p_component_id, n_to_p_component_name, _,_,_,_,_,n_to_p_comp_display_name,_,_,_,n_to_p_comp_default_template_id,n_to_p_comp_context_type,n_to_p_comp_context_type_iri,_ = n_to_p_component     
@@ -1865,6 +1869,7 @@ class SetTabs:
                     description,  \
                     n_to_p_display_name = tuple(np.squeeze(n_to_p_ratio_raw_template[0]))
         
+        n_to_p_parameter_col.text(" ")
         n_to_p_parameter_col.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
 
 
@@ -1914,20 +1919,29 @@ class SetTabs:
                     parameter_set_id=n_to_p_parameter_set_id
         )
             
-            user_input = column.number_input(
-                label=n_to_p_parameter.name,
-                value=st.session_state[input_key],
-                min_value=n_to_p_parameter.min_value,
-                max_value=n_to_p_parameter.max_value,
-                key=input_key,
-                format=n_to_p_parameter.format,
-                step=n_to_p_parameter.increment,
-                label_visibility="collapsed",
-                disabled = True
-                )
+
+            column.metric(
+                label = "n_to_p",
+                value = st.session_state[input_key],
+                #key = input_key,
+                label_visibility= "collapsed"
+            )
+
+            # user_input = column.number_input(
+            #     label=n_to_p_parameter.name,
+            #     value=st.session_state[input_key],
+            #     min_value=n_to_p_parameter.min_value,
+            #     max_value=n_to_p_parameter.max_value,
+            #     key=input_key,
+            #     format=n_to_p_parameter.format,
+            #     step=n_to_p_parameter.increment,
+            #     label_visibility="collapsed",
+            #     disabled = True
+            #     )
             ind += 1
 
-            n_to_p_parameter.set_selected_value(user_input)
+            #n_to_p_parameter.set_selected_value(user_input)
+            n_to_p_parameter.set_selected_value(st.session_state[input_key])
             formatted_value_dict = n_to_p_parameter.selected_value
 
             if isinstance(n_to_p_parameter, NumericalParameter):
@@ -2072,6 +2086,7 @@ class SetTabs:
                                     step=parameter.increment,
                                     label_visibility="collapsed"
                                     )
+                                
                             
 
                             if parameter:
@@ -2117,6 +2132,52 @@ class SetTabs:
                                 if parameter.name == "density":
                                     density[material_component_id] = parameter.selected_value
                                     
+                        if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
+                            
+                            
+
+                            
+
+                            
+                            input_text_key = "input_text_{}".format(material_component_id)
+                            if input_text_key not in st.session_state:
+                                st.session_state[input_text_key] = r'''U_2 - U_0 + R*T/F*(-0.00055*c + 8.1)'''
+
+                            ex.text_input(
+                                label = "Open circuit potential (fill in your equation)",
+                                value = st.session_state[input_text_key],
+                                key = input_text_key,
+                                label_visibility= "visible"
+                            )
+
+                            equation_str = st.session_state[input_text_key]
+                            
+                            f = sp.symbols('c')
+                            equation = sp.Eq(sp.sympify(equation_str),0)
+
+                            equation_latex = sp.latex(equation)
+
+                            ex.latex("OCP = " + equation_latex)
+
+                            
+
+                            info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
+                            if info:
+                                parameters,language  = ex.columns(2)
+                                language.markdown(r'''
+                                         **Allowed language** 
+                                         - Use '**' to indicate a power to
+                                         - Use '*' to indicate a multiplication
+                                        ''')
+                                
+                                parameters.markdown(r'''
+                                         **Allowed parameters**
+                                         - Surface concentration : c
+        
+
+                                         
+                                         ''')
+                                
 
                         component_parameters = self.create_component_parameters_dict(component_parameters)
                 
@@ -2688,6 +2749,130 @@ class SetTabs:
 
         category_parameters[non_material_comp_context_type] = component_parameters
 
+        adv_input =tab.expander("Show '{}' advanced parameters".format(category_display_name))
+        component_parameters = []
+        non_material_component = db_helper.get_advanced_components_from_category_id(category_id)      
+
+        non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+            
+
+        #template_name = self.model_templates.get(category_name)
+        #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
+        print("model=",self.model_id)
+        raw_template_parameters = tuple(np.squeeze(db_helper.get_advanced_template_by_template_id(default_template_id)))
+        print("temp=",raw_template_parameters)
+        non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)
+        non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets[0]
+        
+        if np.ndim(raw_template_parameters) > 1:
+            non_material_parameters_raw = []
+            for non_material_parameter_raw_template in raw_template_parameters:
+                
+                non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
+
+                non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
+                
+                non_material_parameters_raw.append(non_material_parameter)
+
+        else:
+
+            non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = raw_template_parameters
+            non_material_parameter_id = int(non_material_parameter_id)
+            print("id=",non_material_parameter_id, name, non_material_parameter_set_id,non_material_parameters_set_name,default_template_id)
+            non_material_parameters_raw = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
+        parameter_sets_name_by_id = {}
+        for id, name, _,_,_ in non_material_parameters_sets:
+
+            parameter_sets_name_by_id[id] = name
+
+
+
+
+        formatted_parameters = self.formatter.format_parameters(non_material_parameters_raw, raw_template_parameters, parameter_sets_name_by_id)
+
+        for parameter_id in formatted_parameters:
+            parameter = formatted_parameters.get(parameter_id)
+            if parameter.is_shown_to_user:
+                selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                    template_parameter_id=parameter.id,
+                    parameter_set_id=non_material_parameter_set_id
+                )
+                st_space(tab)
+                name_col, input_col = adv_input.columns([1, 2])
+
+                if isinstance(parameter, NumericalParameter):
+                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+
+                    user_input = input_col.number_input(
+                        label=parameter.name,
+                        value=parameter.options.get(selected_parameter_id).value,
+                        min_value=parameter.min_value,
+                        max_value=parameter.max_value,
+                        key="input_{}_{}".format(non_material_component_id, parameter_id),
+                        format=parameter.format,
+                        step=parameter.increment,
+                        label_visibility="collapsed"
+                    )
+                else:
+                    name_col.write(parameter.display_name)
+                    user_input = input_col.selectbox(
+                        label=parameter.display_name,
+                        options=[parameter.options.get(selected_parameter_id).value],
+                        key="input_{}_{}".format(non_material_component_id, parameter_id),
+                        label_visibility="collapsed",
+                    )
+                parameter.set_selected_value(user_input)
+
+            formatted_value_dict = parameter.selected_value
+
+            if isinstance(parameter, NumericalParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    "hasNumericalData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    "hasStringData": parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    "hasStringData": parameter.selected_value
+                }
+
+            # elif isinstance(parameter, FunctionParameter):
+            #     formatted_value_dict = {
+            #         "@type": "emmo:Boolean",
+            #         "hasStringData": parameter.selected_value
+            #     }
+            
+
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                "value": formatted_value_dict
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+
+
+            component_parameters.append(parameter_details)
+
+            
+        #component_parameters = self.create_component_parameters_dict(component_parameters)
+        # component_parameters["label"] = non_material_comp_display_name
+        # component_parameters["@type"] = non_material_comp_context_type_iri
+        # print(category_parameters)
+        # print(category_parameters[non_material_comp_context_type][self.has_quantitative_property])
+        # print(component_parameters[self.has_quantitative_property])
+        
+
+        category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
+
+
         
 
         return category_parameters
@@ -2719,6 +2904,7 @@ class SaveParameters:
         self.header = "Save parameters"
 
         self.download_button_label = "Download parameters - Json LD format"
+        self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
 
         self.gui_parameters = gui_parameters
         self.gui_file_data = json.dumps(gui_parameters, indent=2)
@@ -2729,19 +2915,41 @@ class SaveParameters:
 
     def set_submit_button(self):
         # set header
-        st.markdown("### " + self.header)
+        #st.markdown("### " + self.header)
 
         # set download button
-        st.download_button(
-            label=self.download_button_label,
-            data=self.gui_file_data,
-            file_name=self.gui_file_name,
-            mime=self.file_mime_type
+        # st.download_button(
+        #     label=self.download_button_label,
+        #     data=self.gui_file_data,
+        #     file_name=self.gui_file_name,
+        #     mime=self.file_mime_type
+        # )
+        empty,save,run = st.columns((0.3,1,1))
+        m = st.markdown("""
+            <style>
+            div.stButton > button:first-child {
+                background-color: #e1e7f2;
+                
+                
+                height:3em;
+                width:10em;
+                font-size:20px;
+                        
+                border-radius:10px 10px 10px 10px;
+            }
+            </style>""", unsafe_allow_html=True)
+
+        save.button(
+            label="UPDATE",
+            on_click=self.on_click_save_file
         )
 
-        st.button(
-            label="Save Parameters",
-            on_click=self.on_click_save_file
+        # set RUN button
+        run.button(
+            label="RUN",
+            on_click= octave_on_click,
+            args = ( self.json_file, )
+            
         )
 
     def on_click_save_file(self):
@@ -2764,6 +2972,8 @@ class SaveParameters:
             )
 
         st.success("Your parameters are saved! Run the simulation to get your results.")
+
+
 
 
 
@@ -2820,8 +3030,7 @@ class RunSimulation:
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
-        self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
-        
+                
         # retrieve saved parameters from json file
         with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
             self.gui_parameters = json.load(json_gui_parameters)
@@ -2848,6 +3057,9 @@ class RunSimulation:
 
 
     def set_submit_button(self):
+
+        
+
         # set Download header
         st.markdown("### " + self.download_header)
 
@@ -2868,17 +3080,11 @@ class RunSimulation:
 
 
         # set RUN header
-        st.markdown("### " + self.run_header)
+        #st.markdown("### " + self.run_header)
 
         #st.info(self.run_info)
 
-        # set RUN button
-        st.button(
-            label="RUN",
-            on_click= octave_on_click,
-            args = ( self.json_file, )
-            
-        )
+        
       
 
 

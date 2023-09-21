@@ -5,7 +5,7 @@
       "protocol_name": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "description": "",
          "is_shown_to_user": true,
          "type": "str",
@@ -39,7 +39,7 @@
       "c_rate": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 10,
          "min_value": 0.01,
          "description": "option to include current collectors in the simulation",
@@ -53,7 +53,7 @@
       "lower_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 4,
          "min_value": 0,
          "description": "lower voltage limit of the battery cell",
@@ -67,7 +67,7 @@
       "upper_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 5,
          "min_value": 3,
          "description": "",
@@ -81,7 +81,7 @@
       "d_idt_limit": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 0.1,
          "min_value": 0.0001,
          "description": "",
@@ -93,7 +93,7 @@
       "d_edt_limit": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 0.1,
          "min_value": 0.0001,
          "description": "",
