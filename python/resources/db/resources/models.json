@@ -1,7 +1,7 @@
 {
     "models": {
       "P2D": {
-         "description": "",
+         "description": "model description",
          "show_to_user": true,
          "parameters": {
             "use_thermal": {

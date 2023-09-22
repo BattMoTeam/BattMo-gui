@@ -2400,11 +2400,30 @@ class SetTabs:
                 with ex:
                     for parameter_id in parameters:
                         parameter = parameters.get(parameter_id)
+                        if parameter.name == "charge_carrier_transference_number" or parameter.name == "counter_ion_transference_number":  
+                            tr_value = "tr_value_{}_{}".format(category_id, parameter.name)
+                            index_key= "index_{}_{}".format(category_id, parameter.name)
+
+                            if tr_value not in st.session_state:
+                                st.session_state[tr_value] = parameter.min_value
+                            if index_key not in st.session_state:
+                                st.session_state[index_key] = None    
+
+
+                    par_indexes = 0
+                    for parameter_id in parameters:
+                        parameter = parameters.get(parameter_id)
                         parameter_options =parameter.options.get(selected_value_id)
                         print(parameter)
+                        tr_value = "tr_value_{}_{}".format(category_id, parameter.name)
 
                         if not isinstance(parameter, FunctionParameter):
                             property_col, value_col= ex.columns((1.5,2))
+                            if parameter.name == "charge_carrier_transference_number":
+                                cc_tr_place = st.empty()
+                            elif parameter.name == "counter_ion_transference_number":
+                                cion_tr_place = st.empty()
+                                
 
                             if isinstance(parameter, StrParameter):
                                 property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
@@ -2421,6 +2440,25 @@ class SetTabs:
                                 
                             else:
                                 property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                                # if parameter.name == "charge_carrier_transference_number" or parameter.name == "counter_ion_transference_number":
+                                #     if parameter.name == "charge_carrier_transference_number":
+                                #         place = cc_tr_place
+                                #     elif parameter.name == "counter_ion_transference_number":
+                                #         place = cion_tr_place
+                                    
+                                    
+                                #     user_input = place.number_input(
+                                #     label=parameter.name,
+                                #     value=st.session_state[tr_value],
+                                #     min_value=parameter.min_value,
+                                #     max_value=parameter.max_value,
+                                #     key=tr_value,
+                                #     format=parameter.format,
+                                #     step=parameter.increment,
+                                #     label_visibility="collapsed"
+                                #     )
+
+                                # else:
 
                                 user_input = value_col.number_input(
                                 label=parameter.name,
@@ -2477,7 +2515,56 @@ class SetTabs:
                             if isinstance(parameter, NumericalParameter):
                                 parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
+                            # if parameter.name == "charge_carrier_transference_number":
+                            #     tr_value = "tr_value_{}_{}".format(category_id, parameter.name)
+                            #     index_key= "index_{}_{}".format(category_id, parameter.name)
+                            #     tr_number = parameter.selected_value
+                            #     st.session_state[index_key] = par_indexes
+
+                            #     if "input_{}_{}".format(category_id, "charge_carrier_transference_number"):
+                            #         st.session_state[tr_value] = 1 - tr_number
+
+                            #         # user_input = cion_tr_place.number_input(
+                            #         #     label=parameter.name,
+                            #         #     value=st.session_state[tr_value],
+                            #         #     min_value=parameter.min_value,
+                            #         #     max_value=parameter.max_value,
+                            #         #     key="input_{}_{}_{}".format(category_id, parameter.name, np.random.rand(100)),
+                            #         #     format=parameter.format,
+                            #         #     step=parameter.increment,
+                            #         #     label_visibility="collapsed")
+                            # elif parameter.name == "counter_ion_transference_number":
+                            #     tr_value = "tr_value_{}_{}".format(category_id, parameter.name)
+                            #     index_key= "index_{}_{}".format(category_id, parameter.name)
+                            #     st.session_state[index_key] = par_indexes
+                            #     tr_number = parameter.selected_value
+
+                            #     if "input_{}_{}".format(category_id, "counter_ion_transference_number"):
+                            #         st.session_state[tr_value] = 1 - tr_number
+
+
+                            #         # user_input = cc_tr_place.number_input(
+                            #         #     label=parameter.name,
+                            #         #     value=st.session_state[tr_value],
+                            #         #     min_value=parameter.min_value,
+                            #         #     max_value=parameter.max_value,
+                            #         #     key="input_{}_{}".format(category_id, parameter.name, np.random.rand(100)),
+                            #         #     format=parameter.format,
+                            #         #     step=parameter.increment,
+                            #         #     label_visibility="collapsed"
+                            #         #     )
+
+
+                            
+                            
+                            
+
                             component_parameters.append(parameter_details)
+                            # if parameter.name == "charge_carrier_transference_number" or parameter.name == "counter_ion_transference_number":
+                            #     if st.session_state[tr_value]:
+                            #         component_parameters[st.session_state[index_key]]["value"]["hasNumericalData"]=st.session_state[tr_value]
+                        par_indexes +=1
+
 
                     component_parameters = self.create_component_parameters_dict(component_parameters)
             
@@ -2901,7 +2988,7 @@ class SaveParameters:
     Can be improved, to make it more obvious that it is needed to save before running simulation
     """
     def __init__(self, gui_parameters):
-        self.header = "Save parameters"
+        self.header = "Run simulation"
 
         self.download_button_label = "Download parameters - Json LD format"
         self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
@@ -2914,8 +3001,9 @@ class SaveParameters:
         self.set_submit_button()
 
     def set_submit_button(self):
-        # set header
-        #st.markdown("### " + self.header)
+        #set header
+        st.markdown("### " + self.header)
+        st.text(" ")
 
         # set download button
         # st.download_button(

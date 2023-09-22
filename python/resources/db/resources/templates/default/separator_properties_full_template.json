@@ -19,7 +19,7 @@
          "display_name": "Separator full template"
       },
       "length": {
-         "model_name": "p4d",
+         "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Length",
@@ -35,7 +35,7 @@
          "display_name": "Length"
       },
       "width": {
-         "model_name": "p3d_p4d",
+         "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Width",

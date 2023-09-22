@@ -438,6 +438,16 @@ def get_model_parameters_as_dict(model_id):
     return model_quantitative_properties
 
 
+@st.cache_data
+def get_model_description(model_name):
+    
+    return sql_model().select(
+        values='description',
+        where="name='%s'" % model_name
+    )
+
+
+
 #####################################
 # TEMPLATE
 #####################################
@@ -448,7 +458,7 @@ def get_material_template_parameters_from_template_id(template_id):
 def get_all_material_by_template_id(template_id):
         return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND par_class = '%s'" % (template_id,"material")
+            where="template_id=%d AND par_class = '%s' AND model_name = 'p2d_p3d_p4d'" % (template_id,"material")
         )
 
 def get_vf_template_by_template_id(template_id):

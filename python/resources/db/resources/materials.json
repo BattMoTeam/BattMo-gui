@@ -137,8 +137,8 @@
         "celgard2325_Chen2020":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "context_type": "echem:Separator",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
             "display_name": "Celgard2325 (Chen-2020)",
             "number_of_components": 1,
             "component_name_1": "separator_materials",
@@ -149,8 +149,8 @@
         "celgard2500_Xu2015":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "context_type": "echem:Separator",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
             "display_name": "Celgard2500 (Xu-2015)",
             "number_of_components": 1,
             "component_name_1": "separator_materials",

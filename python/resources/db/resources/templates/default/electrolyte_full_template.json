@@ -108,7 +108,7 @@
          "display_name": "Charge carrier transference number"
       },
       "counter_ion_name": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
          "description": "",
@@ -116,7 +116,7 @@
          "type": "str"
       },
       "counter_ion_charge_number": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ChargeNumber",
@@ -132,7 +132,7 @@
          "display_name": "Counter ion charge number"
       },
       "counter_ion_transference_number": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.99,

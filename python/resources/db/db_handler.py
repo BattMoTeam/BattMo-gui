@@ -46,7 +46,7 @@ class ParameterHandler(BaseHandler):
     def get_all_by_parameter_set_id(self, parameter_set_id):
         return self.select(
             values='*',
-            where='parameter_set_id=%d' % parameter_set_id
+            where='parameter_set_id=%d ' % parameter_set_id
         )
 
     def get_id_from_template_parameter_id_and_parameter_set_id(self, template_parameter_id, parameter_set_id):
