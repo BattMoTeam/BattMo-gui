@@ -86,7 +86,7 @@ class UpdateMaterials:
                     component_name_1 = details.get("component_name_1")
                     print(component_name_1)
                     component_name_2 = details.get("component_name_2")
-                    default_material = details.get("default_material")
+                    default_material = int(details.get("default_material"))
 
 
                     material_id = self.sql_material.get_id_from_name(material_name)

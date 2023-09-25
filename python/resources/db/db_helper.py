@@ -286,6 +286,14 @@ def get_display_name_from_material_id(material_id):
         )
         return [a[0] for a in res]
 
+@st.cache_data
+def get_all_default_material():
+        res = sql_material().select(
+        values='*',
+        where="default_material= %d " % 1 
+        )
+        return res #[a[0] for a in res]
+
 #####################################
 # PARAMETER
 #####################################
@@ -313,6 +321,15 @@ def get_all_material_parameter_sets_by_component_id(component_id):
 @st.cache_data
 def extract_parameters_by_parameter_set_id(parameter_set_id):
     return sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
+
+
+@st.cache_data
+def get_parameter_set_id_by_name(name):
+    res = sql_parameter_set().select(
+        values = 'id',
+        where = "name = '%s'" % name
+    )
+    return res[0][0]
 
 def get_all_material_by_component_id(component_id):
         return sql_parameter_set().select(
@@ -413,10 +430,10 @@ def get_model_parameters_as_dict(model_id):
         }
 
         if value_type == "bool":
-            print("value=",value)
+            
             formatted_value_dict = {
                 "@type": "emmo:Boolean",
-                "hasStringData": bool(value)
+                "hasStringData": bool(int(value))
             }
         elif value_type == "str":
             formatted_value_dict = {
@@ -454,6 +471,15 @@ def get_model_description(model_name):
 @st.cache_data
 def get_material_template_parameters_from_template_id(template_id):
     return sql_template_parameter().get_all_material_by_template_id(template_id)
+
+@st.cache_data
+def get_template_from_name(name):
+    res= sql_template_parameter().select(
+            values='*',
+            where="name ='%s'" % name
+        )
+    return res[0]
+
 
 def get_all_material_by_template_id(template_id):
         return sql_template_parameter().select(

@@ -5,14 +5,14 @@
          "show_to_user": true,
          "parameters": {
             "use_thermal": {
-                  "value": false,
-                  "description": "",
-                  "type": "bool"
+               "value": false,
+               "description": "",
+               "type": "bool"
             },
             "include_current_collector": {
-                  "value": false,
-                  "description": "option to include current collectors in the simulation",
-                  "type": "bool"
+               "value": false,
+               "description": "option to include current collectors in the simulation",
+               "type": "bool"
             },
             "use_solid_diffusion_model": {
                "value": true,

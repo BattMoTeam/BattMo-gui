@@ -217,7 +217,7 @@ if __name__ == "__main__":
             number_of_components INTEGER DEFAULT NULL,
             component_name_1 VARCHAR(40) DEFAULT NULL,
             component_name_2 VARCHAR(40) DEFAULT NULL,
-            default_material VARCHAR(255) DEFAULT NULL,
+            default_material INT DEFAULT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             component_id_1 INT DEFAULT NULL,
             component_id_2 INT DEFAULT NULL,

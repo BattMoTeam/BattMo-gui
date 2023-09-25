@@ -1,5 +1,5 @@
 from .db_BaseHandler import BaseHandler
-
+import numpy as np
 
 #####################################
 # PARAMETER
@@ -44,10 +44,11 @@ class ParameterHandler(BaseHandler):
         return [a[0] for a in res]
 
     def get_all_by_parameter_set_id(self, parameter_set_id):
-        return self.select(
+        res= self.select(
             values='*',
             where='parameter_set_id=%d ' % parameter_set_id
         )
+        return res
 
     def get_id_from_template_parameter_id_and_parameter_set_id(self, template_parameter_id, parameter_set_id):
         res = self.select_one(

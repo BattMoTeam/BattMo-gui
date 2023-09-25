@@ -58,7 +58,7 @@ class SetHeading:
         self.title = "BattMo"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
-            BattMO simulates the Current-Voltage response of a battery, using on Physics-based
+            BattMo simulates the Current-Voltage response of a battery, using on Physics-based
             models. For each tab below, load pre-defined parameters, modify them and submit a 
             simulation job.
         """
@@ -1218,7 +1218,7 @@ class SetTabs:
                     }
                 
                 category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
-
+                
                 if category_name == "protocol":
                     
                     # different way of filling parameters for protocol section, the idea is to choose the name of the
@@ -1236,6 +1236,7 @@ class SetTabs:
                     # category_parameters["@type"] = category_context_type_iri
 
                 else:
+                    
                     category_parameters, _,_ = self.fill_category(
                             category_id=category_id,
                             category_display_name =category_display_name,
@@ -1530,9 +1531,14 @@ class SetTabs:
             input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
             empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
 
+            #if non_material_parameter_name == "mass_loading":
 
             if checkbox_key not in st.session_state:
-                st.session_state[checkbox_key] = False
+                    st.session_state[checkbox_key] = False
+            # else: 
+            #     if checkbox_key not in st.session_state:
+            #         st.session_state[checkbox_key] = True
+
 
             if input_value not in st.session_state:
                 st.session_state[input_value] = None
@@ -1992,6 +1998,7 @@ class SetTabs:
         
         
         if category_name == "negative_electrode" or category_name == "positive_electrode":
+            
             # define streamlit columns
             #st_space(tab,space_width=2)
             component_col, material_col, vf_col = tab.columns(3)
@@ -2249,6 +2256,7 @@ class SetTabs:
            
 
         if category_name == "negative_electrode":
+            
             category_parameters = self.set_ne_advanced_tabs(tab, category_display_name, category_parameters)
             
 
@@ -2333,7 +2341,7 @@ class SetTabs:
             #     parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
         
         if category_name == "electrolyte" or category_name == "separator":
-
+            
             
             component_col, material_col = tab.columns((1,2))
             component_parameters = []
@@ -2602,7 +2610,10 @@ class SetTabs:
 
 
     #category_parameters.append(material_details)
+
+
             adv_input =tab.expander("Show '{}' advanced parameters".format(category_display_name))
+            
             component_parameters = []
             non_material_component = db_helper.get_advanced_components_from_category_id(category_id)      
 
