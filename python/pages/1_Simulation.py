@@ -32,6 +32,9 @@ st.session_state.update(st.session_state)
 
 def run_page():
 
+    if "update" not in st.session_state:
+        st.session_state.update = None
+
     app = get_app_controller()
 
     model_id = app.set_model_choice().selected_model

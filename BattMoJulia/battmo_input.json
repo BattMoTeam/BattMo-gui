@@ -362,7 +362,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 5.7
+                        "hasNumericalData": 80.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -380,7 +380,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 9.804
+                        "hasNumericalData": 137.6
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -703,7 +703,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.290437302423603
+                        "hasNumericalData": 100.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -712,7 +712,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.2
+                        "hasNumericalData": 0.15
                      },
                      "unit": "emmo:UnitOne"
                   },
@@ -721,7 +721,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 10.0
+                        "hasNumericalData": 103.2512
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -764,7 +764,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.9804
+                     "hasNumericalData": 1.3326721626479885
                   },
                   "unit": "emmo:UnitOne"
                }

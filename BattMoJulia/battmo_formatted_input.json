@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "ActiveMaterial": {
-         "thickness": 5.7e-06,
+         "thickness": 7.999999999999999e-05,
          "N": 10,
          "electricalConductivity": 100.0,
          "BruggemanCoefficient": 1.5,
@@ -45,7 +45,7 @@
    },
    "PositiveElectrode": {
       "ActiveMaterial": {
-         "thickness": 1.0290437302423603e-05,
+         "thickness": 9.999999999999999e-05,
          "N": 10,
          "electricalConductivity": 100.0,
          "BruggemanCoefficient": 1.5,

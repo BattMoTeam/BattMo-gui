@@ -23,10 +23,11 @@ def run_julia(q_in,q_out):
 
         if uuid_str:= q_in.get():
             uuid_str = str(uuid_str)
+            #file_name = "python/p2d_40_jl.json"
             file_name = "%s.json" % uuid_str
             output = Main.runP2DBattery.runP2DBatt(file_name)
             print("Output = ", output[0])
-            os.remove(file_name)
+            os.remove("%s.json" % uuid_str)
 
             with open(os.path.join("results",uuid_str), "wb") as new_pickle_file:
                 pickle.dump(output, new_pickle_file)

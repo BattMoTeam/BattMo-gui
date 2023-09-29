@@ -25,7 +25,7 @@ Go in the BattMo-gui directory and install the required python packages, as foll
 
 `cd BattMo-gui; pip install -r requirements.txt`
 
-Initialize the PyJulia package in python:
+Initialize the PyJulia package in python (make it a bit more clear):
 
 `import julia; julia.install()`
 
