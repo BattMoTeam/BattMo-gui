@@ -94,7 +94,7 @@
          "display_name": "Charge carrier charge number"
       },
       "charge_carrier_transference_number": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.99,
@@ -132,7 +132,7 @@
          "display_name": "Counter ion charge number"
       },
       "counter_ion_transference_number": {
-         "model_name": "p3d_p4d",
+         "model_name": "p2d_p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
          "max_value": 0.99,

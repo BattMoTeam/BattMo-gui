@@ -96,7 +96,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "NegativeElectrode": {
             "ActiveMaterial": {
-                "thickness": json_ld.ne.properties.get("coating_thickness"),#6.4e-05 ,
+                "thickness": json_ld.ne.properties.get("coating_thickness")*10**(-6),#6.4e-05 ,
                 "N": number_of_discrete_cells_electrode,
                 #"specificHeatCapacity": json_ld.ne.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.ne.am.get("thermal_conductivity"),
@@ -140,7 +140,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "PositiveElectrode": {
             "ActiveMaterial": {
-                "thickness": json_ld.pe.properties.get("coating_thickness"),#5.7e-05
+                "thickness": json_ld.pe.properties.get("coating_thickness")*10**(-6),#5.7e-05
                 "N": number_of_discrete_cells_electrode,
                 #"specificHeatCapacity": json_ld.pe.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.pe.am.get("thermal_conductivity"),
@@ -185,7 +185,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "Electrolyte": {
             "Separator": {
-                "thickness": json_ld.sep_prop.get("thickness"),#1.5e-05
+                "thickness": json_ld.sep_prop.get("thickness")*10**(-6),#1.5e-05
                 "N": number_of_discrete_cells_electrode,
                 "porosity": json_ld.sep_prop.get("porosity"),
                 #"specificHeatCapacity": json_ld.sep.get("specific_heat_capacity"),

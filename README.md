@@ -15,23 +15,31 @@ conduct an end to end simulation experience. Each physical quantity needed to de
 modified to suit the user's needs The parameter set thus defined is then used to run the BattMo P2D model. 
 
 
-## Install & Run the BattMo GUI
+## Install & Run the BattMo GUI (Julia version)
 
-BattMo is based on [MRST](https://www.sintef.no/Projectweb/MRST/), which provides a general unstructured grid format,
-generic MATLAB automatic differentiation tools and Newton solvers. The MRST code source wil be installed directly via
-**git submodules**. To install the GUI you need to correctly install BattMo, you have therefore to clone this repository
-with the submodule option `--recurse-submodules`, as follows:
+Clone the repository:
 
-`git clone --recurse-submodules https://github.com/BattMoTeam/BattMo-gui.git`
+`git clone https://github.com/BattMoTeam/BattMo-gui.git`
 
 Go in the BattMo-gui directory and install the required python packages, as follows:
 
 `cd BattMo-gui; pip install -r requirements.txt`
 
+Initialize the PyJulia package in python:
 
-Finally, run the streamlit app as follows:
+`import julia; julia.install()`
 
-`streamlit run python/Define_parameters.py`
+Install Julia packages:
+
+`using Pkg; Pkg.add(["BattMo","Jutul"])`
+
+Now the GUI can be run from 2 different terminals:
+
+1. One for the Flask api running on the background, run api.py:
+    `python api.py`
+2. One to initiate the streamlit interface:
+    `streamlit run python\Introduction.py`
+
 
 
 ## Development structure

@@ -17,6 +17,8 @@ import pdb
 from jsonschema import validate, ValidationError
 from streamlit_toggle_component.src.st_toggle_component import st_toggle_component
 import sympy as sp
+from streamlit_extras.switch_page_button import switch_page
+
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -58,30 +60,35 @@ class SetHeading:
         self.title = "BattMo"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
-            BattMo simulates the Current-Voltage response of a battery, using on Physics-based
-            models. For each tab below, load pre-defined parameters, modify them and submit a 
-            simulation job.
+            This graphical user interface can be used to run battery simulations with BattMo. 
+            BattMo is a framework for continuum modelling of electrochemical devices. 
+            It simulates the Current-Voltage response of a battery using Physics-based models.
         """
-
+        
+        
         self.website = "[BatteryModel.com](https://batterymodel.com/)"
         self.doi = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
         self.github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
 
         # Set heading
         self.set_heading()
+        
+        
 
     def set_heading(self):
         self.set_title_and_logo()
         self.set_external_links()
         self.set_description()
-        st_space()
+        #st_space()
+        
 
     def set_title_and_logo(self):
         # Title and subtitle
         logo_col, title_col = st.columns([1, 5])
         logo_col.image(self.logo)
         title_col.title(self.title)
-        st.text(self.subtitle)
+        #st.text(self.subtitle)
+
 
     def set_external_links(self):
         # External links
@@ -402,15 +409,15 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
 
 def calc_mass_loading(density_mix, thickness, porosity):
         
-        ml = thickness*density_mix*1000*(1-porosity)
+        ml = thickness*10**(-6)*density_mix*1000*(1-porosity)
         return ml
     
 def calc_thickness( density_mix, mass_loading, porosity):
-    th = mass_loading/(density_mix*1000*(1-porosity))
+    th = mass_loading*10**(6)/(density_mix*1000*(1-porosity))
     return th
 
 def calc_porosity( density_mix, thickness, mass_loading):
-    por = 1-(mass_loading/(thickness*density_mix*1000))
+    por = 1-(mass_loading/(thickness*10**(-6)*density_mix*1000))
     return por
     
 
@@ -1847,10 +1854,10 @@ class SetTabs:
     def fill_electrode_tab_comp(self, db_tab_id,mass_loadings,category_id ,emmo_relation):
 
         category_parameters = []
-        n_to_p_parameter_col, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1,1.5,0.5,3,7])
+        n_to_p_parameter_col, empty, n_to_p_value_n, empty = st.columns([3,1,1.5,7])
 
         
-        to.markdown("### " + "/")
+        
         n_to_p_component = db_helper.get_n_to_p_component_by_tab_id(db_tab_id)  
 
         n_to_p_component_id, n_to_p_component_name, _,_,_,_,_,n_to_p_comp_display_name,_,_,_,n_to_p_comp_default_template_id,n_to_p_comp_context_type,n_to_p_comp_context_type_iri,_ = n_to_p_component     
@@ -1897,8 +1904,7 @@ class SetTabs:
         mass_load_n = mass_loadings["negative_electrode"]
         mass_load_p = mass_loadings["positive_electrode"]
 
-        mass_loadings = [mass_load_n, mass_load_p] 
-        mass_loadings = np.divide(mass_loadings,mass_load_n)
+        n_to_p = mass_load_n/mass_load_p
         mass_load = "mass_load_"+ str(category_id)
         
 
@@ -1909,13 +1915,13 @@ class SetTabs:
 
         
 
-        columns = (n_to_p_value_n, n_to_p_value_p)
+        columns = [n_to_p_parameter_col]
         ind = 0
         for parameter_id in formatted_n_to_p_parameters:
             n_to_p_parameter = formatted_n_to_p_parameters.get(parameter_id)
             input_key = "input_{}_{}".format(db_tab_id, n_to_p_parameter.id)
             column = columns[ind]
-            st.session_state[input_key] = mass_loadings[ind]
+            st.session_state[input_key] = n_to_p
 
             #mass_load = mass_loadings[ind]
             #st.write(mass_load)
@@ -2148,7 +2154,7 @@ class SetTabs:
                             
                             input_text_key = "input_text_{}".format(material_component_id)
                             if input_text_key not in st.session_state:
-                                st.session_state[input_text_key] = r'''U_2 - U_0 + R*T/F*(-0.00055*c + 8.1)'''
+                                st.session_state[input_text_key] = r'''-0.00055*c + 8.1'''
 
                             ex.text_input(
                                 label = "Open circuit potential (fill in your equation)",
@@ -2158,13 +2164,21 @@ class SetTabs:
                             )
 
                             equation_str = st.session_state[input_text_key]
+
+                            # Convert the input string to a SymPy equation
+                            try:
+                                equation = sp.sympify(equation_str)
+                                ex.latex("OCP = "+ sp.latex(equation))
+                            except sp.SympifyError:
+                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
                             
-                            f = sp.symbols('c')
-                            equation = sp.Eq(sp.sympify(equation_str),0)
+                            # f = sp.symbols('c')
+                            # equation = sp.Eq(sp.sympify(equation_str),0)
 
-                            equation_latex = sp.latex(equation)
+                            # equation_latex = sp.latex(equation)
 
-                            ex.latex("OCP = " + equation_latex)
+                            # ex.latex("OCP = " + equation_latex)
 
                             
 
@@ -3038,18 +3052,25 @@ class SaveParameters:
             }
             </style>""", unsafe_allow_html=True)
 
-        save.button(
+        update = save.button(
             label="UPDATE",
-            on_click=self.on_click_save_file
+            on_click=self.on_click_save_file,
+            #help = "Update the parameter values."
         )
 
+        
+            
+
         # set RUN button
-        run.button(
+        runing = run.button(
             label="RUN",
             on_click= octave_on_click,
-            args = ( self.json_file, )
+            args = ( self.json_file,save ),
+            #help = "Run the simulation (after updating the parameters)."
             
         )
+
+
 
     def on_click_save_file(self):
         path_to_battmo_input = db_access.get_path_to_battmo_input()
@@ -3069,14 +3090,14 @@ class SaveParameters:
                 new_file,
                 indent=3
             )
-
+        st.session_state.update = True
         st.success("Your parameters are saved! Run the simulation to get your results.")
 
 
 
 
 
-def octave_on_click(json_file):
+def octave_on_click(json_file, save):
 
     ##############################
     # Remember user changed values
@@ -3091,6 +3112,11 @@ def octave_on_click(json_file):
     
     ##############################
 
+    # if st.session_state.update != True:
+    #     save.warning("""The parameters are not updated yet. 
+    #                  Simulation not initiated""")
+    
+    #elif st.session_state.update == True: 
 
     #print(sys.path)
     print(db_access.get_path_to_gui_dir())
@@ -3114,6 +3140,8 @@ def octave_on_click(json_file):
 
     # clear cache to get new data in hdf5 file (cf Plot_latest_results)
     st.cache_data.clear()
+    st.session_state.update = False
+
 
 
 

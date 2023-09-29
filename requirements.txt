@@ -8,3 +8,4 @@ julia==0.6.1
 Flask==2.3.2
 pylance==0.6.2
 flask_restful==0.3.10
+streamlit_extras == 0.3.2

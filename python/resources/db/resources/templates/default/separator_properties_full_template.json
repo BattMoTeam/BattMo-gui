@@ -13,9 +13,9 @@
          "description": "the thickness of the separator",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "m",
-         "unit_name": "Metre",
-         "unit_iri": "http://emmo.info/emmo#Metre",
+         "unit": "\u03BCm",
+         "unit_name": "MicroMetre",
+         "unit_iri": "http://emmo.info/emmo#MicroMetre",
          "display_name": "Separator full template"
       },
       "length": {

@@ -290,7 +290,7 @@ def get_display_name_from_material_id(material_id):
 def get_all_default_material():
         res = sql_material().select(
         values='*',
-        where="default_material= %d " % 1 
+        where="default_material= %d AND context_type IS NOT NULL " % 1 
         )
         return res #[a[0] for a in res]
 

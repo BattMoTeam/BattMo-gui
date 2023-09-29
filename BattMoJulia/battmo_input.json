@@ -22,14 +22,14 @@
             "label": "use_thermal",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": true
+               "hasStringData": false
             }
          },
          {
             "label": "include_current_collector",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": true
+               "hasStringData": false
             }
          },
          {
@@ -86,7 +86,7 @@
                "hasQuantitativeProperty": [
                   {
                      "label": "maximum_concentration",
-                     "@type": "http://emmo.info/emmo#EMMO_a356870d_409a_4de6_a910_0d8498e593ff",
+                     "@type": "http://emmo.info/electrochemistry#electrochemistry_47287d09_6108_45ca_ac65_8b9451b1065e",
                      "value": {
                         "@type": "emmo:Numerical",
                         "hasNumericalData": 30555.0
@@ -95,7 +95,7 @@
                   },
                   {
                      "label": "volumetric_surface_area",
-                     "@type": "None",
+                     "@type": "http://emmo.info/electrochemistry#electrochemistry_a5571263_f153_448f_84a3_cd18092cf8fa",
                      "value": {
                         "@type": "emmo:Numerical",
                         "hasNumericalData": 723600.0
@@ -362,9 +362,9 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 8.67e-05
+                        "hasNumericalData": 5.7
                      },
-                     "unit": "emmo:Metre"
+                     "unit": "emmo:MicroMetre"
                   },
                   {
                      "label": "coating_porosity",
@@ -380,9 +380,27 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 149.124
+                        "hasNumericalData": 9.804
                      },
-                     "unit": "emmo:GramPerCubicMeter"
+                     "unit": "emmo:MiliGramPerCubicCentiMeter"
+                  },
+                  {
+                     "label": "length",
+                     "@type": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
+                  },
+                  {
+                     "label": "width",
+                     "@type": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
                   },
                   {
                      "label": "bruggeman_coefficient",
@@ -409,7 +427,7 @@
                "hasQuantitativeProperty": [
                   {
                      "label": "maximum_concentration",
-                     "@type": "http://emmo.info/emmo#EMMO_a356870d_409a_4de6_a910_0d8498e593ff",
+                     "@type": "http://emmo.info/electrochemistry#electrochemistry_47287d09_6108_45ca_ac65_8b9451b1065e",
                      "value": {
                         "@type": "emmo:Numerical",
                         "hasNumericalData": 26390.0
@@ -418,7 +436,7 @@
                   },
                   {
                      "label": "volumetric_surface_area",
-                     "@type": "None",
+                     "@type": "http://emmo.info/electrochemistry#electrochemistry_a5571263_f153_448f_84a3_cd18092cf8fa",
                      "value": {
                         "@type": "emmo:Numerical",
                         "hasNumericalData": 1878260.0
@@ -685,16 +703,16 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.000167
+                        "hasNumericalData": 10.290437302423603
                      },
-                     "unit": "emmo:Metre"
+                     "unit": "emmo:MicroMetre"
                   },
                   {
                      "label": "coating_porosity",
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.15
+                        "hasNumericalData": 0.2
                      },
                      "unit": "emmo:UnitOne"
                   },
@@ -703,9 +721,27 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 172.42950399999998
+                        "hasNumericalData": 10.0
                      },
-                     "unit": "emmo:GramPerCubicMeter"
+                     "unit": "emmo:MiliGramPerCubicCentiMeter"
+                  },
+                  {
+                     "label": "length",
+                     "@type": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
+                  },
+                  {
+                     "label": "width",
+                     "@type": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
                   },
                   {
                      "label": "bruggeman_coefficient",
@@ -724,20 +760,11 @@
          "echem:Electrode": {
             "hasQuantitativeProperty": [
                {
-                  "label": "n_to_p_negative",
+                  "label": "n_to_p_ratio",
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.0
-                  },
-                  "unit": "emmo:UnitOne"
-               },
-               {
-                  "label": "n_to_p_positive",
-                  "@type": "None",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.156282717738258
+                     "hasNumericalData": 0.9804
                   },
                   "unit": "emmo:UnitOne"
                }
@@ -752,7 +779,7 @@
          "echem:Electrolyte": {
             "label": [
                [
-                  " "
+                  "Electrolyte"
                ]
             ],
             "@type": [
@@ -829,32 +856,6 @@
                      "unit": "emmo:UnitOne"
                   },
                   {
-                     "label": "charge_carrier_transference_number",
-                     "@type": "None",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.399
-                     },
-                     "unit": "emmo:UnitOne"
-                  },
-                  {
-                     "label": "counter_ion_name",
-                     "@type": "None",
-                     "value": {
-                        "@type": "emmo:String",
-                        "hasStringData": "PF6"
-                     }
-                  },
-                  {
-                     "label": "counter_ion_charge_number",
-                     "@type": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": -1
-                     },
-                     "unit": "emmo:UnitOne"
-                  },
-                  {
                      "label": "counter_ion_transference_number",
                      "@type": "None",
                      "value": {
@@ -886,7 +887,7 @@
          "echem:Separator": {
             "label": [
                [
-                  " "
+                  "Separator"
                ]
             ],
             "@type": [
@@ -936,7 +937,7 @@
                         "@type": "emmo:Numerical",
                         "hasNumericalData": 0.4
                      },
-                     "unit": "emmo:Metre"
+                     "unit": "emmo:MicroMetre"
                   },
                   {
                      "label": "porosity",
@@ -955,6 +956,24 @@
                         "hasNumericalData": 1.5
                      },
                      "unit": "emmo:UnitOne"
+                  },
+                  {
+                     "label": "length",
+                     "@type": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
+                  },
+                  {
+                     "label": "width",
+                     "@type": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.01
+                     },
+                     "unit": "emmo:Metre"
                   },
                   {
                      "label": "number_of_discrete_cells_separator",
@@ -979,7 +998,7 @@
          "battery:BatteryCell": {
             "label": [
                [
-                  " "
+                  "Boundary conditions"
                ]
             ],
             "@type": [
@@ -1075,7 +1094,7 @@
          "echem:CyclingProcess": {
             "label": [
                [
-                  " "
+                  "Protocol"
                ]
             ],
             "@type": [

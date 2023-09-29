@@ -3,7 +3,7 @@ import sys
 import json
 from PIL import Image
 import streamlit as st
-
+from streamlit_extras.switch_page_button import switch_page
 
 ##############################
 # Page Config
