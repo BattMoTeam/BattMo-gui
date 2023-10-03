@@ -18,14 +18,24 @@ def run_julia(q_in,q_out):
     from julia import Main
     Main.include("BattMoJulia/runP2DBattery.jl")
     print("run")
+    # from juliacall import Main as jl
+
+    # jl.seval('include("BattMoJulia/runP2DBattery.jl")')
+    
+
 
     while True:
 
         if uuid_str:= q_in.get():
             uuid_str = str(uuid_str)
             #file_name = "python/p2d_40_jl.json"
-            file_name = "%s.json" % uuid_str
+            file_name = f"{uuid_str}.json"
             output = Main.runP2DBattery.runP2DBatt(file_name)
+            
+            
+            # Define the Julia code to execute
+            # julia_code = f"runP2DBattery.runP2DBatt(\"{file_name}\")"
+            # output = jl.seval(julia_code)
             print("Output = ", output[0])
             os.remove("%s.json" % uuid_str)
 
@@ -103,7 +113,7 @@ if __name__ == '__main__':
     p = multiprocessing.Process(name = 'p',target = run_julia, args=(q_in,q_out ))
     p.start()
 
-    app.run(debug=True, use_reloader = True)
+    app.run(debug=False, use_reloader = False)
 
 
 

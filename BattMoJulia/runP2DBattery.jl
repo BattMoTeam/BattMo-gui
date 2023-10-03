@@ -10,7 +10,7 @@
 
 module runP2DBattery
 
-    using BattMo, Jutul
+    using BattMo, Jutul, JSON
 
     export runP2DBatt
 
@@ -55,11 +55,27 @@ module runP2DBattery
         negative_electrode_grid = [centroids_NAM, boundaries_NAM]
         electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE]
         positive_electrode_grid = [centroids_PAM, boundaries_PAM]
-        #print([state[:BPP][:Phi] for state in states])
-        #print("time =", time_values.shape)
-        # print("pep =", positive_electrode_potential)
-        # print("nep =", negative_electrode_potential)  
-        #output = negative_electrode_concentration
+
+        # The following piece of code is needed when using JuliaCall as translation package:
+        
+        # cell_voltage = JSON.json(cell_voltage)
+        # cell_current = JSON.json(cell_current)
+        # time_values = JSON.json(time_values)
+        # negative_electrode_grid = JSON.json(negative_electrode_grid)
+        # electrolyte_grid = JSON.json(electrolyte_grid)
+        # positive_electrode_grid = JSON.json(positive_electrode_grid)
+        # negative_electrode_concentration = JSON.json(negative_electrode_concentration)
+        # print("size=",size(negative_electrode_concentration))
+        # electrolyte_concentration = JSON.json(positive_electrode_grid)
+        # positive_electrode_concentration = JSON.json(positive_electrode_concentration)
+        # negative_electrode_potential = JSON.json(negative_electrode_potential)
+        # electrolyte_potential = JSON.json(electrolyte_potential)
+        # positive_electrode_potential = JSON.json(positive_electrode_potential)
+
+
+
+
+        
         output = [number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential];
 
         return output

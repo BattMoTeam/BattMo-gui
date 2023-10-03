@@ -39,7 +39,10 @@ def run_page():
 
     with open(db_access.get_path_to_battmo_input()) as json_gui_parameters:
         gui_parameters = json.load(json_gui_parameters)
-    battmo_parameters = app.match_json(gui_parameters)
+    #battmo_parameters = app.match_json(gui_parameters)
+    with open(os.path.join(db_access.get_path_to_BattMoJulia_dir(), "battmo_formatted_input.json")) as input:
+
+        battmo_parameters = json.load(input)
 
     app.set_json_viewer(gui_parameters, "Json LD format")
     app.set_json_viewer(battmo_parameters, "BattMo format")

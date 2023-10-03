@@ -61,7 +61,9 @@ with open(os.path.join(path_to_python_dir, "battmo_result"), "rb") as pickle_res
 # number_of_states = int(number_of_states)
 
 #print(time_values)
+
 ne_cp_length = np.ma.size(negative_electrode_concentration, 2)
+# ne_cp_length = 1
 negative_electrode_concentration = np.array(negative_electrode_concentration)[:,:,ne_cp_length -1]
 positive_electrode_concentration =np.array(positive_electrode_concentration)[:,:,ne_cp_length -1]
 

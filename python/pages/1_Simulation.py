@@ -45,13 +45,15 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    # pp = pprint.PrettyPrinter(indent=2)
-    # pp.pprint(gui_parameters["echem:Electrode"])
-    # pdb.set_trace()
+    
     
     
 
     app.save_parameters(gui_parameters)
+
+    # pp = pprint.PrettyPrinter(indent=2)
+    # pp.pprint(gui_parameters["echem:Electrode"]["echem:Electrode"])
+    # pdb.set_trace()
 
     app.run_simulation()
 

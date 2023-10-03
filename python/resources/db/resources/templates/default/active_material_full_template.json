@@ -199,7 +199,7 @@
          "context_type": "emmo:Energy",
          "context_type_iri": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
          "max_value": 100000.0,
-         "min_value": 1,
+         "min_value": 0,
          "description": "activation energy for diffusion of the guest molecule in the host material",
          "is_shown_to_user": true,
          "type": "float",

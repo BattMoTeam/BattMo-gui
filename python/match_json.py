@@ -116,8 +116,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "theta0": json_ld.ne.am.get("minimum_lithium_stoichiometry"),
                     "OCP": {
                         "type": "function",
-                        "functionname": "compute_ocp_graphite",#json_ld.ne.am.get("open_circuit_potential"),
-                        "argumentlist": ["cElectrode", "T", "cmax"]
+                        "functionname": json_ld.ne.am.get("open_circuit_potential")["functionname"],#"compute_ocp_graphite"
+                        "argumentlist": json_ld.ne.am.get("open_circuit_potential")["argument_list"]
                     },
                     "BruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient")
                 },
@@ -160,9 +160,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "theta0": json_ld.pe.am.get("minimum_lithium_stoichiometry"),#0.99174
                     "OCP": {
                         "type": "function",
-                        "functionname": "compute_ocp_nmc111",
-                        #"functionname": json_ld.pe.am.get("open_circuit_potential"),
-                        "argumentlist": ["cElectrode", "T", "cmax"]
+                        #"functionname": "compute_ocp_nmc111",
+                        "functionname": json_ld.pe.am.get("open_circuit_potential")["functionname"],
+                        "argumentlist": json_ld.pe.am.get("open_circuit_potential")["argument_list"]
                     },
                     "BruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient")
                 },

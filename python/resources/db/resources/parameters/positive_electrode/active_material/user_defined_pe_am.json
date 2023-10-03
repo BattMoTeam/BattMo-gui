@@ -13,7 +13,7 @@
        "maximum_lithium_stoichiometry": 0.0,
        "minimum_lithium_stoichiometry": 0.0,
        "open_circuit_potential": {
-          "functionname": "computeOCP_nmc111",
+          "functionname": "compute_ocps_nmc111",
           "argument_list": [
              "cElectrode",
              "T",

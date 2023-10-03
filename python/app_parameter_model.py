@@ -36,7 +36,7 @@ class Materials(object):
         self.selected_value = selected_value
 
     def add_option(self, option_id, option_details):
-        ("val1=", option_details.display_name)
+        
         self.options[option_id] = option_details
         if self.default_value is None:
             self.default_value = option_details.display_name
@@ -244,20 +244,20 @@ class FormatParameters:
 
 
         material_display_names = []
-        print("par_set=",parameter_sets )
+    
         for parameter_set in parameter_sets:
             parameter_set_id, \
             parameter_set, \
             _, \
             _ , \
             material_id = parameter_set
-            print("mat =",parameter_set)
+           
             material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
             material_display_names.append(material_display_name)
             
             # Create list with parameter set ids
             raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters])
-            print("par_set_ids=", raw_parameters_set_ids)
+          
             parameter_ids = []
             parameter_names = []
             template_parameter_ids = []
@@ -268,9 +268,7 @@ class FormatParameters:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
                 #print("index =", parameter_set_id_index)
-                print(index)
-                print("set_id",raw_parameters_set_ids[index])
-                print("id=", parameter_set_id)
+               
                 if raw_parameters_set_ids[index] == parameter_set_id:
                     
                     parameter_id, \
@@ -285,16 +283,15 @@ class FormatParameters:
                     parameter_values.append(parameter_value)
 
                 index +=1
-            print("par_names=", parameter_names)
+            
             values = []
             for i,value in enumerate(parameter_values):
                 
                 template_parameter_id = template_parameter_ids[i]
                 parameter_id = parameter_ids[i]
-                print("for =", formatted_materials)
-                print("id=",parameter_names[i])
+              
                 template_parameter = formatted_parameters.get(str(template_parameter_id))
-                print("temp_par=", template_parameter)
+             
                 if template_parameter:
                     if isinstance(template_parameter, NumericalParameter):
                         if template_parameter.type == "int":
@@ -311,10 +308,10 @@ class FormatParameters:
                         formatted_value = bool(value)
                     elif isinstance(template_parameter, FunctionParameter):
                         formatted_value = eval(value)
-                        print("function_par =", parameter_name)
+                       
                         
                     else:
-                        print("value =", value)
+                        
                         assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
                     
                     values.append(formatted_value)
@@ -335,7 +332,7 @@ class FormatParameters:
                             parameter_display_name = parameter_display_name
                         )
                     template_parameter.add_option(parameter_set_id, new_option)
-                    print("template=",template_parameter.options )
+                    
 
             formatted_material = formatted_materials.get(str(material_component_id))
 
@@ -345,7 +342,7 @@ class FormatParameters:
 
             
             
-            print("for_mat=", formatted_material)
+           
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option_material(
                 parameter_set_display_name = formatted_display_name[0],
@@ -370,8 +367,7 @@ class FormatParameters:
 
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
-            print("raw=", raw_parameters)
-            print("formatted=", formatted_parameters)
+        
 
             for parameter in raw_parameters:
                 parameter_id, \
@@ -379,10 +375,10 @@ class FormatParameters:
                     parameter_set_id, \
                     template_parameter_id, \
                     value = parameter
-                print("id=", template_parameter_id)
+              
                 template_parameter = formatted_parameters.get(str(template_parameter_id))
 
-                print("parameter1=", template_parameter)
+            
                 if template_parameter:
                     if isinstance(template_parameter, NumericalParameter):
                         if template_parameter.type == "int":
@@ -401,7 +397,7 @@ class FormatParameters:
                         formatted_value = eval(value)
                         template_parameter.set_selected_value(formatted_value)
                     else:
-                        print("value =", value, name, parameter_set_id, template_parameter_id)
+                        
                         assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
 
 
@@ -424,25 +420,23 @@ class FormatParameters:
         else:
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
-            print("raw=", raw_parameters)
-            print("formatted=", formatted_parameters)
+          
 
             parameter_id, \
                     name, \
                     parameter_set_id, \
                     template_parameter_id, \
                     value = raw_parameters
-            print("id=", template_parameter_id)
-            print("formatted2=", formatted_parameters)
+           
             template_parameter = formatted_parameters.get(str(template_parameter_id))
 
-            print("parameter=", template_parameter)
+           
             if isinstance(template_parameter, NumericalParameter):
                 if template_parameter.type == "int":
                     formatted_value = int(value)
                 elif template_parameter.type == "float":
                     formatted_value = float(value)
-                    print("format_value=", formatted_value)
+                   
                 else:
                     assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                         parameter_id, template_parameter.type
@@ -455,30 +449,30 @@ class FormatParameters:
                 formatted_value = eval(value)
                 template_parameter.set_selected_value(formatted_value)
             else:
-                print("value =", value, name, parameter_set_id,template_parameter_id)
+               
                 assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
-            print("for1=",formatted_value)
+           
 
             parameter_display_name = template_parameter.display_name
 
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             if type(parameter_sets_name_by_id) == str:
-                print("for2=",formatted_value)
+               
                 new_option = Option_parameter(
                     formatted_value=formatted_value,
                     parameter_set=parameter_sets_name_by_id,
                     parameter_display_name = parameter_display_name
                 )
-                print("new_option=",new_option)
+              
             else:
-                print("for3=",formatted_value)
+               
                 new_option = Option_parameter(
                     
                     formatted_value=formatted_value,
                     parameter_set=parameter_sets_name_by_id.get(parameter_set_id),
                     parameter_display_name = parameter_display_name
                 )
-                print("for4=",formatted_value)
+                
             template_parameter.add_option(parameter_id, new_option)
 
 
@@ -562,7 +556,7 @@ class FormatParameters:
 
     def initialize_parameters(self, raw_template_parameters):
         initialized_parameters = {}
-        print("raw_template=", tuple(np.squeeze(raw_template_parameters)))
+       
         if np.ndim(raw_template_parameters) > 1:
             
             for template_parameter in raw_template_parameters:
@@ -671,10 +665,10 @@ class FormatParameters:
                 description,  \
                 display_name = tuple(np.squeeze(raw_template_parameters))
             parameter_id = int(parameter_id)
-            print("par_id=", parameter_id)
+      
 
             if parameter_type in [int.__name__, float.__name__]:
-                print("num")
+           
                 initialized_parameters['%d' % parameter_id] = NumericalParameter(
                     id=parameter_id,
                     name=name,
@@ -698,7 +692,7 @@ class FormatParameters:
 
 
             elif parameter_type == bool.__name__:
-                print("bool")
+             
                 initialized_parameters['%d' % int(parameter_id)] = BooleanParameter(
                     id=parameter_id,
                     name=name,
@@ -712,7 +706,7 @@ class FormatParameters:
                 )
 
             elif parameter_type == str.__name__:
-                print("string")
+              
                 initialized_parameters['%d' % int(parameter_id)] = StrParameter(
                     id=parameter_id,
                     name=name,

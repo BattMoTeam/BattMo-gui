@@ -319,14 +319,14 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
         """
         Function needed for the checkboxes and number_inputs to work properly together.
         """
-        print("session1= ", st.session_state[checkbox_key])
+        
 
         #st.session_state[checkbox_key] = new_value
         state_count ="state_count_" + str(category_id)
         states = "states_" + str(category_id)
         
         if st.session_state[checkbox_key]==True:
-            print("ok")
+            
             st.session_state[state_count] += 1
             st.session_state[states][parameter_name] = True
             #st.experimental_rerun()
@@ -335,7 +335,7 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
             st.session_state[state_count] -= 1
             st.session_state[states][parameter_name] = False
             #st.experimental_rerun()
-        print("state_count=", st.session_state[state_count])
+        
         if st.session_state[state_count] >2:
             st.session_state[checkbox_key] = False
             st.session_state[state_count] -= 1
@@ -501,13 +501,12 @@ class SetTabs:
         
 
     def calc_density_mix(self, vf, density):
-        print("dens=", density)
-        print("vf=",vf)
+        
         density_mix=0
         for id, weight in vf.items():
-            print("id=", id)
+            
             density_mix += weight*density.get(id)
-        print(density_mix)
+        
         return density_mix
     
     
@@ -834,7 +833,7 @@ class SetTabs:
             #tab_index_advanced = db_helper.get_tab_index_from_st_tab(tab_advanced)
             db_tab_id_advanced = db_tab_ids_advanced[index_advanced][0]
             
-            print("id=", db_tab_id_advanced)
+            
 
             tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id_advanced)
             tab_parameters = {
@@ -843,7 +842,7 @@ class SetTabs:
             }
                 # get tab's categories
             categories_advanced = db_helper.get_advanced_categories_from_tab_id(db_tab_id_advanced)
-            print("categories=", categories_advanced)
+            
 
             if len(categories_advanced) > 1:  # create one sub tab per category
 
@@ -861,22 +860,21 @@ class SetTabs:
                     
                     i += 1
 
-                    print("cat_name=",category_name)
-                    print("id=",category_id)
+                    
                     non_material_component = tuple(db_helper.get_advanced_components_from_category_id(category_id))     
-                    print("comp=",non_material_component)
+                    
 
                     non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
                         
-                    print("def_id=",non_material_component_name)
+                   
                     #template_name = self.model_templates.get(category_name)
                     #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
 
                     raw_template_parameters = db_helper.get_advanced_template_by_template_id(default_template_id)
-                    print(raw_template_parameters)
+                    
 
                     if raw_template_parameters:
-                        print(".........")
+                        
                         non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
                         non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
                         
@@ -884,11 +882,10 @@ class SetTabs:
                         for non_material_parameter_raw_template in raw_template_parameters:
 
                             non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
-                            print("name =", name)
-                            print("name =", non_material_parameters_set_name)
+                          
                         
                             non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)
-                            print("par=",raw_template_parameters)
+                           
                             non_material_parameters_raw.append(non_material_parameter)
                             
 
@@ -902,10 +899,10 @@ class SetTabs:
 
 
                         formatted_parameters = self.formatter.format_parameters(non_material_parameters_raw, raw_template_parameters, non_material_parameters_set_name)
-                        print(formatted_parameters)
+                        
                         
                         for parameter_id in formatted_parameters:
-                            print(parameter_id)
+                            
                             parameter = formatted_parameters.get(str(parameter_id))
                             if parameter.is_shown_to_user:
                                 selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
@@ -1296,7 +1293,7 @@ class SetTabs:
         
         
         volume_fraction_raw_template = db_helper.get_vf_template_by_template_id(material_comp_default_template_id)
-        print("vf_temp=", volume_fraction_raw_template)  
+        
         vf_parameter_set_id, vf_parameters_set_name = db_helper.get_vf_parameter_set_id_by_component_id(material_component_id)
         vf_parameter_set_id = int(vf_parameter_set_id)
         vf_parameters_set_name = str(vf_parameters_set_name)
@@ -1404,7 +1401,7 @@ class SetTabs:
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
 
-        print("comp_name2=", component_name)
+       
 
         
        
@@ -1522,7 +1519,7 @@ class SetTabs:
                 for label,value in states.items():
                     values.append(value)
 
-                print("args1=", values)
+               
             return st_toggle_component(labels=labels,id =id, initial_values= values, key = key, quantity=quantity,limit=limit, on_change = on_change, args= args)
         
         parameter_names =[]
@@ -1590,9 +1587,6 @@ class SetTabs:
                     elif i == 2:
                         ml_place = st.empty()
 
-                    
-                print("key=", checkbox_key)
-
                
                 with check_col:
                     state = st.toggle(label = checkbox_key, 
@@ -1602,8 +1596,7 @@ class SetTabs:
                                       args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
                                       label_visibility="collapsed")
                     st.text(" ")  
-                    print("staet=",state)
-                    print("session2=", st.session_state[checkbox_key])
+                   
                     
 
 
@@ -1611,8 +1604,7 @@ class SetTabs:
 
             property_col.text(" ")
             
-            
-            print("check =", st.session_state[state_key][non_material_parameter_id])
+
                 
            
 
@@ -1718,7 +1710,7 @@ class SetTabs:
             
 
 
-            print("comp1= ", st.session_state[states])
+      
             if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
                 for non_material_parameter_id in formatted_non_material_parameters:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
@@ -2039,7 +2031,7 @@ class SetTabs:
                 material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
                 
                 
-                print("comp_name1=", component_name)
+
                 
                 component_col.write("[{}]({})".format(material_comp_display_name, material_comp_context_type_iri))
                 component_col.text(" ")
@@ -2058,13 +2050,12 @@ class SetTabs:
                 component_parameters["label"] = material_comp_display_name
                 component_parameters["@type"] = material_comp_context_type_iri
 
-                print("comp1 =", component_parameters)
 
                 category_parameters[material_comp_context_type] = component_parameters
 
 
                 material_choice = formatted_materials.options.get(selected_value_id).display_name
-                print("mat_opt=", material_choice)
+ 
                 material = formatted_materials.options.get(selected_value_id)
                 parameters = material.parameters
                 
@@ -2078,7 +2069,7 @@ class SetTabs:
                         for parameter_id in parameters:
                             parameter = parameters.get(parameter_id)
                             parameter_options =parameter.options.get(selected_value_id)
-                            print(parameter)
+ 
 
                             if not isinstance(parameter, FunctionParameter):
                                 property_col, value_col= ex.columns((1.5,2))
@@ -2219,8 +2210,7 @@ class SetTabs:
                 component_parameters["@type"] = material_comp_context_type_iri
 
                         
-                print(component_parameters)
-                print(category_parameters)
+
                 category_parameters[material_comp_context_type][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
                 
                 
@@ -2245,7 +2235,7 @@ class SetTabs:
                         # form_data = self.schema_to_form(ex,schema)
                         # ex.write(form_data)
       
-            print("dens=", density)        
+      
             self.validate_volume_fraction(vf_sum, category_display_name,tab)
             density_mix = self.calc_density_mix(vf_sum, density)  
             
@@ -2409,7 +2399,7 @@ class SetTabs:
 
 
             material_choice = formatted_materials.options.get(selected_value_id).display_name
-            print("mat_opt=", material_choice)
+
             material = formatted_materials.options.get(selected_value_id)
             parameters = material.parameters
             
@@ -2436,7 +2426,7 @@ class SetTabs:
                     for parameter_id in parameters:
                         parameter = parameters.get(parameter_id)
                         parameter_options =parameter.options.get(selected_value_id)
-                        print(parameter)
+     
                         tr_value = "tr_value_{}_{}".format(category_id, parameter.name)
 
                         if not isinstance(parameter, FunctionParameter):
@@ -2636,9 +2626,9 @@ class SetTabs:
 
             #template_name = self.model_templates.get(category_name)
             #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
-            print("model=",self.model_id)
+
             raw_template_parameters = tuple(np.squeeze(db_helper.get_advanced_template_by_template_id(default_template_id)))
-            print("temp=",raw_template_parameters)
+
             non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)
             non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets[0]
             
@@ -2656,7 +2646,7 @@ class SetTabs:
 
                 non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = raw_template_parameters
                 non_material_parameter_id = int(non_material_parameter_id)
-                print("id=",non_material_parameter_id, name, non_material_parameter_set_id,non_material_parameters_set_name,default_template_id)
+          
                 non_material_parameters_raw = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
             parameter_sets_name_by_id = {}
             for id, name, _,_,_ in non_material_parameters_sets:
@@ -2870,9 +2860,9 @@ class SetTabs:
 
         #template_name = self.model_templates.get(category_name)
         #template_id = db_helper.sql_template.get_id_from_name(template_name) if template_name else default_template_id
-        print("model=",self.model_id)
+
         raw_template_parameters = tuple(np.squeeze(db_helper.get_advanced_template_by_template_id(default_template_id)))
-        print("temp=",raw_template_parameters)
+
         non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)
         non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets[0]
         
@@ -2890,7 +2880,7 @@ class SetTabs:
 
             non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = raw_template_parameters
             non_material_parameter_id = int(non_material_parameter_id)
-            print("id=",non_material_parameter_id, name, non_material_parameter_set_id,non_material_parameters_set_name,default_template_id)
+
             non_material_parameters_raw = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
         parameter_sets_name_by_id = {}
         for id, name, _,_,_ in non_material_parameters_sets:
@@ -3119,7 +3109,7 @@ def octave_on_click(json_file, save):
     #elif st.session_state.update == True: 
 
     #print(sys.path)
-    print(db_access.get_path_to_gui_dir())
+  
     uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
                                                                             'InputFile':'battmo_formatted_input.json',
                                                                             'JuliaModelFolder':'BattMoJulia',
