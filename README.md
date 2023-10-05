@@ -19,13 +19,13 @@ modified to suit the user's needs The parameter set thus defined is then used to
 
 Clone the repository:
 ```<git>
-`git clone https://github.com/BattMoTeam/BattMo-gui.git`
+git clone https://github.com/BattMoTeam/BattMo-gui.git
 ```
 
 Within your environment, go in the BattMo-gui directory and install the required python packages, as follows:
 
 ```<powershell>
-`cd BattMo-gui; pip install -r requirements.txt`
+cd BattMo-gui; pip install -r requirements.txt
 ```
 
 Initiate the Python terminal in the command prompt (within your environment) and initialize the PyJulia package:
@@ -37,6 +37,10 @@ import julia
 julia.install()
 ```
 Initiate the Julia terminal in the command prompt and install the Julia packages:
+
+```<powershell>
+julia
+```
 ```<Julia>
 using Pkg; Pkg.add(["BattMo","Jutul"])
 ```
