@@ -56,12 +56,11 @@ def run_app():
     if materials_and_models_page:
         switch_page("Materials and models")
     
-    # st.markdown(" ")
-    # st.divider()
-    # st.text("""BattMo is a framework for continuum modeling of electrochemical devices. It simulates the Current-Voltage response of a battery using Physics-based
-    #         models.""")   
-    # #set_external_links()
-    # st.divider()
+    #st.markdown(" ")
+    st.divider()
+       
+    set_external_links()
+    st.divider()
 
 
 if __name__ == "__main__":

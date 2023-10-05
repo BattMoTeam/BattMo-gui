@@ -16,10 +16,10 @@ module runP2DBattery
 
     function runP2DBatt(json_file)
 
-
+        json_file = JSONFile(json_file)
         print("Calling BattMo simulation")
         #states, reports, extra = runBattery_1d(input = jsondict, info_level = 0, extra_timing = false);
-        states, reports, extra = run_battery_1d(filename = json_file, info_level = -1, end_report = true, extra_timing = false);
+        states, reports, extra = run_battery(json_file, info_level = -1, end_report = true, extra_timing = false);
         print("Simulation finished")
 
         con = BattMo.Constants()

@@ -30,6 +30,7 @@ def run_julia(q_in,q_out):
             uuid_str = str(uuid_str)
             #file_name = "python/p2d_40_jl.json"
             file_name = f"{uuid_str}.json"
+            
             output = Main.runP2DBattery.runP2DBatt(file_name)
             
             

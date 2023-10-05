@@ -18,27 +18,41 @@ modified to suit the user's needs The parameter set thus defined is then used to
 ## Install & Run the BattMo GUI (Julia version)
 
 Clone the repository:
-
+```<git>
 `git clone https://github.com/BattMoTeam/BattMo-gui.git`
+```
 
-Go in the BattMo-gui directory and install the required python packages, as follows:
+Within your environment, go in the BattMo-gui directory and install the required python packages, as follows:
 
+```<powershell>
 `cd BattMo-gui; pip install -r requirements.txt`
+```
 
-Initialize the PyJulia package in python (make it a bit more clear):
-
-`import julia; julia.install()`
-
-Install Julia packages:
-
-`using Pkg; Pkg.add(["BattMo","Jutul"])`
-
+Initiate the Python terminal in the command prompt (within your environment) and initialize the PyJulia package:
+```<powershell>
+python
+```
+```<Julia>
+import julia 
+julia.install()
+```
+Initiate the Julia terminal in the command prompt and install the Julia packages:
+```<Julia>
+using Pkg; Pkg.add(["BattMo","Jutul"])
+```
 Now the GUI can be run from 2 different terminals:
 
-1. One for the Flask api running on the background, run api.py:
-    `python api.py`
-2. One to initiate the streamlit interface:
-    `streamlit run python\Introduction.py`
+1. One for the Flask api running on the background. Initiate the flask server in a command prompt:
+
+```<powershell>
+python api.py
+```
+    
+2. One to initiate the streamlit interface. Iniate the streamlit server in another command prompt:
+
+    ```<powershell>
+    streamlit run python\Introduction.py
+    ```
 
 
 

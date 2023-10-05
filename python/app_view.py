@@ -77,7 +77,7 @@ class SetHeading:
 
     def set_heading(self):
         self.set_title_and_logo()
-        self.set_external_links()
+        #self.set_external_links()
         self.set_description()
         #st_space()
         
@@ -2139,31 +2139,86 @@ class SetTabs:
                         if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
                             
                             
+                            ref_ocp = "ref_ocp_{}".format(material_component_id)
+                            du_dt = "du_dt_{}".format(material_component_id)
 
-                            
+                            if du_dt not in st.session_state:
+                                st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)*5- 37147.89470 * (c/cmax)*6+ 38379.18127 * (c/cmax)*7- 16515.05308 * (c/cmax)*8 )
+                                / ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)*5+ 374577.3152 * (c/cmax)*6- 385821.1607 * (c/cmax)*7+ 165705.8597 * (c/cmax)*8 ))'''
 
-                            
-                            input_text_key = "input_text_{}".format(material_component_id)
-                            if input_text_key not in st.session_state:
-                                st.session_state[input_text_key] = r'''-0.00055*c + 8.1'''
+                            if ref_ocp not in st.session_state:
+                                st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)**0.5 - 0.0172/(c/cmax) + 0.0019/(c/cmax)**1.5+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)
+                                 
+                                '''
+                            ex.latex(r'OCP = OCP_{ref} + (T - Tref) * \frac{dU}{dT} ')
 
-                            ex.text_input(
-                                label = "Open circuit potential (fill in your equation)",
-                                value = st.session_state[input_text_key],
-                                key = input_text_key,
-                                label_visibility= "visible"
-                            )
+                            info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
+                            if info:
+                                parameters,language  = ex.columns(2)
+                                language.markdown(r'''
+                                        **Allowed language** 
+                                        - Use '**' to indicate a power to
+                                        - Use '*' to indicate a multiplication
+                                        - Use 'exp(a)' to indicate an exponential with power a
+                                        - Use '/' for dividing
+                                        
+                                        ''')
+                                
+                                parameters.markdown(r'''
+                                        **Allowed parameters**
+                                        - Surface concentration : c
+                                        - Maximum concentration : cmax
+                                        - Ambient Temparture    : T
+                                        - Reference Temperature : Tref
+        
 
-                            equation_str = st.session_state[input_text_key]
+                                         
+                                         ''')
 
-                            # Convert the input string to a SymPy equation
-                            try:
-                                equation = sp.sympify(equation_str)
-                                ex.latex("OCP = "+ sp.latex(equation))
-                            except sp.SympifyError:
-                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+                            ocp = ex.toggle(label="Create your own OCP function", key = "toggle_ocp_{}".format(material_component_id))
 
-                            
+                            if ocp:
+                                ex.text_input(
+                                    label = "OCP_ref",
+                                    value = st.session_state[ref_ocp],
+                                    key = ref_ocp,
+                                    label_visibility= "visible"
+                                )
+                                ref_ocp_str = st.session_state[ref_ocp]
+                                func_ocpref = ex.toggle(label="Visualize OCP_ref", key = "toggle_vis_{}".format(material_component_id))
+
+                                if func_ocpref:
+                                    # Convert the input string to a SymPy equation
+                                    try:
+                                        eq_ref_ocp = sp.sympify(ref_ocp_str)
+                                        ex.latex("OCP_{ref} = "+ sp.latex(eq_ref_ocp))
+                                        
+                                    except sp.SympifyError:
+                                        ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+
+                                ex.text_input(
+                                    label = "dU/dT",
+                                    value = st.session_state[du_dt],
+                                    key = du_dt,
+                                    label_visibility= "visible"
+                                )
+
+                               
+                                du_dt_str = st.session_state[du_dt]
+
+                                
+                                func_du = ex.toggle(label="Visualize dU/dT", key = "toggle_vis_du_{}".format(material_component_id))
+
+                                if func_du:
+                                    # Convert the input string to a SymPy equation
+                                    try:
+                                   
+                                        eq_du_dt = sp.sympify(du_dt_str)
+                                        ex.latex(r'\frac{du}{dt} = '+ sp.latex(eq_du_dt))
+                                    except sp.SympifyError:
+                                        ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
                             # f = sp.symbols('c')
                             # equation = sp.Eq(sp.sympify(equation_str),0)
 
@@ -2173,22 +2228,7 @@ class SetTabs:
 
                             
 
-                            info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
-                            if info:
-                                parameters,language  = ex.columns(2)
-                                language.markdown(r'''
-                                         **Allowed language** 
-                                         - Use '**' to indicate a power to
-                                         - Use '*' to indicate a multiplication
-                                        ''')
-                                
-                                parameters.markdown(r'''
-                                         **Allowed parameters**
-                                         - Surface concentration : c
-        
-
-                                         
-                                         ''')
+                            
                                 
 
                         component_parameters = self.create_component_parameters_dict(component_parameters)
