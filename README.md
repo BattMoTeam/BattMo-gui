@@ -54,9 +54,9 @@ python api.py
     
 2. One to initiate the streamlit interface. Iniate the streamlit server in another command prompt:
 
-    ```<powershell>
-    streamlit run python\Introduction.py
-    ```
+```<powershell>
+streamlit run python\Introduction.py
+```
 
 
 
