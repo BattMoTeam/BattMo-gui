@@ -15,7 +15,7 @@ conduct an end to end simulation experience. Each physical quantity needed to de
 modified to suit the user's needs The parameter set thus defined is then used to run the BattMo P2D model. 
 
 
-## Install & Run the BattMo GUI (Julia version)
+## Install & Run the BattMo GUI
 
 Clone the repository:
 ```<git>
