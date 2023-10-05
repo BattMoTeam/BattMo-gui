@@ -15,12 +15,12 @@ import os
 
 def run_julia(q_in,q_out):
 
-    from julia import Main
-    Main.include("BattMoJulia/runP2DBattery.jl")
+    # from julia import Main
+    # Main.include("BattMoJulia/runP2DBattery.jl")
     print("run")
-    # from juliacall import Main as jl
+    from juliacall import Main as jl
 
-    # jl.seval('include("BattMoJulia/runP2DBattery.jl")')
+    jl.seval('include("BattMoJulia/runP2DBattery.jl")')
     
 
 
@@ -31,12 +31,12 @@ def run_julia(q_in,q_out):
             #file_name = "python/p2d_40_jl.json"
             file_name = f"{uuid_str}.json"
             
-            output = Main.runP2DBattery.runP2DBatt(file_name)
+            # output = Main.runP2DBattery.runP2DBatt(file_name)
             
             
             # Define the Julia code to execute
-            # julia_code = f"runP2DBattery.runP2DBatt(\"{file_name}\")"
-            # output = jl.seval(julia_code)
+            julia_code = f"runP2DBattery.runP2DBatt(\"{file_name}\")"
+            output = jl.seval(julia_code)
             print("Output = ", output[0])
             os.remove("%s.json" % uuid_str)
 
