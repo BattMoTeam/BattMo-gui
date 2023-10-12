@@ -22,14 +22,14 @@
             "label": "use_thermal",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": false
+               "hasStringData": true
             }
          },
          {
             "label": "include_current_collector",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": false
+               "hasStringData": true
             }
          },
          {

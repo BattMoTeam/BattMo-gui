@@ -324,21 +324,28 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
         #st.session_state[checkbox_key] = new_value
         state_count ="state_count_" + str(category_id)
         states = "states_" + str(category_id)
+        states_to_count = "counts_" + str(category_id)
+        
         
         if st.session_state[checkbox_key]==True:
             
-            st.session_state[state_count] += 1
+            #st.session_state[state_count] += 1
+            st.session_state[states_to_count][checkbox_key] = True
             st.session_state[states][parameter_name] = True
-            #st.experimental_rerun()
+            st.session_state[state_count] = sum(st.session_state[states_to_count].values())            #st.experimental_rerun()
 
         elif st.session_state[checkbox_key]== False:
-            st.session_state[state_count] -= 1
+            #st.session_state[state_count] -= 1
+            st.session_state[states_to_count][checkbox_key] = False
             st.session_state[states][parameter_name] = False
+            st.session_state[state_count] = sum(st.session_state[states_to_count].values())
             #st.experimental_rerun()
         
         if st.session_state[state_count] >2:
+            st.session_state[states_to_count][checkbox_key] = False
             st.session_state[checkbox_key] = False
-            st.session_state[state_count] -= 1
+            #st.session_state[state_count] -= 1
+            st.session_state[state_count] = sum(st.session_state[states_to_count].values())
             st.session_state[states][parameter_name] = False
             tab.warning("Only two of three parameters can be defined. The third one is calculated.")
             #st.experimental_rerun()
@@ -1128,17 +1135,7 @@ class SetTabs:
 
                 for category in categories:
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
-                    state_count= "state_count_" + str(category_id)
-                    states = "states_" + str(category_id)
                     
-
-                    if state_count not in st.session_state:
-                        st.session_state[state_count] = 0
-
-                    if states not in st.session_state:
-                        st.session_state[states] = {"coating_thickness": False, "coating_porosity": False, "mass_loading": False}
-
-                 
                     
 
 
@@ -1533,7 +1530,19 @@ class SetTabs:
             input_key = "input_{}_{}".format(category_id, non_material_parameter_name)
             state_key = state_prefix + checkbox_key
             input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
-            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
+            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name)
+            state_count= "state_count_" + str(category_id)
+            states = "states_" + str(category_id)
+            states_to_count = "counts_" + str(category_id)
+
+            if state_count not in st.session_state:
+                st.session_state[state_count] = 0
+
+            if states not in st.session_state:
+                st.session_state[states] = {"coating_thickness": False, "coating_porosity": False, "mass_loading": False}
+
+            if states_to_count not in st.session_state:
+                st.session_state[states_to_count] = {} 
 
             #if non_material_parameter_name == "mass_loading":
 
@@ -1551,13 +1560,17 @@ class SetTabs:
             #     with value_col:
             #         st.session_state[empty_key] = st.empty()
                 
-
+            # if "states" not in st.session_state:
+            #     states = {}
+            #     st.session_state.states = states
 
             if state_key not in st.session_state:
+                states = []
                 state = {}
                 for id in parameter_id:
                     state[id] = False
-                st.session_state[state_key] = state   
+                st.session_state[state_key] = state 
+                 
 
         
         
@@ -1574,9 +1587,9 @@ class SetTabs:
             state_key = state_prefix + checkbox_key
             input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
             empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
-
+            states_to_count = "counts_" + str(category_id)
             
-
+            st.session_state[states_to_count][checkbox_key] = st.session_state[checkbox_key]
 
             if check_col:
                 with value_col:
@@ -1726,7 +1739,7 @@ class SetTabs:
                         checkbox_key= "checkbox_{}_{}".format(category_id, "mass_loading")
 
                         st.session_state[input_value] = par_value_ml
-                        tab.write("Mass loading has now a value of {}".format(par_value_ml))
+                        tab.write("Mass loading is now equal to {}".format(par_value_ml))
 
                         if st.session_state[input_value] > non_material_parameter.max_value:
                             tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
@@ -1787,7 +1800,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                     
-                        tab.write("Coating porosity has now a value of {}".format(par_value_co))
+                        tab.write("Coating porosity is now equal to {}".format(par_value_co))
                     
 
 
@@ -1826,7 +1839,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                         par_index = 0
-                        tab.write("Coating thickness has now a value of {}".format(par_value_th))
+                        tab.write("Coating thickness is now equal to {}".format(par_value_th))
                         
 
 
@@ -3056,9 +3069,11 @@ class SaveParameters:
         self.set_submit_button()
 
     def set_submit_button(self):
+
+        save_run = st.container()
         #set header
-        st.markdown("### " + self.header)
-        st.text(" ")
+        save_run.markdown("### " + self.header)
+        save_run.text(" ")
 
         # set download button
         # st.download_button(
@@ -3067,7 +3082,7 @@ class SaveParameters:
         #     file_name=self.gui_file_name,
         #     mime=self.file_mime_type
         # )
-        empty,save,run = st.columns((0.3,1,1))
+        empty,save,run = save_run.columns((0.3,1,1))
         m = st.markdown("""
             <style>
             div.stButton > button:first-child {
@@ -3085,6 +3100,7 @@ class SaveParameters:
         update = save.button(
             label="UPDATE",
             on_click=self.on_click_save_file,
+            args= (save_run, )
             #help = "Update the parameter values."
         )
 
@@ -3095,14 +3111,16 @@ class SaveParameters:
         runing = run.button(
             label="RUN",
             on_click= octave_on_click,
-            args = ( self.json_file,save ),
+            args = ( self.json_file,save_run ),
             #help = "Run the simulation (after updating the parameters)."
             
         )
+        return save_run
+        
 
 
 
-    def on_click_save_file(self):
+    def on_click_save_file(self, save_run):
         path_to_battmo_input = db_access.get_path_to_battmo_input()
         # save parameters in json file
         with open(path_to_battmo_input, "w") as new_file:
@@ -3121,13 +3139,13 @@ class SaveParameters:
                 indent=3
             )
         st.session_state.update = True
-        st.success("Your parameters are saved! Run the simulation to get your results.")
+        save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
 
 
 
 
-def octave_on_click(json_file, save):
+def octave_on_click(json_file, save_run):
 
     ##############################
     # Remember user changed values
@@ -3163,14 +3181,13 @@ def octave_on_click(json_file, save):
     with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
                 pickle.dump(result, new_pickle_file)
 
-
-    st.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")
-
+    
 
 
     # clear cache to get new data in hdf5 file (cf Plot_latest_results)
     st.cache_data.clear()
     st.session_state.update = False
+    st.session_state.sim_finished = True
 
 
 
@@ -3208,7 +3225,7 @@ class RunSimulation:
 
         #self.push_battmo_folder = 'push!(LOAD_PATH, "BattMoJulia")'
         self.runP2DBattery_path = db_access.get_path_to_runp2dbattery()
-
+        
         #self.set_init_button()        
         self.set_submit_button()
 
