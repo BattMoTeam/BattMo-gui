@@ -426,7 +426,7 @@ def calc_thickness( density_mix, mass_loading, porosity):
 def calc_porosity( density_mix, thickness, mass_loading):
     por = 1-(mass_loading/(thickness*10**(-6)*density_mix*1000))
     return por
-    
+
 
 class SetTabs:
     """
@@ -481,10 +481,37 @@ class SetTabs:
             }
         }
 
+        self.set_file_input()
         # Fill tabs
         self.set_tabs()
         #self.set_advanced_tabs()
 
+
+
+    def set_file_input(self):
+        upload, update = st.columns((3,1))
+        uploaded_file = upload.file_uploader("Upload here your JSON input parameter file to automatically fill the parameter inputs.", type='json', help="Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page.")
+        
+        if uploaded_file:
+            st.success("Your file is succesfully uploaded. Click on the 'PUSH' button to automatically fill in the parameter inputs specified in your file.")
+
+        update.text(" ")
+        update.text(" ")
+
+        push = update.button("PUSH")
+        if push:
+            if uploaded_file is not None:
+                uploaded_file = uploaded_file.read()
+                uploaded_file_dict = json.loads(uploaded_file)
+                uploaded_file_str = str(uploaded_file_dict)
+
+                with open("uploaded_input.json", "w") as outfile:
+                    outfile.write(uploaded_file_str)
+
+                st.success("The input values are succesfully adapted to your input file. You can still change some settings below if wanted.")  
+                
+            else:
+                st.error("ERROR: No file has been uploaded yet.")
 
     def set_info(self):
         st.info(self.info)
@@ -1271,6 +1298,9 @@ class SetTabs:
 
         st.divider()
 
+        if os.path.exists("uploaded_input.json"):
+            os.remove("uploaded_input.json")
+
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
             image_collumn,image_collumn_2, title_column = tab.columns([0.9,0.9,6])
@@ -1539,7 +1569,7 @@ class SetTabs:
                 st.session_state[state_count] = 0
 
             if states not in st.session_state:
-                st.session_state[states] = {"coating_thickness": False, "coating_porosity": False, "mass_loading": False}
+                st.session_state[states] = {"coating_thickness": True, "coating_porosity": True, "mass_loading": False}
 
             if states_to_count not in st.session_state:
                 st.session_state[states_to_count] = {} 
@@ -1547,7 +1577,12 @@ class SetTabs:
             #if non_material_parameter_name == "mass_loading":
 
             if checkbox_key not in st.session_state:
-                    st.session_state[checkbox_key] = False
+                   
+                    if non_material_parameter_name == "mass_loading":
+                        st.session_state[checkbox_key] = False
+                    else:
+                        st.session_state[checkbox_key] = True
+
             # else: 
             #     if checkbox_key not in st.session_state:
             #         st.session_state[checkbox_key] = True
@@ -1722,8 +1757,6 @@ class SetTabs:
             states = "states_" + str(category_id)
             
 
-
-      
             if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
                 for non_material_parameter_id in formatted_non_material_parameters:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
@@ -2163,7 +2196,8 @@ class SetTabs:
                                 st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)**0.5 - 0.0172/(c/cmax) + 0.0019/(c/cmax)**1.5+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)
                                  
                                 '''
-                            ex.latex(r'OCP = OCP_{ref} + (T - Tref) * \frac{dU}{dT} ')
+                            ex.latex(r'OCP = OCP_{ref}(c) + (T - Tref) * \frac{dU}{dT}(c) ')
+                            ex.latex(r'OCP = OCP(SOC)')
 
                             info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
                             if info:
@@ -2649,7 +2683,7 @@ class SetTabs:
 
         non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
         
-        if category_name == "separator" or category_name == "boundary_conditions":
+        if category_name == "separator" or category_name == "boundary_conditions" or category_name == "electrolyte":
             component_parameters = []
             tab.markdown("**%s**" % non_material_comp_display_name)
             property_col, value_col= tab.columns((1,2))
@@ -3138,7 +3172,7 @@ class SaveParameters:
                 new_file,
                 indent=3
             )
-        st.session_state.update = True
+        st.session_state.update_par = True
         save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
 
@@ -3159,35 +3193,35 @@ def octave_on_click(json_file, save_run):
     sys.path.insert(0, db_access.get_path_to_gui_dir())
     
     ##############################
-
-    # if st.session_state.update != True:
-    #     save.warning("""The parameters are not updated yet. 
-    #                  Simulation not initiated""")
+    print("state = ", st.session_state.update_par)
+    if st.session_state.update_par != True:
+        save_run.warning("""The parameters are not updated yet. 
+                     Simulation not initiated. Click on the 'UPDATE' button first.""")
     
-    #elif st.session_state.update == True: 
+    elif st.session_state.update_par == True: 
 
     #print(sys.path)
   
-    uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
-                                                                            'InputFile':'battmo_formatted_input.json',
-                                                                            'JuliaModelFolder':'BattMoJulia',
-                                                                            'JuliaModel': 'runP2DBattery.jl'}).json()
+        uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
+                                                                                'InputFile':'battmo_formatted_input.json',
+                                                                                'JuliaModelFolder':'BattMoJulia',
+                                                                                'JuliaModel': 'runP2DBattery.jl'}).json()
 
 
 
-    with open(os.path.join(db_access.get_path_to_gui_dir(),"results", uuids), "rb") as pickle_result:
-        result = pickle.load(pickle_result)
+        with open(os.path.join(db_access.get_path_to_gui_dir(),"results", uuids), "rb") as pickle_result:
+            result = pickle.load(pickle_result)
 
-    with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-                pickle.dump(result, new_pickle_file)
+        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
+                    pickle.dump(result, new_pickle_file)
 
-    
+        
 
 
-    # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-    st.cache_data.clear()
-    st.session_state.update = False
-    st.session_state.sim_finished = True
+        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+        st.cache_data.clear()
+        st.session_state.update_par = False
+        st.session_state.sim_finished = True
 
 
 

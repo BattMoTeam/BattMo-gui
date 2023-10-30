@@ -13,11 +13,9 @@
       "maximum_lithium_stoichiometry": 0,
       "minimum_lithium_stoichiometry": 0,
       "open_circuit_potential": {
-         "functionname": "compute_ocp_graphite",
+         "functionname": "",
          "argument_list": [
-            "cElectrode",
-            "T",
-            "cmax"
+            ""
           ]
       }
    }

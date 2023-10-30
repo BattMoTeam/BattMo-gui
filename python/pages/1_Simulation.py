@@ -39,16 +39,12 @@ def run_page():
     if "sim_finished" not in st.session_state:
         st.session_state.sim_finished = False
 
-    if "update" not in st.session_state:
-        st.session_state.update = False
+    if "update_par" not in st.session_state:
+        st.session_state.update_par = False
 
     app = get_app_controller()
 
     model_id = app.set_model_choice().selected_model
-
-    #basis, advanced = app.get_tab_data(model_id)
-
-    #app.set_basis_input_tabs()
 
     gui_parameters = app.set_tabs(model_id).user_input
 

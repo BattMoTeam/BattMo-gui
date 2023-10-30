@@ -36,8 +36,7 @@
         "PVDF":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:GraphiteElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c831d963_629a_41ab_850f_97fb6841b739",
+            "context_type": "echem:PVDFBinder",
             "display_name": "PVDF",
             "number_of_components": 2,
             "component_name_1": "negative_electrode_binder",
@@ -69,8 +68,7 @@
         "carbon_black":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:GraphiteElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c831d963_629a_41ab_850f_97fb6841b739",
+            "context_type": "echem:CarbonAdditive",
             "display_name": "Carbon black",
             "number_of_components": 2,
             "component_name_1": "negative_electrode_additive",
@@ -139,7 +137,7 @@
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
             "context_type": "echem:Separator",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
             "display_name": "Celgard2500 (Xu-2015)",
             "number_of_components": 1,
             "component_name_1": "separator_materials",
@@ -161,8 +159,7 @@
         "aluminium":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "context_type": "echem:AluminumCurrentCollector",
             "display_name": "Aluminium",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_current_collector_materials",
@@ -173,8 +170,7 @@
         "copper":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "context_type": "echem:CopperCurrentCollector",
             "display_name": "Copper",
             "number_of_components": 1,
             "component_name_1": "negative_electrode_current_collector_materials",
@@ -185,8 +181,7 @@
         "LiPF6_Xu2015":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
-            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "context_type": "echem:LithiumHexaFluoroPhosphateElectrolyte",
             "display_name": "LiPF6 (Xu-2015)",
             "number_of_components": 1,
             "component_name_1": "electrolyte_materials",

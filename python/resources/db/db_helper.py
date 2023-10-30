@@ -433,7 +433,7 @@ def get_model_parameters_as_dict(model_id):
             
             formatted_value_dict = {
                 "@type": "emmo:Boolean",
-                "hasStringData": bool(value)
+                "hasStringData": bool(int(value))
             }
         elif value_type == "str":
             formatted_value_dict = {

@@ -4,7 +4,6 @@
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
             "context_type": "echem:Electrode",
-            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Electrodes",
             "description": ""
         },

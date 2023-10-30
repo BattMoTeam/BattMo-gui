@@ -849,7 +849,8 @@ def set_download_button():
         label="HDF5 Results",
         file_name="hdf5_results",
         data=prepare_h5_file(),
-        mime="application/x-hdf"
+        mime="application/x-hdf",
+        help="Download your results."
     )
 
 
@@ -857,26 +858,25 @@ def set_download_button():
 
 def run_page():
 
-    
-    display_dynamic_dashboard = st.toggle(
+    set_download_button()
+    dash, color = st.columns((2,5))
+
+    display_dynamic_dashboard = dash.toggle(
         label="Dynamic dashboard",
         value=True
     )
 
 
-    display_colormaps = st.toggle(
+    display_colormaps = color.toggle(
         label="Colormaps",
         value=False
     )
 
-    download_h5 = st.toggle(
-        label="Download results",
-        value=False
-    )
+    st.divider()
 
 
-    if download_h5:
-        set_download_button()
+
+    
 
     if display_dynamic_dashboard:
         set_dynamic_dashboard()
@@ -890,7 +890,7 @@ def run_page():
     if display_colormaps:
         set_colormaps()
 
-    
+    st.divider()
 
 
 if __name__ == "__main__":

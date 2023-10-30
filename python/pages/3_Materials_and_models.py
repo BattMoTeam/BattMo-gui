@@ -3,6 +3,7 @@ import numpy as np
 import os
 import sys
 import html 
+import json
 from streamlit_toggle_component.src.st_toggle_component import st_toggle_component
 
 ##############################
@@ -24,7 +25,7 @@ P2D_model_description = db_helper.get_model_description("P2D")[0][0]
 materials = db_helper.get_all_default_material()
 
 
-
+#st.write(P2D_model)
 
 st.title("The available models")
 
@@ -84,7 +85,17 @@ for material_values in materials:
                     template_parameter = db_helper.get_template_from_name(parameter_name)
                     
                     template_parameter_id, template_parameter_name,_,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
-                    st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 
-                                value + " (" + "[{}]({})".format(unit, unit_iri) + ")")
+                    
+                    if template_parameter_name == "open_circuit_potential":
+                        print("vlue =", value)
+                        json_formatted_string = value.replace("'", '"')
+                        value_dict = json.loads(json_formatted_string)
+                        st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))
+                        st.markdown('''```<Julia> 
+                                    {}'''.format(value_dict["functionname"]))
+                    else:
+
+                        st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 
+                                    value + " (" + "[{}]({})".format(unit, unit_iri) + ")")
                     
                 

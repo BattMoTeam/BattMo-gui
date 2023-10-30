@@ -147,8 +147,8 @@
       },
       "bruggeman_coefficient": {
          "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "max_value": 5,
          "min_value": 0.1,
          "description": "the Bruggeman coefficient for calculating effective transport parameters in porous media",
@@ -173,21 +173,7 @@
          "unit_iri": "",
          "display_name": "Concentration"
       },
-      "EC_": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "basis",
-         "max_value": 100,
-         "min_value": 0.0,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "1",
-         "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
-         "display_name": "EC/DMC"
-      },
-      "_DMC": {
+      "EC_DMC_ratio": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",

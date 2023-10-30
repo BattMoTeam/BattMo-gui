@@ -54,7 +54,7 @@ if __name__ == "__main__":
 # Uncomment to see data in material table:
 
 con, cur = db_access.get_sqlite_con_and_cur()
-data=cur.execute('''SELECT * FROM parameter''')
+data=cur.execute('''SELECT * FROM model_parameter''')
 # Fetch all rows from the result
 data = cur.fetchall()
 

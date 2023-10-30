@@ -66,7 +66,7 @@ class GuiDict(object):
             binder=self.raw_ele_pe.get("echem:Binder").get("hasQuantitativeProperty"),
             add=self.raw_ele_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
-            prop=self.raw_ele_pe.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_pe.get("echem:PositiveElectrode").get("hasQuantitativeProperty"),
         )
 
         
@@ -75,18 +75,18 @@ class GuiDict(object):
             binder=self.raw_ele_ne.get("echem:Binder").get("hasQuantitativeProperty"),
             add=self.raw_ele_ne.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ele_ne.get("emmo:NominalProperty").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_ne.get("echem:NegativeElectrode").get("hasQuantitativeProperty"),
         )
         
-        self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("echem:ElectrolyteMaterial").get("hasQuantitativeProperty"))
-        self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:SeparatorMaterial").get("hasQuantitativeProperty"))
+        self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("hasQuantitativeProperty"))
+        self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
         self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
         self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("hasQuantitativeProperty"))
         self.el = get_dict_from_has_quantitative(self.raw_ele.get("echem:Electrode").get("hasQuantitativeProperty"))
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
-    number_of_discrete_cells_electrode = json_ld.ne.am.get("number_of_discrete_cells_electrode")
+
     total_time = 2 / json_ld.protocol.get("c_rate") * json_ld.protocol.get("number_of_cycles") * 3600
 
     return {
@@ -97,7 +97,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "NegativeElectrode": {
             "ActiveMaterial": {
                 "thickness": json_ld.ne.properties.get("coating_thickness")*10**(-6),#6.4e-05 ,
-                "N": number_of_discrete_cells_electrode,
+                "N": json_ld.ne.am.get("number_of_discrete_cells_electrode"),
                 #"specificHeatCapacity": json_ld.ne.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.ne.am.get("thermal_conductivity"),
                 #"InterDiffusionCoefficient": 1e-14,
@@ -126,7 +126,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "EaD": json_ld.ne.am.get("activation_energy_of_diffusion"),#0,
                     "D0": json_ld.ne.am.get("diffusion_pre_exponential_factor"),#3.3e-14
                     "rp":json_ld.ne.am.get("particle_radius"),#5.86e-06
-                    "N": number_of_discrete_cells_electrode
+                    "N": json_ld.ne.am.get("number_of_discrete_cells_particle_radius")
                 }
             },
             "CurrentCollector": {
@@ -141,7 +141,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "PositiveElectrode": {
             "ActiveMaterial": {
                 "thickness": json_ld.pe.properties.get("coating_thickness")*10**(-6),#5.7e-05
-                "N": number_of_discrete_cells_electrode,
+                "N": json_ld.pe.am.get("number_of_discrete_cells_electrode"),
                 #"specificHeatCapacity": json_ld.pe.am.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.pe.am.get("thermal_conductivity"),
                 #"InterDiffusionCoefficient": 1e-14,
@@ -171,7 +171,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "EaD": json_ld.pe.am.get("activation_energy_of_diffusion"), #0
                     "D0": json_ld.pe.am.get("diffusion_pre_exponential_factor"),#4e-15
                     "rp": json_ld.pe.am.get("particle_radius"),#5.22e-6
-                    "N": number_of_discrete_cells_electrode
+                    "N": json_ld.pe.am.get("number_of_discrete_cells_particle_radius")
                 }
             },
             "CurrentCollector": {
@@ -186,7 +186,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "Electrolyte": {
             "Separator": {
                 "thickness": json_ld.sep_prop.get("thickness")*10**(-6),#1.5e-05
-                "N": number_of_discrete_cells_electrode,
+                "N": json_ld.sep_prop.get("number_of_discrete_cells_separator"),
                 "porosity": json_ld.sep_prop.get("porosity"),
                 #"specificHeatCapacity": json_ld.sep.get("specific_heat_capacity"),
                 #"thermalConductivity": json_ld.sep.get("thermal_conductivity"),
@@ -220,6 +220,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "SOC": json_ld.cell.get("initial_state_of_charge"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.cell.get("initial_temperature"),
+        "Tref" : json_ld.cell.get("reference_temperature"),
         #"use_thermal": json_ld.model.get("use_thermal"),
         "include_current_collectors": False, #json_ld.model.get("include_current_collector"),
         #"use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),

@@ -22,6 +22,7 @@
             "difficulty": "basis_advanced",
             "tab_name": "boundary_conditions",
             "context_type": "battery:BatteryCell",
+            "context_type_iri": "http://emmo.info/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
             "description": "",
             "display_name": "Boundary conditions",
             "default_template": "cell_full_template"
@@ -30,6 +31,7 @@
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis_advanced",
             "context_type": "echem:CyclingProcess",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_d3e2d213_d078_4b9a_8beb_62f063e57d69",
             "tab_name": "protocol",
             "description": "",
             "display_name": "Protocol",
@@ -70,6 +72,7 @@
             "difficulty": "basis_advanced",
             "tab_name": "separator",
             "context_type": "echem:Separator",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
             "description": "",
             "display_name": "Separator",
             "default_template": "separator_properties"
@@ -108,8 +111,8 @@
         "negative_electrode_properties": {
             "model_name": "p2d_p3d_p4d",
             "difficulty": "advanced",
-            "context_type": "emmo:NominalProperty",
-            "context_type_iri": "http://emmo.info/emmo#EMMO_909415d1_7c43_4d5e_bbeb_7e1910159f66",
+            "context_type": "echem:NegativeElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Electrode properties",
             "tab_name": "negative_electrode",
             "description": "",
@@ -149,8 +152,8 @@
         "positive_electrode_properties": {
             "model_name": "p2d_p3d_p4d",
             "difficulty": "advanced",
-            "context_type": "emmo:NominalProperty",
-            "context_type_iri": "http://emmo.info/emmo#EMMO_909415d1_7c43_4d5e_bbeb_7e1910159f66",
+            "context_type": "echem:PositiveElectrode",
+            "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Electrode properties",
             "tab_name": "positive_electrode",
             "description": "",
