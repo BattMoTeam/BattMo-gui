@@ -1,5 +1,8 @@
 {
    "Name": "Graphite_Xu2015",
+   "reference_name": "Xu, M, et al. 2015",
+   "reference": "Xu, Meng, et al. 'A pseudo three-dimensional electrochemical–thermal model of a prismatic LiFePO4 battery during discharge process.' Energy 80 (2015): 303-317.",
+   "refrence_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
    "Header": {},
    "component": "negative_electrode_active_material",
    "material": true,
