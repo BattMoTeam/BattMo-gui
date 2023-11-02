@@ -1,3 +1,15 @@
+import sys
+import os
+##############################
+# Set page directory to base level to allow for module import from different folder
+path_to_python_module = os.path.dirname(os.path.abspath(__file__))
+os.chdir("..")
+path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
+sys.path.insert(0, path_to_python_module)
+##############################
+
+#import python.resources.db.db_access as db_access
+
 from python.resources.db import db_access
 """
 Important links between tables:
@@ -16,6 +28,15 @@ Important links between tables:
 
 if __name__ == "__main__":
     con, cur = db_access.get_sqlite_con_and_cur()
+
+    cur.execute("DROP TABLE parameter")
+    cur.execute("DROP TABLE parameter_set")
+    cur.execute("DROP TABLE template")
+    cur.execute("DROP TABLE template_parameter")
+    cur.execute("DROP TABLE model")
+    cur.execute("DROP TABLE model_parameter")
+    cur.execute("DROP TABLE tab")
+    cur.execute("DROP TABLE category")
 
     ########################################################
     #       parameter
