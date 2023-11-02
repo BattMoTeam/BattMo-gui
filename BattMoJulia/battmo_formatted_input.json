@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "ActiveMaterial": {
-         "thickness": 7e-05,
+         "thickness": 6.4e-05,
          "N": 10,
          "electricalConductivity": 100.0,
          "BruggemanCoefficient": 1.5,
@@ -45,7 +45,7 @@
    },
    "PositiveElectrode": {
       "ActiveMaterial": {
-         "thickness": 3.9e-05,
+         "thickness": 5.6999999999999996e-05,
          "N": 10,
          "electricalConductivity": 100.0,
          "BruggemanCoefficient": 1.5,
@@ -114,7 +114,7 @@
    },
    "SOC": 0.99,
    "initT": 298.15,
-   "Tref": 298.15,
+   "Tref": null,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "IEswitch",

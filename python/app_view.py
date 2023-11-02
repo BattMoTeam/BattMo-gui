@@ -1942,7 +1942,7 @@ class SetTabs:
         mass_load_n = mass_loadings["negative_electrode"]
         mass_load_p = mass_loadings["positive_electrode"]
 
-        n_to_p = mass_load_n/mass_load_p
+        n_to_p = round(mass_load_n/mass_load_p,2)
         mass_load = "mass_load_"+ str(category_id)
         
 
@@ -3250,10 +3250,10 @@ class RunSimulation:
             self.gui_parameters = json.load(json_gui_parameters)
 
         self.download_header = "Download parameters"
-        self.download_label = "Json LD format"
+        self.download_label = "JSON LD format"
         self.gui_file_data = json.dumps(self.gui_parameters, indent=2)
-        self.gui_file_name = "json_ld_parameters.json"
-        self.file_mime_type = "application/json"
+        self.gui_file_name = "JSON_ld_parameters.json"
+        self.file_mime_type = "application/JSON"
 
         # retrieve saved formatted parameters from json file
         with open(db_access.get_path_to_battmo_formatted_input()) as json_formatted_gui_parameters:

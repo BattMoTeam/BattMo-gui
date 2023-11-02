@@ -362,7 +362,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 70.0
+                        "hasNumericalData": 64.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -380,7 +380,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 120.4
+                        "hasNumericalData": 110.08
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -685,7 +685,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 39.0
+                        "hasNumericalData": 57.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -703,7 +703,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 120.09504
+                        "hasNumericalData": 175.52352
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -728,7 +728,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.0025393221901588
+                     "hasNumericalData": 0.63
                   },
                   "unit": "emmo:UnitOne"
                }
@@ -985,15 +985,6 @@
                      "unit": "emmo:Kelvin"
                   },
                   {
-                     "label": "reference_temperature",
-                     "@type": "http://emmo.info/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": 298.15
-                     },
-                     "unit": "emmo:Kelvin"
-                  },
-                  {
                      "label": "initial_state_of_charge",
                      "@type": "http://emmo.info/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
                      "value": {
@@ -1010,24 +1001,6 @@
                         "hasNumericalData": 1000.0
                      },
                      "unit": "emmo:WattPerSquareMetreKelvin"
-                  },
-                  {
-                     "label": "nominal_cell_capacity",
-                     "@type": "None",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": null
-                     },
-                     "unit": "emmo:AmpereHour"
-                  },
-                  {
-                     "label": "number_parallel_electrode_pairs_within_cell",
-                     "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
-                     "value": {
-                        "@type": "emmo:Numerical",
-                        "hasNumericalData": null
-                     },
-                     "unit": "emmo:UnitOne"
                   },
                   {
                      "label": "external_surface_area",

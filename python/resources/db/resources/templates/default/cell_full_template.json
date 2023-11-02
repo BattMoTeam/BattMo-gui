@@ -35,7 +35,7 @@
          "display_name": "Initial temperature"
       },
       "reference_temperature": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:ReferenceThermodynamicTemperature",
@@ -83,7 +83,7 @@
          "display_name": "Initial state of charge"
       },
       "nominal_cell_capacity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 1000,
@@ -97,7 +97,7 @@
          "display_name": "Nominal cell capacity"
       },
       "number_parallel_electrode_pairs_within_cell": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
