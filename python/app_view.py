@@ -481,7 +481,7 @@ class SetTabs:
             }
         }
 
-        self.set_file_input()
+        #self.set_file_input()
         # Fill tabs
         self.set_tabs()
         #self.set_advanced_tabs()
@@ -2695,7 +2695,13 @@ class SetTabs:
             component_parameters["label"] = non_material_comp_display_name
             component_parameters["@type"] = non_material_comp_context_type_iri
 
-            category_parameters[non_material_comp_context_type] = component_parameters
+            if category_name == "boundary_conditions":
+                category_parameters[non_material_comp_context_type] = component_parameters
+            else:
+                category_parameters[non_material_comp_context_type][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
+
+
+            
 
             
 

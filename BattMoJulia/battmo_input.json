@@ -22,14 +22,14 @@
             "label": "use_thermal",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": true
+               "hasStringData": false
             }
          },
          {
             "label": "include_current_collector",
             "value": {
                "@type": "emmo:Boolean",
-               "hasStringData": true
+               "hasStringData": false
             }
          },
          {
@@ -362,7 +362,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 64.0
+                        "hasNumericalData": 70.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -380,7 +380,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 110.08
+                        "hasNumericalData": 120.4
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -685,7 +685,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 57.0
+                        "hasNumericalData": 39.0
                      },
                      "unit": "emmo:MicroMetre"
                   },
@@ -703,7 +703,7 @@
                      "@type": "http://emmo.info/emmo#EMMO_3a6578ac_aee0_43b9_9bc6_1eb208c8c9a9",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 175.52352
+                        "hasNumericalData": 120.09504
                      },
                      "unit": "emmo:MiliGramPerCubicCentiMeter"
                   },
@@ -728,7 +728,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.6271524180918888
+                     "hasNumericalData": 1.0025393221901588
                   },
                   "unit": "emmo:UnitOne"
                }
@@ -829,6 +829,24 @@
                      "unit": "emmo:UnitOne"
                   },
                   {
+                     "label": "concentration",
+                     "@type": "None",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1.5
+                     },
+                     "unit": "emmo:MolPerLiter"
+                  },
+                  {
+                     "label": "EC_DMC_ratio",
+                     "@type": "None",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1.2
+                     },
+                     "unit": "emmo:UnitOne"
+                  },
+                  {
                      "label": "bruggeman_coefficient",
                      "@type": "None",
                      "value": {
@@ -861,6 +879,33 @@
             ],
             "echem:Separator": {
                "hasQuantitativeProperty": [
+                  {
+                     "label": "specific_heat_capacity",
+                     "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 1692.0
+                     },
+                     "unit": "emmo:JoulePerKiloGramKelvin"
+                  },
+                  {
+                     "label": "thermal_conductivity",
+                     "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 0.334
+                     },
+                     "unit": "emmo:WattPerMetreKelvin"
+                  },
+                  {
+                     "label": "density",
+                     "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                     "value": {
+                        "@type": "emmo:Numerical",
+                        "hasNumericalData": 779.0
+                     },
+                     "unit": "emmo:GramPerCubicMetre"
+                  },
                   {
                      "label": "thickness",
                      "@type": "http://emmo.info/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
@@ -898,7 +943,7 @@
                      "unit": "emmo:UnitOne"
                   }
                ],
-               "label": "Separator properties",
+               "label": "Separator materials",
                "@type": "http://emmo.info/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0"
             }
          }

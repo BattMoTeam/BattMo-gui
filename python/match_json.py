@@ -79,7 +79,9 @@ class GuiDict(object):
         )
         
         self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("hasQuantitativeProperty"))
+        print("elyte = ", self.elyte_mat)
         self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
+        print("sep = ", self.sep_mat)
         self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
         self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("hasQuantitativeProperty"))
         self.el = get_dict_from_has_quantitative(self.raw_ele.get("echem:Electrode").get("hasQuantitativeProperty"))
