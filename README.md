@@ -28,21 +28,13 @@ Within your environment, go in the BattMo-gui directory and install the required
 cd BattMo-gui; pip install -r requirements.txt
 ```
 
-Initiate the Python terminal in the command prompt (within your environment) and initialize the PyJulia package:
-```<powershell>
-python
-```
-```<Julia>
-import julia 
-julia.install()
-```
 Initiate the Julia terminal in the command prompt and install the Julia packages:
 
 ```<powershell>
 julia
 ```
 ```<Julia>
-using Pkg; Pkg.add(["BattMo","Jutul"])
+using Pkg; Pkg.add(["BattMo","Jutul","LoggingExtras", "JSON","PythonCall"])
 ```
 Now the GUI can be run from 2 different terminals:
 
