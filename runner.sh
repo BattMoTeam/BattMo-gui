@@ -1,5 +1,5 @@
-#!/bin/bash
-python api.py &
+#!/bin/sh
+python api.py & 
 P1=$!
 streamlit run python/Introduction.py &
 P2=$!

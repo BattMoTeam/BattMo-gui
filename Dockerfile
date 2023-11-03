@@ -1,6 +1,6 @@
 FROM python:3.11.4
 
-WORKDIR /app
+WORKDIR /BattMo-gui
 
 COPY .devcontainer .devcontainer/
 COPY BattMoJulia BattMoJulia/
@@ -31,4 +31,4 @@ COPY api.py api.py
 
 COPY runner.sh /scripts/runner.sh
 RUN ["chmod", "+x", "/scripts/runner.sh"]
-ENTRYPOINT ["/scripts/runner.sh"]
+ENTRYPOINT ["/bin/sh","/scripts/runner.sh"]
