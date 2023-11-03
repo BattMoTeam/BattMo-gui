@@ -4,7 +4,6 @@ import os
 import sys
 import html 
 import json
-from streamlit_toggle_component.src.st_toggle_component import st_toggle_component
 
 ##############################
 # Remember user changed values
