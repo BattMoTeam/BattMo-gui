@@ -17,21 +17,47 @@ modified to suit the user's needs The parameter set thus defined is then used to
 
 ## Install & Run the BattMo GUI
 
-BattMo is based on [MRST](https://www.sintef.no/Projectweb/MRST/), which provides a general unstructured grid format,
-generic MATLAB automatic differentiation tools and Newton solvers. The MRST code source wil be installed directly via
-**git submodules**. To install the GUI you need to correctly install BattMo, you have therefore to clone this repository
-with the submodule option `--recurse-submodules`, as follows:
+Clone the repository:
+```<git>
+git clone https://github.com/BattMoTeam/BattMo-gui.git
+```
 
-`git clone --recurse-submodules https://github.com/BattMoTeam/BattMo-gui.git`
+Within your environment, go in the BattMo-gui directory and install the required python packages, as follows:
 
-Go in the BattMo-gui directory and install the required python packages, as follows:
+```<powershell>
+cd BattMo-gui; pip install -r requirements.txt
+```
 
-`cd BattMo-gui; pip install -r requirements.txt`
+Initiate the Python terminal in the command prompt (within your environment) and initialize the PyJulia package:
+```<powershell>
+python
+```
+```<Julia>
+import julia 
+julia.install()
+```
+Initiate the Julia terminal in the command prompt and install the Julia packages:
 
+```<powershell>
+julia
+```
+```<Julia>
+using Pkg; Pkg.add(["BattMo","Jutul"])
+```
+Now the GUI can be run from 2 different terminals:
 
-Finally, run the streamlit app as follows:
+1. One for the Flask api running on the background. Initiate the flask server in a command prompt:
 
-`streamlit run python/Define_parameters.py`
+```<powershell>
+python api.py
+```
+    
+2. One to initiate the streamlit interface. Iniate the streamlit server in another command prompt:
+
+```<powershell>
+streamlit run python\Introduction.py
+```
+
 
 
 ## Development structure

@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "quantity": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "number" },
+          "unit": { "type": "string" }
+        },
+        "required": ["value", "unit"]
+      }
+    },
+    "type": "object",
+    "properties": {
+      "maximum_concentration": { "$ref": "#/definitions/quantity" },
+      "volumetric_surface_area": { "$ref": "#/definitions/quantity" },
+      "density": { "$ref": "#/definitions/quantity" },
+      "number_of_electrons_transferred": { "$ref": "#/definitions/quantity" },
+      "activation_energy_of_reaction": { "$ref": "#/definitions/quantity" },
+      "reaction_rate_constant": { "$ref": "#/definitions/quantity" },
+      "maximum_lithium_stoichiometry": { "$ref": "#/definitions/quantity" },
+      "minimum_lithium_stoichiometry": { "$ref": "#/definitions/quantity" }
+    },
+    "required": ["maximum_concentration", 
+        "volumetric_surface_area", 
+        "density", 
+        "number_of_electrons_transferred",
+        "activation_energy_of_reaction",
+        "reaction_rate_constant",
+        "maximum_lithium_stoichiometry",
+        "minimum_lithium_stoichiometry"]
+  }
+  

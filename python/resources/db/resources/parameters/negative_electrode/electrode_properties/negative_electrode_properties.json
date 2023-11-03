@@ -1,12 +1,11 @@
 {
-   "Name": "negative_electrode_properties",
-   "Category": "negative_electrode_properties",
+   "Name": "negative_electrode",
    "Header": {},
+   "component": "negative_electrode_properties",
+   "material": false,
    "Parameters": {
-      "coating_thickness": 8.67e-05,
+      "coating_thickness": 64,
       "coating_porosity": 0.2,
-      "length": 0.01,
-      "width": 0.01,
-      "bruggeman_coefficient": 1.5
+      "mass_loading": 10
    }
 }

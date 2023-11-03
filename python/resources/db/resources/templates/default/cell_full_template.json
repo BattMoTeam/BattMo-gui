@@ -3,18 +3,25 @@
    "Name": "cell_full_template",
    "Parameters": {
       "ambient_temperature": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "basis",
          "context_type": "echem:AmbientThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_39a44af0_0e1a_4859_b550_bdabad64386e",
          "max_value": 373.15,
          "min_value": 238.15,
-         "description": "",
+         "description": "the ambient temperature of the environment around the battery",
          "is_shown_to_user": true,
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Ambient temperature"
       },
       "initial_temperature": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "basis",
          "context_type": "echem:InititalThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_9c9b80a4_a00b_4b91_8e17_3a7831f2bf2f",
          "max_value": 373.15,
@@ -24,9 +31,13 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Initial temperature"
       },
       "reference_temperature": {
+         "model_name": "p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "basis",
          "context_type": "echem:ReferenceThermodynamicTemperature",
          "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
          "max_value": 373.15,
@@ -36,9 +47,13 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin"
+         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "display_name": "Reference temperature"
       },
       "external_heat_transfer_coefficient": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:CoefficientOfHeatTransfer",
          "context_type_iri": "http://emmo.info/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
          "max_value": 10000,
@@ -48,43 +63,59 @@
          "type": "float",
          "unit": "W.m\u207b\u00b2.K\u207b\u00b9",
          "unit_name": "WattPerSquareMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin"
+         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin",
+         "display_name": "External heat transfer coefficient"
       },
       "initial_state_of_charge": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "basis",
          "context_type": "battery:StateOfCharge",
          "context_type_iri": "http://emmo.info/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
          "max_value": 1,
          "min_value": 0.01,
-         "description": "SOC",
+         "description": "SOC, state of charge of the battery, where 1 is fully charged and 0 is fully discharged",
          "is_shown_to_user": true,
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Initial state of charge"
       },
       "nominal_cell_capacity": {
+         "model_name": "p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "max_value": 1000,
          "min_value": 0,
          "description": "",
-         "is_shown_to_user": true,
+         "is_shown_to_user": false,
          "type": "float",
          "unit": "A.h",
          "unit_name": "AmpereHour",
-         "unit_iri": "http://emmo.info/emmo#AmpereHour"
+         "unit_iri": "http://emmo.info/emmo#AmpereHour",
+         "display_name": "Nominal cell capacity"
       },
       "number_parallel_electrode_pairs_within_cell": {
+         "model_name": "p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 100,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": true,
+         "is_shown_to_user": false,
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of parallel electrode pairs within cell"
       },
       "external_surface_area": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "max_value": 10,
          "min_value": 1e-06,
          "description": "",
@@ -92,9 +123,13 @@
          "type": "float",
          "unit": "m\u00b2",
          "unit_name": "SquareMetre",
-         "unit_iri": "http://emmo.info/emmo#SquareMetre"
+         "unit_iri": "http://emmo.info/emmo#SquareMetre",
+         "display_name": "External surface area"
       },
       "volume": {
+         "model_name": "p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
          "context_type": "emmo:Volume",
          "context_type_iri": "http://emmo.info/emmo#EMMO_f1a51559_aa3d_43a0_9327_918039f0dfed",
          "max_value": 0.01,
@@ -104,7 +139,8 @@
          "type": "float",
          "unit": "m\u00b3",
          "unit_name": "CubicMetre",
-         "unit_iri": "http://emmo.info/emmo#CubicMetre"
+         "unit_iri": "http://emmo.info/emmo#CubicMetre",
+         "display_name": "Volume"
       }
    }
 }

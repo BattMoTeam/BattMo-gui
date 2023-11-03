@@ -1,12 +1,11 @@
 {
-   "Name": "positive_electrode_properties",
-   "Category": "positive_electrode_properties",
+   "Name": "positive_electrode",
    "Header": {},
+   "component": "positive_electrode_properties",
+   "material": false,
    "Parameters": {
-      "coating_thickness": 8.67e-05,
+      "coating_thickness": 57,
       "coating_porosity": 0.2,
-      "length": 0.01,
-      "width": 0.01,
-      "bruggeman_coefficient": 1.5
+      "mass_loading": 10
    }
 }

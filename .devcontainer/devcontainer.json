@@ -1,0 +1,27 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
+{
+	"name": "PyJulia Env",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"context": "../."
+	},
+	// Set *default* container specific settings.json values on container create.
+    "customizations": {"vscode": {"settings": {
+        "python.pythonPath": "/usr/local/bin/python",
+		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true
+
+
+    },
+
+    "extensions": [
+        "ms-python.python",
+		"ms-python.vscode-pylance",
+		"julialang.language-julia"
+
+    ]
+    }}
+
+}

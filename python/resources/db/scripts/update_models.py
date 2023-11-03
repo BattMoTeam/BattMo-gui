@@ -61,6 +61,7 @@ class UpdateModels:
 
         for model_name in models:
             details = models.get(model_name)
+            show_to_user = int(details.get("show_to_user"))
             parameters = details.get("parameters")
             description = details.get("description")
             model_id = self.sql_model.get_id_from_name(model_name)
@@ -69,6 +70,7 @@ class UpdateModels:
                 self.sql_model.update_by_id(
                     id=model_id,
                     columns_and_values={
+                        "show_to_user": show_to_user,
                         "description": description
                     }
                 )
@@ -78,6 +80,7 @@ class UpdateModels:
             else:  # non-existing type, create it
                 model_id = self.sql_model.insert_value(
                     name=model_name,
+                    show_to_user = show_to_user,
                     description=description
                 )
                 new_types.append(model_name)

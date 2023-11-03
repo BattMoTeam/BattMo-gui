@@ -1,0 +1,32 @@
+{
+   "Name": "user_defined_elyte",
+   "Header": {},
+   "component": "electrolyte_materials",
+   "material": true,
+   "Parameters": {
+      "specific_heat_capacity": 0,
+      "thermal_conductivity": 0,
+      "density": 0,
+      "conductivity": {
+         "functionname": "computeElectrolyteConductivityFunc_Xu",
+         "argument_list": [
+           "c",
+           "T"
+         ]
+      },
+      "diffusion_coefficient": {
+         "functionname": "computeDiffusionCoefficientFunc_Xu",
+         "argument_list": [
+           "c",
+           "T"
+         ]
+      },
+      "charge_carrier_name": "Li",
+      "charge_carrier_charge_number": 0,
+      "charge_carrier_transference_number": 0,
+      "counter_ion_name": "PF6",
+      "counter_ion_charge_number": 0,
+      "counter_ion_transference_number": 0
+      
+   }
+}

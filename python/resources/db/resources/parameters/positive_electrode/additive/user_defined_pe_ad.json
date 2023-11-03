@@ -1,0 +1,12 @@
+{
+   "Name": "user_defined_pe_ad",
+   "Header": {},
+   "component": "positive_electrode_additive",
+   "material": true,
+   "Parameters": {
+      "density": 0,
+      "specific_heat_capacity": 0,
+      "thermal_conductivity": 0
+      
+   }
+}

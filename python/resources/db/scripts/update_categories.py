@@ -18,6 +18,7 @@ class UpdateCategories:
         self.sql_category = db_handler.CategoryHandler()
         self.sql_tab = db_handler.TabHandler()
         self.sql_template = db_handler.TemplateHandler()
+        self.sql_model = db_handler.ModelHandler()
 
     def get_resource_as_json(self):
         return db_access.get_json_from_path(
@@ -52,10 +53,23 @@ class UpdateCategories:
         for category_name in categories:
             details = categories.get(category_name)
             tab_name = details.get("tab_name")
+            model_name =details.get("model_name")
             tab_id = self.sql_tab.get_id_from_name(tab_name)
 
             if tab_id:
 
+                if model_name == "p2d_p3d_p4d":
+                    model = "P2D"
+                    model_id = self.sql_model.get_model_id_from_model_name(model)
+                if model_name == "p3d_p4d":
+                    model = "P3D"
+                    model_id = self.sql_model.get_model_id_from_model_name(model)
+                if model_name == "p4d":
+                    model = "P4D"
+                    model_id = self.sql_model.get_model_id_from_model_name(model)
+
+                model_name = details.get("model_name")
+                difficulty = details.get("difficulty")
                 context_type = details.get("context_type")
                 context_type_iri = details.get("context_type_iri")
                 emmo_relation = details.get("emmo_relation")
@@ -74,6 +88,9 @@ class UpdateCategories:
                         id=category_id,
                         columns_and_values={
                             "tab_id": tab_id,
+                            "model_name": model_name,
+                            "difficulty": difficulty,
+                            "model_id": model_id,
                             "context_type": context_type,
                             "context_type_iri": context_type_iri,
                             "emmo_relation": emmo_relation,
@@ -89,6 +106,9 @@ class UpdateCategories:
                     self.sql_category.insert_value(
                         name=category_name,
                         tab_id=tab_id,
+                        model_name=model_name,
+                        difficulty=difficulty,
+                        model_id = model_id,
                         context_type=context_type,
                         context_type_iri=context_type_iri,
                         emmo_relation=emmo_relation,

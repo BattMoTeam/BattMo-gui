@@ -1,10 +1,10 @@
 {
    "Name": "NMC111_Safari2009",
-   "Category": "positive_electrode_active_material",
    "Header": {},
+   "component": "positive_electrode_active_material",
+   "material": true,
    "Parameters": {
       "maximum_concentration": 55554,
-      "volume_fraction": 0.8,
       "volumetric_surface_area": 885000,
       "density": 4650,
       "number_of_electrons_transferred": 1,
@@ -13,7 +13,7 @@
       "maximum_lithium_stoichiometry": 0.4955,
       "minimum_lithium_stoichiometry": 0.99174,
       "open_circuit_potential": {
-         "functionname": "computeOCP_nmc111",
+         "functionname": "compute_ocp_nmc111",
          "argument_list": [
             "cElectrode",
             "T",

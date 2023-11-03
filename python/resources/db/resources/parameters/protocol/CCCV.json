@@ -1,6 +1,8 @@
 {
    "Name": "CCCV",
    "Category": "protocol",
+   "component": "protocol_properties",
+   "material": false,
    "Header": {},
    "Parameters": {
       "protocol_name": "IEswitch",

@@ -1,0 +1,35 @@
+{
+    "manufacturer": "Example Manufacturer Inc.",
+    "material": "Example Material",
+    "product_name": "Example Product",
+    "product_identifier": "12345-67890",
+    "d10_particle_size": {
+      "value": 10.5,
+      "unit": "micrometers"
+    },
+    "d50_particle_size": {
+      "value": 25.0,
+      "unit": "micrometers"
+    },
+    "d90_particle_size": {
+      "value": 45.2,
+      "unit": "micrometers"
+    },
+    "d95_particle_size": {
+      "value": 55.0,
+      "unit": "micrometers"
+    },
+    "specific_surface_area": {
+      "value": 150.5,
+      "unit": "m²/g"
+    },
+    "tapped_density": {
+      "value": 0.75,
+      "unit": "g/cm³"
+    },
+    "additive_content": {
+      "value": 5.2,
+      "unit": "%"
+    }
+  }
+  

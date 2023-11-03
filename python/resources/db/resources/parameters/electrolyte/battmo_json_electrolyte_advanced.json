@@ -1,0 +1,9 @@
+{
+   "Name": "electrolyte_properties_advanced",
+   "Header": {},
+   "component": "electrolyte_advanced",
+   "material": false,
+   "Parameters": {
+      "bruggeman_coefficient": 1.5
+   }
+}

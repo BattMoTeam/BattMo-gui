@@ -1,10 +1,13 @@
 {
    "Name": "Graphite_Xu2015",
-   "Category": "negative_electrode_active_material",
+   "reference_name": "Xu, M, et al. 2015",
+   "reference": "Xu, Meng, et al. 'A pseudo three-dimensional electrochemical–thermal model of a prismatic LiFePO4 battery during discharge process.' Energy 80 (2015): 303-317.",
+   "refrence_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
    "Header": {},
+   "component": "negative_electrode_active_material",
+   "material": true,
    "Parameters": {
       "maximum_concentration": 31540,
-      "volume_fraction": 0.7,
       "volumetric_surface_area": 142372,
       "density": 1852,
       "number_of_electrons_transferred": 1,
@@ -13,11 +16,12 @@
       "maximum_lithium_stoichiometry": 0.51873811,
       "minimum_lithium_stoichiometry": 0.001,
       "open_circuit_potential": {
-         "functionname": "computeOCPFunc_LiC6_Xu",
+         "functionname": "0.7222+ 0.1387*(c./cmax) + 0.0290*(c./cmax)^0.5 - 0.0172/(c./cmax) + 0.0019/(c./cmax)^1.5+ 0.2808 * exp(0.9 - 15.0*(c./cmax)) - 0.7984 * exp(0.4465*(c./cmax) - 0.4108)+ (T - Tref) * (1e-3 * ( 0.005269056+ 3.299265709 * (c./cmax)- 91.79325798 * (c./cmax)^2+ 1004.911008 * (c./cmax)^3- 5812.278127 * (c./cmax)^4+ 19329.75490 * (c./cmax)*5- 37147.89470 * (c./cmax)*6+ 38379.18127 * (c./cmax)*7- 16515.05308 * (c./cmax)*8 )/ ( 1- 48.09287227 * (c./cmax)+ 1017.234804 * (c./cmax)^2- 10481.80419 * (c./cmax)^3+ 59431.30000 * (c./cmax)^4- 195881.6488 * (c./cmax)*5+ 374577.3152 * (c./cmax)*6- 385821.1607 * (c./cmax)*7+ 165705.8597 * (c./cmax)*8 ))",
          "argument_list": [
-            "cElectrode",
+            "c",
             "T",
-            "cmax"
+            "cmax",
+            "Tref"
           ]
       }
    }

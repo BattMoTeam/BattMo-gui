@@ -1,0 +1,9 @@
+{
+   "Name": "negative_electrode_binder",
+   "Header": {},
+   "component": "negative_electrode_binder_advanced",
+   "material": false,
+   "Parameters": {
+      "electronic_conductivity": 100
+   }
+}

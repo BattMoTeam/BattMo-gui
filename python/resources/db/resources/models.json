@@ -1,50 +1,149 @@
 {
     "models": {
-        "P2D": {
-            "description": "",
-            "parameters": {
-              "use_thermal": {
-                   "value": false,
-                   "description": "",
-                   "type": "bool"
-              },
-              "include_current_collector": {
-                   "value": false,
-                   "description": "",
-                   "type": "bool"
-              },
-              "use_solid_diffusion_model": {
-                 "value": true,
-                 "description": "",
-                 "type": "bool"
-              },
-              "solid_diffusion_model_type": {
-                 "value": "full",
-                 "description": "",
-                 "type": "str"
-              },
-              "time_step_duration": {
-                 "value": 100,
-                 "description": "",
-                 "type": "float",
-                 "unit": "s",
-                 "unit_name": "Second",
-                 "unit_iri": "http://emmo.info/emmo#Second"
-              },
-              "use_ramp_up": {
-                "value": true,
-                 "description": "",
-                 "type": "bool"
-              },
-              "ramp_up_time": {
-                "value": 10,
-                 "description": "",
-                 "type": "float",
-                 "unit": "s",
-                 "unit_name": "Second",
-                 "unit_iri": "http://emmo.info/emmo#Second"
-              }
+      "P2D": {
+         "description": "model description",
+         "show_to_user": true,
+         "parameters": {
+            "use_thermal": {
+               "value": false,
+               "description": "",
+               "type": "bool"
+            },
+            "include_current_collector": {
+               "value": false,
+               "description": "option to include current collectors in the simulation",
+               "type": "bool"
+            },
+            "use_solid_diffusion_model": {
+               "value": true,
+               "description": "",
+               "type": "bool"
+            },
+            "solid_diffusion_model_type": {
+               "value": "full",
+               "description": "",
+               "type": "str"
+            },
+            "time_step_duration": {
+               "value": 100,
+               "description": "",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
+            },
+            "use_ramp_up": {
+               "value": true,
+               "description": "simulation option to use a ramp up time at the beginning of the simulation",
+               "type": "bool"
+            },
+            "ramp_up_time": {
+               "value": 10,
+               "description": "duration of the switch between changing from rest, discharging, or charging",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
             }
-        }
+         }
+      },
+      "P3D": {
+         "description": "",
+         "show_to_user": false,
+         "parameters": {
+            "use_thermal": {
+                  "value": false,
+                  "description": "",
+                  "type": "bool"
+            },
+            "include_current_collector": {
+                  "value": false,
+                  "description": "option to include current collectors in the simulation",
+                  "type": "bool"
+            },
+            "use_solid_diffusion_model": {
+               "value": true,
+               "description": "",
+               "type": "bool"
+            },
+            "solid_diffusion_model_type": {
+               "value": "full",
+               "description": "",
+               "type": "str"
+            },
+            "time_step_duration": {
+               "value": 100,
+               "description": "",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
+            },
+            "use_ramp_up": {
+               "value": true,
+               "description": "",
+               "type": "bool"
+            },
+            "ramp_up_time": {
+               "value": 10,
+               "description": "duration of the switch between changing from rest, discharging, or charging",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
+            }
+         }
+
+        
+       },
+      "P4D": {
+         "description": "",
+         "show_to_user": false,
+         "parameters": {
+            "use_thermal": {
+                  "value": false,
+                  "description": "",
+                  "type": "bool"
+            },
+            "include_current_collector": {
+                  "value": false,
+                  "description": "option to include current collectors in the simulation",
+                  "type": "bool"
+            },
+            "use_solid_diffusion_model": {
+               "value": true,
+               "description": "",
+               "type": "bool"
+            },
+            "solid_diffusion_model_type": {
+               "value": "full",
+               "description": "",
+               "type": "str"
+            },
+            "time_step_duration": {
+               "value": 100,
+               "description": "",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
+            },
+            "use_ramp_up": {
+               "value": true,
+               "description": "duration of the switch between changing from rest, discharging, or charging",
+               "type": "bool"
+            },
+            "ramp_up_time": {
+               "value": 10,
+               "description": "",
+               "type": "float",
+               "unit": "s",
+               "unit_name": "Second",
+               "unit_iri": "http://emmo.info/emmo#Second"
+            }
+         }
+
+      }
+
     }
 }

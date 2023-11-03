@@ -1,0 +1,11 @@
+{
+   "Name": "negative_electrode_advanced",
+   "Header": {},
+   "component": "negative_electrode_properties_advanced",
+   "material": false,
+   "Parameters": {
+      "length": 0.01,
+      "width": 0.01,
+      "bruggeman_coefficient": 1.5
+   }
+}

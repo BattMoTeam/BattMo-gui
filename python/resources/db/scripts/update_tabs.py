@@ -16,6 +16,7 @@ class UpdateTabs:
 
     def __init__(self):
         self.sql_tab = db_handler.TabHandler()
+        self.sql_model = db_handler.ModelHandler()
 
     def get_resource_as_json(self):
         return db_access.get_json_from_path(
@@ -45,16 +46,32 @@ class UpdateTabs:
 
         for tab_name in tabs:
             details = tabs.get(tab_name)
+            model_name = details.get("model_name")
+            difficulty = details.get("difficulty")
             context_type = details.get("context_type")
             context_type_iri = details.get("context_type_iri")
             display_name = details.get("display_name")
             description = details.get("description")
             tab_id = self.sql_tab.get_id_from_name(tab_name)
 
+            if model_name == "p2d_p3d_p4d":
+                model = "P2D"
+                model_id = self.sql_model.get_model_id_from_model_name(model)
+            if model_name == "p3d_p4d":
+                model = "P3D"
+                model_id = self.sql_model.get_model_id_from_model_name(model)
+            if model_name == "p4d":
+                model = "P4D"
+                model_id = self.sql_model.get_model_id_from_model_name(model)
+        
+
             if tab_id:  # existing type
                 self.sql_tab.update_by_id(
                     id=tab_id,
                     columns_and_values={
+                        "model_name": model_name,
+                        "model_id": model_id,
+                        "difficulty": difficulty,
                         "display_name": display_name,
                         "context_type": context_type,
                         "context_type_iri": context_type_iri,
@@ -67,14 +84,16 @@ class UpdateTabs:
             else:  # non-existing type, create it
                 self.sql_tab.insert_value(
                     name=tab_name,
+                    model_name=model_name,
+                    model_id = model_id,
+                    difficulty=difficulty,
                     display_name=display_name,
                     context_type=context_type,
                     context_type_iri=context_type_iri,
                     description=description
                 )
                 new_types.append(tab_name)
-
-        # Delete unused types which remain in the sql table
+# Delete unused types which remain in the sql table
         deleted_types = []
         for id_to_delete in existing_ids_to_be_deleted:
             deleted_types.append(self.sql_tab.get_name_from_id(id_to_delete))

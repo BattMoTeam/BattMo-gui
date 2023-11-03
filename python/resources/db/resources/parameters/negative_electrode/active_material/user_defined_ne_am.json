@@ -1,0 +1,22 @@
+{
+   "Name": "user_defined_ne_am",
+   "Header": {},
+   "component": "negative_electrode_active_material",
+   "material": true,
+   "Parameters": {
+      "maximum_concentration": 0,
+      "volumetric_surface_area": 0,
+      "density": 0,
+      "number_of_electrons_transferred": 0,
+      "activation_energy_of_reaction": 0,
+      "reaction_rate_constant": 0,
+      "maximum_lithium_stoichiometry": 0,
+      "minimum_lithium_stoichiometry": 0,
+      "open_circuit_potential": {
+         "functionname": "",
+         "argument_list": [
+            ""
+          ]
+      }
+   }
+}

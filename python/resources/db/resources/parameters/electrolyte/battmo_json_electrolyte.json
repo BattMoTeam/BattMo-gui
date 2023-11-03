@@ -1,0 +1,10 @@
+{
+   "Name": "electrolyte_properties",
+   "Header": {},
+   "component": "electrolyte_properties",
+   "material": false,
+   "Parameters": {
+      "concentration": 1.5,
+      "EC_DMC_ratio": 1.2
+   }
+}

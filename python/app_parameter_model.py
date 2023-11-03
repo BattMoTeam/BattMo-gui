@@ -6,7 +6,43 @@
 # the db_handler ParameterHandler checks if this list of handled parameters covers all the existing types
 #############################
 from math import ceil
+import numpy as np
+import os
+import sys
 
+##############################
+# Set page directory to base level to allow for module import from different folder
+path_to_python_module = os.path.dirname(os.path.abspath(__file__))
+os.chdir("..")
+path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
+sys.path.insert(0, path_to_python_module)
+##############################
+
+from python.resources.db import db_helper
+
+class Materials(object):
+    def __init__(self,id,name,display_name,context_type,context_type_iri,description, selected_value=None):
+        
+        self.id = id
+        self.name = name
+        self.display_name = display_name
+        self.context_type = context_type
+        self.context_type_iri = context_type_iri
+        self.description = description
+
+        self.options = {}
+        self.default_value = None
+
+        self.selected_value = selected_value
+
+    def add_option(self, option_id, option_details):
+        
+        self.options[option_id] = option_details
+        if self.default_value is None:
+            self.default_value = option_details.display_name
+
+    def set_selected_value(self, value):
+        self.selected_value = value
 
 class TemplateParameter(object):
     """
@@ -38,6 +74,7 @@ class TemplateParameter(object):
         self.display_name = " ".join(words)
 
     def add_option(self, option_id, option_details):
+        ("val=", option_details.value)
         self.options[option_id] = option_details
         if self.default_value is None:
             self.default_value = option_details.value
@@ -45,12 +82,28 @@ class TemplateParameter(object):
     def set_selected_value(self, value):
         self.selected_value = value
 
+class Material(Materials):
+    def __init__(
+            self,
+            id, name,model_name,difficulty,material ,model_id,default_template,display_name,
+            emmo_relation,category_id,tab_id,default_template_id,context_type,context_type_iri, \
+            description 
+    ):
+    
+        super().__init__(
+                id=id,
+                name=name,
+                display_name=display_name,
+                context_type=context_type,
+                context_type_iri=context_type_iri,
+                description=description
+            )
 
 class NumericalParameter(TemplateParameter):
     def __init__(
             self,
-            id, name, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
-            min_value, max_value, unit, unit_name, unit_iri
+            id, name, model_name, par_class, difficulty,model_id, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
+            min_value, max_value, unit, unit_name, unit_iri, display_name
     ):
 
         self.min_value = float(min_value) if type == float.__name__ else int(min_value)
@@ -109,7 +162,7 @@ class NumericalParameter(TemplateParameter):
 
 
 class StrParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description, type=str.__name__):
+    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description,display_name, type=str.__name__):
         super().__init__(
             id=id,
             name=name,
@@ -123,7 +176,7 @@ class StrParameter(TemplateParameter):
 
 
 class BooleanParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description, type=bool.__name__):
+    def __init__(self, id, name, template_id, context_type, context_type_iri, is_shown_to_user, description,display_name, type=bool.__name__):
         super().__init__(
             id=id,
             name=name,
@@ -137,22 +190,32 @@ class BooleanParameter(TemplateParameter):
 
 
 class FunctionParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, type, is_shown_to_user, description):
+    def __init__(self, id, name, template_id, type, is_shown_to_user, description,display_name):
         super().__init__(id, name, template_id, type, is_shown_to_user, description)
 
 
-class Option(object):
-    def __init__(self, formatted_value=None, parameter_set=None, display_name=None):
+class Option_material(object):
+    def __init__(self, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
+        self.display_name = parameter_set_display_name
+        self.parameter_set_id =parameter_set_id
+        self.parameters = parameters
+        self.parameter_ids = parameter_ids
+        self.parameter_names = parameter_names
+        self.parameter_values = parameter_values
+        self.parameter_display_names = parameter_display_names
+
+
+class Option_parameter(object):
+    def __init__(self, formatted_value=None, parameter_set=None, parameter_display_name=None):
         self.value = formatted_value
         self.parameter_set = parameter_set
+        self.parameter_display_name = parameter_display_name
 
-        self.display_name = display_name
-        self.set_display_name()
+    #     self.set_display_name()
 
-    def set_display_name(self):
-        if self.display_name is None:
-            self.display_name = self.parameter_set
-
+    # def set_display_name(self):
+    #     if self.display_name is None:
+    #         self.display_name = self.parameter_set
 
 class FormatParameters:
 
@@ -160,24 +223,220 @@ class FormatParameters:
         self.type_function = "function"
         self.user_defined_id = 0
 
-    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
+    def get_index(self,list, id):
+
+        for list_index, value in enumerate(list):
+            if value == id:
+                index = list_index
+                break
+        
+        assert index is not None, "id={} not found in list".format(id)
+        return index
+
+
+    def format_parameter_sets(self,material_component,materials, parameter_sets,material_parameter_sets_name_by_id, raw_template_parameters,raw_parameters,material_component_id):
         # initialize from template parameters
+        formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
+        #print("ja=",raw_template_parameters)
+    
+        #if np.ndim(parameter_sets)> 1:
 
-        for parameter in raw_parameters:
+
+        material_display_names = []
+    
+        for parameter_set in parameter_sets:
+            parameter_set_id, \
+            parameter_set, \
+            _, \
+            _ , \
+            material_id = parameter_set
+           
+            material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
+            material_display_names.append(material_display_name)
+            
+            # Create list with parameter set ids
+            raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters])
+          
+            parameter_ids = []
+            parameter_names = []
+            template_parameter_ids = []
+            parameter_values = []
+            
+            index =0
+            for parameter in raw_parameters:
+            # get index of id
+                #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
+                #print("index =", parameter_set_id_index)
+               
+                if raw_parameters_set_ids[index] == parameter_set_id:
+                    
+                    parameter_id, \
+                    parameter_name, \
+                    _, \
+                    template_parameter_id, \
+                    parameter_value = parameter
+                    
+                    parameter_ids.append(parameter_id)
+                    parameter_names.append(parameter_name)
+                    template_parameter_ids.append(template_parameter_id)
+                    parameter_values.append(parameter_value)
+
+                index +=1
+            
+            values = []
+            for i,value in enumerate(parameter_values):
+                
+                template_parameter_id = template_parameter_ids[i]
+                parameter_id = parameter_ids[i]
+              
+                template_parameter = formatted_parameters.get(str(template_parameter_id))
+             
+                if template_parameter:
+                    if isinstance(template_parameter, NumericalParameter):
+                        if template_parameter.type == "int":
+                            formatted_value = int(value)
+                        elif template_parameter.type == "float":
+                            formatted_value = float(value)
+                        else:
+                            assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
+                                parameter_id, template_parameter.type
+                            )
+                    elif isinstance(template_parameter, StrParameter):
+                        formatted_value = value
+                    elif isinstance(template_parameter, BooleanParameter):
+                        formatted_value = bool(value)
+                    elif isinstance(template_parameter, FunctionParameter):
+                        formatted_value = eval(value)
+                       
+                        
+                    else:
+                        
+                        assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
+                    
+                    values.append(formatted_value)
+                    parameter_display_name = template_parameter.display_name
+
+
+                    # each parameter has metadata from the "template", to which we add the options containing value and origin
+                    if type(parameter_sets) == str:
+                        new_option = Option_parameter(
+                            formatted_value=formatted_value,
+                            parameter_set=parameter_sets,
+                            parameter_display_name = parameter_display_name
+                        )
+                    else:
+                        new_option = Option_parameter(
+                            formatted_value=formatted_value,
+                            parameter_set=material_parameter_sets_name_by_id.get(parameter_set_id),
+                            parameter_display_name = parameter_display_name
+                        )
+                    template_parameter.add_option(parameter_set_id, new_option)
+                    
+
+            formatted_material = formatted_materials.get(str(material_component_id))
+
+            if isinstance(formatted_material, Material):
+                formatted_display_name = eval(str(material_display_name))
+                formatted_material.set_selected_value(formatted_display_name)
+
+            
+            
+           
+            # each parameter has metadata from the "template", to which we add the options containing value and origin
+            new_option = Option_material(
+                parameter_set_display_name = formatted_display_name[0],
+                parameter_set_id = parameter_set_id,
+                parameters = formatted_parameters,
+                parameter_ids = parameter_ids,
+                parameter_names = parameter_names,
+                parameter_values=values,
+                parameter_display_names = parameter_display_name
+                
+            )
+            #template_parameter.set_selected_value(formatted_value)
+            formatted_material.add_option(parameter_set_id , new_option)
+        
+        return formatted_parameters, formatted_material,formatted_materials
+
+
+    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
+        
+
+        if np.ndim(raw_parameters) > 1:
+
+            # initialize from template parameters
+            formatted_parameters = self.initialize_parameters(raw_template_parameters)
+        
+
+            for parameter in raw_parameters:
+                parameter_id, \
+                    name, \
+                    parameter_set_id, \
+                    template_parameter_id, \
+                    value = parameter
+              
+                template_parameter = formatted_parameters.get(str(template_parameter_id))
+
+            
+                if template_parameter:
+                    if isinstance(template_parameter, NumericalParameter):
+                        if template_parameter.type == "int":
+                            formatted_value = int(value)
+                        elif template_parameter.type == "float":
+                            formatted_value = float(value)
+                        else:
+                            assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
+                                parameter_id, template_parameter.type
+                            )
+                    elif isinstance(template_parameter, StrParameter):
+                        formatted_value = value
+                    elif isinstance(template_parameter, BooleanParameter):
+                        formatted_value = bool(value)
+                    elif isinstance(template_parameter, FunctionParameter):
+                        formatted_value = eval(value)
+                        template_parameter.set_selected_value(formatted_value)
+                    else:
+                        
+                        assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
+
+
+                    parameter_display_name = template_parameter.display_name
+
+                    # each parameter has metadata from the "template", to which we add the options containing value and origin
+                    if type(parameter_sets_name_by_id) == str:
+                        new_option = Option_parameter(
+                            formatted_value=formatted_value,
+                            parameter_set=parameter_sets_name_by_id,
+                            parameter_display_name = parameter_display_name
+                        )
+                    else:
+                        new_option = Option_parameter(
+                            formatted_value=formatted_value,
+                            parameter_set=parameter_sets_name_by_id.get(parameter_set_id),
+                            parameter_display_name = parameter_display_name
+                        )
+                    template_parameter.add_option(parameter_id, new_option)
+        else:
+            # initialize from template parameters
+            formatted_parameters = self.initialize_parameters(raw_template_parameters)
+          
+
             parameter_id, \
-                name, \
-                parameter_set_id, \
-                template_parameter_id, \
-                value = parameter
+                    name, \
+                    parameter_set_id, \
+                    template_parameter_id, \
+                    value = raw_parameters
+           
+            template_parameter = formatted_parameters.get(str(template_parameter_id))
 
-            template_parameter = formatted_parameters.get(template_parameter_id)
-
+           
             if isinstance(template_parameter, NumericalParameter):
                 if template_parameter.type == "int":
                     formatted_value = int(value)
                 elif template_parameter.type == "float":
                     formatted_value = float(value)
+                   
                 else:
                     assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                         parameter_id, template_parameter.type
@@ -190,23 +449,209 @@ class FormatParameters:
                 formatted_value = eval(value)
                 template_parameter.set_selected_value(formatted_value)
             else:
+               
                 assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
+           
+
+            parameter_display_name = template_parameter.display_name
 
             # each parameter has metadata from the "template", to which we add the options containing value and origin
-            new_option = Option(
-                formatted_value=formatted_value,
-                parameter_set=parameter_sets_name_by_id.get(parameter_set_id)
-            )
+            if type(parameter_sets_name_by_id) == str:
+               
+                new_option = Option_parameter(
+                    formatted_value=formatted_value,
+                    parameter_set=parameter_sets_name_by_id,
+                    parameter_display_name = parameter_display_name
+                )
+              
+            else:
+               
+                new_option = Option_parameter(
+                    
+                    formatted_value=formatted_value,
+                    parameter_set=parameter_sets_name_by_id.get(parameter_set_id),
+                    parameter_display_name = parameter_display_name
+                )
+                
             template_parameter.add_option(parameter_id, new_option)
+
 
         return formatted_parameters
 
+    def initialize_parameter_set(self, materials):
+        initialized_materials = {}
+
+        if np.ndim(materials) > 1:
+            
+            material_display_names = []
+            for material in materials:
+                material_id, \
+                material_name, \
+                model_name, \
+                difficulty , \
+                model_id, \
+                default_template, \
+                display_name, \
+                category_id, \
+                tab_id, \
+                default_template_id,\
+                context_type, \
+                context_type_iri, \
+                description = material
+
+                
+                initialized_materials['%d' % int(material_id)] = Material(
+                    id=material_id,
+                    name=material_name,
+                    model_name=model_name,
+                    difficulty=difficulty,
+                    model_id=model_id,
+                    default_template = default_template,
+                    display_name =display_name,
+                    category_id =category_id,
+                    tab_id =tab_id,
+                    default_template_id =default_template_id,
+                    context_type =context_type,
+                    context_type_iri =context_type_iri,
+                    description = description
+                )
+
+        else:
+            material_id, \
+            material_name, \
+            model_name, \
+            difficulty , \
+            material, \
+            model_id, \
+            default_template, \
+            display_name, \
+            emmo_relation, \
+            category_id, \
+            tab_id, \
+            default_template_id,\
+            context_type, \
+            context_type_iri, \
+            description = tuple(np.squeeze(materials))
+
+
+            initialized_materials['%d' % int(material_id)] = Material(
+                id=material_id,
+                name=material_name,
+                model_name=model_name,
+                difficulty=difficulty,
+                material = material,
+                model_id=model_id,
+                default_template = default_template,
+                display_name =display_name,
+                emmo_relation = emmo_relation,
+                category_id =category_id,
+                tab_id =tab_id,
+                default_template_id =default_template_id,
+                context_type =context_type,
+                context_type_iri =context_type_iri,
+                description = description
+            )
+        return initialized_materials
+
+
     def initialize_parameters(self, raw_template_parameters):
         initialized_parameters = {}
+       
+        if np.ndim(raw_template_parameters) > 1:
+            
+            for template_parameter in raw_template_parameters:
+                parameter_id, \
+                    name, \
+                    model_name, \
+                    par_class, \
+                    difficulty, \
+                    model_id, \
+                    template_id, \
+                    context_type, \
+                    context_type_iri, \
+                    parameter_type, \
+                    unit, \
+                    unit_name, \
+                    unit_iri, \
+                    max_value, \
+                    min_value, \
+                    is_shown_to_user, \
+                    description,  \
+                    display_name = template_parameter
+                
+                parameter_id = int(parameter_id)
 
-        for template_parameter in raw_template_parameters:
+                if parameter_type in [int.__name__, float.__name__]:
+
+                    initialized_parameters['%d' % parameter_id] = NumericalParameter(
+                        id=parameter_id,
+                        name=name,
+                        model_name=model_name,
+                        par_class=par_class,
+                        difficulty=difficulty,
+                        model_id=model_id,
+                        template_id=template_id,
+                        context_type=context_type,
+                        context_type_iri=context_type_iri,
+                        type=parameter_type,
+                        is_shown_to_user=is_shown_to_user,
+                        description=description,
+                        min_value=min_value,
+                        max_value=max_value,
+                        unit=unit,
+                        unit_name=unit_name,
+                        unit_iri=unit_iri,
+                        display_name = display_name
+                    )
+
+                elif parameter_type == bool.__name__:
+                    initialized_parameters['%d' % parameter_id] = BooleanParameter(
+                        id=parameter_id,
+                        name=name,
+                        template_id=template_id,
+                        context_type=context_type,
+                        context_type_iri=context_type_iri,
+                        type=parameter_type,
+                        is_shown_to_user=is_shown_to_user,
+                        description=description,
+                        display_name= display_name
+                    )
+
+                elif parameter_type == str.__name__:
+                    initialized_parameters['%d' % int(parameter_id)] = StrParameter(
+                        id=parameter_id,
+                        name=name,
+                        template_id=template_id,
+                        context_type=context_type,
+                        context_type_iri=context_type_iri,
+                        type=parameter_type,
+                        is_shown_to_user=is_shown_to_user,
+                        description=description,
+                        display_name= display_name
+                    )
+
+                elif parameter_type == self.type_function:
+                    # function parameters should be changed, using a more robust way to define them.
+                    # for now functions are defined as string (ex: computeOCP_nmc111)
+                    initialized_parameters['%d' % parameter_id] = FunctionParameter(
+                        id=parameter_id,
+                        name=name,
+                        template_id=template_id,
+                        type=parameter_type,
+                        is_shown_to_user=True,
+                        description=description,
+                        display_name= display_name
+                    )
+
+                else:
+                    assert False, "parameter_type={} is not handled. parameter_id={}".format(parameter_type, parameter_id)
+        else:
             parameter_id, \
                 name, \
+                model_name, \
+                par_class, \
+                difficulty, \
+                model_id, \
                 template_id, \
                 context_type, \
                 context_type_iri, \
@@ -217,13 +662,20 @@ class FormatParameters:
                 max_value, \
                 min_value, \
                 is_shown_to_user, \
-                description = template_parameter  # according to db_model
+                description,  \
+                display_name = tuple(np.squeeze(raw_template_parameters))
+            parameter_id = int(parameter_id)
+      
 
             if parameter_type in [int.__name__, float.__name__]:
-
-                initialized_parameters[parameter_id] = NumericalParameter(
+           
+                initialized_parameters['%d' % parameter_id] = NumericalParameter(
                     id=parameter_id,
                     name=name,
+                    model_name=model_name,
+                    par_class=par_class,
+                    difficulty=difficulty,
+                    model_id=model_id,
                     template_id=template_id,
                     context_type=context_type,
                     context_type_iri=context_type_iri,
@@ -234,11 +686,14 @@ class FormatParameters:
                     max_value=max_value,
                     unit=unit,
                     unit_name=unit_name,
-                    unit_iri=unit_iri
+                    unit_iri=unit_iri,
+                    display_name = display_name
                 )
 
+
             elif parameter_type == bool.__name__:
-                initialized_parameters[parameter_id] = BooleanParameter(
+             
+                initialized_parameters['%d' % int(parameter_id)] = BooleanParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
@@ -246,11 +701,13 @@ class FormatParameters:
                     context_type_iri=context_type_iri,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
-                    description=description
+                    description=description,
+                    display_name= display_name
                 )
 
             elif parameter_type == str.__name__:
-                initialized_parameters[parameter_id] = StrParameter(
+              
+                initialized_parameters['%d' % int(parameter_id)] = StrParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
@@ -258,22 +715,25 @@ class FormatParameters:
                     context_type_iri=context_type_iri,
                     type=parameter_type,
                     is_shown_to_user=is_shown_to_user,
-                    description=description
+                    description=description,
+                    display_name= display_name
                 )
 
             elif parameter_type == self.type_function:
                 # function parameters should be changed, using a more robust way to define them.
                 # for now functions are defined as string (ex: computeOCP_nmc111)
-                initialized_parameters[parameter_id] = FunctionParameter(
+                initialized_parameters['%d' % int(parameter_id)] = FunctionParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
                     type=parameter_type,
                     is_shown_to_user=True,
-                    description=description
+                    description=description,
+                    display_name= display_name
                 )
 
             else:
                 assert False, "parameter_type={} is not handled. parameter_id={}".format(parameter_type, parameter_id)
+
 
         return initialized_parameters

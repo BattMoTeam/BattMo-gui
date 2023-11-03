@@ -1,8 +1,9 @@
 {
-   "Name": "TBD_battmo_json_ne_binder",
-   "Category": "negative_electrode_binder",
+   "Name": "negative_electrode_binder",
    "Header": {},
+   "component": "negative_electrode_binder",
+   "material": false,
    "Parameters": {
-      "electronic_conductivity": 100
+      "volume_fraction": 0.1
    }
 }

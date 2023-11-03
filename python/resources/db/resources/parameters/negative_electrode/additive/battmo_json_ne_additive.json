@@ -1,8 +1,9 @@
 {
-   "Name": "TBD_battmo_json_ne_additive",
-   "Category": "negative_electrode_additive",
+   "Name": "negative_electrode_additive",
    "Header": {},
+   "component": "negative_electrode_additive",
+   "material": false,
    "Parameters": {
-      "electronic_conductivity": 100
+      "volume_fraction": 0.1
    }
 }

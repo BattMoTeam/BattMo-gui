@@ -1,13 +1,13 @@
 {
    "Name": "celgard2500_Xu2015",
-   "Category": "separator",
+   "component": "separator_materials",
+   "material": true,
    "Header": {},
    "Parameters": {
-      "thickness": 0.4,
-      "porosity": 0.4,
+      
       "specific_heat_capacity": 1692,
       "thermal_conductivity": 0.334,
-      "density": 779,
-      "bruggeman_coefficient": 1.5
+      "density": 779
+      
    }
 }

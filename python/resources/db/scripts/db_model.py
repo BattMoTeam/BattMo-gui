@@ -8,9 +8,7 @@ path_to_python_module = os.path.join(os.path.abspath(os.curdir), "BattMo-gui")
 sys.path.insert(0, path_to_python_module)
 ##############################
 
-#import python.resources.db.db_access as db_access
-
-from python.resources.db import db_access
+import python.resources.db.db_access as db_access
 """
 Important links between tables:
 
@@ -27,6 +25,7 @@ Important links between tables:
 """
 
 if __name__ == "__main__":
+
     con, cur = db_access.get_sqlite_con_and_cur()
 
     cur.execute("DROP TABLE parameter")
@@ -37,6 +36,8 @@ if __name__ == "__main__":
     cur.execute("DROP TABLE model_parameter")
     cur.execute("DROP TABLE tab")
     cur.execute("DROP TABLE category")
+    cur.execute("DROP TABLE component")
+    cur.execute("DROP TABLE material")
 
     ########################################################
     #       parameter
@@ -49,6 +50,7 @@ if __name__ == "__main__":
             parameter_set_id INT NOT NULL,
             template_parameter_id INT NOT NULL,
             value VARCHAR(255) DEFAULT NULL
+            
         )
     """)
 
@@ -60,7 +62,10 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS parameter_set(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
-            category_id INT NOT NULL
+            component_id INT DEFAULT NULL,
+            material INTEGER DEFAULT NULL,
+            material_id INTEGER DEFAULT NULL
+            
         )
     """)
 
@@ -83,6 +88,10 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS template_parameter(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(255) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            par_class VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT NOT NULL,
             template_id INT NOT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
@@ -92,20 +101,21 @@ if __name__ == "__main__":
             unit_iri VARCHAR(40) DEFAULT NULL,
             max_value VARCHAR(255) DEFAULT NULL,
             min_value VARCHAR(255) DEFAULT NULL,
-            is_shown_to_user TINYINT NOT NULL DEFAULT 1,
-            description VARCHAR(255) NULL DEFAULT ""
+            is_shown_to_user INTEGER NOT NULL DEFAULT 1,
+            description VARCHAR(255) NULL DEFAULT "",
+            display_name VARCHAR(255) DEFAULT NULL
         )
     """)
 
     ########################################################
     #       model
-    #       name, templates, description
+    #       name, description
     ########################################################
     cur.execute("""
         CREATE TABLE IF NOT EXISTS model(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
-            templates VARCHAR(255) NULL DEFAULT "{}",
+            show_to_user INTEGER DEFAULT NULL,
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
@@ -136,12 +146,16 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS tab(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
             display_name VARCHAR(40) NOT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
+
 
     ########################################################
     #       category
@@ -151,6 +165,9 @@ if __name__ == "__main__":
         CREATE TABLE IF NOT EXISTS category(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
             context_type VARCHAR(40) DEFAULT NULL,
             context_type_iri VARCHAR(40) DEFAULT NULL,
             emmo_relation VARCHAR(40) DEFAULT NULL,
@@ -160,3 +177,55 @@ if __name__ == "__main__":
             description VARCHAR(255) NULL DEFAULT ""
         )
     """)
+
+    ########################################################
+    #       component
+    #       name, display_name, context_type, context_type_iri, description
+    ########################################################
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS component(
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            material INTEGER DEFAULT NULL,
+            model_id INT DEFAULT NULL,
+            default_template VARCHAR(40) DEFAULT NULL,
+            display_name VARCHAR(40) NOT NULL,
+            emmo_relation VARCHAR(40) DEFAULT NULL,
+            category_id INT DEFAULT NULL,
+            tab_id INT DEFAULT NULL,
+            default_template_id INT NOT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            description VARCHAR(255) NULL DEFAULT ""
+        )
+    """)
+    ########################################################
+    #       material
+    #       name, model_name, difficulty, display_name, context_type, context_type_iri, description
+    ########################################################
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS material(
+            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            model_name VARCHAR(40) DEFAULT NULL,
+            difficulty VARCHAR(40) DEFAULT NULL,
+            model_id INT DEFAULT NULL,
+            category_id INT DEFAULT NULL,
+            display_name VARCHAR(40) NOT NULL,
+            number_of_components INTEGER DEFAULT NULL,
+            component_name_1 VARCHAR(40) DEFAULT NULL,
+            component_name_2 VARCHAR(40) DEFAULT NULL,
+            default_material INT DEFAULT NULL,
+            context_type VARCHAR(40) DEFAULT NULL,
+            component_id_1 INT DEFAULT NULL,
+            component_id_2 INT DEFAULT NULL,
+            context_type_iri VARCHAR(40) DEFAULT NULL,
+            description VARCHAR(255) NULL DEFAULT ""
+        )
+    """)
+
+
+    data=cur.execute('''SELECT * FROM component''')
+    print(data.description)

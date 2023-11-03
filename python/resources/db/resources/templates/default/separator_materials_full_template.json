@@ -1,0 +1,54 @@
+{
+   "Type": "template",
+   "Name": "separator_materials",
+   "Parameters": {
+      "specific_heat_capacity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "material",
+         "difficulty": "advanced",
+         "context_type": "emmo:SpecificHeatCapacity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+         "max_value": 10000.0,
+         "min_value": 10,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "JoulePerKiloGramKelvin",
+         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin",
+         "display_name": "Specific heat capacity"
+      },
+      "thermal_conductivity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "material",
+         "difficulty": "advanced",
+         "context_type": "emmo:ThermalConductivity",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+         "max_value": 1000.0,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
+         "unit_name": "WattPerMetreKelvin",
+         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin",
+         "display_name": "Thermal conductivity"
+      },
+      "density": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "material",
+         "difficulty": "advanced",
+         "context_type": "emmo:Density",
+         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+         "max_value": 10000.0,
+         "min_value": 100.0,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "kg.m\u207b\u00b3",
+         "unit_name": "GramPerCubicMetre",
+         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
+         "display_name": "Density"
+      }
+   }
+}
