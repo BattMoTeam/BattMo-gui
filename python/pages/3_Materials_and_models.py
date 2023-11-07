@@ -4,6 +4,7 @@ import os
 import sys
 import html 
 import json
+import sympy as sp
 
 ##############################
 # Remember user changed values
@@ -50,7 +51,7 @@ display_names = []
 for material_values in materials:
     
     material = material_values
-    id,name,_,_,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
+    id,name,_,_,reference_name,reference,reference_link,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
     display_names.append(display_name)
 
 
@@ -59,9 +60,8 @@ select = st.multiselect(label = "Materials",options = display_names, label_visib
 for material_values in materials:
     
     material = material_values
-    id,name,_,_,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
+    id,name,_,_,reference_name,reference,reference_link,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
 
-    reference_link = None
     for choice in select:
         if choice == display_name:
 
@@ -70,7 +70,8 @@ for material_values in materials:
                 st.markdown("**Context**:")
                 st.write("[{}]({})".format(context_type_encoded + " ", context_type_iri))
                 if reference_link:
-                    st.write("[{}]({})".format("Reference", reference_link))
+                    st.markdown("**Reference**:")
+                    st.write("[{}]({})".format(reference, reference_link))
                 st.markdown("**Parameter values**:")
             
                 parameter_set_id = db_helper.get_parameter_set_id_by_name(name)
@@ -85,13 +86,23 @@ for material_values in materials:
                     
                     template_parameter_id, template_parameter_name,_,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
                     
-                    if template_parameter_name == "open_circuit_potential":
+                    if template_parameter_name == "open_circuit_potential" or template_parameter_name == "conductivity" or template_parameter_name == "diffusion_coefficient":
                         print("vlue =", value)
                         json_formatted_string = value.replace("'", '"')
                         value_dict = json.loads(json_formatted_string)
                         st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))
-                        st.markdown('''```<Julia> 
-                                    {}'''.format(value_dict["functionname"]))
+                        
+                        if "functionname" in value_dict:
+                            st.markdown('''```<Julia> 
+                                        {}'''.format(value_dict["functionname"]))
+                            string_py = value_dict["functionname"].replace("^", "**")
+                            st.latex(sp.latex(sp.sympify(string_py)))
+                        else:
+                            st.markdown('''```<Julia> 
+                                        {}'''.format(value_dict["function"]))
+                            string_py = value_dict["function"].replace("^", "**")
+                            st.latex(sp.latex(sp.sympify(string_py)))
+
                     else:
 
                         st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 

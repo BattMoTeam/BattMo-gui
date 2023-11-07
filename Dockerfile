@@ -9,13 +9,17 @@ COPY results results/
 
 
 
-RUN pip install jill Flask flask_restful juliacall Pylance streamlit streamlit_extras numpy flask_restful h5py matplotlib sympy --no-cache-dir
+RUN pip install jill Flask juliacall flask_restful Pylance streamlit streamlit_extras numpy flask_restful h5py matplotlib sympy --no-cache-dir
 # jill is a python package for easy Julia installation
 
 RUN jill install 1.9.2 --confirm
 
 # Helpful Development Packages
-RUN julia -e 'using Pkg; Pkg.add(["Jutul","LoggingExtras","PythonCall", "BattMo","JSON"])'
+RUN julia -e 'using Pkg; Pkg.add(["Jutul","LoggingExtras","PythonCall","JSON"])'
+
+RUN julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/BattMoTeam/BattMo.jl.git", rev="refac"))'
+
+#RUN julia -e 'using Pkg; Pkg.add(url="https://github.com/BattMoTeam/BattMo.jl.git#refac")'
 
 # Copy your application files into the container
 #COPY python/Introduction.py python/Introduction.py

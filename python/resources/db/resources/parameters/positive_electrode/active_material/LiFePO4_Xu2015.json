@@ -1,5 +1,5 @@
 {
-   "Name": "LiFePO4_Xu2015",
+   "Name": "LiFePO4_Xu2015",   
    "Header": {},
    "component": "positive_electrode_active_material",
    "material": true,
@@ -13,9 +13,9 @@
       "maximum_lithium_stoichiometry": 0.14778,
       "minimum_lithium_stoichiometry":0.999,
       "open_circuit_potential": {
-         "functionname": "computeOCPFunc_LFP_Xu",
+         "function": "",
          "argument_list": [
-            "cElectrode",
+            "c",
             "T",
             "cmax"
           ]

@@ -16,6 +16,7 @@ from flask_restful import Resource
 import pdb
 from jsonschema import validate, ValidationError
 from streamlit_extras.switch_page_button import switch_page
+import sympy as sp
 
 
 
@@ -1534,18 +1535,18 @@ class SetTabs:
         
         
 
-        def custom_toggle(labels,id, values, key,quantity, limit, on_change, args):
+        # def custom_toggle(labels,id, values, key,quantity, limit, on_change, args):
             
             
 
-            if type(values) == dict:
-                states = values
-                values = []
-                for label,value in states.items():
-                    values.append(value)
+        #     if type(values) == dict:
+        #         states = values
+        #         values = []
+        #         for label,value in states.items():
+        #             values.append(value)
 
                
-            return st_toggle_component(labels=labels,id =id, initial_values= values, key = key, quantity=quantity,limit=limit, on_change = on_change, args= args)
+        #     return st_toggle_component(labels=labels,id =id, initial_values= values, key = key, quantity=quantity,limit=limit, on_change = on_change, args= args)
         
         parameter_names =[]
         # Initialize session state values outside of the loop
@@ -2187,11 +2188,11 @@ class SetTabs:
                             du_dt = "du_dt_{}".format(material_component_id)
 
                             if du_dt not in st.session_state:
-                                st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)*5- 37147.89470 * (c/cmax)*6+ 38379.18127 * (c/cmax)*7- 16515.05308 * (c/cmax)*8 )
-                                / ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)*5+ 374577.3152 * (c/cmax)*6- 385821.1607 * (c/cmax)*7+ 165705.8597 * (c/cmax)*8 ))'''
+                                st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )
+                                / ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 ))'''
 
                             if ref_ocp not in st.session_state:
-                                st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)**0.5 - 0.0172/(c/cmax) + 0.0019/(c/cmax)**1.5+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)
+                                st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)
                                  
                                 '''
                             ex.latex(r'OCP = OCP_{ref}(c) + (T - Tref) * \frac{dU}{dT}(c) ')
@@ -2202,7 +2203,7 @@ class SetTabs:
                                 parameters,language  = ex.columns(2)
                                 language.markdown(r'''
                                         **Allowed language** 
-                                        - Use '**' to indicate a power to
+                                        - Use '^' to indicate a power to
                                         - Use '*' to indicate a multiplication
                                         - Use 'exp(a)' to indicate an exponential with power a
                                         - Use '/' for dividing
@@ -2235,7 +2236,8 @@ class SetTabs:
                                 if func_ocpref:
                                     # Convert the input string to a SymPy equation
                                     try:
-                                        eq_ref_ocp = sp.sympify(ref_ocp_str)
+                                        ref_ocp_str_py = ref_ocp_str.replace("^", "**")
+                                        eq_ref_ocp = sp.sympify(ref_ocp_str_py)
                                         ex.latex("OCP_{ref} = "+ sp.latex(eq_ref_ocp))
                                         
                                     except sp.SympifyError:
