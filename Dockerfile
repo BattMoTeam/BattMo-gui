@@ -34,5 +34,6 @@ COPY api.py api.py
 # CMD ["/usr/bin/supervisord", "-c", "app/supervisord.conf"]
 
 COPY runner.sh /scripts/runner.sh
+
 RUN ["chmod", "+x", "/scripts/runner.sh"]
 ENTRYPOINT ["/bin/sh","/scripts/runner.sh"]

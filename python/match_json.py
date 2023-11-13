@@ -23,6 +23,7 @@ def get_dict_from_has_quantitative(has_quantitative):
         # item =list(chain.from_iterable(item))
         # print("item2=", item)
         if type(item) != str:
+            print("item = ",item)
             item_value_type = item.get("value", {}).get("@type", None)
             if item_value_type == "emmo:Numerical":
                 new_dict[item.get("label")] = item.get("value", {}).get("hasNumericalData")
@@ -88,7 +89,7 @@ class GuiDict(object):
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
-
+    print("GUI = ", json_ld.ne.am.get("open_circuit_potential"))
     total_time = 2 / json_ld.protocol.get("c_rate") * json_ld.protocol.get("number_of_cycles") * 3600
 
     return {
@@ -243,12 +244,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "ionicConductivity": {
                 "type": "function",
                 "function": json_ld.elyte_mat.get("conductivity")["function"],#"computeElectrolyteConductivity_default", 
-                "argumentlist": ["c", "T"]
+                "argumentlist": json_ld.elyte_mat.get("conductivity")["argument_list"]
             },
             "diffusionCoefficient": {
                 "type": "function",
                 "function": json_ld.elyte_mat.get("diffusion_coefficient")["function"],#"computeDiffusionCoefficient_default", #
-                "argumentlist": ["c", "T"]
+                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient")["argument_list"]
             },
             "compnames": [
                 json_ld.elyte_mat.get("charge_carrier_name"),

@@ -1,7 +1,7 @@
 {
     "models": {
       "P2D": {
-         "description": "model description",
+         "description": "The Pseudo Two-Dimensional (P2D) model was introduced by Newman et al. and describes the behaviour of a porous electrode battery. It is a one dimensional model, but assumes that at each point of the electrode there is a spherical particle that represents the active material. Therefore, the model has a second dimension in the ratial direction.",
          "show_to_user": true,
          "parameters": {
             "use_thermal": {

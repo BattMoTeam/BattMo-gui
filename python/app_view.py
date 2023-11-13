@@ -1392,14 +1392,20 @@ class SetTabs:
     def fill_material_column(self,component_name,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density, emmo_relation = None):
         
         component_parameters = []
+        material_parameter_sets = []
         # get corresponding template parameters from db
         material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id)
 
         materials = tuple(db_helper.get_material_from_component_id(material_component_id))
-        # get parameter sets corresponding to component, then parameters from each set
-        material_parameter_sets = tuple(db_helper.get_all_material_by_component_id(material_component_id))
-
         
+
+        for material in materials:
+
+            material_id,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = material
+            # get parameter sets corresponding to component, then parameters from each set
+            material_parameter_sets.append(tuple(db_helper.get_material_by_material_id(material_id)[0]))
+
+        print(material_parameter_sets)
         material_parameter_sets_name_by_id = {}
         for id, name, _,_,_ in material_parameter_sets:
             material_parameter_sets_name_by_id[id] = name
@@ -2136,13 +2142,227 @@ class SetTabs:
                                     label_visibility="collapsed"
                                     )
                                 
+                            elif isinstance(parameter, FunctionParameter):
+
+                                st.divider()
+                                st.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
+
+                                if component_name == "electrolyte_materials":
+
+                                    if parameter.name == "conductivity":
+                                        conductivity = "conductivity_{}".format(parameter_id)
+                                        if conductivity not in st.session_state:
+                                            st.session_state[conductivity] = r'''1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2
+                                            
+                                            '''
+                                    else:
+                                        diffusion_coefficient = "diffusion_coefficient_{}".format(parameter_id)
+                                        if diffusion_coefficient not in st.session_state:
+                                            st.session_state[diffusion_coefficient] = r'''1e-4 * 10^(-4.43 - 54/(T - 229 - 5*c*1e-3) - 0.22*c*1e-3)
+                                            
+                                            '''
+
+                                    variables = "variables_{}".format(parameter_id)
+
+                                    if variables not in st.session_state:
+                                        #st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )
+                                        #/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 ))'''
+                                        st.session_state[variables] = r'c,T'
+                                    
+                                    #ex.latex(r'OCP = OCP_{ref}\left(\frac{c}{c_{max}}\right) + (T - refT) * \frac{dU}{dT}\left(\frac{c}{c_{max}}\right) ')
+                                    #ex.latex(r'or')
+                                    #ex.latex(r'OCP = OCP\left(\frac{c}{c_{max}}\right)')
+
+                                    info = ex.toggle(label="Guidelines", key = "toggle_{}".format(parameter_id))
+                                    if info:
+                                        parameters,language  = ex.columns(2)
+                                        language.markdown(r'''
+                                                **Allowed language** 
+                                                - Use '^' to indicate a power to
+                                                - Use '*' to indicate a multiplication
+                                                - Use 'exp(a)' to indicate an exponential with power a
+                                                - Use 'tanh()' for hyperbolic tangent
+                                                - Use '/' for dividing
+                                                
+                                                ''')
+                                        
+                                        parameters.markdown(r'''
+                                                **Allowed variables**
+                                                - Surface concentration : c
+                                                - Temperature    : T
+                                                
+                                                ''')
+
+                                    quantity = ex.toggle(label="Create your {} own function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
+
+                                    if quantity:
+                                        ex.text_input(
+                                            label = "{}".format(parameter.display_name),
+                                            value = st.session_state[parameter.name],
+                                            key = parameter.name,
+                                            label_visibility= "visible"
+                                        )
+                                        quantity_str = st.session_state[parameter.name]
+                                        func_quantity = ex.toggle(label="Visualize {}".format(parameter.display_name), key = "toggle_vis_{}".format(parameter_id))
+
+                                        if func_ocpref:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                                quantity_str_py = quantity_str.replace("^", "**")
+                                                eq_quantity = sp.sympify(quantity_str_py)
+                                                ex.latex("{} = ".format(parameter.display_name) + sp.latex(eq_quantity))
+                                                
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+
+                                        ex.text_input(
+                                            label = "Variables (ex: c,T)",
+                                            value = st.session_state[variables],
+                                            key = variables,
+                                            label_visibility= "visible"
+                                        )
+
+                                    
+                                        variables_str = st.session_state[variables]
+
+                                        
+                                        func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(parameter_id))
+
+                                        if func_du:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                        
+                                                eq_variables = sp.sympify(variables_str)
+                                                ex.latex(sp.latex(eq_variables))
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+                                        if variables_str == "":
+                                            ex.warning("You haven't specified the variables your equation depends on.")
+                                            
+                                        else:
+                                            user_input = quantity_str
+                                            argumentlist = [variables_str]
+
+                                    else: 
+                                        user_input = None
+
+
+                                if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
                             
+                            
+                                    ref_ocp = "ref_ocp_{}".format(material_component_id)
+                                    variables = "variables_{}".format(material_component_id)
+
+                                    if variables not in st.session_state:
+                                        #st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )
+                                        #/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 ))'''
+                                        st.session_state[variables] = r'c,cmax'
+                                    if ref_ocp not in st.session_state:
+                                        st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)'''
+                                    #ex.latex(r'OCP = OCP_{ref}\left(\frac{c}{c_{max}}\right) + (T - refT) * \frac{dU}{dT}\left(\frac{c}{c_{max}}\right) ')
+                                    #ex.latex(r'or')
+                                    #ex.latex(r'OCP = OCP\left(\frac{c}{c_{max}}\right)')
+
+                                    info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
+                                    if info:
+                                        parameters,language  = ex.columns(2)
+                                        language.markdown(r'''
+                                                **Allowed language** 
+                                                - Use '^' to indicate a power to
+                                                - Use '*' to indicate a multiplication
+                                                - Use 'exp(a)' to indicate an exponential with power a
+                                                - Use 'tanh()' for hyperbolic tangent
+                                                - Use '/' for dividing
+                                                
+                                                ''')
+                                        
+                                        parameters.markdown(r'''
+                                                **Allowed variables**
+                                                - Surface concentration : c
+                                                - Maximum concentration : cmax
+                                                - Temperature    : T
+                                                - Reference Temperature : refT
+                                                - State of charge: SOC
+                
+
+                                                
+                                                ''')
+
+                                    ocp = ex.toggle(label="Create your own OCP function", key = "toggle_ocp_{}".format(material_component_id))
+
+                                    if ocp:
+                                        ex.text_input(
+                                            label = "OCP",
+                                            value = st.session_state[ref_ocp],
+                                            key = ref_ocp,
+                                            label_visibility= "visible"
+                                        )
+                                        ref_ocp_str = st.session_state[ref_ocp]
+                                        func_ocpref = ex.toggle(label="Visualize OCP_ref", key = "toggle_vis_{}".format(material_component_id))
+
+                                        if func_ocpref:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                                ref_ocp_str_py = ref_ocp_str.replace("^", "**")
+                                                eq_ref_ocp = sp.sympify(ref_ocp_str_py)
+                                                ex.latex("OCP = "+ sp.latex(eq_ref_ocp))
+                                                
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+
+                                        ex.text_input(
+                                            label = "Variables (ex: c,T,refT,cmax)",
+                                            value = st.session_state[variables],
+                                            key = variables,
+                                            label_visibility= "visible"
+                                        )
+
+                                    
+                                        variables_str = st.session_state[variables]
+
+                                        
+                                        func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(material_component_id))
+
+                                        if func_du:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                        
+                                                eq_variables = sp.sympify(variables_str)
+                                                ex.latex(sp.latex(eq_variables))
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+                                        if variables_str == "":
+                                            ex.warning("You haven't specified the variables your equation depends on.")
+                                            
+                                        else:
+                                            variables_array = variables_str.split(',')
+                                            user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
+                                             
+
+                                    else: 
+                                        user_input = None
+                                        # f = sp.symbols('c')
+                                        # equation = sp.Eq(sp.sympify(equation_str),0)
+
+                                        # equation_latex = sp.latex(equation)
+
+                                        # ex.latex("OCP = " + equation_latex)
+
+
+
+
+
+                            if not user_input:
+                                st.warning("You still have to define the function for the {}. Enable the 'Create you own {} function' toggle.".format(parameter.display_name,parameter.display_name))
+
 
                             if parameter:
-                                if isinstance(parameter, FunctionParameter): 
-                                    parameter.set_selected_value(parameter.default_value)
-                                else:
-                                    parameter.set_selected_value(user_input)
+                                
+                                parameter.set_selected_value(user_input)
 
                                 formatted_value_dict = parameter.selected_value
                                 if isinstance(parameter, NumericalParameter):
@@ -2181,97 +2401,7 @@ class SetTabs:
                                 if parameter.name == "density":
                                     density[material_component_id] = parameter.selected_value
                                     
-                        if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
-                            
-                            
-                            ref_ocp = "ref_ocp_{}".format(material_component_id)
-                            du_dt = "du_dt_{}".format(material_component_id)
-
-                            if du_dt not in st.session_state:
-                                st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )
-                                / ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 ))'''
-
-                            if ref_ocp not in st.session_state:
-                                st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108)
-                                 
-                                '''
-                            ex.latex(r'OCP = OCP_{ref}(c) + (T - Tref) * \frac{dU}{dT}(c) ')
-                            ex.latex(r'OCP = OCP(SOC)')
-
-                            info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
-                            if info:
-                                parameters,language  = ex.columns(2)
-                                language.markdown(r'''
-                                        **Allowed language** 
-                                        - Use '^' to indicate a power to
-                                        - Use '*' to indicate a multiplication
-                                        - Use 'exp(a)' to indicate an exponential with power a
-                                        - Use '/' for dividing
-                                        
-                                        ''')
-                                
-                                parameters.markdown(r'''
-                                        **Allowed parameters**
-                                        - Surface concentration : c
-                                        - Maximum concentration : cmax
-                                        - Ambient Temparture    : T
-                                        - Reference Temperature : Tref
-        
-
-                                         
-                                         ''')
-
-                            ocp = ex.toggle(label="Create your own OCP function", key = "toggle_ocp_{}".format(material_component_id))
-
-                            if ocp:
-                                ex.text_input(
-                                    label = "OCP_ref",
-                                    value = st.session_state[ref_ocp],
-                                    key = ref_ocp,
-                                    label_visibility= "visible"
-                                )
-                                ref_ocp_str = st.session_state[ref_ocp]
-                                func_ocpref = ex.toggle(label="Visualize OCP_ref", key = "toggle_vis_{}".format(material_component_id))
-
-                                if func_ocpref:
-                                    # Convert the input string to a SymPy equation
-                                    try:
-                                        ref_ocp_str_py = ref_ocp_str.replace("^", "**")
-                                        eq_ref_ocp = sp.sympify(ref_ocp_str_py)
-                                        ex.latex("OCP_{ref} = "+ sp.latex(eq_ref_ocp))
-                                        
-                                    except sp.SympifyError:
-                                        ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
-
-
-                                ex.text_input(
-                                    label = "dU/dT",
-                                    value = st.session_state[du_dt],
-                                    key = du_dt,
-                                    label_visibility= "visible"
-                                )
-
-                               
-                                du_dt_str = st.session_state[du_dt]
-
-                                
-                                func_du = ex.toggle(label="Visualize dU/dT", key = "toggle_vis_du_{}".format(material_component_id))
-
-                                if func_du:
-                                    # Convert the input string to a SymPy equation
-                                    try:
-                                   
-                                        eq_du_dt = sp.sympify(du_dt_str)
-                                        ex.latex(r'\frac{du}{dt} = '+ sp.latex(eq_du_dt))
-                                    except sp.SympifyError:
-                                        ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
-
-                            # f = sp.symbols('c')
-                            # equation = sp.Eq(sp.sympify(equation_str),0)
-
-                            # equation_latex = sp.latex(equation)
-
-                            # ex.latex("OCP = " + equation_latex)
+                        
 
                             
 
@@ -2492,6 +2622,13 @@ class SetTabs:
             
             
             if material_choice == "User Defined":
+                #"conductivity = "conductivity_{}".format(material_component_id)
+                if "conductivity" not in st.session_state:
+                    st.session_state.conductivity = r'''1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2'''
+            
+                #"diffusion_coefficient = "diffusion_coefficient_{}".format(material_component_id)
+                if "diffusion_coefficient" not in st.session_state:
+                    st.session_state.diffusion_coefficient = r'''1e-4 * 10^(-4.43 - 54/(T - 229 - 5*c*1e-3) - 0.22*c*1e-3)'''
 
                 component_parameters = []
                 ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
@@ -2511,6 +2648,7 @@ class SetTabs:
 
                     par_indexes = 0
                     for parameter_id in parameters:
+                        print(parameters)
                         parameter = parameters.get(parameter_id)
                         parameter_options =parameter.options.get(selected_value_id)
      
@@ -2570,16 +2708,110 @@ class SetTabs:
                                 label_visibility="collapsed"
                                 )
                             #property_col.text(" ")
+                        elif isinstance(parameter, FunctionParameter):
+                                
 
+                                st.divider()
+                                st.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
+
+                                if component_name == "electrolyte_materials":
+
+                                   
+
+                                    variables = "variables_{}".format(parameter_id)
+
+                                    if variables not in st.session_state:
+                                        #st.session_state[du_dt] = r'''(1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )
+                                        #/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 ))'''
+                                        st.session_state[variables] = r'c,T'
+                                    
+                                    #ex.latex(r'OCP = OCP_{ref}\left(\frac{c}{c_{max}}\right) + (T - refT) * \frac{dU}{dT}\left(\frac{c}{c_{max}}\right) ')
+                                    #ex.latex(r'or')
+                                    #ex.latex(r'OCP = OCP\left(\frac{c}{c_{max}}\right)')
+
+                                    info = ex.toggle(label="{} Guidelines".format(parameter.display_name), key = "toggle_{}".format(parameter_id))
+                                    if info:
+                                        parameters_col,language_col  = ex.columns(2)
+                                        language_col.markdown(r'''
+                                                **Allowed language** 
+                                                - Use '^' to indicate a power to
+                                                - Use '*' to indicate a multiplication
+                                                - Use 'exp(a)' to indicate an exponential with power a
+                                                - Use 'tanh()' for hyperbolic tangent
+                                                - Use '/' for dividing
+                                                
+                                                ''')
+                                        
+                                        parameters_col.markdown(r'''
+                                                **Allowed variables**
+                                                - Surface concentration : c
+                                                - Temperature    : T
+                                                
+                                                ''')
+
+                                    quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
+
+                                    if quantity:
+                                        ex.text_input(
+                                            label = "{}".format(parameter.display_name),
+                                            value = st.session_state[parameter.name],
+                                            key = parameter.name,
+                                            label_visibility= "visible"
+                                        )
+                                        quantity_str = st.session_state[parameter.name]
+                                        func_quantity = ex.toggle(label="Visualize {}".format(parameter.display_name), key = "toggle_vis_{}".format(parameter_id))
+
+                                        if func_quantity:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                                quantity_str_py = quantity_str.replace("^", "**")
+                                                eq_quantity = sp.sympify(quantity_str_py)
+                                                ex.latex("{} = ".format(parameter.display_name) + sp.latex(eq_quantity))
+                                                
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+
+                                        ex.text_input(
+                                            label = "Variables (ex: c,T)",
+                                            value = st.session_state[variables],
+                                            key = variables,
+                                            label_visibility= "visible"
+                                        )
+
+                                    
+                                        variables_str = st.session_state[variables]
+
+                                        
+                                        func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(parameter_id))
+
+                                        if func_du:
+                                            # Convert the input string to a SymPy equation
+                                            try:
+                                        
+                                                eq_variables = sp.sympify(variables_str)
+                                                ex.latex(sp.latex(eq_variables))
+                                            except sp.SympifyError:
+                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+                                        if variables_str == "":
+                                            ex.warning("You haven't specified the variables your equation depends on.")
+                                            
+                                        else:
+                                            variables_array = variables_str.split(',')
+                                            
+                                            user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
+                                            print("var = ", user_input)
+
+                                    else: 
+                                        user_input = None
 
                             
-                        
+                        if not user_input:
+                            st.warning("You haven't defined the function for the {} yet. Enable the 'Create you own {} function' toggle.".format(parameter.display_name,parameter.display_name))
 
                         if parameter:
-                            if isinstance(parameter, FunctionParameter): 
-                                parameter.set_selected_value(parameter.default_value)
-                            else:
-                                parameter.set_selected_value(user_input)
+                            parameter.set_selected_value(user_input)
 
                             formatted_value_dict = parameter.selected_value
                             if isinstance(parameter, NumericalParameter):

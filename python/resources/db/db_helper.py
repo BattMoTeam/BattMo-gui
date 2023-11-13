@@ -258,7 +258,7 @@ def get_n_to_p_component_by_tab_id(tab_id):
 def get_material_from_component_id(component_id):
     res = sql_material().select(
         values = '*',
-        where="component_id_1=%d or component_id_2=%d " % (component_id,component_id)
+        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
     )
     return res
 
@@ -266,7 +266,7 @@ def get_material_from_component_id(component_id):
 def get_material_names_from_component_id(component_id):
     res = sql_material().select(
         values = 'display_name',
-        where="component_id_1=%d or component_id_2=%d " % (component_id,component_id)
+        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
     )
     return [a[0] for a in res]
 
@@ -335,6 +335,11 @@ def get_all_material_by_component_id(component_id):
         return sql_parameter_set().select(
             values='*',
             where="component_id=%d AND material = %d"  % (component_id,1)
+        )
+def get_material_by_material_id(material_id):
+        return sql_parameter_set().select(
+            values='*',
+            where="material_id = %d"  % (material_id)
         )
 
 def get_vf_parameter_set_id_by_component_id(component_id):

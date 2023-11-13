@@ -274,6 +274,8 @@
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
+         "context_type": "emmo:Potential",
+         "context_type_iri": "",
          "dscription": "the open-circuit potential of the active material under given concentration and temperature conditions",
          "type": "function",
          "display_name": "Open circuit potential"

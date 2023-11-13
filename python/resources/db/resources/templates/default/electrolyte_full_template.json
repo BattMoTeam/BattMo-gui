@@ -50,22 +50,6 @@
          "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
          "display_name": "Density"
       },
-      "conductivity": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
-         "description": "the ionic conductivity of the electrolyte under given concentration and temparture conditions",
-         "type": "function",
-         "display_name": "Conductivity"
-      },
-      "diffusion_coefficient": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "material",
-         "difficulty": "basis",
-         "description": "the diffusion coefficient of the charge carrier in the electrolyte",
-         "type": "function",
-         "display_name": "Diffusion coefficient"
-      },
       "charge_carrier_name": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
@@ -186,6 +170,22 @@
          "unit_name": "UnitOne",
          "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "EC/DMC"
+      },
+      "conductivity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "material",
+         "difficulty": "basis",
+         "description": "the ionic conductivity of the electrolyte under given concentration and temparture conditions",
+         "type": "function",
+         "display_name": "Conductivity"
+      },
+      "diffusion_coefficient": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "material",
+         "difficulty": "basis",
+         "description": "the diffusion coefficient of the charge carrier in the electrolyte",
+         "type": "function",
+         "display_name": "Diffusion coefficient"
       }
    }
 }
