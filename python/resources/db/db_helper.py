@@ -208,6 +208,14 @@ def get_categories_context_type_iri(tab_id):
     return res
 
 @st.cache_data
+def get_categories_context_type(tab_id):
+    res = sql_category().select(
+        values = 'context_type',
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return res
+
+@st.cache_data
 def get_advanced_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values = '*',
@@ -367,7 +375,7 @@ def get_non_material_set_id_by_component_id(component_id):
 def get_vf_raw_parameter_by_parameter_set_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
-        where="parameter_set_id=%d AND name = 'volume_fraction'" % parameter_set_id
+        where="parameter_set_id=%d AND name = 'mass_fraction'" % parameter_set_id
     )
     return res
 
@@ -495,7 +503,7 @@ def get_all_material_by_template_id(template_id):
 def get_vf_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND name = '%s'" % (template_id,"volume_fraction")
+            where="template_id=%d AND name = '%s'" % (template_id,"mass_fraction")
         )
 
 def get_non_material_template_by_template_id(template_id, model_id):

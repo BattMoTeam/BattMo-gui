@@ -18,21 +18,21 @@
          "unit_iri": "http://emmo.info/emmo#MolePerCubicMetre",
          "display_name": "Maximum concentration"
       },
-      "volume_fraction": {
+      "mass_fraction": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
-         "context_type": "emmo:VolumeFraction",
+         "context_type": "emmo:MassFraction",
          "context_type_iri": "http://emmo.info/emmo#EMMO_a8eb87b5_4d10_4137_a75c_e04ee59ca095",
          "max_value": 0.99,
          "min_value": 0.01,
-         "description": "Volume fraction of the material",
+         "description": "Mass fraction of the material",
          "is_shown_to_user": true,
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
          "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
-         "display_name": "Volume Fraction"
+         "display_name": "Mass Fraction"
       },
       "volumetric_surface_area": {
          "model_name": "p2d_p3d_p4d",

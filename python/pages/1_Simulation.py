@@ -112,7 +112,7 @@ def run_page():
 
 
     # pp = pprint.PrettyPrinter(indent=2)
-    # pp.pprint(gui_parameters["echem:Electrode"]["echem:Electrode"])
+    # pp.pprint(gui_parameters)
     # pdb.set_trace()
     st.divider()
     app.run_simulation()

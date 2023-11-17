@@ -59,7 +59,7 @@ class SetHeading:
         self.title = "BattMo"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
-            This graphical user interface can be used to run battery simulations with BattMo. 
+            This graphical user interface can be used to run (cell level) battery simulations with BattMo. 
             BattMo is a framework for continuum modelling of electrochemical devices. 
             It simulates the Current-Voltage response of a battery using Physics-based models.
         """
@@ -471,13 +471,23 @@ class SetTabs:
         self.title = "Parameters"
         self.set_title()
     
-
+        
         # user_input is the dict containing all the json LD data
         self.user_input = {
             "@context": context,
-            "battery:P2DModel": {
-                "hasQuantitativeProperty": db_helper.get_model_parameters_as_dict(model_id)
+        
+            "MySimulationSetup":{
+                "hasModel":{
+                    "label": "P2D model",
+                    "@type": "battery:P2DModel",
+                    "hasQuantitativeProperty": db_helper.get_model_parameters_as_dict(model_id)
+                }
             }
+
+            
+
+                
+            
         }
 
         #self.set_file_input()
@@ -843,8 +853,15 @@ class SetTabs:
 
                     # component_parameters["label"] = non_material_comp_display_name
                     # component_parameters["@type"] = non_material_comp_context_type_iri
-
-                        category_parameters[category_context_type][self.has_quantitative_property] += component_parameters
+                        if non_material_comp_display_name == "Active Material":
+                            material_comp_relation = "hasActiveMaterial"
+                        elif non_material_comp_display_name == "Binder":
+                            material_comp_relation = "hasBinder"
+                        elif non_material_comp_display_name == "Additive":
+                            material_comp_relation = "hasConductiveAdditive"
+                        elif non_material_comp_display_name == "Positive electrode properties":
+                            material_comp_relation = "hasObjectiveProperty"
+                        category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
 
     
     
@@ -1001,8 +1018,19 @@ class SetTabs:
 
                     #component_parameters["label"] = non_material_comp_display_name
                     #component_parameters["@type"] = non_material_comp_context_type_iri
+                    
+                    if non_material_comp_display_name == "Active Material":
+                        material_comp_relation = "hasActiveMaterial"
+                    elif non_material_comp_display_name == "Binder":
+                        material_comp_relation = "hasBinder"
+                    elif non_material_comp_display_name == "Additive":
+                        material_comp_relation = "hasConductiveAdditive"
+                    elif non_material_comp_display_name == "Negative electrode properties":
+                        material_comp_relation = "hasObjectiveProperty"
+    
 
-                    category_parameters[category_context_type][self.has_quantitative_property] += component_parameters
+
+                    category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
                 
                 
                 #pdb.set_trace()
@@ -1123,6 +1151,13 @@ class SetTabs:
 
     def set_tabs(self):
 
+        cell_parameters = {
+                    "label": "MyCell",
+                    "@type": "battery:Cell",
+                    "@type_iri": "http://emmo.info/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
+
+                }
+
         all_tabs = st.tabs(db_helper.get_basis_tabs_display_names(self.model_id))
         #all_tab_names = db_helper.get_basis_tab_names(self.model_id)
         db_tab_ids = db_helper.get_db_tab_id(self.model_id)
@@ -1136,8 +1171,21 @@ class SetTabs:
             
             tab_parameters = {
                 "label": db_helper.get_basis_tabs_display_names(self.model_id)[index],
-                "@type": tab_context_type_iri
+                "@type": tab_context_type,
+                "@type_iri": tab_context_type_iri
+
             }
+
+            if tab_context_type == "echem:Electrode":
+                tab_relation = "hasElectrode"
+            elif tab_context_type == "echem:Electrolyte":
+                tab_relation = "hasElectrolyte"
+            elif tab_context_type == "echem:Separator":
+                tab_relation = "hasSeparator"
+            elif tab_context_type == "battery:BatteryCell":
+                tab_relation = "hasBoundaryConditions"
+            elif tab_context_type == "echem:CyclingProcess":
+                tab_relation = "hasCyclingProcess"
 
         
 
@@ -1168,12 +1216,19 @@ class SetTabs:
                 for category in categories:
 
                     category_parameters = {
-                        "label": db_helper.get_basis_categories_display_names(db_tab_id)[i],
-                        "@type": db_helper.get_categories_context_type_iri(db_tab_id)[i]
+                        "label": db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
+                        "@type": db_helper.get_categories_context_type(db_tab_id)[i][0],
+                        "@type_iri": db_helper.get_categories_context_type_iri(db_tab_id)[i][0]
+
                     }
 
                     
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
+
+                    if category_display_name == "Negative electrode":
+                        category_relation = "hasNegativeElectrode"
+                    elif category_display_name == "Positive electrode":
+                        category_relation = "hasPositiveElectrode"
 
                     category_parameters, emmo_relation, mass_loadings = self.fill_category(
                         category_id=category_id,
@@ -1191,15 +1246,16 @@ class SetTabs:
                     # category_parameters["label"] = category_display_name
                     # category_parameters["@type"] = category_context_type_iri
 
-                    if emmo_relation is None:
-                        tab_parameters[category_context_type] = category_parameters
+                    # if emmo_relation is None:
+                    #     tab_parameters[category_context_type] = category_parameters
+                    
+                    tab_parameters[category_relation] = category_parameters 
+                    cell_parameters[tab_relation] = tab_parameters  
 
-                        
-
-                    else:
-                        # emmo relations are used to define the json ld structure.
-                        # This can be changed, nothing important here, it's just the json file rendering.
-                        tab_parameters[emmo_relation] = [category_parameters]
+                    # else:
+                    #     # emmo relations are used to define the json ld structure.
+                    #     # This can be changed, nothing important here, it's just the json file rendering.
+                    #     tab_parameters[emmo_relation] = [category_parameters]
 
                     
                     
@@ -1216,19 +1272,17 @@ class SetTabs:
                     tab_display_name = db_helper.get_tabs_display_name_from_id(db_tab_id)
                     
 
-                    if emmo_relation is None:
-                        tab_parameters[tab_context_type] = category_parameters
+                    # if emmo_relation is None:
+                    #     tab_parameters[tab_context_type] = category_parameters
 
-                    else:
-                        # emmo relations are used to define the json ld structure.
-                        # This can be changed, nothing important here, it's just the json file rendering.
-                        tab_parameters[emmo_relation] = [category_parameters]
+                    # else:
+                    #     # emmo relations are used to define the json ld structure.
+                    #     # This can be changed, nothing important here, it's just the json file rendering.
+                    #     tab_parameters[emmo_relation] = [category_parameters]
 
-                    
+                    #tab_parameters["hasObjectiveProperty"] = category_parameters
 
-                    all_parameters = {
-                        tab_context_type: tab_parameters
-                    }
+                    cell_parameters[tab_relation]["hasObjectiveProperty"] = category_parameters
                     #tab_parameters["Electrode"]["Electrode"] = category_parameters
 
 
@@ -1240,8 +1294,9 @@ class SetTabs:
             else:  # no sub tab is needed
 
                 category_parameters = {
-                        "label": db_helper.get_basis_categories_display_names(db_tab_id),
-                        "@type": db_helper.get_categories_context_type_iri(db_tab_id)
+                        # "label": db_helper.get_basis_categories_display_names(db_tab_id)[0],
+                        # "@type": db_helper.get_categories_context_type(db_tab_id),
+                        # "@type_iri": db_helper.get_categories_context_type_iri(db_tab_id)
                     }
                 
                 category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
@@ -1279,19 +1334,19 @@ class SetTabs:
                     # category_parameters["label"] = category_display_name
                     # category_parameters["@type"] = category_context_type_iri
 
-                tab_parameters[category_context_type] = category_parameters
-
+                #tab_parameters[category_context_type] = category_parameters
+                #tab_parameters = category_parameters
                 
-
-                all_parameters = {
-                            tab_context_type: tab_parameters
-                        }
+                
+                
+                cell_parameters[tab_relation] = category_parameters[tab_relation]
+                
             
             
             
 
             # tab is fully defined, its parameters are saved in the user_input dict
-            self.user_input[tab_context_type] = all_parameters
+            self.user_input["MySimulationSetup"]["hasCell"] = cell_parameters
 
             index +=1
 
@@ -1378,11 +1433,18 @@ class SetTabs:
 
                 parameter_details = {
                     "label": vf_parameter.name,
-                    "@type": vf_parameter.context_type_iri if vf_parameter.context_type_iri else "None",
+                    "@type": vf_parameter.context_type if vf_parameter.context_type else "None",
+                    "@type_iri": vf_parameter.context_type_iri if vf_parameter.context_type_iri else "None",
                     "value": formatted_value_dict
                 }
                 if isinstance(vf_parameter, NumericalParameter):
-                    parameter_details["unit"] = "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit
+                    parameter_details["hasUnit"] = {
+                        "label": vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit,
+                        "@type": "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit,
+                        "@type_iri": vf_parameter.unit_iri if vf_parameter.unit_iri else None
+                    }
+                    
+                    #parameter_details["unit"] = "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit
 
                 component_parameters.append(parameter_details)
                 vf_sum[material_component_id] = vf_parameter.selected_value 
@@ -1494,11 +1556,18 @@ class SetTabs:
 
                 parameter_details = {
                     "label": parameter.name,
-                    "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                    "@type": parameter.context_type if parameter.context_type else "None",
+                    "@type_iri": parameter.context_type_iri if parameter.context_type_iri else "None",
                     "value": formatted_value_dict
                 }
                 if isinstance(parameter, NumericalParameter):
-                    parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                    parameter_details["hasUnit"] = {
+                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "@type_iri": parameter.unit_iri if parameter.unit_iri else None
+                    }
+                    
+                    #parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
 
                 component_parameters.append(parameter_details)
                 if parameter.name == "density" and density != None:
@@ -1740,11 +1809,18 @@ class SetTabs:
 
                 parameter_details = {
                     "label": non_material_parameter.name,
-                    "@type": non_material_parameter.context_type_iri if non_material_parameter.context_type_iri else "None",
+                    "@type": non_material_parameter.context_type if non_material_parameter.context_type else "None",
+                    "@type_iri": non_material_parameter.context_type_iri if non_material_parameter.context_type_iri else "None",
                     "value": formatted_value_dict
                 }
                 if isinstance(non_material_parameter, NumericalParameter):
-                    parameter_details["unit"] = "emmo:"+non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit
+                    parameter_details["hasUnit"] = {
+                        "label": non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit,
+                        "@type": "emmo:"+non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit,
+                        "@type_iri": non_material_parameter.unit_iri if non_material_parameter.unit_iri else None
+                    }
+                    
+                    #parameter_details["unit"] = "emmo:"+non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit
 
                 component_parameters.append(parameter_details)
 
@@ -2025,13 +2101,19 @@ class SetTabs:
 
             parameter_details = {
                 "label": n_to_p_parameter.name,
+                "@type": n_to_p_parameter.context_type if n_to_p_parameter.context_type else "None",
                 "@type": n_to_p_parameter.context_type_iri if n_to_p_parameter.context_type_iri else "None",
                 "value": formatted_value_dict
             }
             
 
             if isinstance(n_to_p_parameter, NumericalParameter):
-                parameter_details["unit"] = "emmo:"+n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit
+                parameter_details["hasUnit"] = {
+                    "label": n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit,
+                    "@type": "emmo:"+n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit,
+                    "@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                }
+                #"emmo:"+n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit
 
             category_parameters.append(parameter_details)
         return {self.has_quantitative_property: category_parameters}, emmo_relation
@@ -2099,10 +2181,16 @@ class SetTabs:
                 
 
                 component_parameters["label"] = material_comp_display_name
-                component_parameters["@type"] = material_comp_context_type_iri
-
-
-                category_parameters[material_comp_context_type] = component_parameters
+                component_parameters["@type"] = material_comp_context_type
+                component_parameters["@type_iri"] = material_comp_context_type_iri
+                print("dis =", material_comp_display_name)
+                if material_comp_display_name == "Active Material":
+                    material_comp_relation = "hasActiveMaterial"
+                elif material_comp_display_name == "Binder":
+                    material_comp_relation = "hasBinder"
+                elif material_comp_display_name == "Additive":
+                    material_comp_relation = "hasConductiveAdditive"
+                category_parameters[material_comp_relation] = component_parameters
 
 
                 material_choice = formatted_materials.options.get(selected_value_id).display_name
@@ -2178,7 +2266,7 @@ class SetTabs:
                                         parameters,language  = ex.columns(2)
                                         language.markdown(r'''
                                                 **Allowed language** 
-                                                - Use '^' to indicate a power to
+                                                - Use '^' to indicate a superscript
                                                 - Use '*' to indicate a multiplication
                                                 - Use 'exp(a)' to indicate an exponential with power a
                                                 - Use 'tanh()' for hyperbolic tangent
@@ -2270,7 +2358,7 @@ class SetTabs:
                                         parameters,language  = ex.columns(2)
                                         language.markdown(r'''
                                                 **Allowed language** 
-                                                - Use '^' to indicate a power to
+                                                - Use '^' to indicate a superscript
                                                 - Use '*' to indicate a multiplication
                                                 - Use 'exp(a)' to indicate an exponential with power a
                                                 - Use 'tanh()' for hyperbolic tangent
@@ -2412,11 +2500,17 @@ class SetTabs:
                 
 
                         component_parameters["label"] = material_comp_display_name
-                        component_parameters["@type"] = material_comp_context_type_iri
+                        component_parameters["@type"] = material_comp_context_type
+                        component_parameters["@type_iri"] = material_comp_context_type_iri
 
-                        
-                        
-                        category_parameters[material_comp_context_type] = component_parameters
+                        if material_comp_display_name == "Active Material":
+                            material_comp_relation = "hasActiveMaterial"
+                        elif material_comp_display_name == "Binder":
+                            material_comp_relation = "hasBinder"
+                        elif material_comp_display_name == "Additive":
+                            material_comp_relation = "hasConductiveAdditive"
+                        category_parameters[material_comp_relation] = component_parameters
+
                 
                 component_parameters = []
                 vf_parameter, user_input, component_parameter,_,vf_sum = self.fill_vf_column(vf_col,category_id,material_comp_default_template_id,material_component_id,component_parameters,vf_sum,tab,emmo_relation=None)
@@ -2424,11 +2518,18 @@ class SetTabs:
                 component_parameters = self.create_component_parameters_dict(component_parameters)
 
                 component_parameters["label"] = material_comp_display_name
-                component_parameters["@type"] = material_comp_context_type_iri
+                component_parameters["@type"] = material_comp_context_type
+                component_parameters["@type_iri"] = material_comp_context_type_iri
 
-                        
+                if material_comp_display_name == "Active Material":
+                    material_comp_relation = "hasActiveMaterial"
+                elif material_comp_display_name == "Binder":
+                    material_comp_relation = "hasBinder"
+                elif material_comp_display_name == "Additive":
+                    material_comp_relation = "hasConductiveAdditive"
+    
 
-                category_parameters[material_comp_context_type][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
+                category_parameters[material_comp_relation][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
                 
                 
                 #print(category_parameters[non_material_comp_context_type][self.has_quantitative_property])
@@ -2470,9 +2571,11 @@ class SetTabs:
 
             #pdb.set_trace()
             component_parameters["label"] = non_material_comp_display_name
-            component_parameters["@type"] = non_material_comp_context_type_iri
+            component_parameters["@type"] = material_comp_context_type
+            component_parameters["@type_iri"] = material_comp_context_type_iri
+    
 
-            category_parameters[non_material_comp_context_type] = component_parameters
+            category_parameters["hasObjectiveProperty"] = component_parameters
             
            
 
@@ -2609,11 +2712,21 @@ class SetTabs:
 
             component_parameters = self.create_component_parameters_dict(component_parameters)    
 
-            component_parameters["label"] = material_comp_display_name
-            component_parameters["@type"] = material_comp_context_type_iri
+            
+    
+            if material_comp_display_name == "Electrolyte materials":
+                material_comp_relation = "hasElectrolyte"
+                label = "Electrolyte properties"
+            elif material_comp_display_name == "Separator materials":
+                material_comp_relation = "hasSeparator"
+                label = "Separator properties"
 
-            category_parameters[material_comp_context_type] = component_parameters
+            component_parameters["label"] = label
+            component_parameters["@type"] = material_comp_context_type
+            component_parameters["@type_iri"] = material_comp_context_type_iri
 
+            category_parameters[material_comp_relation] = component_parameters
+            
 
             material_choice = formatted_materials.options.get(selected_value_id).display_name
 
@@ -2734,7 +2847,7 @@ class SetTabs:
                                         parameters_col,language_col  = ex.columns(2)
                                         language_col.markdown(r'''
                                                 **Allowed language** 
-                                                - Use '^' to indicate a power to
+                                                - Use '^' to indicate a superscript
                                                 - Use '*' to indicate a multiplication
                                                 - Use 'exp(a)' to indicate an exponential with power a
                                                 - Use 'tanh()' for hyperbolic tangent
@@ -2901,11 +3014,16 @@ class SetTabs:
             
 
                     component_parameters["label"] = material_comp_display_name
-                    component_parameters["@type"] = material_comp_context_type_iri
-
+                    component_parameters["@type"] = material_comp_context_type
+                    component_parameters["@type_iri"] = material_comp_context_type_iri
+            
+                    if material_comp_display_name == "Electrolyte":
+                        material_comp_relation = "hasElectrolyte"
+                    elif material_comp_display_name == "Separator":
+                        material_comp_relation = "hasSeparator"
                     
                     
-                    category_parameters[material_comp_context_type] = component_parameters
+                    category_parameters[material_comp_relation] = component_parameters
 
             
             
@@ -2925,12 +3043,18 @@ class SetTabs:
             
             #component_parameters = self.create_component_parameters_dict(component_parameters)
             component_parameters["label"] = non_material_comp_display_name
-            component_parameters["@type"] = non_material_comp_context_type_iri
-
+            component_parameters["@type"] = non_material_comp_context_type
+            component_parameters["@type_iri"] = non_material_comp_context_type_iri
+    
+            if non_material_comp_display_name == "Electrolyte properties":
+                material_comp_relation = "hasElectrolyte"
+            elif non_material_comp_display_name == "Separator properties":
+                material_comp_relation = "hasSeparator"
             if category_name == "boundary_conditions":
-                category_parameters[non_material_comp_context_type] = component_parameters
+                material_comp_relation = "hasBoundaryConditions"
+                category_parameters[material_comp_relation] = component_parameters
             else:
-                category_parameters[non_material_comp_context_type][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
+                category_parameters[material_comp_relation][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
 
 
             
@@ -3062,8 +3186,14 @@ class SetTabs:
             # print(category_parameters[non_material_comp_context_type][self.has_quantitative_property])
             # print(component_parameters[self.has_quantitative_property])
             
+            if non_material_comp_display_name == "Electrolyte":
+                material_comp_relation = "hasElectrolyte"
+            elif non_material_comp_display_name == "Separator":
+                material_comp_relation = "hasSeparator"
+            elif category_name == "Boundary conditions":
+                material_comp_relation = "hasSeparator"    
 
-            category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
+            category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
 
             
         return category_parameters, emmo_relation, mass_loadings
@@ -3172,9 +3302,10 @@ class SetTabs:
             component_parameters.append(parameter_details)
         component_parameters = self.create_component_parameters_dict(component_parameters)
         component_parameters["label"] = non_material_comp_display_name
-        component_parameters["@type"] = non_material_comp_context_type_iri
-
-        category_parameters[non_material_comp_context_type] = component_parameters
+        component_parameters["@type"] = non_material_comp_context_type
+        component_parameters["@type_iri"] = non_material_comp_context_type_iri
+    
+        category_parameters["hasCyclingProcess"] = component_parameters
 
         adv_input =tab.expander("Show '{}' advanced parameters".format(category_display_name))
         component_parameters = []
@@ -3297,7 +3428,7 @@ class SetTabs:
         # print(component_parameters[self.has_quantitative_property])
         
 
-        category_parameters[non_material_comp_context_type][self.has_quantitative_property] += component_parameters
+        category_parameters["hasCyclingProcess"][self.has_quantitative_property] += component_parameters
 
 
         

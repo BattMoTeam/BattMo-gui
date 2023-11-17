@@ -4,6 +4,6 @@
    "component": "negative_electrode_active_material",
    "material": false,
    "Parameters": {
-      "volume_fraction": 0.8
+      "mass_fraction": 0.8
    }
 }

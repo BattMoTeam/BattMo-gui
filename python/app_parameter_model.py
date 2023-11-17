@@ -420,7 +420,7 @@ class FormatParameters:
         else:
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
-          
+            print("raw =",raw_parameters)
 
             parameter_id, \
                     name, \

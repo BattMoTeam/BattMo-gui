@@ -55,37 +55,37 @@ class GuiDict(object):
     Create a python object from the parameter dict for easier access and better readability
     """
     def __init__(self, gui_dict):
-        self.model = get_dict_from_has_quantitative(gui_dict.get("battery:P2DModel").get("hasQuantitativeProperty"))
-        self.cell = get_dict_from_has_quantitative(gui_dict.get("battery:BatteryCell").get("battery:BatteryCell").get("battery:BatteryCell").get("battery:BatteryCell").get("hasQuantitativeProperty"))
-        self.raw_ele = gui_dict.get("echem:Electrode").get("echem:Electrode")
-        self.raw_ele_pe = self.raw_ele.get("echem:PositiveElectrode")
-        self.raw_ele_ne = self.raw_ele.get("echem:NegativeElectrode")
+        self.model = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasModel").get("hasQuantitativeProperty"))
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBoundaryConditions").get("hasQuantitativeProperty"))
+        self.raw_ele = gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrode")
+        self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
+        self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
         print("PE=",self.raw_ele_pe)
         self.pe = Electrode(
             
-            am=self.raw_ele_pe.get("echem:ActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_pe.get("echem:Binder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_pe.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            am=self.raw_ele_pe.get("hasActiveMaterial").get("hasQuantitativeProperty"),
+            binder=self.raw_ele_pe.get("hasBinder").get("hasQuantitativeProperty"),
+            add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
-            prop=self.raw_ele_pe.get("echem:PositiveElectrode").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_pe.get("hasObjectiveProperty").get("hasQuantitativeProperty"),
         )
 
         
         self.ne = Electrode(
-            am=self.raw_ele_ne.get("echem:ActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_ne.get("echem:Binder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_ne.get("echem:ConductiveAdditive").get("hasQuantitativeProperty"),
+            am=self.raw_ele_ne.get("hasActiveMaterial").get("hasQuantitativeProperty"),
+            binder=self.raw_ele_ne.get("hasBinder").get("hasQuantitativeProperty"),
+            add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ele_ne.get("echem:NegativeElectrode").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_ne.get("hasObjectiveProperty").get("hasQuantitativeProperty"),
         )
         
-        self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("echem:Electrolyte").get("hasQuantitativeProperty"))
+        self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrolyte").get("hasQuantitativeProperty"))
         print("elyte = ", self.elyte_mat)
-        self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
+        self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
         print("sep = ", self.sep_mat)
-        self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("echem:Separator").get("echem:Separator").get("echem:Separator").get("echem:Separator").get("hasQuantitativeProperty"))
-        self.protocol = get_dict_from_has_quantitative(gui_dict.get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("echem:CyclingProcess").get("hasQuantitativeProperty"))
-        self.el = get_dict_from_has_quantitative(self.raw_ele.get("echem:Electrode").get("hasQuantitativeProperty"))
+        self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
+        self.protocol = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasCyclingProcess").get("hasQuantitativeProperty"))
+        self.el = get_dict_from_has_quantitative(self.raw_ele.get("hasObjectiveProperty").get("hasQuantitativeProperty"))
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
@@ -104,7 +104,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "effectiveDensity": 1900,
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient"),
                 "ActiveMaterial": {
-                    "massFraction": json_ld.ne.am.get("volume_fraction"),#0.94,
+                    "massFraction": json_ld.ne.am.get("mass_fraction"),#0.94,
                     "density": json_ld.ne.am.get("density"),
                     "electronicConductivity": json_ld.ne.am.get("electronic_conductivity"),
                     "specificHeatCapacity": json_ld.ne.am.get("specific_heat_capacity"),
@@ -138,18 +138,18 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     }
                 },
                 "Binder": {
-                    "density": 1099.9999999999998,
-                    "massFraction": 0.03,
-                    "electronicConductivity": 100,
-                    "specificHeatCapacity": 632,
-                    "thermalConductivity": 1.04
+                    "density": json_ld.ne.binder.get("density"),
+                    "massFraction": json_ld.ne.binder.get("mass_fraction"),
+                    "electronicConductivity": json_ld.ne.binder.get("electronic_conductivity"),
+                    "specificHeatCapacity": json_ld.ne.binder.get("specific_heat_capacity"),
+                    "thermalConductivity": json_ld.ne.binder.get("thermal_conductivity")
                 },
                 "ConductingAdditive": {
-                    "density": 1949.9999999999995,
-                    "massFraction": 0.03,
-                    "electronicConductivity": 100,
-                    "specificHeatCapacity": 632,
-                    "thermalConductivity": 1.04
+                    "density": json_ld.ne.add.get("density"),
+                    "massFraction": json_ld.ne.add.get("mass_fraction"),
+                    "electronicConductivity": json_ld.ne.add.get("electronic_conductivity"),
+                    "specificHeatCapacity": json_ld.ne.add.get("specific_heat_capacity"),
+                    "thermalConductivity": json_ld.ne.add.get("thermal_conductivity")
                 }
                 },
             "CurrentCollector": {
@@ -168,8 +168,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "effectiveDensity": 1900,
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient"),
                 "ActiveMaterial": {
-                    "massFraction": json_ld.pe.am.get("volume_fraction"),#0.94,
-                    "density": 2240,
+                    "massFraction": json_ld.pe.am.get("mass_fraction"),#0.94,
+                    "density": json_ld.pe.am.get("density"),#2240,
                     "electronicConductivity": json_ld.pe.am.get("electronic_conductivity"),
                     "specificHeatCapacity": json_ld.pe.am.get("specific_heat_capacity"),
                     "thermalConductivity": json_ld.pe.am.get("thermal_conductivity"),
@@ -202,18 +202,18 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     }
                 },
                 "Binder": {
-                    "density": 1099.9999999999998,
-                    "massFraction": 0.03,
-                    "electronicConductivity": 100,
-                    "specificHeatCapacity": 632,
-                    "thermalConductivity": 1.04
+                    "density": json_ld.pe.binder.get("density"),
+                    "massFraction": json_ld.pe.binder.get("mass_fraction"),
+                    "electronicConductivity": json_ld.pe.binder.get("electronic_conductivity"),
+                    "specificHeatCapacity": json_ld.pe.binder.get("specific_heat_capacity"),
+                    "thermalConductivity": json_ld.pe.binder.get("thermal_conductivity")
                 },
                 "ConductingAdditive": {
-                    "density": 1949.9999999999995,
-                    "massFraction": 0.03,
-                    "electronicConductivity": 100,
-                    "specificHeatCapacity": 632,
-                    "thermalConductivity": 1.04
+                    "density": json_ld.pe.add.get("density"),
+                    "massFraction": json_ld.pe.add.get("mass_fraction"),
+                    "electronicConductivity": json_ld.pe.add.get("electronic_conductivity"),
+                    "specificHeatCapacity": json_ld.pe.add.get("specific_heat_capacity"),
+                    "thermalConductivity": json_ld.pe.add.get("thermal_conductivity")
                 }
                 },
             "CurrentCollector": {

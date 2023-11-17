@@ -16,12 +16,18 @@ Update all db tables, according to the information stored in the different json 
 Those files are located in the directory python/resources/db/resources
 """
 
+#########################################
+# RUN FILE 2 TIMES TWO UPDATE EVERYTHING
+#########################################
+
 if __name__ == "__main__":
     # IF NEEDED, uncomment following lines to reset table, in order to update template parameters' order
     #
     # sql_template_parameter = db_handler.TemplateParameterHandler()
     # sql_template_parameter.drop_table(confirm=True)
     # os.system("db_model.py")
+
+
 
     # 1. Models (independent)
     UpdateModels().execute_script()
