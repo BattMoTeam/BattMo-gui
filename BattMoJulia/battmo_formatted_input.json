@@ -5,16 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 0.000112,
-         "N": 10,
-         "effectiveDensity": 1900,
-         "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
-            "massFraction": 0.8,
-            "density": 2240.0,
-            "electronicConductivity": 100.0,
-            "specificHeatCapacity": 632.0,
-            "thermalConductivity": 1.04,
             "Interface": {
                "saturationConcentration": 30555.0,
                "volumetricSurfaceArea": 723600.0,

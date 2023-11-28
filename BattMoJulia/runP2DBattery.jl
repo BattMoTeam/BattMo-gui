@@ -1,17 +1,7 @@
 
-### Import packages ###
-# using Pkg
-# Pkg.add("BattMo")
-# Pkg.add("JSON")
-# Pkg.add("Jutul")
-# Pkg.add("PlutoUI")
-# Pkg.add("Measures")
-
-
 module runP2DBattery
 
     using BattMo, Jutul, JSON, PythonCall, Logging
-    np = pyimport("numpy")
 
     export runP2DBatt
 
@@ -41,7 +31,6 @@ module runP2DBattery
             global_logger(ConsoleLogger(log_buffer))
 
             print("Calling BattMo simulation")
-            #states, reports, extra = runBattery_1d(input = jsondict, info_level = 0, extra_timing = false);
             states, reports, extra = run_battery(json_file, info_level = -1, end_report = true, extra_timing = false);
             print("Simulation finished")
 
@@ -78,31 +67,9 @@ module runP2DBattery
             negative_electrode_grid = [centroids_NAM, boundaries_NAM]
             electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE]
             positive_electrode_grid = [centroids_PAM, boundaries_PAM]
-
-            # The following piece of code is needed when using JuliaCall as translation package:
-            
-            # cell_voltage = np.array(cell_voltage)
-            # cell_current = np.array(cell_current)
-            # time_values = np.array(time_values)
-            # negative_electrode_grid = np.array(negative_electrode_grid)
-            # electrolyte_grid = np.array(electrolyte_grid)
-            # positive_electrode_grid = np.array(positive_electrode_grid)
-            # negative_electrode_concentration = np.array(negative_electrode_concentration)
-            # print("size=",size(negative_electrode_concentration))
-            # electrolyte_concentration = np.array(positive_electrode_grid)
-            # positive_electrode_concentration = np.array(positive_electrode_concentration)
-            # negative_electrode_potential = np.array(negative_electrode_potential)
-            # electrolyte_potential = np.array(electrolyte_potential)
-            # positive_electrode_potential = np.array(positive_electrode_potential)
             negative_electrode_concentration = negative_electrode_concentration[1]
             positive_electrode_concentration = positive_electrode_concentration[1]
 
-            # for i in 1:size(negative_electrode_concentration)-1
-            #     for j in 1:size(negative_electrode_concentration[1])-1
-            #         negative_electrode_concentration[i,j] = negative_electrode_concentration_jl[i,j]
-            #         positive_electrode_concentration[i,j] = positive_electrode_concentration_jl[i,j]
-            #     end
-            # end
             # Capture log messages
             seekstart(log_buffer)
             log_messages = split(String(take!(log_buffer)), "\n")
@@ -111,9 +78,7 @@ module runP2DBattery
         finally
             close(log_buffer)  
         end
-        #print(size(negative_electrode_concentration[1]))
-        #output = [number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential];
-        #output_py = pyjl(output)
+
         return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
     end
 end

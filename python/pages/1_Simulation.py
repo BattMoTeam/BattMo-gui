@@ -87,7 +87,7 @@ def run_page():
 
         ] = result 
 
-        print("time = ",number_of_states)
+        print("time steps= ",number_of_states)
         save_run = st.empty()
         if len(log_messages) > 1:
             c = save_run.container()
