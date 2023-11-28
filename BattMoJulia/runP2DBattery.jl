@@ -31,7 +31,7 @@ module runP2DBattery
             global_logger(ConsoleLogger(log_buffer))
 
             print("Calling BattMo simulation")
-            states, reports, extra = run_battery(json_file, info_level = -1, end_report = true, extra_timing = false);
+            states, reports, extra = run_battery(json_file, extra_timing = false);
             print("Simulation finished")
 
             con = BattMo.Constants()
