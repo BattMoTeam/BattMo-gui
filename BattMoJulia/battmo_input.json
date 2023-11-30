@@ -464,111 +464,90 @@
                   "hasQuantitativeProperty": [
                      {
                         "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
+                        "@type": "http://emmo.info/electrochemistry#electrochemistry_47287d09_6108_45ca_ac65_8b9451b1065e",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 55554.0
+                           "hasNumericalData": 1000.0
                         },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
+                        "unit": "emmo:MolePerCubicMetre"
                      },
                      {
                         "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
+                        "@type": "http://emmo.info/electrochemistry#electrochemistry_a5571263_f153_448f_84a3_cd18092cf8fa",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 885000.0
+                           "hasNumericalData": 1.0
                         },
-                        "unit": {
-                           "label": "Metre",
-                           "@type": "emmo:Metre"
-                        }
+                        "unit": "emmo:Metre"
                      },
                      {
                         "label": "density",
-                        "@type": "emmo:Density",
+                        "@type": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 4650.0
+                           "hasNumericalData": 100.0
                         },
-                        "unit": {
-                           "label": "GramPerCubicMetre",
-                           "@type": "emmo:GramPerCubicMetre"
-                        }
+                        "unit": "emmo:GramPerCubicMetre"
                      },
                      {
                         "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
+                        "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
                         },
-                        "unit": {
-                           "label": "UnitOne",
-                           "@type": "emmo:UnitOne"
-                        }
+                        "unit": "emmo:UnitOne"
                      },
                      {
                         "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
+                        "@type": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 5000.0
+                           "hasNumericalData": 1.0
                         },
-                        "unit": {
-                           "label": "JoulePerMoleKelvin",
-                           "@type": "emmo:JoulePerMoleKelvin"
-                        }
+                        "unit": "emmo:JoulePerMoleKelvin"
                      },
                      {
                         "label": "reaction_rate_constant",
                         "@type": "None",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 2.33e-11
+                           "hasNumericalData": 1e-20
                         },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
+                        "unit": "emmo:MolePerSquareMetrePerSecond"
                      },
                      {
                         "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "@type": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.4955
+                           "hasNumericalData": 0.01
                         },
-                        "unit": {
-                           "label": "UnitOne",
-                           "@type": "emmo:UnitOne"
-                        }
+                        "unit": "emmo:UnitOne"
                      },
                      {
                         "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "@type": "http://emmo.info/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.99174
+                           "hasNumericalData": 0.01
                         },
-                        "unit": {
-                           "label": "UnitOne",
-                           "@type": "emmo:UnitOne"
-                        }
+                        "unit": "emmo:UnitOne"
                      },
                      {
                         "label": "open_circuit_potential",
                         "@type": "None",
                         "value": {
-                           "function": "(-4.656 + 0 * (c/cmax) + 88.669 * (c/cmax)^2 + 0 * (c./cmax)^3 - 401.119 * (c/cmax)^4 + 0 * (c/cmax)^5 + 342.909 * (c/cmax)^6 + 0 * (c/cmax)^7 - 462.471 * (c/cmax)^8 + 0 * (c/cmax)^9 + 433.434 * (c/cmax)^10)/(-1 + 0  * (c/cmax)+ 18.933 * (c./cmax)^2+ 0 * (c/cmax)^3- 79.532 * (c/cmax)^4+ 0 * (c/cmax)^5+ 37.311 * (c/cmax)^6+ 0 * (c/cmax)^7- 73.083 * (c/cmax)^8+ 0 * (c/cmax)^9+ 95.960 * (c/cmax)^10)+ (T - refT) * ( -1e-3* ( 0.199521039- 0.928373822 * (c/cmax)+ 1.364550689000003 * (c/cmax)^2- 0.611544893999998 * (c/cmax)^3)/ (1- 5.661479886999997 * (c/cmax)+ 11.47636191 * (c/cmax)^2- 9.82431213599998 * (c/cmax)^3+ 3.048755063 * (c/cmax)^4))",
-                           "argument_list": [
-                              "c",
-                              "T",
-                              "cmax",
-                              "refT"
-                           ]
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "function": "0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108) + (T - refT) *1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 )",
+                              "argument_list": [
+                                 "c",
+                                 "cmax",
+                                 "T",
+                                 "refT"
+                              ]
+                           }
                         }
                      },
                      {
@@ -846,7 +825,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 17.552352
+                           "hasNumericalData": 2.613792
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -901,7 +880,7 @@
                      "@type": "None",
                      "value": {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": 0.22
+                        "hasNumericalData": 1.5
                      },
                      "unit": {
                         "label": "UnitOne",
@@ -918,36 +897,27 @@
                   "@type": "emmo:SpecificHeatCapacity",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1518.0
+                     "hasNumericalData": 1.0
                   },
-                  "unit": {
-                     "label": "JoulePerKiloGramKelvin",
-                     "@type": "emmo:JoulePerKiloGramKelvin"
-                  }
+                  "unit": "emmo:JoulePerKiloGramKelvin"
                },
                {
                   "label": "thermal_conductivity",
                   "@type": "emmo:ThermalConductivity",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.099
+                     "hasNumericalData": 0.001
                   },
-                  "unit": {
-                     "label": "WattPerMetreKelvin",
-                     "@type": "emmo:WattPerMetreKelvin"
-                  }
+                  "unit": "emmo:WattPerMetreKelvin"
                },
                {
                   "label": "density",
                   "@type": "emmo:Density",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1210
+                     "hasNumericalData": 100
                   },
-                  "unit": {
-                     "label": "GramPerCubicMetre",
-                     "@type": "emmo:GramPerCubicMetre"
-                  }
+                  "unit": "emmo:GramPerCubicMetre"
                },
                {
                   "label": "charge_carrier_name",
@@ -964,10 +934,7 @@
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
                   },
-                  "unit": {
-                     "label": "UnitOne",
-                     "@type": "emmo:UnitOne"
-                  }
+                  "unit": "emmo:UnitOne"
                },
                {
                   "label": "counter_ion_name",
@@ -982,33 +949,36 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.601
+                     "hasNumericalData": 0.01
                   },
-                  "unit": {
-                     "label": "UnitOne",
-                     "@type": "emmo:UnitOne"
-                  }
+                  "unit": "emmo:UnitOne"
                },
                {
                   "label": "conductivity",
                   "@type": "None",
                   "value": {
-                     "function": "1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2",
-                     "argument_list": [
-                        "c",
-                        "T"
-                     ]
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "function": "1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2",
+                        "argument_list": [
+                           "c",
+                           "T"
+                        ]
+                     }
                   }
                },
                {
                   "label": "diffusion_coefficient",
                   "@type": "None",
                   "value": {
-                     "function": "1e-4 * 10^(-4.43 - 54/(T - 229 - 5*c*1e-3) - 0.22*c*1e-3)",
-                     "argument_list": [
-                        "c",
-                        "T"
-                     ]
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "function": "1e-4 * 10^(-4.43 - 54/(T - 229 - 5*c*1e-3) - 0.22*c*1e-3)",
+                        "argument_list": [
+                           "c",
+                           "T"
+                        ]
+                     }
                   }
                },
                {
@@ -1045,7 +1015,7 @@
                   "unit": "emmo:UnitOne"
                }
             ],
-            "label": "Electrolyte properties",
+            "label": "Electrolyte materials",
             "@type": "echem:Electrolyte"
          },
          "hasSeparator": {

@@ -64,9 +64,9 @@ module runP2DBattery
 
             # Create grid arrays
 
-            negative_electrode_grid = [centroids_NAM, boundaries_NAM]
-            electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE]
-            positive_electrode_grid = [centroids_PAM, boundaries_PAM]
+            negative_electrode_grid = [centroids_NAM, boundaries_NAM].*10^6
+            electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE].*10^6
+            positive_electrode_grid = [centroids_PAM, boundaries_PAM].*10^6
             negative_electrode_concentration = negative_electrode_concentration[1]
             positive_electrode_concentration = positive_electrode_concentration[1]
 

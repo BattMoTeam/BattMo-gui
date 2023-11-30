@@ -95,13 +95,17 @@ for material_values in materials:
                         if "functionname" in value_dict:
                             st.markdown('''```<Julia> 
                                         {}'''.format(value_dict["functionname"]))
-                            string_py = value_dict["functionname"].replace("^", "**")
-                            st.latex(sp.latex(sp.sympify(string_py)))
+                            
                         else:
                             st.markdown('''```<Julia> 
                                         {}'''.format(value_dict["function"]))
                             string_py = value_dict["function"].replace("^", "**")
-                            st.latex(sp.latex(sp.sympify(string_py)))
+                            fun = st.toggle(
+                                label = "Visualize function",
+                                key = "toggle_{}".format(parameter_name)
+                                )
+                            if fun:
+                                st.latex(sp.latex(sp.sympify(string_py)))
 
                     else:
 

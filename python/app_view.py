@@ -1497,7 +1497,7 @@ class SetTabs:
                         checkbox_key= "checkbox_{}_{}".format(category_id, "mass_loading")
 
                         st.session_state[input_value] = par_value_ml
-                        tab.write("Mass loading is now equal to {}".format(par_value_ml))
+                        tab.write("Mass loading is now equal to {}".format(round(par_value_ml),3))
 
                         if st.session_state[input_value] > non_material_parameter.max_value:
                             tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
@@ -1556,7 +1556,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                     
-                        tab.write("Coating porosity is now equal to {}".format(par_value_co))
+                        tab.write("Coating porosity is now equal to {}".format(round(par_value_co),3))
                     
 
 
@@ -1593,7 +1593,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                         par_index = 0
-                        tab.write("Coating thickness is now equal to {}".format(par_value_th))
+                        tab.write("Coating thickness is now equal to {}".format(round(par_value_th),3))
             else:
                 st.session_state["input_value_{}_{}".format(category_id, "coating_thickness")] = None
                 st.session_state["input_value_{}_{}".format(category_id, "coating_porosity")] = None
@@ -1939,7 +1939,10 @@ class SetTabs:
                                         
                                         st.session_state[variables] = r'c,cmax,T,refT'
                                     if ref_ocp not in st.session_state:
-                                        st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108) + (T - refT) *1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 )'''
+                                        if component_name == "negative_electrode_active_material":
+                                            st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108) + (T - refT) *1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 )'''
+                                        elif component_name == "positive_electrode_active_material":
+                                            st.session_state[ref_ocp] = r'''(-4.656 + 0 * (c/cmax) + 88.669 * (c/cmax)^2 + 0 * (c./cmax)^3 - 401.119 * (c/cmax)^4 + 0 * (c/cmax)^5 + 342.909 * (c/cmax)^6 + 0 * (c/cmax)^7 - 462.471 * (c/cmax)^8 + 0 * (c/cmax)^9 + 433.434 * (c/cmax)^10)/(-1 + 0  * (c/cmax)+ 18.933 * (c./cmax)^2+ 0 * (c/cmax)^3- 79.532 * (c/cmax)^4+ 0 * (c/cmax)^5+ 37.311 * (c/cmax)^6+ 0 * (c/cmax)^7- 73.083 * (c/cmax)^8+ 0 * (c/cmax)^9+ 95.960 * (c/cmax)^10)+ (T - refT) * ( -1e-3* ( 0.199521039- 0.928373822 * (c/cmax)+ 1.364550689000003 * (c/cmax)^2- 0.611544893999998 * (c/cmax)^3)/ (1- 5.661479886999997 * (c/cmax)+ 11.47636191 * (c/cmax)^2- 9.82431213599998 * (c/cmax)^3+ 3.048755063 * (c/cmax)^4))'''
 
                                     info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
                                     if info:
@@ -1966,61 +1969,61 @@ class SetTabs:
                                                 
                                                 ''')
 
-                                    ocp = ex.toggle(label="Create your own OCP function", key = "toggle_ocp_{}".format(material_component_id))
+                                    #ocp = ex.toggle(label="Create your own OCP function", key = "toggle_ocp_{}".format(material_component_id))
 
-                                    if ocp:
-                                        ex.text_input(
-                                            label = "OCP",
-                                            value = st.session_state[ref_ocp],
-                                            key = ref_ocp,
-                                            label_visibility= "visible"
-                                        )
-                                        ref_ocp_str = st.session_state[ref_ocp]
-                                        func_ocpref = ex.toggle(label="Visualize OCP_ref", key = "toggle_vis_{}".format(material_component_id))
+                                    #if ocp:
+                                    ex.text_input(
+                                        label = "OCP",
+                                        value = st.session_state[ref_ocp],
+                                        key = ref_ocp,
+                                        label_visibility= "visible"
+                                    )
+                                    ref_ocp_str = st.session_state[ref_ocp]
+                                    func_ocpref = ex.toggle(label="Visualize OCP_ref", key = "toggle_vis_{}".format(material_component_id))
 
-                                        if func_ocpref:
-                                            # Convert the input string to a SymPy equation
-                                            try:
-                                                ref_ocp_str_py = ref_ocp_str.replace("^", "**")
-                                                eq_ref_ocp = sp.sympify(ref_ocp_str_py)
-                                                ex.latex("OCP = "+ sp.latex(eq_ref_ocp))
-                                                
-                                            except sp.SympifyError:
-                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+                                    if func_ocpref:
+                                        # Convert the input string to a SymPy equation
+                                        try:
+                                            ref_ocp_str_py = ref_ocp_str.replace("^", "**")
+                                            eq_ref_ocp = sp.sympify(ref_ocp_str_py)
+                                            ex.latex("OCP = "+ sp.latex(eq_ref_ocp))
+                                            
+                                        except sp.SympifyError:
+                                            ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
 
 
-                                        ex.text_input(
-                                            label = "Variables (ex: c,T,refT,cmax)",
-                                            value = st.session_state[variables],
-                                            key = variables,
-                                            label_visibility= "visible"
-                                        )
+                                    ex.text_input(
+                                        label = "Variables (ex: c,T,refT,cmax)",
+                                        value = st.session_state[variables],
+                                        key = variables,
+                                        label_visibility= "visible"
+                                    )
+
+                                
+                                    variables_str = st.session_state[variables]
 
                                     
-                                        variables_str = st.session_state[variables]
+                                    #func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(material_component_id))
 
+                                    # if func_du:
+                                    #     # Convert the input string to a SymPy equation
+                                    #     try:
+                                    
+                                    #         eq_variables = sp.sympify(variables_str)
+                                    #         ex.latex(sp.latex(eq_variables))
+                                    #     except sp.SympifyError:
+                                    #         ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+                                    if variables_str == "":
+                                        ex.warning("You haven't specified the variables your equation depends on.")
                                         
-                                        func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(material_component_id))
-
-                                        if func_du:
-                                            # Convert the input string to a SymPy equation
-                                            try:
-                                        
-                                                eq_variables = sp.sympify(variables_str)
-                                                ex.latex(sp.latex(eq_variables))
-                                            except sp.SympifyError:
-                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
-
-                                        if variables_str == "":
-                                            ex.warning("You haven't specified the variables your equation depends on.")
+                                    else:
+                                        variables_array = variables_str.split(',')
+                                        user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
                                             
-                                        else:
-                                            variables_array = variables_str.split(',')
-                                            user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
-                                             
 
-                                    else: 
-                                        user_input = None
+                                    # else: 
+                                    #     user_input = None
 
                             if not user_input:
                                 st.warning("You still have to define the function for the {}. Enable the 'Create you own {} function' toggle.".format(parameter.display_name,parameter.display_name))
@@ -2286,62 +2289,62 @@ class SetTabs:
                                                 
                                                 ''')
 
-                                    quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
+                                    #quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
 
-                                    if quantity:
-                                        ex.text_input(
-                                            label = "{}".format(parameter.display_name),
-                                            value = st.session_state[parameter.name],
-                                            key = parameter.name,
-                                            label_visibility= "visible"
-                                        )
-                                        quantity_str = st.session_state[parameter.name]
-                                        func_quantity = ex.toggle(label="Visualize {}".format(parameter.display_name), key = "toggle_vis_{}".format(parameter_id))
+                                    #if quantity:
+                                    ex.text_input(
+                                        label = "{}".format(parameter.display_name),
+                                        value = st.session_state[parameter.name],
+                                        key = parameter.name,
+                                        label_visibility= "visible"
+                                    )
+                                    quantity_str = st.session_state[parameter.name]
+                                    func_quantity = ex.toggle(label="Visualize {}".format(parameter.display_name), key = "toggle_vis_{}".format(parameter_id))
 
-                                        if func_quantity:
-                                            # Convert the input string to a SymPy equation
-                                            try:
-                                                quantity_str_py = quantity_str.replace("^", "**")
-                                                eq_quantity = sp.sympify(quantity_str_py)
-                                                ex.latex("{} = ".format(parameter.display_name) + sp.latex(eq_quantity))
-                                                
-                                            except sp.SympifyError:
-                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+                                    if func_quantity:
+                                        # Convert the input string to a SymPy equation
+                                        try:
+                                            quantity_str_py = quantity_str.replace("^", "**")
+                                            eq_quantity = sp.sympify(quantity_str_py)
+                                            ex.latex("{} = ".format(parameter.display_name) + sp.latex(eq_quantity))
+                                            
+                                        except sp.SympifyError:
+                                            ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
 
 
-                                        ex.text_input(
-                                            label = "Variables (ex: c,T)",
-                                            value = st.session_state[variables],
-                                            key = variables,
-                                            label_visibility= "visible"
-                                        )
+                                    ex.text_input(
+                                        label = "Variables (ex: c,T)",
+                                        value = st.session_state[variables],
+                                        key = variables,
+                                        label_visibility= "visible"
+                                    )
+
+                                
+                                    variables_str = st.session_state[variables]
 
                                     
-                                        variables_str = st.session_state[variables]
+                                    #func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(parameter_id))
 
+                                    # if func_du:
+                                    #     # Convert the input string to a SymPy equation
+                                    #     try:
+                                    
+                                    #         eq_variables = sp.sympify(variables_str)
+                                    #         ex.latex(sp.latex(eq_variables))
+                                    #     except sp.SympifyError:
+                                    #         ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+
+                                    if variables_str == "":
+                                        ex.warning("You haven't specified the variables your equation depends on.")
                                         
-                                        func_du = ex.toggle(label="Visualize your variables", key = "toggle_vis_du_{}".format(parameter_id))
-
-                                        if func_du:
-                                            # Convert the input string to a SymPy equation
-                                            try:
+                                    else:
+                                        variables_array = variables_str.split(',')
                                         
-                                                eq_variables = sp.sympify(variables_str)
-                                                ex.latex(sp.latex(eq_variables))
-                                            except sp.SympifyError:
-                                                ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
+                                        user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
+                                        print("var = ", user_input)
 
-                                        if variables_str == "":
-                                            ex.warning("You haven't specified the variables your equation depends on.")
-                                            
-                                        else:
-                                            variables_array = variables_str.split(',')
-                                            
-                                            user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
-                                            print("var = ", user_input)
-
-                                    else: 
-                                        user_input = None
+                                    # else: 
+                                    #     user_input = None
 
                             
                         if not user_input:
