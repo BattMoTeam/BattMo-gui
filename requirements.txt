@@ -9,3 +9,4 @@ flask_restful==0.3.10
 streamlit_extras == 0.3.2
 sympy == 1.12
 juliacall == 0.9.14 
+psutil == 3.2.2
