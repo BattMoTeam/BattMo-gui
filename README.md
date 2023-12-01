@@ -34,7 +34,7 @@ Initiate the Julia terminal in the command prompt and install the Julia packages
 julia
 ```
 ```<Julia>
-using Pkg; Pkg.add(["BattMo","Jutul","LoggingExtras", "JSON","PythonCall"])
+using Pkg; Pkg.add(["BattMo#refac","Jutul","LoggingExtras", "JSON","PythonCall"])
 ```
 Now the GUI can be run from 2 different terminals:
 
