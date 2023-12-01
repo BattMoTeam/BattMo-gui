@@ -4,6 +4,6 @@
    "component": "negative_electrode_additive",
    "material": false,
    "Parameters": {
-      "volume_fraction": 0.1
+      "mass_fraction": 0.1
    }
 }

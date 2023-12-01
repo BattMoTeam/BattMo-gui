@@ -442,7 +442,7 @@ class MaterialHandler(BaseHandler):
         self._table_name = "material"
         self._columns = "name, model_name, difficulty, context_type, context_type_iri, emmo_relation, display_name, tab_id, default_template_id, description"
 
-    def insert_value(self, name,model_id,component_id_1,component_name_1,number_of_components, default_material,model_name=None,component_id_2=None, difficulty=None, context_type=None,component_name_2=None, context_type_iri=None, emmo_relation=None, display_name=None, description=""):
+    def insert_value(self, name,model_id,component_id_1,component_name_1,number_of_components, default_material,model_name=None,component_id_2=None, difficulty=None,reference_name = None, reference = None, reference_url = None, context_type=None,component_name_2=None, context_type_iri=None, emmo_relation=None, display_name=None, description=""):
         assert name is not None, "Category's name can't be None"
         assert component_id_1 is not None, "Category's component_id_1 can't be None"
         assert default_material is not None, "Category's default_material can't be None"
@@ -452,6 +452,9 @@ class MaterialHandler(BaseHandler):
                 "name": name,
                 "model_name": model_name, 
                 "difficulty": difficulty,
+                "reference_name": reference_name,
+                "reference": reference,
+                "reference_url": reference_url,
                 "model_id": model_id,
                 "context_type": context_type,
                 "context_type_iri": context_type_iri,

@@ -238,7 +238,6 @@ class FormatParameters:
         # initialize from template parameters
         formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
-        #print("ja=",raw_template_parameters)
     
         #if np.ndim(parameter_sets)> 1:
 
@@ -267,7 +266,7 @@ class FormatParameters:
             for parameter in raw_parameters:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
-                #print("index =", parameter_set_id_index)
+               
                
                 if raw_parameters_set_ids[index] == parameter_set_id:
                     
@@ -420,7 +419,6 @@ class FormatParameters:
         else:
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
-          
 
             parameter_id, \
                     name, \

@@ -208,6 +208,14 @@ def get_categories_context_type_iri(tab_id):
     return res
 
 @st.cache_data
+def get_categories_context_type(tab_id):
+    res = sql_category().select(
+        values = 'context_type',
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
+    )
+    return res
+
+@st.cache_data
 def get_advanced_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values = '*',
@@ -258,7 +266,7 @@ def get_n_to_p_component_by_tab_id(tab_id):
 def get_material_from_component_id(component_id):
     res = sql_material().select(
         values = '*',
-        where="component_id_1=%d or component_id_2=%d " % (component_id,component_id)
+        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
     )
     return res
 
@@ -266,7 +274,7 @@ def get_material_from_component_id(component_id):
 def get_material_names_from_component_id(component_id):
     res = sql_material().select(
         values = 'display_name',
-        where="component_id_1=%d or component_id_2=%d " % (component_id,component_id)
+        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
     )
     return [a[0] for a in res]
 
@@ -336,6 +344,11 @@ def get_all_material_by_component_id(component_id):
             values='*',
             where="component_id=%d AND material = %d"  % (component_id,1)
         )
+def get_material_by_material_id(material_id):
+        return sql_parameter_set().select(
+            values='*',
+            where="material_id = %d"  % (material_id)
+        )
 
 def get_vf_parameter_set_id_by_component_id(component_id):
     res = np.squeeze(sql_parameter_set().select(
@@ -362,7 +375,7 @@ def get_non_material_set_id_by_component_id(component_id):
 def get_vf_raw_parameter_by_parameter_set_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
-        where="parameter_set_id=%d AND name = 'volume_fraction'" % parameter_set_id
+        where="parameter_set_id=%d AND name = 'mass_fraction'" % parameter_set_id
     )
     return res
 
@@ -397,7 +410,6 @@ def get_models_as_dict():
         values = '*',
         where = "show_to_user = '1'" 
     )
-    print("models=",models )
     models_as_dict = {}
 
     for model in models:
@@ -490,7 +502,7 @@ def get_all_material_by_template_id(template_id):
 def get_vf_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND name = '%s'" % (template_id,"volume_fraction")
+            where="template_id=%d AND name = '%s'" % (template_id,"mass_fraction")
         )
 
 def get_non_material_template_by_template_id(template_id, model_id):

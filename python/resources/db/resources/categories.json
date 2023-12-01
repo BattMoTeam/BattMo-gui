@@ -62,7 +62,7 @@
             "difficulty": "basis",
             "context_type": "echem:PositiveElectrode",
             "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
-            "display_name": "Positive Electrode",
+            "display_name": "Positive electrode",
             "tab_name": "electrodes",
             "description": "",
             "default_template": "n_p_electrode_properties_full_template"

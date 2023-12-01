@@ -77,6 +77,9 @@ class UpdateMaterials:
                     
                     model_name = details.get("model_name")
                     difficulty = details.get("difficulty")
+                    reference_name = details.get("reference_name")
+                    reference = details.get("reference")
+                    reference_url = details.get("reference_url")
                     context_type = details.get("context_type")
                     context_type_iri = details.get("context_type_iri")
                     emmo_relation = details.get("emmo_relation")
@@ -84,7 +87,7 @@ class UpdateMaterials:
                     display_name = details.get("display_name")
                     number_of_components = details.get("number_of_components")
                     component_name_1 = details.get("component_name_1")
-                    print(component_name_1)
+          
                     component_name_2 = details.get("component_name_2")
                     default_material = int(details.get("default_material"))
 
@@ -98,6 +101,9 @@ class UpdateMaterials:
                                 "component_id_2": component_id_2,
                                 "model_name": model_name,
                                 "difficulty": difficulty,
+                                "reference_name": reference_name,
+                                "reference": reference,
+                                "reference_url": reference_url,
                                 "model_id": model_id,
                                 "context_type": context_type,
                                 "context_type_iri": context_type_iri,
@@ -120,6 +126,9 @@ class UpdateMaterials:
                             component_id_2=component_id_2,
                             model_name=model_name,
                             difficulty=difficulty,
+                            reference_name = reference_name,
+                            reference = reference,
+                            reference_url = reference_url,
                             model_id = model_id,
                             context_type=context_type,
                             context_type_iri=context_type_iri,
@@ -140,6 +149,9 @@ class UpdateMaterials:
                 if component_id_1:
                     model_name = details.get("model_name")
                     difficulty = details.get("difficulty")
+                    reference_name = details.get("reference_name")
+                    reference = details.get("reference")
+                    reference_url = details.get("reference_url")
                     context_type = details.get("context_type")
                     context_type_iri = details.get("context_type_iri")
                     emmo_relation = details.get("emmo_relation")
@@ -158,6 +170,9 @@ class UpdateMaterials:
                                 "component_id_1": component_id_1,
                                 "model_name": model_name,
                                 "difficulty": difficulty,
+                                "reference_name": reference_name,
+                                "reference": reference,
+                                "reference_url": reference_url,
                                 "model_id": model_id,
                                 "context_type": context_type,
                                 "context_type_iri": context_type_iri,
@@ -178,6 +193,9 @@ class UpdateMaterials:
                             component_id_1=component_id_1,
                             model_name=model_name,
                             difficulty=difficulty,
+                            reference_name = reference_name,
+                            reference = reference,
+                            reference_url = reference_url,
                             model_id = model_id,
                             context_type=context_type,
                             context_type_iri=context_type_iri,

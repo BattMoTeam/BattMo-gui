@@ -100,7 +100,7 @@ class UpdateTemplates:
         for parameter in parameters:
             details = parameters.get(parameter)
             model = details.get("model_name")
-            print("model_name=", model)
+        
             if model == 'p2d_p3d_p4d':
                 model_name = 'P2D' 
                 model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
@@ -111,7 +111,7 @@ class UpdateTemplates:
             if model == 'p4d':
                 model_name = 'P4D' 
                 model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
-            print("model_id=", model_id)
+            
         if template_already_exists:
             if self.print_details:
                 print("\n Updating {}".format(name))
@@ -122,7 +122,7 @@ class UpdateTemplates:
                 model_id=model_id,
                 fields=fields
             )
-            print("model_id2=",model_id)
+            
         else:
             if self.print_details:
                 print("\n Creating {}".format(name))
@@ -183,7 +183,7 @@ class UpdateTemplates:
             )
             if parameter_id:  # existing parameter, update fields
                 try:
-                    print("model_id3=",model_id)
+                   
                     self.sql_template_parameter.update_by_id(
                         id=parameter_id,
                         columns_and_values={

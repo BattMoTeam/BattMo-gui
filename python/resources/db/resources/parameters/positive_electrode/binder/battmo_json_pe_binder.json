@@ -4,6 +4,6 @@
    "component": "positive_electrode_binder",
    "material": false,
    "Parameters": {
-      "volume_fraction": 0.14
+      "mass_fraction": 0.14
    }
 }
