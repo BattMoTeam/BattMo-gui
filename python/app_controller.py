@@ -15,12 +15,6 @@ class AppController:
 
     def set_model_choice(self):
         return SetModelChoice()
-    
-    # def get_tab_data(self, model_id):
-    #     return GetTabData(model_id)
-    
-    # def set_basis_input_tabs(self):
-    #     return SetBasisInputTabs(self.images)
 
     def set_tabs(self, model_id):
         return SetTabs(self.images, model_id, self.context)
@@ -41,6 +35,12 @@ class AppController:
 
     def match_json(self, gui_dict):
         return match_json.get_batt_mo_dict_from_gui_dict(gui_dict)
+    
+    def set_download_hdf5_button(self, results):
+        return SetHDF5Download(results)
+    
+    def set_graphs(self, results):
+        return SetGraphs(results)
 
 
 #####################################
@@ -62,6 +62,16 @@ def set_page_navigation():
 @st.cache_data
 def set_external_links():
     return SetExternalLinks()
+
+@st.cache_data
+def set_model_description():
+    return SetModelDescription()
+
+def set_material_description():
+    return SetMaterialDescription()
+
+def get_results_data():
+    return GetResultsData()
 
 
 #####################################
