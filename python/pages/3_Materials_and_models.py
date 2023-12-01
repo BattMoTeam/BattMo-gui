@@ -87,7 +87,7 @@ for material_values in materials:
                     template_parameter_id, template_parameter_name,_,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
                     
                     if template_parameter_name == "open_circuit_potential" or template_parameter_name == "conductivity" or template_parameter_name == "diffusion_coefficient":
-                        print("vlue =", value)
+                   
                         json_formatted_string = value.replace("'", '"')
                         value_dict = json.loads(json_formatted_string)
                         st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))

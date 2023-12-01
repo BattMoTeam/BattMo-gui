@@ -87,7 +87,7 @@ class UpdateMaterials:
                     display_name = details.get("display_name")
                     number_of_components = details.get("number_of_components")
                     component_name_1 = details.get("component_name_1")
-                    print(component_name_1)
+          
                     component_name_2 = details.get("component_name_2")
                     default_material = int(details.get("default_material"))
 

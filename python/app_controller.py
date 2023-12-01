@@ -1,4 +1,5 @@
 from app_view import *
+from app_development import *
 
 
 class AppController:
@@ -15,11 +16,11 @@ class AppController:
     def set_model_choice(self):
         return SetModelChoice()
     
-    def get_tab_data(self, model_id):
-        return GetTabData(model_id)
+    # def get_tab_data(self, model_id):
+    #     return GetTabData(model_id)
     
-    def set_basis_input_tabs(self):
-        return SetBasisInputTabs(self.images)
+    # def set_basis_input_tabs(self):
+    #     return SetBasisInputTabs(self.images)
 
     def set_tabs(self, model_id):
         return SetTabs(self.images, model_id, self.context)
@@ -29,11 +30,14 @@ class AppController:
             return JsonViewer(json_data, label)
         return JsonViewer(json_data)
 
-    def save_parameters(self, gui_parameters):
-        return SaveParameters(gui_parameters)
+    def run_simulation(self, gui_parameters):
+        return RunSimulation(gui_parameters)
+    
+    def divergence_check(self):
+        return DivergenceCheck()
 
-    def run_simulation(self):
-        return RunSimulation()
+    def download_parameters(self):
+        return DownloadParameters()
 
     def match_json(self, gui_dict):
         return match_json.get_batt_mo_dict_from_gui_dict(gui_dict)
@@ -50,6 +54,14 @@ def get_app_controller():
 @st.cache_data
 def set_heading():
     return SetHeading(get_logo())
+
+
+def set_page_navigation():
+    return SetPageNavigation()
+
+@st.cache_data
+def set_external_links():
+    return SetExternalLinks()
 
 
 #####################################
@@ -80,3 +92,10 @@ def get_logo():
 @st.cache_data
 def get_context():
     return db_access.get_json_from_path(db_access.get_path_to_categories()).get("context")
+
+
+#####################################
+# development utilities
+#####################################
+def log_memory_usage():
+    return LogMemoryUsage()

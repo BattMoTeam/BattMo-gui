@@ -7,7 +7,6 @@ import match_json
 import streamlit as st
 from app_parameter_model import *
 from resources.db import db_helper, db_access
-#from oct2py import Oct2Py
 from copy import deepcopy
 from uuid import uuid4
 import sys
@@ -51,7 +50,7 @@ def st_space(tab=None, space_width=1, space_number=1):
 
 class SetHeading:
     """
-    Only used in the "About" tab, nothing important here, opened for complete modification.
+    Only used in the "Introduction" page, nothing important here, opened for complete modification.
     """
     def __init__(self, logo):
         self.logo = logo
@@ -63,23 +62,14 @@ class SetHeading:
             BattMo is a framework for continuum modelling of electrochemical devices. 
             It simulates the Current-Voltage response of a battery using Physics-based models.
         """
-        
-        
-        self.website = "[BatteryModel.com](https://batterymodel.com/)"
-        self.doi = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
-        self.github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
 
         # Set heading
         self.set_heading()
-        
-        
+               
 
     def set_heading(self):
         self.set_title_and_logo()
-        #self.set_external_links()
-        self.set_description()
-        #st_space()
-        
+        self.set_description()     
 
     def set_title_and_logo(self):
         # Title and subtitle
@@ -88,17 +78,80 @@ class SetHeading:
         title_col.title(self.title)
         #st.text(self.subtitle)
 
-
-    def set_external_links(self):
-        # External links
-        website_col, doi_col, github_col = st.columns([2, 3, 4])
-        website_col.markdown(self.website)
-        doi_col.markdown(self.doi)
-        github_col.markdown(self.github)
-
     def set_description(self):
         # Description
         st.text(self.description)
+
+
+class SetPageNavigation:
+    """
+    Used in the "Introduction" page, sets the navigation info and buttons to to the other pages.
+    """
+    def __init__(self):
+        
+        self.info = "Hover over the following buttons to see what you can find on each page."
+        self.help_simulation = "Define your input parameters and run a simulation."
+        self.help_results = "Download and visualize your results."
+        self.help_materials_and_models = "See which pre-defined materials and which simulation models are available."
+        self.set_page_navigation()
+
+    def set_page_navigation(self):
+
+        self.set_info()
+        self.set_page_buttons()
+        
+
+    def set_info(self):
+
+        st.info(self.info)
+
+    def set_page_buttons(self):
+
+        simulation_page = st.button(label = "Simulation",
+                        help = self.help_simulation
+                        )
+        
+        results_page = st.button(label = "Results",
+                        help = self.help_results
+                        )
+        
+        materials_and_models_page = st.button(label = "Materials and models",
+                        help = self.help_materials_and_models
+                        )
+        
+        if simulation_page:
+            switch_page("Simulation")
+
+        if results_page:
+            switch_page("Results")
+
+        if materials_and_models_page:
+            switch_page("Materials and models")
+
+
+class SetExternalLinks:
+    """
+    Used in the "Introduction" page, sets the links to external information.
+    """
+    def __init__(self):
+
+        self.batterymodel = "[BatteryModel.com](https://batterymodel.com/)"
+        self.zenodo = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
+        self.github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
+        self.documentation = "[![Repo](https://badgen.net/badge/Doc/BattMo-app)](https://battmoteam.github.io/battmo-doc-test/gui.html)"
+
+        self.set_external_links()
+
+    def set_external_links(self):
+        
+        st.divider()
+        website_col, doi_col, github_col, doc_col = st.columns([3.5, 5, 3,3])
+        website_col.markdown(self.batterymodel)
+        doi_col.markdown(self.zenodo)
+        github_col.markdown(self.github)
+        doc_col.markdown(self.documentation)
+        st.divider()
+
 
 
 class SetModelChoice:
@@ -134,189 +187,23 @@ class SetModelChoice:
         self.selected_model = selected_model_id
 
 
-class GetTabData:
-    def __init__(self):
+# class GetTabData:
+#     def __init__(self):
 
-        self.basis_tabs = db_helper.all_basis_tab_display_names
-        self.advanced_tabs = db_helper.all_advanced_tab_display_names
+#         self.basis_tabs = db_helper.all_basis_tab_display_names
+#         self.advanced_tabs = db_helper.all_advanced_tab_display_names
 
-    def get_sql_data(self,model_id):
+#     def get_sql_data(self,model_id):
 
-        print("nothing")
+#         print("nothing")
 
-        # Get data relevent to chosen model
+#         # Get data relevent to chosen model
 
-
-class SetBasisInputTabs:
-    def __init__(self, images):
-
-        self.image_dict = images
-
-        #Initialize tabs
-        self.title = "Parameters"
-        self.set_title()
-        self.set_basis_tabs()
-
-    def set_title(self):
-        st.markdown("### " + self.title)
-
-    def set_basis_tabs(self):
-
-        Electrodes, Electrolyte, Seperator, Protocol, BC = st.tabs(["Electrodes", "Electrolyte", "Seperator", "Protocol", "Boundary Conditions"])
-        
-        with Electrodes:
-            image_collumn_electrodes,image2_collumn_electrodes, title_electrodes = st.columns([0.9,0.9,6])
-            image_collumn_electrodes.image(self.image_dict['2'])
-            image2_collumn_electrodes.image(self.image_dict['1'])
-            with title_electrodes:
-                st.text(" ")
-                st.subheader("Electrodes")
-
-            NE, PE = st.tabs(["Negative Electrode", "Positive Electrode"])
-            with NE:
-                parameter_NE_AM, selectbox_NE_AM, volumefraction_NE_AM = st.columns(3)
-                parameter_NE_B, selectbox_NE_B, volumefraction_NE_B = st.columns(3)
-                parameter_NE_Ad, selectbox_NE_Ad, volumefraction_NE_Ad = st.columns(3)
-
-                with parameter_NE_AM:
-                    st.markdown("###### "+ "Component")
-                
-                    st.markdown("Active Material")
-                with selectbox_NE_AM:
-                    st.markdown("###### "+ "Material")
-                    NE_AM_choice = st.selectbox('Material', ('Graphite_Xu2015', 'Graphite_Safari2009', 'User Defined'), key = "NE_AM_choice",label_visibility="collapsed")
-                with volumefraction_NE_AM:
-                    st.markdown("###### "+ "Volume Fraction []")
-                    volume_fraction_NE_AM = st.number_input(label = "Volume fraction",key = "volume fraction input NE AM", label_visibility="collapsed")
-                if NE_AM_choice == 'User Defined':
-                    NE_AM_exp = st.expander("Define active material parameters")
-                    with NE_AM_exp:
-                        st.write("parameter form")
-
-                with parameter_NE_B:
-                    st.markdown("Binder")
-                with selectbox_NE_B:
-                    NE_B_choice = st.selectbox('Material', ('PVDF', 'User Defined'), key = "NE_B_choice",label_visibility="collapsed")
-                with volumefraction_NE_B:
-                    volume_fraction_NE_B = st.number_input(label = "Volume fraction",key = "volume fraction input NE B", label_visibility="collapsed")
-                if NE_B_choice == 'User Defined':
-                    NE_B_exp = st.expander("Define binder parameters")
-                    with NE_B_exp:
-                        st.write("parameter form")
-                with parameter_NE_Ad:
-                    st.markdown("Additive")
-                with selectbox_NE_Ad:
-                    NE_Ad_choice = st.selectbox('Material', ('carbon_black', 'User Defined'), key = "NE_Ad_choice",label_visibility="collapsed")
-                with volumefraction_NE_Ad:
-                    volume_fraction_NE_Ad = st.number_input(label = "Volume fraction",key = "volume fraction input NE Ad", label_visibility="collapsed")
-                if NE_Ad_choice == 'User Defined':
-                    NE_Ad_exp = st.expander("Define additive parameters")
-                    with NE_Ad_exp:
-                        st.write("parameter form")
-
-                    #Electrode_properties = st.tabs(["Electrode properties"])
-                st.markdown("###### " + "Electrode properties")
-
-                electrode_properties_NE, graphics_Electrodes_NE = st.columns([2,1])
-                with graphics_Electrodes_NE:
-                    st.markdown("Coating porosity []")
-                with electrode_properties_NE:
-                    parameter_Electrodes_porosity_NE, input_Electrodes_porosity_NE = st.columns(2)
-                    with parameter_Electrodes_porosity_NE: 
-                        st.markdown("Coating porosity []")
-                    with input_Electrodes_porosity_NE: 
-                        coating_porosity_NE = st.number_input(label = "Coating Porosity",key = "coating porosity input NE", label_visibility="collapsed")
-                    parameter_Electrodes_mass_load_NE, input_Electrodes_mass_load_NE = st.columns(2)
-                    with parameter_Electrodes_mass_load_NE: 
-                        st.markdown("Mass loading []")
-                    with input_Electrodes_mass_load_NE: 
-                        mass_loading_NE = st.number_input(label = "Mass loading",key = "mass loading input NE", label_visibility="collapsed")
-                    parameter_Electrodes_thickness_NE, input_Electrodes_thickness_NE = st.columns(2)
-                    with parameter_Electrodes_thickness_NE: 
-                        st.markdown("Coating thickness []")
-                    with input_Electrodes_thickness_NE: 
-                        coating_thickness_NE = st.number_input(label = "Coating thickness",key = "coating thickness input NE", label_visibility="collapsed")
-            with PE:
-                parameter_PE_AM, selectbox_PE_AM, volumefraction_PE_AM = st.columns(3)
-                parameter_PE_B, selectbox_PE_B, volumefraction_PE_B = st.columns(3)
-                parameter_PE_Ad, selectbox_PE_Ad, volumefraction_PE_Ad = st.columns(3)
-
-                with parameter_PE_AM:
-                    st.markdown("###### "+ "Component")
-                    st.markdown("Active Material")
-                with selectbox_PE_AM:
-                    st.markdown("###### "+ "Material")
-                    PE_AM_choice = st.selectbox('Material', ('Graphite_Xu2015', 'Graphite_Safari2009', 'User Defined'), key = "PE_AM_choice",label_visibility="collapsed")
-                with volumefraction_PE_AM:
-                    st.markdown("###### "+ "Volume Fraction []")
-                    volume_fraction_PE_AM = st.number_input(label = "Volume fraction",key = "volume fraction input PE AM", label_visibility="collapsed")
-                if PE_AM_choice == 'User Defined':
-                    PE_AM_exp = st.expander("Define active material parameters")
-                    with NE_AM_exp:
-                        st.write("parameter form")
-
-                with parameter_PE_B:
-                    st.markdown("Binder")
-                with selectbox_PE_B:
-                    PE_B_choice = st.selectbox('Material', ('PVDF', 'User DefiPed'), key = "PE_B_choice",label_visibility="collapsed")
-                with volumefraction_PE_B:
-                    volume_fraction_PE_B = st.number_input(label = "Volume fraction",key = "volume fraction input PE B", label_visibility="collapsed")
-                if PE_B_choice == 'User Defined':
-                    PE_B_exp = st.expander("Define binder parameters")
-                    with PE_B_exp:
-                        st.write("parameter form")
-                with parameter_PE_Ad:
-                    st.markdown("Additive")
-                with selectbox_PE_Ad:
-                    PE_Ad_choice = st.selectbox('Material', ('carbon_black', 'User Defined'), key = "PE_Ad_choice",label_visibility="collapsed")
-                with volumefraction_PE_Ad:
-                    volume_fraction_PE_Ad = st.number_input(label = "Volume fraction",key = "volume fraction input PE Ad", label_visibility="collapsed")
-                if PE_Ad_choice == 'User Defined':
-                    PE_Ad_exp = st.expander("Define additive parameters")
-                    with PE_Ad_exp:
-                        st.write("parameter form")
-
-                #Electrode_properties = st.tabs(["Electrode properties"])
-                st.markdown("###### " + "Electrode properties")
-
-                electrode_properties, graphics_Electrodes = st.columns([2,1])
-                with graphics_Electrodes:
-                    st.markdown("Coating porosity []")
-                with electrode_properties:
-                    parameter_Electrodes_porosity, input_Electrodes_porosity = st.columns(2)
-                    with parameter_Electrodes_porosity: 
-                        st.markdown("Coating porosity []")
-                    with input_Electrodes_porosity: 
-                        coating_porosity = st.number_input(label = "Coating Porosity",key = "coating porosity input", label_visibility="collapsed")
-                    parameter_Electrodes_mass_load, input_Electrodes_mass_load = st.columns(2)
-                    with parameter_Electrodes_mass_load: 
-                        st.markdown("Mass loading []")
-                    with input_Electrodes_mass_load: 
-                        coating_porosity = st.number_input(label = "Mass loading",key = "mass loading input", label_visibility="collapsed")
-                    parameter_Electrodes_thickness, input_Electrodes_thickness = st.columns(2)
-                    with parameter_Electrodes_thickness: 
-                        st.markdown("Coating thickness []")
-                    with input_Electrodes_thickness: 
-                        coating_porosity = st.number_input(label = "Coating thickness",key = "coating thickness input", label_visibility="collapsed")
-            st.divider()
-            
-            n_to_p_parameter, empty, n_to_p_value_n, to, n_to_p_value_p, empty = st.columns([3,1.5,2.5,0.5,2.5,3])
-
-            with n_to_p_parameter:
-                st.markdown("N/P ratio")
-            with n_to_p_value_n:
-                n_to_p_n = st.number_input(label = "ntop_n", key = "ntop_n", value = 1.0, label_visibility="collapsed")
-            with to:
-                st.markdown(" / ")
-            with n_to_p_value_p:
-                n_to_p_p = st.number_input(label = "ntop_p", key = "ntop_p", value = 1.2, label_visibility="collapsed")
-
-        st.divider()
 
 
 def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_material_parameter):
         """
-        Function needed for the checkboxes and number_inputs to work properly together.
+        Function needed for the toggles and number_inputs to work properly together.
         """
         
 
@@ -328,88 +215,28 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
         
         if st.session_state[checkbox_key]==True:
             
-            #st.session_state[state_count] += 1
             st.session_state[states_to_count][checkbox_key] = True
             st.session_state[states][parameter_name] = True
-            st.session_state[state_count] = sum(st.session_state[states_to_count].values())            #st.experimental_rerun()
+            st.session_state[state_count] = sum(st.session_state[states_to_count].values())           
 
         elif st.session_state[checkbox_key]== False:
-            #st.session_state[state_count] -= 1
+
             st.session_state[states_to_count][checkbox_key] = False
             st.session_state[states][parameter_name] = False
             st.session_state[state_count] = sum(st.session_state[states_to_count].values())
-            #st.experimental_rerun()
+
         
         if st.session_state[state_count] >2:
             st.session_state[states_to_count][checkbox_key] = False
             st.session_state[checkbox_key] = False
-            #st.session_state[state_count] -= 1
             st.session_state[state_count] = sum(st.session_state[states_to_count].values())
             st.session_state[states][parameter_name] = False
             tab.warning("Only two of three parameters can be defined. The third one is calculated.")
-            #st.experimental_rerun()
 
         elif st.session_state[state_count] < 2:
             tab.warning("Enable at least two of three parameters.")
         else:
             pass
-            # if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
-            #     input_key = "input_key_{}_{}".format(category_id, "mass_loading")
-            #     empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
-            #     input_value = "input_value_{}_{}".format(category_id, "mass_loading")
-
-                
-            #     user_input = st.session_state[empty_key].number_input(
-            #         label=non_material_parameter.name,
-            #         value=st.session_state[input_value],
-            #         min_value=non_material_parameter.min_value,
-            #         max_value=non_material_parameter.max_value,
-            #         key=input_key,
-            #         format=non_material_parameter.format,
-            #         step=non_material_parameter.increment,
-            #         label_visibility="collapsed",
-            #         disabled = not st.session_state[checkbox_key]
-            #         )   
-                
-                
-            # elif st.session_state[states]["coating_thickness"] and st.session_state[states]["mass_loading"]:
-            #     input_key = "input_key_{}_{}".format(category_id, "coating_porosity")
-            #     empty_key = "empty_{}_{}".format(category_id,"coating_porosity") 
-            #     input_value = "input_value_{}_{}".format(category_id, "coating_porosity")
-
-            #     print("val=", st.session_state[input_value])
-            #     user_input = st.session_state[empty_key].number_input(
-            #         label=non_material_parameter.name,
-            #         value=st.session_state[input_value],
-            #         min_value=non_material_parameter.min_value,
-            #         max_value=non_material_parameter.max_value,
-            #         key=input_key,
-            #         format=non_material_parameter.format,
-            #         step=non_material_parameter.increment,
-            #         label_visibility="collapsed",
-            #         disabled = not st.session_state[checkbox_key]
-            #         )
-                
-
-
-            # elif st.session_state[states]["mass_loading"] and st.session_state[states]["coating_porosity"]:
-            #     input_key = "input_key_{}_{}".format(category_id, "coating_thickness")
-            #     empty_key = "empty_{}_{}".format(category_id,"coating_thickness") 
-            #     input_value = "input_value_{}_{}".format(category_id, "coating_thickness")
-
-                
-            #     user_input = st.session_state[empty_key].number_input(
-            #         label=non_material_parameter.name,
-            #         value=st.session_state[input_value],
-            #         min_value=non_material_parameter.min_value,
-            #         max_value=non_material_parameter.max_value,
-            #         key=input_key,
-            #         format=non_material_parameter.format,
-            #         step=non_material_parameter.increment,
-            #         label_visibility="collapsed",
-            #         disabled = not st.session_state[checkbox_key]
-            #         )
-                
 
                    
 
@@ -482,22 +309,22 @@ class SetTabs:
                     "@type": "battery:P2DModel",
                     "hasQuantitativeProperty": db_helper.get_model_parameters_as_dict(model_id)
                 }
-            }
-
-            
-
-                
+            }        
             
         }
 
         #self.set_file_input()
         # Fill tabs
         self.set_tabs()
-        #self.set_advanced_tabs()
 
 
 
     def set_file_input(self):
+
+        ############################################################
+        # Function that create a file input at the Simulation page
+        # NOT USED YET
+        ############################################################
         upload, update = st.columns((3,1))
         uploaded_file = upload.file_uploader("Upload here your JSON input parameter file to automatically fill the parameter inputs.", type='json', help="Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page.")
         
@@ -531,10 +358,6 @@ class SetTabs:
     def create_component_parameters_dict(self,component_parameters):
         return {self.has_quantitative_property: component_parameters}
     
-    
-
-    
-
     def validate_volume_fraction(self, vf_sum,category_display_name,tab):
         vf_summing = 0
         for id, value in vf_sum.items():
@@ -1186,7 +1009,6 @@ class SetTabs:
             # get parameter sets corresponding to component, then parameters from each set
             material_parameter_sets.append(tuple(db_helper.get_material_by_material_id(material_id)[0]))
 
-        print(material_parameter_sets)
         material_parameter_sets_name_by_id = {}
         for id, name, _,_,_ in material_parameter_sets:
             material_parameter_sets_name_by_id[id] = name
@@ -1782,7 +1604,7 @@ class SetTabs:
                 component_parameters["label"] = material_comp_display_name
                 component_parameters["@type"] = material_comp_context_type
                 #component_parameters["@type_iri"] = material_comp_context_type_iri
-                print("dis =", material_comp_display_name)
+
                 if material_comp_display_name == "Active Material":
                     material_comp_relation = "hasActiveMaterial"
                 elif material_comp_display_name == "Binder":
@@ -2212,7 +2034,7 @@ class SetTabs:
 
                     par_indexes = 0
                     for parameter_id in parameters:
-                        print(parameters)
+
                         parameter = parameters.get(parameter_id)
                         parameter_options =parameter.options.get(selected_value_id)
      
@@ -2341,7 +2163,7 @@ class SetTabs:
                                         variables_array = variables_str.split(',')
                                         
                                         user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
-                                        print("var = ", user_input)
+                                    
 
                                     # else: 
                                     #     user_input = None
@@ -2785,34 +2607,16 @@ class JsonViewer:
         viewer.json(self.json_data)
 
 
-class SaveParameters:
+class RunSimulation:
     """
-    Rendering of Save Parameters section in Define Parameters tab
+    Rendering of Rus simulation section in the Simulation page
 
-    Can be improved, to make it more obvious that it is needed to save before running simulation
+    Can be improved, think about removing the 'UPDATE' button.
     """
     def __init__(self, gui_parameters):
         self.header = "Run simulation"
-
-        self.download_button_label = "Download parameters - Json LD format"
         self.json_file = os.path.join(db_access.get_path_to_BattMoJulia_dir(),"battmo_formatted_input.json")
-
-        self.gui_parameters = gui_parameters
-        self.gui_file_data = json.dumps(gui_parameters, indent=2)
-        self.gui_file_name = "gui_output_parameters.json"
-        self.file_mime_type = "application/json"
-
-        self.set_submit_button()
-
-    def set_submit_button(self):
-
-        save_run = st.container()
-        #set header
-        save_run.markdown("### " + self.header)
-        save_run.text(" ")
-
-        empty,save,run = save_run.columns((0.3,1,1))
-        m = st.markdown("""
+        self.button_style = st.markdown("""
             <style>
             div.stButton > button:first-child {
                 background-color: #e1e7f2;
@@ -2826,40 +2630,79 @@ class SaveParameters:
             }
             </style>""", unsafe_allow_html=True)
 
-        update = save.button(
+        self.gui_parameters = gui_parameters
+        #self.gui_file_data = json.dumps(gui_parameters, indent=2)
+        #self.gui_file_name = "gui_output_parameters.json"
+        #self.file_mime_type = "application/json"
+
+        self.api_url = 'http://127.0.0.1:5000/run_simulation'
+        self.json_input_folder = 'BattMoJulia'
+        self.json_input_file = 'battmo_formatted_input.json'
+        self.julia_module_folder = 'BattMoJulia'
+        self.julia_module = 'runP2DBattery.jl'
+        self.results_folder = "results"
+        self.temporary_results_file = "battmo_result"
+
+        self.set_section()
+
+    def set_section(self):
+
+        save_run = st.container()
+
+        self.set_header(save_run)
+        self.set_buttons(save_run)
+
+    def set_header(self,save_run):
+
+        save_run.markdown("### " + self.header)
+        save_run.text(" ")
+
+    def set_buttons(self, save_run):
+
+        empty,update,run = save_run.columns((0.3,1,1))
+
+        self.button_style
+
+        update = update.button(
             label="UPDATE",
-            on_click=self.on_click_save_file,
+            on_click=self.update_on_click,
             args= (save_run, )
             #help = "Update the parameter values."
         )
 
-        
-            
-
-        # set RUN button
         runing = run.button(
             label="RUN",
-            on_click= octave_on_click,
-            args = ( self.json_file,save_run ),
+            on_click= self.execute_api_on_click,
+            args = (save_run, )
             #help = "Run the simulation (after updating the parameters)."
             
         )
-        return save_run
         
+    def update_on_click(self, save_run):
+        
+        self.update_json_battmo_input()
+        self.update_json_LD()
+        
+        st.session_state.update_par = True
 
+        save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
+    def update_json_battmo_input(self):
 
-    def on_click_save_file(self, save_run):
         path_to_battmo_input = db_access.get_path_to_battmo_input()
-        # save parameters in json file
+
+        # save formatted parameters in json file
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(
                 self.gui_parameters,
                 new_file,
                 indent=3)
+            
+    def update_json_LD(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = db_access.get_path_to_battmo_formatted_input()
+
         # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
@@ -2867,57 +2710,127 @@ class SaveParameters:
                 new_file,
                 indent=3
             )
-        st.session_state.update_par = True
-        save_run.success("Your parameters are saved! Run the simulation to get your results.")
+
+    def execute_api_on_click(self, save_run):
+
+        ##############################
+        # Remember user changed values
+        for k, v in st.session_state.items():
+            st.session_state[k] = v
+        ##############################
+
+        ##############################
+        # Set page directory to base level to allow for module import from different folder
+
+        sys.path.insert(0, db_access.get_path_to_gui_dir())
+        
+        ##############################
+
+        if st.session_state.update_par != True:
+            save_run.warning("""The parameters are not updated yet. 
+                        Simulation not initiated. Click on the 'UPDATE' button first.""")
+        
+        elif st.session_state.update_par == True: 
+
+            uuids = requests.get(url = self.api_url, data={'InputFolder': self.json_input_folder, 
+                                                                                    'InputFile':self.json_input_file,
+                                                                                    'JuliaModelFolder':self.julia_module_folder,
+                                                                                    'JuliaModel': self.julia_module}).json()
 
 
 
+            with open(os.path.join(db_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
+                result = pickle.load(pickle_result)
+
+            with open(os.path.join(db_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
+                        pickle.dump(result, new_pickle_file)
 
 
-def octave_on_click(json_file, save_run):
+            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+            st.cache_data.clear()
+            st.session_state.update_par = False
+            st.session_state.sim_finished = True
 
-    ##############################
-    # Remember user changed values
-    for k, v in st.session_state.items():
-        st.session_state[k] = v
-    ##############################
 
-    ##############################
-    # Set page directory to base level to allow for module import from different folder
+class DivergenceCheck:
+    """
+    Checks if the simulation is fully executed
+    """
+    def __init__(self):
 
-    sys.path.insert(0, db_access.get_path_to_gui_dir())
+        self.check_for_divergence()
+
+    def check_for_divergence(self):
+
+        if st.session_state.sim_finished:
+
+            N = self.get_timesteps_setting()
+            number_of_states, log_messages = self.get_timesteps_execution()
+
+            self.divergence_check_logging(N,number_of_states, log_messages)
+
+    def get_timesteps_setting(self):
+
+        # retrieve saved parameters from json file
+        with open(db_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
+            gui_parameters = json.load(json_gui_parameters)
+
+        N = gui_parameters["TimeStepping"]["N"]
+
+        return N
     
-    ##############################
-    print("state = ", st.session_state.update_par)
-    if st.session_state.update_par != True:
-        save_run.warning("""The parameters are not updated yet. 
-                     Simulation not initiated. Click on the 'UPDATE' button first.""")
-    
-    elif st.session_state.update_par == True: 
+    def get_timesteps_execution(self):
 
-        uuids = requests.get(url ='http://127.0.0.1:5000/run_simulation', data={'InputFolder': 'BattMoJulia', 
-                                                                                'InputFile':'battmo_formatted_input.json',
-                                                                                'JuliaModelFolder':'BattMoJulia',
-                                                                                'JuliaModel': 'runP2DBattery.jl'}).json()
-
-
-
-        with open(os.path.join(db_access.get_path_to_gui_dir(),"results", uuids), "rb") as pickle_result:
+        # Retrieve latest results
+        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "rb") as pickle_result:
             result = pickle.load(pickle_result)
 
-        with open(os.path.join(db_access.get_path_to_python_dir(), "battmo_result"), "wb") as new_pickle_file:
-                    pickle.dump(result, new_pickle_file)
+        [
+            log_messages,
+            number_of_states,
+            cell_voltage,
+            cell_current,
+            time_values,
+            negative_electrode_grid,
+            electrolyte_grid,
+            positive_electrode_grid,
+            negative_electrode_concentration,
+            electrolyte_concentration,
+            positive_electrode_concentration,
+            negative_electrode_potential,
+            electrolyte_potential,
+            positive_electrode_potential
+
+        ] = result 
+
+        return number_of_states, log_messages
+    
+    def divergence_check_logging(self,N, number_of_states,log_messages):
+
+        save_run = st.empty()
+        if len(log_messages) > 1:
+            c = save_run.container()
+            if number_of_states[0] >= N:
+                
+
+                c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
+
+            else:
+                c.success("Simulation did not finish, some warnings were produced. See the logging below for the warnings.")
+            
+            c.markdown("***Logging:***")
+                
+            log_message = ''' \n'''
+            for message in log_messages:
+                log_message = log_message + message+ '''\n'''
+            
+            c.code(log_message + ''' \n''')
+
+        else:    
+            save_run.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")  
 
 
-        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-        st.cache_data.clear()
-        st.session_state.update_par = False
-        st.session_state.sim_finished = True
-
-
-
-
-class RunSimulation:
+class DownloadParameters:
     """
     Rendering of Run Simulation tab
     """

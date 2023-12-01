@@ -410,7 +410,6 @@ def get_models_as_dict():
         values = '*',
         where = "show_to_user = '1'" 
     )
-    print("models=",models )
     models_as_dict = {}
 
     for model in models:

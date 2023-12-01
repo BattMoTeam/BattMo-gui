@@ -20,7 +20,7 @@ class BaseHandler:
         values = []
         for column in columns_and_values:
             value = columns_and_values.get(column)
-            print("value = ",value)
+           
             if value is not None:
                 columns.append(column)
                 values.append(value)

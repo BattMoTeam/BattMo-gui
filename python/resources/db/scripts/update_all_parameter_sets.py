@@ -81,8 +81,7 @@ class UpdateParameterSets:
         #test = self.sql_materials.get_material_id_by_parameter_set_name(component_id)
         #print("test=", test)
         #material = int(self.sql_parameter_set.get_material_from_name(name))
-        print("material=",material)
-        print("name=",name)
+     
         if material == True:
             
 
