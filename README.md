@@ -12,7 +12,7 @@ Additional information about BattMo on the [BattMo repository](https://github.co
 
 The **BattMo GUI** is a web-based application build with **streamlit** which offers a user-friendly interface to 
 conduct an end to end simulation experience. Each physical quantity needed to define an experimental protocol can be 
-modified to suit the user's needs The parameter set thus defined is then used to run the BattMo P2D model. 
+modified to suit the user's needs The parameter set thus defined is then used to run the BattMo P2D model.. 
 
 
 ## Install & Run the BattMo GUI
