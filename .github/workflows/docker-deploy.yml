@@ -27,7 +27,7 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
-        password: ${{ secrets.VPS_PASSWORD }}
+        password: ${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}
         port: 22
         source: "."
         target: "/home/ubuntu/docker/battmogui"
@@ -37,7 +37,7 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
-        password: ${{ secrets.VPS_PASSWORD }}
+        password: ${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}
         port: 22
         script: |
           docker load -i /home/ubuntu/docker/battmogui/battmogui.tar
