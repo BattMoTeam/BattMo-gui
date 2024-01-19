@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SSH_USER: lhendrix
+  SSH_HOST: 51.68.188.78
+  WORKDIR: 
+
+jobs:
+
+  deploy:
+
+    name: deploy image
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: install ssh keys
+      # check this thread to understand why its needed:
+      # <https://stackoverflow.com/a/70447517>
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ env.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && docker-compose pull && docker-compose docker-compose.yml up -d && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh

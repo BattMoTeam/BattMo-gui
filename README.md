@@ -3,17 +3,30 @@
 [![](./python/resources/images/battmo_logo.png)](https://github.com/BattMoTeam/BattMo.git)
 [![](https://zenodo.org/badge/410005581.svg)](https://zenodo.org/badge/latestdoi/410005581)
 
-The Battery Modelling Toolbox (**BattMo**) is a resource for continuum modelling of electrochemical devices in MATLAB. 
+The Battery Modelling Toolbox (**BattMo**) is a resource for continuum modelling of electrochemical devices in MATLAB and Julia. 
 It offers users a flexible framework for building fully coupled electrochemical-thermal simulations of electrochemical 
-devices using 1D, 2D, or 3D geometries. **BattMo** is implemented in MATLAB and builds on the open-source MATLAB 
-Reservoir Simulation Toolbox (MRST) developed at SINTEF. 
+devices using 1D, 2D, or 3D geometries. The original **BattMo** is implemented in MATLAB and builds on the open-source MATLAB 
+Reservoir Simulation Toolbox (MRST) developed at SINTEF. BattMo being rewritten in Julia and builds on the open source Julia framework for multiphysics simulators, Jutul.jl. This repository builds further upon BattMo.jl.
 
 Additional information about BattMo on the [BattMo repository](https://github.com/BattMoTeam/BattMo.git)
 
 The **BattMo GUI** is a web-based application build with **streamlit** which offers a user-friendly interface to 
 conduct an end to end simulation experience. Each physical quantity needed to define an experimental protocol can be 
-modified to suit the user's needs The parameter set thus defined is then used to run the BattMo P2D model.. 
+modified to suit the user's needs. The parameter set thus defined is then used to run the BattMo P2D model. 
 
+## Docker image
+
+The BattMo GUI is available as a Docker image in the Github container registry and can be found among BattMoTeam's packages. In order to use it you have to install Docker. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. 
+
+Open a bash terminal and pull the latest Docker image from the registry:
+```<bash>
+docker pull ghcr.io/battmoteam/battmogui:latest
+```
+Run the image in a container:
+```<bash>
+docker run -d -p 8501:8501 -p 5000:5000 ghcr.io/battmoteam/battmogui
+```
+Now open you browser and go to 'localhost:8501' where the GUI will be visible.
 
 ## Install & Run the BattMo GUI
 
@@ -28,7 +41,7 @@ Within your environment, go in the BattMo-gui directory and install the required
 cd BattMo-gui; pip install -r requirements.txt
 ```
 
-Initiate the Julia terminal in the command prompt and install the Julia packages:
+Initiate the Julia terminal in the command prompt and install the Julia packages (see 'Manifest.toml' for the correct versions):
 
 ```<powershell>
 julia
