@@ -34,7 +34,7 @@ Initiate the Julia terminal in the command prompt and install the Julia packages
 julia
 ```
 ```<Julia>
-using Pkg; Pkg.add(["BattMo","Jutul","LoggingExtras", "JSON","PythonCall"])
+using Pkg; Pkg.add(["BattMo#refac","Jutul","LoggingExtras", "JSON","PythonCall"])
 ```
 Now the GUI can be run from 2 different terminals:
 
@@ -57,32 +57,28 @@ streamlit run python\Introduction.py
 The **BattMo GUI** is build in python using **streamlit**. 
 - The *python* directory contains the streamlit app code and a 
 database that stores the parameters used to define an experimental protocol (default values, metadata).
-- The *matlab* directory contains the **BattMo** code, currently in MATLAB (might move to Julia during summer 2023). 
-This code is called from the *python* section, from the **RunSimulation** class. 
+- The *BattMoJulia* directory contains the **BattMo** code, in Julia. 
+This code is called from the *api.py* file that initiates a Flask server on which the BattMo package will be executed. 
 
 This streamlit app is a multipage app
 (cf [streamlit doc](https://docs.streamlit.io/library/get-started/multipage-apps/create-a-multipage-app)).
-The first page, and therefore the file to run to start the app, is *Define_parameters.py*. The other pages' start files
+The first page, and therefore the file to run to start the app, is *Introduction.py*. The other pages' start files
 are stored in the *pages* directory, as specified in the streamlit documentation. Here below is a brief description
 of each page.
 
-- **Define parameters** : Starting page, allows user to define all physical quantities needed to define the desired 
+- **Introduction** : The starting page, gives an introduction to the app. It provides a description on BattMo, a nevigation to the other pages, and links to more information and documentation.
+
+- **Simulation** : Allows user to define all physical quantities needed to define the desired 
 experimental protocol. The parameters and metadata (units, IRIs, values from literature) are stored in a SQLite file
-called *BattMo_gui.db*. Once the physical quantities fit the user's need, one must **save** them using the corresponding
-widget, which will save the parameters in a json file called *battmo_input* (stored in the matlab directory). 
+called *BattMo_gui.db*. Once the physical quantities fit the user's need, one must **UPDATE** them using the corresponding
+widget, which will save the parameters in a json file called *battmo_input* (stored in the BattMoJulia directory). 
 The *battmo_input* file contains all the parameters' metadata; a second file called *battmo_formatted_input* is also
-created, it's the version used as input by the matlab code.
+created, it's the version used as input by the Julia code. After updating the parameters, the user can click on the **RUN** button to launch the simulation, based on the parameters saved in the *battmo_formatted_input* file.
 
+- **Results** : Plots the results of the last simulation run, using matplotlib.
 
-- **Run Simulation** : Allows the user to launch the simulation, based on the parameters saved in the 
-*battmo_formatted_input* file. Not accessible from the same page as the parameters definition to optimize software's
-performance and make sure that the saved parameters are running.
+- **Materials and models**: Provides more information on the models and materials that can be selected.
 
-
-- **Plot latest results** : Plots the results of the last simulation run, using matplotlib.
-
-
-- **About** : Description tab, to be improved
 
 ## Acknowledgements
 
@@ -91,6 +87,7 @@ Contributors, in alphabetical order
 -   Oscar Bolzinger, SINTEF Industry
 -   Simon Clark, SINTEF Industry
 -   Eibar Flores, SINTEF Industry
+-   Lorena Hendrix, SINTEF Industry
 
 BattMo has received funding from the European Union's Horizon 2020
 innovation program under grant agreement numbers:

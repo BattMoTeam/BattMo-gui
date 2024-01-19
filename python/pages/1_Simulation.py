@@ -54,9 +54,13 @@ def run_page():
 
     app.divergence_check()
 
+    ############################################
+    # Can be used to check the structure of gui_parameters in the terminal
     # pp = pprint.PrettyPrinter(indent=2)
     # pp.pprint(gui_parameters)
     # pdb.set_trace()
+    ############################################
+    
     st.divider()
     app.download_parameters()
 
