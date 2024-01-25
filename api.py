@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import multiprocessing
 from multiprocessing import Queue
 import time
@@ -8,6 +8,10 @@ import pickle
 from uuid import uuid4
 import os
 
+##############################
+# Global variable for status
+##############################
+execution_status = "Not started"
 
 ##############################
 # RUN JULIA CODE FUNCTION
@@ -100,7 +104,15 @@ class run_simulation(Resource):
         return ("nothing")
 
 
+@app.route('/')
+def index():
+
+
+    return render_template('index.html', message="The Flask API is active")
+
+
 api.add_resource(run_simulation, '/run_simulation')
+
 
 
 

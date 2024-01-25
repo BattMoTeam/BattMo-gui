@@ -215,9 +215,11 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "density": json_ld.sep_prop.get("density"),
             "bruggemanCoefficient": json_ld.sep_prop.get("bruggeman_coefficient")
         },
+
             
 
         "Electrolyte": {
+            "initialConcentration": 1000,
             "specificHeatCapacity": json_ld.elyte_mat.get("specific_heat_capacity"),
             "thermalConductivity": json_ld.elyte_mat.get("thermal_conductivity"),
             "density": json_ld.elyte_mat.get("density"),
@@ -235,9 +237,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 json_ld.elyte_mat.get("charge_carrier_name"),
                 json_ld.elyte_mat.get("counter_ion_name")
             ],
-            "sp": {
-                "z": json_ld.elyte_mat.get("charge_carrier_charge_number"),
-                "t": json_ld.elyte_mat.get("counter_ion_transference_number")
+            "species": {
+                "chargeNumber": json_ld.elyte_mat.get("charge_carrier_charge_number"),
+                "transferenceNumber": json_ld.elyte_mat.get("counter_ion_transference_number"),
+                "nominalConcentration": 1000
             },
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient")
         },
@@ -253,7 +256,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "initialControl": json_ld.protocol.get("initial_step_type"),
             "CRate": json_ld.protocol.get("c_rate"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage"),
-            "tup" : 0.1,
+            "rampupTime" : 0.1,
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage"),
             "dIdtLimit": json_ld.protocol.get("d_idt_limit"),
             "dEdtLimit": json_ld.protocol.get("d_edt_limit")

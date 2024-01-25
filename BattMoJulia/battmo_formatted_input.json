@@ -137,6 +137,7 @@
       "bruggemanCoefficient": 1.5
    },
    "Electrolyte": {
+      "initialConcentration": 1000,
       "specificHeatCapacity": 1518.0,
       "thermalConductivity": 0.099,
       "density": 1210,
@@ -160,9 +161,10 @@
          "Li",
          "PF6"
       ],
-      "sp": {
-         "z": 1,
-         "t": 0.601
+      "species": {
+         "chargeNumber": 1,
+         "transferenceNumber": 0.601,
+         "nominalConcentration": 1000
       },
       "bruggemanCoefficient": 1.5
    },
@@ -175,7 +177,7 @@
       "initialControl": "discharging",
       "CRate": 1.0,
       "lowerCutoffVoltage": 2.4,
-      "tup": 0.1,
+      "rampupTime": 0.1,
       "upperCutoffVoltage": 4.1,
       "dIdtLimit": 0.01,
       "dEdtLimit": 0.01
