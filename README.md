@@ -38,7 +38,7 @@ git clone https://github.com/BattMoTeam/BattMo-gui.git
 Within your environment, go in the BattMo-gui directory and install the required python packages, as follows:
 
 ```<powershell>
-cd BattMo-gui; pip install -r requirements.txt
+cd BattMo-gui; pip install -r streamlit/requirements.txt; pip install -r flask_api/requirements.txt
 ```
 
 Initiate the Julia terminal in the command prompt and install the Julia packages (see 'Manifest.toml' for the correct versions):
@@ -54,24 +54,24 @@ Now the GUI can be run from 2 different terminals:
 1. One for the Flask api running on the background. Initiate the flask server in a command prompt:
 
 ```<powershell>
-python api.py
+python flask_api/wsgi.py
 ```
     
 2. One to initiate the streamlit interface. Iniate the streamlit server in another command prompt:
 
 ```<powershell>
-streamlit run python\Introduction.py
+streamlit run streamlit/Introduction.py
 ```
 
+Now you can go to 'Localhost:8501' in your browser in order to visualize and use the web-application.
 
 
 ## Development structure
 
 The **BattMo GUI** is build in python using **streamlit**. 
-- The *python* directory contains the streamlit app code and a 
+- The *streamlit* directory contains the streamlit app code and a 
 database that stores the parameters used to define an experimental protocol (default values, metadata).
-- The *BattMoJulia* directory contains the **BattMo** code, in Julia. 
-This code is called from the *api.py* file that initiates a Flask server on which the BattMo package will be executed. 
+- The *flask_api* directory contains the Julia backend code that runs the **BattMo** package, and the flask code that serves as an api by running the Julia backend code on demand of the streamlit frontend.  
 
 This streamlit app is a multipage app
 (cf [streamlit doc](https://docs.streamlit.io/library/get-started/multipage-apps/create-a-multipage-app)).
