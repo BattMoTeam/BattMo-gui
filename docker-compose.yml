@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+
+  flask_api:
+    build: ./flask_api
+    container_name: flask_api
+    restart: always
+    ports:
+      - "8000:8000"
+    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
+    #command: python wsgi.py
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on:
+      - flask_api
+ 
+  streamlit:
+    build: ./streamlit
+    container_name: streamlit
+    restart: always
+    ports:
+      - "8501:8501"
+    # volumes:
+    #   - type: bind
+    #     source: $HOST/location
+    #     target: /container/location
+    # depends_on:
+    #   - flask
+    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501
