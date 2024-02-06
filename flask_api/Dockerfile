@@ -19,5 +19,5 @@ RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "PrettyTables",version = "2
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
+COPY results /app/results
 COPY . .
