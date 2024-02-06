@@ -8,7 +8,9 @@ on:
 env:
   SSH_USER: lhendrix
   SSH_HOST: 51.68.188.78
-  WORKDIR: 
+  REGISTRY: ghcr.io
+  IMAGE_NAME: battmoteam/battmogui:latest
+  WORKDIR: battmogui
 
 jobs:
 
@@ -25,7 +27,11 @@ jobs:
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ env.SSH_HOST }} > ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && docker-compose pull && docker-compose docker-compose.yml up -d && exit"
+    - name: connect
+      run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} 
+    - name: login registry
+      run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin  
+    - name: pull and run containers
+      run: docker compose pull && docker compose docker-compose.yml up -d && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
