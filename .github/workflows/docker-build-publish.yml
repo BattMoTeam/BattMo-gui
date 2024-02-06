@@ -21,9 +21,11 @@ jobs:
       - name: Login
         run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin
 
-      - name: Build and Publish
+      - name: Build
         run: |
-          docker compose -f docker-compose.yml build  && docker compose -f docker-compose.yml push 
-          docker compose alpha publish -f docker-compose-yml ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker-compose -f docker-compose.yml build 
+          docker-compose -f docker-compose.yml push 
+      - name: Publish
+        run: docker-compose alpha publish -f docker-compose.yml ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
          

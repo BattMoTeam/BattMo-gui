@@ -28,7 +28,7 @@ jobs:
         echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ env.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect
-      run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} 
+      run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }}" 
     - name: login registry
       run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin  
     - name: pull and run containers
