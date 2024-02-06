@@ -14,19 +14,60 @@ The **BattMo GUI** is a web-based application build with **streamlit** which off
 conduct an end to end simulation experience. Each physical quantity needed to define an experimental protocol can be 
 modified to suit the user's needs. The parameter set thus defined is then used to run the BattMo P2D model. 
 
-## Docker image
+## Docker images
 
-The BattMo GUI is available as a Docker image in the Github container registry and can be found among BattMoTeam's packages. In order to use it you have to install Docker. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. 
+The BattMo GUI is available as a set of Docker images in the Github container registry and can be found among BattMoTeam's packages. In order to use it you have to install Docker. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. 
 
-Open a bash terminal and pull the latest Docker image from the registry:
+Open a bash terminal and pull the latest Docker images from the registry. For the streamlit image that represents the frontend:
 ```<bash>
-docker pull ghcr.io/battmoteam/battmogui:latest
+docker pull ghcr.io/battmoteam/battmogui_streamlit:latest
 ```
-Run the image in a container:
+For the flask api Docker images that runs the BattMo.jl package:
 ```<bash>
-docker run -d -p 8501:8501 -p 5000:5000 ghcr.io/battmoteam/battmogui
+docker pull ghcr.io/battmoteam/battmogui_flask_api:latest
 ```
-Now open you browser and go to 'localhost:8501' where the GUI will be visible.
+And for the production server Nginx:
+```<bash>
+docker pull ghcr.io/battmoteam/battmogui_nginx:latest
+```
+Run the images in containers by using a docker compose file. Create a docker-compose.yml file with the following content:
+```<docker>
+version: "3"
+
+services:
+
+  flask_api:
+    build: ./flask_api
+    container_name: flask_api
+    restart: always
+    ports:
+      - "8000:8000"
+    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on:
+      - flask_api
+ 
+  streamlit:
+    build: ./streamlit
+    container_name: streamlit
+    restart: always
+    ports:
+      - "8501:8501"
+
+    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80
+```
+Now run the following command to start the containers:
+```<bash>
+docker-compose up
+```
+
+Now you can open your browser and go to 'localhost:8501' where the GUI will be visible.
 
 ## Install & Run the BattMo GUI
 

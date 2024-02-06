@@ -24,11 +24,6 @@ services:
     container_name: streamlit
     restart: always
     ports:
-      - "80:80"
-    # volumes:
-    #   - type: bind
-    #     source: $HOST/location
-    #     target: /container/location
-    # depends_on:
-    #   - flask
+      - "8501:8501"
+
     command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80
