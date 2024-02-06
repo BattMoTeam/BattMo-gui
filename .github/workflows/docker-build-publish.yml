@@ -26,6 +26,6 @@ jobs:
           docker-compose -f docker-compose.yml build 
           docker-compose -f docker-compose.yml push 
       - name: Publish
-        run: docker-compose alpha publish -f docker-compose.yml ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        run: docker push ${REGISTRY}/${IMAGE_NAME}
 
          
