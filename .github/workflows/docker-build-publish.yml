@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and Publish
         run: |
-          docker compose -f docker-compose.yml build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} && docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
+          docker compose -f docker-compose.yml build  && docker compose -f docker-compose.yml push 
+          docker compose alpha publish -f docker-compose-yml ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
          
