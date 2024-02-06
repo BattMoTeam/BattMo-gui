@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+
+  flask_api:
+    image: ghcr.io/battmoteam/battmogui_flask_api:latest
+    build: ./flask_api
+    container_name: flask_api
+    restart: always
+    ports:
+      - "8000:8000"
+    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
+    #command: python wsgi.py
+  nginx:
+    image: ghcr.io/battmoteam/battmogui_nginx:latest
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on:
+      - flask_api
+ 
+  streamlit:
+    image: ghcr.io/battmoteam/battmogui_streamlit:latest
+    build: ./streamlit
+    container_name: streamlit
+    restart: always
+    ports:
+      - "80:80"
+    # volumes:
+    #   - type: bind
+    #     source: $HOST/location
+    #     target: /container/location
+    # depends_on:
+    #   - flask
+    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80

@@ -23,9 +23,8 @@ jobs:
 
       - name: Build
         run: |
-          docker-compose -f docker-compose.yml build 
-          docker tag battmogui:latest ${REGISTRY}/${IMAGE_NAME}
+          docker-compose -f docker-compose_deploy.yml build 
       - name: Publish
-        run: docker push ${REGISTRY}/${IMAGE_NAME}
+        run: docker-compose -f docker-compose_deploy.yml push
 
          
