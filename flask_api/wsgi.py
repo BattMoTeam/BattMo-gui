@@ -1,5 +1,5 @@
 from api import server
-import multiprocessing
+#import multiprocessing
 
 
 if __name__ == '__main__':
