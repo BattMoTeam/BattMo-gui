@@ -2668,18 +2668,18 @@ class RunSimulation:
 
     def set_buttons(self, save_run):
 
-        empty,update,run = save_run.columns((0.3,1,1))
+        #empty,run,empty2 = save_run.columns((0.3,1,1))
 
         self.button_style
 
-        update = update.button(
-            label="UPDATE",
-            on_click=self.update_on_click,
-            args= (save_run, )
-            #help = "Update the parameter values."
-        )
+        # update = update.button(
+        #     label="UPDATE",
+        #     on_click=self.update_on_click,
+        #     args= (save_run, )
+        #     #help = "Update the parameter values."
+        # )
 
-        runing = run.button(
+        runing = save_run.button(
             label="RUN",
             on_click= self.execute_api_on_click,
             args = (save_run, )
@@ -2687,14 +2687,14 @@ class RunSimulation:
             
         )
         
-    def update_on_click(self, save_run):
+    def update_on_click(self):
         
         self.update_json_battmo_input()
         self.update_json_LD()
         
         st.session_state.update_par = True
 
-        save_run.success("Your parameters are saved! Run the simulation to get your results.")
+        #save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
     def update_json_battmo_input(self):
 
@@ -2735,45 +2735,47 @@ class RunSimulation:
         
         ##############################
 
-        if st.session_state.update_par != True:
-            save_run.warning("""The parameters are not updated yet. 
-                        Simulation not initiated. Click on the 'UPDATE' button first.""")
+        self.update_on_click()
+
+        #if st.session_state.update_par != True:
+            # save_run.warning("""The parameters are not updated yet. 
+            #             Simulation not initiated. Click on the 'UPDATE' button first.""")
         
-        elif st.session_state.update_par == True: 
+        # elif st.session_state.update_par == True: 
 
-            with open(app_access.get_path_to_battmo_formatted_input(), 'r') as j:
-                json_data = json.loads(j.read()) 
-                
-            # Set the Content-Type header to application/json
-            headers = {'Content-Type': 'application/json'}
+        with open(app_access.get_path_to_battmo_formatted_input(), 'r') as j:
+            json_data = json.loads(j.read()) 
+            
+        # Set the Content-Type header to application/json
+        headers = {'Content-Type': 'application/json'}
 
-            response_start = requests.post(self.api_url, json=json_data, headers=headers)
-
-
-            if response_start.status_code == 200:
-
-                with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                    f.write(response_start.content)
-
-            else:
-                st.write(response_start)
-
-            # with open("BattMo_results.pkl", "rb") as f:
-            #     data = pickle.load(f)
+        response_start = requests.post(self.api_url, json=json_data, headers=headers)
 
 
+        if response_start.status_code == 200:
 
-            # with open(os.path.join(app_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
-            #     result = pickle.load(pickle_result)
+            with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                f.write(response_start.content)
 
-            # with open(os.path.join(app_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
-            #             pickle.dump(result, new_pickle_file)
+        else:
+            st.write(response_start)
+
+        # with open("BattMo_results.pkl", "rb") as f:
+        #     data = pickle.load(f)
 
 
-            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-            st.cache_data.clear()
-            st.session_state.update_par = False
-            st.session_state.sim_finished = True
+
+        # with open(os.path.join(app_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
+        #     result = pickle.load(pickle_result)
+
+        # with open(os.path.join(app_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
+        #             pickle.dump(result, new_pickle_file)
+
+
+        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+        st.cache_data.clear()
+        st.session_state.update_par = False
+        st.session_state.sim_finished = True
 
 
 class DivergenceCheck:
@@ -2859,7 +2861,7 @@ class DownloadParameters:
     """
     Rendering of Run Simulation tab
     """
-    def __init__(self):
+    def __init__(self,gui_parameters):
         self.run_header = "Run Simulation"
         self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first 
                             simulation will be slow, but next simulations will be very quick."""
@@ -2867,12 +2869,12 @@ class DownloadParameters:
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
-                
+        self.gui_parameters = gui_parameters       
         # retrieve saved parameters from json file
-        with open(app_access.get_path_to_linked_data_input()) as json_gui_parameters:
-            self.gui_parameters = json.load(json_gui_parameters)
+        # with open(app_access.get_path_to_linked_data_input()) as json_gui_parameters:
+        #     self.gui_parameters = json.load(json_gui_parameters)
 
-        self.download_header = "Download parameters"
+        self.download_header = "Download input parameters"
         self.download_label = "JSON LD format"
         self.gui_file_data = json.dumps(self.gui_parameters, indent=2)
         self.gui_file_name = "JSON_ld_parameters.json"
@@ -2889,6 +2891,38 @@ class DownloadParameters:
         
         self.set_submit_button()
 
+    def update_on_click(self):
+        
+        self.update_json_battmo_input()
+        self.update_json_LD()
+        
+        st.session_state.update_par = True
+
+        #save_run.success("Your parameters are saved! Run the simulation to get your results.")
+
+    def update_json_battmo_input(self):
+
+        path_to_battmo_input = app_access.get_path_to_linked_data_input()
+
+        # save formatted parameters in json file
+        with open(path_to_battmo_input, "w") as new_file:
+            json.dump(
+                self.gui_parameters,
+                new_file,
+                indent=3)
+            
+    def update_json_LD(self):
+
+        # Format parameters from json-LD to needed format
+        path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
+
+        # save formatted parameters in json file
+        with open(path_to_battmo_formatted_input, "w") as new_file:
+            json.dump(
+                match_json.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                new_file,
+                indent=3
+            )
 
     def set_submit_button(self):
 
@@ -2898,6 +2932,7 @@ class DownloadParameters:
         # set download button
         st.download_button(
             label=self.download_label,
+            on_click= self.update_on_click(),
             data=self.gui_file_data,
             file_name=self.gui_file_name,
             mime=self.file_mime_type
@@ -2905,6 +2940,7 @@ class DownloadParameters:
 
         st.download_button(
             label=self.download_label_formatted_parameters,
+            on_click= self.update_on_click(),
             data=self.formatted_parameters_file_data,
             file_name=self.formatted_parameters_file_name,
             mime=self.file_mime_type

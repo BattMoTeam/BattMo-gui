@@ -39,8 +39,8 @@ class AppController:
     def divergence_check(self):
         return view.DivergenceCheck()
 
-    def download_parameters(self):
-        return view.DownloadParameters()
+    def download_parameters(self,gui_parameters):
+        return view.DownloadParameters(gui_parameters)
 
     def match_json(self, gui_dict):
         return view.match_json.get_batt_mo_dict_from_gui_dict(gui_dict)

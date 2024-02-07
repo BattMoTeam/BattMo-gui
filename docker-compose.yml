@@ -26,4 +26,4 @@ services:
     ports:
       - "8501:8501"
 
-    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80
+    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501

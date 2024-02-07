@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 import streamlit as st
+import sys
 
 
 
@@ -18,7 +19,8 @@ st.set_page_config(
 for k, v in st.session_state.items():
     st.session_state[k] = v
 ##############################
-
+    
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # set config is done before import to avoid streamlit error
 from app_scripts.app_controller import set_heading, set_page_navigation, set_external_links

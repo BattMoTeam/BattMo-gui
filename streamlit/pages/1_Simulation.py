@@ -49,6 +49,10 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
+    app.download_parameters(gui_parameters)
+
+    st.divider()
+    
     app.run_simulation(gui_parameters)
 
     app.divergence_check()
@@ -60,8 +64,8 @@ def run_page():
     # pdb.set_trace()
     ############################################
     
-    st.divider()
-    app.download_parameters()
+    
+    
 
 
 if __name__ == "__main__":
