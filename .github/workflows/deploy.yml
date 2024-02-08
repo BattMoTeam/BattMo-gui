@@ -1,4 +1,4 @@
-name: Deploy
+name: Publish and Deploy
 
 on:
   push:
@@ -13,6 +13,23 @@ env:
   WORKDIR: battmogui
 
 jobs:
+  publish:
+    name: publish image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login
+        run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin
+
+      - name: Build
+        run: |
+          docker-compose -f docker-compose_deploy.yml build 
+      - name: Publish
+        run: docker-compose -f docker-compose_deploy.yml push
+        
   deploy:
     name: Deploy image
     runs-on: ubuntu-latest
