@@ -29,10 +29,11 @@ jobs:
           docker-compose -f docker-compose_deploy.yml build 
       - name: Publish
         run: docker-compose -f docker-compose_deploy.yml push
-        
+
   deploy:
     name: Deploy image
     runs-on: ubuntu-latest
+    needs: publish
     
     steps:
     - name: Install SSH keys
