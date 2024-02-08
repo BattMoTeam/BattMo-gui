@@ -16,8 +16,10 @@ services:
     restart: always
     ports:
       - "8001:8001"
+      - "443:443"
     depends_on:
       - flask_api
+      - streamlit
  
   streamlit:
     build: ./streamlit

@@ -18,8 +18,10 @@ services:
     restart: always
     ports:
       - "8001:8001"
+      - "443:443"
     depends_on:
       - flask_api
+      - streamlit
  
   streamlit:
     image: ghcr.io/battmoteam/battmogui_streamlit:latest
@@ -27,7 +29,7 @@ services:
     container_name: streamlit
     restart: always
     ports:
-      - "80:80"
+      - "443:443"
     # volumes:
     #   - type: bind
     #     source: $HOST/location
