@@ -18,7 +18,7 @@ services:
     restart: always
     ports:
       - "8001:8001"
-      - "443:443"
+      - "80:80"
     depends_on:
       - flask_api
       - streamlit
@@ -29,7 +29,7 @@ services:
     container_name: streamlit
     restart: always
     ports:
-      - "443:443"
+      - "80:80"
     # volumes:
     #   - type: bind
     #     source: $HOST/location
