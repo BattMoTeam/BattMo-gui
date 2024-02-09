@@ -1,4 +1,3 @@
-
 module runP2DBattery
 
     using BattMo, Jutul, JSON, PythonCall, Logging

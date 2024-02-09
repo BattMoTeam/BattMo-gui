@@ -23,7 +23,7 @@ def run_julia(q_in,q_out):
     
     from juliacall import Main as jl
 
-    jl.seval('include("runP2DBattery.jl")')
+    jl.seval('include("julia/runP2DBattery.jl")')
     print("Julia module is imported")
 
     while True:
