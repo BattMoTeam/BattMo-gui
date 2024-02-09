@@ -2651,7 +2651,7 @@ class RunSimulation:
         self.julia_module = 'runP2DBattery.jl'
         self.results_folder = "results"
         self.temporary_results_file = "battmo_result"
-
+        
         self.set_section()
 
     def set_section(self):
@@ -2686,6 +2686,7 @@ class RunSimulation:
             #help = "Run the simulation (after updating the parameters)."
             
         )
+
         
     def update_on_click(self):
         
@@ -2723,10 +2724,10 @@ class RunSimulation:
     def execute_api_on_click(self, save_run):
 
         ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
-        ##############################
+        # # Remember user changed values
+        # for k, v in st.session_state.items():
+        #     st.session_state[k] = v
+        # ##############################
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
@@ -2759,6 +2760,7 @@ class RunSimulation:
 
         else:
             st.write(response_start)
+        
 
         # with open("BattMo_results.pkl", "rb") as f:
         #     data = pickle.load(f)
@@ -2786,6 +2788,7 @@ class DivergenceCheck:
     def __init__(self):
 
         self.check_for_divergence()
+        
 
     def check_for_divergence(self):
 
@@ -2839,11 +2842,12 @@ class DivergenceCheck:
             c = save_run.container()
             if number_of_states[0] >= N:
                 
-
+                st.session_state.succes = True
                 c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
 
             else:
-                c.success("Simulation did not finish, some warnings were produced. See the logging below for the warnings.")
+                c.error("Simulation did not finish, some warnings were produced. See the logging below for the warnings.")
+                st.session_state.succes = False
             
             c.markdown("***Logging:***")
                 
@@ -2855,6 +2859,7 @@ class DivergenceCheck:
 
         else:    
             save_run.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")  
+            st.session_state.succes = True
 
 
 class DownloadParameters:
@@ -3765,20 +3770,21 @@ class SetMaterialDescription():
                                 value_dict = json.loads(json_formatted_string)
                                 st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))
                                 
-                                if "functionname" in value_dict:
-                                    st.markdown('''```<Julia> 
-                                                {}'''.format(value_dict["functionname"]))
-                                    
-                                else:
+                                if "function" in value_dict:
+
                                     st.markdown('''```<Julia> 
                                                 {}'''.format(value_dict["function"]))
                                     string_py = value_dict["function"].replace("^", "**")
                                     fun = st.toggle(
                                         label = "Visualize function",
-                                        key = "toggle_{}".format(parameter_name)
+                                        key = "toggle_{}_{}".format(parameter_name, name)
                                         )
                                     if fun:
                                         st.latex(sp.latex(sp.sympify(string_py)))
+                                    
+                                else:
+                                    st.markdown('''```<Julia> 
+                                                {}'''.format(value_dict["functionname"]))
 
                             else:
 

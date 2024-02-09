@@ -21,7 +21,8 @@ st.set_page_config(
 # set config before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage
-import database.db_helper, app_scripts.app_access
+from database import db_helper
+from app_scripts import app_access
 
 ##############################
 # Remember user changed values when switching between pages
@@ -41,6 +42,10 @@ def run_page():
     if "update_par" not in st.session_state:
         st.session_state.update_par = False
 
+    if "succes" not in st.session_state:
+        st.session_state.succes = None
+
+
     log_memory_usage()
 
     app = get_app_controller()
@@ -56,6 +61,10 @@ def run_page():
     app.run_simulation(gui_parameters)
 
     app.divergence_check()
+
+
+    
+
 
     ############################################
     # Can be used to check the structure of gui_parameters in the terminal

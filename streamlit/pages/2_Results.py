@@ -38,11 +38,15 @@ def run_page():
 
     app = get_app_controller()
 
-    results = get_results_data().get_results_data()
+    if st.session_state.succes == True:
+        results = get_results_data().get_results_data()    
 
-    app.set_download_hdf5_button(results)
+        app.set_download_hdf5_button(results)
 
-    app.set_graphs(results)
+        app.set_graphs(results)
+
+    else:
+        st.error("Your simulation was not succesful, give it another try.")
 
 
 if __name__ == "__main__":

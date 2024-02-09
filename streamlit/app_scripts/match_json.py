@@ -78,6 +78,34 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
     total_time = 2 / json_ld.protocol.get("c_rate") * json_ld.protocol.get("number_of_cycles") * 3600
 
+    if "function" and "functionname" in json_ld.ne.am["open_circuit_potential"]:
+        ne_am_function= "functionname"
+    elif "function" in json_ld.ne.am["open_circuit_potential"]:
+        ne_am_function = "function"
+    elif "functionname" in json_ld.ne.am["open_circuit_potential"]:
+        ne_am_function = "functionname"    
+
+    if "function" and "functionname" in json_ld.pe.am["open_circuit_potential"]:
+        pe_am_function= "functionname"
+    elif "function" in json_ld.pe.am["open_circuit_potential"]:
+        pe_am_function = "function"
+    elif "functionname" in json_ld.pe.am["open_circuit_potential"]:
+        pe_am_function = "functionname" 
+
+    if "function" and "functionname" in json_ld.elyte_mat["conductivity"]:
+        elyte_cond_function = "functionname"
+    elif "function" in json_ld.elyte_mat["conductivity"]:
+        elyte_cond_function = "function"
+    elif "functionname" in json_ld.elyte_mat["conductivity"]:
+        elyte_cond_function = "functionname" 
+
+    if "function" and "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
+        elyte_diff_function = "functionname"
+    elif "function" in json_ld.elyte_mat["diffusion_coefficient"]:
+        elyte_diff_function = "function"
+    elif "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
+        elyte_diff_function = "functionname" 
+
     return {
         "Geometry": {
             "case": "1D",
@@ -107,7 +135,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",
-                            "function": json_ld.ne.am.get("open_circuit_potential")["function"],
+                            ne_am_function: json_ld.ne.am.get("open_circuit_potential")[ne_am_function],
                             "argumentlist": json_ld.ne.am.get("open_circuit_potential")["argument_list"]
                         },
                         
@@ -168,7 +196,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",
-                            "function": json_ld.pe.am.get("open_circuit_potential")["function"],
+                            pe_am_function: json_ld.pe.am.get("open_circuit_potential")[pe_am_function],
                             "argumentlist": json_ld.pe.am.get("open_circuit_potential")["argument_list"]
                         },
                         
@@ -225,12 +253,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "density": json_ld.elyte_mat.get("density"),
             "ionicConductivity": {
                 "type": "function",
-                "function": json_ld.elyte_mat.get("conductivity")["function"],
+                elyte_cond_function: json_ld.elyte_mat.get("conductivity")[elyte_cond_function],
                 "argumentlist": json_ld.elyte_mat.get("conductivity")["argument_list"]
             },
             "diffusionCoefficient": {
                 "type": "function",
-                "function": json_ld.elyte_mat.get("diffusion_coefficient")["function"],
+                elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient")[elyte_diff_function],
                 "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient")["argument_list"]
             },
             "compnames": [
