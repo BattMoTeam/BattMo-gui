@@ -7,7 +7,7 @@ RUN pip install jill --no-cache-dir
 
 RUN jill install 1.9.2 --confirm
 
-RUN julia -e rm -rf ~/.julia/compiled
+RUN rm -rf ~/.julia/compiled
 
 # Helpful Development Packages
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "BattMo",version = "0.1.6"))'
