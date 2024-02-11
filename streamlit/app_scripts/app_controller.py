@@ -42,8 +42,8 @@ class AppController:
     def download_parameters(self,gui_parameters):
         return view.DownloadParameters(gui_parameters)
 
-    def match_json(self, gui_dict):
-        return view.match_json.get_batt_mo_dict_from_gui_dict(gui_dict)
+    def json_LD_to_BattMo(self, gui_dict):
+        return view.json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(gui_dict)
     
     def set_download_hdf5_button(self, results):
         return view.SetHDF5Download(results)

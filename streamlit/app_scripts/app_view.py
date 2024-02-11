@@ -5,7 +5,6 @@ import json
 import pickle
 import io
 import h5py
-import match_json
 import streamlit as st
 from copy import deepcopy
 from uuid import uuid4
@@ -21,7 +20,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper
-from app_scripts import app_access
+from app_scripts import app_access, json_LD_to_BattMo
 
 
 
@@ -321,7 +320,7 @@ class SetTabs:
             
         }
 
-        #self.set_file_input()
+        self.set_file_input()
 
         # Fill tabs
         self.set_tabs()
@@ -2716,7 +2715,7 @@ class RunSimulation:
         # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
                 new_file,
                 indent=3
             )
@@ -2924,7 +2923,7 @@ class DownloadParameters:
         # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
                 new_file,
                 indent=3
             )

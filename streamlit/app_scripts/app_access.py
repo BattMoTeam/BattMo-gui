@@ -25,33 +25,33 @@ def get_path_to_streamlit_dir():
     return streamlit_path
 
 @st.cache_data
-def get_path_to_battmo_input_files_dir():
+def get_path_to_input_files_dir():
     streamlit_path = get_path_to_streamlit_dir()
-    battmo_input_files_path = os.path.join(streamlit_path, "battmo_input_files")
-    return battmo_input_files_path
+    input_files_path = os.path.join(streamlit_path, "input_files")
+    return input_files_path
 
 @st.cache_data
 def get_path_to_battmo_formatted_input():
-    battmo_input_files_path = get_path_to_battmo_input_files_dir()
-    battmo_formatted_input_path = os.path.join(battmo_input_files_path, "battmo_formatted_input.json")
+    input_files_path = get_path_to_input_files_dir()
+    battmo_formatted_input_path = os.path.join(input_files_path, "battmo_formatted_input.json")
     return battmo_formatted_input_path
 
 @st.cache_data
 def get_path_to_linked_data_input():
-    battmo_input_files_path = get_path_to_battmo_input_files_dir()
-    linked_data_input_path = os.path.join(battmo_input_files_path, "linked_data_input.json")
+    input_files_path = get_path_to_input_files_dir()
+    linked_data_input_path = os.path.join(input_files_path, "linked_data_input.json")
     return linked_data_input_path
 
 @st.cache_data
-def get_path_to_battmo_output_files_dir():
+def get_path_to_output_files_dir():
     streamlit_path = get_path_to_streamlit_dir()
-    battmo_output_files_path = os.path.join(streamlit_path, "battmo_output_files")
-    return battmo_output_files_path
+    output_files_path = os.path.join(streamlit_path, "output_files")
+    return output_files_path
 
 @st.cache_data
 def get_path_to_battmo_results():
-    battmo_output_files_path = get_path_to_battmo_output_files_dir()
-    battmo_results_path = os.path.join(battmo_output_files_path, "battmo_results")
+    output_files_path = get_path_to_output_files_dir()
+    battmo_results_path = os.path.join(output_files_path, "battmo_results")
     return battmo_results_path
 
 @st.cache_data
