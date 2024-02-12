@@ -45,6 +45,9 @@ class AppController:
     def match_json(self, gui_dict):
         return view.match_json.get_batt_mo_dict_from_gui_dict(gui_dict)
     
+    def set_indicators(self):
+        return view.SetIndicators()
+    
     def set_download_hdf5_button(self, results):
         return view.SetHDF5Download(results)
     

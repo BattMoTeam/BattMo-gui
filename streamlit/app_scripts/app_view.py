@@ -5,7 +5,6 @@ import json
 import pickle
 import io
 import h5py
-import match_json
 import streamlit as st
 from copy import deepcopy
 from uuid import uuid4
@@ -21,7 +20,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper
-from app_scripts import app_access
+from app_scripts import app_access, match_json
 
 
 
@@ -589,6 +588,7 @@ class SetTabs:
                             if isinstance(parameter, NumericalParameter):
                                 parameter_details["unit"] = {
                                     "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                    "symbol": parameter.unit,
                                     "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
                                 }
                             component_parameters.append(parameter_details)
@@ -733,7 +733,12 @@ class SetTabs:
                                 "value": formatted_value_dict
                             }
                             if isinstance(parameter, NumericalParameter):
-                                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                                parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
                             component_parameters.append(parameter_details)
 
                     if non_material_comp_display_name == "Active Material":
@@ -993,6 +998,7 @@ class SetTabs:
                 if isinstance(vf_parameter, NumericalParameter):
                     parameter_details["unit"] = {
                         "label": vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit,
+                        "symbol": vf_parameter.unit,
                         "@type": "emmo:"+vf_parameter.unit_name if vf_parameter.unit_name else vf_parameter.unit,
                         #"@type_iri": vf_parameter.unit_iri if vf_parameter.unit_iri else None
                     }
@@ -1089,6 +1095,7 @@ class SetTabs:
                 if isinstance(parameter, NumericalParameter):
                     parameter_details["unit"] = {
                         "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "symbol": parameter.unit,
                         "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
                         #"@type_iri": parameter.unit_iri if parameter.unit_iri else None
                     }
@@ -1294,6 +1301,7 @@ class SetTabs:
                 if isinstance(non_material_parameter, NumericalParameter):
                     parameter_details["unit"] = {
                         "label": non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit,
+                        "symbol": non_material_parameter.unit,
                         "@type": "emmo:"+non_material_parameter.unit_name if non_material_parameter.unit_name else non_material_parameter.unit,
                         #"@type_iri": non_material_parameter.unit_iri if non_material_parameter.unit_iri else None
                     }
@@ -1550,6 +1558,7 @@ class SetTabs:
             if isinstance(n_to_p_parameter, NumericalParameter):
                 parameter_details["unit"] = {
                     "label": n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit,
+                    "symbol": n_to_p_parameter.unit,
                     "@type": "emmo:"+n_to_p_parameter.unit_name if n_to_p_parameter.unit_name else n_to_p_parameter.unit,
                     #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
                 }
@@ -1895,7 +1904,12 @@ class SetTabs:
                                     "value": formatted_value_dict
                                 }
                                 if isinstance(parameter, NumericalParameter):
-                                    parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                                    parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
 
                                 component_parameters.append(parameter_details)
                                 if parameter.name == "density":
@@ -2215,7 +2229,12 @@ class SetTabs:
                                 "value": formatted_value_dict
                             }
                             if isinstance(parameter, NumericalParameter):
-                                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                                parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
 
                           
                             component_parameters.append(parameter_details)
@@ -2366,7 +2385,12 @@ class SetTabs:
                     "value": formatted_value_dict
                 }
                 if isinstance(parameter, NumericalParameter):
-                    parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                    parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
 
 
                 component_parameters.append(parameter_details)
@@ -2479,7 +2503,12 @@ class SetTabs:
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
 
             component_parameters.append(parameter_details)
         component_parameters = self.create_component_parameters_dict(component_parameters)
@@ -2589,7 +2618,12 @@ class SetTabs:
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit
+                parameter_details["unit"] = {
+                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        "symbol": parameter.unit,
+                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                    }
 
 
             component_parameters.append(parameter_details)
@@ -2898,14 +2932,14 @@ class DownloadParameters:
 
     def update_on_click(self):
         
-        self.update_json_battmo_input()
         self.update_json_LD()
+        self.update_json_battmo_input()
         
-        st.session_state.update_par = True
+        #st.session_state.update_par = True
 
         #save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
-    def update_json_battmo_input(self):
+    def update_json_LD(self):
 
         path_to_battmo_input = app_access.get_path_to_linked_data_input()
 
@@ -2916,7 +2950,8 @@ class DownloadParameters:
                 new_file,
                 indent=3)
             
-    def update_json_LD(self):
+            
+    def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
@@ -3125,15 +3160,108 @@ class GetResultsData():
             ]
         
         return results
+    
+class SetIndicators():
+    """
+    used to render the indicator parameters on the results page.
+    """
+    def __init__(self):
+        
+        self.set_indicators()
+
+    def set_indicators(self):
+        indicators= self.get_indicators()
+        self.render_indicators(indicators)
+
+    def get_indicators(self):
+
+        with open(app_access.get_path_to_linked_data_input(), "rb") as f:
+            gui_dict = json.load(f)
+
+        indicators = match_json.get_indicators_from_gui_dict(gui_dict)   
+
+        return indicators
+    
+    def render_indicators(self,indicators):
+
+        NE, PE = st.tabs(["Negative Electrode", "Positive Electrode"])
+
+        mass_loading, thickness, porosity, capacity = NE.columns(4)
+
+        mass_loading.metric(
+                label = "Mass Loading ({})".format(indicators["NegativeElectrode"]["massLoading"]["unit"]),
+                value = np.round(indicators["NegativeElectrode"]["massLoading"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        
+        thickness.metric(
+                label = "Thickness ({})".format(indicators["NegativeElectrode"]["thickness"]["unit"]),
+                value = np.round(indicators["NegativeElectrode"]["thickness"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        
+        porosity.metric(
+                label = "Porosity ({})".format(indicators["NegativeElectrode"]["porosity"]["unit"]),
+                value = np.round(indicators["NegativeElectrode"]["porosity"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        capacity.metric(
+                label = "Specific Capacity ({})".format(indicators["NegativeElectrode"]["specificHeatCapacity"]["unit"]),
+                value = np.round(indicators["NegativeElectrode"]["specificHeatCapacity"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        
+        mass_loading, thickness, porosity, capacity = PE.columns(4)
+
+        mass_loading.metric(
+                label = "Mass Loading ({})".format(indicators["PositiveElectrode"]["massLoading"]["unit"]),
+                value = np.round(indicators["PositiveElectrode"]["massLoading"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        
+        thickness.metric(
+                label = "Thickness ({})".format(indicators["PositiveElectrode"]["thickness"]["unit"]),
+                value = np.round(indicators["PositiveElectrode"]["thickness"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        
+        porosity.metric(
+                label = "Porosity ({})".format(indicators["PositiveElectrode"]["porosity"]["unit"]),
+                value = np.round(indicators["PositiveElectrode"]["porosity"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+        capacity.metric(
+                label = "Specific Capacity ({})".format(indicators["PositiveElectrode"]["specificHeatCapacity"]["unit"]),
+                value = np.round(indicators["PositiveElectrode"]["specificHeatCapacity"]["value"],2),
+                #key = input_key,
+                label_visibility= "visible"
+            )
+
+            
+
 
 class SetHDF5Download():
     """
     Used to render the hdf5 output file on the Results page.
     """
     def __init__(self,results):
+
+        self.header = "Download your results"
         self.results = results
+        self.set_download_hdf5_button()
 
     def set_download_hdf5_button(self):
+
+        # set Download header
+        st.markdown("### " + self.header)
+
         st.download_button(
             label="HDF5 Results",
             file_name="hdf5_results.hdf5",
@@ -3145,7 +3273,7 @@ class SetHDF5Download():
     # Create hdf5 from numpy arrays, result cached to optimize software.
     # Cache cleared after generating new results (cf RunSimulation)
     @st.cache_data
-    def prepare_h5_file(self):
+    def prepare_h5_file(_self):
 
         [
             log_messages,
@@ -3163,7 +3291,7 @@ class SetHDF5Download():
             electrolyte_potential,
             positive_electrode_potential
 
-            ] = self.results
+            ] = _self.results
 
 
         bio = io.BytesIO()
@@ -3275,7 +3403,7 @@ class SetGraphs():
             value=False
         )
 
-        st.divider()
+        #st.divider()
         return display_dynamic_dashboard, display_colormaps
     
     def set_dynamic_dashboard(_self):

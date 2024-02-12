@@ -31,22 +31,34 @@ st.session_state.update(st.session_state)
 ##############################
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, get_results_data
-import database.db_helper, app_scripts.app_access
+from app_scripts import app_view
 
 
 def run_page():
 
+    if "succes" not in st.session_state:
+        st.session_state.succes = None
+
     app = get_app_controller()
 
     if st.session_state.succes == True:
-        results = get_results_data().get_results_data()    
+        results = get_results_data().get_results_data()
 
-        app.set_download_hdf5_button(results)
+        app.set_indicators()
+
+        app_view.st_space(space_number=1) 
 
         app.set_graphs(results)
 
-    else:
-        st.error("Your simulation was not succesful, give it another try.")
+        app_view.st_space(space_number=1)  
+
+        app.set_download_hdf5_button(results)
+
+    elif st.session_state.succes == None:
+        st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation.")
+
+    else: 
+        st.error("Your simulation was not succesful unfortunately, give it another try.")
 
 
 if __name__ == "__main__":
