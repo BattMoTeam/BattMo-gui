@@ -17,10 +17,13 @@ import sympy as sp
 import matplotlib.pyplot as plt
 import os
 
+
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper
-from app_scripts import app_access, json_LD_to_BattMo
+from app_scripts import app_access, match_json_LD
+from app_scripts import app_calculations as calc
 
 
 
@@ -245,20 +248,6 @@ def checkbox_input_connect(checkbox_key, tab, category_id, parameter_name,non_ma
         else:
             pass
 
-                   
-
-def calc_mass_loading(density_eff, thickness, porosity):
-        
-        ml = thickness*10**(-6)*density_eff*100*(1-porosity)
-        return ml
-    
-def calc_thickness( density_eff, mass_loading, porosity):
-    th = mass_loading*10**(7)/(density_eff*1000*(1-porosity))
-    return th
-
-def calc_porosity( density_eff, thickness, mass_loading):
-    por = 1-(mass_loading/(thickness*10**(-6)*density_eff*100))
-    return por
 
 
 class SetTabs:
@@ -297,14 +286,20 @@ class SetTabs:
 
         self.has_quantitative_property = "hasQuantitativeProperty"
 
-        # Create info box
-        self.info = "Push on the 'Save Parameters' button at the bottom of the page to update the parameters for the simulation."
-        #self.set_info()
+        # File input feature
+        self.info = "Upload here your JSON input parameter file to automatically fill the parameter inputs."
+        self.help = "Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page."
 
         # Initialize tabs
         self.title = "Parameters"
         self.set_title()
-    
+
+        # Import functions for calculations
+        self.validate_volume_fraction = calc.validate_volume_fraction
+        self.calc_density_mix = calc.calc_density_mix
+        self.calc_mass_loading = calc.calc_mass_loading
+        self.calc_thickness = calc.calc_thickness
+        self.calc_porosity = calc.calc_porosity
         
         # user_input is the dict containing all the json LD data
         self.user_input = {
@@ -326,7 +321,6 @@ class SetTabs:
         self.set_tabs()
 
 
-
     def set_file_input(self):
 
         ############################################################
@@ -334,7 +328,7 @@ class SetTabs:
         # NOT USED YET
         ############################################################
         upload, update = st.columns((3,1))
-        uploaded_file = upload.file_uploader("Upload here your JSON input parameter file to automatically fill the parameter inputs.", type='json', help="Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page.")
+        uploaded_file = upload.file_uploader(self.info, type='json', help= self.help)
         
         if uploaded_file:
             st.success("Your file is succesfully uploaded. Click on the 'PUSH' button to automatically fill in the parameter inputs specified in your file.")
@@ -357,34 +351,12 @@ class SetTabs:
             else:
                 st.error("ERROR: No file has been uploaded yet.")
 
-    def set_info(self):
-        st.info(self.info)
-
     def set_title(self):
         st.markdown("### " + self.title)
 
     def create_component_parameters_dict(self,component_parameters):
-        return {self.has_quantitative_property: component_parameters}
+        return {self.has_quantitative_property: component_parameters}  
     
-    def validate_volume_fraction(self, vf_sum,category_display_name,tab):
-        vf_summing = 0
-        for id, value in vf_sum.items():
-            vf_summing += value
-        if vf_summing != 1.0:
-            tab.warning("The sum of the '%s' material volume fractions is not equal to 1." % (category_display_name))
-        
-
-    def calc_density_mix(self, vf, density):
-        
-        density_eff=0
-        for id, fraction in vf.items():
-            
-            density_eff += fraction*density.get(id)
-        
-        return density_eff
-    
-    
-
     def set_check_col(self,toggle_states, check_col, i, ac,category_id,non_material_parameter):
         # Create a dictionary to store toggle states
         
@@ -1327,7 +1299,7 @@ class SetTabs:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
                     non_material_parameter_name = non_material_parameter.name
                     if non_material_parameter_name == "mass_loading":
-                        par_value_ml = calc_mass_loading(density_mix, thickness, porosity)
+                        par_value_ml = self.calc_mass_loading(density_mix, thickness, porosity)
                         par_index = 2
                         mass_loadings[category_name]=par_value_ml
                         input_key = "input_key_{}_{}".format(category_id, "mass_loading")
@@ -1336,7 +1308,7 @@ class SetTabs:
                         checkbox_key= "checkbox_{}_{}".format(category_id, "mass_loading")
 
                         st.session_state[input_value] = par_value_ml
-                        tab.write("Mass loading is now equal to {}".format(round(par_value_ml),3))
+                        tab.write("Mass loading is now equal to {}".format(round(par_value_ml,2)))
 
                         if st.session_state[input_value] > non_material_parameter.max_value:
                             tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
@@ -1366,7 +1338,7 @@ class SetTabs:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
                     non_material_parameter_name = non_material_parameter.name
                     if non_material_parameter_name == "coating_porosity":
-                        par_value_co = calc_porosity(density_mix, thickness, mass_loading)
+                        par_value_co = self.calc_porosity(density_mix, thickness, mass_loading)
                         par_index = 1
                         
                         input_key = "input_key_{}_{}".format(category_id, "coating_porosity")
@@ -1395,7 +1367,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                     
-                        tab.write("Coating porosity is now equal to {}".format(round(par_value_co),3))
+                        tab.write("Coating porosity is now equal to {}".format(round(par_value_co,2)))
                     
 
 
@@ -1404,7 +1376,7 @@ class SetTabs:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
                     non_material_parameter_name = non_material_parameter.name
                     if non_material_parameter_name == "coating_thickness":
-                        par_value_th = calc_thickness(density_mix, mass_loading, porosity)
+                        par_value_th = self.calc_thickness(density_mix, mass_loading, porosity)
                         
                         input_key = "input_key_{}_{}".format(category_id, "coating_thickness")
                         empty_key = "empty_{}_{}".format(category_id,"coating_thickness") 
@@ -1432,7 +1404,7 @@ class SetTabs:
                             disabled = not st.session_state[checkbox_key]
                             )
                         par_index = 0
-                        tab.write("Coating thickness is now equal to {}".format(round(par_value_th),3))
+                        tab.write("Coating thickness is now equal to {}".format(round(par_value_th,2)))
             else:
                 st.session_state["input_value_{}_{}".format(category_id, "coating_thickness")] = None
                 st.session_state["input_value_{}_{}".format(category_id, "coating_porosity")] = None
@@ -2750,7 +2722,7 @@ class RunSimulation:
         # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
                 new_file,
                 indent=3
             )
@@ -2959,7 +2931,7 @@ class DownloadParameters:
         # save formatted parameters in json file
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
                 new_file,
                 indent=3
             )
@@ -3178,7 +3150,7 @@ class SetIndicators():
         with open(app_access.get_path_to_linked_data_input(), "rb") as f:
             gui_dict = json.load(f)
 
-        indicators = json_LD_to_BattMo.get_indicators_from_gui_dict(gui_dict)   
+        indicators = match_json_LD.get_indicators_from_gui_dict(gui_dict)   
 
         return indicators
     

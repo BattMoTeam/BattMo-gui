@@ -43,7 +43,7 @@ class AppController:
         return view.DownloadParameters(gui_parameters)
 
     def json_LD_to_BattMo(self, gui_dict):
-        return view.json_LD_to_BattMo.get_batt_mo_dict_from_gui_dict(gui_dict)
+        return view.match_json_LD.get_batt_mo_dict_from_gui_dict(gui_dict)
     
     def set_indicators(self):
         return view.SetIndicators()

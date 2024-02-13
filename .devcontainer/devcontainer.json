@@ -1,27 +1,48 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
 {
-	"name": "PyJulia Env",
-	"build": {
-		"dockerfile": "../Dockerfile",
-		"context": "../."
-	},
+	"name": "BattMoGUIEnv",
+	"dockerComposeFile": "../docker-compose-dev.yml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	// "remoteEnv": {
+	// 	"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}/.."
+	// },
+	// "mounts": [
+	// 	"source=${localWorkspaceFolder}/..,target=/workspace,type=bind,consistency=cached"
+	// ],
+	// "remoteEnv": {
+	// 	"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+	// },
+
+    //"runArgs": [ "-v", "/var/run/docker.sock:/var/run/docker.sock"],
+    
+	
+	//"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	
 	// Set *default* container specific settings.json values on container create.
-    "customizations": {"vscode": {"settings": {
-        "python.pythonPath": "/usr/local/bin/python",
-		"python.languageServer": "Pylance",
-		"python.linting.enabled": true,
-		"python.linting.pylintEnabled": true
+    "customizations": {
+		
+		"vscode": {
+			"settings": {
+				"python.pythonPath": "/usr/local/bin/python",
+				"python.languageServer": "Pylance",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true
 
 
-    },
+    		},
+			// "customVolumeMounts": [
+			// 	"/../flask_api:/workspaces/flask_api",
+			// 	"/../nginx:/workspaces/nginx",
+			// 	"/../streamlit:/workspaces/streamlit"
+			// 	],
 
-    "extensions": [
-        "ms-python.python",
-		"ms-python.vscode-pylance",
-		"julialang.language-julia"
+    		"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"julialang.language-julia"
 
-    ]
-    }}
+				]
+    	}
+	}
 
 }
