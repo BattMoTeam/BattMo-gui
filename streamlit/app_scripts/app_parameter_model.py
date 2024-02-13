@@ -38,6 +38,7 @@ class Materials(object):
         self.options[option_id] = option_details
         if self.default_value is None:
             self.default_value = option_details.display_name
+        self.name = option_details.name
 
     def set_selected_value(self, value):
         self.selected_value = value
@@ -193,8 +194,9 @@ class FunctionParameter(TemplateParameter):
 
 
 class Option_material(object):
-    def __init__(self, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
+    def __init__(self,parameter_set_name=None, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
         self.display_name = parameter_set_display_name
+        self.name = parameter_set_name
         self.parameter_set_id =parameter_set_id
         self.parameters = parameters
         self.parameter_ids = parameter_ids
@@ -204,10 +206,11 @@ class Option_material(object):
 
 
 class Option_parameter(object):
-    def __init__(self, formatted_value=None, parameter_set=None, parameter_display_name=None):
+    def __init__(self, formatted_value=None, parameter_set=None, parameter_display_name=None, parameter_name = None):
         self.value = formatted_value
         self.parameter_set = parameter_set
         self.parameter_display_name = parameter_display_name
+        self.parameter_name = parameter_name
 
     #     self.set_display_name()
 
@@ -313,20 +316,22 @@ class FormatParameters:
                     
                     values.append(formatted_value)
                     parameter_display_name = template_parameter.display_name
-
+                    parameter_name = template_parameter.name
 
                     # each parameter has metadata from the "template", to which we add the options containing value and origin
                     if type(parameter_sets) == str:
                         new_option = Option_parameter(
                             formatted_value=formatted_value,
                             parameter_set=parameter_sets,
-                            parameter_display_name = parameter_display_name
+                            parameter_display_name = parameter_display_name,
+                            parameter_name = parameter_name
                         )
                     else:
                         new_option = Option_parameter(
                             formatted_value=formatted_value,
                             parameter_set=material_parameter_sets_name_by_id.get(parameter_set_id),
-                            parameter_display_name = parameter_display_name
+                            parameter_display_name = parameter_display_name,
+                            parameter_name = parameter_name
                         )
                     template_parameter.add_option(parameter_set_id, new_option)
                     

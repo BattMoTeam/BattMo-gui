@@ -284,8 +284,6 @@ class SetTabs:
         # initialize formatter
         self.formatter = FormatParameters()
 
-        self.has_quantitative_property = "hasQuantitativeProperty"
-
         # File input feature
         self.info = "Upload here your JSON input parameter file to automatically fill the parameter inputs."
         self.help = "Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page."
@@ -300,21 +298,45 @@ class SetTabs:
         self.calc_mass_loading = calc.calc_mass_loading
         self.calc_thickness = calc.calc_thickness
         self.calc_porosity = calc.calc_porosity
+
+        # Ontology definitions
+        
+        self.hasActiveMaterial = "hasActiveMaterial"
+        self.hasBinder = "hasBinder"
+        self.hasConductiveAdditive = "hasConductiveAdditive"
+        self.hasElectrode = "hasElectrode"
+        self.hasElectrolyte = "hasElectrolyte"
+        self.hasSeparator = "hasSeparator"
+        self.hasBoundaryConditions = "hasBoundaryConditions"
+        self.hasCyclingProcess = "hasCyclingProcess"
+
+        self.hasQuantitativeProperty = "hasQuantitativeProperty"
+        self.hasObjectiveProperty = "hasObjectiveProperty"
+        self.hasNumericalData = "hasNumericalData"
+        self.hasStringData = "hasStringData"
+        self.hasModel = "hasModel"
+        self.hasCell = "hasCell"
+
+        self.universe_label = "MySimulationSetup"
+        self.model_label = "{} model".format(db_helper.get_model_name_from_id(model_id))
+        self.model_type = "battery:{}Model".format(db_helper.get_model_name_from_id(model_id))
+        self.cell_label = "MyCell"
+        self.cell_type = "battery:Cell"
         
         # user_input is the dict containing all the json LD data
         self.user_input = {
             "@context": context,
         
-            "MySimulationSetup":{
-                "hasModel":{
-                    "label": "P2D model",
-                    "@type": "battery:P2DModel",
-                    "hasQuantitativeProperty": db_helper.get_model_parameters_as_dict(model_id)
+            self.universe_label:{
+                self.hasModel:{
+                    "label": self.model_label,
+                    "@type": self.model_type,
+                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_id)
                 }
-            }        
-            
+            }             
         }
 
+        # Create fill input
         self.set_file_input()
 
         # Fill tabs
@@ -355,7 +377,7 @@ class SetTabs:
         st.markdown("### " + self.title)
 
     def create_component_parameters_dict(self,component_parameters):
-        return {self.has_quantitative_property: component_parameters}  
+        return {self.hasQuantitativeProperty: component_parameters}  
     
     def set_check_col(self,toggle_states, check_col, i, ac,category_id,non_material_parameter):
         # Create a dictionary to store toggle states
@@ -537,19 +559,19 @@ class SetTabs:
                             if isinstance(parameter, NumericalParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Numerical",
-                                    "hasNumericalData": parameter.selected_value
+                                    self.hasNumericalData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, StrParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:String",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, BooleanParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Boolean",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
 
                             parameter_details = {
@@ -565,15 +587,16 @@ class SetTabs:
                                 }
                             component_parameters.append(parameter_details)
 
-                        if non_material_comp_display_name == "Active Material":
-                            material_comp_relation = "hasActiveMaterial"
-                        elif non_material_comp_display_name == "Binder":
-                            material_comp_relation = "hasBinder"
-                        elif non_material_comp_display_name == "Additive":
-                            material_comp_relation = "hasConductiveAdditive"
-                        elif non_material_comp_display_name == "Positive electrode properties":
-                            material_comp_relation = "hasObjectiveProperty"
-                        category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
+                        if non_material_component_name == "positive_electrode_active_material_advanced":
+                            material_comp_relation = self.hasActiveMaterial
+                        elif non_material_component_name == "positive_electrode_binder_advanced":
+                            material_comp_relation = self.hasBinder
+                        elif non_material_component_name == "positive_electrode_additive_advanced":
+                            material_comp_relation = self.hasConductiveAdditive
+                        elif non_material_component_name == "positive_electrode_properties_advanced":
+                            material_comp_relation = self.hasObjectiveProperty
+
+                        category_parameters[material_comp_relation][self.hasQuantitativeProperty] += component_parameters
 
     
     
@@ -684,19 +707,19 @@ class SetTabs:
                             if isinstance(parameter, NumericalParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Numerical",
-                                    "hasNumericalData": parameter.selected_value
+                                    self.hasNumericalData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, StrParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:String",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, BooleanParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Boolean",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
 
                             parameter_details = {
@@ -713,26 +736,24 @@ class SetTabs:
                                     }
                             component_parameters.append(parameter_details)
 
-                    if non_material_comp_display_name == "Active Material":
-                        material_comp_relation = "hasActiveMaterial"
-                    elif non_material_comp_display_name == "Binder":
-                        material_comp_relation = "hasBinder"
-                    elif non_material_comp_display_name == "Additive":
-                        material_comp_relation = "hasConductiveAdditive"
-                    elif non_material_comp_display_name == "Negative electrode properties":
-                        material_comp_relation = "hasObjectiveProperty"
-    
+                    if non_material_component_name == "negative_electrode_active_material_advanced":
+                        material_comp_relation = self.hasActiveMaterial
+                    elif non_material_component_name == "negative_electrode_binder_advanced":
+                        material_comp_relation = self.hasBinder
+                    elif non_material_component_name == "negative_electrode_additive_advanced":
+                        material_comp_relation = self.hasConductiveAdditive
+                    elif non_material_component_name == "negative_electrode_properties_advanced":
+                        material_comp_relation = self.hasObjectiveProperty
 
-
-                    category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
+                    category_parameters[material_comp_relation][self.hasQuantitativeProperty] += component_parameters
                 
                 return category_parameters
                     
     def set_tabs(self):
 
         cell_parameters = {
-                    "label": "MyCell",
-                    "@type": "battery:Cell",
+                    "label": self.cell_label,
+                    "@type": self.cell_type,
                     #"@type_iri": "http://emmo.info/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
 
                 }
@@ -746,6 +767,7 @@ class SetTabs:
             db_tab_id = db_tab_ids[index][0]
 
             tab_context_type, tab_context_type_iri = db_helper.get_context_type_and_iri_by_id(db_tab_id)
+            tab_name = np.squeeze(db_helper.get_tab_name_by_id(db_tab_id))
             
             tab_parameters = {
                 "label": db_helper.get_basis_tabs_display_names(self.model_id)[index],
@@ -754,16 +776,16 @@ class SetTabs:
 
             }
 
-            if tab_context_type == "echem:Electrode":
-                tab_relation = "hasElectrode"
-            elif tab_context_type == "echem:Electrolyte":
-                tab_relation = "hasElectrolyte"
-            elif tab_context_type == "echem:Separator":
-                tab_relation = "hasSeparator"
-            elif tab_context_type == "battery:BatteryCell":
-                tab_relation = "hasBoundaryConditions"
-            elif tab_context_type == "echem:CyclingProcess":
-                tab_relation = "hasCyclingProcess"
+            if tab_name == "electrodes":
+                tab_relation = self.hasElectrode
+            elif tab_name == "electrolyte":
+                tab_relation = self.hasElectrolyte
+            elif tab_name == "separator":
+                tab_relation = self.hasSeparator
+            elif tab_name == "boundary_conditions":
+                tab_relation = self.hasBoundaryConditions
+            elif tab_name == "protocol":
+                tab_relation = self.hasCyclingProcess
 
         
 
@@ -796,9 +818,9 @@ class SetTabs:
                     
                     category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
-                    if category_display_name == "Negative electrode":
+                    if category_name == "negative_electrode":
                         category_relation = "hasNegativeElectrode"
-                    elif category_display_name == "Positive electrode":
+                    elif category_name == "positive_electrode":
                         category_relation = "hasPositiveElectrode"
 
                     category_parameters, emmo_relation, mass_loadings = self.fill_category(
@@ -828,7 +850,7 @@ class SetTabs:
                     tab_display_name = db_helper.get_tabs_display_name_from_id(db_tab_id)
                     
 
-                    cell_parameters[tab_relation]["hasObjectiveProperty"] = category_parameters
+                    cell_parameters[tab_relation][self.hasObjectiveProperty] = category_parameters
          
 
             else:  # no sub tab is needed
@@ -853,7 +875,7 @@ class SetTabs:
 
                     protocol_parameters = category_parameters
 
-                    self.user_input["MySimulationSetup"][tab_relation] = protocol_parameters[tab_relation]
+                    self.user_input[self.universe_label][tab_relation] = protocol_parameters[tab_relation]
 
                 else:
                     
@@ -876,7 +898,7 @@ class SetTabs:
             
 
             # cell is fully defined, its parameters are saved in the user_input dict
-            self.user_input["MySimulationSetup"]["hasCell"] = cell_parameters
+            self.user_input[self.universe_label][self.hasCell] = cell_parameters
 
             index +=1
 
@@ -940,25 +962,25 @@ class SetTabs:
                 if isinstance(vf_parameter, NumericalParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": vf_parameter.selected_value
+                        self.hasNumericalData: vf_parameter.selected_value
                     }
 
                 elif isinstance(vf_parameter, StrParameter):
                     formatted_value_dict = {
                         "@type": "emmo:String",
-                        "hasStringData": vf_parameter.selected_value
+                        self.hasStringData: vf_parameter.selected_value
                     }
 
                 elif isinstance(vf_parameter, BooleanParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
-                        "hasStringData": vf_parameter.selected_value
+                        self.hasStringData: vf_parameter.selected_value
                     }
 
                 elif isinstance(vf_parameter, FunctionParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Function",
-                        "hasStringData": vf_parameter.selected_value
+                        self.hasStringData: vf_parameter.selected_value
                     }
 
                 parameter_details = {
@@ -1043,19 +1065,19 @@ class SetTabs:
                 if isinstance(parameter, NumericalParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": set_parameter.value
+                        self.hasNumericalData: set_parameter.value
                     }
 
                 elif isinstance(parameter, StrParameter):
                     formatted_value_dict = {
                         "@type": "emmo:String",
-                        "hasStringData": set_parameter.value
+                        self.hasStringData: set_parameter.value
                     }
 
                 elif isinstance(parameter, BooleanParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
-                        "hasStringData": set_parameter.value
+                        self.hasStringData: set_parameter.value
                     }
 
                 parameter_details = {
@@ -1242,25 +1264,25 @@ class SetTabs:
                 if isinstance(non_material_parameter, NumericalParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": non_material_parameter.selected_value
+                        self.hasNumericalData: non_material_parameter.selected_value
                     }
 
                 elif isinstance(non_material_parameter, StrParameter):
                     formatted_value_dict = {
                         "@type": "emmo:String",
-                        "hasStringData": non_material_parameter.selected_value
+                        self.hasStringData: non_material_parameter.selected_value
                     }
 
                 elif isinstance(non_material_parameter, BooleanParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
-                        "hasStringData": non_material_parameter.selected_value
+                        self.hasStringData: non_material_parameter.selected_value
                     }
                 
                 # elif isinstance(non_material_parameter, FunctionParameter):
                 #     formatted_value_dict = {
                 #         "@type": "emmo:Function",
-                #         "hasStringData": non_material_parameter.selected_value
+                #         self.hasStringData: non_material_parameter.selected_value
                 #     }
 
 
@@ -1413,10 +1435,10 @@ class SetTabs:
 
 
             if st.session_state[input_value]:
-                component_parameters[par_index]["value"]["hasNumericalData"]=st.session_state[input_value]
+                component_parameters[par_index]["value"][self.hasNumericalData]=st.session_state[input_value]
                 st.experimental_rerun
 
-        return non_material_parameter,user_input, {self.has_quantitative_property: component_parameters}, mass_loadings
+        return non_material_parameter,user_input, {self.hasQuantitativeProperty: component_parameters}, mass_loadings
     
     def fill_electrode_tab_comp(self, db_tab_id,mass_loadings,category_id ,emmo_relation):
 
@@ -1498,25 +1520,25 @@ class SetTabs:
             if isinstance(n_to_p_parameter, NumericalParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    "hasNumericalData": n_to_p_parameter.selected_value
+                    self.hasNumericalData: n_to_p_parameter.selected_value
                 }
 
             elif isinstance(n_to_p_parameter, StrParameter):
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    "hasStringData": n_to_p_parameter.selected_value
+                    self.hasStringData: n_to_p_parameter.selected_value
                 }
 
             elif isinstance(n_to_p_parameter, BooleanParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Boolean",
-                    "hasStringData": n_to_p_parameter.selected_value
+                    self.hasStringData: n_to_p_parameter.selected_value
                 }
 
             # elif isinstance(n_to_p_parameter, FunctionParameter):
             #     formatted_value_dict = {
             #         "@type": "emmo:Function",
-            #         "hasStringData": n_to_p_parameter.selected_value
+            #         self.hasStringData: n_to_p_parameter.selected_value
             #     }
 
             parameter_details = {
@@ -1536,7 +1558,7 @@ class SetTabs:
                 }
 
             category_parameters.append(parameter_details)
-        return {self.has_quantitative_property: category_parameters}, emmo_relation
+        return {self.hasQuantitativeProperty: category_parameters}, emmo_relation
         
 
     def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,selected_am_value_id=None):
@@ -1595,22 +1617,22 @@ class SetTabs:
                 component_parameters["@type"] = material_comp_context_type
                 #component_parameters["@type_iri"] = material_comp_context_type_iri
 
-                if material_comp_display_name == "Active Material":
-                    material_comp_relation = "hasActiveMaterial"
-                elif material_comp_display_name == "Binder":
-                    material_comp_relation = "hasBinder"
-                elif material_comp_display_name == "Additive":
-                    material_comp_relation = "hasConductiveAdditive"
+                if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
+                    material_comp_relation = self.hasActiveMaterial
+                elif component_name == "negative_electrode_binder" or component_name == "positive_electrode_binder":
+                    material_comp_relation = self.hasBinder
+                elif component_name == "negative_electrode_additive" or component_name == "positive_electrode_additive":
+                    material_comp_relation = self.hasConductiveAdditive
                 category_parameters[material_comp_relation] = component_parameters
 
 
-                material_choice = formatted_materials.options.get(selected_value_id).display_name
+                material_choice = formatted_materials.options.get(selected_value_id).name
  
                 material = formatted_materials.options.get(selected_value_id)
                 parameters = material.parameters
                 
                 
-                if material_choice == "User Defined":
+                if material_choice == "user_defined":
 
                     component_parameters = []
                     ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
@@ -1849,25 +1871,25 @@ class SetTabs:
                                 if isinstance(parameter, NumericalParameter):
                                     formatted_value_dict = {
                                         "@type": "emmo:Numerical",
-                                        "hasNumericalData": parameter.selected_value
+                                        self.hasNumericalData: parameter.selected_value
                                     }
 
                                 elif isinstance(parameter, StrParameter):
                                     formatted_value_dict = {
                                         "@type": "emmo:String",
-                                        "hasStringData": parameter.selected_value
+                                        self.hasStringData: parameter.selected_value
                                     }
 
                                 elif isinstance(parameter, BooleanParameter):
                                     formatted_value_dict = {
                                         "@type": "emmo:Boolean",
-                                        "hasStringData": parameter.selected_value
+                                        self.hasStringData: parameter.selected_value
                                     }
                                 
                                 # elif isinstance(non_material_parameter, FunctionParameter):
                                 #     formatted_value_dict = {
                                 #         "@type": "emmo:Function",
-                                #         "hasStringData": non_material_parameter.selected_value
+                                #         self.hasStringData: non_material_parameter.selected_value
                                 #     }
 
                                 parameter_details = {
@@ -1894,12 +1916,12 @@ class SetTabs:
                         component_parameters["@type"] = material_comp_context_type
                         #component_parameters["@type_iri"] = material_comp_context_type_iri
 
-                        if material_comp_display_name == "Active Material":
-                            material_comp_relation = "hasActiveMaterial"
-                        elif material_comp_display_name == "Binder":
-                            material_comp_relation = "hasBinder"
-                        elif material_comp_display_name == "Additive":
-                            material_comp_relation = "hasConductiveAdditive"
+                        if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
+                            material_comp_relation = self.hasActiveMaterial
+                        elif component_name == "negative_electrode_binder" or component_name == "positive_electrode_binder":
+                            material_comp_relation = self.hasBinder
+                        elif component_name == "negative_electrode_additive" or component_name == "positive_electrode_additive":
+                            material_comp_relation = self.hasConductiveAdditive
                         category_parameters[material_comp_relation] = component_parameters
 
                 
@@ -1912,15 +1934,15 @@ class SetTabs:
                 component_parameters["@type"] = material_comp_context_type
                 #component_parameters["@type_iri"] = material_comp_context_type_iri
 
-                if material_comp_display_name == "Active Material":
-                    material_comp_relation = "hasActiveMaterial"
-                elif material_comp_display_name == "Binder":
-                    material_comp_relation = "hasBinder"
-                elif material_comp_display_name == "Additive":
-                    material_comp_relation = "hasConductiveAdditive"
+                if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
+                    material_comp_relation = self.hasActiveMaterial
+                elif component_name == "negative_electrode_binder" or component_name == "positive_electrode_binder":
+                    material_comp_relation = self.hasBinder
+                elif component_name == "negative_electrode_additive" or component_name == "positive_electrode_additive":
+                    material_comp_relation = self.hasConductiveAdditive
     
 
-                category_parameters[material_comp_relation][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
+                category_parameters[material_comp_relation][self.hasQuantitativeProperty] += (component_parameters[self.hasQuantitativeProperty])
                 
                 ########################################################
                 # Not sure what to do with this 
@@ -1959,7 +1981,7 @@ class SetTabs:
             component_parameters["@type"] = material_comp_context_type
             #component_parameters["@type_iri"] = material_comp_context_type_iri
 
-            category_parameters["hasObjectiveProperty"] = component_parameters
+            category_parameters[self.hasObjectiveProperty] = component_parameters
 
         if category_name == "negative_electrode":
             
@@ -1983,11 +2005,11 @@ class SetTabs:
            
             component_parameters = self.create_component_parameters_dict(component_parameters)    
 
-            if material_comp_display_name == "Electrolyte materials":
-                material_comp_relation = "hasElectrolyte"
+            if component_name == "electrolyte_materials":
+                material_comp_relation = self.hasElectrolyte
                 label = "Electrolyte properties"
-            elif material_comp_display_name == "Separator materials":
-                material_comp_relation = "hasSeparator"
+            elif component_name == "separator_materials":
+                material_comp_relation = self.hasSeparator
                 label = "Separator properties"
 
             component_parameters["label"] = label
@@ -1997,13 +2019,13 @@ class SetTabs:
             category_parameters[material_comp_relation] = component_parameters
             
 
-            material_choice = formatted_materials.options.get(selected_value_id).display_name
+            material_choice = formatted_materials.options.get(selected_value_id).name
 
             material = formatted_materials.options.get(selected_value_id)
             parameters = material.parameters
             
             
-            if material_choice == "User Defined":
+            if material_choice == "user_defined":
                 
                 if "conductivity" not in st.session_state:
                     st.session_state.conductivity = r'''1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2'''
@@ -2174,25 +2196,25 @@ class SetTabs:
                             if isinstance(parameter, NumericalParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Numerical",
-                                    "hasNumericalData": parameter.selected_value
+                                    self.hasNumericalData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, StrParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:String",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
 
                             elif isinstance(parameter, BooleanParameter):
                                 formatted_value_dict = {
                                     "@type": "emmo:Boolean",
-                                    "hasStringData": parameter.selected_value
+                                    self.hasStringData: parameter.selected_value
                                 }
                             
                             # elif isinstance(non_material_parameter, FunctionParameter):
                             #     formatted_value_dict = {
                             #         "@type": "emmo:Function",
-                            #         "hasStringData": non_material_parameter.selected_value
+                            #         self.hasStringData: non_material_parameter.selected_value
                             #     }
 
                             parameter_details = {
@@ -2221,10 +2243,10 @@ class SetTabs:
                     component_parameters["@type"] = material_comp_context_type
                     #component_parameters["@type_iri"] = material_comp_context_type_iri
             
-                    if material_comp_display_name == "Electrolyte":
-                        material_comp_relation = "hasElectrolyte"
-                    elif material_comp_display_name == "Separator":
-                        material_comp_relation = "hasSeparator"
+                    if component_name == "electrolyte_materials":
+                        material_comp_relation = self.hasElectrolyte
+                    elif component_name == "separator_materials":
+                        material_comp_relation = self.hasSeparator
                     
                     
                     category_parameters[material_comp_relation] = component_parameters
@@ -2245,15 +2267,15 @@ class SetTabs:
             component_parameters["@type"] = non_material_comp_context_type
             #component_parameters["@type_iri"] = non_material_comp_context_type_iri
     
-            if non_material_comp_display_name == "Electrolyte properties":
-                material_comp_relation = "hasElectrolyte"
-            elif non_material_comp_display_name == "Separator properties":
-                material_comp_relation = "hasSeparator"
+            if non_material_component_name == "electrolyte_materials":
+                material_comp_relation = self.hasElectrolyte
+            elif non_material_component_name == "separator_materials":
+                material_comp_relation = self.hasSeparator
             if category_name == "boundary_conditions":
-                material_comp_relation = "hasBoundaryConditions"
+                material_comp_relation = self.hasBoundaryConditions
                 category_parameters[material_comp_relation] = component_parameters
             else:
-                category_parameters[material_comp_relation][self.has_quantitative_property] += (component_parameters[self.has_quantitative_property])
+                category_parameters[material_comp_relation][self.hasQuantitativeProperty] += (component_parameters[self.hasQuantitativeProperty])
 
 
             adv_input =tab.expander("Show '{}' advanced parameters".format(category_display_name))
@@ -2329,25 +2351,25 @@ class SetTabs:
                 if isinstance(parameter, NumericalParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Numerical",
-                        "hasNumericalData": parameter.selected_value
+                        self.hasNumericalData: parameter.selected_value
                     }
 
                 elif isinstance(parameter, StrParameter):
                     formatted_value_dict = {
                         "@type": "emmo:String",
-                        "hasStringData": parameter.selected_value
+                        self.hasStringData: parameter.selected_value
                     }
 
                 elif isinstance(parameter, BooleanParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
-                        "hasStringData": parameter.selected_value
+                        self.hasStringData: parameter.selected_value
                     }
 
                 # elif isinstance(parameter, FunctionParameter):
                 #     formatted_value_dict = {
                 #         "@type": "emmo:Boolean",
-                #         "hasStringData": parameter.selected_value
+                #         self.hasStringData: parameter.selected_value
                 #     }
                 
 
@@ -2368,14 +2390,14 @@ class SetTabs:
                 component_parameters.append(parameter_details)
 
             
-            if non_material_comp_display_name == "Electrolyte":
-                material_comp_relation = "hasElectrolyte"
-            elif non_material_comp_display_name == "Separator":
-                material_comp_relation = "hasSeparator"
-            elif category_name == "Boundary conditions":
-                material_comp_relation = "hasSeparator"    
+            if non_material_component_name == "electrolyte_materials":
+                material_comp_relation = self.hasElectrolyte
+            elif non_material_component_name == "separator_materials":
+                material_comp_relation = self.hasSeparator
+            elif category_name == "boundary_conditions":
+                material_comp_relation = self.hasBoundaryConditions   
 
-            category_parameters[material_comp_relation][self.has_quantitative_property] += component_parameters
+            category_parameters[material_comp_relation][self.hasQuantitativeProperty] += component_parameters
 
             
         return category_parameters, emmo_relation, mass_loadings
@@ -2448,25 +2470,25 @@ class SetTabs:
             if isinstance(parameter, NumericalParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    "hasNumericalData": parameter.selected_value
+                    self.hasNumericalData: parameter.selected_value
                 }
 
             elif isinstance(parameter, StrParameter):
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    "hasStringData": parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
             elif isinstance(parameter, BooleanParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Boolean",
-                    "hasStringData": parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
             elif isinstance(parameter, FunctionParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
-                        "hasStringData": parameter.selected_value
+                        self.hasStringData: parameter.selected_value
                     }
 
             parameter_details = {
@@ -2488,7 +2510,7 @@ class SetTabs:
         component_parameters["@type"] = non_material_comp_context_type
         #component_parameters["@type_iri"] = non_material_comp_context_type_iri
     
-        category_parameters["hasCyclingProcess"] = component_parameters
+        category_parameters[self.hasCyclingProcess] = component_parameters
 
         adv_input =tab.expander("Show '{}' advanced parameters".format(category_display_name))
         component_parameters = []
@@ -2562,25 +2584,25 @@ class SetTabs:
             if isinstance(parameter, NumericalParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    "hasNumericalData": parameter.selected_value
+                    self.hasNumericalData: parameter.selected_value
                 }
 
             elif isinstance(parameter, StrParameter):
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    "hasStringData": parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
             elif isinstance(parameter, BooleanParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Boolean",
-                    "hasStringData": parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
             # elif isinstance(parameter, FunctionParameter):
             #     formatted_value_dict = {
             #         "@type": "emmo:Boolean",
-            #         "hasStringData": parameter.selected_value
+            #         self.hasStringData: parameter.selected_value
             #     }
             
 
@@ -2601,7 +2623,7 @@ class SetTabs:
             component_parameters.append(parameter_details)
 
 
-        category_parameters["hasCyclingProcess"][self.has_quantitative_property] += component_parameters
+        category_parameters[self.hasCyclingProcess][self.hasQuantitativeProperty] += component_parameters
 
         return category_parameters
 
@@ -3028,10 +3050,10 @@ class SetModelDescription():
         with model:
             
             st.markdown("""**Includes** """)
-            st.markdown("- Thermal effects = <span style='color: blue;'>" + str(P2D_model[0]["value"]["hasStringData"]) + "</span>", unsafe_allow_html=True)
-            st.markdown("- Current collector = <span style='color: blue;'>" + str(P2D_model[1]["value"]["hasStringData"]) + "</span>", unsafe_allow_html=True)
-            st.markdown("- Solid Diffusion model = <span style='color: blue;'>" + str(P2D_model[2]["value"]["hasStringData"]) + "</span>", unsafe_allow_html=True)
-            st.markdown("- Solid Diffusion model type = <span style='color: blue;'>" + str(P2D_model[3]["value"]["hasStringData"]) + "</span>", unsafe_allow_html=True)
+            st.markdown("- Thermal effects = <span style='color: blue;'>" + str(P2D_model[0]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
+            st.markdown("- Current collector = <span style='color: blue;'>" + str(P2D_model[1]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
+            st.markdown("- Solid Diffusion model = <span style='color: blue;'>" + str(P2D_model[2]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
+            st.markdown("- Solid Diffusion model type = <span style='color: blue;'>" + str(P2D_model[3]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
             st.markdown(" ")
             st.markdown("**Description**")
             st.markdown(P2D_model_description)

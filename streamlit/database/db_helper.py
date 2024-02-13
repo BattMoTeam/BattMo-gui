@@ -133,6 +133,14 @@ def get_tabs_names():
     )
     return [a[0] for a in res]
 
+@st.cache_data
+def get_tab_name_by_id(id):
+    tab = sql_tab().select(
+        values='name',
+        where='id=%d' % id
+    )
+    return tab
+
 
 @st.cache_data
 def get_context_type_and_iri_by_id(id):
@@ -418,6 +426,16 @@ def get_models_as_dict():
         models_as_dict[model_id] = model_name
 
     return models_as_dict
+
+
+@st.cache_data
+def get_model_name_from_id(model_id):
+    model = sql_model().select(
+        values = "name",
+        where = "id = '{}'".format(model_id)
+    )
+
+    return model
 
 
 # @st.cache_data
