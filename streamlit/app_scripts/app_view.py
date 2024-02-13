@@ -3036,6 +3036,8 @@ class SetModelDescription():
     def __init__(self):
     
         self.model = "P2D"
+        self.hasNumericalData = "hasNumericalData"
+        self.hasStringData = "hasStringData"
         self.set_model_description()
 
     def set_model_description(self):
