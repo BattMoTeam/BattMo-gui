@@ -435,7 +435,7 @@ def get_model_parameters_as_dict(model_id):
     model_quantitative_properties = []
 
     for parameter in parameters:
-        _, name, _, value, value_type, _, unit_name, _, _ = parameter
+        _, name, _, value, value_type, unit, unit_name, _, _ = parameter
 
         parameter_details = {
             "label": name
@@ -457,7 +457,11 @@ def get_model_parameters_as_dict(model_id):
                 "@type": "emmo:Numerical",
                 "hasNumericalData": float(value)
             }
-            parameter_details["unit"] = "emmo:"+unit_name
+            parameter_details["unit"] = {
+                "label": unit_name if unit_name else unit,
+                "symbol": unit,
+                "@type": "emmo:"+ unit_name if unit_name else unit
+            }
         else:
             assert False, "model parameter type={} not handled. name={}".format(value_type, name)
 
