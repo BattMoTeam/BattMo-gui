@@ -9,3 +9,4 @@ streamlit_extras == 0.3.2
 sympy == 1.12
 juliacall == 0.9.14 
 psutil == 3.2.2
+streamlit_javascript == 0.1.5

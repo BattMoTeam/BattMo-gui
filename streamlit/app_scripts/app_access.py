@@ -55,6 +55,12 @@ def get_path_to_battmo_results():
     return battmo_results_path
 
 @st.cache_data
+def get_path_to_calculated_values():
+    output_files_path = get_path_to_output_files_dir()
+    calculated_values_path = os.path.join(output_files_path, "calculated_values.json")
+    return calculated_values_path
+
+@st.cache_data
 def get_path_to_database_dir():
     streamlit_path = get_path_to_streamlit_dir()
     database_path = os.path.join(streamlit_path, "database")

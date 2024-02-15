@@ -71,6 +71,7 @@ class GuiDict(object):
     Create a python object from the parameter dict for easier access and better readability
     """
     def __init__(self, gui_dict):
+        
         self.model = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasModel").get("hasQuantitativeProperty"))
         self.cell = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBoundaryConditions").get("hasQuantitativeProperty"))
         self.raw_ele = gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrode")
@@ -99,9 +100,10 @@ class GuiDict(object):
         self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
         self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
         self.protocol = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCyclingProcess").get("hasQuantitativeProperty"))
-        self.el = get_dict_from_has_quantitative(self.raw_ele.get("hasObjectiveProperty").get("hasQuantitativeProperty"))
+        
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
+    
     json_ld = GuiDict(gui_dict)
     total_time = 2 / json_ld.protocol.get("c_rate").get("value") * json_ld.protocol.get("number_of_cycles").get("value") * 3600
 
@@ -340,6 +342,24 @@ def get_indicators_from_gui_dict(gui_dict):
     json_ld = GuiDict(gui_dict)
 
     indicators = {
+        "Cell": {
+            # "cellMass": {
+            #     "value": json_ld.cell.get("cell_mass").get("value"),
+            #     "unit": json_ld.cell.get("cell_mass").get("unit")
+            # },
+            # "cellEnergy": {
+            #     "value": json_ld.cell.get("cell_energy").get("value"),
+            #     "unit": json_ld.cell.get("cell_energy").get("unit")
+            # },
+            # "nominalCellCapacity": {
+            #     "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
+            #     "unit": json_ld.cell.get("nominal_cell_capacity").get("unit")
+            # },
+            "NPRatio": {
+                "value": json_ld.cell.get("n_to_p_ratio").get("value"),
+                "unit": json_ld.cell.get("n_to_p_ratio").get("unit")
+            },
+        },
         "NegativeElectrode": {
             "massLoading": {
                 "value": json_ld.ne.properties.get("mass_loading").get("value"),
@@ -354,10 +374,10 @@ def get_indicators_from_gui_dict(gui_dict):
                 "value": json_ld.ne.properties.get("coating_porosity").get("value"),
                 "unit": json_ld.ne.properties.get("coating_porosity").get("unit")
             } ,
-            "specificHeatCapacity": {
-                "value": json_ld.ne.am.get("specific_heat_capacity").get("value"),
-                "unit": json_ld.ne.am.get("specific_heat_capacity").get("unit")
-            } 
+            # "specificCapacity": {
+            #     "value": json_ld.ne.properties.get("specific_capacity").get("value"),
+            #     "unit": json_ld.ne.properties.get("specific_capacity").get("unit")
+            # } 
         },
         "PositiveElectrode": {
             "massLoading": {
@@ -373,10 +393,10 @@ def get_indicators_from_gui_dict(gui_dict):
                 "value": json_ld.pe.properties.get("coating_porosity").get("value"),
                 "unit": json_ld.pe.properties.get("coating_porosity").get("unit")
             } ,
-            "specificHeatCapacity": {
-                "value": json_ld.pe.am.get("specific_heat_capacity").get("value"),
-                "unit": json_ld.pe.am.get("specific_heat_capacity").get("unit")
-            }
+            # "specificCapacity": {
+            #     "value": json_ld.pe.properties.get("specific_capacity").get("value"),
+            #     "unit": json_ld.pe.properties.get("specific_capacity").get("unit")
+            # }
         }
     }
 

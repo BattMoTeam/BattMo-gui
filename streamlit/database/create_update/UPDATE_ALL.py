@@ -20,7 +20,7 @@ Those files are located in the directory python/resources/db/resources
 """
 
 #########################################
-# RUN FILE 2 TIMES TWO UPDATE EVERYTHING
+# RUN FILE 2 TIMES TO UPDATE EVERYTHING
 #########################################
 
 if __name__ == "__main__":
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 # Uncomment to see data in material table:
 
 con, cur = app_access.get_sqlite_con_and_cur()
-data=cur.execute('''SELECT * FROM model_parameter''')
+data=cur.execute('''SELECT * FROM template_parameter''')
 # Fetch all rows from the result
 data = cur.fetchall()
 

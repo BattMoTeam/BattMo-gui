@@ -298,6 +298,10 @@ class SetTabs:
         self.calc_mass_loading = calc.calc_mass_loading
         self.calc_thickness = calc.calc_thickness
         self.calc_porosity = calc.calc_porosity
+        self.calc_n_to_p_ratio = calc.calc_n_to_p_ratio
+        self.calc_cell_mass = calc.calc_cell_mass
+        self.calc_cell_energy = calc.calc_cell_energy
+        self.calc_specific_capacity_electrode = calc.calc_specific_capacity_electrode
 
         # Ontology definitions
         
@@ -318,8 +322,8 @@ class SetTabs:
         self.hasCell = "hasCell"
 
         self.universe_label = "MySimulationSetup"
-        self.model_label = "{} model".format(db_helper.get_model_name_from_id(model_id))
-        self.model_type = "battery:{}Model".format(db_helper.get_model_name_from_id(model_id))
+        self.model_label = "{} model".format(np.squeeze(db_helper.get_model_name_from_id(model_id)))
+        self.model_type = "battery:{}Model".format(np.squeeze(db_helper.get_model_name_from_id(model_id)))
         self.cell_label = "MyCell"
         self.cell_type = "battery:Cell"
         
@@ -838,19 +842,19 @@ class SetTabs:
                     tab_parameters[category_relation] = category_parameters 
                     cell_parameters[tab_relation] = tab_parameters   
 
-                with tab:
+                # with tab:
                     
-                    st.divider()
+                #     st.divider()
 
 
-                    category_parameters, emmo_relation = self.fill_electrode_tab_comp( db_tab_id ,mass_loadings,category_id,emmo_relation = None)
+                #     category_parameters, emmo_relation = self.fill_electrode_tab_comp( db_tab_id ,mass_loadings,category_id,emmo_relation = None)
 
 
                     
-                    tab_display_name = db_helper.get_tabs_display_name_from_id(db_tab_id)
+                #     tab_display_name = db_helper.get_tabs_display_name_from_id(db_tab_id)
                     
 
-                    cell_parameters[tab_relation][self.hasObjectiveProperty] = category_parameters
+                #     cell_parameters[tab_relation][self.hasObjectiveProperty] = category_parameters
          
 
             else:  # no sub tab is needed
@@ -902,10 +906,96 @@ class SetTabs:
 
             index +=1
 
+        self.user_input = self.calc_indicators(self.user_input)
+
+        self.update_json_LD()
         st.divider()
 
-        if os.path.exists("uploaded_input.json"):
-            os.remove("uploaded_input.json")
+        # if os.path.exists("uploaded_input.json"):
+        #     os.remove("uploaded_input.json")
+
+
+    def update_json_LD(self):
+
+        path_to_battmo_input = app_access.get_path_to_linked_data_input()
+
+        # save formatted parameters in json file
+        with open(path_to_battmo_input, "w") as new_file:
+            json.dump(
+                self.user_input,
+                new_file,
+                indent=3)
+
+    def calc_indicators(self,user_input):
+
+        with open(app_access.get_path_to_calculated_values(),'r') as f:
+            mass_loadings = json.load(f)["calculatedParameters"]["mass_loadings"]
+        
+        n_to_p_ratio = self.calc_n_to_p_ratio(mass_loadings)
+
+        n_to_p_category_parameters, emmo = self.setup_n_to_p_ratio(n_to_p_ratio)
+
+
+
+        user_input[self.universe_label][self.hasCell][self.hasBoundaryConditions][self.hasQuantitativeProperty] += n_to_p_category_parameters[self.hasQuantitativeProperty]
+
+        return user_input
+    
+    def setup_n_to_p_ratio(self, n_to_p_ratio_value):
+
+        category_parameters = []
+         
+        n_to_p_ratio_raw_template = db_helper.get_template_parameter_by_parameter_name("n_to_p_ratio")
+
+        parameter_id, \
+                    name, \
+                    model_name, \
+                    par_class, \
+                    difficulty, \
+                    model_id, \
+                    template_id, \
+                    context_type, \
+                    n_to_p_context_type_iri, \
+                    parameter_type, \
+                    n_to_p_unit, \
+                    unit_name, \
+                    n_to_p_unit_iri, \
+                    max_value, \
+                    min_value, \
+                    is_shown_to_user, \
+                    description,  \
+                    n_to_p_display_name = tuple(np.squeeze(n_to_p_ratio_raw_template[0]))
+        
+        # st.text(" ")
+        # st.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
+
+
+        formatted_value_dict = n_to_p_ratio_value
+
+    
+        formatted_value_dict = {
+            "@type": "emmo:Numerical",
+            self.hasNumericalData: n_to_p_ratio_value
+        }
+
+        parameter_details = {
+            "label": name,
+            "@type": context_type,
+            #"@type_iri": n_to_p_parameter.context_type_iri if n_to_p_parameter.context_type_iri else "None",
+            "value": formatted_value_dict
+        }
+        
+        parameter_details["unit"] = {
+            "label": unit_name,
+            "symbol": n_to_p_unit,
+            "@type": "emmo:"+unit_name
+            #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+        }
+
+        category_parameters.append(parameter_details)
+
+        return {self.hasQuantitativeProperty: category_parameters}, n_to_p_context_type_iri
+        
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
@@ -1324,6 +1414,15 @@ class SetTabs:
                         par_value_ml = self.calc_mass_loading(density_mix, thickness, porosity)
                         par_index = 2
                         mass_loadings[category_name]=par_value_ml
+
+                        with open(app_access.get_path_to_calculated_values(),'r') as f:
+                            parameters_dict = json.load(f)
+
+                        parameters_dict["calculatedParameters"]["mass_loadings"] = mass_loadings
+
+                        with open(app_access.get_path_to_calculated_values(),'w') as f:
+                            json.dump(parameters_dict,f)
+
                         input_key = "input_key_{}_{}".format(category_id, "mass_loading")
                         empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
                         input_value = "input_value_{}_{}".format(category_id, "mass_loading")
@@ -1963,7 +2062,19 @@ class SetTabs:
       
       
             self.validate_volume_fraction(vf_sum, category_display_name,tab)
-            density_mix = self.calc_density_mix(vf_sum, density)  
+            density_mix = self.calc_density_mix(vf_sum, density) 
+
+            try:
+                with open(app_access.get_path_to_calculated_values(), 'r') as f:
+                    parameters_dict = json.load(f)
+            except json.JSONDecodeError as e:
+                st.write(app_access.get_path_to_calculated_values())
+                    # Handle the error gracefully, e.g., by providing a default value or logging the error.
+
+            parameters_dict["calculatedParameters"]["effective_density"] = density_mix
+
+            with open(app_access.get_path_to_calculated_values(),'w') as f:
+                json.dump(parameters_dict,f) 
             
             non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
             component_parameters = []
@@ -2498,11 +2609,11 @@ class SetTabs:
             }
             if isinstance(parameter, NumericalParameter):
                 parameter_details["unit"] = {
-                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        "symbol": parameter.unit,
-                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
-                                    }
+                    "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                    "symbol": parameter.unit,
+                    "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                    #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                }
 
             component_parameters.append(parameter_details)
         component_parameters = self.create_component_parameters_dict(component_parameters)
@@ -2613,11 +2724,11 @@ class SetTabs:
             }
             if isinstance(parameter, NumericalParameter):
                 parameter_details["unit"] = {
-                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        "symbol": parameter.unit,
-                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
-                                    }
+                    "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                    "symbol": parameter.unit,
+                    "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                    #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                }
 
 
             component_parameters.append(parameter_details)
@@ -3161,8 +3272,9 @@ class SetIndicators():
     """
     used to render the indicator parameters on the results page.
     """
-    def __init__(self):
-        
+    def __init__(self, page_name):
+
+        self.page_name = page_name
         self.set_indicators()
 
     def set_indicators(self):
@@ -3171,74 +3283,130 @@ class SetIndicators():
 
     def get_indicators(self):
 
-        with open(app_access.get_path_to_linked_data_input(), "rb") as f:
-            gui_dict = json.load(f)
+        with open(app_access.get_path_to_linked_data_input(), 'r') as f:
+            gui_parameters = json.load(f)
 
-        indicators = match_json_LD.get_indicators_from_gui_dict(gui_dict)   
+        indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)   
 
         return indicators
     
     def render_indicators(self,indicators):
 
-        NE, PE = st.tabs(["Negative Electrode", "Positive Electrode"])
+        # cell_mass = indicators["Cell"]["cellMass"]
+        # cell_energy = indicators["Cell"]["cellEnergy"]
+        # cell_capacity = indicators["Cell"]["nominalCellCapacity"]
+        n_to_p_ratio = indicators["Cell"]["NPRatio"]
 
-        mass_loading, thickness, porosity, capacity = NE.columns(4)
+        ne_mass_loading = indicators["NegativeElectrode"]["massLoading"]
+        ne_thickness = indicators["NegativeElectrode"]["thickness"]
+        ne_porosity = indicators["NegativeElectrode"]["porosity"]
+        #ne_specific_capacity = indicators["NegativeElectrode"]["specificCapacity"]
+        pe_mass_loading = indicators["PositiveElectrode"]["massLoading"]
+        pe_thickness = indicators["PositiveElectrode"]["thickness"]
+        pe_porosity = indicators["PositiveElectrode"]["porosity"]
+        #pe_specific_capacity = indicators["PositiveElectrode"]["specificCapacity"]
 
-        mass_loading.metric(
-                label = "Mass Loading ({})".format(indicators["NegativeElectrode"]["massLoading"]["unit"]),
-                value = np.round(indicators["NegativeElectrode"]["massLoading"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        
-        thickness.metric(
-                label = "Thickness ({})".format(indicators["NegativeElectrode"]["thickness"]["unit"]),
-                value = np.round(indicators["NegativeElectrode"]["thickness"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        
-        porosity.metric(
-                label = "Porosity ({})".format(indicators["NegativeElectrode"]["porosity"]["unit"]),
-                value = np.round(indicators["NegativeElectrode"]["porosity"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        capacity.metric(
-                label = "Specific Capacity ({})".format(indicators["NegativeElectrode"]["specificHeatCapacity"]["unit"]),
-                value = np.round(indicators["NegativeElectrode"]["specificHeatCapacity"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        
-        mass_loading, thickness, porosity, capacity = PE.columns(4)
+        if self.page_name == "Simulation":
+            col1, col2, col3, col4 = st.columns(4)
+            # col4.metric(
+            #     label = "Cell Mass ({})".format(cell_mass["unit"]),
+            #     value = np.round(cell_mass["value"],2),
+            #     label_visibility= "visible"
+            # )
+            # col2.metric(
+            #         label = "Energy ({})".format(cell_energy["unit"]),
+            #         value = np.round(cell_energy["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            # col3.metric(
+            #         label = "Capacity ({})".format(cell_capacity["unit"]),
+            #         value = np.round(cell_capacity["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            col1.metric(
+                    label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
+                    value = np.round(n_to_p_ratio["value"],2),
+                    label_visibility= "visible"
+                )
 
-        mass_loading.metric(
-                label = "Mass Loading ({})".format(indicators["PositiveElectrode"]["massLoading"]["unit"]),
-                value = np.round(indicators["PositiveElectrode"]["massLoading"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        
-        thickness.metric(
-                label = "Thickness ({})".format(indicators["PositiveElectrode"]["thickness"]["unit"]),
-                value = np.round(indicators["PositiveElectrode"]["thickness"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        
-        porosity.metric(
-                label = "Porosity ({})".format(indicators["PositiveElectrode"]["porosity"]["unit"]),
-                value = np.round(indicators["PositiveElectrode"]["porosity"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
-        capacity.metric(
-                label = "Specific Capacity ({})".format(indicators["PositiveElectrode"]["specificHeatCapacity"]["unit"]),
-                value = np.round(indicators["PositiveElectrode"]["specificHeatCapacity"]["value"],2),
-                #key = input_key,
-                label_visibility= "visible"
-            )
+        elif self.page_name == "Results":
+            cell, NE, PE = st.tabs(["Cell", "Negative Electrode", "Positive Electrode"])
+
+            col1, col2, col3, col4 = cell.columns(4)
+
+            # col1.metric(
+            #     label = "Cell Mass ({})".format(cell_mass["unit"]),
+            #     value = np.round(cell_mass["value"],2),
+            #     label_visibility= "visible"
+            # )
+            # col2.metric(
+            #         label = "Energy ({})".format(cell_energy["unit"]),
+            #         value = np.round(cell_energy["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            # col3.metric(
+            #         label = "Capacity ({})".format(cell_capacity["unit"]),
+            #         value = np.round(cell_capacity["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            col1.metric(
+                    label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
+                    value = np.round(n_to_p_ratio["value"],2),
+                    label_visibility= "visible"
+                )
+
+            mass_loading, thickness, porosity = NE.columns(3)
+
+            mass_loading.metric(
+                    label = "Mass Loading ({})".format(ne_mass_loading["unit"]),
+                    value = np.round(ne_mass_loading["value"],2),
+                    label_visibility= "visible"
+                )
+            
+            thickness.metric(
+                    label = "Thickness ({})".format(ne_thickness["unit"]),
+                    value = np.round(ne_thickness["value"],2),
+                    label_visibility= "visible"
+                )
+            
+            porosity.metric(
+                    label = "Porosity ({})".format(ne_porosity["unit"]),
+                    value = np.round(ne_porosity["value"],2),
+                    label_visibility= "visible"
+                )
+            # capacity.metric(
+            #         label = "Specific Capacity ({})".format(ne_specific_capacity["unit"]),
+            #         value = np.round(ne_specific_capacity["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            
+            mass_loading, thickness, porosity= PE.columns(3)
+
+            mass_loading.metric(
+                    label = "Mass Loading ({})".format(pe_mass_loading["unit"]),
+                    value = np.round(pe_mass_loading["value"],2),
+                    label_visibility= "visible"
+                )
+            
+            thickness.metric(
+                    label = "Thickness ({})".format(pe_thickness["unit"]),
+                    value = np.round(pe_thickness["value"],2),
+                    label_visibility= "visible"
+                )
+            
+            porosity.metric(
+                    label = "Porosity ({})".format(pe_porosity["unit"]),
+                    value = np.round(pe_porosity["value"],2),
+                    label_visibility= "visible"
+                )
+            # capacity.metric(
+            #         label = "Specific Capacity ({})".format(pe_specific_capacity["unit"]),
+            #         value = np.round(pe_specific_capacity["value"],2),
+            #         label_visibility= "visible"
+            #     )
+            
+        else:
+            print("ERROR: Page name '{}' to get indicators doesn't match.".format(self.page_name))
 
             
 

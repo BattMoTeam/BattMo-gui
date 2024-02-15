@@ -95,6 +95,22 @@
          "unit_name": "UnitOne",
          "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Bruggeman coefficient"
+      },
+      "specific_capacity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "N/A",
+         "context_type": "emmo:SpecificCapacity",
+         "context_type_iri": "",
+         "max_value": 100,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": false,
+         "type": "float",
+         "unit": "mAh/g",
+         "unit_name": "MiliAmpereHourPerGram",
+         "unit_iri": "",
+         "display_name": "Energy"
       }
    }
 }

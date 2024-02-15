@@ -267,6 +267,7 @@ def get_n_to_p_component_by_tab_id(tab_id):
     )
     return np.squeeze(res)
 
+
 #####################################
 # MATERIAL
 #####################################
@@ -544,6 +545,12 @@ def get_n_p_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
             where="template_id=%d AND par_class = '%s' AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (template_id,"non_material")
+        )
+
+def get_template_parameter_by_parameter_name(parameter_name):
+    return sql_template_parameter().select(
+            values='*',
+            where="name='%s'" % parameter_name
         )
 
 #all_basis_tab_display_names = get_basis_tabs_display_names(model_id)

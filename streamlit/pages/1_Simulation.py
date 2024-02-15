@@ -2,6 +2,7 @@ import os
 import sys
 from PIL import Image
 import streamlit as st
+from streamlit_javascript import st_javascript
 import pprint
 import pdb
 import pickle
@@ -34,6 +35,11 @@ st.session_state.update(st.session_state)
 ##############################
 
 
+# Get page name
+url = st_javascript("await fetch('').then(r => window.parent.location.href)")
+page_name = url.rsplit('/',1)[1]
+
+
 def run_page():
 
     if "sim_finished" not in st.session_state:
@@ -53,6 +59,10 @@ def run_page():
     model_id = app.set_model_choice().selected_model
 
     gui_parameters = app.set_tabs(model_id).user_input
+
+    app.set_indicators(page_name)
+
+    st.divider()
 
     app.download_parameters(gui_parameters)
 

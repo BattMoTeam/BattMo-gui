@@ -5,7 +5,7 @@ import h5py
 import numpy as np
 from PIL import Image
 import streamlit as st
-
+from streamlit_javascript import st_javascript
 import time
 from queue import Queue
 import juliacall as jl
@@ -33,6 +33,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, get_results_data
 from app_scripts import app_view
 
+# Get page name
+url = st_javascript("await fetch('').then(r => window.parent.location.href)")
+page_name = url.rsplit('/',1)[1]
+
 
 def run_page():
 
@@ -44,13 +48,13 @@ def run_page():
     if st.session_state.succes == True:
         results = get_results_data().get_results_data()
 
-        app.set_indicators()
+        app.set_indicators(page_name)
 
         app_view.st_space(space_number=1) 
 
         app.set_graphs(results)
 
-        app_view.st_space(space_number=1)  
+        app_view.st_space(space_number=1)
 
         app.set_download_hdf5_button(results)
 
