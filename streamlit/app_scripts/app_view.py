@@ -3824,9 +3824,11 @@ class SetGraphs():
         )
         
         # Positive Electrode Concentration
+        positive_electrode_concentration_ext = np.full(len(_self.electrolyte_grid[0]), np.nan)
+        positive_electrode_concentration_ext[-10:] = np.squeeze(_self.positive_electrode_concentration)[state]
         pe_concentration = _self.create_subplot(
-            x_data=np.squeeze(_self.positive_electrode_grid[0]),
-            y_data=np.squeeze(_self.positive_electrode_concentration)[state],
+            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            y_data=positive_electrode_concentration_ext,
             title="Positive Electrode Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Positive Electrode Concentration  /  mol . L-1",
@@ -3879,9 +3881,11 @@ class SetGraphs():
         )
 
         # Positive Electrode Potential
+        positive_electrode_potential_ext = np.full(len(_self.electrolyte_grid[0]), np.nan)
+        positive_electrode_potential_ext[-10:] = _self.positive_electrode_potential[state]
         pe_potential = _self.create_subplot(
-            x_data=np.squeeze(_self.positive_electrode_grid[0]),
-            y_data=_self.positive_electrode_potential[state],
+            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            y_data=positive_electrode_potential_ext,
             title="Positive Electrode Potential  /  V",
             x_label="Position  /  \u00B5m",
             y_label="Positive Electrode Potential  /  V",
@@ -4094,6 +4098,8 @@ class SetGraphs():
     
     def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
         
+        # st.write(x_data)
+        # st.write(y_data)
         fig = px.line(x=x_data, y=y_data)
 
         fig.update_traces(line=dict(width=5))
@@ -4102,8 +4108,8 @@ class SetGraphs():
             title=title,
             xaxis_title=x_label,
             yaxis_title = y_label,
-            xaxis = dict(range =[0, x_max]),
-            yaxis=dict(range=[0, y_max])
+            # xaxis = dict(range =[0, x_max]),
+            # yaxis=dict(range=[0, y_max])
         )
         fig.update_xaxes(
             range=[0,x_max],  # sets the range of xaxis
