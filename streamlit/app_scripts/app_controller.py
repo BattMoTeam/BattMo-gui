@@ -85,6 +85,9 @@ def set_material_description():
 def get_results_data():
     return view.GetResultsData()
 
+def set_acknowlegent_info(col):
+    return view.SetAcknowledgementInfo(col)
+
 
 #####################################
 # Images

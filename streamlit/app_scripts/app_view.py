@@ -74,6 +74,7 @@ class SetHeading:
             devices. It simulates the Current-Voltage response of a battery using 
             Physics-based models.
         """
+        self.info = "Hover over the following buttons to see what you can find on each page."
 
         # Set heading
         self.set_heading()
@@ -81,7 +82,8 @@ class SetHeading:
 
     def set_heading(self):
         self.set_title_and_logo()
-        self.set_description()     
+        self.set_description() 
+        self.set_info()    
 
     def set_title_and_logo(self):
         # Title and subtitle
@@ -92,7 +94,11 @@ class SetHeading:
 
     def set_description(self):
         # Description
-        st.text(self.description)
+        st.write(self.description)
+
+    def set_info(self):
+
+        st.info(self.info)
 
 
 class SetPageNavigation:
@@ -101,7 +107,6 @@ class SetPageNavigation:
     """
     def __init__(self):
         
-        self.info = "Hover over the following buttons to see what you can find on each page."
         self.help_simulation = "Define your input parameters and run a simulation."
         self.help_results = "Download and visualize your results."
         self.help_materials_and_models = "See which pre-defined materials and which simulation models are available."
@@ -109,25 +114,29 @@ class SetPageNavigation:
 
     def set_page_navigation(self):
 
-        self.set_info()
-        self.set_page_buttons()
+        col = self.set_page_buttons()
+
+        return col
         
-
-    def set_info(self):
-
-        st.info(self.info)
 
     def set_page_buttons(self):
 
-        simulation_page = st.button(label = "Simulation",
+        _,col1,_ = st.columns([2.95,2,2.5])
+        st_space(space_width=6)
+        _,col2,_ = st.columns([3.15,2,2.5])
+        st_space(space_width=6)
+        _,col3,col4 = st.columns([2.45,2,2.5])
+        st_space(space_width=6)
+
+        simulation_page = col1.button(label = "Simulation",
                         help = self.help_simulation
                         )
         
-        results_page = st.button(label = "Results",
+        results_page = col2.button(label = "Results",
                         help = self.help_results
                         )
         
-        materials_and_models_page = st.button(label = "Materials and models",
+        materials_and_models_page = col3.button(label = "Materials and models",
                         help = self.help_materials_and_models
                         )
         
@@ -139,6 +148,38 @@ class SetPageNavigation:
 
         if materials_and_models_page:
             switch_page("Materials and models")
+
+        return col4
+
+
+class SetAcknowledgementInfo:
+    """
+    Used to render the info on the funding of the project on the 'Introduction' page.
+    """
+    def __init__(self,col):
+        
+        self.col = col
+        self.text = "This project has received [funding](https://github.com/BattMoTeam/BattMo#) from the European Union"
+        self.flag_image = Image.open(os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg"))
+
+        self.set_acknowledgement()
+
+    def set_acknowledgement(self):
+
+        #col1,col2,col3 = st.columns([1,2,3])
+        #_,col2 = st.columns([4,1.5])
+        self.set_europe_flag()
+        self.set_funding_info()
+        
+
+    def set_funding_info(self):
+
+        st.write(self.text)
+
+    def set_europe_flag(self):
+
+        st.image(self.flag_image, width = 90)
+
 
 
 class SetExternalLinks:
