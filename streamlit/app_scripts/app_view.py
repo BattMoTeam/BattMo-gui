@@ -3550,6 +3550,14 @@ class SetGraphs():
 
     def set_graphs(_self):
 
+        ##############################
+        # Remember user changed values
+        for k, v in st.session_state.items():
+            st.session_state[k] = v
+
+        #Remember widget actions when switching between pages (for example: selectbox choice)
+        st.session_state.update(st.session_state)
+        ##############################
         
         #dynamic, colormaps = _self.set_graph_toggles()
 
@@ -3601,8 +3609,14 @@ class SetGraphs():
     def set_colormaps(_self):
         # Colormaps
 
+
         with st.sidebar:
-            select = st.multiselect(label= "Select contour plots.",options=["Negative electrode concentration", "Positive electrode concentration", "Negative electrode potential", "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ])
+            select = st.multiselect(label= "Select contour plots.",
+                                    options=["Negative electrode concentration", "Positive electrode concentration", 
+                                             "Negative electrode potential", "Positive electrode potential", 
+                                             "Electrolyte concentration", "Electrolyte potential" ],
+                                             key = "multi_contour_plots"
+                                             )
 
         #col1, col2= st.columns(2)
         for choice in select:
@@ -3913,13 +3927,15 @@ class SetGraphs():
         #         with el.mui.Paper(key="plotly_chart"):
         #             components.html(plotly_html, width=600, height=400)
 
+
         with st.sidebar:
             st.markdown("## " + _self.header)
             select = st.multiselect(label= "Select line plots.",
                                     options=["Cell current","Cell voltage", "Negative electrode concentration", 
                                              "Positive electrode concentration", "Negative electrode potential", 
                                              "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ],
-                                             default= "Cell voltage"
+                                             default= "Cell voltage",
+                                             key = "multi_line_plots"
                                              )
 
         #col1, col2= st.columns(2)
