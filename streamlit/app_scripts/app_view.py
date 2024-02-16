@@ -94,7 +94,7 @@ class SetHeading:
 
     def set_description(self):
         # Description
-        st.text(self.description)
+        st.write(self.description)
 
     def set_info(self):
 
@@ -105,9 +105,8 @@ class SetPageNavigation:
     """
     Used in the "Introduction" page, sets the navigation info and buttons to to the other pages.
     """
-    def __init__(self,pages):
+    def __init__(self):
         
-        self.pages = pages
         self.help_simulation = "Define your input parameters and run a simulation."
         self.help_results = "Download and visualize your results."
         self.help_materials_and_models = "See which pre-defined materials and which simulation models are available."
@@ -115,20 +114,29 @@ class SetPageNavigation:
 
     def set_page_navigation(self):
 
-        self.set_page_buttons()
+        col = self.set_page_buttons()
+
+        return col
         
 
     def set_page_buttons(self):
 
-        simulation_page = self.pages.button(label = "Simulation",
+        _,col1,_ = st.columns([2.95,2,2.5])
+        st_space(space_width=6)
+        _,col2,_ = st.columns([3.15,2,2.5])
+        st_space(space_width=6)
+        _,col3,col4 = st.columns([2.45,2,2.5])
+        st_space(space_width=6)
+
+        simulation_page = col1.button(label = "Simulation",
                         help = self.help_simulation
                         )
         
-        results_page = self.pages.button(label = "Results",
+        results_page = col2.button(label = "Results",
                         help = self.help_results
                         )
         
-        materials_and_models_page = self.pages.button(label = "Materials and models",
+        materials_and_models_page = col3.button(label = "Materials and models",
                         help = self.help_materials_and_models
                         )
         
@@ -141,20 +149,37 @@ class SetPageNavigation:
         if materials_and_models_page:
             switch_page("Materials and models")
 
+        return col4
+
 
 class SetAcknowledgementInfo:
     """
     Used to render the info on the funding of the project on the 'Introduction' page.
     """
-    def __init__(self,funding):
+    def __init__(self,col):
         
-        self.funding = funding
+        self.col = col
         self.text = "This project has received [funding](https://github.com/BattMoTeam/BattMo#) from the European Union"
+        self.flag_image = Image.open(os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg"))
+
+        self.set_acknowledgement()
+
+    def set_acknowledgement(self):
+
+        #col1,col2,col3 = st.columns([1,2,3])
+        #_,col2 = st.columns([4,1.5])
+        self.set_europe_flag()
         self.set_funding_info()
+        
 
     def set_funding_info(self):
 
-        self.funding.warning(self.text)
+        st.write(self.text)
+
+    def set_europe_flag(self):
+
+        st.image(self.flag_image, width = 90)
+
 
 
 class SetExternalLinks:
@@ -359,7 +384,7 @@ class SetTabs:
         }
 
         # Create fill input
-        self.set_file_input()
+        #self.set_file_input()
 
         # Fill tabs
         self.set_tabs()

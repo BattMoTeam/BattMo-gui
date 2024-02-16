@@ -68,8 +68,8 @@ def set_heading():
     return view.SetHeading(get_logo())
 
 
-def set_page_navigation(pages):
-    return view.SetPageNavigation(pages)
+def set_page_navigation():
+    return view.SetPageNavigation()
 
 @st.cache_data
 def set_external_links():
@@ -85,8 +85,8 @@ def set_material_description():
 def get_results_data():
     return view.GetResultsData()
 
-def set_acknowlegent_info(funding):
-    return view.SetAcknowledgementInfo(funding)
+def set_acknowlegent_info(col):
+    return view.SetAcknowledgementInfo(col)
 
 
 #####################################
