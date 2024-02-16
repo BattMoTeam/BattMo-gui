@@ -343,7 +343,7 @@ class SetTabs:
         }
 
         # Create fill input
-        self.set_file_input()
+        #self.set_file_input()
 
         # Fill tabs
         self.set_tabs()
@@ -3565,6 +3565,8 @@ class SetGraphs():
         #if dynamic:
        
         st.markdown("# " + _self.dashboard_header)
+
+        st_space(space_number=1, space_width= 3 )
 
         _self.set_dynamic_dashboard()
 

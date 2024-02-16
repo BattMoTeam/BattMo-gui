@@ -49,7 +49,7 @@ def run_page():
         results = get_results_data().get_results_data()
 
         app.set_indicators(page_name)
-        st.divider()
+        #st.divider()
 
         #app_view.st_space(space_number=1) 
 
