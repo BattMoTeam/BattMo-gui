@@ -74,6 +74,7 @@ class SetHeading:
             devices. It simulates the Current-Voltage response of a battery using 
             Physics-based models.
         """
+        self.info = "Hover over the following buttons to see what you can find on each page."
 
         # Set heading
         self.set_heading()
@@ -81,7 +82,8 @@ class SetHeading:
 
     def set_heading(self):
         self.set_title_and_logo()
-        self.set_description()     
+        self.set_description() 
+        self.set_info()    
 
     def set_title_and_logo(self):
         # Title and subtitle
@@ -94,14 +96,18 @@ class SetHeading:
         # Description
         st.text(self.description)
 
+    def set_info(self):
+
+        st.info(self.info)
+
 
 class SetPageNavigation:
     """
     Used in the "Introduction" page, sets the navigation info and buttons to to the other pages.
     """
-    def __init__(self):
+    def __init__(self,pages):
         
-        self.info = "Hover over the following buttons to see what you can find on each page."
+        self.pages = pages
         self.help_simulation = "Define your input parameters and run a simulation."
         self.help_results = "Download and visualize your results."
         self.help_materials_and_models = "See which pre-defined materials and which simulation models are available."
@@ -109,25 +115,20 @@ class SetPageNavigation:
 
     def set_page_navigation(self):
 
-        self.set_info()
         self.set_page_buttons()
         
 
-    def set_info(self):
-
-        st.info(self.info)
-
     def set_page_buttons(self):
 
-        simulation_page = st.button(label = "Simulation",
+        simulation_page = self.pages.button(label = "Simulation",
                         help = self.help_simulation
                         )
         
-        results_page = st.button(label = "Results",
+        results_page = self.pages.button(label = "Results",
                         help = self.help_results
                         )
         
-        materials_and_models_page = st.button(label = "Materials and models",
+        materials_and_models_page = self.pages.button(label = "Materials and models",
                         help = self.help_materials_and_models
                         )
         
@@ -139,6 +140,21 @@ class SetPageNavigation:
 
         if materials_and_models_page:
             switch_page("Materials and models")
+
+
+class SetAcknowledgementInfo:
+    """
+    Used to render the info on the funding of the project on the 'Introduction' page.
+    """
+    def __init__(self,funding):
+        
+        self.funding = funding
+        self.text = "This project has received [funding](https://github.com/BattMoTeam/BattMo#) from the European Union"
+        self.set_funding_info()
+
+    def set_funding_info(self):
+
+        self.funding.warning(self.text)
 
 
 class SetExternalLinks:

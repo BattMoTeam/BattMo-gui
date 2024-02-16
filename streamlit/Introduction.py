@@ -23,15 +23,19 @@ for k, v in st.session_state.items():
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # set config is done before import to avoid streamlit error
-from app_scripts.app_controller import set_heading, set_page_navigation, set_external_links
+from app_scripts.app_controller import set_heading, set_page_navigation, set_external_links, set_acknowlegent_info
 
 def run_app():
 
     #Set Introduction page heading wil title, BattMo logo, and BattMo info.
     set_heading()
 
+    pages, funding = st.columns(2)
     #Set page navigation
-    set_page_navigation()
+    set_page_navigation(pages)
+
+    #Set funding acknowledgement
+    set_acknowlegent_info(funding)
 
     #Set external links to websites and documentation 
     set_external_links()
