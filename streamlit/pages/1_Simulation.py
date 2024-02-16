@@ -66,7 +66,6 @@ def run_page():
 
     app.download_parameters(gui_parameters)
 
-    st.divider()
     
     app.run_simulation(gui_parameters)
 

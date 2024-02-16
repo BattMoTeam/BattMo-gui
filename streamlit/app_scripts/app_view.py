@@ -16,7 +16,9 @@ from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
 import os
-
+import plotly.express as px
+import plotly.graph_objects as go
+import streamlit_elements as el
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -3018,7 +3020,7 @@ class DownloadParameters:
         # with open(app_access.get_path_to_linked_data_input()) as json_gui_parameters:
         #     self.gui_parameters = json.load(json_gui_parameters)
 
-        self.download_header = "Download input parameters"
+        self.download_header = "Download parameters"
         self.download_label = "JSON LD format"
         self.gui_file_data = json.dumps(self.gui_parameters, indent=2)
         self.gui_file_name = "JSON_ld_parameters.json"
@@ -3071,25 +3073,26 @@ class DownloadParameters:
 
     def set_submit_button(self):
 
-        # set Download header
-        st.markdown("### " + self.download_header)
+        with st.sidebar:
+            # set Download header
+            st.markdown("## " + self.download_header)
 
-        # set download button
-        st.download_button(
-            label=self.download_label,
-            on_click= self.update_on_click(),
-            data=self.gui_file_data,
-            file_name=self.gui_file_name,
-            mime=self.file_mime_type
-        )
+            # set download button
+            st.download_button(
+                label=self.download_label,
+                on_click= self.update_on_click(),
+                data=self.gui_file_data,
+                file_name=self.gui_file_name,
+                mime=self.file_mime_type
+            )
 
-        st.download_button(
-            label=self.download_label_formatted_parameters,
-            on_click= self.update_on_click(),
-            data=self.formatted_parameters_file_data,
-            file_name=self.formatted_parameters_file_name,
-            mime=self.file_mime_type
-        )
+            st.download_button(
+                label=self.download_label_formatted_parameters,
+                on_click= self.update_on_click(),
+                data=self.formatted_parameters_file_data,
+                file_name=self.formatted_parameters_file_name,
+                mime=self.file_mime_type
+            )
 
 
 class LoadImages:
@@ -3330,7 +3333,7 @@ class SetIndicators():
                 )
 
         elif self.page_name == "Results":
-            cell, NE, PE = st.tabs(["Cell", "Negative Electrode", "Positive Electrode"])
+            NE, PE,cell = st.tabs(["Negative Electrode", "Positive Electrode","Cell"])
 
             col1, col2, col3, col4 = cell.columns(4)
 
@@ -3417,22 +3420,23 @@ class SetHDF5Download():
     """
     def __init__(self,results):
 
-        self.header = "Download your results"
+        self.header = "Download results"
         self.results = results
         self.set_download_hdf5_button()
 
     def set_download_hdf5_button(self):
 
-        # set Download header
-        st.markdown("### " + self.header)
+        with st.sidebar:
+            # set Download header
+            st.markdown("## " + self.header)
 
-        st.download_button(
-            label="HDF5 Results",
-            file_name="hdf5_results.hdf5",
-            data=self.prepare_h5_file(),
-            mime="application/x-hdf",
-            help="Download your results."
-        )
+            st.download_button(
+                label="HDF5 Results",
+                file_name="hdf5_results.hdf5",
+                data=self.prepare_h5_file(),
+                mime="application/x-hdf",
+                help="Download your results."
+            )
 
     # Create hdf5 from numpy arrays, result cached to optimize software.
     # Cache cleared after generating new results (cf RunSimulation)
@@ -3522,6 +3526,8 @@ class SetGraphs():
     """
     def __init__(_self,results):
 
+        _self.header = "Visualize results"
+
         [
             _self.log_messages,
             _self.number_of_states,
@@ -3544,28 +3550,31 @@ class SetGraphs():
 
     def set_graphs(_self):
 
-        dynamic, colormaps = _self.set_graph_toggles()
+        
+        #dynamic, colormaps = _self.set_graph_toggles()
 
-        if dynamic:
-            _self.set_dynamic_dashboard()
+        #if dynamic:
+        _self.set_dynamic_dashboard()
 
-        if colormaps:
-            _self.set_colormaps()
+        #if colormaps:
+        _self.set_colormaps()
 
     def set_graph_toggles(_self):
         
-        dash, color = st.columns((2,5))
+        #dash, color = st.columns((2,5))
+        with st.sidebar:
+            
 
-        display_dynamic_dashboard = dash.toggle(
-            label="Dynamic dashboard",
-            value=True
-        )
+            display_dynamic_dashboard = st.toggle(
+                label="Dynamic dashboard",
+                value=True
+            )
 
 
-        display_colormaps = color.toggle(
-            label="Colormaps",
-            value=False
-        )
+            display_colormaps = st.toggle(
+                label="Colormaps",
+                value=False
+            )
 
         #st.divider()
         return display_dynamic_dashboard, display_colormaps
@@ -3591,16 +3600,24 @@ class SetGraphs():
 
     def set_colormaps(_self):
         # Colormaps
-        ne_color, elyte_color, pe_color = st.columns(3)
 
-        ne_color.pyplot(_self.get_ne_c_color())
-        ne_color.pyplot(_self.get_ne_p_color())
+        with st.sidebar:
+            select = st.multiselect(label= "Select contour plots.",options=["Negative electrode concentration", "Positive electrode concentration", "Negative electrode potential", "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ])
 
-        elyte_color.pyplot(_self.get_elyte_c_color())
-        elyte_color.pyplot(_self.get_elyte_p_color())
-
-        pe_color.pyplot(_self.get_pe_c_color())
-        pe_color.pyplot(_self.get_pe_p_color())
+        #col1, col2= st.columns(2)
+        for choice in select:
+            if choice == "Negative electrode concentration":
+                st.plotly_chart(_self.get_ne_c_color())
+            if choice == "Positive electrode concentration":
+                st.plotly_chart(_self.get_pe_c_color())
+            if choice == "Negative electrode potential":
+                st.plotly_chart(_self.get_ne_p_color())
+            if choice == "Positive electrode potential":
+                st.plotly_chart(_self.get_pe_p_color())
+            if choice == "Electrolyte concentration":
+                st.plotly_chart(_self.get_elyte_c_color())
+            if choice == "Electrolyte potential":
+                st.plotly_chart(_self.get_elyte_p_color())
 
 
     @st.cache_data
@@ -3678,18 +3695,40 @@ class SetGraphs():
     
     def create_colormap(_self,x_data, y_data, z_data, title, x_label, y_label, cbar_label):
 
+        
+        x_data = np.squeeze(np.array(x_data))
+        y_data = np.array(y_data)
+
         x_color, y_color = np.meshgrid(x_data, y_data)
-        fig, ax = plt.subplots()
 
-        # Precision is set to 100 (change to 10 for lower precision, to 1000 for higher precision)
-        # The lower the precision, the faster it runs
-        color_map = ax.contourf(x_color, y_color, z_data, 100)
-        cbar = fig.colorbar(color_map)
-        cbar.ax.set_ylabel(cbar_label)
+        fig = go.Figure(data = go.Contour(
+                                    z=z_data, 
+                                    y=y_data,
+                                    x = x_data,
+                                    colorbar=dict(title=cbar_label)
+                                    ))
+        fig.update_layout(
+            title=title,
+            xaxis_title=x_label,
+            yaxis_title=y_label
+        )
+        # fig.update_yaxes(
+        #     range=[0,1/crate[0]],  # sets the range of xaxis
+        #     constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
+        # )
 
-        ax.set_title(title)
-        ax.set_xlabel(x_label)
-        ax.set_ylabel(y_label)
+        # x_color, y_color = np.meshgrid(x_data, y_data)
+        # fig, ax = plt.subplots()
+
+        # # Precision is set to 100 (change to 10 for lower precision, to 1000 for higher precision)
+        # # The lower the precision, the faster it runs
+        # color_map = ax.contourf(x_color, y_color, z_data, 100)
+        # cbar = fig.colorbar(color_map)
+        # cbar.ax.set_ylabel(cbar_label)
+
+        # ax.set_title(title)
+        # ax.set_xlabel(x_label)
+        # ax.set_ylabel(y_label)
 
         return fig
 
@@ -3740,6 +3779,7 @@ class SetGraphs():
             y_data=np.squeeze(_self.negative_electrode_concentration)[state],
             title="Negative Electrode Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
+            y_label="Negative Electrode Concentration  /  mol . L-1",
             x_min=xmin,
             x_max=xmax,
             y_min=cmin_ne,
@@ -3754,6 +3794,7 @@ class SetGraphs():
             y_data=_self.electrolyte_concentration[state],
             title="Electrolyte Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
+            y_label="Electrolyte Concentration  /  mol . L-1",
             x_min=xmin,
             x_max=xmax,
             y_min=cmin_elyte,
@@ -3768,6 +3809,7 @@ class SetGraphs():
             y_data=np.squeeze(_self.positive_electrode_concentration)[state],
             title="Positive Electrode Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
+            y_label="Positive Electrode Concentration  /  mol . L-1",
             x_min=xmin,
             x_max=xmax,
             y_min=cmin_pe,
@@ -3782,6 +3824,7 @@ class SetGraphs():
             y_data=_self.cell_current,
             title="Cell Current  /  A",
             x_label="Time  /  h",
+            y_label="Cell Current  /  A",
             vertical_line=_self.time_values[state]
         )
 
@@ -3791,6 +3834,7 @@ class SetGraphs():
             y_data=_self.negative_electrode_potential[state],
             title="Negative Electrode Potential  /  V",
             x_label="Position  /  \u00B5m",
+            y_label="Negative Electrode Potential  /  V",
             x_min=xmin,
             x_max=xmax,
             y_min=phimin_ne,
@@ -3805,6 +3849,7 @@ class SetGraphs():
             y_data=_self.electrolyte_potential[state],
             title="Electrolyte Potential  /  V",
             x_label="Position  /  \u00B5m",
+            y_label="Electrolyte Potential  /  V",
             x_min=xmin,
             x_max=xmax,
             y_min=phimin_elyte,
@@ -3819,6 +3864,7 @@ class SetGraphs():
             y_data=_self.positive_electrode_potential[state],
             title="Positive Electrode Potential  /  V",
             x_label="Position  /  \u00B5m",
+            y_label="Positive Electrode Potential  /  V",
             x_min=xmin,
             x_max=xmax,
             y_min=phimin_pe,
@@ -3834,6 +3880,7 @@ class SetGraphs():
             y_data=_self.cell_voltage,
             title="Cell Voltage  /  V",
             x_label="Time  /  h",
+            y_label = "Cell Voltage  /  V",
             vertical_line=_self.time_values[state]
         )
 
@@ -3841,19 +3888,63 @@ class SetGraphs():
         # Set streamlit plot
         ######################
 
-        ne, elyte, pe, cell = st.columns(4)
 
-        ne.pyplot(ne_concentration, clear_figure=True)
-        ne.pyplot(ne_potential, clear_figure=True)
+        # import streamlit.components.v1 as components
 
-        elyte.pyplot(elyte_concentration, clear_figure=True)
-        elyte.pyplot(elyte_potential, clear_figure=True)
+        # # Plotly imports
+        # import plotly.graph_objects as go
 
-        pe.pyplot(pe_concentration, clear_figure=True)
-        pe.pyplot(pe_potential, clear_figure=True)
+        # Create a Plotly graph
+        # fig = go.Figure()
+        # fig.add_trace(go.Scatter(x=[1, 2, 3], y=[4, 1, 2], mode='lines'))
 
-        cell.pyplot(cell_current_fig, clear_figure=True)
-        cell.pyplot(cell_voltage_fig, clear_figure=True)
+        # # Convert the Plotly graph to HTML
+        # plotly_html = fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+        # # Define the layout for the dashboard items
+        # layout = [
+        #     el.dashboard.Item("plotly_chart", 0, 0, 2, 2)  # Adjust position and size as needed
+        # ]
+
+        # # Create the dashboard layout
+        # with el.elements("nested_children"):
+        #     with el.dashboard.Grid(layout):
+        #         # Embed the Plotly chart within the Paper component
+        #         with el.mui.Paper(key="plotly_chart"):
+        #             components.html(plotly_html, width=600, height=400)
+
+        with st.sidebar:
+            st.markdown("## " + _self.header)
+            select = st.multiselect(label= "Select line plots.",
+                                    options=["Cell current","Cell voltage", "Negative electrode concentration", 
+                                             "Positive electrode concentration", "Negative electrode potential", 
+                                             "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ],
+                                             default= "Cell voltage"
+                                             )
+
+        #col1, col2= st.columns(2)
+        for choice in select:
+            if choice == "Cell current":
+                st.plotly_chart(cell_current_fig, clear_figure=True)
+            if choice == "Cell voltage":
+                st.plotly_chart(cell_voltage_fig, clear_figure=True)
+            if choice == "Negative electrode concentration":
+                st.plotly_chart(ne_concentration, clear_figure=True)
+            if choice == "Positive electrode concentration":
+                st.plotly_chart(pe_concentration, clear_figure=True)
+            if choice == "Negative electrode potential":
+                st.plotly_chart(ne_potential, clear_figure=True)
+            if choice == "Positive electrode potential":
+                st.plotly_chart(pe_potential, clear_figure=True)
+            if choice == "Electrolyte concentration":
+                st.plotly_chart(elyte_concentration, clear_figure=True)
+            if choice == "Electrolyte potential":
+                st.plotly_chart(elyte_potential, clear_figure=True)
+
+        
+        
+
+        
     
     @st.cache_data
     def get_graph_initial_limits(_self):
@@ -3979,26 +4070,44 @@ class SetGraphs():
             phimin_pe
         ]
     
-    def create_subplot(_self,x_data, y_data, title, x_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
-        fig, ax = plt.subplots()
+    def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
+        
+        fig = px.line(x=x_data, y=y_data)
 
+        fig.update_traces(line=dict(width=5))
 
-        ax.plot(x_data, y_data)
-
-        ax.set_title(title)
-        ax.set_xlabel(x_label)
-        ax.get_yaxis().get_major_formatter().set_useOffset(False)
-
-        if x_max:
-            ax.set_xlim(x_min, x_max)
-        if y_max and y_min != y_max:
-            ax.set_ylim(y_min, y_max)
-        if y_max and y_min_sub and abs(y_min_sub- y_max_sub) <= 0.001:
-            delta = y_min_sub/10
-            ax.set_ylim(y_min - delta, y_max + delta)
-
+        fig.update_layout(
+            title=title,
+            xaxis_title=x_label,
+            yaxis_title = y_label
+        )
+        fig.update_xaxes(
+            range=[x_min,x_max],  # sets the range of xaxis
+            constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
+        )
         if vertical_line:
-            ax.axvline(x=vertical_line, color='k', linestyle="dashed")
+             fig.add_vline(x=vertical_line, line_width=3, line_dash="dash")
+             #ax.axvline(x=vertical_line, color='k', linestyle="dashed")
+        
+        # fig, ax = plt.subplots()
+
+
+        # ax.plot(x_data, y_data)
+
+        # ax.set_title(title)
+        # ax.set_xlabel(x_label)
+        # ax.get_yaxis().get_major_formatter().set_useOffset(False)
+
+        # if x_max:
+        #     ax.set_xlim(x_min, x_max)
+        # if y_max and y_min != y_max:
+        #     ax.set_ylim(y_min, y_max)
+        # if y_max and y_min_sub and abs(y_min_sub- y_max_sub) <= 0.001:
+        #     delta = y_min_sub/10
+        #     ax.set_ylim(y_min - delta, y_max + delta)
+
+        # if vertical_line:
+        #     ax.axvline(x=vertical_line, color='k', linestyle="dashed")
 
         return fig
 
