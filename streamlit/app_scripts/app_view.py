@@ -3527,6 +3527,7 @@ class SetGraphs():
     def __init__(_self,results):
 
         _self.header = "Visualize results"
+        _self.dashboard_header = "Dynamic dashboard"
 
         [
             _self.log_messages,
@@ -3562,6 +3563,9 @@ class SetGraphs():
         #dynamic, colormaps = _self.set_graph_toggles()
 
         #if dynamic:
+       
+        st.markdown("# " + _self.dashboard_header)
+
         _self.set_dynamic_dashboard()
 
         #if colormaps:
@@ -4095,10 +4099,12 @@ class SetGraphs():
         fig.update_layout(
             title=title,
             xaxis_title=x_label,
-            yaxis_title = y_label
+            yaxis_title = y_label,
+            xaxis = dict(range =[0, x_max]),
+            yaxis=dict(range=[0, y_max])
         )
         fig.update_xaxes(
-            range=[x_min,x_max],  # sets the range of xaxis
+            range=[0,x_max],  # sets the range of xaxis
             constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
         )
         if vertical_line:
