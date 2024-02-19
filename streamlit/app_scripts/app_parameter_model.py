@@ -347,6 +347,7 @@ class FormatParameters:
            
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option_material(
+                parameter_set_name = parameter_set,
                 parameter_set_display_name = formatted_display_name[0],
                 parameter_set_id = parameter_set_id,
                 parameters = formatted_parameters,

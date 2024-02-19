@@ -51,6 +51,9 @@ def run_page():
     if "succes" not in st.session_state:
         st.session_state.succes = None
 
+    if "upload" not in st.session_state:
+        st.session_state.upload = None
+
 
     log_memory_usage()
 

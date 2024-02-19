@@ -37,6 +37,18 @@ def get_path_to_battmo_formatted_input():
     return battmo_formatted_input_path
 
 @st.cache_data
+def get_path_to_uploaded_input():
+    input_files_path = get_path_to_input_files_dir()
+    uploaded_input_path = os.path.join(input_files_path, "uploaded_input.json")
+    return uploaded_input_path
+
+@st.cache_data
+def get_path_to_gui_formatted_input():
+    input_files_path = get_path_to_input_files_dir()
+    gui_formatted_input_path = os.path.join(input_files_path, "gui_formatted_input.json")
+    return gui_formatted_input_path
+
+@st.cache_data
 def get_path_to_linked_data_input():
     input_files_path = get_path_to_input_files_dir()
     linked_data_input_path = os.path.join(input_files_path, "linked_data_input.json")

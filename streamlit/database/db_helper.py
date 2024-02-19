@@ -293,6 +293,15 @@ def get_material_id_by_parameter_set_name(name):
             values='id',
             where="name='%s'" % name
         )
+        return [a[0] for a in res][0]
+
+
+@st.cache_data
+def get_material_id_by_display_name(name):
+        res = sql_material().select(
+            values='id',
+            where="display_name='%s'" % name
+        )
         return [a[0] for a in res]
 
 @st.cache_data
