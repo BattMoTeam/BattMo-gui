@@ -79,7 +79,6 @@ def run_julia(q_in,q_out):
                 electrolyte_potential,
                 positive_electrode_potential]
             
-            print(output)
             
             # print("1: ", negative_electrode_grid)
             # print("2: ", output[5])
