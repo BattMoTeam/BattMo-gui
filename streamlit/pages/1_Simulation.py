@@ -69,6 +69,7 @@ def run_page():
     
     app.run_simulation(gui_parameters)
 
+
     app.divergence_check()
 
 

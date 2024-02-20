@@ -2932,7 +2932,7 @@ class RunSimulation:
         # Set the Content-Type header to application/json
         headers = {'Content-Type': 'application/json'}
 
-        response_start = requests.post(self.api_url, json=json_data, headers=headers)
+        response_start = requests.post(self.api_url, json=json_data)
 
 
         if response_start.status_code == 200:
@@ -2940,10 +2940,13 @@ class RunSimulation:
             with open(app_access.get_path_to_battmo_results(), "wb") as f:
                 f.write(response_start.content)
 
+            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
+            #     pickle.dump(response_start.content, f)
+
         else:
             st.write(response_start)
+    
         
-
         # with open("BattMo_results.pkl", "rb") as f:
         #     data = pickle.load(f)
 
@@ -2958,6 +2961,8 @@ class RunSimulation:
 
         # clear cache to get new data in hdf5 file (cf Plot_latest_results)
         st.cache_data.clear()
+
+
         st.session_state.update_par = False
         st.session_state.sim_finished = True
 
@@ -2996,7 +3001,11 @@ class DivergenceCheck:
         # Retrieve latest results
         with open(app_access.get_path_to_battmo_results(), "rb") as pickle_result:
             result = pickle.load(pickle_result)
+            #result_str = pickle_result.read()
 
+        
+        #sresult = eval(result_str)
+        
         [
             log_messages,
             number_of_states,
@@ -3004,8 +3013,11 @@ class DivergenceCheck:
             cell_current,
             time_values,
             negative_electrode_grid,
+            negative_electrode_grid_bc,
             electrolyte_grid,
+            electrolyte_grid_bc,
             positive_electrode_grid,
+            positive_electrode_grid_bc,
             negative_electrode_concentration,
             electrolyte_concentration,
             positive_electrode_concentration,
@@ -3022,7 +3034,7 @@ class DivergenceCheck:
         save_run = st.empty()
         if len(log_messages) > 1:
             c = save_run.container()
-            if number_of_states[0] >= N:
+            if number_of_states >= N:
                 
                 st.session_state.succes = True
                 c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
@@ -3247,8 +3259,11 @@ class GetResultsData():
             cell_current,
             time_values,
             negative_electrode_grid,
+            negative_electrode_grid_bc,
             electrolyte_grid,
+            electrolyte_grid_bc,
             positive_electrode_grid,
+            positive_electrode_grid_bc,
             negative_electrode_concentration_jl,
             electrolyte_concentration_jl,
             positive_electrode_concentration_jl,
@@ -3299,8 +3314,11 @@ class GetResultsData():
             cell_current,
             time_values,
             negative_electrode_grid,
+            negative_electrode_grid_bc,
             electrolyte_grid,
+            electrolyte_grid_bc,
             positive_electrode_grid,
+            positive_electrode_grid_bc,
             negative_electrode_concentration,
             electrolyte_concentration,
             positive_electrode_concentration,
@@ -3491,8 +3509,11 @@ class SetHDF5Download():
             cell_current,
             time_values,
             negative_electrode_grid,
+            negative_electrode_grid_bc,
             electrolyte_grid,
+            electrolyte_grid_bc,
             positive_electrode_grid,
+            positive_electrode_grid_bc,
             negative_electrode_concentration,
             electrolyte_concentration,
             positive_electrode_concentration,
@@ -3514,9 +3535,9 @@ class SetHDF5Download():
             f.create_dataset("cell_current", data=cell_current)
 
             grids = f.create_group("grids")
-            grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid[1])
-            grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid[1])
-            grids.create_dataset("electrolyte_grid", data=electrolyte_grid[1])
+            grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid)
+            grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid)
+            grids.create_dataset("electrolyte_grid", data=electrolyte_grid)
 
             concentrations = f.create_group("concentrations")
 
@@ -3530,7 +3551,7 @@ class SetHDF5Download():
             electrolyte_potentials = potentials.create_group("electrolyte")
             positive_electrode_potentials = potentials.create_group("positive_electrode")
 
-            for i in range(number_of_states[0]):
+            for i in range(number_of_states):
                 negative_electrode_concentrations.create_dataset(
                     "ne_c_state_{}".format(i),
                     data=np.array(negative_electrode_concentration[i], dtype=float)
@@ -3569,6 +3590,7 @@ class SetGraphs():
 
         _self.header = "Visualize results"
         _self.dashboard_header = "Dynamic dashboard"
+        _self.results = results
 
         [
             _self.log_messages,
@@ -3577,8 +3599,11 @@ class SetGraphs():
             _self.cell_current,
             _self.time_values,
             _self.negative_electrode_grid,
+            _self.negative_electrode_grid_bc,
             _self.electrolyte_grid,
+            _self.electrolyte_grid_bc,
             _self.positive_electrode_grid,
+            _self.positive_electrode_grid_bc,
             _self.negative_electrode_concentration,
             _self.electrolyte_concentration,
             _self.positive_electrode_concentration,
@@ -3630,6 +3655,8 @@ class SetGraphs():
                 label="Colormaps",
                 value=False
             )
+
+        
 
         #st.divider()
         return display_dynamic_dashboard, display_colormaps
@@ -3684,7 +3711,7 @@ class SetGraphs():
     @st.cache_data
     def get_elyte_p_color(_self):
         return _self.create_colormap(
-            x_data=_self.electrolyte_grid[0],
+            x_data=_self.electrolyte_grid,
             y_data=_self.time_values,
             z_data=_self.electrolyte_potential,
             title="Electrolyte - Potential",
@@ -3696,7 +3723,7 @@ class SetGraphs():
     @st.cache_data
     def get_elyte_c_color(_self):
         return _self.create_colormap(
-            x_data=_self.electrolyte_grid[0],
+            x_data=_self.electrolyte_grid,
             y_data=_self.time_values,
             z_data=_self.electrolyte_concentration,
             title="Electrolyte - Concentration",
@@ -3708,7 +3735,7 @@ class SetGraphs():
     @st.cache_data
     def get_pe_p_color(_self):
         return _self.create_colormap(
-            x_data=_self.positive_electrode_grid[0],
+            x_data=_self.positive_electrode_grid,
             y_data=_self.time_values,
             z_data=_self.positive_electrode_potential,
             title="Positive Electrode - Potential",
@@ -3720,7 +3747,7 @@ class SetGraphs():
     @st.cache_data
     def get_pe_c_color(_self):
         return _self.create_colormap(
-            x_data=_self.positive_electrode_grid[0],
+            x_data=_self.positive_electrode_grid,
             y_data=_self.time_values,
             z_data=np.array(_self.positive_electrode_concentration),
             title="Positive Electrode - Concentration",
@@ -3732,7 +3759,7 @@ class SetGraphs():
     @st.cache_data
     def get_ne_c_color(_self):
         return _self.create_colormap(
-            x_data=_self.negative_electrode_grid[0],
+            x_data=_self.negative_electrode_grid,
             y_data=_self.time_values,
             z_data=_self.negative_electrode_concentration,
             title="Negative Electrode - Concentration",
@@ -3745,7 +3772,7 @@ class SetGraphs():
     @st.cache_data
     def get_ne_p_color(_self):
         return _self.create_colormap(
-            x_data=_self.negative_electrode_grid[0],
+            x_data=_self.negative_electrode_grid,
             y_data=_self.time_values,
             z_data=_self.negative_electrode_potential,
             title="Negative Electrode - Potential",
@@ -3836,7 +3863,7 @@ class SetGraphs():
 
         # Negative Electrode Concentration
         ne_concentration = _self.create_subplot(
-            x_data=np.squeeze(_self.negative_electrode_grid[0]),
+            x_data=np.squeeze(_self.negative_electrode_grid),
             y_data=np.squeeze(_self.negative_electrode_concentration)[state],
             title="Negative Electrode Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
@@ -3851,7 +3878,7 @@ class SetGraphs():
 
         # Electrolyte Concentration
         elyte_concentration = _self.create_subplot(
-            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            x_data=_self.electrolyte_grid,
             y_data=_self.electrolyte_concentration[state],
             title="Electrolyte Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
@@ -3865,10 +3892,10 @@ class SetGraphs():
         )
         
         # Positive Electrode Concentration
-        positive_electrode_concentration_ext = np.full(len(_self.electrolyte_grid[0]), np.nan)
+        positive_electrode_concentration_ext = np.full(len(_self.electrolyte_grid), np.nan)
         positive_electrode_concentration_ext[-10:] = np.squeeze(_self.positive_electrode_concentration)[state]
         pe_concentration = _self.create_subplot(
-            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            x_data=_self.electrolyte_grid,
             y_data=positive_electrode_concentration_ext,
             title="Positive Electrode Concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
@@ -3893,7 +3920,7 @@ class SetGraphs():
 
         # Negative Electrode Potential
         ne_potential = _self.create_subplot(
-            x_data=np.squeeze(_self.negative_electrode_grid[0]),
+            x_data=np.squeeze(_self.negative_electrode_grid),
             y_data=_self.negative_electrode_potential[state],
             title="Negative Electrode Potential  /  V",
             x_label="Position  /  \u00B5m",
@@ -3908,7 +3935,7 @@ class SetGraphs():
 
         # Electrolyte Potential
         elyte_potential = _self.create_subplot(
-            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            x_data=_self.electrolyte_grid,
             y_data=_self.electrolyte_potential[state],
             title="Electrolyte Potential  /  V",
             x_label="Position  /  \u00B5m",
@@ -3922,10 +3949,10 @@ class SetGraphs():
         )
 
         # Positive Electrode Potential
-        positive_electrode_potential_ext = np.full(len(_self.electrolyte_grid[0]), np.nan)
+        positive_electrode_potential_ext = np.full(len(_self.electrolyte_grid), np.nan)
         positive_electrode_potential_ext[-10:] = _self.positive_electrode_potential[state]
         pe_potential = _self.create_subplot(
-            x_data=np.squeeze(_self.electrolyte_grid[0]),
+            x_data=_self.electrolyte_grid,
             y_data=positive_electrode_potential_ext,
             title="Positive Electrode Potential  /  V",
             x_label="Position  /  \u00B5m",
@@ -4015,8 +4042,8 @@ class SetGraphs():
     
     @st.cache_data
     def get_graph_initial_limits(_self):
-        xmin = min(np.squeeze(_self.electrolyte_grid[1]))
-        xmax = max(np.squeeze(_self.electrolyte_grid[1]))
+        xmin = min(_self.electrolyte_grid_bc)
+        xmax = max(_self.electrolyte_grid_bc)
 
         cmax_elyte = max(_self.electrolyte_concentration[0])
         cmin_elyte = min(_self.electrolyte_concentration[0])

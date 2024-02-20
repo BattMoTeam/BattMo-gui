@@ -1,8 +1,11 @@
 {
-	"name": "BattMoGUIEnv",
-	"dockerComposeFile": "../docker-compose-dev.yml",
-	"service": "devcontainer",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"name": "Streamlit Container",
+	"dockerComposeFile": "../../docker-compose-dev.yml",
+	"service": "streamlit",
+	"shutdownAction": "none",
+	"workspaceFolder": "/workspace/streamlit",
+
+
 	// "remoteEnv": {
 	// 	"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}/.."
 	// },

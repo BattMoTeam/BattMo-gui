@@ -8,7 +8,6 @@ import streamlit as st
 from streamlit_javascript import st_javascript
 import time
 from queue import Queue
-import juliacall as jl
 import sys
 
 

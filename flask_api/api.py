@@ -7,6 +7,7 @@ from flask_restful import Resource, Api
 import pickle
 from uuid import uuid4
 import os
+import numpy as np
 
 
 ##############################
@@ -34,28 +35,57 @@ def run_julia(q_in,q_out):
             
             # Define the Julia code to execute
             julia_code = f"runP2DBattery.runP2DBatt(\"{file_name}\")"
-            log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential = jl.seval(julia_code)
+            log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential = jl.seval(julia_code)
             
             print("The simulation has completed {} time steps.".format(number_of_states))
 
+            # Converting data to python objects
+            negative_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_concentration],
+            negative_electrode_concentration = np.vstack(negative_electrode_concentration)
+
+            electrolyte_concentration = [jl.Py(subarray).to_numpy() for subarray in electrolyte_concentration],
+            electrolyte_concentration = np.vstack(electrolyte_concentration)
+
+            positive_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_concentration],
+            positive_electrode_concentration = np.vstack(positive_electrode_concentration)
+
+            negative_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_potential],
+            negative_electrode_potential = np.vstack(negative_electrode_potential)
+
+            electrolyte_potential = [jl.Py(subarray).to_numpy() for subarray in electrolyte_potential],
+            electrolyte_potential = np.vstack(electrolyte_potential)
+
+            positive_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_potential],
+            positive_electrode_potential = np.vstack(positive_electrode_potential)
+
+            
             print(number_of_states)
             
-            output = [log_messages,
-                number_of_states,
-                cell_voltage,
-                cell_current,
-                time_values,
-                negative_electrode_grid,
-                electrolyte_grid,
-                positive_electrode_grid,
+            output = [ np.array(log_messages),
+                int(number_of_states[0]),
+                jl.Py(cell_voltage).to_numpy(),
+                jl.Py(cell_current).to_numpy(),
+                jl.Py(time_values).to_numpy(),
+                np.squeeze(jl.Py(negative_electrode_grid).to_numpy()),
+                np.squeeze(jl.Py(negative_electrode_grid_bc).to_numpy()),
+                np.squeeze(jl.Py(electrolyte_grid).to_numpy()),
+                np.squeeze(jl.Py(electrolyte_grid_bc).to_numpy()),
+                np.squeeze(jl.Py(positive_electrode_grid).to_numpy()),
+                np.squeeze(jl.Py(positive_electrode_grid_bc).to_numpy()),
                 negative_electrode_concentration,
                 electrolyte_concentration,
                 positive_electrode_concentration,
                 negative_electrode_potential,
                 electrolyte_potential,
-                positive_electrode_potential
-            ]
-
+                positive_electrode_potential]
+            
+            print(output)
+            
+            # print("1: ", negative_electrode_grid)
+            # print("2: ", output[5])
+            # print("3: ", type(output[5]))
+            # with open("test.txt", "w") as new_pickle_file:
+            #     new_pickle_file.write(output)
 
             with open(os.path.join("results",uuid_str), "wb") as new_pickle_file:
                 pickle.dump(output, new_pickle_file)

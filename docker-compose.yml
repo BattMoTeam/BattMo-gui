@@ -8,6 +8,8 @@ services:
     restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./flask_api:/app
     command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
     #command: python wsgi.py
   nginx:
@@ -16,9 +18,12 @@ services:
     restart: always
     ports:
       - "8001:8001"
+    volumes:
+      - ./nginx:/app
 
     depends_on:
       - flask_api
+   
 
  
   streamlit:
@@ -27,5 +32,7 @@ services:
     restart: always
     ports:
       - "8501:8501"
+    volumes:
+      - ./streamlit:/app
 
     command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501

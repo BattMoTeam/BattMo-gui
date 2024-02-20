@@ -14,6 +14,9 @@ module runP2DBattery
         negative_electrode_grid = 0
         electrolyte_grid = 0
         positive_electrode_grid = 0
+        negative_electrode_grid_bc = 0
+        electrolyte_grid_bc = 0
+        positive_electrode_grid_bc = 0
         negative_electrode_concentration = 0
         electrolyte_concentration = 0
         positive_electrode_concentration = 0
@@ -63,9 +66,16 @@ module runP2DBattery
 
             # Create grid arrays
 
-            negative_electrode_grid = [centroids_NAM, boundaries_NAM].*10^6
-            electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE].*10^6
-            positive_electrode_grid = [centroids_PAM, boundaries_PAM].*10^6
+            # negative_electrode_grid = [centroids_NAM, boundaries_NAM].*10^6
+            # electrolyte_grid = [centroids_ELYTE, boundaries_ELYTE].*10^6
+            # positive_electrode_grid = [centroids_PAM, boundaries_PAM].*10^6
+
+            negative_electrode_grid = centroids_NAM.*10^6
+            negative_electrode_grid_bc = boundaries_NAM.*10^6
+            electrolyte_grid = centroids_ELYTE.*10^6
+            electrolyte_grid_bc = boundaries_ELYTE.*10^6
+            positive_electrode_grid = centroids_PAM.*10^6
+            positive_electrode_grid_bc = boundaries_PAM.*10^6
             negative_electrode_concentration = negative_electrode_concentration[1]
             positive_electrode_concentration = positive_electrode_concentration[1]
 
@@ -78,6 +88,6 @@ module runP2DBattery
             close(log_buffer)  
         end
 
-        return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, electrolyte_grid, positive_electrode_grid, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
+        return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
     end
 end

@@ -1,14 +1,6 @@
 version: "3.8"
 
 services:
-  devcontainer:
-    image: mcr.microsoft.com/devcontainers/base:jammy
-    volumes:
-      - "../..:/workspaces:cached"
-    network_mode: service:streamlit
-    command: sleep infinity
-
-  
   nginx:
     build: ./nginx
     container_name: nginx
@@ -16,7 +8,7 @@ services:
     ports:
       - "8001:8001"
     volumes:
-      - /workspaces/Repositories/nginx:/app
+      - ./nginx:/app
     depends_on:
       - flask_api
 
@@ -27,9 +19,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /workspaces/Repositories/flask_api:/app
+      - ./flask_api:/app
     command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
-    #command: python wsgi.py
+
  
   streamlit:
     build: ./streamlit
@@ -38,5 +30,5 @@ services:
     ports:
       - "8501:8501"
     volumes:
-      - /workspaces/Repositories/streamlit:/app
+      - ./streamlit:/app
     command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501
