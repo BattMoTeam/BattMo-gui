@@ -28,7 +28,8 @@ RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "LoggingExtras",version = "
 # RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("LoggingExtras")'
 # RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("PrettyTables")'
 
+COPY . .
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir /app/results
-COPY . .
+
