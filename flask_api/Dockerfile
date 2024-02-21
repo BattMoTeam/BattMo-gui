@@ -7,8 +7,6 @@ RUN pip install jill --no-cache-dir
 
 RUN jill install 1.9.2 --confirm
 
-RUN rm -rf ~/.julia
-
 # Helpful Development Packages
 
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "PythonCall",version = "0.9.14"))'
