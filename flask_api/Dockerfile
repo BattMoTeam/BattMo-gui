@@ -31,5 +31,5 @@ RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "LoggingExtras",version = "
 COPY . .
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN mkdir /app/results
+#RUN mkdir /app/results
 
