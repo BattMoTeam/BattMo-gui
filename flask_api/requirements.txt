@@ -7,3 +7,4 @@ flask_restful==0.3.10
 juliacall == 0.9.14 
 psutil == 3.2.2
 gunicorn==21.2.0
+gevent==24.2.1
