@@ -9,7 +9,7 @@ services:
     restart: always
     ports:
       - "8000:8000"
-    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 500
+    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 500 --worker-class=gevent
     #command: bash -c "julia -e 'using PkgCompiler; PkgCompiler.clear_cache()' && gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200"
 
   nginx:
