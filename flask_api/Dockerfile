@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN pip install jill --no-cache-dir
 
-RUN jill install 1.9.2 --confirm
+RUN jill install 1.10 --confirm
 
 # Helpful Development Packages
 
