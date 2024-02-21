@@ -3052,7 +3052,7 @@ class DivergenceCheck:
             c.code(log_message + ''' \n''')
 
         else:    
-            save_run.success("Simulation finished successfully! Check the results by clicking 'Plot latest results'.")  
+            save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
             st.session_state.succes = True
 
 
