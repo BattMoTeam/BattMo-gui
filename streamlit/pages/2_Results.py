@@ -33,7 +33,7 @@ from app_scripts.app_controller import get_app_controller, get_results_data
 from app_scripts import app_view
 
 # Get page name
-url = st_javascript("await fetch('').then(r => window.parent.location.href)")
+url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
 page_name = url.rsplit('/',1)[1]
 
 

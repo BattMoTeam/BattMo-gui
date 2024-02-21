@@ -36,7 +36,7 @@ st.session_state.update(st.session_state)
 
 
 # Get page name
-url = st_javascript("await fetch('').then(r => window.parent.location.href)")
+url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
 page_name = url.rsplit('/',1)[1]
 
 
