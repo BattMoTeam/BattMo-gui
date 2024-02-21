@@ -23,12 +23,12 @@ RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "LoggingExtras",version = "
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "PrettyTables",version = "2.2.7"))'
 
 # Precompile Julia packages
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("PythonCall")'
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("JSON")'
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("BattMo")'
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("Jutul")'
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("LoggingExtras")'
-# RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("PrettyTables")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("PythonCall")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("JSON")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("BattMo")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("Jutul")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("LoggingExtras")'
+RUN julia -e 'using PkgCompiler; PkgCompiler.compile_package("PrettyTables")'
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
