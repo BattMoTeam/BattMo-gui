@@ -54,7 +54,7 @@
             "maximumConcentration": 1000,
             "volumetricSurfaceArea": 1,
             "density": 100,
-            "numberOfElectronsTransferred": 1,
+            "numberOfElectronsTransfered": 1,
             "activationEnergyOfReaction": 1,
             "reactionRateConstant": 1e-20,
             "maximumLithiumStoichiometry": 1e-2,
@@ -142,8 +142,8 @@
       } 
    },
    "Protocol":{
-      "protocol": "CCCV",
       "Properties":{
+         "protocol": "CCCV",
          "initialStepType": "discharging",
          "numberOfCycles": 1
       },

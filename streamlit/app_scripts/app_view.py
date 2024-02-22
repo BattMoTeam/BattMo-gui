@@ -24,7 +24,7 @@ import streamlit_elements as el
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper
-from app_scripts import app_access, match_json_LD
+from app_scripts import app_access, match_json_LD, match_json_upload
 from app_scripts import app_calculations as calc
 
 
@@ -320,6 +320,7 @@ class SetTabs:
         # image dict stored for easier access
         self.image_dict = images
         self.model_id = model_id
+        self.model_name = np.squeeze(db_helper.get_model_name_from_id(model_id))
 
         # retrieve corresponding templates (not implemented yet)
         #self.model_templates = db_helper.get_templates_by_id(model_id)
@@ -367,8 +368,8 @@ class SetTabs:
         self.hasCell = "hasCell"
 
         self.universe_label = "MySimulationSetup"
-        self.model_label = "{} model".format(np.squeeze(db_helper.get_model_name_from_id(model_id)))
-        self.model_type = "battery:{}Model".format(np.squeeze(db_helper.get_model_name_from_id(model_id)))
+        self.model_label = "{} model".format(self.model_name)
+        self.model_type = "battery:{}Model".format(self.model_name)
         self.cell_label = "MyCell"
         self.cell_type = "battery:Cell"
         
@@ -384,6 +385,7 @@ class SetTabs:
                 }
             }             
         }
+        #self.uploaded_input = None
 
         # Create fill input
         #self.set_file_input()
@@ -396,12 +398,25 @@ class SetTabs:
 
         ############################################################
         # Function that create a file input at the Simulation page
-        # NOT USED YET
+        # 
         ############################################################
         upload, update = st.columns((3,1))
         uploaded_file = upload.file_uploader(self.info, type='json', help= self.help)
         
         if uploaded_file:
+            uploaded_file = uploaded_file.read()
+            uploaded_file_dict = json.loads(uploaded_file)
+            #uploaded_file_str = str(uploaded_file_dict)
+
+            with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
+                json.dump(uploaded_file_dict, outfile,  indent=3)
+            
+            gui_formatted_dict = match_json_upload.GuiInputFormatting(self.model_name).gui_dict
+
+            with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
+                json.dump(gui_formatted_dict,outfile,  indent=3)
+
+
             st.success("Your file is succesfully uploaded. Click on the 'PUSH' button to automatically fill in the parameter inputs specified in your file.")
 
         update.text(" ")
@@ -410,12 +425,12 @@ class SetTabs:
         push = update.button("PUSH")
         if push:
             if uploaded_file is not None:
-                uploaded_file = uploaded_file.read()
-                uploaded_file_dict = json.loads(uploaded_file)
-                uploaded_file_str = str(uploaded_file_dict)
 
-                with open("uploaded_input.json", "w") as outfile:
-                    outfile.write(uploaded_file_str)
+                with open(app_access.get_path_to_gui_formatted_input(), "r") as outfile:
+                    uploaded_input = json.load(outfile)
+
+                self.uploaded_input = uploaded_input
+                st.session_state.upload = True
 
                 st.success("The input values are succesfully adapted to your input file. You can still change some settings below if wanted.")  
                 
@@ -840,6 +855,11 @@ class SetTabs:
 
             # logo and title
             self.set_logo_and_title(tab, index)
+
+
+            if st.session_state.upload:
+                with open(app_access.get_path_to_gui_formatted_input(), "r") as outfile:
+                    uploaded_input = json.load(outfile)
             
 
             # get tab's categories
@@ -880,7 +900,8 @@ class SetTabs:
                         default_template_id=default_template_id,
                         tab=all_sub_tabs[i],
                         category_parameters = category_parameters,
-                        mass_loadings = mass_loadings
+                        mass_loadings = mass_loadings,
+                        uploaded_input = uploaded_input
                     )
                     i += 1
                     
@@ -970,6 +991,8 @@ class SetTabs:
                 self.user_input,
                 new_file,
                 indent=3)
+            
+        
 
     def calc_indicators(self,user_input):
 
@@ -1254,10 +1277,17 @@ class SetTabs:
         # formatted_parameters is a dict containing those python objects
 
         material_formatted_parameters, formatted_component, formatted_components = self.formatter.format_parameter_sets(material_component,materials,material_parameter_sets,material_parameter_sets_name_by_id, material_raw_template_parameters, material_raw_parameters,material_component_id)
+        st.write(list(formatted_component.options.keys()))
+        index = 0
+        if st.session_state.upload:
+            uploaded_id = self.uploaded_input[component_name]
+            index = list(formatted_component.options.keys()).index(uploaded_id)
         
+        st.write("index = ",index)
         selected_value_id = material_col.selectbox(
             label="[{}]({})".format(formatted_component.name, formatted_component.context_type_iri),
-            options=formatted_component.options,
+            options=list(formatted_component.options.keys()),
+            index=index,
             key="select_{}".format(material_component_id),
             label_visibility="collapsed",
             format_func=lambda x: formatted_component.options.get(x).display_name,
@@ -1793,7 +1823,7 @@ class SetTabs:
         return {self.hasQuantitativeProperty: category_parameters}, emmo_relation
         
 
-    def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,selected_am_value_id=None):
+    def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,uploaded_input = None, selected_am_value_id=None):
 
         
 
@@ -1857,14 +1887,14 @@ class SetTabs:
                     material_comp_relation = self.hasConductiveAdditive
                 category_parameters[material_comp_relation] = component_parameters
 
+                
 
                 material_choice = formatted_materials.options.get(selected_value_id).name
  
                 material = formatted_materials.options.get(selected_value_id)
                 parameters = material.parameters
-                
-                
-                if material_choice == "user_defined":
+
+                if material_choice == "user_defined_ne_am" or material_choice == "user_defined_pe_am" or material_choice == "user_defined_ne_ad" or material_choice == "user_defined_pe_ad" or material_choice == "user_defined_ne_b" or material_choice == "user_defined_pe_b":
 
                     component_parameters = []
                     ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
@@ -2271,7 +2301,7 @@ class SetTabs:
             parameters = material.parameters
             
             
-            if material_choice == "user_defined":
+            if material_choice == "user_defined_elyte" or material_choice == "user_defined_sep":
                 
                 if "conductivity" not in st.session_state:
                     st.session_state.conductivity = r'''1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2'''
@@ -3172,7 +3202,7 @@ class DownloadParameters:
         self.file_mime_type = "application/JSON"
 
         # retrieve saved formatted parameters from json file
-        with open(app_access.get_path_to_battmo_formatted_input()) as json_formatted_gui_parameters:
+        with open(app_access.get_path_to_battmo_formatted_input(),'r') as json_formatted_gui_parameters:
             self.formatted_gui_parameters = json.load(json_formatted_gui_parameters)
 
         self.download_label_formatted_parameters = "BattMo format"
