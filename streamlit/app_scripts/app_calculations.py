@@ -51,11 +51,18 @@ def calc_porosity( density_eff, thickness, mass_loading):
     return por
 
 @st.cache_data
-def calc_n_to_p_ratio(mass_loadings):
-    mass_load_n = mass_loadings["negative_electrode"]
-    mass_load_p = mass_loadings["positive_electrode"]
+def calc_specific_capacity_electrode(mass_fraction, c_max, density, li_stoich_max, li_stoich_min, n, porosity):
+    F = 26.801
+    Q_sp = c_max*(abs(li_stoich_max - li_stoich_min))*n*F/density
+    Q_sp_eff = mass_fraction*Q_sp*(1-porosity)
+    return Q_sp_eff
 
-    n_to_p = round(mass_load_n/mass_load_p,2)
+@st.cache_data
+def calc_n_to_p_ratio(effective_specific_capacities):
+    effective_specific_capacities_n = effective_specific_capacities["negative_electrode"]
+    effective_specific_capacities_p = effective_specific_capacities["positive_electrode"]
+
+    n_to_p = round(effective_specific_capacities_n/effective_specific_capacities_p,2)
 
     return n_to_p
 
@@ -75,9 +82,3 @@ def calc_cell_energy(mass_loadings):
 
     return 
 
-@st.cache_data
-def calc_specific_capacity_electrode(mass_loadings):
-    """
-    Can be implemented for 3D models
-    """
-    return 

@@ -352,6 +352,8 @@ class SetTabs:
         self.hasBinder = "hasBinder"
         self.hasConductiveAdditive = "hasConductiveAdditive"
         self.hasElectrode = "hasElectrode"
+        self.hasNegativeElectrode = "hasNegativeElectrode"
+        self.hasPositiveElectrode = "hasPositiveElectrode"
         self.hasElectrolyte = "hasElectrolyte"
         self.hasSeparator = "hasSeparator"
         self.hasBoundaryConditions = "hasBoundaryConditions"
@@ -971,19 +973,107 @@ class SetTabs:
 
     def calc_indicators(self,user_input):
 
-        with open(app_access.get_path_to_calculated_values(),'r') as f:
-            mass_loadings = json.load(f)["calculatedParameters"]["mass_loadings"]
+        input_dict = match_json_LD.GuiDict(user_input)
+
+        mf_ne = input_dict.ne.am.get("mass_fraction").get("value")
+        mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
+        c_max_ne = input_dict.ne.am.get("maximum_concentration").get("value")
+        c_max_pe = input_dict.pe.am.get("maximum_concentration").get("value")
+        density_ne = input_dict.ne.am.get("density").get("value")
+        density_pe = input_dict.pe.am.get("density").get("value")
+        li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
+        li_stoich_min_ne = input_dict.ne.am.get("minimum_lithium_stoichiometry").get("value")
+        li_stoich_max_pe =  input_dict.pe.am.get("maximum_lithium_stoichiometry").get("value")
+        li_stoich_min_pe = input_dict.pe.am.get("minimum_lithium_stoichiometry").get("value")
+        n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
+        porosity_ne = input_dict.ne.properties.get("coating_porosity").get("value")
+        porosity_pe = input_dict.pe.properties.get("coating_porosity").get("value")
+
+        specific_capacity_ne = self.calc_specific_capacity_electrode(mf_ne, c_max_ne, density_ne, 
+                                                                     li_stoich_max_ne, 
+                                                                     li_stoich_min_ne,
+                                                                     n, porosity_ne)
+        specific_capacity_pe = self.calc_specific_capacity_electrode(mf_pe, c_max_pe, density_pe, 
+                                                                     li_stoich_max_pe, 
+                                                                     li_stoich_min_pe,
+                                                                     n, porosity_pe)  
+
+        specific_capacities = {
+            "negative_electrode": specific_capacity_ne,
+            "positive_electrode": specific_capacity_pe
+        }
+
+        specific_capacities_category_parameters_ne, emmo = self.setup_specific_electrode_capacity(specific_capacity_ne)  
+        specific_capacities_category_parameters_pe, emmo = self.setup_specific_electrode_capacity(specific_capacity_pe)  
         
-        n_to_p_ratio = self.calc_n_to_p_ratio(mass_loadings)
+        n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities)
 
         n_to_p_category_parameters, emmo = self.setup_n_to_p_ratio(n_to_p_ratio)
 
 
 
         user_input[self.universe_label][self.hasCell][self.hasBoundaryConditions][self.hasQuantitativeProperty] += n_to_p_category_parameters[self.hasQuantitativeProperty]
+        user_input[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasObjectiveProperty][self.hasQuantitativeProperty] += specific_capacities_category_parameters_ne[self.hasQuantitativeProperty]
+        user_input[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasObjectiveProperty][self.hasQuantitativeProperty] += specific_capacities_category_parameters_pe[self.hasQuantitativeProperty]
 
         return user_input
     
+    def setup_specific_electrode_capacity(self, specific_capacity):
+
+        category_parameters = []
+         
+        specific_capacity_raw_template = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
+
+        parameter_id, \
+                    name, \
+                    model_name, \
+                    par_class, \
+                    difficulty, \
+                    model_id, \
+                    template_id, \
+                    context_type, \
+                    context_type_iri, \
+                    parameter_type, \
+                    unit, \
+                    unit_name, \
+                    unit_iri, \
+                    max_value, \
+                    min_value, \
+                    is_shown_to_user, \
+                    description,  \
+                    display_name = tuple(np.squeeze(specific_capacity_raw_template[0]))
+        
+        # st.text(" ")
+        # st.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
+
+
+        formatted_value_dict = specific_capacity
+
+    
+        formatted_value_dict = {
+            "@type": "emmo:Numerical",
+            self.hasNumericalData: specific_capacity
+        }
+
+        parameter_details = {
+            "label": name,
+            "@type": context_type,
+            #"@type_iri": n_to_p_parameter.context_type_iri if n_to_p_parameter.context_type_iri else "None",
+            "value": formatted_value_dict
+        }
+        
+        parameter_details["unit"] = {
+            "label": unit_name,
+            "symbol": unit,
+            "@type": "emmo:"+unit_name
+            #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+        }
+
+        category_parameters.append(parameter_details)
+
+        return {self.hasQuantitativeProperty: category_parameters}, context_type_iri
+    
+
     def setup_n_to_p_ratio(self, n_to_p_ratio_value):
 
         category_parameters = []
@@ -2106,6 +2196,8 @@ class SetTabs:
       
             self.validate_volume_fraction(vf_sum, category_display_name,tab)
             density_mix = self.calc_density_mix(vf_sum, density) 
+
+            
 
             try:
                 with open(app_access.get_path_to_calculated_values(), 'r') as f:
@@ -3362,11 +3454,11 @@ class SetIndicators():
         ne_mass_loading = indicators["NegativeElectrode"]["massLoading"]
         ne_thickness = indicators["NegativeElectrode"]["thickness"]
         ne_porosity = indicators["NegativeElectrode"]["porosity"]
-        #ne_specific_capacity = indicators["NegativeElectrode"]["specificCapacity"]
+        ne_specific_capacity = indicators["NegativeElectrode"]["specificCapacity"]
         pe_mass_loading = indicators["PositiveElectrode"]["massLoading"]
         pe_thickness = indicators["PositiveElectrode"]["thickness"]
         pe_porosity = indicators["PositiveElectrode"]["porosity"]
-        #pe_specific_capacity = indicators["PositiveElectrode"]["specificCapacity"]
+        pe_specific_capacity = indicators["PositiveElectrode"]["specificCapacity"]
 
         if self.page_name == "Simulation":
             col1, col2, col3, col4 = st.columns(4)
@@ -3417,17 +3509,17 @@ class SetIndicators():
                     label_visibility= "visible"
                 )
 
-            mass_loading, thickness, porosity = NE.columns(3)
+            mass_loading, thickness, porosity, capacity = NE.columns(4)
 
             mass_loading.metric(
                     label = "Mass Loading ({})".format(ne_mass_loading["unit"]),
-                    value = np.round(ne_mass_loading["value"],2),
+                    value = int(np.round(ne_mass_loading["value"])),
                     label_visibility= "visible"
                 )
             
             thickness.metric(
                     label = "Thickness ({})".format(ne_thickness["unit"]),
-                    value = np.round(ne_thickness["value"],2),
+                    value = int(np.round(ne_thickness["value"])),
                     label_visibility= "visible"
                 )
             
@@ -3436,23 +3528,23 @@ class SetIndicators():
                     value = np.round(ne_porosity["value"],2),
                     label_visibility= "visible"
                 )
-            # capacity.metric(
-            #         label = "Specific Capacity ({})".format(ne_specific_capacity["unit"]),
-            #         value = np.round(ne_specific_capacity["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            capacity.metric(
+                    label = "Specific Capacity ({})".format(ne_specific_capacity["unit"]),
+                    value = int(np.round(ne_specific_capacity["value"])),
+                    label_visibility= "visible"
+                )
             
-            mass_loading, thickness, porosity= PE.columns(3)
+            mass_loading, thickness, porosity, capacity= PE.columns(4)
 
             mass_loading.metric(
                     label = "Mass Loading ({})".format(pe_mass_loading["unit"]),
-                    value = np.round(pe_mass_loading["value"],2),
+                    value = int(np.round(pe_mass_loading["value"])),
                     label_visibility= "visible"
                 )
             
             thickness.metric(
                     label = "Thickness ({})".format(pe_thickness["unit"]),
-                    value = np.round(pe_thickness["value"],2),
+                    value =int(np.round(pe_thickness["value"])),
                     label_visibility= "visible"
                 )
             
@@ -3461,11 +3553,11 @@ class SetIndicators():
                     value = np.round(pe_porosity["value"],2),
                     label_visibility= "visible"
                 )
-            # capacity.metric(
-            #         label = "Specific Capacity ({})".format(pe_specific_capacity["unit"]),
-            #         value = np.round(pe_specific_capacity["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            capacity.metric(
+                    label = "Specific Capacity ({})".format(pe_specific_capacity["unit"]),
+                    value = int(np.round(pe_specific_capacity["value"])),
+                    label_visibility= "visible"
+                )
             
         else:
             print("ERROR: Page name '{}' to get indicators doesn't match.".format(self.page_name))

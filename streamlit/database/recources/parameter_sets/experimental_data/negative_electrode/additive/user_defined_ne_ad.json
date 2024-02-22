@@ -4,9 +4,9 @@
    "component": "negative_electrode_additive",
    "material": true,
    "Parameters": {
-      "density": 0,
-      "specific_heat_capacity": 0,
-      "thermal_conductivity": 0
+      "density": 1,
+      "specific_heat_capacity": 1,
+      "thermal_conductivity": 1
       
    }
 }

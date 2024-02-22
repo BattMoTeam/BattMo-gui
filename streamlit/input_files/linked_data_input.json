@@ -481,7 +481,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 112.0
+                           "hasNumericalData": 64.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -494,7 +494,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.2
+                           "hasNumericalData": 0.30999999999999994
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -507,7 +507,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 19.264
+                           "hasNumericalData": 9.4944
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -552,6 +552,19 @@
                            "label": "UnitOne",
                            "symbol": "1",
                            "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "specific_capacity",
+                        "@type": "emmo:SpecificCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 149.85979678432128
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHourPerGram",
+                           "symbol": "mAh/g",
+                           "@type": "emmo:MiliAmpereHourPerGram"
                         }
                      }
                   ],
@@ -952,7 +965,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 57.0
+                           "hasNumericalData": 69.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -965,7 +978,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.2
+                           "hasNumericalData": 0.11000000000000001
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -978,7 +991,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 17.552352
+                           "hasNumericalData": 23.637937199999996
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -1023,6 +1036,19 @@
                            "label": "UnitOne",
                            "symbol": "1",
                            "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "specific_capacity",
+                        "@type": "emmo:SpecificCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 101.8187243386861
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHourPerGram",
+                           "symbol": "mAh/g",
+                           "@type": "emmo:MiliAmpereHourPerGram"
                         }
                      }
                   ],
@@ -1350,7 +1376,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.1
+                     "hasNumericalData": 1.47
                   },
                   "unit": {
                      "label": "UnitOne",

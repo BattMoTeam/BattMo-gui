@@ -4,14 +4,14 @@
    "component": "negative_electrode_active_material",
    "material": true,
    "Parameters": {
-      "maximum_concentration": 0,
-      "volumetric_surface_area": 0,
-      "density": 0,
-      "number_of_electrons_transferred": 0,
-      "activation_energy_of_reaction": 0,
-      "reaction_rate_constant": 0,
-      "maximum_lithium_stoichiometry": 0,
-      "minimum_lithium_stoichiometry": 0,
+      "maximum_concentration": 1,
+      "volumetric_surface_area": 1,
+      "density": 1,
+      "number_of_electrons_transferred": 1,
+      "activation_energy_of_reaction": 1,
+      "reaction_rate_constant": 1,
+      "maximum_lithium_stoichiometry": 1,
+      "minimum_lithium_stoichiometry": 1,
       "open_circuit_potential": {
          "function": "",
          "argument_list": [
