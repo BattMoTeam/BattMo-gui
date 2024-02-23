@@ -91,7 +91,7 @@
          "description": "",
          "is_shown_to_user": false,
          "type": "float",
-         "unit": "A.h",
+         "unit": "mAh",
          "unit_name": "AmpereHour",
          "unit_iri": "http://emmo.info/emmo#AmpereHour",
          "display_name": "Nominal cell capacity"

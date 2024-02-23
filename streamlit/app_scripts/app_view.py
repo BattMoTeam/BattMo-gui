@@ -344,8 +344,8 @@ class SetTabs:
         self.calc_porosity = calc.calc_porosity
         self.calc_n_to_p_ratio = calc.calc_n_to_p_ratio
         self.calc_cell_mass = calc.calc_cell_mass
-        self.calc_cell_energy = calc.calc_cell_energy
         self.calc_specific_capacity_electrode = calc.calc_specific_capacity_electrode
+        self.calc_cell_capacity = calc.calc_cell_capacity
 
         # Ontology definitions
         
@@ -860,6 +860,8 @@ class SetTabs:
             if st.session_state.upload:
                 with open(app_access.get_path_to_gui_formatted_input(), "r") as outfile:
                     uploaded_input = json.load(outfile)
+            else:
+                uploaded_input = None
             
 
             # get tab's categories
@@ -974,7 +976,10 @@ class SetTabs:
 
         self.user_input = self.calc_indicators(self.user_input)
 
+        
+
         self.update_json_LD()
+        self.update_json_battmo_input()
         st.divider()
 
         # if os.path.exists("uploaded_input.json"):
@@ -991,61 +996,107 @@ class SetTabs:
                 self.user_input,
                 new_file,
                 indent=3)
-            
+
+    def update_json_battmo_input(self):
+
+        # Format parameters from json-LD to needed format
+        path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
+
+        # save formatted parameters in json file
+        with open(path_to_battmo_formatted_input, "w") as new_file:
+            json.dump(
+                match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input),
+                new_file,
+                indent=3
+            )       
         
 
     def calc_indicators(self,user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
+        with open(app_access.get_path_to_calculated_values(), 'r') as f:
+            calculated_values = json.load(f)["calculatedParameters"]
 
+        # Retrieve parameter values
         mf_ne = input_dict.ne.am.get("mass_fraction").get("value")
         mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
+        length = input_dict.ne.properties.get("length").get("value")
+        width = input_dict.ne.properties.get("width").get("value")
         c_max_ne = input_dict.ne.am.get("maximum_concentration").get("value")
         c_max_pe = input_dict.pe.am.get("maximum_concentration").get("value")
-        density_ne = input_dict.ne.am.get("density").get("value")
-        density_pe = input_dict.pe.am.get("density").get("value")
+        densities = {
+            "negative_electrode_active_material": input_dict.ne.am.get("density").get("value"),
+            "positive_electrode_active_material": input_dict.pe.am.get("density").get("value"),
+            "negative_electrode": calculated_values["effective_density"]["negative_electrode"],
+            "positive_electrode": calculated_values["effective_density"]["positive_electrode"],
+            "separator": input_dict.sep_mat.get("density").get("value"),
+            "electrolyte": input_dict.elyte_mat.get("density").get("value")
+        }
+        porosities = {
+            "negative_electrode": input_dict.ne.properties.get("coating_porosity").get("value"),
+            "positive_electrode": input_dict.pe.properties.get("coating_porosity").get("value"),
+            "separator": input_dict.sep_prop.get("porosity").get("value")
+        }
+        volumes = {
+            "negative_electrode": length*width*input_dict.ne.properties.get("coating_thickness").get("value"),
+            "positive_electrode": length*width*input_dict.pe.properties.get("coating_thickness").get("value"),
+            "separator": length*width*input_dict.sep_prop.get("thickness").get("value")
+        }
+        
         li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
         li_stoich_min_ne = input_dict.ne.am.get("minimum_lithium_stoichiometry").get("value")
         li_stoich_max_pe =  input_dict.pe.am.get("maximum_lithium_stoichiometry").get("value")
         li_stoich_min_pe = input_dict.pe.am.get("minimum_lithium_stoichiometry").get("value")
         n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
-        porosity_ne = input_dict.ne.properties.get("coating_porosity").get("value")
-        porosity_pe = input_dict.pe.properties.get("coating_porosity").get("value")
+        
 
-        specific_capacity_ne = self.calc_specific_capacity_electrode(mf_ne, c_max_ne, density_ne, 
+        # Specific capacity 
+        specific_capacity_ne = self.calc_specific_capacity_electrode(mf_ne, c_max_ne, densities["negative_electrode_active_material"], 
                                                                      li_stoich_max_ne, 
                                                                      li_stoich_min_ne,
-                                                                     n, porosity_ne)
-        specific_capacity_pe = self.calc_specific_capacity_electrode(mf_pe, c_max_pe, density_pe, 
+                                                                     n, porosities["negative_electrode"])
+        specific_capacity_pe = self.calc_specific_capacity_electrode(mf_pe, c_max_pe, densities["positive_electrode_active_material"], 
                                                                      li_stoich_max_pe, 
                                                                      li_stoich_min_pe,
-                                                                     n, porosity_pe)  
-
+                                                                     n, porosities["positive_electrode"])  
         specific_capacities = {
             "negative_electrode": specific_capacity_ne,
             "positive_electrode": specific_capacity_pe
         }
-
-        specific_capacities_category_parameters_ne, emmo = self.setup_specific_electrode_capacity(specific_capacity_ne)  
-        specific_capacities_category_parameters_pe, emmo = self.setup_specific_electrode_capacity(specific_capacity_pe)  
+        specific_capacities_category_parameters_ne, emmo = self.setup_parameter("specific_capacity", specific_capacity_ne)  
+        specific_capacities_category_parameters_pe, emmo = self.setup_parameter("specific_capacity", specific_capacity_pe)  
         
+
+        # N to P ratio
         n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities)
+        n_to_p_category_parameters, emmo = self.setup_parameter("n_to_p_ratio", n_to_p_ratio)
 
-        n_to_p_category_parameters, emmo = self.setup_n_to_p_ratio(n_to_p_ratio)
+        # Cell Mass
+        cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes)
+        cell_mass_category_parameters, emmo = self.setup_parameter("cell_mass", cell_mass)
 
+        # Cell Capacity
+        masses = {
+            "negative_electrode": ne_mass,
+            "positive_electrode": pe_mass
+        }
+        cell_capacity = self.calc_cell_capacity(specific_capacities, masses)
+        cell_capacity_category_parameters, emmo = self.setup_parameter("nominal_cell_capacity", cell_capacity)
 
-
+        # Include indicators in linked data input dict
         user_input[self.universe_label][self.hasCell][self.hasBoundaryConditions][self.hasQuantitativeProperty] += n_to_p_category_parameters[self.hasQuantitativeProperty]
+        user_input[self.universe_label][self.hasCell][self.hasBoundaryConditions][self.hasQuantitativeProperty] += cell_mass_category_parameters[self.hasQuantitativeProperty]
+        user_input[self.universe_label][self.hasCell][self.hasBoundaryConditions][self.hasQuantitativeProperty] += cell_capacity_category_parameters[self.hasQuantitativeProperty]
         user_input[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasObjectiveProperty][self.hasQuantitativeProperty] += specific_capacities_category_parameters_ne[self.hasQuantitativeProperty]
         user_input[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasObjectiveProperty][self.hasQuantitativeProperty] += specific_capacities_category_parameters_pe[self.hasQuantitativeProperty]
 
         return user_input
     
-    def setup_specific_electrode_capacity(self, specific_capacity):
+    def setup_parameter(self, parameter_name, value):
 
         category_parameters = []
          
-        specific_capacity_raw_template = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
+        raw_template = db_helper.get_template_parameter_by_parameter_name(parameter_name)
 
         parameter_id, \
                     name, \
@@ -1064,18 +1115,18 @@ class SetTabs:
                     min_value, \
                     is_shown_to_user, \
                     description,  \
-                    display_name = tuple(np.squeeze(specific_capacity_raw_template[0]))
+                    display_name = tuple(np.squeeze(raw_template[0]))
         
         # st.text(" ")
         # st.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
 
 
-        formatted_value_dict = specific_capacity
+        formatted_value_dict = value
 
     
         formatted_value_dict = {
             "@type": "emmo:Numerical",
-            self.hasNumericalData: specific_capacity
+            self.hasNumericalData: value
         }
 
         parameter_details = {
@@ -1096,62 +1147,6 @@ class SetTabs:
 
         return {self.hasQuantitativeProperty: category_parameters}, context_type_iri
     
-
-    def setup_n_to_p_ratio(self, n_to_p_ratio_value):
-
-        category_parameters = []
-         
-        n_to_p_ratio_raw_template = db_helper.get_template_parameter_by_parameter_name("n_to_p_ratio")
-
-        parameter_id, \
-                    name, \
-                    model_name, \
-                    par_class, \
-                    difficulty, \
-                    model_id, \
-                    template_id, \
-                    context_type, \
-                    n_to_p_context_type_iri, \
-                    parameter_type, \
-                    n_to_p_unit, \
-                    unit_name, \
-                    n_to_p_unit_iri, \
-                    max_value, \
-                    min_value, \
-                    is_shown_to_user, \
-                    description,  \
-                    n_to_p_display_name = tuple(np.squeeze(n_to_p_ratio_raw_template[0]))
-        
-        # st.text(" ")
-        # st.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
-
-
-        formatted_value_dict = n_to_p_ratio_value
-
-    
-        formatted_value_dict = {
-            "@type": "emmo:Numerical",
-            self.hasNumericalData: n_to_p_ratio_value
-        }
-
-        parameter_details = {
-            "label": name,
-            "@type": context_type,
-            #"@type_iri": n_to_p_parameter.context_type_iri if n_to_p_parameter.context_type_iri else "None",
-            "value": formatted_value_dict
-        }
-        
-        parameter_details["unit"] = {
-            "label": unit_name,
-            "symbol": n_to_p_unit,
-            "@type": "emmo:"+unit_name
-            #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
-        }
-
-        category_parameters.append(parameter_details)
-
-        return {self.hasQuantitativeProperty: category_parameters}, n_to_p_context_type_iri
-        
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
@@ -1277,13 +1272,12 @@ class SetTabs:
         # formatted_parameters is a dict containing those python objects
 
         material_formatted_parameters, formatted_component, formatted_components = self.formatter.format_parameter_sets(material_component,materials,material_parameter_sets,material_parameter_sets_name_by_id, material_raw_template_parameters, material_raw_parameters,material_component_id)
-        st.write(list(formatted_component.options.keys()))
+
         index = 0
         if st.session_state.upload:
             uploaded_id = self.uploaded_input[component_name]
             index = list(formatted_component.options.keys()).index(uploaded_id)
-        
-        st.write("index = ",index)
+
         selected_value_id = material_col.selectbox(
             label="[{}]({})".format(formatted_component.name, formatted_component.context_type_iri),
             options=list(formatted_component.options.keys()),
@@ -1584,7 +1578,7 @@ class SetTabs:
                         parameters_dict["calculatedParameters"]["mass_loadings"] = mass_loadings
 
                         with open(app_access.get_path_to_calculated_values(),'w') as f:
-                            json.dump(parameters_dict,f)
+                            json.dump(parameters_dict,f, indent=3)
 
                         input_key = "input_key_{}_{}".format(category_id, "mass_loading")
                         empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
@@ -1913,7 +1907,7 @@ class SetTabs:
 
                                 user_input = value_col.number_input(
                                     label=parameter.name,
-                                    value=parameter.min_value,
+                                    value=parameter.default_value,
                                     min_value=parameter.min_value,
                                     max_value=parameter.max_value,
                                     key="input_{}_{}".format(category_id, parameter.id),
@@ -2115,7 +2109,8 @@ class SetTabs:
                                         
                                     else:
                                         variables_array = variables_str.split(',')
-                                        user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
+                                        #user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
+                                        user_input = {'function': ref_ocp_str, 'argument_list':variables_array}
                                             
 
                                     # else: 
@@ -2124,7 +2119,7 @@ class SetTabs:
                             if not user_input:
                                 st.warning("You still have to define the function for the {}. Enable the 'Create you own {} function' toggle.".format(parameter.display_name,parameter.display_name))
 
-
+                            
                             if parameter:
                                 
                                 parameter.set_selected_value(user_input)
@@ -2236,10 +2231,10 @@ class SetTabs:
                 st.write(app_access.get_path_to_calculated_values())
                     # Handle the error gracefully, e.g., by providing a default value or logging the error.
 
-            parameters_dict["calculatedParameters"]["effective_density"] = density_mix
+            parameters_dict["calculatedParameters"]["effective_density"][category_name] = density_mix
 
             with open(app_access.get_path_to_calculated_values(),'w') as f:
-                json.dump(parameters_dict,f) 
+                json.dump(parameters_dict,f, indent=3) 
             
             non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
             component_parameters = []
@@ -2454,8 +2449,8 @@ class SetTabs:
                                         
                                     else:
                                         variables_array = variables_str.split(',')
-                                        
-                                        user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
+                                        #user_input = {'@type': 'emmo:String', 'hasStringData': {'function': quantity_str, 'argument_list':variables_array}}
+                                        user_input = {'function': quantity_str, 'argument_list':variables_array}
                                     
 
                                     # else: 
@@ -2993,15 +2988,15 @@ class RunSimulation:
 
         
     def update_on_click(self):
-        
-        self.update_json_battmo_input()
         self.update_json_LD()
+        self.update_json_battmo_input()
+        
         
         st.session_state.update_par = True
 
         #save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
-    def update_json_battmo_input(self):
+    def update_json_LD(self):
 
         path_to_battmo_input = app_access.get_path_to_linked_data_input()
 
@@ -3012,7 +3007,7 @@ class RunSimulation:
                 new_file,
                 indent=3)
             
-    def update_json_LD(self):
+    def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
@@ -3476,9 +3471,9 @@ class SetIndicators():
     
     def render_indicators(self,indicators):
 
-        # cell_mass = indicators["Cell"]["cellMass"]
+        cell_mass = indicators["Cell"]["cellMass"]
         # cell_energy = indicators["Cell"]["cellEnergy"]
-        # cell_capacity = indicators["Cell"]["nominalCellCapacity"]
+        cell_capacity = indicators["Cell"]["nominalCellCapacity"]
         n_to_p_ratio = indicators["Cell"]["NPRatio"]
 
         ne_mass_loading = indicators["NegativeElectrode"]["massLoading"]
@@ -3492,24 +3487,24 @@ class SetIndicators():
 
         if self.page_name == "Simulation":
             col1, col2, col3, col4 = st.columns(4)
-            # col4.metric(
-            #     label = "Cell Mass ({})".format(cell_mass["unit"]),
-            #     value = np.round(cell_mass["value"],2),
-            #     label_visibility= "visible"
-            # )
+            col2.metric(
+                label = "Cell Mass ({})".format(cell_mass["unit"]),
+                value = int(np.round(cell_mass["value"])),
+                label_visibility= "visible"
+            )
             # col2.metric(
             #         label = "Energy ({})".format(cell_energy["unit"]),
             #         value = np.round(cell_energy["value"],2),
             #         label_visibility= "visible"
             #     )
-            # col3.metric(
-            #         label = "Capacity ({})".format(cell_capacity["unit"]),
-            #         value = np.round(cell_capacity["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            col3.metric(
+                    label = "Capacity ({})".format(cell_capacity["unit"]),
+                    value = int(np.round(cell_capacity["value"])),
+                    label_visibility= "visible"
+                )
             col1.metric(
                     label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
-                    value = np.round(n_to_p_ratio["value"],2),
+                    value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
 
@@ -3518,24 +3513,24 @@ class SetIndicators():
 
             col1, col2, col3, col4 = cell.columns(4)
 
-            # col1.metric(
-            #     label = "Cell Mass ({})".format(cell_mass["unit"]),
-            #     value = np.round(cell_mass["value"],2),
-            #     label_visibility= "visible"
-            # )
+            col2.metric(
+                label = "Cell Mass ({})".format(cell_mass["unit"]),
+                value = int(np.round(cell_mass["value"])),
+                label_visibility= "visible"
+            )
             # col2.metric(
             #         label = "Energy ({})".format(cell_energy["unit"]),
             #         value = np.round(cell_energy["value"],2),
             #         label_visibility= "visible"
             #     )
-            # col3.metric(
-            #         label = "Capacity ({})".format(cell_capacity["unit"]),
-            #         value = np.round(cell_capacity["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            col3.metric(
+                    label = "Capacity ({})".format(cell_capacity["unit"]),
+                    value = int(np.round(cell_capacity["value"])),
+                    label_visibility= "visible"
+                )
             col1.metric(
                     label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
-                    value = np.round(n_to_p_ratio["value"],2),
+                    value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
 

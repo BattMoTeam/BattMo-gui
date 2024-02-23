@@ -67,18 +67,35 @@ def calc_n_to_p_ratio(effective_specific_capacities):
     return n_to_p
 
 @st.cache_data
-def calc_cell_mass(mass_loadings):
-    """
-    Can be implemented for 3D models
-    """
+def calc_cell_mass(densities, porosities, volumes):
     
-    return 
+    vf_sep = 1-porosities["separator"]
+    vf_el_ne = 1-porosities["negative_electrode"]
+    vf_el_pe = 1-porosities["positive_electrode"]
+    vf_elyte_el_ne = porosities["negative_electrode"]
+    vf_elyte_el_pe = porosities["positive_electrode"]
+    vf_elyte_sep = porosities["separator"]
+
+    # Electrodes
+    mass_ne= densities["negative_electrode"]*volumes["negative_electrode"]*vf_el_ne
+    mass_pe = densities["positive_electrode"]*volumes["positive_electrode"]*vf_el_pe
+
+    # Separator
+    mass_sep = densities["separator"]*volumes["separator"]*vf_sep
+
+    # Electrolyte
+    mass_elyte_ne = densities["electrolyte"]*volumes["negative_electrode"]*vf_elyte_el_ne
+    mass_elyte_pe = densities["electrolyte"]*volumes["positive_electrode"]*vf_elyte_el_pe
+    mass_elyte_sep = densities["electrolyte"]*volumes["separator"]*vf_elyte_sep
+    
+    mass = mass_ne +mass_pe +mass_sep +mass_elyte_ne +mass_elyte_pe +mass_elyte_sep+mass_elyte_sep
+
+    return mass, mass_ne, mass_pe
 
 @st.cache_data
-def calc_cell_energy(mass_loadings):
-    """
-    Can be implemented for 3D models
-    """
+def calc_cell_capacity(specific_capacities, masses):
+    
+    Qcell = specific_capacities["positive_electrode"]*masses["positive_electrode"]
 
-    return 
+    return Qcell
 

@@ -103,37 +103,47 @@ class GuiDict(object):
         
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
+
+    
     
     json_ld = GuiDict(gui_dict)
     total_time = 2 / json_ld.protocol.get("c_rate").get("value") * json_ld.protocol.get("number_of_cycles").get("value") * 3600
 
-    if "function" and "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
+    if "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
         ne_am_function= "functionname"
     elif "function" in json_ld.ne.am["open_circuit_potential"].get("value"):
         ne_am_function = "function"
-    elif "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
-        ne_am_function = "functionname"    
+    # elif "functionname" in json_ld.ne.am["open_circuit_potential"]:
+    #     ne_am_function = "functionname"  
+    else:
+        ne_am_function = None  
 
-    if "function" and "functionname" in json_ld.pe.am["open_circuit_potential"].get("value"):
+    if "functionname" in json_ld.pe.am["open_circuit_potential"].get("value"):
         pe_am_function= "functionname"
     elif "function" in json_ld.pe.am["open_circuit_potential"].get("value"):
         pe_am_function = "function"
-    elif "functionname" in json_ld.pe.am["open_circuit_potential"].get("value"):
-        pe_am_function = "functionname" 
+    # elif "functionname" in json_ld.pe.am["open_circuit_potential"]:
+    #     pe_am_function = "functionname"
+    else:
+        pe_am_function = None 
 
-    if "function" and "functionname" in json_ld.elyte_mat["conductivity"].get("value"):
+    if "functionname" in json_ld.elyte_mat["conductivity"].get("value"):
         elyte_cond_function = "functionname"
     elif "function" in json_ld.elyte_mat["conductivity"].get("value"):
         elyte_cond_function = "function"
-    elif "functionname" in json_ld.elyte_mat["conductivity"].get("value"):
-        elyte_cond_function = "functionname" 
+    # elif "functionname" in json_ld.elyte_mat["conductivity"]:
+    #     elyte_cond_function = "functionname" 
+    else:
+        elyte_cond_function = None
 
-    if "function" and "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
+    if "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
         elyte_diff_function = "functionname"
     elif "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
         elyte_diff_function = "function"
-    elif "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
-        elyte_diff_function = "functionname" 
+    # elif "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
+    #     elyte_diff_function = "functionname" 
+    else:
+        elyte_diff_function = None
 
     return {
         "Geometry": {
@@ -343,18 +353,18 @@ def get_indicators_from_gui_dict(gui_dict):
 
     indicators = {
         "Cell": {
-            # "cellMass": {
-            #     "value": json_ld.cell.get("cell_mass").get("value"),
-            #     "unit": json_ld.cell.get("cell_mass").get("unit")
-            # },
+            "cellMass": {
+                "value": json_ld.cell.get("cell_mass").get("value"),
+                "unit": json_ld.cell.get("cell_mass").get("unit")
+            },
             # "cellEnergy": {
             #     "value": json_ld.cell.get("cell_energy").get("value"),
             #     "unit": json_ld.cell.get("cell_energy").get("unit")
             # },
-            # "nominalCellCapacity": {
-            #     "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
-            #     "unit": json_ld.cell.get("nominal_cell_capacity").get("unit")
-            # },
+            "nominalCellCapacity": {
+                "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
+                "unit": json_ld.cell.get("nominal_cell_capacity").get("unit")
+            },
             "NPRatio": {
                 "value": json_ld.cell.get("n_to_p_ratio").get("value"),
                 "unit": json_ld.cell.get("n_to_p_ratio").get("unit")
