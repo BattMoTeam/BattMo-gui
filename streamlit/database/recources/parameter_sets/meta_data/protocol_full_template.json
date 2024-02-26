@@ -25,7 +25,7 @@
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 100,
          "min_value": 1,
          "description": "",
@@ -33,13 +33,14 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Number of cycles"
       },
       "c_rate": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
          "max_value": 10,
          "min_value": 0.01,
          "description": "option to include current collectors in the simulation",
@@ -47,13 +48,14 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Crate"
       },
       "lower_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_534dd59c_904c_45d9_8550_ae9d2eb6bbc9",
          "max_value": 4,
          "min_value": 0,
          "description": "lower voltage limit of the battery cell",
@@ -61,13 +63,14 @@
          "type": "float",
          "unit": "V",
          "unit_name": "Volt",
-         "unit_iri": "http://emmo.info/emmo#Volt",
+         "unit_iri": "https://w3id.org/emmo#Volt",
          "display_name": "Lower cutoff voltage"
       },
       "upper_cutoff_voltage": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_6dcd5baf_58cd_43f5_a692_51508e036c88",
          "max_value": 5,
          "min_value": 3,
          "description": "",
@@ -75,7 +78,7 @@
          "type": "float",
          "unit": "V",
          "unit_name": "Volt",
-         "unit_iri": "http://emmo.info/emmo#Volt",
+         "unit_iri": "https://w3id.org/emmo#Volt",
          "display_name": "Upper cutoff coltage"
       },
       "d_idt_limit": {
@@ -101,7 +104,7 @@
          "type": "float",
          "unit": "V.s\u207b\u00b9",
          "unit_name": "VoltPerSecond",
-         "unit_iri": "http://emmo.info/emmo#VoltPerSecond",
+         "unit_iri": "https://w3id.org/emmo#VoltPerSecond",
          "display_name": "d edt limit"
       }
    }

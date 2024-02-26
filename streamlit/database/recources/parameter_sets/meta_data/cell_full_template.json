@@ -7,7 +7,7 @@
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:AmbientThermodynamicTemperature",
-         "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_39a44af0_0e1a_4859_b550_bdabad64386e",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_39a44af0_0e1a_4859_b550_bdabad64386e",
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "the ambient temperature of the environment around the battery",
@@ -15,7 +15,7 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "unit_iri": "https://w3id.org/emmo#Kelvin",
          "display_name": "Ambient temperature"
       },
       "initial_temperature": {
@@ -23,7 +23,7 @@
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:InititalThermodynamicTemperature",
-         "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_9c9b80a4_a00b_4b91_8e17_3a7831f2bf2f",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_9c9b80a4_a00b_4b91_8e17_3a7831f2bf2f",
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "",
@@ -31,7 +31,7 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "unit_iri": "https://w3id.org/emmo#Kelvin",
          "display_name": "Initial temperature"
       },
       "reference_temperature": {
@@ -39,7 +39,7 @@
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "echem:ReferenceThermodynamicTemperature",
-         "context_type_iri": "http://emmo.info/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
          "max_value": 373.15,
          "min_value": 238.15,
          "description": "",
@@ -47,7 +47,7 @@
          "type": "float",
          "unit": "K",
          "unit_name": "Kelvin",
-         "unit_iri": "http://emmo.info/emmo#Kelvin",
+         "unit_iri": "https://w3id.org/emmo#Kelvin",
          "display_name": "Reference temperature"
       },
       "external_heat_transfer_coefficient": {
@@ -55,7 +55,7 @@
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:CoefficientOfHeatTransfer",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
          "max_value": 10000,
          "min_value": 100,
          "description": "",
@@ -63,7 +63,7 @@
          "type": "float",
          "unit": "W.m\u207b\u00b2.K\u207b\u00b9",
          "unit_name": "WattPerSquareMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerSquareMetreKelvin",
+         "unit_iri": "https://w3id.org/emmo#WattPerSquareMetreKelvin",
          "display_name": "External heat transfer coefficient"
       },
       "initial_state_of_charge": {
@@ -71,7 +71,7 @@
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "battery:StateOfCharge",
-         "context_type_iri": "http://emmo.info/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
+         "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
          "max_value": 1,
          "min_value": 0.01,
          "description": "SOC, state of charge of the battery, where 1 is fully charged and 0 is fully discharged",
@@ -79,13 +79,14 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Initial state of charge"
       },
       "nominal_cell_capacity": {
          "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_9b3b4668_0795_4a35_9965_2af383497a26",
          "max_value": 1000,
          "min_value": 0,
          "description": "",
@@ -93,7 +94,7 @@
          "type": "float",
          "unit": "mAh",
          "unit_name": "AmpereHour",
-         "unit_iri": "http://emmo.info/emmo#AmpereHour",
+         "unit_iri": "https://w3id.org/emmo#AmpereHour",
          "display_name": "Nominal cell capacity"
       },
       "number_parallel_electrode_pairs_within_cell": {
@@ -101,7 +102,7 @@
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "max_value": 100,
          "min_value": 1,
          "description": "",
@@ -109,13 +110,14 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Number of parallel electrode pairs within cell"
       },
       "external_surface_area": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47ab1dad_cc09_4fd8_af23_acb36fb680dd",
          "max_value": 10,
          "min_value": 1e-06,
          "description": "",
@@ -123,7 +125,7 @@
          "type": "float",
          "unit": "m\u00b2",
          "unit_name": "SquareMetre",
-         "unit_iri": "http://emmo.info/emmo#SquareMetre",
+         "unit_iri": "https://w3id.org/emmo#SquareMetre",
          "display_name": "External surface area"
       },
       "volume": {
@@ -131,7 +133,7 @@
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Volume",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_f1a51559_aa3d_43a0_9327_918039f0dfed",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_f1a51559_aa3d_43a0_9327_918039f0dfed",
          "max_value": 0.01,
          "min_value": 1e-06,
          "description": "",
@@ -139,7 +141,7 @@
          "type": "float",
          "unit": "m\u00b3",
          "unit_name": "CubicMetre",
-         "unit_iri": "http://emmo.info/emmo#CubicMetre",
+         "unit_iri": "https://w3id.org/emmo#CubicMetre",
          "display_name": "Volume"
       },
       "n_to_p_ratio": {
@@ -147,7 +149,7 @@
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:N/PRatio",
-         "context_type_iri": "",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_05012606_b93d_4016_bbc7_8a927efdf723",
          "max_value": 100,
          "min_value": 0.0,
          "description": "",
@@ -155,7 +157,7 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "N/P ratio"
       },
       "cell_mass": {
@@ -179,7 +181,7 @@
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:CellEnergy",
-         "context_type_iri": "",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_46376e5d_9627_4514_9881_9e62083625c3",
          "max_value": 100,
          "min_value": 0.0,
          "description": "",
@@ -187,7 +189,7 @@
          "type": "float",
          "unit": "Wh",
          "unit_name": "WattHour",
-         "unit_iri": "",
+         "unit_iri": "https://w3id.org/emmo#Watthour",
          "display_name": "Energy"
       }
       

@@ -7,7 +7,7 @@
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:SpecificHeatCapacity",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000,
          "min_value": 1,
          "description": "",
@@ -15,7 +15,7 @@
          "type": "float",
          "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "JoulePerKiloGramKelvin",
-         "unit_iri": "http://emmo.info/emmo#JoulePerKiloGramKelvin",
+         "unit_iri": "https://w3id.org/emmo#JoulePerKiloGramKelvin",
          "display_name": "Specific heat capacity"
       },
       "thermal_conductivity": {
@@ -23,7 +23,7 @@
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ThermalConductivity",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000,
          "min_value": 0.001,
          "description": "",
@@ -31,7 +31,7 @@
          "type": "float",
          "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
          "unit_name": "WattPerMetreKelvin",
-         "unit_iri": "http://emmo.info/emmo#WattPerMetreKelvin",
+         "unit_iri": "https://w3id.org/emmo#WattPerMetreKelvin",
          "display_name": "Thermal conductivity"
       },
       "density": {
@@ -39,7 +39,7 @@
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Density",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000,
          "min_value": 100,
          "description": "",
@@ -47,7 +47,7 @@
          "type": "int",
          "unit": "kg.m\u207b\u00b3",
          "unit_name": "GramPerCubicMetre",
-         "unit_iri": "http://emmo.info/emmo#GramPerCubicMetre",
+         "unit_iri": "https://w3id.org/emmo#GramPerCubicMetre",
          "display_name": "Density"
       },
       "charge_carrier_name": {
@@ -66,7 +66,7 @@
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ChargeNumber",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
          "max_value": 1,
          "min_value": 1,
          "description": "charge number of the ion",
@@ -74,13 +74,14 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Charge carrier charge number"
       },
       "charge_carrier_transference_number": {
          "model_name": "p3d_p4d",
          "par_class": "material",
          "difficulty": "basis",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_d97b27cb_61a4_4568_a38b_4edd4f224acc",
          "max_value": 0.99,
          "min_value": 0.01,
          "description": "charge trensference of the ion in the electrolyte",
@@ -88,7 +89,7 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Charge carrier transference number"
       },
       "counter_ion_name": {
@@ -104,7 +105,7 @@
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ChargeNumber",
-         "context_type_iri": "http://emmo.info/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_dc467621_3b49_4f31_9b09_82290f29da52",
          "max_value": -1,
          "min_value": -1,
          "description": "",
@@ -112,7 +113,7 @@
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Counter ion charge number"
       },
       "counter_ion_transference_number": {
@@ -126,7 +127,7 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Counter ion transference number"
       },
       "bruggeman_coefficient": {
@@ -140,13 +141,14 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Bruggeman coefficient"
       },
       "concentration": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_8177eae6_1631_430d_99f2_942669bcb784",
          "max_value": 10000,
          "min_value": 0.0,
          "description": "",
@@ -154,7 +156,7 @@
          "type": "float",
          "unit": "mol.L\u207b",
          "unit_name": "MolPerLiter",
-         "unit_iri": "",
+         "unit_iri": "https://w3id.org/emmo#MolePerCubicDeciMetre",
          "display_name": "Concentration"
       },
       "EC_DMC_ratio": {
@@ -168,20 +170,23 @@
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
-         "unit_iri": "http://emmo.info/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "EC/DMC"
       },
       "conductivity": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_25dabdc2_68bf_4a38_8cbe_11be017358bc",
          "difficulty": "basis",
          "description": "the ionic conductivity of the electrolyte under given concentration and temparture conditions",
          "type": "function",
+         "unit_iri":"https://w3id.org/emmo#SiemensPerCentiMetre",
          "display_name": "Conductivity"
       },
       "diffusion_coefficient": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "material",
+         "context_type_iri":"https://w3id.org/emmo#EMMO_56710a21_601b_43bb_88c5_0bd9eca06da2",
          "difficulty": "basis",
          "description": "the diffusion coefficient of the charge carrier in the electrolyte",
          "type": "function",

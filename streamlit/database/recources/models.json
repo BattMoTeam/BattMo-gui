@@ -30,7 +30,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             },
             "use_ramp_up": {
                "value": true,
@@ -43,7 +43,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             }
          }
       },
@@ -77,7 +77,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             },
             "use_ramp_up": {
                "value": true,
@@ -90,7 +90,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             }
          }
 
@@ -126,7 +126,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             },
             "use_ramp_up": {
                "value": true,
@@ -139,7 +139,7 @@
                "type": "float",
                "unit": "s",
                "unit_name": "Second",
-               "unit_iri": "http://emmo.info/emmo#Second"
+               "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
             }
          }
 
