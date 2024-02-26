@@ -2,10 +2,10 @@
    "@context": {
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-      "emmo": "http://emmo.info/emmo#",
-      "echem": "http://emmo.info/electrochemistry#",
-      "battery": "http://emmo.info/battery#",
-      "bkb": "http://emmo.info/battery_knowledge_base#",
+      "emmo": "https://w3id.org/emmo#",
+      "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+      "battery": "https://w3id.org/emmo/domain/battery#",
+      "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
       "qudt": "http://qudt.org/vocab/unit/",
       "hasQuantitativeProperty": "emmo:hasQuantitativeProperty",
       "hasConstituent": "emmo:hasConstituent",
@@ -226,7 +226,7 @@
                      },
                      {
                         "label": "specific_heat_capacity",
-                        "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                        "@type": "https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
@@ -239,7 +239,7 @@
                      },
                      {
                         "label": "thermal_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                        "@type": "https://w3id.org/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.04
@@ -252,7 +252,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -265,7 +265,7 @@
                      },
                      {
                         "label": "activation_energy_of_diffusion",
-                        "@type": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
+                        "@type": "https://w3id.org/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 5000.0
@@ -291,7 +291,7 @@
                      },
                      {
                         "label": "number_of_discrete_cells_electrode",
-                        "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
@@ -304,7 +304,7 @@
                      },
                      {
                         "label": "particle_radius",
-                        "@type": "http://emmo.info/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
+                        "@type": "https://w3id.org/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1e-06
@@ -317,7 +317,7 @@
                      },
                      {
                         "label": "number_of_discrete_cells_particle_radius",
-                        "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
@@ -388,7 +388,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -459,7 +459,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -517,7 +517,7 @@
                      },
                      {
                         "label": "length",
-                        "@type": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+                        "@type": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.01
@@ -530,7 +530,7 @@
                      },
                      {
                         "label": "width",
-                        "@type": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+                        "@type": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.01
@@ -710,7 +710,7 @@
                      },
                      {
                         "label": "specific_heat_capacity",
-                        "@type": "http://emmo.info/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
+                        "@type": "https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 700.0
@@ -723,7 +723,7 @@
                      },
                      {
                         "label": "thermal_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
+                        "@type": "https://w3id.org/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2.1
@@ -736,7 +736,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -749,7 +749,7 @@
                      },
                      {
                         "label": "activation_energy_of_diffusion",
-                        "@type": "http://emmo.info/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
+                        "@type": "https://w3id.org/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 5000.0
@@ -775,7 +775,7 @@
                      },
                      {
                         "label": "number_of_discrete_cells_electrode",
-                        "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
@@ -788,7 +788,7 @@
                      },
                      {
                         "label": "particle_radius",
-                        "@type": "http://emmo.info/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
+                        "@type": "https://w3id.org/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1e-06
@@ -801,7 +801,7 @@
                      },
                      {
                         "label": "number_of_discrete_cells_particle_radius",
-                        "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
@@ -872,7 +872,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -943,7 +943,7 @@
                      },
                      {
                         "label": "electronic_conductivity",
-                        "@type": "http://emmo.info/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
+                        "@type": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
@@ -1001,7 +1001,7 @@
                      },
                      {
                         "label": "length",
-                        "@type": "http://emmo.info/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+                        "@type": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.01
@@ -1014,7 +1014,7 @@
                      },
                      {
                         "label": "width",
-                        "@type": "http://emmo.info/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+                        "@type": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.01
@@ -1289,7 +1289,7 @@
                },
                {
                   "label": "number_of_discrete_cells_separator",
-                  "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                  "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 10
@@ -1347,7 +1347,7 @@
                },
                {
                   "label": "external_heat_transfer_coefficient",
-                  "@type": "http://emmo.info/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
+                  "@type": "https://w3id.org/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1000.0
@@ -1360,7 +1360,7 @@
                },
                {
                   "label": "external_surface_area",
-                  "@type": "None",
+                  "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47ab1dad_cc09_4fd8_af23_acb36fb680dd",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.0379
@@ -1427,7 +1427,7 @@
             },
             {
                "label": "number_of_cycles",
-               "@type": "http://emmo.info/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+               "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
                   "@type": "emmo:Numerical",
                   "hasNumericalData": 1
@@ -1448,7 +1448,7 @@
             },
             {
                "label": "c_rate",
-               "@type": "None",
+               "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
                "value": {
                   "@type": "emmo:Numerical",
                   "hasNumericalData": 1.0
@@ -1461,7 +1461,7 @@
             },
             {
                "label": "lower_cutoff_voltage",
-               "@type": "None",
+               "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_534dd59c_904c_45d9_8550_ae9d2eb6bbc9",
                "value": {
                   "@type": "emmo:Numerical",
                   "hasNumericalData": 2.4
@@ -1474,7 +1474,7 @@
             },
             {
                "label": "upper_cutoff_voltage",
-               "@type": "None",
+               "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_6dcd5baf_58cd_43f5_a692_51508e036c88",
                "value": {
                   "@type": "emmo:Numerical",
                   "hasNumericalData": 4.1
