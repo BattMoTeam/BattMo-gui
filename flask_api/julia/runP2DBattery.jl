@@ -1,5 +1,7 @@
 module runP2DBattery
 
+    ENV["JULIA_PKG_SERVER_MODE"] = "offline"
+
     using BattMo, Jutul, JSON, PythonCall, Logging
 
     export runP2DBatt
