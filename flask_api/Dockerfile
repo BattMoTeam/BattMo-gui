@@ -18,6 +18,15 @@ RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "Jutul",version = "0.2.23")
 #RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "Jutul",version = "0.2.14"))'
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "LoggingExtras",version = "1.0.3"))'
 
+# Precompile Julia packages
+RUN julia -e 'using PythonCall'
+RUN julia -e 'using JSON'
+RUN julia -e 'using BattMo'
+RUN julia -e 'using Jutul'
+RUN julia -e 'using LoggingExtras'
+
+
+
 #RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "PrettyTables",version = "2.2.7"))'
 
 # Precompile Julia packages
