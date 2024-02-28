@@ -327,6 +327,19 @@
                            "symbol": "1",
                            "@type": "emmo:UnitOne"
                         }
+                     },
+                     {
+                        "label": "specific_capacity",
+                        "@type": "emmo:SpecificCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 271.48513910203127
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHourPerGram",
+                           "symbol": "mAh/g",
+                           "@type": "emmo:MiliAmpereHourPerGram"
+                        }
                      }
                   ],
                   "label": "Active Material",
@@ -494,7 +507,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.2
+                           "hasNumericalData": 0.29000000000000004
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -507,7 +520,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 19.264
+                           "hasNumericalData": 17.096799999999998
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -555,11 +568,11 @@
                         }
                      },
                      {
-                        "label": "specific_capacity",
+                        "label": "electrode_specific_capacity",
                         "@type": "emmo:SpecificCapacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 173.75048902530003
+                           "hasNumericalData": 154.20355900995375
                         },
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
@@ -811,6 +824,19 @@
                            "symbol": "1",
                            "@type": "emmo:UnitOne"
                         }
+                     },
+                     {
+                        "label": "specific_capacity",
+                        "@type": "emmo:SpecificCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 158.89314035375483
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHourPerGram",
+                           "symbol": "mAh/g",
+                           "@type": "emmo:MiliAmpereHourPerGram"
+                        }
                      }
                   ],
                   "label": "Active Material",
@@ -1039,7 +1065,7 @@
                         }
                      },
                      {
-                        "label": "specific_capacity",
+                        "label": "electrode_specific_capacity",
                         "@type": "emmo:SpecificCapacity",
                         "value": {
                            "@type": "emmo:Numerical",
@@ -1376,7 +1402,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.9
+                     "hasNumericalData": 1.68
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1389,7 +1415,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 40.96356799999999
+                     "hasNumericalData": 40.01604799999999
                   },
                   "unit": {
                      "label": "Gram",

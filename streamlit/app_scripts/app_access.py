@@ -67,6 +67,12 @@ def get_path_to_battmo_results():
     return battmo_results_path
 
 @st.cache_data
+def get_path_to_indicator_values():
+    output_files_path = get_path_to_output_files_dir()
+    indicator_values_path = os.path.join(output_files_path, "indicator_values.json")
+    return indicator_values_path
+
+@st.cache_data
 def get_path_to_calculated_values():
     output_files_path = get_path_to_output_files_dir()
     calculated_values_path = os.path.join(output_files_path, "calculated_values.json")

@@ -96,7 +96,7 @@
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Bruggeman coefficient"
       },
-      "specific_capacity": {
+      "electrode_specific_capacity": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "N/A",
@@ -110,7 +110,7 @@
          "unit": "mAh/g",
          "unit_name": "MiliAmpereHourPerGram",
          "unit_iri": "",
-         "display_name": "Energy"
+         "display_name": "Specific Capacity"
       }
    }
 }

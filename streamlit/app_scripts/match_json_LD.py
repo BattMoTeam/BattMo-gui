@@ -385,8 +385,14 @@ def get_indicators_from_gui_dict(gui_dict):
                 "unit": json_ld.ne.properties.get("coating_porosity").get("unit")
             } ,
             "specificCapacity": {
-                "value": json_ld.ne.properties.get("specific_capacity").get("value"),
-                "unit": json_ld.ne.properties.get("specific_capacity").get("unit")
+                "value": json_ld.ne.properties.get("electrode_specific_capacity").get("value"),
+                "unit": json_ld.ne.properties.get("electrode_specific_capacity").get("unit")
+            },
+            "ActiveMaterial": {
+                "specificCapacity": {
+                    "value": json_ld.ne.am.get("specific_capacity").get("value"),
+                    "unit": json_ld.ne.am.get("specific_capacity").get("unit")
+                }
             } 
         },
         "PositiveElectrode": {
@@ -404,8 +410,14 @@ def get_indicators_from_gui_dict(gui_dict):
                 "unit": json_ld.pe.properties.get("coating_porosity").get("unit")
             } ,
             "specificCapacity": {
-                "value": json_ld.pe.properties.get("specific_capacity").get("value"),
-                "unit": json_ld.pe.properties.get("specific_capacity").get("unit")
+                "value": json_ld.pe.properties.get("electrode_specific_capacity").get("value"),
+                "unit": json_ld.pe.properties.get("electrode_specific_capacity").get("unit")
+            },
+            "ActiveMaterial": {
+                "specificCapacity": {
+                    "value": json_ld.pe.am.get("specific_capacity").get("value"),
+                    "unit": json_ld.pe.am.get("specific_capacity").get("unit")
+                }
             }
         }
     }

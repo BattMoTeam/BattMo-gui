@@ -51,6 +51,12 @@ def calc_porosity( density_eff, thickness, mass_loading):
     return por
 
 @st.cache_data
+def calc_specific_capacity_active_material(c_max, density, li_stoich_max, li_stoich_min, n):
+    F = 26.801
+    Q_sp = c_max*(abs(li_stoich_max - li_stoich_min))*n*F/density
+    return Q_sp
+
+@st.cache_data
 def calc_specific_capacity_electrode(mass_fraction, c_max, density, li_stoich_max, li_stoich_min, n, porosity):
     F = 26.801
     Q_sp = c_max*(abs(li_stoich_max - li_stoich_min))*n*F/density
@@ -94,8 +100,9 @@ def calc_cell_mass(densities, porosities, volumes):
 
 @st.cache_data
 def calc_cell_capacity(specific_capacities, masses):
-    
-    Qcell = specific_capacities["positive_electrode"]*masses["positive_electrode"]
+
+    min_key = min(specific_capacities, key=lambda k: specific_capacities[k])
+    Qcell = specific_capacities[min_key]*masses[min_key]
 
     return Qcell
 
