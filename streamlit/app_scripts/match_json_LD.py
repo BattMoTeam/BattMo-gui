@@ -5,6 +5,8 @@
 import numpy as np
 from itertools import chain
 import streamlit as st
+import json
+import app_access
 
 def get_dict_from_has_quantitative(has_quantitative):
     """
@@ -104,7 +106,8 @@ class GuiDict(object):
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):
 
-    
+    with open(app_access.get_path_to_calculated_values(), 'r') as f:
+        calculated_values = json.load(f)["calculatedParameters"]
     
     json_ld = GuiDict(gui_dict)
     total_time = 2 / json_ld.protocol.get("c_rate").get("value") * json_ld.protocol.get("number_of_cycles").get("value") * 3600
@@ -154,7 +157,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Coating":{
                 "thickness": json_ld.ne.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.ne.am.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 1900,
+                "effectiveDensity": 1900, #calculated_values["effective_density"]["negative_electrode"],
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.ne.am.get("mass_fraction").get("value"),
@@ -215,7 +218,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Coating":{
                 "thickness": json_ld.pe.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.pe.am.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 1900,
+                "effectiveDensity": 1900, # calculated_values["effective_density"]["positive_electrode"],
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.pe.am.get("mass_fraction").get("value"),
@@ -385,8 +388,8 @@ def get_indicators_from_gui_dict(gui_dict):
                 "unit": json_ld.ne.properties.get("coating_porosity").get("unit")
             } ,
             "specificCapacity": {
-                "value": json_ld.ne.properties.get("electrode_specific_capacity").get("value"),
-                "unit": json_ld.ne.properties.get("electrode_specific_capacity").get("unit")
+                "value": json_ld.ne.properties.get("electrode_capacity").get("value"),
+                "unit": json_ld.ne.properties.get("electrode_capacity").get("unit")
             },
             "ActiveMaterial": {
                 "specificCapacity": {
@@ -410,8 +413,8 @@ def get_indicators_from_gui_dict(gui_dict):
                 "unit": json_ld.pe.properties.get("coating_porosity").get("unit")
             } ,
             "specificCapacity": {
-                "value": json_ld.pe.properties.get("electrode_specific_capacity").get("value"),
-                "unit": json_ld.pe.properties.get("electrode_specific_capacity").get("unit")
+                "value": json_ld.pe.properties.get("electrode_capacity").get("value"),
+                "unit": json_ld.pe.properties.get("electrode_capacity").get("unit")
             },
             "ActiveMaterial": {
                 "specificCapacity": {

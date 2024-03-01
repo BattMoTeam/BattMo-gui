@@ -494,7 +494,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 112.0
+                           "hasNumericalData": 58.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -507,7 +507,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.29000000000000004
+                           "hasNumericalData": 0.2
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -520,7 +520,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 17.096799999999998
+                           "hasNumericalData": 9.976
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -533,7 +533,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.01
+                           "hasNumericalData": 0.5
                         },
                         "unit": {
                            "label": "Metre",
@@ -546,7 +546,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.01
+                           "hasNumericalData": 0.2
                         },
                         "unit": {
                            "label": "Metre",
@@ -568,16 +568,29 @@
                         }
                      },
                      {
-                        "label": "electrode_specific_capacity",
-                        "@type": "emmo:SpecificCapacity",
+                        "label": "current_collector_thickness",
+                        "@type": "https://w3id.org/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 154.20355900995375
+                           "hasNumericalData": 9.0
                         },
                         "unit": {
-                           "label": "MiliAmpereHourPerGram",
-                           "symbol": "mAh/g",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
+                        }
+                     },
+                     {
+                        "label": "electrode_capacity",
+                        "@type": "emmo:Capacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 2166.6685981454916
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHour",
+                           "symbol": "mAh",
+                           "@type": "emmo:MiliAmpereHour"
                         }
                      }
                   ],
@@ -1030,7 +1043,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.01
+                           "hasNumericalData": 0.5
                         },
                         "unit": {
                            "label": "Metre",
@@ -1043,7 +1056,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.01
+                           "hasNumericalData": 0.2
                         },
                         "unit": {
                            "label": "Metre",
@@ -1065,16 +1078,29 @@
                         }
                      },
                      {
-                        "label": "electrode_specific_capacity",
-                        "@type": "emmo:SpecificCapacity",
+                        "label": "current_collector_thickness",
+                        "@type": "https://w3id.org/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 91.52244884376279
+                           "hasNumericalData": 15.0
                         },
                         "unit": {
-                           "label": "MiliAmpereHourPerGram",
-                           "symbol": "mAh/g",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
+                        }
+                     },
+                     {
+                        "label": "electrode_capacity",
+                        "@type": "emmo:Capacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 2008.042797509646
+                        },
+                        "unit": {
+                           "label": "MiliAmpereHour",
+                           "symbol": "mAh",
+                           "@type": "emmo:MiliAmpereHour"
                         }
                      }
                   ],
@@ -1201,19 +1227,6 @@
                      "label": "MolPerLiter",
                      "symbol": "mol.L\u207b",
                      "@type": "emmo:MolPerLiter"
-                  }
-               },
-               {
-                  "label": "EC_DMC_ratio",
-                  "@type": "None",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.2
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -1385,6 +1398,19 @@
                   }
                },
                {
+                  "label": "packing_mass",
+                  "@type": "https://emmo-repo.github.io/emmo.html#EMMO_04cf0295_3e8f_4693_a87f_3130d125cf05",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 20.0
+                  },
+                  "unit": {
+                     "label": "Gram",
+                     "symbol": "g",
+                     "@type": "emmo:Gram"
+                  }
+               },
+               {
                   "label": "external_surface_area",
                   "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47ab1dad_cc09_4fd8_af23_acb36fb680dd",
                   "value": {
@@ -1402,7 +1428,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.68
+                     "hasNumericalData": 1.08
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1415,7 +1441,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 40.01604799999999
+                     "hasNumericalData": 58.423767999999995
                   },
                   "unit": {
                      "label": "Gram",
@@ -1428,7 +1454,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1606.4342380077173
+                     "hasNumericalData": 2008.042797509646
                   },
                   "unit": {
                      "label": "AmpereHour",

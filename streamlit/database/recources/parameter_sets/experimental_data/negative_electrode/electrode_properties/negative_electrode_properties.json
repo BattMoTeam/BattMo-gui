@@ -4,7 +4,7 @@
    "component": "negative_electrode_properties",
    "material": false,
    "Parameters": {
-      "coating_thickness": 112,
+      "coating_thickness": 58,
       "coating_porosity": 0.2,
       "mass_loading": 10
    }

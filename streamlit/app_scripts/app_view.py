@@ -121,23 +121,26 @@ class SetPageNavigation:
 
     def set_page_buttons(self):
 
-        _,col1,_ = st.columns([2.95,2,2.5])
+        _,col1,_ = st.columns(3)
         st_space(space_width=6)
-        _,col2,_ = st.columns([3.15,2,2.5])
+        _,col2,_ = st.columns(3)
         st_space(space_width=6)
-        _,col3,col4 = st.columns([2.45,2,2.5])
+        _,col3,col4 = st.columns(3)
         st_space(space_width=6)
 
         simulation_page = col1.button(label = "Simulation",
-                        help = self.help_simulation
+                        help = self.help_simulation,
+                        use_container_width=True
                         )
         
         results_page = col2.button(label = "Results",
-                        help = self.help_results
+                        help = self.help_results,
+                        use_container_width=True
                         )
         
         materials_and_models_page = col3.button(label = "Materials and models",
-                        help = self.help_materials_and_models
+                        help = self.help_materials_and_models,
+                        use_container_width=True
                         )
         
         if simulation_page:
@@ -344,7 +347,7 @@ class SetTabs:
         self.calc_porosity = calc.calc_porosity
         self.calc_n_to_p_ratio = calc.calc_n_to_p_ratio
         self.calc_cell_mass = calc.calc_cell_mass
-        self.calc_specific_capacity_electrode = calc.calc_specific_capacity_electrode
+        self.calc_capacity_electrode = calc.calc_capacity_electrode
         self.calc_specific_capacity_active_material = calc.calc_specific_capacity_active_material
         self.calc_cell_capacity = calc.calc_cell_capacity
 
@@ -1027,6 +1030,8 @@ class SetTabs:
         mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
         length = input_dict.ne.properties.get("length").get("value")
         width = input_dict.ne.properties.get("width").get("value")
+        CC_thickness = input_dict.ne.properties.get("current_collector_thickness").get("value")
+        packing_mass = input_dict.cell.get("packing_mass").get("value")
         c_max_ne = input_dict.ne.am.get("maximum_concentration").get("value")
         c_max_pe = input_dict.pe.am.get("maximum_concentration").get("value")
         densities = {
@@ -1043,9 +1048,10 @@ class SetTabs:
             "separator": input_dict.sep_prop.get("porosity").get("value")
         }
         volumes = {
-            "negative_electrode": length*width*input_dict.ne.properties.get("coating_thickness").get("value"),
-            "positive_electrode": length*width*input_dict.pe.properties.get("coating_thickness").get("value"),
-            "separator": length*width*input_dict.sep_prop.get("thickness").get("value")
+            "negative_electrode": length*width*input_dict.ne.properties.get("coating_thickness").get("value")*10**(-6),
+            "positive_electrode": length*width*input_dict.pe.properties.get("coating_thickness").get("value")*10**(-6),
+            "separator": length*width*input_dict.sep_prop.get("thickness").get("value")*10**(-6),
+            "current_collector": length*width*CC_thickness*10**(-6)
         }
         
         li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
@@ -1063,29 +1069,31 @@ class SetTabs:
                                                                      li_stoich_max_pe, 
                                                                      li_stoich_min_pe,
                                                                      n)
+        
         raw_template_am_ne = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
         raw_template_am_pe = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
         specific_capacities_category_parameters_am_ne, emmo = self.setup_parameter(specific_capacity_am_ne,raw_template_am_ne)  
         specific_capacities_category_parameters_am_pe, emmo = self.setup_parameter(specific_capacity_am_pe,raw_template_am_pe) 
 
         # Specific capacity electrodes
-        specific_capacity_ne = self.calc_specific_capacity_electrode(mf_ne, c_max_ne, densities["negative_electrode_active_material"], 
-                                                                     li_stoich_max_ne, 
-                                                                     li_stoich_min_ne,
-                                                                     n, porosities["negative_electrode"])
-        specific_capacity_pe = self.calc_specific_capacity_electrode(mf_pe, c_max_pe, densities["positive_electrode_active_material"], 
-                                                                     li_stoich_max_pe, 
-                                                                     li_stoich_min_pe,
-                                                                     n, porosities["positive_electrode"])  
+        specific_capacity_ne = self.calc_capacity_electrode(specific_capacity_am_ne, 
+                                                                    mf_ne, 
+                                                                    densities["negative_electrode"],
+                                                                    volumes["negative_electrode"], 
+                                                                    porosities["negative_electrode"])
+        specific_capacity_pe = self.calc_capacity_electrode(specific_capacity_am_pe, 
+                                                                    mf_pe, 
+                                                                    densities["positive_electrode"],
+                                                                    volumes["positive_electrode"], 
+                                                                    porosities["positive_electrode"])
         specific_capacities_electrodes = {
             "negative_electrode": specific_capacity_ne,
             "positive_electrode": specific_capacity_pe
         }
-        raw_template_ne = db_helper.get_template_parameter_by_parameter_name("electrode_specific_capacity")
-        raw_template_pe = db_helper.get_template_parameter_by_parameter_name("electrode_specific_capacity")
+        raw_template_ne = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
+        raw_template_pe = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
         specific_capacities_category_parameters_ne, emmo = self.setup_parameter(specific_capacity_ne,raw_template_ne)  
         specific_capacities_category_parameters_pe, emmo = self.setup_parameter(specific_capacity_pe,raw_template_pe)  
-        
 
         # N to P ratio
         n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities_electrodes)
@@ -1093,7 +1101,8 @@ class SetTabs:
         n_to_p_category_parameters, emmo = self.setup_parameter(n_to_p_ratio,raw_template_np)
 
         # Cell Mass
-        cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes)
+        cc_mass = volumes["current_collector"]* 8950
+        cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name("cell_mass")
         cell_mass_category_parameters, emmo = self.setup_parameter(cell_mass,raw_template_cellmass)
 
@@ -1102,7 +1111,7 @@ class SetTabs:
             "negative_electrode": ne_mass,
             "positive_electrode": pe_mass
         }
-        cell_capacity = self.calc_cell_capacity(specific_capacities_electrodes, masses)
+        cell_capacity = self.calc_cell_capacity(specific_capacities_electrodes)
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
         cell_capacity_category_parameters, emmo = self.setup_parameter(cell_capacity,raw_template_cellcap)
 
@@ -2593,7 +2602,6 @@ class SetTabs:
             if np.ndim(raw_template_parameters) > 1:
                 non_material_parameters_raw = []
                 for non_material_parameter_raw_template in raw_template_parameters:
-                    
                     non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
 
                     non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
@@ -3161,7 +3169,6 @@ class DivergenceCheck:
             result = pickle.load(pickle_result)
             #result_str = pickle_result.read()
 
-        
         #sresult = eval(result_str)
         
         [
@@ -3192,6 +3199,7 @@ class DivergenceCheck:
         save_run = st.empty()
         if len(log_messages) > 1:
             c = save_run.container()
+            
             if number_of_states >= N:
                 
                 st.session_state.succes = True
@@ -4410,6 +4418,13 @@ class SetMaterialDescription():
         self.set_material_description()
 
     def set_material_description(self):
+
+        ##############################
+        # Remember user changed values
+        for k, v in st.session_state.items():
+            st.session_state[k] = v
+        ##############################
+            
         materials = db_helper.get_all_default_material()
 
         st.title("The available materials")

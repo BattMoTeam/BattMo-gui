@@ -160,13 +160,13 @@
          "display_name": "Concentration"
       },
       "EC_DMC_ratio": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
          "max_value": 100,
          "min_value": 0.0,
          "description": "",
-         "is_shown_to_user": true,
+         "is_shown_to_user": false,
          "type": "float",
          "unit": "1",
          "unit_name": "UnitOne",
