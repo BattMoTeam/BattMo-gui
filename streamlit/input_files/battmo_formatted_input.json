@@ -1,11 +1,11 @@
 {
    "Geometry": {
       "case": "1D",
-      "faceArea": 0.0001
+      "faceArea": 0.1
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 0.000112,
+         "thickness": 5.8e-05,
          "N": 10,
          "effectiveDensity": 1900,
          "bruggemanCoefficient": 1.5,

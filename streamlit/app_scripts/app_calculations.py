@@ -51,23 +51,28 @@ def calc_porosity( density_eff, thickness, mass_loading):
     return por
 
 @st.cache_data
-def calc_specific_capacity_electrode(mass_fraction, c_max, density, li_stoich_max, li_stoich_min, n, porosity):
+def calc_specific_capacity_active_material(c_max, density, li_stoich_max, li_stoich_min, n):
     F = 26.801
-    Q_sp = c_max*(abs(li_stoich_max - li_stoich_min))*n*F/density
-    Q_sp_eff = mass_fraction*Q_sp*(1-porosity)
-    return Q_sp_eff
+    Q_sp = c_max*(abs(li_stoich_max - li_stoich_min))*n*F/(density)
+    return Q_sp
 
 @st.cache_data
-def calc_n_to_p_ratio(effective_specific_capacities):
-    effective_specific_capacities_n = effective_specific_capacities["negative_electrode"]
-    effective_specific_capacities_p = effective_specific_capacities["positive_electrode"]
+def calc_capacity_electrode(specific_capacity_am, mass_fraction, effective_density, volume, porosity):
+    Q_sp = specific_capacity_am
+    Q_elde = mass_fraction*Q_sp*((1-porosity)* volume * effective_density*1000)
+    return Q_elde
 
-    n_to_p = round(effective_specific_capacities_n/effective_specific_capacities_p,2)
+@st.cache_data
+def calc_n_to_p_ratio(electrode_capacities):
+    electrode_capacities_n = electrode_capacities["negative_electrode"]
+    electrode_capacities_p = electrode_capacities["positive_electrode"]
+
+    n_to_p = round(electrode_capacities_n/electrode_capacities_p,2)
 
     return n_to_p
 
 @st.cache_data
-def calc_cell_mass(densities, porosities, volumes):
+def calc_cell_mass(densities, porosities, volumes, CC_mass, packing_mass):
     
     vf_sep = 1-porosities["separator"]
     vf_el_ne = 1-porosities["negative_electrode"]
@@ -88,14 +93,15 @@ def calc_cell_mass(densities, porosities, volumes):
     mass_elyte_pe = densities["electrolyte"]*volumes["positive_electrode"]*vf_elyte_el_pe
     mass_elyte_sep = densities["electrolyte"]*volumes["separator"]*vf_elyte_sep
     
-    mass = mass_ne +mass_pe +mass_sep +mass_elyte_ne +mass_elyte_pe +mass_elyte_sep+mass_elyte_sep
-
+    mass = mass_ne +mass_pe +mass_sep +mass_elyte_ne +mass_elyte_pe +mass_elyte_sep+mass_elyte_sep + CC_mass 
+    mass = mass*1000 + packing_mass
     return mass, mass_ne, mass_pe
 
 @st.cache_data
-def calc_cell_capacity(specific_capacities, masses):
-    
-    Qcell = specific_capacities["positive_electrode"]*masses["positive_electrode"]
+def calc_cell_capacity(capacities_electrodes):
+
+    min_key = min(capacities_electrodes, key=lambda k: capacities_electrodes[k])
+    Qcell = capacities_electrodes[min_key]
 
     return Qcell
 

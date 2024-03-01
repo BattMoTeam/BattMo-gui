@@ -96,21 +96,37 @@
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Bruggeman coefficient"
       },
-      "specific_capacity": {
+      "electrode_capacity": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "N/A",
-         "context_type": "emmo:SpecificCapacity",
-         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_1e3dc60d_dd6b_47d6_8161_70004fc5ee30",
+         "context_type": "emmo:Capacity",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_791c1915_a791_4450_acd8_7f94764743b5",
          "max_value": 100,
          "min_value": 0.0,
          "description": "",
          "is_shown_to_user": false,
          "type": "float",
-         "unit": "mAh/g",
-         "unit_name": "MiliAmpereHourPerGram",
+         "unit": "mAh",
+         "unit_name": "MiliAmpereHour",
          "unit_iri": "",
-         "display_name": "Energy"
+         "display_name": "Capacity"
+      },
+      "current_collector_thickness": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "emmo:Thickness",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
+         "max_value": 200,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "\u03BCm",
+         "unit_name": "MicroMetre",
+         "unit_iri": "https://w3id.org/emmo#MicroMetre",
+         "display_name": "Coating thickness"
       }
    }
 }

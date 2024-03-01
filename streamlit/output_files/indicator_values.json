@@ -1,0 +1,64 @@
+{
+   "Cell": {
+      "cellMass": {
+         "value": 58.423767999999995,
+         "unit": "g"
+      },
+      "nominalCellCapacity": {
+         "value": 2008.042797509646,
+         "unit": "mAh"
+      },
+      "NPRatio": {
+         "value": 1.08,
+         "unit": "1"
+      }
+   },
+   "NegativeElectrode": {
+      "massLoading": {
+         "value": 9.976,
+         "unit": "mg(cm)\u207b\u00b2"
+      },
+      "thickness": {
+         "value": 58.0,
+         "unit": "\u03bcm"
+      },
+      "porosity": {
+         "value": 0.2,
+         "unit": "1"
+      },
+      "specificCapacity": {
+         "value": 2166.6685981454916,
+         "unit": "mAh"
+      },
+      "ActiveMaterial": {
+         "specificCapacity": {
+            "value": 271.48513910203127,
+            "unit": "mAh/g"
+         }
+      }
+   },
+   "PositiveElectrode": {
+      "massLoading": {
+         "value": 17.552352,
+         "unit": "mg(cm)\u207b\u00b2"
+      },
+      "thickness": {
+         "value": 57.0,
+         "unit": "\u03bcm"
+      },
+      "porosity": {
+         "value": 0.2,
+         "unit": "1"
+      },
+      "specificCapacity": {
+         "value": 2008.042797509646,
+         "unit": "mAh"
+      },
+      "ActiveMaterial": {
+         "specificCapacity": {
+            "value": 158.89314035375483,
+            "unit": "mAh/g"
+         }
+      }
+   }
+}

@@ -1,0 +1,23 @@
+{
+    "Name": "Graphite_SiOx_Chen2020",
+    "Header": {},
+    "component": "negative_electrode_active_material",
+    "material": true,
+    "Parameters": {
+       "maximum_concentration": 29583.0,
+       "volumetric_surface_area": 383959.0,
+       "density": 2260.0,
+       "number_of_electrons_transferred": 1,
+       "activation_energy_of_reaction": 35000.0,
+       "reaction_rate_constant": 6.48e-7,
+       "maximum_lithium_stoichiometry": 0.9014,
+       "minimum_lithium_stoichiometry": 0.0279,
+       "open_circuit_potential": {
+          "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
+          "argument_list": [
+             "c",
+             "cmax"
+           ]
+       }
+    }
+ }

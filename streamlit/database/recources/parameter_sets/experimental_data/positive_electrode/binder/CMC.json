@@ -1,0 +1,12 @@
+{
+    "Name": "CMC",
+    "Header": {},
+    "component": "positive_electrode_binder",
+    "material": true,
+    "Parameters": {
+       "density": 1780,
+       "specific_heat_capacity": 1400,
+       "thermal_conductivity": 0.165
+       
+    }
+ }

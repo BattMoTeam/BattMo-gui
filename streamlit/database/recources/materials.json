@@ -1,5 +1,20 @@
 {
     "materials":{
+        "Graphite_SiOx_Chen2020":{
+            "model_name": "p3d_p4d",
+            "difficulty": "basis",
+            "reference_name": "Chen, C, et al. 2020",
+            "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
+            "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
+            "context_type": "echem:GraphiteElectrode",
+            "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_c831d963_629a_41ab_850f_97fb6841b739",
+            "display_name": "Graphite-SiOx (Chen\u20132020)",
+            "number_of_components": 1,
+            "component_name_1": "negative_electrode_active_material",
+            "description": "",
+            "default_material": true
+
+        },
         "Graphite_Safari2009":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -29,6 +44,7 @@
             "default_material": true
 
         },
+        
         "user_defined_ne_am":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -45,6 +61,19 @@
             "context_type": "echem:PVDFBinder",
             "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "PVDF",
+            "number_of_components": 2,
+            "component_name_1": "negative_electrode_binder",
+            "component_name_2": "positive_electrode_binder",
+            "description": "",
+            "default_material": true
+
+        },
+        "CMC":{
+            "model_name": "p2d_p3d_p4d",
+            "difficulty": "basis",
+            "context_type": "echem:CMCBinder",
+            "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
+            "display_name": "CMC",
             "number_of_components": 2,
             "component_name_1": "negative_electrode_binder",
             "component_name_2": "positive_electrode_binder",
@@ -120,6 +149,22 @@
             "default_material": true
 
         },
+        
+        "NMC811_Chen2020":{
+            "model_name": "p3d_p4d",
+            "difficulty": "basis",
+            "reference_name": "Chen, C, et al. 2020",
+            "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
+            "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
+            "context_type": "echem:LithiumNickelManganeseCobaltOxideElectrode",
+            "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_b3eb8c65_5644_45e3_9e17_0be6277c7962",
+            "display_name": "NMC811 (Chen\u20132020)",
+            "number_of_components": 1,
+            "component_name_1": "positive_electrode_active_material",
+            "description": "",
+            "default_material": true
+
+        },
         "NMC111_Safari2009":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -145,7 +190,21 @@
             "default_material": true
 
         },
-        
+        "ceramic_coated_polyolefin_Chen2020":{
+            "model_name": "p3d_p4d",
+            "difficulty": "basis",
+            "reference_name": "Chen, C, et al. 2020",
+            "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
+            "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
+            "context_type": "echem:Separator",
+            "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
+            "display_name": "Ceramic coated Polyolefin (Chen\u20132020)",
+            "number_of_components": 1,
+            "component_name_1": "separator_materials",
+            "description": "",
+            "default_material": true
+
+        },
         "celgard2500_Xu2015":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -161,6 +220,7 @@
             "default_material": true
 
         },
+        
 
         "user_defined_sep":{
             "model_name": "p2d_p3d_p4d",
@@ -194,6 +254,20 @@
             "default_material": true
 
         },
+        "LiPF6_Chen2020":{
+            "model_name": "p3d_p4d",
+            "difficulty": "basis",
+            "reference_name": "Safari, M, et al. 2009",
+            "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
+            "reference_url": "https://iopscience.iop.org/article/10.1149/1.3043429/meta",
+            "context_type": "echem:LithiumHexaFluoroPhosphateElectrolyte",
+            "display_name": "LiPF6 (Chen\u20132020)",
+            "number_of_components": 1,
+            "component_name_1": "electrolyte_materials",
+            "description": "",
+            "default_material": true
+
+        },
         "LiPF6_Xu2015":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",
@@ -208,6 +282,7 @@
             "default_material": true
 
         },
+        
         "user_defined_elyte":{
             "model_name": "p2d_p3d_p4d",
             "difficulty": "basis",

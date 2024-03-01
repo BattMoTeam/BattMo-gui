@@ -1,0 +1,31 @@
+{
+    "Name": "LiPF6_Chen2020",
+    "Header": {},
+    "component": "electrolyte_materials",
+    "material": true,
+    "Parameters": {
+       "specific_heat_capacity": 1518.0,
+       "thermal_conductivity": 0.099,
+       "density": 1200, 
+       "conductivity": {
+         "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+         "argument_list": [
+            "c"
+         ]
+       },
+       "diffusion_coefficient": {
+         "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+          
+         "argument_list": [
+            "c"
+         ]
+       },
+       "charge_carrier_name": "Li",
+       "charge_carrier_charge_number": 1,
+       "charge_carrier_transference_number": 0.2594,
+       "counter_ion_name": "PF6",
+       "counter_ion_charge_number": -1,
+       "counter_ion_transference_number": 0.7406
+       
+    }
+ }

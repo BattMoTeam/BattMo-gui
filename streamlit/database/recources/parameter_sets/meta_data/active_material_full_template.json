@@ -280,6 +280,22 @@
          "type": "function",
          "unit_iri":"https://w3id.org/emmo#Volt",
          "display_name": "Open circuit potential"
+      },
+      "specific_capacity": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "N/A",
+         "context_type": "emmo:SpecificCapacity",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_1e3dc60d_dd6b_47d6_8161_70004fc5ee30",
+         "max_value": 100,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": false,
+         "type": "float",
+         "unit": "mAh/g",
+         "unit_name": "MiliAmpereHourPerGram",
+         "unit_iri": "",
+         "display_name": "Specific Capacity"
       }
    }
 }

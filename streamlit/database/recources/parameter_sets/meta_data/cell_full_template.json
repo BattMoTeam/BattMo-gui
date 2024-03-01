@@ -66,6 +66,22 @@
          "unit_iri": "https://w3id.org/emmo#WattPerSquareMetreKelvin",
          "display_name": "External heat transfer coefficient"
       },
+      "packing_mass": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "emmo:Weight",
+         "context_type_iri": "https://emmo-repo.github.io/emmo.html#EMMO_04cf0295_3e8f_4693_a87f_3130d125cf05",
+         "max_value": 200,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "g",
+         "unit_name": "Gram",
+         "unit_iri": "https://w3id.org/emmo#Gram",
+         "display_name": "Packing mass"
+      },
       "initial_state_of_charge": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
