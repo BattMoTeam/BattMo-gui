@@ -5,9 +5,10 @@
    "material": false,
    "Header": {},
    "Parameters": {
-      "protocol_name": "IEswitch",
+      "protocol_name": "CCDischarge",
       "initial_step_type": "discharging",
       "number_of_cycles": 1,
+      "d_rate": 1,
       "c_rate": 1,
       "lower_cutoff_voltage": 2.4,
       "upper_cutoff_voltage": 4.1,

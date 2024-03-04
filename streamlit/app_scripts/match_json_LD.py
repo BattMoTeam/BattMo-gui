@@ -110,7 +110,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         calculated_values = json.load(f)["calculatedParameters"]
     
     json_ld = GuiDict(gui_dict)
-    total_time = 2 / json_ld.protocol.get("c_rate").get("value") * json_ld.protocol.get("number_of_cycles").get("value") * 3600
+    total_time = 2 / json_ld.protocol.get("d_rate").get("value") * 3600 * 1#*json_ld.protocol.get("number_of_cycles").get("value") 
 
     if "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
         ne_am_function= "functionname"
@@ -151,13 +151,13 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": json_ld.pe.properties.get("length").get("value") * json_ld.pe.properties.get("width").get("value")
+            "faceArea": 0.0001#json_ld.pe.properties.get("length").get("value") * json_ld.pe.properties.get("width").get("value")
         },
         "NegativeElectrode": {
             "Coating":{
                 "thickness": json_ld.ne.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.ne.am.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 1900, #calculated_values["effective_density"]["negative_electrode"],
+                "effectiveDensity": 1900, # calculated_values["effective_density"]["negative_electrode"],
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.ne.am.get("mass_fraction").get("value"),
@@ -218,7 +218,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Coating":{
                 "thickness": json_ld.pe.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.pe.am.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 1900, # calculated_values["effective_density"]["positive_electrode"],
+                "effectiveDensity": 3500, #calculated_values["effective_density"]["positive_electrode"],
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.pe.am.get("mass_fraction").get("value"),
@@ -324,7 +324,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "Control": {
             "controlPolicy": json_ld.protocol.get("protocol_name"),
             "initialControl": json_ld.protocol.get("initial_step_type"),
-            "CRate": json_ld.protocol.get("c_rate").get("value"),
+            #"numberOfCycles": json_ld.protocol.get("number_of_cycles").get("value"),
+            #"CRate": json_ld.protocol.get("c_rate").get("value"),
+            "DRate": json_ld.protocol.get("d_rate").get("value"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
             "rampupTime" : 0.1,
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get("value"),
@@ -336,11 +338,11 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "externalTemperature": json_ld.cell.get("ambient_temperature").get("value")
         },
         "TimeStepping": {
-            "totalTime": total_time,
-            "N": total_time / json_ld.model.get("time_step_duration").get("value"),
             "useRampup": json_ld.model.get("use_ramp_up"),
+            "totalTime": total_time,
             "rampupTime": json_ld.model.get("ramp_up_time").get("value"),
-            "numberOfTimeSteps": total_time / json_ld.model.get("time_step_duration").get("value"),
+            #"numberOfRampupSteps": 10,
+            "numberOfTimeSteps": int(total_time / json_ld.model.get("time_step_duration").get("value")),
         },
         "Output": {
             "variables": [

@@ -13,11 +13,12 @@
        "maximum_lithium_stoichiometry": 0.2661,
        "minimum_lithium_stoichiometry": 0.9084,
        "open_circuit_potential": {
-          "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
-          "argument_list": [
-             "c",
-             "cmax"
-           ]
+         "functionname": "computeOCP_NMC811_Chen2020",
+         "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
+         "argument_list": [
+            "c",
+            "cmax"
+         ]
        }
     }
  }

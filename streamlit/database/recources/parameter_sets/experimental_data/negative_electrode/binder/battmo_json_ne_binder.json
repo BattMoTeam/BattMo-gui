@@ -4,6 +4,6 @@
    "component": "negative_electrode_binder",
    "material": false,
    "Parameters": {
-      "mass_fraction": 0.1
+      "mass_fraction": 0.05
    }
 }

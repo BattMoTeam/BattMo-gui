@@ -21,7 +21,7 @@
          "display_name": "Initial step type"
       },
       "number_of_cycles": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
@@ -36,14 +36,29 @@
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Number of cycles"
       },
-      "c_rate": {
+      "d_rate": {
          "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_25e20915_c35d_4bee_ad31_736235a79780",
+         "max_value": 10,
+         "min_value": 0.01,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Crate"
+      },
+      "c_rate": {
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
          "max_value": 10,
          "min_value": 0.01,
-         "description": "option to include current collectors in the simulation",
+         "description": "",
          "is_shown_to_user": true,
          "type": "float",
          "unit": "1",

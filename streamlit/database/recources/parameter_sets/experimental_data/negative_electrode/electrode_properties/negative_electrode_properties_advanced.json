@@ -4,8 +4,8 @@
    "component": "negative_electrode_properties_advanced",
    "material": false,
    "Parameters": {
-      "length": 0.5,
-      "width": 0.2,
+      "length": 0.3,
+      "width": 0.09,
       "bruggeman_coefficient": 1.5,
       "current_collector_thickness": 9
    }

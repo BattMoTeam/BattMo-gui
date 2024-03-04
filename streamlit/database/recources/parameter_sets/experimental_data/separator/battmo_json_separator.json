@@ -4,7 +4,7 @@
    "material": false,
    "Header": {},
    "Parameters": {
-      "thickness": 0.4,
+      "thickness": 15,
       "porosity": 0.4,
       "bruggeman_coefficient": 1.5
    }

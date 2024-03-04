@@ -3158,7 +3158,7 @@ class DivergenceCheck:
         with open(app_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
             gui_parameters = json.load(json_gui_parameters)
 
-        N = gui_parameters["TimeStepping"]["N"]
+        N = gui_parameters["TimeStepping"]["numberOfTimeSteps"]
 
         return N
     
