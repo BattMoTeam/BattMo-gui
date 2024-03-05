@@ -2,15 +2,6 @@
    "Type": "template",
    "Name": "protocol_full_template",
    "Parameters": {
-      "protocol_name": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "advanced",
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "str",
-         "display_name": "Protocol name"
-      },
       "initial_step_type": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
@@ -21,7 +12,7 @@
          "display_name": "Initial step type"
       },
       "number_of_cycles": {
-         "model_name": "p3d_p4d",
+         "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
@@ -39,7 +30,7 @@
       "d_rate": {
          "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_25e20915_c35d_4bee_ad31_736235a79780",
          "max_value": 10,
          "min_value": 0.01,
@@ -52,9 +43,9 @@
          "display_name": "Crate"
       },
       "c_rate": {
-         "model_name": "p3d_p4d",
+         "model_name": "p2d_p3d_p4d",
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
          "max_value": 10,
          "min_value": 0.01,

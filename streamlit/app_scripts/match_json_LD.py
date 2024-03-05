@@ -17,6 +17,7 @@ def get_dict_from_has_quantitative(has_quantitative):
     for item in has_quantitative:
 
         if type(item) != str:
+
             item_value_type = item.get("value", {}).get("@type", None)
             if item_value_type == "emmo:Numerical":
                 new_dict[item.get("label")] = {
@@ -156,7 +157,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "NegativeElectrode": {
             "Coating":{
                 "thickness": json_ld.ne.properties.get("coating_thickness").get("value")*10**(-6),
-                "N": json_ld.ne.am.get("number_of_discrete_cells_electrode").get("value"),
+                "N": json_ld.ne.am.get("number_of_discrete_cells_particle_radius").get("value"),
                 "effectiveDensity": 1900, # calculated_values["effective_density"]["negative_electrode"],
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
@@ -217,7 +218,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "PositiveElectrode": {
             "Coating":{
                 "thickness": json_ld.pe.properties.get("coating_thickness").get("value")*10**(-6),
-                "N": json_ld.pe.am.get("number_of_discrete_cells_electrode").get("value"),
+                "N": json_ld.pe.am.get("number_of_discrete_cells_particle_radius").get("value"),
                 "effectiveDensity": 3500, #calculated_values["effective_density"]["positive_electrode"],
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
@@ -324,8 +325,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "Control": {
             "controlPolicy": json_ld.protocol.get("protocol_name"),
             "initialControl": json_ld.protocol.get("initial_step_type"),
-            #"numberOfCycles": json_ld.protocol.get("number_of_cycles").get("value"),
-            #"CRate": json_ld.protocol.get("c_rate").get("value"),
+            "numberOfCycles": json_ld.protocol.get("number_of_cycles").get("value"),
+            "CRate": json_ld.protocol.get("c_rate").get("value"),
             "DRate": json_ld.protocol.get("d_rate").get("value"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
             "rampupTime" : 0.1,

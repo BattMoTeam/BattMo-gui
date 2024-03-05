@@ -9,7 +9,7 @@
        "density": 2260.0,
        "number_of_electrons_transferred": 1,
        "activation_energy_of_reaction": 35000.0,
-       "reaction_rate_constant": 6.48e-7,
+       "reaction_rate_constant": 6.716e-12,
        "maximum_lithium_stoichiometry": 0.9014,
        "minimum_lithium_stoichiometry": 0.0279,
        "open_circuit_potential": {

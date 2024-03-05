@@ -2654,48 +2654,48 @@ class SetTabs:
                         )
                     parameter.set_selected_value(user_input)
 
-                formatted_value_dict = parameter.selected_value
+                    formatted_value_dict = parameter.selected_value
 
-                if isinstance(parameter, NumericalParameter):
-                    formatted_value_dict = {
-                        "@type": "emmo:Numerical",
-                        self.hasNumericalData: parameter.selected_value
+                    if isinstance(parameter, NumericalParameter):
+                        formatted_value_dict = {
+                            "@type": "emmo:Numerical",
+                            self.hasNumericalData: parameter.selected_value
+                        }
+
+                    elif isinstance(parameter, StrParameter):
+                        formatted_value_dict = {
+                            "@type": "emmo:String",
+                            self.hasStringData: parameter.selected_value
+                        }
+
+                    elif isinstance(parameter, BooleanParameter):
+                        formatted_value_dict = {
+                            "@type": "emmo:Boolean",
+                            self.hasStringData: parameter.selected_value
+                        }
+
+                    # elif isinstance(parameter, FunctionParameter):
+                    #     formatted_value_dict = {
+                    #         "@type": "emmo:Boolean",
+                    #         self.hasStringData: parameter.selected_value
+                    #     }
+                    
+
+                    parameter_details = {
+                        "label": parameter.name,
+                        "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                        "value": formatted_value_dict
                     }
-
-                elif isinstance(parameter, StrParameter):
-                    formatted_value_dict = {
-                        "@type": "emmo:String",
-                        self.hasStringData: parameter.selected_value
-                    }
-
-                elif isinstance(parameter, BooleanParameter):
-                    formatted_value_dict = {
-                        "@type": "emmo:Boolean",
-                        self.hasStringData: parameter.selected_value
-                    }
-
-                # elif isinstance(parameter, FunctionParameter):
-                #     formatted_value_dict = {
-                #         "@type": "emmo:Boolean",
-                #         self.hasStringData: parameter.selected_value
-                #     }
-                
-
-                parameter_details = {
-                    "label": parameter.name,
-                    "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
-                    "value": formatted_value_dict
-                }
-                if isinstance(parameter, NumericalParameter):
-                    parameter_details["unit"] = {
-                                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        "symbol": parameter.unit,
-                                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
-                                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
-                                    }
+                    if isinstance(parameter, NumericalParameter):
+                        parameter_details["unit"] = {
+                                            "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                                            "symbol": parameter.unit,
+                                            "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                                            #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                                        }
 
 
-                component_parameters.append(parameter_details)
+                    component_parameters.append(parameter_details)
 
             
             if non_material_component_name == "electrolyte_materials":
@@ -2736,83 +2736,103 @@ class SetTabs:
             format_func=lambda x: parameter_sets_name_by_id.get(x)
         )
 
+        Protocol_name = parameter_sets_name_by_id[selected_parameter_set_id]
+
         raw_parameters = db_helper.extract_parameters_by_parameter_set_id(selected_parameter_set_id)
 
         formatted_parameters = self.formatter.format_parameters(raw_parameters, raw_template_parameters, parameter_sets_name_by_id)
 
         for parameter_id in formatted_parameters:
             parameter = formatted_parameters.get(parameter_id)
+
             if parameter.is_shown_to_user:
+
+                    
                 selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                     template_parameter_id=parameter.id,
                     parameter_set_id=selected_parameter_set_id
                 )
-                st_space(tab)
-                name_col, input_col = tab.columns([1, 2])
+                
+
+                if parameter.options.get(selected_parameter_id):
+
+                    st_space(tab)
+                    name_col, input_col = tab.columns([1, 2])
+
+                    if isinstance(parameter, NumericalParameter):
+                    
+                        name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+
+                        user_input = input_col.number_input(
+                            label=parameter.name,
+                            value=parameter.options.get(selected_parameter_id).value,
+                            min_value=parameter.min_value,
+                            max_value=parameter.max_value,
+                            key="input_{}_{}".format(non_material_component_id, parameter_id),
+                            format=parameter.format,
+                            step=parameter.increment,
+                            label_visibility="collapsed"
+                        )
+                    else:
+                        name_col.write(parameter.display_name)
+                        user_input = input_col.selectbox(
+                            label=parameter.display_name,
+                            options=[parameter.options.get(selected_parameter_id).value],
+                            key="input_{}_{}".format(non_material_component_id, parameter_id),
+                            label_visibility="collapsed",
+                        )
+                    parameter.set_selected_value(user_input)
+
+                formatted_value_dict = parameter.selected_value
 
                 if isinstance(parameter, NumericalParameter):
-                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                    formatted_value_dict = {
+                        "@type": "emmo:Numerical",
+                        self.hasNumericalData: parameter.selected_value
+                    }
 
-                    user_input = input_col.number_input(
-                        label=parameter.name,
-                        value=parameter.options.get(selected_parameter_id).value,
-                        min_value=parameter.min_value,
-                        max_value=parameter.max_value,
-                        key="input_{}_{}".format(non_material_component_id, parameter_id),
-                        format=parameter.format,
-                        step=parameter.increment,
-                        label_visibility="collapsed"
-                    )
-                else:
-                    name_col.write(parameter.display_name)
-                    user_input = input_col.selectbox(
-                        label=parameter.display_name,
-                        options=[parameter.options.get(selected_parameter_id).value],
-                        key="input_{}_{}".format(non_material_component_id, parameter_id),
-                        label_visibility="collapsed",
-                    )
-                parameter.set_selected_value(user_input)
+                elif isinstance(parameter, StrParameter):
+                    formatted_value_dict = {
+                        "@type": "emmo:String",
+                        self.hasStringData: parameter.selected_value
+                    }
 
-            formatted_value_dict = parameter.selected_value
-
-            if isinstance(parameter, NumericalParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:Numerical",
-                    self.hasNumericalData: parameter.selected_value
-                }
-
-            elif isinstance(parameter, StrParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value
-                }
-
-            elif isinstance(parameter, BooleanParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:Boolean",
-                    self.hasStringData: parameter.selected_value
-                }
-
-            elif isinstance(parameter, FunctionParameter):
+                elif isinstance(parameter, BooleanParameter):
                     formatted_value_dict = {
                         "@type": "emmo:Boolean",
                         self.hasStringData: parameter.selected_value
                     }
 
-            parameter_details = {
-                "label": parameter.name,
-                "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
-                "value": formatted_value_dict
-            }
-            if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = {
-                    "label": parameter.unit_name if parameter.unit_name else parameter.unit,
-                    "symbol": parameter.unit,
-                    "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
-                    #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
-                }
+                elif isinstance(parameter, FunctionParameter):
+                        formatted_value_dict = {
+                            "@type": "emmo:Boolean",
+                            self.hasStringData: parameter.selected_value
+                        }
 
-            component_parameters.append(parameter_details)
+                parameter_details = {
+                    "label": parameter.name,
+                    "@type": parameter.context_type_iri if parameter.context_type_iri else "None",
+                    "value": formatted_value_dict
+                }
+                if isinstance(parameter, NumericalParameter):
+                    parameter_details["unit"] = {
+                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "symbol": parameter.unit,
+                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                        #"@type_iri": n_to_p_parameter.unit_iri if n_to_p_parameter.unit_iri else None
+                    }
+
+                component_parameters.append(parameter_details)
+
+        parameter_details = {
+                "label": "protocol_name",
+                "value": {
+                    "@type": "emmo:String",
+                    self.hasStringData: Protocol_name
+                }
+            }
+        
+        component_parameters.append(parameter_details)
         component_parameters = self.create_component_parameters_dict(component_parameters)
         component_parameters["label"] = non_material_comp_display_name
         component_parameters["@type"] = non_material_comp_context_type
@@ -2930,7 +2950,7 @@ class SetTabs:
 
             component_parameters.append(parameter_details)
 
-
+        
         category_parameters[self.hasCyclingProcess][self.hasQuantitativeProperty] += component_parameters
 
         return category_parameters
@@ -3207,7 +3227,7 @@ class DivergenceCheck:
                 c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
 
             else:
-                c.error("Simulation did not finish, some warnings were produced. See the logging below for the warnings.")
+                c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
                 st.session_state.succes = False
             
             c.markdown("***Logging:***")
@@ -3924,7 +3944,7 @@ class SetGraphs():
             x_data=_self.electrolyte_grid,
             y_data=_self.time_values,
             z_data=_self.electrolyte_concentration,
-            title="Electrolyte - Solid phase Lithium concentration",
+            title="Electrolyte - Liquid phase lithium concentration",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
             cbar_label="Concentration  /  mol . L-1"
@@ -3948,7 +3968,7 @@ class SetGraphs():
             x_data=_self.positive_electrode_grid,
             y_data=_self.time_values,
             z_data=np.array(_self.positive_electrode_concentration),
-            title="Positive Electrode - Solid phase Lithium concentration",
+            title="Positive Electrode - Solid phase lithium concentration",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
             cbar_label="Concentration  /  mol . L-1"
@@ -3960,7 +3980,7 @@ class SetGraphs():
             x_data=_self.negative_electrode_grid,
             y_data=_self.time_values,
             z_data=_self.negative_electrode_concentration,
-            title="Negative Electrode - Solid phase Lithium concentration",
+            title="Negative Electrode - Solid phase lithium concentration",
             x_label="Position  / \u00B5m",
             y_label="Time  /  h",
             cbar_label="Concentration  /  mol . L-1"
@@ -4063,7 +4083,7 @@ class SetGraphs():
         ne_concentration = _self.create_subplot(
             x_data=np.squeeze(_self.negative_electrode_grid),
             y_data=np.squeeze(_self.negative_electrode_concentration)[state],
-            title="Negative Electrode - Solid phase Lithium concentration  /  mol . L-1",
+            title="Negative Electrode - Solid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
             x_min=xmin,
@@ -4078,7 +4098,7 @@ class SetGraphs():
         elyte_concentration = _self.create_subplot(
             x_data=_self.electrolyte_grid,
             y_data=_self.electrolyte_concentration[state],
-            title="Electrolyte - Solid phase Lithium concentration  /  mol . L-1",
+            title="Electrolyte - Liquid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
             x_min=xmin,
@@ -4090,12 +4110,14 @@ class SetGraphs():
         )
         
         # Positive Electrode Concentration
-        positive_electrode_concentration_ext = np.full(len(_self.electrolyte_grid), np.nan)
-        positive_electrode_concentration_ext[-10:] = np.squeeze(_self.positive_electrode_concentration)[state]
+        length_grid_elyte = len(_self.electrolyte_grid)
+        length_grid_PE = len(_self.positive_electrode_grid)
+        positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
+        positive_electrode_concentration_ext[-length_grid_PE:] = np.squeeze(_self.positive_electrode_concentration)[state]
         pe_concentration = _self.create_subplot(
             x_data=_self.electrolyte_grid,
             y_data=positive_electrode_concentration_ext,
-            title="Positive Electrode - Solid phase Lithium concentration  /  mol . L-1",
+            title="Positive Electrode - Solid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
             x_min=xmin,
@@ -4147,8 +4169,10 @@ class SetGraphs():
         )
 
         # Positive Electrode Potential
-        positive_electrode_potential_ext = np.full(len(_self.electrolyte_grid), np.nan)
-        positive_electrode_potential_ext[-10:] = _self.positive_electrode_potential[state]
+        length_grid_elyte = len(_self.electrolyte_grid)
+        length_grid_PE = len(_self.positive_electrode_grid)
+        positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
+        positive_electrode_potential_ext[-length_grid_PE:] = _self.positive_electrode_potential[state]
         pe_potential = _self.create_subplot(
             x_data=_self.electrolyte_grid,
             y_data=positive_electrode_potential_ext,
@@ -4382,7 +4406,7 @@ class SetGraphs():
             constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
         )
         if vertical_line:
-             fig.add_vline(x=vertical_line, line_width=3, line_dash="dash")
+             fig.add_vline(x=vertical_line, line_width=3, line_dash="dash", line_color = "grey")
              #ax.axvline(x=vertical_line, color='k', linestyle="dashed")
         
         # fig, ax = plt.subplots()

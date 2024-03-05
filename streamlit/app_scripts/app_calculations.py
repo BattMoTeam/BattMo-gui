@@ -21,7 +21,7 @@ def validate_volume_fraction(vf_sum,category_display_name,_tab):
     for id, value in vf_sum.items():
         vf_summing += value
     if vf_summing != 1.0:
-        _tab.warning("The sum of the '%s' material volume fractions is not equal to 1." % (category_display_name))
+        _tab.warning("The sum of the '%s' material mass fractions is not equal to 1." % (category_display_name))
 
 @st.cache_data
 def calc_density_mix(vf, density):

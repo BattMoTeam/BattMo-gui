@@ -1,0 +1,15 @@
+{
+    "Name": "CCDischarge",
+    "Category": "protocol",
+    "component": "protocol_properties",
+    "material": false,
+    "Header": {},
+    "Parameters": {
+       "initial_step_type": "discharging",
+       "d_rate": 1,
+       "lower_cutoff_voltage": 2.4,
+       "upper_cutoff_voltage": 4.1,
+       "d_idt_limit": 0.01,
+       "d_edt_limit": 0.01
+    }
+ }

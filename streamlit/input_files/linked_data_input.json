@@ -163,7 +163,7 @@
                         "@type": "None",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 6.48e-07
+                           "hasNumericalData": 6.716e-12
                         },
                         "unit": {
                            "label": "MolePerSquareMetrePerSecond",
@@ -285,19 +285,6 @@
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
                            "@type": "emmo:ReciprocalSecond"
-                        }
-                     },
-                     {
-                        "label": "number_of_discrete_cells_electrode",
-                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 10
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -671,7 +658,7 @@
                         "@type": "None",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 3.42e-06
+                           "hasNumericalData": 3.545e-11
                         },
                         "unit": {
                            "label": "MolePerSquareMetrePerSecond",
@@ -793,19 +780,6 @@
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
                            "@type": "emmo:ReciprocalSecond"
-                        }
-                     },
-                     {
-                        "label": "number_of_discrete_cells_electrode",
-                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 10
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1472,11 +1446,16 @@
                }
             },
             {
-               "label": "protocol_name",
-               "@type": "None",
+               "label": "number_of_cycles",
+               "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
-                  "@type": "emmo:String",
-                  "hasStringData": "CCDischarge"
+                  "@type": "emmo:Numerical",
+                  "hasNumericalData": 1
+               },
+               "unit": {
+                  "label": "UnitOne",
+                  "symbol": "1",
+                  "@type": "emmo:UnitOne"
                }
             },
             {
@@ -1490,6 +1469,26 @@
                   "label": "UnitOne",
                   "symbol": "1",
                   "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "label": "c_rate",
+               "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
+               "value": {
+                  "@type": "emmo:Numerical",
+                  "hasNumericalData": 1.0
+               },
+               "unit": {
+                  "label": "UnitOne",
+                  "symbol": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "label": "protocol_name",
+               "value": {
+                  "@type": "emmo:String",
+                  "hasStringData": "CCCV"
                }
             },
             {

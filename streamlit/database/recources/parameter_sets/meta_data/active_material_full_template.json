@@ -223,7 +223,7 @@
          "display_name": "Diffusion pre exponential factor"
       },
       "number_of_discrete_cells_electrode": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": "p3d_p4d",
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",

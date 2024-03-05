@@ -35,9 +35,15 @@ def run_julia(q_in,q_out):
             
             # Define the Julia code to execute
             julia_code = f"runP2DBattery.runP2DBatt(\"{file_name}\")"
+
+            # try:
             log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential = jl.seval(julia_code)
             
             print("The simulation has completed {} time steps.".format(number_of_states))
+            # except:
+            #     print("The simulation has failed.")
+            #     log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential = ([0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0])
+            #     return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
 
             # Converting data to python objects
             negative_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_concentration],
