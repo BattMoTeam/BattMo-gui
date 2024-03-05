@@ -260,7 +260,7 @@
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
          "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
-         "max_value": 30,
+         "max_value": 100,
          "min_value": 1,
          "description": "number of discrete cells used in the domain",
          "is_shown_to_user": true,
