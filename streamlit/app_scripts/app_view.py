@@ -16,6 +16,7 @@ from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
 import os
+import zipfile
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
@@ -3000,7 +3001,7 @@ class RunSimulation:
         #self.gui_file_name = "gui_output_parameters.json"
         #self.file_mime_type = "application/json"
 
-        self.api_url = "http://flask_api:8000/run_simulation"
+        self.api_url = "http://genie:8000/run_simulation"
         self.json_input_folder = 'BattMoJulia'
         self.json_input_file = 'battmo_formatted_input.json'
         self.julia_module_folder = 'BattMoJulia'
@@ -3108,28 +3109,29 @@ class RunSimulation:
 
         response_start = requests.post(self.api_url, json=json_data)
 
+        #st.write(response_start.content)
+        # if response_start.status_code == 200:
 
-        if response_start.status_code == 200:
+        with zipfile.ZipFile(io.BytesIO(response_start.content), 'r') as zip_ref:
+            # Extract all the contents to a folder
+            zip_ref.extractall(app_access.get_path_to_zipped_results())
 
-            with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                f.write(response_start.content)
+            #success = DivergenceCheck().success
 
-            success = DivergenceCheck().success
+            # if success == True:
+            #     with open(app_access.get_path_to_linked_data_input(), 'r') as f:
+            #         gui_parameters = json.load(f)
 
-            if success == True:
-                with open(app_access.get_path_to_linked_data_input(), 'r') as f:
-                    gui_parameters = json.load(f)
+            #     indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
-                indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
-
-                with open(app_access.get_path_to_indicator_values(), 'w') as f:
-                    json.dump(indicators, f, indent=3)
+            #     with open(app_access.get_path_to_indicator_values(), 'w') as f:
+            #         json.dump(indicators, f, indent=3)
 
             # with open(app_access.get_path_to_battmo_results(), "wb") as f:
             #     pickle.dump(response_start.content, f)
 
-        else:
-            st.write(response_start)
+    #   else:
+    #         st.write(re  sponse_start)
     
         
         # with open("BattMo_results.pkl", "rb") as f:

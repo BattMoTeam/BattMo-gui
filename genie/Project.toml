@@ -1,0 +1,12 @@
+[deps]
+BattMo = "6f0c0536-3c2c-4762-a987-c605a8a6f898"
+Genie = "c43c736e-a2d1-11e8-161f-af95117fbd1e"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+LoggingExtras = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+SimpleContainerGenerator = "b8d349fb-717b-4aac-a9b1-e1da4219c631"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
