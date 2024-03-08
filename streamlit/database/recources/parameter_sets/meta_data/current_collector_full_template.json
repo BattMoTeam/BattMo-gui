@@ -29,7 +29,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "kg.m\u207b\u00b3",
+         "unit": "kg\u00B7m\u207b\u00b3",
          "unit_name": "GramPerCubicMetre",
          "unit_iri": "https://w3id.org/emmo#GramPerCubicMetre",
          "display_name": "Density"
@@ -45,7 +45,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "J.kg\u207b\u00b9.K\u207b\u00b9",
+         "unit": "J\u00B7kg\u207b\u00b9\u00B7K\u207b\u00b9",
          "unit_name": "JoulePerKiloGramKelvin",
          "unit_iri": "https://w3id.org/emmo#JoulePerKiloGramKelvin",
          "display_name": "Specific heat capacity"
@@ -61,7 +61,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "W.m\u207b\u00b9.K\u207b\u00b9",
+         "unit": "W\u00B7m\u207b\u00b9\u00B7K\u207b\u00b9",
          "unit_name": "WattPerMetreKelvin",
          "unit_iri": "https://w3id.org/emmo#WattPerMetreKelvin",
          "display_name": "Thermal conductivity"
@@ -77,7 +77,7 @@
          "description": "effective electronic conductivity of the current collector",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "S.m\u207b\u00b9",
+         "unit": "S\u00B7m\u207b\u00b9",
          "unit_name": "SiemensPerMetre",
          "unit_iri": "https://w3id.org/emmo#SiemensPerMetre",
          "display_name": "Electronic conductivity"

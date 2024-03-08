@@ -604,7 +604,7 @@ class SetTabs:
                                 name_col, input_col = tab_advanced_pe.columns(2)
 
                                 if isinstance(parameter, NumericalParameter):
-                                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
                                     
                                     user_input = input_col.number_input(
                                         label=parameter.name,
@@ -752,7 +752,7 @@ class SetTabs:
                                 name_col, input_col = tab_advanced.columns(2)
 
                                 if isinstance(parameter, NumericalParameter):
-                                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
                                     
                                     user_input = input_col.number_input(
                                         label=parameter.name,
@@ -1496,7 +1496,7 @@ class SetTabs:
                                       label_visibility="collapsed")
                     st.text(" ")  
                    
-            property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " (" + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri) + ")")
+            property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " / " + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri))
 
             property_col.text(" ")
 
@@ -1764,7 +1764,7 @@ class SetTabs:
                     n_to_p_display_name = tuple(np.squeeze(n_to_p_ratio_raw_template[0]))
         
         n_to_p_parameter_col.text(" ")
-        n_to_p_parameter_col.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " (" + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri) + ")")
+        n_to_p_parameter_col.write("[{}]({})".format(n_to_p_display_name, n_to_p_context_type_iri)+ " / " + "[{}]({})".format(n_to_p_unit, n_to_p_unit_iri))
 
         n_to_p_parameter_set_id, n_to_p_parameter_set_name = db_helper.get_n_p_parameter_set_id_by_component_id(n_to_p_component_id)
         n_to_p_parameter_set_id=int(n_to_p_parameter_set_id)
@@ -1887,7 +1887,7 @@ class SetTabs:
                     is_shown_to_user, \
                     description,  \
                     vf_display_name = tuple(np.squeeze(db_helper.get_vf_template_by_template_id(material_comp_default_template_id)))
-            vf_col.write("[{}]({})".format(vf_display_name, vf_context_type_iri) + " (" + "[{}]({})".format(vf_unit, vf_unit_iri) + ")")
+            vf_col.write("[{}]({})".format(vf_display_name, vf_context_type_iri) + " / " + "[{}]({})".format(vf_unit, vf_unit_iri))
 
             vf_sum = {}
             density = {}
@@ -1941,7 +1941,7 @@ class SetTabs:
                                 property_col, value_col= ex.columns((1.5,2))
 
 
-                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                                 user_input = value_col.number_input(
                                     label=parameter.name,
@@ -2387,7 +2387,7 @@ class SetTabs:
 
   
                             else:
-                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                                 user_input = value_col.number_input(
                                 label=parameter.name,
@@ -2632,7 +2632,7 @@ class SetTabs:
                     name_col, input_col = adv_input.columns([1, 2])
 
                     if isinstance(parameter, NumericalParameter):
-                        name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                        name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                         user_input = input_col.number_input(
                             label=parameter.name,
@@ -2761,7 +2761,7 @@ class SetTabs:
 
                     if isinstance(parameter, NumericalParameter):
                     
-                        name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                        name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " /" + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                         user_input = input_col.number_input(
                             label=parameter.name,
@@ -2885,7 +2885,7 @@ class SetTabs:
                 name_col, input_col = adv_input.columns([1, 2])
 
                 if isinstance(parameter, NumericalParameter):
-                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " (" + "[{}]({})".format(parameter.unit, parameter.unit_iri) + ")")
+                    name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                     user_input = input_col.number_input(
                         label=parameter.name,
@@ -3571,7 +3571,7 @@ class SetIndicators():
         if self.page_name == "Simulation":
             col1, col2, col3, col4 = st.columns(4)
             col2.metric(
-                label = "Cell Mass ({})".format(cell_mass["unit"]),
+                label = "Cell Mass / {}".format(cell_mass["unit"]),
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
@@ -3581,12 +3581,12 @@ class SetIndicators():
             #         label_visibility= "visible"
             #     )
             col3.metric(
-                    label = "Cell Capacity ({})".format(cell_capacity["unit"]),
+                    label = "Cell Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
                     label_visibility= "visible"
                 )
             col1.metric(
-                    label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
+                    label = "N/P ratio / {}".format(n_to_p_ratio["unit"]),
                     value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
@@ -3599,7 +3599,7 @@ class SetIndicators():
             col1, col2, col3, col4 = cell.columns(4)
 
             col2.metric(
-                label = "Mass ({})".format(cell_mass["unit"]),
+                label = "Mass / {}".format(cell_mass["unit"]),
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
@@ -3609,12 +3609,12 @@ class SetIndicators():
             #         label_visibility= "visible"
             #     )
             col3.metric(
-                    label = "Capacity ({})".format(cell_capacity["unit"]),
+                    label = "Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
                     label_visibility= "visible"
                 )
             col1.metric(
-                    label = "N/P ratio ({})".format(n_to_p_ratio["unit"]),
+                    label = "N/P ratio / {}".format(n_to_p_ratio["unit"]),
                     value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
@@ -3622,31 +3622,31 @@ class SetIndicators():
             mass_loading, thickness, porosity, capacity= Electrode_ne.columns(4)
 
             mass_loading.metric(
-                    label = "Mass Loading ({})".format(ne_mass_loading["unit"]),
+                    label = "Mass Loading / {}".format(ne_mass_loading["unit"]),
                     value = int(np.round(ne_mass_loading["value"])),
                     label_visibility= "visible"
                 )
             
             thickness.metric(
-                    label = "Thickness ({})".format(ne_thickness["unit"]),
+                    label = "Thickness / {}".format(ne_thickness["unit"]),
                     value = int(np.round(ne_thickness["value"])),
                     label_visibility= "visible"
                 )
             
             porosity.metric(
-                    label = "Porosity ({})".format(ne_porosity["unit"]),
+                    label = "Porosity / {}".format(ne_porosity["unit"]),
                     value = np.round(ne_porosity["value"],2),
                     label_visibility= "visible"
                 )
             capacity.metric(
-                    label = "Capacity ({})".format(ne_specific_capacity["unit"]),
+                    label = "Capacity / {}".format(ne_specific_capacity["unit"]),
                     value = int(np.round(ne_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
             
             capacity, _, _ ,_= AM_ne.columns(4)
             capacity.metric(
-                    label = "Specific Capacity ({})".format(ne_am_specific_capacity["unit"]),
+                    label = "Specific Capacity / {}".format(ne_am_specific_capacity["unit"]),
                     value = int(np.round(ne_am_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
@@ -3654,31 +3654,31 @@ class SetIndicators():
             mass_loading, thickness, porosity, capacity= Electrode_pe.columns(4)
 
             mass_loading.metric(
-                    label = "Mass Loading ({})".format(pe_mass_loading["unit"]),
+                    label = "Mass Loading / {}".format(pe_mass_loading["unit"]),
                     value = int(np.round(pe_mass_loading["value"])),
                     label_visibility= "visible"
                 )
             
             thickness.metric(
-                    label = "Thickness ({})".format(pe_thickness["unit"]),
+                    label = "Thickness / {}".format(pe_thickness["unit"]),
                     value =int(np.round(pe_thickness["value"])),
                     label_visibility= "visible"
                 )
             
             porosity.metric(
-                    label = "Porosity ({})".format(pe_porosity["unit"]),
+                    label = "Porosity / {}".format(pe_porosity["unit"]),
                     value = np.round(pe_porosity["value"],2),
                     label_visibility= "visible"
                 )
             capacity.metric(
-                    label = "Capacity ({})".format(pe_specific_capacity["unit"]),
+                    label = "Capacity / {}".format(pe_specific_capacity["unit"]),
                     value = int(np.round(pe_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
             
             capacity, _, _ ,_= AM_pe.columns(4)
             capacity.metric(
-                    label = "Specific Capacity ({})".format(pe_am_specific_capacity["unit"]),
+                    label = "Specific Capacity / {}".format(pe_am_specific_capacity["unit"]),
                     value = int(np.round(pe_am_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
@@ -4523,7 +4523,7 @@ class SetMaterialDescription():
                             else:
 
                                 st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 
-                                            value + " (" + "[{}]({})".format(unit, unit_iri) + ")")
+                                            value + " / " + "[{}]({})".format(unit, unit_iri))
 
 
 

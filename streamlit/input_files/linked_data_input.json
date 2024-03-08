@@ -102,7 +102,7 @@
                         },
                         "unit": {
                            "label": "MolePerCubicMetre",
-                           "symbol": "mol.m\u207b\u00b3",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
                            "@type": "emmo:MolePerCubicMetre"
                         }
                      },
@@ -128,7 +128,7 @@
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
@@ -154,7 +154,7 @@
                         },
                         "unit": {
                            "label": "JoulePerMoleKelvin",
-                           "symbol": "J.mol\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerMoleKelvin"
                         }
                      },
@@ -167,7 +167,7 @@
                         },
                         "unit": {
                            "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol.m\u207b\u00b2.s\u207b\u00b9",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                            "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
@@ -231,7 +231,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -244,7 +244,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -257,7 +257,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      },
@@ -270,7 +270,7 @@
                         },
                         "unit": {
                            "label": "JoulePerMoleKelvin",
-                           "symbol": "J.mol\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerMoleKelvin"
                         }
                      },
@@ -322,7 +322,7 @@
                         },
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
-                           "symbol": "mAh/g",
+                           "symbol": "mAh\u00b7g\u207b\u00b9",
                            "@type": "emmo:MiliAmpereHourPerGram"
                         }
                      }
@@ -341,7 +341,7 @@
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
@@ -354,7 +354,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -367,7 +367,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -393,7 +393,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      }
@@ -412,7 +412,7 @@
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
@@ -425,7 +425,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -438,7 +438,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -464,7 +464,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      }
@@ -509,7 +509,7 @@
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
-                           "symbol": "mg(cm)\u207b\u00b2",
+                           "symbol": "mg\u00b7cm\u207b\u00b2",
                            "@type": "emmo:MiliGramPerCubicCentiMeter"
                         }
                      },
@@ -566,6 +566,19 @@
                         }
                      },
                      {
+                        "label": "number_of_discrete_cells_electrode",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 60
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
                         "label": "electrode_capacity",
                         "@type": "emmo:Capacity",
                         "value": {
@@ -590,20 +603,20 @@
                   "hasQuantitativeProperty": [
                      {
                         "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
+                        "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47287d09_6108_45ca_ac65_8b9451b1065e",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
                         },
                         "unit": {
                            "label": "MolePerCubicMetre",
-                           "symbol": "mol.m\u207b\u00b3",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
                            "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
                         "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
+                        "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_a5571263_f153_448f_84a3_cd18092cf8fa",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
@@ -616,20 +629,20 @@
                      },
                      {
                         "label": "density",
-                        "@type": "emmo:Density",
+                        "@type": "https://w3id.org/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
                         "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
@@ -642,14 +655,14 @@
                      },
                      {
                         "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
+                        "@type": "https://w3id.org/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
                         },
                         "unit": {
                            "label": "JoulePerMoleKelvin",
-                           "symbol": "J.mol\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerMoleKelvin"
                         }
                      },
@@ -662,13 +675,13 @@
                         },
                         "unit": {
                            "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol.m\u207b\u00b2.s\u207b\u00b9",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                            "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
                         "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "@type": "https://w3id.org/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
@@ -681,7 +694,7 @@
                      },
                      {
                         "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "@type": "https://w3id.org/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
@@ -696,11 +709,12 @@
                         "label": "open_circuit_potential",
                         "@type": "None",
                         "value": {
-                           "functionname": "computeOCP_NMC811_Chen2020",
-                           "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
+                           "function": "(-4.656 + 0 * (c/cmax) + 88.669 * (c/cmax)^2 + 0 * (c./cmax)^3 - 401.119 * (c/cmax)^4 + 0 * (c/cmax)^5 + 342.909 * (c/cmax)^6 + 0 * (c/cmax)^7 - 462.471 * (c/cmax)^8 + 0 * (c/cmax)^9 + 433.434 * (c/cmax)^10)/(-1 + 0  * (c/cmax)+ 18.933 * (c./cmax)^2+ 0 * (c/cmax)^3- 79.532 * (c/cmax)^4+ 0 * (c/cmax)^5+ 37.311 * (c/cmax)^6+ 0 * (c/cmax)^7- 73.083 * (c/cmax)^8+ 0 * (c/cmax)^9+ 95.960 * (c/cmax)^10)+ (T - refT) * ( -1e-3* ( 0.199521039- 0.928373822 * (c/cmax)+ 1.364550689000003 * (c/cmax)^2- 0.611544893999998 * (c/cmax)^3)/ (1- 5.661479886999997 * (c/cmax)+ 11.47636191 * (c/cmax)^2- 9.82431213599998 * (c/cmax)^3+ 3.048755063 * (c/cmax)^4))",
                            "argument_list": [
                               "c",
-                              "cmax"
+                              "cmax",
+                              "T",
+                              "refT"
                            ]
                         }
                      },
@@ -726,7 +740,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -739,7 +753,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -752,7 +766,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      },
@@ -765,7 +779,7 @@
                         },
                         "unit": {
                            "label": "JoulePerMoleKelvin",
-                           "symbol": "J.mol\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerMoleKelvin"
                         }
                      },
@@ -817,7 +831,7 @@
                         },
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
-                           "symbol": "mAh/g",
+                           "symbol": "mAh\u00b7g\u207b\u00b9",
                            "@type": "emmo:MiliAmpereHourPerGram"
                         }
                      }
@@ -836,7 +850,7 @@
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
@@ -849,7 +863,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -862,7 +876,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -888,7 +902,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      }
@@ -907,7 +921,7 @@
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
-                           "symbol": "kg.m\u207b\u00b3",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
                         }
                      },
@@ -920,7 +934,7 @@
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
@@ -933,7 +947,7 @@
                         },
                         "unit": {
                            "label": "WattPerMetreKelvin",
-                           "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                            "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
@@ -959,7 +973,7 @@
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
-                           "symbol": "S.m\u207b\u00b9",
+                           "symbol": "S\u00b7m\u207b\u00b9",
                            "@type": "emmo:SiemensPerMetre"
                         }
                      }
@@ -1004,7 +1018,7 @@
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
-                           "symbol": "mg(cm)\u207b\u00b2",
+                           "symbol": "mg\u00b7cm\u207b\u00b2",
                            "@type": "emmo:MiliGramPerCubicCentiMeter"
                         }
                      },
@@ -1061,6 +1075,19 @@
                         }
                      },
                      {
+                        "label": "number_of_discrete_cells_electrode",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 60
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
                         "label": "electrode_capacity",
                         "@type": "emmo:Capacity",
                         "value": {
@@ -1090,7 +1117,7 @@
                   },
                   "unit": {
                      "label": "JoulePerKiloGramKelvin",
-                     "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                      "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
@@ -1103,7 +1130,7 @@
                   },
                   "unit": {
                      "label": "WattPerMetreKelvin",
-                     "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                      "@type": "emmo:WattPerMetreKelvin"
                   }
                },
@@ -1116,7 +1143,7 @@
                   },
                   "unit": {
                      "label": "GramPerCubicMetre",
-                     "symbol": "kg.m\u207b\u00b3",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
                      "@type": "emmo:GramPerCubicMetre"
                   }
                },
@@ -1193,7 +1220,7 @@
                   },
                   "unit": {
                      "label": "MolPerLiter",
-                     "symbol": "mol.L\u207b",
+                     "symbol": "mol\u00b7L\u207b",
                      "@type": "emmo:MolPerLiter"
                   }
                },
@@ -1225,7 +1252,7 @@
                   },
                   "unit": {
                      "label": "JoulePerKiloGramKelvin",
-                     "symbol": "J.kg\u207b\u00b9.K\u207b\u00b9",
+                     "symbol": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
                      "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
@@ -1238,7 +1265,7 @@
                   },
                   "unit": {
                      "label": "WattPerMetreKelvin",
-                     "symbol": "W.m\u207b\u00b9.K\u207b\u00b9",
+                     "symbol": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
                      "@type": "emmo:WattPerMetreKelvin"
                   }
                },
@@ -1251,7 +1278,7 @@
                   },
                   "unit": {
                      "label": "GramPerCubicMetre",
-                     "symbol": "kg.m\u207b\u00b3",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
                      "@type": "emmo:GramPerCubicMetre"
                   }
                },
@@ -1361,7 +1388,7 @@
                   },
                   "unit": {
                      "label": "WattPerSquareMetreKelvin",
-                     "symbol": "W.m\u207b\u00b2.K\u207b\u00b9",
+                     "symbol": "W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9",
                      "@type": "emmo:WattPerSquareMetreKelvin"
                   }
                },
@@ -1450,7 +1477,7 @@
                "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
                   "@type": "emmo:Numerical",
-                  "hasNumericalData": 2
+                  "hasNumericalData": 1
                },
                "unit": {
                   "label": "UnitOne",
@@ -1525,9 +1552,9 @@
                   "hasNumericalData": 0.01
                },
                "unit": {
-                  "label": "A.s\u207b\u00b9",
-                  "symbol": "A.s\u207b\u00b9",
-                  "@type": "A.s\u207b\u00b9"
+                  "label": "A\u00b7s\u207b\u00b9",
+                  "symbol": "A\u00b7s\u207b\u00b9",
+                  "@type": "A\u00b7s\u207b\u00b9"
                }
             },
             {
@@ -1539,7 +1566,7 @@
                },
                "unit": {
                   "label": "VoltPerSecond",
-                  "symbol": "V.s\u207b\u00b9",
+                  "symbol": "V\u00b7s\u207b\u00b9",
                   "@type": "emmo:VoltPerSecond"
                }
             }

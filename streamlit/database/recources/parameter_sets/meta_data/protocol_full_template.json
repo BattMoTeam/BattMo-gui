@@ -96,7 +96,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "A.s\u207b\u00b9",
+         "unit": "A\u00B7s\u207b\u00b9",
          "display_name": "d idt limit"
       },
       "d_edt_limit": {
@@ -108,7 +108,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "V.s\u207b\u00b9",
+         "unit": "V\u00B7s\u207b\u00b9",
          "unit_name": "VoltPerSecond",
          "unit_iri": "https://w3id.org/emmo#VoltPerSecond",
          "display_name": "d edt limit"

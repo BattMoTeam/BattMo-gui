@@ -45,7 +45,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "mg(cm)\u207b\u00b2",
+         "unit": "mg\u00B7cm\u207b\u00b2",
          "unit_name": "MiliGramPerCubicCentiMeter",
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Mass loading"
@@ -127,6 +127,22 @@
          "unit_name": "MicroMetre",
          "unit_iri": "https://w3id.org/emmo#MicroMetre",
          "display_name": "Coating thickness"
+      },
+      "number_of_discrete_cells_electrode": {
+         "model_name": "p2d_p3d_p4d",
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "emmo:NumberOfEntities",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+         "max_value": 100,
+         "min_value": 1,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "int",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Number of discrete cells electrode"
       }
    }
 }

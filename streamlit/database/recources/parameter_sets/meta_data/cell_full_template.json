@@ -61,7 +61,7 @@
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "W.m\u207b\u00b2.K\u207b\u00b9",
+         "unit": "W\u00B7m\u207b\u00b2\u00B7K\u207b\u00b9",
          "unit_name": "WattPerSquareMetreKelvin",
          "unit_iri": "https://w3id.org/emmo#WattPerSquareMetreKelvin",
          "display_name": "External heat transfer coefficient"
