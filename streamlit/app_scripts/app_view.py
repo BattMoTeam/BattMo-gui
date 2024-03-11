@@ -3238,10 +3238,23 @@ class DivergenceCheck:
             
             c.code(log_message + ''' \n''')
 
-        else: 
-            self.success = True
-            save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-            st.session_state.succes = True
+        else:
+            c = save_run.container()
+            if number_of_states >= N: 
+                self.success = True
+                save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
+                st.session_state.succes = True
+
+            else:
+                c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
+                st.session_state.succes = False
+                c.markdown("***Logging:***")
+                
+                log_message = ''' \n'''
+                for message in log_messages:
+                    log_message = log_message + message+ '''\n'''
+                
+                c.code(log_message + ''' \n''')
 
 
 class DownloadParameters:

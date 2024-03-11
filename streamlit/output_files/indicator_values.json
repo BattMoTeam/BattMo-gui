@@ -16,7 +16,7 @@
    "NegativeElectrode": {
       "massLoading": {
          "value": 15.0484,
-         "unit": "mg(cm)\u207b\u00b2"
+         "unit": "mg\u00b7cm\u207b\u00b2"
       },
       "thickness": {
          "value": 85.0,
@@ -33,14 +33,14 @@
       "ActiveMaterial": {
          "specificCapacity": {
             "value": 306.44157263296455,
-            "unit": "mAh/g"
+            "unit": "mAh\u00b7g\u207b\u00b9"
          }
       }
    },
    "PositiveElectrode": {
       "massLoading": {
          "value": 23.948511999999994,
-         "unit": "mg(cm)\u207b\u00b2"
+         "unit": "mg\u00b7cm\u207b\u00b2"
       },
       "thickness": {
          "value": 76.0,
@@ -57,7 +57,7 @@
       "ActiveMaterial": {
          "specificCapacity": {
             "value": 180.01966126454545,
-            "unit": "mAh/g"
+            "unit": "mAh\u00b7g\u207b\u00b9"
          }
       }
    }

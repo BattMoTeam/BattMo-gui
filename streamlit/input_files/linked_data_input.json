@@ -603,7 +603,7 @@
                   "hasQuantitativeProperty": [
                      {
                         "label": "maximum_concentration",
-                        "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47287d09_6108_45ca_ac65_8b9451b1065e",
+                        "@type": "echem:MaximumConcentration",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
@@ -616,7 +616,7 @@
                      },
                      {
                         "label": "volumetric_surface_area",
-                        "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_a5571263_f153_448f_84a3_cd18092cf8fa",
+                        "@type": "echem:VolumetricSurfaceArea",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
@@ -629,7 +629,7 @@
                      },
                      {
                         "label": "density",
-                        "@type": "https://w3id.org/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
+                        "@type": "emmo:Density",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
@@ -642,7 +642,7 @@
                      },
                      {
                         "label": "number_of_electrons_transferred",
-                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "@type": "emmo:NumberOfEntities",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
@@ -655,7 +655,7 @@
                      },
                      {
                         "label": "activation_energy_of_reaction",
-                        "@type": "https://w3id.org/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
+                        "@type": "emmo:Energy",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
@@ -681,7 +681,7 @@
                      },
                      {
                         "label": "maximum_lithium_stoichiometry",
-                        "@type": "https://w3id.org/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
@@ -694,7 +694,7 @@
                      },
                      {
                         "label": "minimum_lithium_stoichiometry",
-                        "@type": "https://w3id.org/emmo#EMMO_cbba91a7_d639_461f_ae23_d021751029e4",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
@@ -709,12 +709,11 @@
                         "label": "open_circuit_potential",
                         "@type": "None",
                         "value": {
-                           "function": "(-4.656 + 0 * (c/cmax) + 88.669 * (c/cmax)^2 + 0 * (c./cmax)^3 - 401.119 * (c/cmax)^4 + 0 * (c/cmax)^5 + 342.909 * (c/cmax)^6 + 0 * (c/cmax)^7 - 462.471 * (c/cmax)^8 + 0 * (c/cmax)^9 + 433.434 * (c/cmax)^10)/(-1 + 0  * (c/cmax)+ 18.933 * (c./cmax)^2+ 0 * (c/cmax)^3- 79.532 * (c/cmax)^4+ 0 * (c/cmax)^5+ 37.311 * (c/cmax)^6+ 0 * (c/cmax)^7- 73.083 * (c/cmax)^8+ 0 * (c/cmax)^9+ 95.960 * (c/cmax)^10)+ (T - refT) * ( -1e-3* ( 0.199521039- 0.928373822 * (c/cmax)+ 1.364550689000003 * (c/cmax)^2- 0.611544893999998 * (c/cmax)^3)/ (1- 5.661479886999997 * (c/cmax)+ 11.47636191 * (c/cmax)^2- 9.82431213599998 * (c/cmax)^3+ 3.048755063 * (c/cmax)^4))",
+                           "functionname": "computeOCP_NMC811_Chen2020",
+                           "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
                            "argument_list": [
                               "c",
-                              "cmax",
-                              "T",
-                              "refT"
+                              "cmax"
                            ]
                         }
                      },
@@ -1079,7 +1078,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 60
+                           "hasNumericalData": 20
                         },
                         "unit": {
                            "label": "UnitOne",

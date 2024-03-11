@@ -46,44 +46,65 @@ def run_julia(q_in,q_out):
             #     return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
 
             # Converting data to python objects
-            negative_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_concentration],
-            negative_electrode_concentration = np.vstack(negative_electrode_concentration)
+            try:
+                negative_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_concentration],
+                negative_electrode_concentration = np.vstack(negative_electrode_concentration)
 
-            electrolyte_concentration = [jl.Py(subarray).to_numpy() for subarray in electrolyte_concentration],
-            electrolyte_concentration = np.vstack(electrolyte_concentration)
+                electrolyte_concentration = [jl.Py(subarray).to_numpy() for subarray in electrolyte_concentration],
+                electrolyte_concentration = np.vstack(electrolyte_concentration)
 
-            positive_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_concentration],
-            positive_electrode_concentration = np.vstack(positive_electrode_concentration)
+                positive_electrode_concentration = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_concentration],
+                positive_electrode_concentration = np.vstack(positive_electrode_concentration)
 
-            negative_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_potential],
-            negative_electrode_potential = np.vstack(negative_electrode_potential)
+                negative_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in negative_electrode_potential],
+                negative_electrode_potential = np.vstack(negative_electrode_potential)
 
-            electrolyte_potential = [jl.Py(subarray).to_numpy() for subarray in electrolyte_potential],
-            electrolyte_potential = np.vstack(electrolyte_potential)
+                electrolyte_potential = [jl.Py(subarray).to_numpy() for subarray in electrolyte_potential],
+                electrolyte_potential = np.vstack(electrolyte_potential)
 
-            positive_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_potential],
-            positive_electrode_potential = np.vstack(positive_electrode_potential)
+                positive_electrode_potential = [jl.Py(subarray).to_numpy() for subarray in positive_electrode_potential],
+                positive_electrode_potential = np.vstack(positive_electrode_potential)
 
+                
+                print(number_of_states)
+
+                output = [ np.array(log_messages),
+                    int(number_of_states[0]),
+                    jl.Py(cell_voltage).to_numpy(),
+                    jl.Py(cell_current).to_numpy(),
+                    jl.Py(time_values).to_numpy(),
+                    np.squeeze(jl.Py(negative_electrode_grid).to_numpy()),
+                    np.squeeze(jl.Py(negative_electrode_grid_bc).to_numpy()),
+                    np.squeeze(jl.Py(electrolyte_grid).to_numpy()),
+                    np.squeeze(jl.Py(electrolyte_grid_bc).to_numpy()),
+                    np.squeeze(jl.Py(positive_electrode_grid).to_numpy()),
+                    np.squeeze(jl.Py(positive_electrode_grid_bc).to_numpy()),
+                    negative_electrode_concentration,
+                    electrolyte_concentration,
+                    positive_electrode_concentration,
+                    negative_electrode_potential,
+                    electrolyte_potential,
+                    positive_electrode_potential]
             
-            print(number_of_states)
-            
-            output = [ np.array(log_messages),
-                int(number_of_states[0]),
-                jl.Py(cell_voltage).to_numpy(),
-                jl.Py(cell_current).to_numpy(),
-                jl.Py(time_values).to_numpy(),
-                np.squeeze(jl.Py(negative_electrode_grid).to_numpy()),
-                np.squeeze(jl.Py(negative_electrode_grid_bc).to_numpy()),
-                np.squeeze(jl.Py(electrolyte_grid).to_numpy()),
-                np.squeeze(jl.Py(electrolyte_grid_bc).to_numpy()),
-                np.squeeze(jl.Py(positive_electrode_grid).to_numpy()),
-                np.squeeze(jl.Py(positive_electrode_grid_bc).to_numpy()),
-                negative_electrode_concentration,
-                electrolyte_concentration,
-                positive_electrode_concentration,
-                negative_electrode_potential,
-                electrolyte_potential,
-                positive_electrode_potential]
+            except:
+                output = [np.array(log_messages), 
+                        int(number_of_states[0]), 
+                        int(cell_voltage[0]), 
+                        int(cell_current[0]), 
+                        int(time_values[0]), 
+                        int(negative_electrode_grid[0]), 
+                        int(negative_electrode_grid_bc[0]), 
+                        int(electrolyte_grid[0]), 
+                        int(electrolyte_grid_bc[0]), 
+                        int(positive_electrode_grid[0]), 
+                        int(positive_electrode_grid_bc[0]), 
+                        int(negative_electrode_concentration[0]), 
+                        int(electrolyte_concentration[0]), 
+                        int(positive_electrode_concentration[0]), 
+                        int(negative_electrode_potential[0]), 
+                        int(electrolyte_potential[0]), 
+                        int(positive_electrode_potential[0])]
+                
             
             
             # print("1: ", negative_electrode_grid)
