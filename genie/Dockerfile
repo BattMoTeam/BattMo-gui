@@ -1,8 +1,9 @@
 # pull latest julia image
 FROM julia:latest
 
+# Install required packages
 RUN apt-get update \
-    && apt-get install -y g++\
+    && apt-get install -y \
     build-essential \
     vim \
     tmux \
@@ -10,23 +11,45 @@ RUN apt-get update \
     cmake \
     && apt-get clean
 
+# Set working directory
 WORKDIR /app
 
-RUN chmod +x /app
+# Copy manifest and project files
+COPY Manifest.toml Project.toml ./
 
-ADD deps.jl deps.jl
+# Install and precompile Julia packages
+RUN julia --project=/app -e 'import Pkg; Pkg.instantiate(); Pkg.precompile()'
 
-RUN julia deps.jl
+# Add PackageCompiler to project environment
+RUN julia --project=/app -e 'import Pkg; Pkg.add("PackageCompiler"); Pkg.precompile()'
 
+# Copy compiled files
 COPY compiled compiled
 
-# Compile app
-RUN julia compiled/make.jl --verbose
+# Activate project directory
+RUN julia --project=/app -e 'import Pkg; Pkg.activate(".")'
 
+# Install PackageCompiler package
+RUN julia -e 'import Pkg; Pkg.add("PackageCompiler")'
+RUN julia -e 'import Pkg; Pkg.add("Genie")'
+RUN julia -e 'import Pkg; Pkg.add("HTTP")'
+RUN julia -e 'import Pkg; Pkg.add("JLD2")'
+RUN julia -e 'import Pkg; Pkg.add("JSON")'
+RUN julia -e 'import Pkg; Pkg.add("UUIDs")'
+RUN julia -e 'import Pkg; Pkg.add("ZipFile")'
+RUN julia -e 'import Pkg; Pkg.add("LoggingExtras")'
+RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;url="https://github.com/BattMoTeam/BattMo.jl.git", rev="cccv"))'
+
+# Compile app
+RUN julia compiled/make.jl
+
+# Copy application files
 COPY app .
 
+COPY bin .
 
-CMD [ "bin/server" ]
+# Set final command
+#CMD [ "bin/server" ]
 
 
 
