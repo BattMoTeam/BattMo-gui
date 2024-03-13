@@ -63,6 +63,8 @@ def run_page():
     if "upload" not in st.session_state:
         st.session_state.upload = None
 
+    if "theme" not in st.session_state:
+        st.session_state.theme = None
 
     log_memory_usage()
 
@@ -72,9 +74,9 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
+    #st.write("---")
     app.set_indicators(page_name)
-
-    st.divider()
+    #st.divider()
 
     app.download_parameters(gui_parameters)
 

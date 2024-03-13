@@ -25,6 +25,24 @@ def get_path_to_streamlit_dir():
     return streamlit_path
 
 @st.cache_data
+def get_path_to_html_dir():
+    streamlit_path = get_path_to_streamlit_dir()
+    html_path = os.path.join(streamlit_path, "html")
+    return html_path
+
+@st.cache_data
+def get_path_to_light_style_css():
+    html_path = get_path_to_html_dir()
+    light_style_css_path = os.path.join(html_path, "light_style.css")
+    return light_style_css_path
+
+@st.cache_data
+def get_path_to_dark_style_css():
+    html_path = get_path_to_html_dir()
+    dark_style_css_path = os.path.join(html_path, "dark_style.css")
+    return dark_style_css_path
+
+@st.cache_data
 def get_path_to_input_files_dir():
     streamlit_path = get_path_to_streamlit_dir()
     input_files_path = os.path.join(streamlit_path, "input_files")

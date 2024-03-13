@@ -15,6 +15,8 @@ from jsonschema import validate, ValidationError
 from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
+from streamlit_theme import st_theme
+from streamlit_javascript import st_javascript
 import os
 import plotly.express as px
 import plotly.graph_objects as go
@@ -28,6 +30,17 @@ from app_scripts import app_access, match_json_LD, match_json_upload, app_contro
 from app_scripts import app_calculations as calc
 
 
+def get_theme_style():
+    
+
+    if st.session_state.theme == "dark":
+        with open(app_access.get_path_to_dark_style_css()) as f:
+            style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    else:
+        with open(app_access.get_path_to_light_style_css()) as f:
+            style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+    return style
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -600,7 +613,7 @@ class SetTabs:
                                     template_parameter_id=parameter.id,
                                     parameter_set_id=non_material_parameter_set_id
                                 )
-                                st_space(tab_advanced_pe)
+                                #st_space(tab_advanced_pe)
                                 name_col, input_col = tab_advanced_pe.columns(2)
 
                                 if isinstance(parameter, NumericalParameter):
@@ -748,7 +761,7 @@ class SetTabs:
                                     template_parameter_id=parameter.id,
                                     parameter_set_id=non_material_parameter_set_id
                                 )
-                                st_space(tab_advanced)
+                                #st_space(tab_advanced)
                                 name_col, input_col = tab_advanced.columns(2)
 
                                 if isinstance(parameter, NumericalParameter):
@@ -988,7 +1001,6 @@ class SetTabs:
 
         self.update_json_LD()
         self.update_json_battmo_input()
-        st.divider()
 
         # if os.path.exists("uploaded_input.json"):
         #     os.remove("uploaded_input.json")
@@ -2981,20 +2993,7 @@ class RunSimulation:
     def __init__(self, gui_parameters):
         self.header = "Run simulation"
         self.json_file = app_access.get_path_to_battmo_formatted_input()
-        self.button_style = st.markdown("""
-            <style>
-            div.stButton > button:first-child {
-                background-color: #e1e7f2;
-                
-                
-                height:3em;
-                width:10em;
-                font-size:20px;
-                        
-                border-radius:10px 10px 10px 10px;
-            }
-            </style>""", unsafe_allow_html=True)
-
+        self.style = get_theme_style()
         self.gui_parameters = gui_parameters
         #self.gui_file_data = json.dumps(gui_parameters, indent=2)
         #self.gui_file_name = "gui_output_parameters.json"
@@ -3025,8 +3024,6 @@ class RunSimulation:
     def set_buttons(self, save_run):
 
         #empty,run,empty2 = save_run.columns((0.3,1,1))
-
-        self.button_style
 
         # update = update.button(
         #     label="UPDATE",
@@ -3536,8 +3533,10 @@ class SetIndicators():
     used to render the indicator parameters on the results page.
     """
     def __init__(self, page_name):
-
+        
         self.page_name = page_name
+        st.session_state.theme = st_theme()["base"]
+        self.style = get_theme_style()
         self.set_indicators()
 
     def set_indicators(self):

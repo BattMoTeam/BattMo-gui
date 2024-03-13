@@ -1,0 +1,20 @@
+/* Dark theme styles */
+
+    /* Buttons style */
+    div.stButton > button:first-child {
+        background-color: #262730;
+
+        height:3em;
+        width:10em;
+        font-size:20px;
+                
+        border-radius:10px 10px 10px 10px;
+    }
+    /* metrics (indicators) style */
+    div.css-12w0qpk{
+        background-color: #262730;
+        border: 1px solid #555867;
+        padding: 10px 10px 10px 20px;
+        /* padding: 5% 5% 2% 2%; */
+        border-radius: 10px;
+    }
