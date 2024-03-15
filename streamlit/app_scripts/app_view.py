@@ -6,6 +6,7 @@ import pickle
 import io
 import h5py
 import streamlit as st
+import numpy as np
 from copy import deepcopy
 from uuid import uuid4
 import sys
@@ -21,6 +22,7 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
+from scipy import ndimage
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -2990,7 +2992,7 @@ class RunSimulation:
 
     Can be improved, think about removing the 'UPDATE' button.
     """
-    def __init__(self, gui_parameters):
+    def __init__(self, gui_parameters,col1):
         self.header = "Run simulation"
         self.json_file = app_access.get_path_to_battmo_formatted_input()
         self.style = get_theme_style()
@@ -3007,21 +3009,21 @@ class RunSimulation:
         self.results_folder = "results"
         self.temporary_results_file = "battmo_result"
         
-        self.set_section()
+        self.set_section(col1)
 
-    def set_section(self):
+    def set_section(self,col1):
 
         save_run = st.container()
 
-        self.set_header(save_run)
-        self.set_buttons(save_run)
+        self.set_header(col1,save_run)
+        self.set_buttons(col1,save_run)
 
-    def set_header(self,save_run):
+    def set_header(self,col1,save_run):
 
-        save_run.markdown("### " + self.header)
-        save_run.text(" ")
+        col1.markdown("### " + self.header)
+        col1.text(" ")
 
-    def set_buttons(self, save_run):
+    def set_buttons(self,col1, save_run):
 
         #empty,run,empty2 = save_run.columns((0.3,1,1))
 
@@ -3032,7 +3034,7 @@ class RunSimulation:
         #     #help = "Update the parameter values."
         # )
 
-        runing = save_run.button(
+        runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
             args = (save_run, )
@@ -3258,7 +3260,7 @@ class DownloadParameters:
     """
     Rendering of Run Simulation tab
     """
-    def __init__(self,gui_parameters):
+    def __init__(self,gui_parameters,col2):
         self.run_header = "Run Simulation"
         self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first 
                             simulation will be slow, but next simulations will be very quick."""
@@ -3286,7 +3288,7 @@ class DownloadParameters:
         self.formatted_parameters_file_name = "battmo_formatted_parameters.json"
 
         
-        self.set_submit_button()
+        self.set_submit_button(col2)
 
     def update_on_click(self):
         
@@ -3322,11 +3324,11 @@ class DownloadParameters:
                 indent=3
             )
 
-    def set_submit_button(self):
+    def set_submit_button(self,col2):
 
         with st.sidebar:
             # set Download header
-            st.markdown("## " + self.download_header)
+            st.markdown("### " + self.download_header)
 
             # set download button
             st.download_button(
@@ -3701,7 +3703,264 @@ class SetIndicators():
             print("ERROR: Page name '{}' to get indicators doesn't match.".format(self.page_name))
 
             
+class SetGeometryVisualization():
+    """
+    Used to render the geometry in a Plotly 3D volume plot on the 'Simulation' page.
+    """
+    def __init__(self,gui_parameters):
+        self.header = "Visualize geometry"
+        self.info = """This geometry visualization is an approximation based on the input parameters specified above. 
+                        The particles are for example visualized using a random data generator."""
+        self.gui_parameters = gui_parameters
+        self.set_geometry_visualization()
 
+    def set_geometry_visualization(self):
+        with st.sidebar:
+            self.set_header_info()
+            geometry_data = self.get_data()
+            self.create_graphs(geometry_data)
+
+    def set_header_info(self):
+        st.markdown("## " + self.header)
+
+    def get_data(self):
+        geometry_data = match_json_LD.get_geometry_data_from_gui_dict(self.gui_parameters)
+        return geometry_data
+    
+    def generate_random_particles(self, width, thickness, num_particles, particle_radius):
+        # Generate random particle coordinates within the specified dimensions
+        pts = np.random.rand(2,num_particles)
+        pts[0, :] *= thickness
+        # pts[:, 1] *= length
+        pts[1, :] *= width
+        # Generate random particle radii
+        radii = np.random.uniform(0.5 * particle_radius, particle_radius, num_particles)
+        return pts, radii
+    
+    def create_graphs(_self, geometry_data):
+                    
+            
+        toggle_zoomed = st.toggle("3D volume plot",key="zoomed", label_visibility="visible")
+
+        if toggle_zoomed:
+            _self.create_3d_graph(geometry_data)
+
+        toggle_2d = st.toggle("2D scatter plot",key="2D", label_visibility="visible")
+
+        if toggle_2d:
+            _self.create_2d_graph(geometry_data)
+    
+    @st.cache_data
+    def create_3d_graph(_self, geometry_data):
+        thickness_ne = geometry_data["thickness_ne"]
+        thickness_pe = geometry_data["thickness_pe"]
+        thickness_sep = geometry_data["thickness_sep"]
+        total_thickness = thickness_ne + thickness_pe + thickness_sep
+        length = total_thickness
+        width = total_thickness
+        particle_radius_ne = geometry_data["particle_radius_ne"]*10**6
+        particle_radius_pe = geometry_data["particle_radius_pe"]*10**6
+        porosity_ne =geometry_data["porosity_ne"] 
+        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_sep =geometry_data["porosity_sep"]
+
+        vf_ne = 1-porosity_ne
+        vf_pe = 1-porosity_pe
+        vf_sep = 1-porosity_sep
+        volume_ne = length*width*thickness_ne
+        volume_pe = length*width*thickness_pe
+        mass_volume_ne = vf_ne*volume_ne
+        mass_volume_pe = vf_pe*volume_pe
+        particle_volume_ne = 4/3 *np.pi*particle_radius_ne**3
+        particle_volume_pe = 4/3 *np.pi*particle_radius_pe**3
+        number_of_particles_ne = int(round(mass_volume_ne/particle_volume_ne))
+        number_of_particles_pe = int(round(mass_volume_pe/particle_volume_pe))
+        
+        np.random.seed(0)
+        
+        factor = int(round(thickness_sep/2))
+
+        scaled_thickness_ne = thickness_ne/factor
+        scaled_thickness_pe = thickness_pe/factor
+        scaled_thickness_sep = thickness_sep/factor
+        scaled_total_thickness  = total_thickness/factor
+        scaled_volume_ne = scaled_thickness_ne*scaled_total_thickness*scaled_total_thickness
+        scaled_volume_pe = scaled_thickness_pe*scaled_total_thickness*scaled_total_thickness
+        scaled_volume_sep = scaled_thickness_sep*scaled_total_thickness*scaled_total_thickness
+        scaled_real_volume_ne = scaled_volume_ne*vf_ne
+        scaled_real_volume_pe = scaled_volume_ne*vf_pe
+        scaled_real_volume_sep = scaled_volume_ne*vf_sep
+
+        X_ne, Y, Z = np.mgrid[:int(round(scaled_thickness_ne)), :int(round(scaled_total_thickness)), :int(round(scaled_total_thickness))]
+        vol_ne = np.zeros((int(round(scaled_thickness_ne)), int(round(scaled_total_thickness)), int(round(scaled_total_thickness))))
+        # pts_ne_x = (scaled_thickness_ne * np.random.rand(1, 15)).astype(int)
+        # pts_ne_y = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        # pts_ne_z = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        #pts_ne = np.concatenate((pts_ne_x, pts_ne_y, pts_ne_z), axis=0)
+        pts_ne_x = np.transpose(np.random.randint(0, int(round(scaled_thickness_ne)), size=(int(round(scaled_real_volume_ne)), 1)))
+        pts_ne_y = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_ne)), 1)))
+        pts_ne_z = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_ne)), 1)))
+        pts_ne = np.concatenate((pts_ne_x, pts_ne_y, pts_ne_z), axis=0)
+
+        X_pe, _, _ = np.mgrid[:int(round(scaled_thickness_pe)), :int(round(scaled_total_thickness)), :int(round(scaled_total_thickness))]
+        vol_pe = np.zeros((int(round(scaled_thickness_pe)), int(round(scaled_total_thickness)), int(round(scaled_total_thickness))))
+
+        # pts_pe_x = (scaled_thickness_pe * np.random.rand(1, 15)).astype(int)#+ int(thickness_ne) + int(thickness_sep)
+        # pts_pe_y = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        # pts_pe_z = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        # pts_pe = np.concatenate((pts_pe_x, pts_pe_y, pts_pe_z), axis=0)
+        pts_pe_x = np.transpose(np.random.randint(0, int(round(scaled_thickness_pe)), size=(int(round(scaled_real_volume_pe)), 1)))
+        pts_pe_y = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_pe)), 1)))
+        pts_pe_z = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_pe)), 1)))
+        pts_pe = np.concatenate((pts_pe_x, pts_pe_y, pts_pe_z), axis=0)
+
+        X_sep, _, _ = np.mgrid[:int(round(scaled_thickness_sep)), :int(round(scaled_total_thickness)), :int(round(scaled_total_thickness))]
+        vol_sep = np.zeros((int(round(scaled_thickness_sep)), int(round(scaled_total_thickness)), int(round(scaled_total_thickness))))
+        # pts_sep_x = (scaled_thickness_sep * np.random.rand(1, 15)).astype(int)# + int(thickness_ne)
+        # pts_sep_y = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        # pts_sep_z = (scaled_total_thickness * np.random.rand(1, 15)).astype(int)
+        # pts_sep = np.concatenate((pts_sep_x, pts_sep_y, pts_sep_z), axis=0)
+        pts_sep_x = np.transpose(np.random.randint(0, int(round(scaled_thickness_sep)), size=(int(round(scaled_real_volume_sep)), 1)))
+        pts_sep_y = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_sep)), 1)))
+        pts_sep_z = np.transpose(np.random.randint(0, int(round(scaled_total_thickness)), size=(int(round(scaled_real_volume_sep)), 1)))
+        pts_sep = np.concatenate((pts_sep_x, pts_sep_y, pts_sep_z), axis=0)
+
+        vol_ne[tuple(indices for indices in pts_ne)] = 1
+        vol_pe[tuple(indices for indices in pts_pe)] = 1
+        vol_sep[tuple(indices for indices in pts_sep)] = 1
+        from scipy import ndimage
+        #vol_ne = ndimage.gaussian_filter(vol_ne, 0.5)
+        vol_ne /= vol_ne.max()
+        #vol_pe = ndimage.gaussian_filter(vol_pe, 0.5)
+        vol_pe /= vol_pe.max()
+        #vol_sep = ndimage.gaussian_filter(vol_sep, 0.5)
+        vol_sep /= vol_sep.max()
+
+        X_ne *= factor
+        X_sep += int(scaled_thickness_ne)
+        X_pe += int(scaled_thickness_ne +scaled_thickness_sep)
+        X_sep *= factor
+        X_pe *= factor
+        Y *= factor
+        Z *= factor
+
+        fig = go.Figure(data=go.Volume(
+            x=X_ne.flatten(), y=Y.flatten(), z=Z.flatten(),
+            value=vol_ne.flatten(),
+            isomin=0.2,
+            isomax=0.7,
+            opacity=0.1,
+            surface_count=25,
+            name='Negative Electrode',
+            colorscale='Blues',
+            showscale=False
+            ))
+        
+        fig.add_trace(go.Volume(
+            x=X_pe.flatten(), y=Y.flatten(), z=Z.flatten(),
+            value=vol_pe.flatten(),
+            isomin=0.2,
+            isomax=0.7,
+            opacity=0.1,
+            surface_count=25,
+            name='Positive Electrode',
+            colorscale='Reds',
+            showscale=False
+        ))
+
+        fig.add_trace(go.Volume(
+            x=X_sep.flatten(), y=Y.flatten(), z=Z.flatten(),
+            value=vol_sep.flatten(),
+            isomin=0.2,
+            isomax=0.7,
+            opacity=0.1,
+            surface_count=25,
+            name='Separator',
+            colorscale='Greens',
+            showscale=False
+        ))
+        fig.update_layout(
+                # legend=dict(
+                #     yanchor="top",
+                #     y=0.99,
+                #     xanchor="left",
+                #     x=0.01
+                # ),
+
+                scene_aspectmode='data',
+                scene = dict(
+                    xaxis = dict(autorange = "reversed"),
+                    xaxis_title='Thickness  /  \u03BCm',
+                    yaxis_title='Length  /  \u03BCm',
+                    zaxis_title='Width  /  \u03BCm'),
+                    xaxis=dict(range=[0, total_thickness]),
+                    width=700,
+                    margin=dict(r=20, b=10, l=10, t=10),
+                )
+        st.plotly_chart(fig,theme=None, use_container_width=True)
+
+    @st.cache_data
+    def create_2d_graph(_self, geometry_data):
+        length = geometry_data["length"]*10**4
+        width = geometry_data["width"]*10**4
+        thickness_ne = geometry_data["thickness_ne"]
+        thickness_pe = geometry_data["thickness_pe"]
+        thickness_sep = geometry_data["thickness_sep"]
+        total_thickness = thickness_ne + thickness_pe + thickness_sep
+        particle_radius_ne = geometry_data["particle_radius_ne"]*10**6
+        particle_radius_pe = geometry_data["particle_radius_pe"]*10**6
+        porosity_ne =geometry_data["porosity_ne"] 
+        porosity_pe =geometry_data["porosity_pe"] 
+
+        vf_ne = 1-porosity_ne
+        vf_pe = 1-porosity_pe
+        area_ne = width*thickness_ne
+        area_pe = width*thickness_pe
+        mass_area_ne = vf_ne*area_ne
+        mass_area_pe = vf_pe*area_pe
+        particle_area_ne = np.pi*particle_radius_ne**2
+        particle_area_pe = np.pi*particle_radius_pe**2
+        number_of_particles_ne = int(round(mass_area_ne/particle_area_ne))
+        number_of_particles_pe = int(round(mass_area_pe/particle_area_pe))
+
+        ne_pts_full = np.full((2, int(round(total_thickness))), np.nan)
+        # Generate negative electrode particles
+        ne_pts, ne_radii = _self.generate_random_particles(width, thickness_ne, number_of_particles_ne, particle_radius_ne)
+        
+        # Generate positive electrode particles
+        pe_pts, pe_radii = _self.generate_random_particles(width, thickness_pe, number_of_particles_pe, particle_radius_pe)
+        pe_pts[0,:] += thickness_ne +thickness_sep
+        # Generate separator particles
+        sep_pts, sep_radii = _self.generate_random_particles( width, thickness_sep, 10,2)
+        sep_pts[0,:] += thickness_ne
+
+        elements = max(number_of_particles_ne, number_of_particles_pe)
+
+        import pandas as pd
+        # Create DataFrame for each particle type
+        ne_df = pd.DataFrame({'x': ne_pts[0,:], 'y': ne_pts[1,:], 'radius': ne_radii, 'component': 'Negative Electrode'})
+        pe_df = pd.DataFrame({'x': pe_pts[0,:], 'y': pe_pts[1,:], 'radius': pe_radii, 'component': 'Positive Electrode'})
+        sep_df = pd.DataFrame({'x': sep_pts[0,:], 'y': sep_pts[1,:], 'radius': sep_radii, 'component': 'Separator'})
+
+        # Concatenate DataFrames
+        combined_df = pd.concat([ne_df, pe_df, sep_df], ignore_index=True)
+
+        # Plot scatter plot
+        fig = px.scatter(combined_df, x='x', y='y', size='radius',color= "component")
+
+        # Update layout
+        fig.update_layout(
+            xaxis_title='Thickness  /  \u03BCm',
+            yaxis_title='Width  /  \u03BCm',
+            width=700,
+            margin=dict(r=20, b=10, l=10, t=10))
+        st.plotly_chart(fig, use_container_width=True)
+    
+    
+            
+
+        
+        
 
 class SetHDF5Download():
     """

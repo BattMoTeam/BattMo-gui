@@ -78,10 +78,14 @@ def run_page():
     app.set_indicators(page_name)
     #st.divider()
 
-    app.download_parameters(gui_parameters)
+    app.set_geometry_visualization(gui_parameters)
+
+    col1,col2 = st.columns(2)
+
+    app.download_parameters(gui_parameters,col2)
 
     
-    app.run_simulation(gui_parameters)
+    app.run_simulation(gui_parameters,col1)
 
 
     app.divergence_check()

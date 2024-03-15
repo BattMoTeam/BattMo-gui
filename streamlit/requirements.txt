@@ -12,3 +12,4 @@ streamlit_javascript == 0.1.5
 plotly == 5.18.0
 streamlit-elements==0.1
 st-theme
+scipy

@@ -430,3 +430,21 @@ def get_indicators_from_gui_dict(gui_dict):
 
 
     return indicators
+
+def get_geometry_data_from_gui_dict(gui_dict):
+
+    json_ld = GuiDict(gui_dict)
+    geometry_data = {
+        "length": json_ld.ne.properties.get("length").get("value"),
+        "width": json_ld.ne.properties.get("width").get("value"),
+        "thickness_ne": json_ld.ne.properties.get("coating_thickness").get("value"),
+        "thickness_pe": json_ld.pe.properties.get("coating_thickness").get("value"),
+        "thickness_sep": json_ld.sep_prop.get("thickness").get("value"),
+        "particle_radius_ne": json_ld.ne.am.get("particle_radius").get("value"),
+        "particle_radius_pe": json_ld.pe.am.get("particle_radius").get("value"),
+        "porosity_ne": json_ld.ne.properties.get("coating_porosity").get("value"),
+        "porosity_pe": json_ld.pe.properties.get("coating_porosity").get("value"),
+        "porosity_sep": json_ld.sep_prop.get("porosity").get("value")
+    }
+
+    return geometry_data
