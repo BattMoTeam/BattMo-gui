@@ -188,7 +188,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "activationEnergyOfDiffusion": json_ld.ne.am.get("activation_energy_of_diffusion").get("value"),
                         "referenceDiffusionCoefficient": json_ld.ne.am.get("diffusion_pre_exponential_factor").get("value"),
                         "particleRadius":json_ld.ne.am.get("particle_radius").get("value"),
-                        "N": json_ld.ne.am.get("number_of_discrete_cells_particle_radius").get("value")
+                        "N": 10
                     }
                 },
                 "Binder": {
@@ -249,7 +249,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "activationEnergyOfDiffusion": json_ld.pe.am.get("activation_energy_of_diffusion").get("value"),
                         "referenceDiffusionCoefficient": json_ld.pe.am.get("diffusion_pre_exponential_factor").get("value"),
                         "particleRadius":json_ld.pe.am.get("particle_radius").get("value"),
-                        "N": json_ld.pe.am.get("number_of_discrete_cells_particle_radius").get("value")
+                        "N": 10
                     }
                 },
                 "Binder": {
