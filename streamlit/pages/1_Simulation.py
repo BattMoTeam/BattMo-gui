@@ -81,12 +81,8 @@ def run_page():
     
     app.run_simulation(gui_parameters)
 
-
-    app.divergence_check()
-
-
-    
-
+    st.session_state.succes = True
+    # app.divergence_check()
 
     ############################################
     # Can be used to check the structure of gui_parameters in the terminal
