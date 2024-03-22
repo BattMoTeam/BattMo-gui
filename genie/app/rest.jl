@@ -1,8 +1,18 @@
+
+# println("Current project genie: $(Base.active_project())")
+#using BattMo
+using Logging
+using JLD2
+# while true
+# end
+println("Current project genie: $(Base.active_project())")
+println("BattMo loaded")
 using Genie, Genie.Renderer.Json, Genie.Requests
 using HTTP
 using UUIDs
 using JSON
 using ZipFile
+
 include("runP2DBattery.jl") 
 
 

@@ -2,7 +2,7 @@
 
 julia_version = "1.10.0"
 manifest_format = "2.0"
-project_hash = "e880cac18c150f3331a6d4a1c7c0c8bbb0da645e"
+project_hash = "62fcaf4d04c46efdff1f7a24a7135624b0ba9617"
 
 [[deps.AMD]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse_jll"]
@@ -12,9 +12,9 @@ version = "0.5.3"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra", "Requires"]
-git-tree-sha1 = "cea4ac3f5b4bc4b3000aa55afb6e5626518948fa"
+git-tree-sha1 = "6a55b747d1812e699320963ffde36f1ebdda4099"
 uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "4.0.3"
+version = "4.0.4"
 weakdeps = ["StaticArrays"]
 
     [deps.Adapt.extensions]
@@ -76,8 +76,8 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.BattMo]]
 deps = ["JLD2", "JSON", "Jutul", "MAT", "Polynomials", "PrecompileTools", "RuntimeGeneratedFunctions", "StaticArrays", "Test", "Tullio", "x264_jll"]
-git-tree-sha1 = "ea486163e61e0b48770f10ca50ba5dce8f53db76"
-repo-rev = "cccv"
+git-tree-sha1 = "7aaeee020a758723b584275f7e554cbc930967df"
+repo-rev = "dev"
 repo-url = "https://github.com/BattMoTeam/BattMo.jl.git"
 uuid = "6f0c0536-3c2c-4762-a987-c605a8a6f898"
 version = "0.1.6"
@@ -167,15 +167,15 @@ version = "1.0.5+1"
 
 [[deps.ConcurrentUtilities]]
 deps = ["Serialization", "Sockets"]
-git-tree-sha1 = "9c4708e3ed2b799e6124b5673a712dda0b596a9b"
+git-tree-sha1 = "6cbbd4d241d7e6579ab354737f4dd95ca43946e1"
 uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
-version = "2.3.1"
+version = "2.4.1"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "c53fc348ca4d40d7b371e71fd52251839080cbc9"
+git-tree-sha1 = "260fd2400ed2dab602a7c15cf10c1933c59930a2"
 uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
-version = "1.5.4"
+version = "1.5.5"
 
     [deps.ConstructionBase.extensions]
     ConstructionBaseIntervalSetsExt = "IntervalSets"
@@ -272,9 +272,9 @@ version = "0.3.2"
 
 [[deps.FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
-git-tree-sha1 = "c5c28c245101bd59154f649e19b038d15901b5dc"
+git-tree-sha1 = "82d8afa92ecf4b52d78d869f038ebfb881267322"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.16.2"
+version = "1.16.3"
 
 [[deps.FilePathsBase]]
 deps = ["Compat", "Dates", "Mmap", "Printf", "Test", "UUIDs"]
@@ -306,9 +306,9 @@ version = "6.2.1+6"
 
 [[deps.Genie]]
 deps = ["ArgParse", "Base64", "Dates", "Distributed", "DotEnv", "EzXML", "FilePathsBase", "HTTP", "HttpCommon", "Inflector", "JSON3", "JuliaFormatter", "Logging", "LoggingExtras", "LoweredCodeUtils", "MIMEs", "Markdown", "Millboard", "Nettle", "OrderedCollections", "Pkg", "REPL", "Random", "Reexport", "Revise", "SHA", "Serialization", "Sockets", "UUIDs", "Unicode", "XML2_jll", "YAML"]
-git-tree-sha1 = "c36e0058485d161e5218144e08afe0ea56daa045"
+git-tree-sha1 = "789bcc1f20b5ece7cf49c17384f822ccb8645cd1"
 uuid = "c43c736e-a2d1-11e8-161f-af95117fbd1e"
-version = "5.27.0"
+version = "5.28.0"
 
 [[deps.Glob]]
 git-tree-sha1 = "97285bbd5230dd766e9ef6749b80fc617126d496"
@@ -341,9 +341,9 @@ version = "1.14.2+1"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "db864f2d91f68a5912937af80327d288ea1f3aee"
+git-tree-sha1 = "995f762e0182ebc50548c434c171a5bb6635f8e4"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.10.3"
+version = "1.10.4"
 
 [[deps.HostCPUFeatures]]
 deps = ["BitTwiddlingConvenienceFunctions", "IfElse", "Libdl", "Static"]
@@ -431,19 +431,21 @@ version = "1.14.0"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Glob", "Pkg", "PrecompileTools", "Tokenize"]
-git-tree-sha1 = "cb2a396ac30525079dfe56adf3fc9c301ea1a2bb"
+git-tree-sha1 = "e07d6fd7db543b11cd90ed764efec53f39851f09"
 uuid = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-version = "1.0.53"
+version = "1.0.54"
 
 [[deps.JuliaInterpreter]]
 deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
-git-tree-sha1 = "7b762d81887160169ddfc93a47e5fd7a6a3e78ef"
+git-tree-sha1 = "0015726aa3eb28973fbbdbb7ca2ed6396ffe3a23"
 uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.9.29"
+version = "0.9.30"
 
 [[deps.Jutul]]
 deps = ["AlgebraicMultigrid", "Crayons", "DataStructures", "Dates", "ExprTools", "ForwardDiff", "Graphs", "ILUZero", "JLD2", "Krylov", "LinearAlgebra", "LinearOperators", "Logging", "LoopVectorization", "MAT", "MappedArrays", "Metis", "OrderedCollections", "Polyester", "PolyesterWeave", "Polynomials", "PrettyTables", "Printf", "ProgressMeter", "SparseArrays", "SparsityTracing", "StaticArrays", "Statistics", "SymRCM", "Test", "TimerOutputs", "Tullio"]
-git-tree-sha1 = "db783b6734f7e217fc82a424f9291edf6ad3e230"
+git-tree-sha1 = "75acf926235d3ac1f31816b26d87f5d0e89d126d"
+repo-rev = "battmo"
+repo-url = "https://github.com/sintefmath/Jutul.jl.git"
 uuid = "2b460a1a-8a2b-45b2-b125-b5c536396eb9"
 version = "0.2.26"
 
@@ -778,10 +780,10 @@ uuid = "32165bc3-0280-59bc-8c0b-c33b6203efab"
 version = "4.2.7+0"
 
 [[deps.PackageCompiler]]
-deps = ["Artifacts", "LazyArtifacts", "Libdl", "Pkg", "RelocatableFolders", "UUIDs"]
-git-tree-sha1 = "a16924b37299cc7d6106fac255b44a8c79c7c21f"
+deps = ["Artifacts", "Glob", "LazyArtifacts", "Libdl", "Pkg", "Printf", "RelocatableFolders", "TOML", "UUIDs", "p7zip_jll"]
+git-tree-sha1 = "48d4429862157ad5500c4f61444db1b8c32e0a2b"
 uuid = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
-version = "1.7.7"
+version = "2.1.17"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
@@ -796,9 +798,9 @@ version = "1.10.0"
 
 [[deps.Polyester]]
 deps = ["ArrayInterface", "BitTwiddlingConvenienceFunctions", "CPUSummary", "IfElse", "ManualMemory", "PolyesterWeave", "Requires", "Static", "StaticArrayInterface", "StrideArraysCore", "ThreadingUtilities"]
-git-tree-sha1 = "fca25670784a1ae44546bcb17288218310af2778"
+git-tree-sha1 = "8df43bbe60029526dd628af7e9951f5af680d4d7"
 uuid = "f517fe37-dbe3-4b94-8317-1923a5111588"
-version = "0.7.9"
+version = "0.7.10"
 
 [[deps.PolyesterWeave]]
 deps = ["BitTwiddlingConvenienceFunctions", "CPUSummary", "IfElse", "Static", "ThreadingUtilities"]
@@ -873,9 +875,9 @@ version = "1.2.2"
 
 [[deps.RelocatableFolders]]
 deps = ["SHA", "Scratch"]
-git-tree-sha1 = "cdbd3b1338c72ce29d9584fdbe9e9b70eeb5adca"
+git-tree-sha1 = "ffdaf70d81cf6ff22c2b6e733c900c3321cab864"
 uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
-version = "0.1.3"
+version = "1.0.1"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
@@ -933,12 +935,6 @@ uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
 uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
 version = "1.1.0"
-
-[[deps.SimpleContainerGenerator]]
-deps = ["PackageCompiler", "Pkg", "UUIDs"]
-git-tree-sha1 = "d783c81a11f85d0c3551a52edfd096bef580d8f4"
-uuid = "b8d349fb-717b-4aac-a9b1-e1da4219c631"
-version = "2.0.2"
 
 [[deps.SimpleTraits]]
 deps = ["InteractiveUtils", "MacroTools"]
@@ -1101,9 +1097,9 @@ uuid = "0796e94c-ce3b-5d07-9a54-7f471281c624"
 version = "0.5.28"
 
 [[deps.TranscodingStreams]]
-git-tree-sha1 = "3caa21522e7efac1ba21834a03734c57b4611c7e"
+git-tree-sha1 = "a09c933bebed12501890d8e92946bbab6a1690f1"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.10.4"
+version = "0.10.5"
 weakdeps = ["Random", "Test"]
 
     [deps.TranscodingStreams.extensions]

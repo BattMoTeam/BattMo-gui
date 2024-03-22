@@ -1,4 +1,11 @@
 using BattMo
+using Genie, Genie.Renderer.Json, Genie.Requests
+using HTTP
+using UUIDs
+using JSON
+using ZipFile
+using Logging
+using JLD2
 
 # Get the directory of the make.jl script
 script_dir = dirname(@__FILE__)

@@ -1,7 +1,7 @@
 
 
 # make.jl
-using PackageCompiler
+using PackageCompiler, Logging
 
 #include("packages.jl")
 
@@ -9,16 +9,26 @@ using PackageCompiler
 script_dir = dirname(@__FILE__)
 
 # Specify the output path for the sysimg.so file relative to the script directory
-sysimage_path = joinpath(script_dir,"sysimg.so")
+sysimage_path = joinpath(dirname(dirname(dirname(script_dir))), "sysimage.so")
+println("sysimage_path.=",sysimage_path)
 example_path = joinpath(script_dir, "compile_run_battery.jl")
-project_path = joinpath(dirname(script_dir))
+project_path = dirname(script_dir)
+# Set up logging configuration
+global_logger(Logging.SimpleLogger(stdout, Logging.Debug))
 
-println("Sysimage path: ", sysimage_path)
+# Now you can use logging functions in your script
+@info "Starting sysimage creation process"
 
-# Create the system image
-create_sysimage([:LoggingExtras,:Genie];
-	sysimage_path = sysimage_path,
-	project = project_path,
-	precompile_execution_file=example_path)
+open("compiler_log.txt", "w") do io
+	redirect_stdout(io) do
+		# Create the system image
+		create_sysimage([:LoggingExtras,:Genie,:BattMo,:HTTP,:JSON,:UUIDs,:ZipFile,:JLD2];
+		sysimage_path = sysimage_path,
+		project = project_path,
+		precompile_execution_file=example_path)
+	end
+end
+# Print additional debug information if needed
+@debug "Debug message here"
 
-println("End: Sysimg creation complete.")
+@info "Sysimage creation process completed"

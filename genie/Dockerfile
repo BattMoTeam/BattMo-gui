@@ -1,52 +1,95 @@
 # pull latest julia image
 FROM julia:latest
 
-# Install required packages
-RUN apt-get update \
-    && apt-get install -y \
-    build-essential \
-    vim \
-    tmux \
-    unzip \
-    cmake \
-    && apt-get clean
+RUN useradd --create-home --shell /bin/bash genie
 
-# Set working directory
-WORKDIR /app
 
-# Copy manifest and project files
-COPY Manifest.toml Project.toml ./
+RUN mkdir /home/genie/app
+#COPY . /home/genie/app
+COPY deps.jl /home/genie/app
+COPY Project.toml /home/genie/app
+COPY Manifest.toml /home/genie/app
 
-# Install and precompile Julia packages
-RUN julia --project=/app -e 'import Pkg; Pkg.instantiate(); Pkg.precompile()'
+WORKDIR /home/genie/app
 
-# Add PackageCompiler to project environment
-RUN julia --project=/app -e 'import Pkg; Pkg.add("PackageCompiler"); Pkg.precompile()'
+RUN apt-get update && apt-get install -y g++
 
-# Copy compiled files
-COPY compiled compiled
+RUN chown -R genie:genie /home/
+USER genie
 
-# Activate project directory
-RUN julia --project=/app -e 'import Pkg; Pkg.activate(".")'
+RUN julia --project=. -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
+RUN julia --project=. -e 'println("Current project: $(Base.active_project())")'
 
-# Install PackageCompiler package
-RUN julia -e 'import Pkg; Pkg.add("PackageCompiler")'
-RUN julia -e 'import Pkg; Pkg.add("Genie")'
-RUN julia -e 'import Pkg; Pkg.add("HTTP")'
-RUN julia -e 'import Pkg; Pkg.add("JLD2")'
-RUN julia -e 'import Pkg; Pkg.add("JSON")'
-RUN julia -e 'import Pkg; Pkg.add("UUIDs")'
-RUN julia -e 'import Pkg; Pkg.add("ZipFile")'
-RUN julia -e 'import Pkg; Pkg.add("LoggingExtras")'
-RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;url="https://github.com/BattMoTeam/BattMo.jl.git", rev="cccv"))'
 
-# Compile app
-RUN julia compiled/make.jl
+RUN julia --project=. /home/genie/app/deps.jl
+RUN julia --project=. -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
+
+
 
 # Copy application files
-COPY app .
+COPY --chown=genie:genie compiled /home/genie/app/compiled
 
-COPY bin .
+# Ensure the directory is owned by the genie user
+RUN chown -R genie:genie /home/genie/app/compiled
+
+# Switch to the genie user before running the Julia command
+USER genie
+
+
+RUN julia --project=. /home/genie/app/compiled/make.jl
+ENV JULIA_DEPOT_PATH "/home/genie/.julia"
+ENV JULIA_REVISE="off"
+ENV EARLYBIND "true"
+
+COPY --chown=genie:genie app /home/genie/app
+COPY --chown=genie:genie bin /home/genie/app
+
+
+# Copy compiled files
+# COPY --chown=genie:genie compiled /home/genie/app/compiled
+
+# RUN julia --project=. /home/genie/app/compiled/compile_run_battery.jl
+# RUN julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
+
+# # Compile app
+# RUN julia --project=. /home/genie/app/compiled/make.jl
+
+
+
+
+
+
+
+
+# Set working directory
+# WORKDIR /app
+# Install required packages
+# RUN apt-get update \
+#     && apt-get install -y \
+#     build-essential \
+#     vim \
+#     tmux \
+#     unzip \
+#     cmake \
+#     && apt-get clean
+# Copy manifest and project files
+# COPY Manifest.toml Project.toml ./
+
+
+# # Install and precompile Julia packages
+# RUN julia --project=. -e 'import Pkg; Pkg.instantiate(); Pkg.precompile()'
+
+# # Add PackageCompiler to project environment
+# RUN julia --project=. -e 'import Pkg; Pkg.add("PackageCompiler"); Pkg.precompile()'
+
+# # Activate project directory
+# RUN julia --project=. -e 'import Pkg; Pkg.activate(".")'
+
+
+
+
+
+
 
 # Set final command
 #CMD [ "bin/server" ]
