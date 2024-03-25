@@ -6,7 +6,7 @@
    "NegativeElectrode": {
       "Coating": {
          "thickness": 8.499999999999999e-05,
-         "N": 20,
+         "N": 60,
          "effectiveDensity": 1900,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
@@ -39,7 +39,7 @@
                "activationEnergyOfDiffusion": 5000.0,
                "referenceDiffusionCoefficient": 3.9e-14,
                "particleRadius": 1e-06,
-               "N": 20
+               "N": 60
             }
          },
          "Binder": {
@@ -169,7 +169,7 @@
    "Control": {
       "controlPolicy": "CCCV",
       "initialControl": "discharging",
-      "numberOfCycles": 3,
+      "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
