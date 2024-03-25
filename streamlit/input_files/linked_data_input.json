@@ -305,7 +305,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 60
+                           "hasNumericalData": 20
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -1450,7 +1450,7 @@
                "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
                   "@type": "emmo:Numerical",
-                  "hasNumericalData": 1
+                  "hasNumericalData": 3
                },
                "unit": {
                   "label": "UnitOne",

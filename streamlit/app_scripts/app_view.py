@@ -16,7 +16,6 @@ from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
 import os
-import zipfile
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
@@ -3109,29 +3108,30 @@ class RunSimulation:
 
         response_start = requests.post(self.api_url, json=json_data)
 
-        #st.write(response_start.content)
-        # if response_start.status_code == 200:
+        st.write(response_start.status_code)
+        if response_start.status_code == 200:
 
-        with zipfile.ZipFile(io.BytesIO(response_start.content), 'r') as zip_ref:
-            # Extract all the contents to a folder
-            zip_ref.extractall(app_access.get_path_to_zipped_results())
+
 
             #success = DivergenceCheck().success
+            success = True
 
-            # if success == True:
-            #     with open(app_access.get_path_to_linked_data_input(), 'r') as f:
-            #         gui_parameters = json.load(f)
+            if success == True:
+                with open(app_access.get_path_to_linked_data_input(), 'r') as f:
+                    gui_parameters = json.load(f)
 
-            #     indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
+                indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
-            #     with open(app_access.get_path_to_indicator_values(), 'w') as f:
-            #         json.dump(indicators, f, indent=3)
+                with open(app_access.get_path_to_indicator_values(), 'w') as f:
+                    json.dump(indicators, f, indent=3)
 
-            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
-            #     pickle.dump(response_start.content, f)
+                data = response_start.content 
 
-    #   else:
-    #         st.write(re  sponse_start)
+                with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                    f.write(data)
+
+        else:
+                st.write(response_start)
     
         
         # with open("BattMo_results.pkl", "rb") as f:
@@ -3169,8 +3169,10 @@ class DivergenceCheck:
 
         if st.session_state.sim_finished:
 
+            results = app_controller.get_results_data().get_results_data()
+
             N = self.get_timesteps_setting()
-            number_of_states, log_messages = self.get_timesteps_execution()
+            number_of_states, log_messages = self.get_timesteps_execution(results)
 
             self.divergence_check_logging(N,number_of_states, log_messages)
 
@@ -3184,14 +3186,8 @@ class DivergenceCheck:
 
         return N
     
-    def get_timesteps_execution(self):
+    def get_timesteps_execution(self, results):
 
-        # Retrieve latest results
-        with open(app_access.get_path_to_battmo_results(), "rb") as pickle_result:
-            result = pickle.load(pickle_result)
-            #result_str = pickle_result.read()
-
-        #sresult = eval(result_str)
         
         [
             log_messages,
@@ -3212,7 +3208,7 @@ class DivergenceCheck:
             electrolyte_potential,
             positive_electrode_potential
 
-        ] = result 
+        ] = results 
 
         return number_of_states, log_messages
     
@@ -3428,74 +3424,83 @@ class GetResultsData():
 
     def get_results_data(self):
 
-        results = self.retrieve_results()
-        formatted_results = self.format_results(results)
+        #results = self.retrieve_results()
+        formatted_results = self.format_results()
 
         self.results = formatted_results
         return self.results
 
     def retrieve_results(self):
 
-        with open(app_access.get_path_to_battmo_results(), "rb") as pickle_result:
-            result = pickle.load(pickle_result)
+        with h5py.File(app_access.get_path_to_battmo_results(), "r") as f:
+            result = f
 
         return result
     
-    def format_results(self, results):
-        [
-            log_messages,
-            number_of_states,
-            cell_voltage,
-            cell_current,
-            time_values,
-            negative_electrode_grid,
-            negative_electrode_grid_bc,
-            electrolyte_grid,
-            electrolyte_grid_bc,
-            positive_electrode_grid,
-            positive_electrode_grid_bc,
-            negative_electrode_concentration_jl,
-            electrolyte_concentration_jl,
-            positive_electrode_concentration_jl,
-            negative_electrode_potential_jl,
-            electrolyte_potential_jl,
-            positive_electrode_potential_jl
+    def format_results(self):
+        results = h5py.File(app_access.get_path_to_battmo_results(), "r")
 
-        ] = results
+        # Retrieve the attributes
+        number_of_states = results["number_of_states"][()]
+        
+        # Retrieve datasets
+        log_messages = results["log_messages"][()]
+        time_values = results["time_values"][:]
+        cell_voltage = results["cell_voltage"][:]
+        cell_current = results["cell_current"][:]
+        negative_electrode_grid_bc = results["negative_electrode_grid_bc"][:]
+        electrolyte_grid_bc = results["electrolyte_grid_bc"][:]
+        positive_electrode_grid_bc = results["positive_electrode_grid_bc"][:]
 
-        length_1d_ne = len(negative_electrode_concentration_jl)
-        length_2d_ne = len(negative_electrode_concentration_jl[0])
-        length_1d_pe = len(positive_electrode_concentration_jl)
-        length_2d_pe = len(positive_electrode_concentration_jl[0])
-        length_1d_el = len(electrolyte_concentration_jl)
-        length_2d_el = len(electrolyte_concentration_jl[0])
-        negative_electrode_concentration = np.zeros((length_1d_ne,length_2d_ne))
-        positive_electrode_concentration = np.zeros((length_1d_pe,length_2d_pe))
-        negative_electrode_potential = np.zeros((length_1d_ne,length_2d_ne))
-        positive_electrode_potential = np.zeros((length_1d_pe,length_2d_pe))
-        electrolyte_concentration = np.zeros((length_1d_el,length_2d_el))
-        electrolyte_potential = np.zeros((length_1d_el,length_2d_el))
 
-        for i in range(length_1d_pe):
-            for j in range(length_2d_pe):
-                pe_c_sub = positive_electrode_concentration_jl[i]
-                pe_p_sub = positive_electrode_potential_jl[i]
-                positive_electrode_concentration[i,j] = pe_c_sub[j]
-                positive_electrode_potential[i,j] = pe_p_sub[j]
+        # Retrieve grid datasets
+        negative_electrode_grid = np.squeeze(results["grids/negative_electrode_grid"][:])
+        positive_electrode_grid = np.squeeze(results["grids/positive_electrode_grid"][:])
+        electrolyte_grid = np.squeeze(results["grids/electrolyte_grid"][:])
+        
+        # Retrieve concentration datasets
+        negative_electrode_concentration = [results["concentrations/negative_electrode_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
+        positive_electrode_concentration = [results["concentrations/positive_electrode_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
+        electrolyte_concentration = [results["concentrations/electrolyte_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
+        
+        # Retrieve potential datasets
+        negative_electrode_potential = [results["potentials/negative_electrode_potential_{}".format(i+1)][:] for i in range(number_of_states)]
+        positive_electrode_potential = [results["potentials/positive_electrode_potential_{}".format(i+1)][:] for i in range(number_of_states)]
+        electrolyte_potential = [results["potentials/electrolyte_potential_{}".format(i+1)][:] for i in range(number_of_states)]
 
-        for i in range(length_1d_el):
-            for j in range(length_2d_el):
-                el_c_sub = electrolyte_concentration_jl[i]
-                el_p_sub = electrolyte_potential_jl[i]
-                electrolyte_concentration[i,j] = el_c_sub[j]
-                electrolyte_potential[i,j] = el_p_sub[j]
+        # length_1d_ne = len(negative_electrode_concentration_jl)
+        # length_2d_ne = len(negative_electrode_concentration_jl[0])
+        # length_1d_pe = len(positive_electrode_concentration_jl)
+        # length_2d_pe = len(positive_electrode_concentration_jl[0])
+        # length_1d_el = len(electrolyte_concentration_jl)
+        # length_2d_el = len(electrolyte_concentration_jl[0])
+        # negative_electrode_concentration = np.zeros((length_1d_ne,length_2d_ne))
+        # positive_electrode_concentration = np.zeros((length_1d_pe,length_2d_pe))
+        # negative_electrode_potential = np.zeros((length_1d_ne,length_2d_ne))
+        # positive_electrode_potential = np.zeros((length_1d_pe,length_2d_pe))
+        # electrolyte_concentration = np.zeros((length_1d_el,length_2d_el))
+        # electrolyte_potential = np.zeros((length_1d_el,length_2d_el))
 
-        for i in range(length_1d_ne):
-            for j in range(length_2d_ne):
-                ne_c_sub = negative_electrode_concentration_jl[i]
-                ne_p_sub = negative_electrode_potential_jl[i]
-                negative_electrode_concentration[i,j] = ne_c_sub[j]
-                negative_electrode_potential[i,j] = ne_p_sub[j]
+        # for i in range(length_1d_pe):
+        #     for j in range(length_2d_pe):
+        #         pe_c_sub = positive_electrode_concentration_jl[i]
+        #         pe_p_sub = positive_electrode_potential_jl[i]
+        #         positive_electrode_concentration[i,j] = pe_c_sub[j]
+        #         positive_electrode_potential[i,j] = pe_p_sub[j]
+
+        # for i in range(length_1d_el):
+        #     for j in range(length_2d_el):
+        #         el_c_sub = electrolyte_concentration_jl[i]
+        #         el_p_sub = electrolyte_potential_jl[i]
+        #         electrolyte_concentration[i,j] = el_c_sub[j]
+        #         electrolyte_potential[i,j] = el_p_sub[j]
+
+        # for i in range(length_1d_ne):
+        #     for j in range(length_2d_ne):
+        #         ne_c_sub = negative_electrode_concentration_jl[i]
+        #         ne_p_sub = negative_electrode_potential_jl[i]
+        #         negative_electrode_concentration[i,j] = ne_c_sub[j]
+        #         negative_electrode_potential[i,j] = ne_p_sub[j]
             
         results = [
             log_messages,
@@ -3832,7 +3837,8 @@ class SetGraphs():
             _self.positive_electrode_potential
 
         ] = results
-         
+
+
         _self.set_graphs()
 
     def set_graphs(_self):
@@ -4082,9 +4088,13 @@ class SetGraphs():
         ] = _self.get_graph_limits_from_state(state)
 
         # Negative Electrode Concentration
+        length_grid_elyte = len(_self.electrolyte_grid)
+        length_grid_NE = len(_self.negative_electrode_grid)
+        negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
+        negative_electrode_concentration_ext[0:length_grid_NE] = np.squeeze(_self.negative_electrode_concentration)[state]
         ne_concentration = _self.create_subplot(
-            x_data=np.squeeze(_self.negative_electrode_grid),
-            y_data=np.squeeze(_self.negative_electrode_concentration)[state],
+            x_data=_self.electrolyte_grid,
+            y_data=negative_electrode_concentration_ext,
             title="Negative Electrode - Solid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
@@ -4141,9 +4151,13 @@ class SetGraphs():
         )
 
         # Negative Electrode Potential
+        length_grid_elyte = len(_self.electrolyte_grid)
+        length_grid_NE = len(_self.negative_electrode_grid)
+        negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
+        negative_electrode_potential_ext[0:length_grid_NE] = np.squeeze(_self.negative_electrode_potential)[state]
         ne_potential = _self.create_subplot(
-            x_data=np.squeeze(_self.negative_electrode_grid),
-            y_data=_self.negative_electrode_potential[state],
+            x_data=_self.electrolyte_grid,
+            y_data=negative_electrode_potential_ext,
             title="Negative Electrode - Potential  /  V",
             x_label="Position  /  \u00B5m",
             y_label="Potential  /  V",

@@ -80,9 +80,9 @@ def run_page():
 
     
     app.run_simulation(gui_parameters)
+    # st.session_state.succes = True
 
-
-    #app.divergence_check()
+    app.divergence_check()
 
 
     

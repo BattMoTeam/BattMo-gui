@@ -69,7 +69,7 @@ def get_path_to_zipped_results():
 @st.cache_data
 def get_path_to_battmo_results():
     output_files_path = get_path_to_output_files_dir()
-    battmo_results_path = os.path.join(output_files_path, "battmo_results")
+    battmo_results_path = os.path.join(output_files_path, "battmo_results.h5")
     return battmo_results_path
 
 @st.cache_data
