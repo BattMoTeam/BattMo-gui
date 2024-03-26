@@ -79,10 +79,10 @@ def run_page():
     app.download_parameters(gui_parameters)
 
     
-    app.run_simulation(gui_parameters)
+    error = app.run_simulation(gui_parameters).response_start
     # st.session_state.succes = True
 
-    app.divergence_check()
+    app.divergence_check(error)
 
 
     

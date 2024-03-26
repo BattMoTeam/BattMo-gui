@@ -305,7 +305,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 60
+                           "hasNumericalData": 10
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -566,6 +566,19 @@
                         }
                      },
                      {
+                        "label": "number_of_discrete_cells_electrode",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 30
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
                         "label": "electrode_capacity",
                         "@type": "emmo:Capacity",
                         "value": {
@@ -800,7 +813,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 20
+                           "hasNumericalData": 10
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -1058,6 +1071,19 @@
                            "label": "MicroMetre",
                            "symbol": "\u03bcm",
                            "@type": "emmo:MicroMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_discrete_cells_electrode",
+                        "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 20
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {

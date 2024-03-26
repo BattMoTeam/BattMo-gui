@@ -3007,6 +3007,7 @@ class RunSimulation:
         self.julia_module = 'runP2DBattery.jl'
         self.results_folder = "results"
         self.temporary_results_file = "battmo_result"
+        self.response_start = None
         
         self.set_section()
 
@@ -3107,14 +3108,13 @@ class RunSimulation:
         headers = {'Content-Type': 'application/json'}
 
         response_start = requests.post(self.api_url, json=json_data)
+        self.response_start = response_start.status_code
 
-        st.write(response_start.status_code)
         if response_start.status_code == 200:
 
 
 
-            #success = DivergenceCheck().success
-            success = True
+            success = DivergenceCheck(response_start.status_code).success
 
             if success == True:
                 with open(app_access.get_path_to_linked_data_input(), 'r') as f:
@@ -3131,7 +3131,9 @@ class RunSimulation:
                     f.write(data)
 
         else:
-                st.write(response_start)
+                st.session_state.succes = False
+                success = DivergenceCheck(response_start.status_code).success
+                
     
         
         # with open("BattMo_results.pkl", "rb") as f:
@@ -3159,8 +3161,9 @@ class DivergenceCheck:
     Checks if the simulation is fully executed. If not it provides a warning to the user. 
     If the simulation is fully executed, it shows the battmo logging if there is any.
     """
-    def __init__(self):
+    def __init__(self,error):
 
+        self.error = error
         self.success = False
         self.check_for_divergence()
         
@@ -3215,31 +3218,36 @@ class DivergenceCheck:
     def divergence_check_logging(self,N, number_of_states,log_messages):
 
         save_run = st.empty()
-        if len(log_messages) > 1:
-            c = save_run.container()
-            
-            if number_of_states >= N:
+        if st.session_state.succes == False:
+            st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+            st.session_state.succes = False
+        else:
+
+            if len(log_messages) > 1:
+                c = save_run.container()
                 
-                st.session_state.succes = True
+                if number_of_states >= N:
+                    
+                    st.session_state.succes = True
+                    self.success = True
+                    c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
+
+                else:
+                    c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
+                    st.session_state.succes = False
+                
+                c.markdown("***Logging:***")
+                    
+                log_message = ''' \n'''
+                for message in log_messages:
+                    log_message = log_message + message+ '''\n'''
+                
+                c.code(log_message + ''' \n''')
+
+            else: 
                 self.success = True
-                c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
-
-            else:
-                c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
-                st.session_state.succes = False
-            
-            c.markdown("***Logging:***")
-                
-            log_message = ''' \n'''
-            for message in log_messages:
-                log_message = log_message + message+ '''\n'''
-            
-            c.code(log_message + ''' \n''')
-
-        else: 
-            self.success = True
-            save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-            st.session_state.succes = True
+                save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
+                st.session_state.succes = True
 
 
 class DownloadParameters:
@@ -3444,7 +3452,7 @@ class GetResultsData():
         number_of_states = results["number_of_states"][()]
         
         # Retrieve datasets
-        log_messages = results["log_messages"][()]
+        log_messages = results["log_messages"].asstr()
         time_values = results["time_values"][:]
         cell_voltage = results["cell_voltage"][:]
         cell_current = results["cell_current"][:]
