@@ -19,12 +19,14 @@ RUN jill install 1.10.0 --confirm
 # RUN julia --project=/app -e 'using Pkg; Pkg.precompile();'
 
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "PythonCall",version = "0.9.14"))'
-RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;url="https://github.com/BattMoTeam/BattMo.jl.git", rev="cccv"))'
+RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;url="https://github.com/BattMoTeam/BattMo.jl.git", rev="dev"))'
+RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name="Jutul", rev="battmo"))'
+
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "JSON",version = "0.21.4"))'
 
 #RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "BattMo",version = "0.1.6"))'
 #RUN julia -e 'using Pkg; Pkg.add("BattMo")'
-RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "Jutul",version = "0.2.23"))'
+# RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "Jutul",version = "0.2.23"))'
 
 #RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "Jutul",version = "0.2.14"))'
 RUN julia -e 'using Pkg; Pkg.add(PackageSpec(;name = "LoggingExtras",version = "1.0.3"))'

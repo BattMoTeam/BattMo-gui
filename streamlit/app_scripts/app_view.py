@@ -3739,20 +3739,229 @@ class SetGeometryVisualization():
     
     def create_graphs(_self, geometry_data):
 
-        toggle_full = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
+        toggle_box = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
 
-        if toggle_full:
-            _self.create_3d_graph_full(geometry_data)          
+        if toggle_box:
+            _self.create_3d_graph_box(geometry_data)
+        
+        toggle_box_scaled = st.toggle("Scaled 3D geometry",key="scaled", label_visibility="visible")
+
+        if toggle_box_scaled:
+            _self.create_3d_graph_box_scaled(geometry_data)
+
+        # toggle_full = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
+
+        # if toggle_full:
+        #     _self.create_3d_graph_full(geometry_data)          
             
-        toggle_zoomed = st.toggle("3D volume plot",key="zoomed", label_visibility="visible")
+        # toggle_zoomed = st.toggle("3D volume plot",key="zoomed", label_visibility="visible")
 
-        if toggle_zoomed:
-            _self.create_3d_graph_small(geometry_data)
+        # if toggle_zoomed:
+        #     _self.create_3d_graph_small(geometry_data)
 
-        toggle_2d = st.toggle("2D scatter plot",key="2D", label_visibility="visible")
+        # toggle_2d = st.toggle("2D scatter plot",key="2D", label_visibility="visible")
 
-        if toggle_2d:
-            _self.create_2d_graph(geometry_data)
+        # if toggle_2d:
+        #     _self.create_2d_graph(geometry_data)
+            
+
+    @st.cache_data
+    def create_3d_graph_box_scaled(_self, geometry_data):
+
+        thickness_ne = geometry_data["thickness_ne"]
+        thickness_pe = geometry_data["thickness_pe"]
+        thickness_sep = geometry_data["thickness_sep"]
+        total_thickness = thickness_ne + thickness_pe + thickness_sep
+        length = geometry_data["length"]*10**6
+        width = geometry_data["width"]*10**6
+        porosity_ne =geometry_data["porosity_ne"] 
+        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_sep =geometry_data["porosity_sep"]
+
+        # Define the dimensions and colors of the boxes
+        dimensions = [(thickness_ne, total_thickness, total_thickness), (thickness_sep, total_thickness, total_thickness), (thickness_pe, total_thickness, total_thickness)]  # (length, width, height) for each box
+        colors = ['#FF5733', '#3498DB', '#27AE60']  # Colors for negative electrode, separator, and positive electrode
+        colorscales = ['greens', 'blues', 'reds']
+        colorbarxs = [-0.3,-0.26,-0.22]
+        showscales = [True,True,True]
+        colorbar_titles = ['_____', '_____', '_____']
+        thickmodes = ['array','array','auto']
+        components = ['Negative electrode', 'Separator', 'Positive electrode']
+
+        # Define the porosities for each component (between 0 and 1)
+        porosities = [porosity_ne, porosity_sep, porosity_pe]  # Porosity for negative electrode, separator, and positive electrode
+
+        fig = go.Figure()
+
+        # Add boxes for each component
+        start = 0
+        for dim, colorscale, porosity, colorbarx, showscale, colorbar_title, thickmode, component in zip(dimensions, colorscales, porosities, colorbarxs, showscales, colorbar_titles, thickmodes, components):
+            opacity = 1 - porosity  # Calculate opacity based on porosity
+            intensity = np.full(10, porosity)
+            x, y, z = dim
+            end = start + x
+            fig.add_trace(go.Mesh3d(
+                x=[start, end, end, start, start, end, end, start],  # Define x-coordinates for the box
+                y=[0, 0, y, y, 0, 0, y, y],  # Define y-coordinates for the box
+                z=[0, 0, 0, 0, z, z, z, z],  # Define z-coordinates for the box
+                intensity = intensity,
+                # i, j and k give the vertices of triangles
+                i = [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j = [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k = [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+
+                #opacity=opacity,  # Set opacity based on porosity
+                #color=color,
+                reversescale=True,
+                colorscale = colorscale,
+                cmin = 0,
+                cmax = 0.6,
+                showscale=showscale,
+                colorbar=dict(title=colorbar_title,x=colorbarx, tickmode=thickmode, tickvals=[]),
+                name=f'{component}',
+                showlegend=True 
+            ))
+            start = end
+
+        # Define the custom colorbar title annotation
+        title_annotation = dict(
+            text="Porosity",
+            font_size=20,
+            font_family='arial',
+            font_color='black',
+            textangle=0,
+            showarrow=False,
+            # ^^ appearance
+            xref="paper",
+            yref="paper",
+            x=-0.28,
+            y=1,
+            # ^^ position
+        )
+
+        fig.update_layout(
+                legend=dict(
+                    yanchor="top",
+                    y=0.99,
+                    xanchor="right",
+                    x=1
+                ),
+                annotations=[title_annotation],
+                scene_aspectmode='data',
+                scene = dict(
+                    xaxis = dict(autorange = "reversed"),
+                    xaxis_title='Thickness  /  \u03BCm',
+                    yaxis_title='Scaled length  /  \u03BCm',
+                    zaxis_title='Scaled width  /  \u03BCm'),
+                xaxis=dict(range=[0, total_thickness]),
+                width=700,
+                margin=dict(r=20, b=10, l=10, t=10), 
+                # coloraxis_colorbar_x=colorbarx,#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
+                # colorbar2=dict(coloraxis_colorbar_x=0.6),#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
+                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0) 
+                )
+                
+        
+        st.plotly_chart(fig,theme=None, use_container_width=True)
+
+    @st.cache_data
+    def create_3d_graph_box(_self, geometry_data):
+
+        thickness_ne = geometry_data["thickness_ne"]
+        thickness_pe = geometry_data["thickness_pe"]
+        thickness_sep = geometry_data["thickness_sep"]
+        total_thickness = thickness_ne + thickness_pe + thickness_sep
+        length = geometry_data["length"]*10**6
+        width = geometry_data["width"]*10**6
+        porosity_ne =geometry_data["porosity_ne"] 
+        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_sep =geometry_data["porosity_sep"]
+
+        # Define the dimensions and colors of the boxes
+        dimensions = [(thickness_ne, length, width), (thickness_sep, length, width), (thickness_pe, length, width)]  # (length, width, height) for each box
+        colors = ['#FF5733', '#3498DB', '#27AE60']  # Colors for negative electrode, separator, and positive electrode
+        colorscales = ['greens', 'blues', 'reds']
+        colorbarxs = [-0.3,-0.26,-0.22]
+        showscales = [True,True,True]
+        colorbar_titles = ['_____', '_____', '_____']
+        thickmodes = ['array','array','auto']
+        components = ['Negative electrode', 'Separator', 'Positive electrode']
+
+        # Define the porosities for each component (between 0 and 1)
+        porosities = [porosity_ne, porosity_sep, porosity_pe]  # Porosity for negative electrode, separator, and positive electrode
+
+        fig = go.Figure()
+
+        # Add boxes for each component
+        start = 0
+        for dim, colorscale, porosity, colorbarx, showscale, colorbar_title, thickmode, component in zip(dimensions, colorscales, porosities, colorbarxs, showscales, colorbar_titles, thickmodes, components):
+            opacity = 1 - porosity  # Calculate opacity based on porosity
+            intensity = np.full(10, porosity)
+            x, y, z = dim
+            end = start + x
+            fig.add_trace(go.Mesh3d(
+                x=[start, end, end, start, start, end, end, start],  # Define x-coordinates for the box
+                y=[0, 0, y, y, 0, 0, y, y],  # Define y-coordinates for the box
+                z=[0, 0, 0, 0, z, z, z, z],  # Define z-coordinates for the box
+                intensity = intensity,
+                # i, j and k give the vertices of triangles
+                i = [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j = [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k = [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+
+                #opacity=opacity,  # Set opacity based on porosity
+                #color=color,
+                reversescale=True,
+                colorscale = colorscale,
+                cmin = 0,
+                cmax = 0.6,
+                showscale=showscale,
+                colorbar=dict(title=colorbar_title,x=colorbarx, tickmode=thickmode, tickvals=[]),
+                name=f'{component}',
+                showlegend=True 
+            ))
+            start = end
+
+        # Define the custom colorbar title annotation
+        title_annotation = dict(
+            text="Porosity",
+            font_size=20,
+            font_family='arial',
+            font_color='black',
+            textangle=0,
+            showarrow=False,
+            # ^^ appearance
+            xref="paper",
+            yref="paper",
+            x=-0.28,
+            y=1,
+            # ^^ position
+        )
+
+        fig.update_layout(
+                legend=dict(
+                    yanchor="top",
+                    y=0.99,
+                    xanchor="right",
+                    x=1
+                ),
+                annotations=[title_annotation],
+                scene_aspectmode='data',
+                scene = dict(
+                    xaxis = dict(autorange = "reversed"),
+                    xaxis_title='Thickness  /  \u03BCm',
+                    yaxis_title='Length  /  \u03BCm',
+                    zaxis_title='Width  /  \u03BCm'),
+                xaxis=dict(range=[0, total_thickness]),
+                width=700,
+                margin=dict(r=20, b=10, l=10, t=10), 
+                # coloraxis_colorbar_x=colorbarx,#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
+                # colorbar2=dict(coloraxis_colorbar_x=0.6),#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
+                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0) 
+                )
+                
+        
+        st.plotly_chart(fig,theme=None, use_container_width=True)
 
     @st.cache_data
     def create_3d_graph_full(_self, geometry_data):
