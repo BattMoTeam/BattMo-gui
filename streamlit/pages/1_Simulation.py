@@ -80,9 +80,8 @@ def run_page():
 
     app.set_geometry_visualization(gui_parameters)
 
-    col1,col2 = st.columns(2)
 
-    app.download_parameters(gui_parameters,col2)
+    app.download_parameters(gui_parameters)
 
     
     error = app.run_simulation(gui_parameters).response_start

@@ -39,7 +39,7 @@
                "activationEnergyOfDiffusion": 5000.0,
                "referenceDiffusionCoefficient": 3.9e-14,
                "particleRadius": 1e-06,
-               "N": 10
+               "N": 60
             }
          },
          "Binder": {
@@ -99,7 +99,7 @@
                "activationEnergyOfDiffusion": 5000.0,
                "referenceDiffusionCoefficient": 1e-14,
                "particleRadius": 1e-06,
-               "N": 10
+               "N": 20
             }
          },
          "Binder": {

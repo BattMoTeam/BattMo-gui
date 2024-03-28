@@ -33,14 +33,14 @@ class AppController:
             return view.JsonViewer(json_data, label)
         return view.JsonViewer(json_data)
 
-    def run_simulation(self, gui_parameters,col1):
-        return view.RunSimulation(gui_parameters,col1)
+    def run_simulation(self, gui_parameters):
+        return view.RunSimulation(gui_parameters)
     
     def divergence_check(self,error):
         return view.DivergenceCheck(error)
 
-    def download_parameters(self,gui_parameters,col2):
-        return view.DownloadParameters(gui_parameters,col2)
+    def download_parameters(self,gui_parameters):
+        return view.DownloadParameters(gui_parameters)
 
     def json_LD_to_BattMo(self, gui_dict):
         return view.match_json_LD.get_batt_mo_dict_from_gui_dict(gui_dict)

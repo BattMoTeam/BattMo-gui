@@ -2992,7 +2992,7 @@ class RunSimulation:
 
     Can be improved, think about removing the 'UPDATE' button.
     """
-    def __init__(self, gui_parameters,col1):
+    def __init__(self, gui_parameters):
         self.header = "Run simulation"
         self.json_file = app_access.get_path_to_battmo_formatted_input()
         self.style = get_theme_style()
@@ -3010,21 +3010,21 @@ class RunSimulation:
         self.temporary_results_file = "battmo_result"
         self.response_start = None
         
-        self.set_section(col1)
+        self.set_section()
 
-    def set_section(self,col1):
+    def set_section(self):
 
         save_run = st.container()
 
-        self.set_header(col1,save_run)
-        self.set_buttons(col1,save_run)
+        self.set_header(save_run)
+        self.set_buttons(save_run)
 
-    def set_header(self,col1,save_run):
+    def set_header(self,save_run):
 
-        col1.markdown("### " + self.header)
-        col1.text(" ")
+        save_run.markdown("### " + self.header)
+        save_run.text(" ")
 
-    def set_buttons(self,col1, save_run):
+    def set_buttons(self,save_run):
 
         #empty,run,empty2 = save_run.columns((0.3,1,1))
 
@@ -3035,7 +3035,7 @@ class RunSimulation:
         #     #help = "Update the parameter values."
         # )
 
-        runing = col1.button(
+        runing = save_run.button(
             label="RUN",
             on_click= self.execute_api_on_click,
             args = (save_run, )
@@ -3253,7 +3253,7 @@ class DownloadParameters:
     """
     Rendering of Run Simulation tab
     """
-    def __init__(self,gui_parameters,col2):
+    def __init__(self,gui_parameters):
         self.run_header = "Run Simulation"
         self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first 
                             simulation will be slow, but next simulations will be very quick."""
@@ -3281,7 +3281,7 @@ class DownloadParameters:
         self.formatted_parameters_file_name = "battmo_formatted_parameters.json"
 
         
-        self.set_submit_button(col2)
+        self.set_submit_button()
 
     def update_on_click(self):
         
@@ -3317,7 +3317,7 @@ class DownloadParameters:
                 indent=3
             )
 
-    def set_submit_button(self,col2):
+    def set_submit_button(self):
 
         with st.sidebar:
             # set Download header
