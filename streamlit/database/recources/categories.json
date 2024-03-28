@@ -1,21 +1,4 @@
 {
-    "context":{
-        "skos": "http://www.w3.org/2004/02/skos/core#",
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "emmo": "https://w3id.org/emmo#",
-        "echem": "https://w3id.org/emmo/domain/electrochemistry#",
-        "battery": "https://w3id.org/emmo/domain/battery#",
-        "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
-        "qudt": "http://qudt.org/vocab/unit/",
-        "hasQuantitativeProperty": "emmo:hasQuantitativeProperty",
-        "hasConstituent": "emmo:hasConstituent",
-        "hasActiveMaterial": "echem:hasActiveMaterial",
-        "hasNumericalData": "emmo:hasNumericalData",
-        "hasStringData": "emmo:hasStringData",
-        "value": "emmo:hasQuantityValue",
-        "unit": "emmo:hasReferenceUnit",
-        "label": "skos:prefLabel"
-    },
     "categories": {
         "boundary_conditions": {
             "model_name": "p2d_p3d_p4d",

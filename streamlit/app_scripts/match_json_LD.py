@@ -76,7 +76,7 @@ class GuiDict(object):
     def __init__(self, gui_dict):
         
         self.model = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasModel").get("hasQuantitativeProperty"))
-        self.cell = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBoundaryConditions").get("hasQuantitativeProperty"))
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBatteryCell").get("hasQuantitativeProperty"))
         self.raw_ele = gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrode")
         self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
         self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
@@ -87,7 +87,7 @@ class GuiDict(object):
             binder=self.raw_ele_pe.get("hasBinder").get("hasQuantitativeProperty"),
             add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
-            prop=self.raw_ele_pe.get("hasObjectiveProperty").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_pe.get("hasPositiveElectrode").get("hasQuantitativeProperty"),
         )
 
         
@@ -96,13 +96,13 @@ class GuiDict(object):
             binder=self.raw_ele_ne.get("hasBinder").get("hasQuantitativeProperty"),
             add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
             #cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ele_ne.get("hasObjectiveProperty").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_ne.get("hasNegativeElectrode").get("hasQuantitativeProperty"),
         )
         
         self.elyte_mat = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrolyte").get("hasQuantitativeProperty"))
         self.sep_mat = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
         self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
-        self.protocol = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCyclingProcess").get("hasQuantitativeProperty"))
+        self.protocol = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasCyclingProcess").get("hasQuantitativeProperty"))
         
 
 def get_batt_mo_dict_from_gui_dict(gui_dict):

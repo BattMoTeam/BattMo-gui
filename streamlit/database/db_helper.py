@@ -109,21 +109,12 @@ def get_advanced_tabs_display_names(model_id):
     return [a[0] for a in res]
 
 @st.cache_data
-def get_ne_advanced_tab_display_names(model_id):
+def get_advanced_tab_display_names(model_id,category_name):
     res = sql_tab().select(
         values='display_name',
-        where="model_id='%d' AND name = 'negative_electrode'" % model_id
+        where="model_id='%d' AND name = '%s'" % (model_id,category_name)
     )
     return [a[0] for a in res]
-
-@st.cache_data
-def get_pe_advanced_tab_display_names(model_id):
-    res = sql_tab().select(
-        values='display_name',
-        where="model_id='%d' AND name = 'positive_electrode'" % model_id
-    )
-    return [a[0] for a in res]
-
 
 
 @st.cache_data
@@ -139,16 +130,16 @@ def get_tab_name_by_id(id):
         values='name',
         where='id=%d' % id
     )
-    return tab
+    return tab[0][0]
 
 
 @st.cache_data
 def get_context_type_and_iri_by_id(id):
     res = sql_tab().select_one(
-        values='context_type, context_type_iri',
+        values='context_type',
         where='id=%d' % id
     )
-    return res[0], res[1] if res else None
+    return np.array(res)[0]
 
 
 @st.cache_data
@@ -167,18 +158,10 @@ def get_db_tab_id(model_id):
     return res
 
 @st.cache_data
-def get_ne_advanced_db_tab_id(model_id):
+def get_advanced_db_tab_id(model_id,category_name):
     res = sql_tab().select(
         values='id',
-        where="model_id='%d' AND name = 'negative_electrode'" % model_id
-    )
-    return res
-
-@st.cache_data
-def get_pe_advanced_db_tab_id(model_id):
-    res = sql_tab().select(
-        values='id',
-        where="model_id='%d' AND name = 'positive_electrode'" % model_id
+        where="model_id='%d' AND name = '%s'" % (model_id,category_name)
     )
     return res
 
@@ -224,6 +207,15 @@ def get_categories_context_type(tab_id):
     return res
 
 @st.cache_data
+def get_categories_context_type_from_id(id):
+    res = sql_category().select(
+        values = 'context_type',
+        where="id=%d " % id
+    )
+
+    return res[0][0]
+
+@st.cache_data
 def get_advanced_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values = '*',
@@ -266,6 +258,14 @@ def get_n_to_p_component_by_tab_id(tab_id):
         where="tab_id=%d AND material = 0 AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id
     )
     return np.squeeze(res)
+
+@st.cache_data
+def get_components_context_type_from_id(id):
+    res = sql_component().select(
+        values = 'context_type',
+        where="id=%d " % id
+    )
+    return res[0][0]
 
 
 #####################################
@@ -368,29 +368,30 @@ def get_material_by_material_id(material_id):
             where="material_id = %d"  % (material_id)
         )
 
-def get_vf_parameter_set_id_by_component_id(component_id):
-    res = np.squeeze(sql_parameter_set().select(
+def get_mf_parameter_set_id_by_component_id(component_id):
+    res = sql_parameter_set().select(
         values = 'id, name',
         where="component_id=%d AND material = %d" % (component_id,0)
-    )).astype(str)
-    return res
+    )
+    return res[0] if res else [None,None]
 
 def get_n_p_parameter_set_id_by_component_id(component_id):
     res = np.squeeze(sql_parameter_set().select(
         values = 'id,name',
         where="component_id=%d AND material = %d" % (component_id,0)
     )).astype(str)
-    return res
+    
+    return res[0],res[1] if res[0] else None
 
 def get_non_material_set_id_by_component_id(component_id):
     res = sql_parameter_set().select(
         values = '*',
         where="component_id=%d AND material = %d" % (component_id,0)
     )
-    return res
+    return res[0]
 
 
-def get_vf_raw_parameter_by_parameter_set_id(parameter_set_id):
+def get_mf_raw_parameter_by_parameter_set_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
         where="parameter_set_id=%d AND name = 'mass_fraction'" % parameter_set_id
@@ -457,7 +458,7 @@ def get_model_name_from_id(model_id):
 #     return eval(res[0]) if res else None
 
 
-@st.cache_data
+#@st.cache_data
 def get_model_parameters_as_dict(model_id):
     parameters = sql_model_parameter().get_all_by_model_id(model_id)
     model_quantitative_properties = []
@@ -496,6 +497,7 @@ def get_model_parameters_as_dict(model_id):
         parameter_details["value"] = formatted_value_dict
         model_quantitative_properties.append(parameter_details)
 
+
     return model_quantitative_properties
 
 
@@ -531,7 +533,7 @@ def get_all_material_by_template_id(template_id):
             where="template_id=%d AND par_class = '%s' AND model_name = 'p2d_p3d_p4d'" % (template_id,"material")
         )
 
-def get_vf_template_by_template_id(template_id):
+def get_mf_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
             where="template_id=%d AND name = '%s'" % (template_id,"mass_fraction")
