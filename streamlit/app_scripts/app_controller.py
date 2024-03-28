@@ -36,8 +36,8 @@ class AppController:
     def run_simulation(self, gui_parameters,col1):
         return view.RunSimulation(gui_parameters,col1)
     
-    def divergence_check(self):
-        return view.DivergenceCheck()
+    def divergence_check(self,error):
+        return view.DivergenceCheck(error)
 
     def download_parameters(self,gui_parameters,col2):
         return view.DownloadParameters(gui_parameters,col2)
