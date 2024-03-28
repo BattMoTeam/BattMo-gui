@@ -3842,14 +3842,14 @@ class SetGeometryVisualization():
         fig.update_layout(
                 legend=dict(
                     yanchor="top",
-                    y=0.99,
+                    y=0.96,
                     xanchor="right",
                     x=1
                 ),
                 annotations=[title_annotation],
                 scene_aspectmode='data',
                 scene = dict(
-                    xaxis = dict(autorange = "reversed"),
+                    xaxis = dict(autorange = "reversed", nticks=10),
                     xaxis_title='Thickness  /  \u03BCm',
                     yaxis_title='Scaled length  /  \u03BCm',
                     zaxis_title='Scaled width  /  \u03BCm'),
