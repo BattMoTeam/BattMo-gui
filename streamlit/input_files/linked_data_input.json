@@ -305,7 +305,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 60
+                           "hasNumericalData": 10
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -570,7 +570,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 60
+                           "hasNumericalData": 70
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -813,7 +813,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 20
+                           "hasNumericalData": 10
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -1476,7 +1476,7 @@
                "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
                   "@type": "emmo:Numerical",
-                  "hasNumericalData": 1
+                  "hasNumericalData": 2
                },
                "unit": {
                   "label": "UnitOne",
