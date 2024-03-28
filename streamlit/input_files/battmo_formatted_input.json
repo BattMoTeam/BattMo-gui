@@ -5,8 +5,8 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
-         "N": 30,
+         "thickness": 9.099999999999999e-05,
+         "N": 60,
          "effectiveDensity": 1900,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
@@ -129,26 +129,28 @@
       "porosity": 0.4,
       "specificHeatCapacity": 1692.0,
       "thermalConductivity": 0.334,
-      "density": 946.0,
+      "density": 779.0,
       "bruggemanCoefficient": 1.5
    },
    "Electrolyte": {
       "initialConcentration": 1000,
       "specificHeatCapacity": 1518.0,
       "thermalConductivity": 0.099,
-      "density": 1200,
+      "density": 1210,
       "ionicConductivity": {
          "type": "function",
-         "functionname": "computeElectrolyteConductivity_Chen2020",
+         "functionname": "computeElectrolyteConductivity_default",
          "argumentlist": [
-            "c"
+            "c",
+            "T"
          ]
       },
       "diffusionCoefficient": {
          "type": "function",
-         "functionname": "computeDiffusionCoefficient_Chen2020",
+         "functionname": "computeDiffusionCoefficient_default",
          "argumentlist": [
-            "c"
+            "c",
+            "T"
          ]
       },
       "compnames": [
@@ -157,7 +159,7 @@
       ],
       "species": {
          "chargeNumber": 1,
-         "transferenceNumber": 0.7406,
+         "transferenceNumber": 0.601,
          "nominalConcentration": 1000
       },
       "bruggemanCoefficient": 1.5
@@ -167,10 +169,10 @@
    "initT": 298.15,
    "include_current_collectors": false,
    "Control": {
-      "controlPolicy": "CCCV",
+      "controlPolicy": "CCDischarge",
       "initialControl": "discharging",
-      "numberOfCycles": 1,
-      "CRate": 1.0,
+      "numberOfCycles": null,
+      "CRate": null,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
       "rampupTime": 0.1,

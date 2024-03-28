@@ -91,6 +91,7 @@ module runP2DBattery
             # Capture log messages
             seekstart(log_buffer)
             log_messages = split(String(take!(log_buffer)), "\n")
+            println("Number of states = ", number_of_states)
              
             return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
         catch e

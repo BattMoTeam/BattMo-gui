@@ -7,8 +7,8 @@ RUN useradd --create-home --shell /bin/bash genie
 RUN mkdir /home/genie/app
 #COPY . /home/genie/app
 COPY deps.jl /home/genie/app
-COPY Project.toml /home/genie/app
 COPY Manifest.toml /home/genie/app
+COPY Project.toml /home/genie/app
 
 WORKDIR /home/genie/app
 

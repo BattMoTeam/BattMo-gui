@@ -8,6 +8,6 @@
       "width": 0.09,
       "bruggeman_coefficient": 1.5,
       "current_collector_thickness": 9,
-      "number_of_discrete_cells_electrode": 30
+      "number_of_discrete_cells_electrode": 60
    }
 }

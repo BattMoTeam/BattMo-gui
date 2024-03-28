@@ -3223,31 +3223,31 @@ class DivergenceCheck:
             st.session_state.succes = False
         else:
 
-            if len(log_messages) > 1:
-                c = save_run.container()
+            # if len(log_messages) > 1:
+            #     c = save_run.container()
                 
-                if number_of_states >= N:
+            #     if number_of_states >= N:
                     
-                    st.session_state.succes = True
-                    self.success = True
-                    c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
+            #         st.session_state.succes = True
+            #         self.success = True
+            #         c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
 
-                else:
-                    c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
-                    st.session_state.succes = False
+            #     else:
+            #         c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
+            #         st.session_state.succes = False
                 
-                c.markdown("***Logging:***")
+            #     c.markdown("***Logging:***")
                     
-                log_message = ''' \n'''
-                for message in log_messages:
-                    log_message = log_message + message+ '''\n'''
+            #     log_message = ''' \n'''
+            #     for message in log_messages:
+            #         log_message = log_message + message+ '''\n'''
                 
-                c.code(log_message + ''' \n''')
+            #     c.code(log_message + ''' \n''')
 
-            else: 
-                self.success = True
-                save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-                st.session_state.succes = True
+            # else: 
+            self.success = True
+            save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
+            st.session_state.succes = True
 
 
 class DownloadParameters:

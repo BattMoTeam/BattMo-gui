@@ -479,7 +479,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 85.0
+                           "hasNumericalData": 91.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -505,7 +505,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 15.0484
+                           "hasNumericalData": 16.11064
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -570,7 +570,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 30
+                           "hasNumericalData": 60
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -583,7 +583,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1120.5836528712066
+                           "hasNumericalData": 1199.6836754268213
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -1138,7 +1138,7 @@
                   "@type": "emmo:Density",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1200
+                     "hasNumericalData": 1210
                   },
                   "unit": {
                      "label": "GramPerCubicMetre",
@@ -1180,7 +1180,7 @@
                   "@type": "None",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.7406
+                     "hasNumericalData": 0.601
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1192,10 +1192,11 @@
                   "label": "conductivity",
                   "@type": "None",
                   "value": {
-                     "functionname": "computeElectrolyteConductivity_Chen2020",
-                     "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                     "functionname": "computeElectrolyteConductivity_default",
+                     "function": "1e-4*c*((-10.5 + 0.668e-3*c + 0.494e-6*c^2) + (0.074 - 1.78e-5*c - 8.86e-10*c^2)*T + (-6.96e-5 + 2.80e-8*c)*T^2)^2",
                      "argument_list": [
-                        "c"
+                        "c",
+                        "T"
                      ]
                   }
                },
@@ -1203,10 +1204,11 @@
                   "label": "diffusion_coefficient",
                   "@type": "None",
                   "value": {
-                     "functionname": "computeDiffusionCoefficient_Chen2020",
-                     "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                     "functionname": "computeDiffusionCoefficient_default",
+                     "function": "1e-4 * 10^(-4.43 - 54/(T - 229 - 5*c*1e-3) - 0.22*c*1e-3)",
                      "argument_list": [
-                        "c"
+                        "c",
+                        "T"
                      ]
                   }
                },
@@ -1273,7 +1275,7 @@
                   "@type": "emmo:Density",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 946.0
+                     "hasNumericalData": 779.0
                   },
                   "unit": {
                      "label": "GramPerCubicMetre",
@@ -1422,7 +1424,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.07
+                     "hasNumericalData": 1.15
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1435,7 +1437,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 34.66146224
+                     "hasNumericalData": 34.961286439999995
                   },
                   "unit": {
                      "label": "Gram",
@@ -1476,7 +1478,7 @@
                "@type": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
                "value": {
                   "@type": "emmo:Numerical",
-                  "hasNumericalData": 1
+                  "hasNumericalData": null
                },
                "unit": {
                   "label": "UnitOne",
@@ -1502,7 +1504,7 @@
                "@type": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
                "value": {
                   "@type": "emmo:Numerical",
-                  "hasNumericalData": 1.0
+                  "hasNumericalData": null
                },
                "unit": {
                   "label": "UnitOne",
@@ -1514,7 +1516,7 @@
                "label": "protocol_name",
                "value": {
                   "@type": "emmo:String",
-                  "hasStringData": "CCCV"
+                  "hasStringData": "CCDischarge"
                }
             },
             {

@@ -16,7 +16,7 @@
 
         },
         "Graphite_Safari2009":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": "p3d_p4d",
             "difficulty": "basis",
             "reference_name": "Safari, M, et al. 2009",
             "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
@@ -30,7 +30,7 @@
             "default_material": true
         },
         "Graphite_Xu2015":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": "p3d_p4d",
             "difficulty": "basis",
             "reference_name": "Xu, M, et al. 2015",
             "reference": "Xu, Meng, et al. \u0022A pseudo three\u2013dimensional electrochemical\u2013thermal model of a prismatic LiFePO4 battery during discharge process.\u0022 Energy 80 (2015): 303\u2013317.",
@@ -166,7 +166,7 @@
 
         },
         "NMC111_Safari2009":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": "p3d_p4d",
             "difficulty": "basis",
             "reference_name": "Safari, M, et al. 2009",
             "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
