@@ -1,11 +1,11 @@
 {
    "Geometry": {
       "case": "1D",
-      "faceArea": 0.0001
+      "faceArea": 0.027
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 9.099999999999999e-05,
+         "thickness": 8.499999999999999e-05,
          "N": 70,
          "effectiveDensity": 1900,
          "bruggemanCoefficient": 1.5,
@@ -165,6 +165,7 @@
    "G": [],
    "SOC": 0.99,
    "initT": 298.15,
+   "use_thermal": false,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "CCCV",
@@ -173,7 +174,10 @@
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
-      "rampupTime": 0.1,
+      "rampupTime": {
+         "value": 10.0,
+         "unit": "s"
+      },
       "upperCutoffVoltage": 4.1,
       "dIdtLimit": 0.01,
       "dEdtLimit": 0.01

@@ -481,7 +481,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 91.0
+                           "hasNumericalData": 85.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -507,7 +507,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 16.11064
+                           "hasNumericalData": 15.0484
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -585,7 +585,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1199.6836754268213
+                           "hasNumericalData": 1120.5836528712066
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -1424,7 +1424,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.15
+                     "hasNumericalData": 1.07
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1437,7 +1437,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 34.98714704
+                     "hasNumericalData": 34.66146224
                   },
                   "unit": {
                      "label": "Gram",

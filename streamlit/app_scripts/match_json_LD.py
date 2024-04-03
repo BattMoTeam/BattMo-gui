@@ -152,7 +152,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": 0.0001 #json_ld.pe.properties.get("length").get("value") * json_ld.pe.properties.get("width").get("value")
+            "faceArea": json_ld.pe.properties.get("length").get("value") * json_ld.pe.properties.get("width").get("value")
         },
         "NegativeElectrode": {
             "Coating":{
@@ -319,7 +319,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "SOC": json_ld.cell.get("initial_state_of_charge").get("value"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.cell.get("initial_temperature").get("value"),
-        #"use_thermal": json_ld.model.get("use_thermal"),
+        "use_thermal": json_ld.model.get("use_thermal"),
         "include_current_collectors": False,
         #"use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),
         "Control": {
@@ -329,7 +329,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "CRate": json_ld.protocol.get("c_rate").get("value"),
             "DRate": json_ld.protocol.get("d_rate").get("value"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
-            "rampupTime" : 0.1,
+            "rampupTime" : json_ld.model.get("ramp_up_time"),
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get("value"),
             "dIdtLimit": json_ld.protocol.get("d_idt_limit").get("value"),
             "dEdtLimit": json_ld.protocol.get("d_edt_limit").get("value")

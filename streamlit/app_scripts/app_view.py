@@ -40,7 +40,7 @@ LD = SetupLinkedDataStruct()
 
 def get_theme_style():
     
-
+    
     if st.session_state.theme == "dark":
         with open(app_access.get_path_to_dark_style_css()) as f:
             style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -49,6 +49,7 @@ def get_theme_style():
             style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
     return style
+
 
 
 def reset_func(category_id, parameter_id, parameter):
@@ -2220,8 +2221,8 @@ class SetIndicators():
     def __init__(self, page_name):
         
         self.page_name = page_name
-        st.session_state.theme = st_theme()["base"]
-        self.style = get_theme_style()
+        
+        #self.style = get_theme_style()
         self.set_indicators()
 
     def set_indicators(self):

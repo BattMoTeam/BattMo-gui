@@ -8,6 +8,7 @@ import pdb
 import pickle
 import json
 import numpy as np
+from streamlit_theme import st_theme
 
 
 ##############################
@@ -65,6 +66,9 @@ def run_page():
 
     if "theme" not in st.session_state:
         st.session_state.theme = None
+
+    st.session_state.theme = st_theme()["base"]
+    #st.write(st_theme()["base"])
 
     log_memory_usage()
 
