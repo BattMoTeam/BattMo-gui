@@ -1791,9 +1791,11 @@ class RunSimulation:
         response_start = requests.post(self.api_url, json=json_data)
         self.response_start = response_start.status_code
 
+        st.write(response_start.status_code)
+
         if response_start.status_code == 200:
 
-
+            st.session_state.succes = True
 
             success = DivergenceCheck(response_start.status_code).success
 
@@ -1901,7 +1903,7 @@ class DivergenceCheck:
         save_run = st.empty()
         if st.session_state.succes == False:
             st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
-            st.session_state.succes = False
+            
         else:
 
             # if len(log_messages) > 1:
