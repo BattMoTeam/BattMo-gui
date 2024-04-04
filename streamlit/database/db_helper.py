@@ -423,7 +423,7 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 #####################################
 # MODEL
 #####################################
-@st.cache_data
+
 def get_models_as_dict():
     models = sql_model().select(
         values = '*',
@@ -439,7 +439,7 @@ def get_models_as_dict():
     return models_as_dict
 
 
-@st.cache_data
+
 def get_model_name_from_id(model_id):
     model = sql_model().select(
         values = "name",
@@ -458,7 +458,6 @@ def get_model_name_from_id(model_id):
 #     return eval(res[0]) if res else None
 
 
-#@st.cache_data
 def get_model_parameters_as_dict(model_id):
     parameters = sql_model_parameter().get_all_by_model_id(model_id)
     model_quantitative_properties = []
@@ -497,11 +496,10 @@ def get_model_parameters_as_dict(model_id):
         parameter_details["value"] = formatted_value_dict
         model_quantitative_properties.append(parameter_details)
 
-
     return model_quantitative_properties
 
 
-@st.cache_data
+
 def get_model_description(model_name):
     
     return sql_model().select(

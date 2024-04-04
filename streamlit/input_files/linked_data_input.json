@@ -162,7 +162,7 @@
                      },
                      {
                         "label": "reaction_rate_constant",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
@@ -201,14 +201,17 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
-                           "functionname": "computeOCP_Graphite_SiOx_Chen2020",
-                           "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
-                           "argument_list": [
-                              "c",
-                              "cmax"
-                           ]
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                              "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
+                              "argument_list": [
+                                 "c",
+                                 "cmax"
+                              ]
+                           }
                         }
                      },
                      {
@@ -278,7 +281,7 @@
                      },
                      {
                         "label": "diffusion_pre_exponential_factor",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.9e-14
@@ -543,7 +546,7 @@
                      },
                      {
                         "label": "bruggeman_coefficient",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.5
@@ -670,7 +673,7 @@
                      },
                      {
                         "label": "reaction_rate_constant",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
@@ -709,14 +712,17 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
-                           "functionname": "computeOCP_NMC811_Chen2020",
-                           "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
-                           "argument_list": [
-                              "c",
-                              "cmax"
-                           ]
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_NMC811_Chen2020",
+                              "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
+                              "argument_list": [
+                                 "c",
+                                 "cmax"
+                              ]
+                           }
                         }
                      },
                      {
@@ -786,7 +792,7 @@
                      },
                      {
                         "label": "diffusion_pre_exponential_factor",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1e-14
@@ -1051,7 +1057,7 @@
                      },
                      {
                         "label": "bruggeman_coefficient",
-                        "@type": "None",
+                        "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.5
@@ -1171,7 +1177,7 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
@@ -1179,7 +1185,7 @@
                },
                {
                   "label": "counter_ion_transference_number",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
@@ -1192,29 +1198,35 @@
                },
                {
                   "label": "conductivity",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
-                     "functionname": "computeElectrolyteConductivity_Chen2020",
-                     "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                     "argument_list": [
-                        "c"
-                     ]
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
                   "label": "diffusion_coefficient",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
-                     "functionname": "computeDiffusionCoefficient_Chen2020",
-                     "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                     "argument_list": [
-                        "c"
-                     ]
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
                   "label": "concentration",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.5
@@ -1227,7 +1239,7 @@
                },
                {
                   "label": "bruggeman_coefficient",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.5
@@ -1311,7 +1323,7 @@
                },
                {
                   "label": "bruggeman_coefficient",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.5
@@ -1408,7 +1420,7 @@
                },
                {
                   "label": "external_surface_area",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.0379
@@ -1466,7 +1478,7 @@
             "hasQuantitativeProperty": [
                {
                   "label": "initial_step_type",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "discharging"
@@ -1477,7 +1489,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 2
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1487,7 +1499,7 @@
                },
                {
                   "label": "d_rate",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
@@ -1500,7 +1512,7 @@
                },
                {
                   "label": "c_rate",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
@@ -1520,7 +1532,7 @@
                },
                {
                   "label": "lower_cutoff_voltage",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 2.4
@@ -1533,7 +1545,7 @@
                },
                {
                   "label": "upper_cutoff_voltage",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 4.1
@@ -1546,7 +1558,7 @@
                },
                {
                   "label": "d_idt_limit",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.01
@@ -1559,7 +1571,7 @@
                },
                {
                   "label": "d_edt_limit",
-                  "@type": "None",
+                  "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.01

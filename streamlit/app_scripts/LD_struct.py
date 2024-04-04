@@ -142,15 +142,19 @@ class SetupLinkedDataStruct():
 
     def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
 
+        # st.cache_data.clear()
+
         try:
-            formatted_value_dict = parameter.selected_value
+
             if isinstance(parameter, NumericalParameter):
+                
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
                     self.hasNumericalData: parameter.selected_value
                 }
 
             elif isinstance(parameter, StrParameter):
+                
                 formatted_value_dict = {
                     "@type": "emmo:String",
                     self.hasStringData: parameter.selected_value
@@ -161,12 +165,18 @@ class SetupLinkedDataStruct():
                     "@type": "emmo:Boolean",
                     self.hasStringData: parameter.selected_value
                 }
+            elif isinstance(parameter, FunctionParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    self.hasStringData: parameter.selected_value
+                }
             # else: 
+
             #     st.error("This instance of parameter is not handled: {}".format(parameter))
 
             parameter_details = {
                 "label": parameter.name,
-                "@type": parameter.context_type if parameter.context_type else "None",
+                "@type": parameter.context_type if parameter.context_type else "string",
                 "value": formatted_value_dict
             }
             if isinstance(parameter, NumericalParameter):

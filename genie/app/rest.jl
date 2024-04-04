@@ -49,7 +49,7 @@ function create_hdf5_output_file(output,file_path)
         file["negative_electrode_grid_bc"] = negative_electrode_grid_bc
         file["electrolyte_grid_bc"] = electrolyte_grid_bc
         file["positive_electrode_grid_bc"] = positive_electrode_grid_bc
-
+        println("number of states = ", number_of_states[1])
 
         # Create groups
         grids = create_group(file, "grids")

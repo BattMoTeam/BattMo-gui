@@ -1789,33 +1789,30 @@ class RunSimulation:
         headers = {'Content-Type': 'application/json'}
 
         response_start = requests.post(self.api_url, json=json_data)
-        self.response_start = response_start.status_code
-
-        st.write(response_start.status_code)
 
         if response_start.status_code == 200:
 
             st.session_state.succes = True
 
-            success = DivergenceCheck(response_start.status_code).success
+            #success = DivergenceCheck(response_start.status_code).success
 
-            if success == True:
-                with open(app_access.get_path_to_linked_data_input(), 'r') as f:
-                    gui_parameters = json.load(f)
+            #if success == True:
+            with open(app_access.get_path_to_linked_data_input(), 'r') as f:
+                gui_parameters = json.load(f)
 
-                indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
+            indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
-                with open(app_access.get_path_to_indicator_values(), 'w') as f:
-                    json.dump(indicators, f, indent=3)
+            with open(app_access.get_path_to_indicator_values(), 'w') as f:
+                json.dump(indicators, f, indent=3)
 
-                data = response_start.content 
+            data = response_start.content 
 
-                with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                    f.write(data)
+            with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                f.write(data)
 
         else:
                 st.session_state.succes = False
-                success = DivergenceCheck(response_start.status_code).success
+                #success = DivergenceCheck(response_start.status_code).success
                 
     
         
@@ -1899,7 +1896,6 @@ class DivergenceCheck:
         return number_of_states, log_messages
     
     def divergence_check_logging(self,N, number_of_states,log_messages):
-
         save_run = st.empty()
         if st.session_state.succes == False:
             st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
@@ -2129,6 +2125,7 @@ class GetResultsData():
         return result
     
     def format_results(self):
+
         results = h5py.File(app_access.get_path_to_battmo_results(), "r")
 
         # Retrieve the attributes
