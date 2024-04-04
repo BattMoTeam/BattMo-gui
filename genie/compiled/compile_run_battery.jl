@@ -7,11 +7,17 @@ using ZipFile
 using Logging
 using JLD2
 
+ 
+
 # Get the directory of the make.jl script
 script_dir = dirname(@__FILE__)
+module_path = "runP2DBattery.jl"
+println(module_path)
+
+include(module_path)
 
 # Specify the output path for the sysimg.so file relative to the script directory
 json_path = joinpath(script_dir, "p2d_40_cccv.json")
 
 json_file = JSONFile(json_path)
-states, reports, extra = run_battery(json_file, extra_timing = false);
+runP2DBattery.runP2DBatt(json_path);
