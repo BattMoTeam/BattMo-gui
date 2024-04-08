@@ -41,8 +41,9 @@ ENV JULIA_DEPOT_PATH "/home/genie/.julia"
 ENV JULIA_REVISE="off"
 ENV EARLYBIND "true"
 
-COPY --chown=genie:genie app /home/genie/app
-COPY --chown=genie:genie bin /home/genie/app
+COPY --chown=genie:genie app /home/genie/app/app
+COPY --chown=genie:genie bin /home/genie/app/bin
+COPY --chown=genie:genie results /home/genie/app/results
 
 
 # Copy compiled files
