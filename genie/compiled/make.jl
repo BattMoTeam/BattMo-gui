@@ -26,7 +26,8 @@ open("compiler_log.txt", "w") do io
 		sysimage_path = sysimage_path,
 		project = project_path,
 		precompile_execution_file=example_path,
-		cpu_target = PackageCompiler.default_app_cpu_target())
+		cpu_target="generic")
+		#cpu_target = PackageCompiler.default_app_cpu_target())
 	end
 end
 # Print additional debug information if needed
