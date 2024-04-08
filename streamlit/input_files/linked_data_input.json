@@ -68,7 +68,7 @@
                         "@type": "echem:MaximumConcentration",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 30555.0
+                           "hasNumericalData": 29583.0
                         },
                         "unit": {
                            "label": "MolePerCubicMetre",
@@ -81,7 +81,7 @@
                         "@type": "echem:VolumetricSurfaceArea",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 723600.0
+                           "hasNumericalData": 383959.0
                         },
                         "unit": {
                            "label": "Metre",
@@ -94,7 +94,7 @@
                         "@type": "emmo:Density",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 2240.0
+                           "hasNumericalData": 2260.0
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
@@ -120,7 +120,7 @@
                         "@type": "emmo:Energy",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 5000.0
+                           "hasNumericalData": 35000.0
                         },
                         "unit": {
                            "label": "JoulePerMoleKelvin",
@@ -133,7 +133,7 @@
                         "@type": "string",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 5.031e-11
+                           "hasNumericalData": 6.716e-12
                         },
                         "unit": {
                            "label": "MolePerSquareMetrePerSecond",
@@ -146,7 +146,7 @@
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.88551
+                           "hasNumericalData": 0.9014
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -159,7 +159,7 @@
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.1429
+                           "hasNumericalData": 0.0279
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -173,13 +173,11 @@
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
-                              "functionname": "computeOCP_graphite",
-                              "function": "0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*(c/cmax)) - 0.7984 * exp(0.4465*(c/cmax) - 0.4108)+ (T - refT) * (1e-3 * ( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)*5- 37147.89470 * (c/cmax)*6+ 38379.18127 * (c/cmax)*7- 16515.05308 * (c/cmax)*8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)*5+ 374577.3152 * (c/cmax)*6- 385821.1607 * (c/cmax)*7+ 165705.8597 * (c/cmax)*8 ))",
+                              "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                              "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
                               "argument_list": [
                                  "c",
-                                 "T",
-                                 "cmax",
-                                 "refT"
+                                 "cmax"
                               ]
                            }
                         }
@@ -293,7 +291,7 @@
                         "@type": "emmo:SpecificCapacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 271.48513910203127
+                           "hasNumericalData": 306.44157263296455
                         },
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
@@ -454,7 +452,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 55.0
+                           "hasNumericalData": 85.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -480,7 +478,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.7372
+                           "hasNumericalData": 15.0484
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -532,7 +530,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 725.0835400931336
+                           "hasNumericalData": 1120.5836528712066
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -1231,7 +1229,7 @@
                   "@type": "emmo:Porosity",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.30999999999999994
+                     "hasNumericalData": 0.4
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1341,7 +1339,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.69
+                     "hasNumericalData": 1.07
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1354,7 +1352,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 32.98003994
+                     "hasNumericalData": 34.66146224
                   },
                   "unit": {
                      "label": "Gram",
@@ -1367,7 +1365,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 725.0835400931336
+                     "hasNumericalData": 1047.6223333812661
                   },
                   "unit": {
                      "label": "AmpereHour",
@@ -1452,7 +1450,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 2
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",

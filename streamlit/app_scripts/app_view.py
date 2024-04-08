@@ -2519,7 +2519,8 @@ class SetGeometryVisualization():
                 showscale=showscale,
                 colorbar=dict(title=colorbar_title,x=colorbarx, tickmode=thickmode, tickvals=[]),
                 name=f'{component}',
-                showlegend=True 
+                showlegend=True,
+                flatshading = True
             ))
             start = end
 
@@ -2618,7 +2619,8 @@ class SetGeometryVisualization():
                 showscale=showscale,
                 colorbar=dict(title=colorbar_title,x=colorbarx, tickmode=thickmode, tickvals=[]),
                 name=f'{component}',
-                showlegend=True 
+                showlegend=True,
+                flatshading = True
             ))
             start = end
 
