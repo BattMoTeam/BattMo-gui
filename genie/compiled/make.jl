@@ -25,7 +25,8 @@ open("compiler_log.txt", "w") do io
 		create_sysimage([:LoggingExtras,:Genie,:BattMo,:HTTP,:JSON,:UUIDs,:HDF5];
 		sysimage_path = sysimage_path,
 		project = project_path,
-		precompile_execution_file=example_path)
+		precompile_execution_file=example_path,
+		cpu_target = PackageCompiler.default_app_cpu_target())
 	end
 end
 # Print additional debug information if needed
