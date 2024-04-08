@@ -1,8 +1,9 @@
 {
     "materials":{
         "Graphite_SiOx_Chen2020":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Chen, C, et al. 2020",
             "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
@@ -16,8 +17,9 @@
 
         },
         "Graphite_Safari2009":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Safari, M, et al. 2009",
             "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1.3043429/meta",
@@ -30,8 +32,9 @@
             "default_material": true
         },
         "Graphite_Xu2015":{
-            "model_name": "p3d_p4d",
+            "model_name": ["P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": false,
             "reference_name": "Xu, M, et al. 2015",
             "reference": "Xu, Meng, et al. \u0022A pseudo three\u2013dimensional electrochemical\u2013thermal model of a prismatic LiFePO4 battery during discharge process.\u0022 Energy 80 (2015): 303\u2013317.",
             "reference_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
@@ -41,23 +44,25 @@
             "number_of_components": 1,
             "component_name_1": "negative_electrode_active_material",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         
         "user_defined_ne_am":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "negative_electrode_active_material",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "PVDF":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "context_type": "echem:PVDFBinder",
             "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "PVDF",
@@ -69,8 +74,9 @@
 
         },
         "CMC":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "context_type": "echem:CMCBinder",
             "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "CMC",
@@ -82,28 +88,31 @@
 
         },
         "user_defined_pe_b":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_binder",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "user_defined_ne_b":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "negative_electrode_binder",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "carbon_black":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "context_type": "echem:CarbonAdditive",
             "display_name": "Carbon black",
             "number_of_components": 2,
@@ -115,28 +124,31 @@
         },
 
         "user_defined_pe_ad":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_additive",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "user_defined_ne_ad":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "negative_electrode_additive",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "LiFePO4_Xu2015":{
-            "model_name": "p3d_p4d",
+            "model_name": ["P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": false,
             "reference_name": "Xu, M, et al. 2015",
             "reference": "Xu, Meng, et al. \u0022A pseudo three\u2013dimensional electrochemical\u2013thermal model of a prismatic LiFePO4 battery during discharge process.\u0022 Energy 80 (2015): 303\u2013317.",
             "reference_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
@@ -146,13 +158,14 @@
             "number_of_components": 1,
             "component_name_1": "positive_electrode_active_material",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         
         "NMC811_Chen2020":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Chen, C, et al. 2020",
             "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
@@ -166,8 +179,9 @@
 
         },
         "NMC111_Safari2009":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Safari, M, et al. 2009",
             "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1.3043429/meta",
@@ -181,18 +195,20 @@
 
         },
         "user_defined_pe_am":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_active_material",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "ceramic_coated_polyolefin_Chen2020":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Chen, C, et al. 2020",
             "reference": "Chen, Chang\u2013Hui, et al. \u0022Development of experimental techniques for parameterization of multi\u2013scale lithium\u2013ion battery models.\u0022 Journal of The Electrochemical Society 167.8 (2020): 080534.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
@@ -206,8 +222,9 @@
 
         },
         "celgard2500_Xu2015":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Xu, M, et al. 2015",
             "reference": "Xu, Meng, et al. \u0022A pseudo three\u2013dimensional electrochemical\u2013thermal model of a prismatic LiFePO4 battery during discharge process.\u0022 Energy 80 (2015): 303\u2013317.",
             "reference_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
@@ -223,40 +240,44 @@
         
 
         "user_defined_sep":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "separator_materials",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "aluminium":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "context_type": "echem:AluminumCurrentCollector",
             "display_name": "Aluminium",
             "number_of_components": 1,
             "component_name_1": "positive_electrode_current_collector_materials",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "copper":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "context_type": "echem:CopperCurrentCollector",
             "display_name": "Copper",
             "number_of_components": 1,
             "component_name_1": "negative_electrode_current_collector_materials",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         },
         "LiPF6_Chen2020":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Safari, M, et al. 2009",
             "reference": "Safari, M., et al. \u0022Multimodal physics\u2013based aging model for life prediction of Li\u2013ion batteries.\u0022 Journal of The Electrochemical Society 156.3 (2008): A145.",
             "reference_url": "https://iopscience.iop.org/article/10.1149/1.3043429/meta",
@@ -269,8 +290,9 @@
 
         },
         "LiPF6_Xu2015":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
+            "is_shown_to_user": true,
             "reference_name": "Xu, M, et al. 2015",
             "reference": "Xu, Meng, et al. A pseudo three\u2013dimensional electrochemical\u2013thermal model of a prismatic LiFePO4 battery during discharge process. Energy 80 (2015): 303\u2013317.",
             "reference_url": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1",
@@ -284,13 +306,14 @@
         },
         
         "user_defined_elyte":{
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "display_name": "User Defined",
+            "is_shown_to_user": true,
+            "display_name": "User defined",
             "number_of_components": 1,
             "component_name_1": "electrolyte_materials",
             "description": "",
-            "default_material": true
+            "default_material": false
 
         }
 

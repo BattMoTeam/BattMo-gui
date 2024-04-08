@@ -85,34 +85,34 @@ def get_tabs_display_name_from_id(tab_id):
     return [a[0] for a in res]
 
 @st.cache_data
-def get_basis_tabs_display_names(model_id):
+def get_basis_tabs_display_names(model_name):
     res = sql_tab().select(
         values='display_name',
-        where="model_id='%d' and difficulty= 'basis' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
+        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(model_name, model_name)
     )
     return [a[0] for a in res]
 
 @st.cache_data
-def get_basis_tab_names(model_id):
+def get_basis_tab_names(model_name):
     res = sql_tab().select(
         values='name',
-        where="model_id='%d' and difficulty= 'basis' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
+        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(model_name, model_name)
     )
     return [a[0] for a in res]
 
 @st.cache_data
-def get_advanced_tabs_display_names(model_id):
+def get_advanced_tabs_display_names(model_name):
     res = sql_tab().select(
         values='display_name',
-        where="model_id='%d' AND (difficulty= 'advanced' OR difficulty= 'basis_advanced')" % model_id
+        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(model_name, model_name)
     )
     return [a[0] for a in res]
 
 @st.cache_data
-def get_advanced_tab_display_names(model_id,category_name):
+def get_advanced_tab_display_names(model_name,category_name):
     res = sql_tab().select(
         values='display_name',
-        where="model_id='%d' AND name = '%s'" % (model_id,category_name)
+        where="model_name LIKE '%{}%' AND name = '{}'".format(model_name,category_name)
     )
     return [a[0] for a in res]
 
@@ -150,18 +150,18 @@ def st_tab_id_to_db_tab_id():
     return [a[0] for a in res]
 
 @st.cache_data
-def get_db_tab_id(model_id):
+def get_db_tab_id(model_name):
     res = sql_tab().select(
         values='id',
-        where="model_id='%d' and difficulty= 'basis' or model_id='%d' and difficulty= 'basis_advanced'" % (model_id, model_id)
+        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(model_name, model_name)
     )
     return res
 
 @st.cache_data
-def get_advanced_db_tab_id(model_id,category_name):
+def get_advanced_db_tab_id(model_name,category_name):
     res = sql_tab().select(
         values='id',
-        where="model_id='%d' AND name = '%s'" % (model_id,category_name)
+        where="model_name LIKE '%{}%' AND name = '{}'".format(model_name,category_name)
     )
     return res
 
@@ -272,10 +272,10 @@ def get_components_context_type_from_id(id):
 # MATERIAL
 #####################################
 @st.cache_data
-def get_material_from_component_id(component_id):
+def get_material_from_component_id(model_name,component_id):
     res = sql_material().select(
         values = '*',
-        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
+        where="model_name LIKE '%{}%' AND is_shown_to_user = 'True' AND (component_id_1={} or component_id_2={})".format(model_name,component_id,component_id)
     )
     return res
 
@@ -283,7 +283,7 @@ def get_material_from_component_id(component_id):
 def get_material_names_from_component_id(component_id):
     res = sql_material().select(
         values = 'display_name',
-        where='model_name = "p2d_p3d_p4d" and (component_id_1=%d or component_id_2=%d) ' % (component_id,component_id)
+        where='component_id_1=%d or component_id_2=%d ' % (component_id,component_id)
     )
     return [a[0] for a in res]
 
@@ -316,7 +316,7 @@ def get_display_name_from_material_id(material_id):
 def get_all_default_material():
         res = sql_material().select(
         values='*',
-        where="default_material= %d AND context_type IS NOT NULL " %1
+        where="default_material= '%s' AND context_type IS NOT NULL " % "True"
         )
         return res #[a[0] for a in res]
 
@@ -417,7 +417,7 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
         values = '*',
         where="template_parameter_id=%d AND parameter_set_id=%d" % (int(template_parameter_id),int(parameter_set_id))
     )
-    return res
+    return res[0] if res else None
 
 
 #####################################
@@ -427,12 +427,12 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 def get_models_as_dict():
     models = sql_model().select(
         values = '*',
-        where = "show_to_user = '1'" 
+        where = "is_shown_to_user = '1'" 
     )
     models_as_dict = {}
 
     for model in models:
-        model_id, model_name, _,_ = model
+        model_id, model_name, _,_,_ = model
 
         models_as_dict[model_id] = model_name
 
@@ -446,7 +446,7 @@ def get_model_name_from_id(model_id):
         where = "id = '{}'".format(model_id)
     )
 
-    return model
+    return model[0][0]
 
 
 # @st.cache_data
@@ -458,22 +458,30 @@ def get_model_name_from_id(model_id):
 #     return eval(res[0]) if res else None
 
 
-def get_model_parameters_as_dict(model_id):
-    parameters = sql_model_parameter().get_all_by_model_id(model_id)
+#@st.cache_data
+def get_model_parameters_as_dict(model_name):
+
+    parameter_set_id = sql_parameter_set().get_id_from_name(model_name)
+    parameters = sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
+
     model_quantitative_properties = []
 
     for parameter in parameters:
-        _, name, _, value, value_type, unit, unit_name, _, _ = parameter
+        _, name, _, _, value= parameter
+
+        template_parameter = sql_template_parameter().get_all_by_name(name)
+        
+
+        _,_,_,_,_,_,context_type,context_type_iri,value_type,unit,unit_name,unit_iri,_,_,_,_,_ = template_parameter
 
         parameter_details = {
             "label": name
         }
-
         if value_type == "bool":
             
             formatted_value_dict = {
                 "@type": "emmo:Boolean",
-                "hasStringData": bool(int(value))
+                "hasStringData": value
             }
         elif value_type == "str":
             formatted_value_dict = {
@@ -525,10 +533,10 @@ def get_template_from_name(name):
     return res[0]
 
 
-def get_all_material_by_template_id(template_id):
+def get_all_material_by_template_id(template_id,model_name):
         return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND par_class = '%s' AND model_name = 'p2d_p3d_p4d'" % (template_id,"material")
+            where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%'".format(template_id,"material",model_name)
         )
 
 def get_mf_template_by_template_id(template_id):
@@ -537,16 +545,16 @@ def get_mf_template_by_template_id(template_id):
             where="template_id=%d AND name = '%s'" % (template_id,"mass_fraction")
         )
 
-def get_non_material_template_by_template_id(template_id, model_id):
+def get_non_material_template_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND par_class = '%s' AND model_name = 'p2d_p3d_p4d' AND difficulty = 'basis'" % (template_id,"non_material")
+            where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis' AND is_shown_to_user = 'True'".format(template_id,"non_material",model_name)
         )
 
-def get_advanced_template_by_template_id(template_id):
+def get_advanced_template_by_template_id(template_id,model_name):
     res = sql_template_parameter().select(
             values='*',
-            where="template_id=%d AND model_name = 'p2d_p3d_p4d' AND difficulty = 'advanced'" % template_id
+            where="template_id={} AND model_name LIKE '%{}%' AND difficulty = 'advanced' AND is_shown_to_user = 'True'".format(template_id, model_name)
         )
     return res
 

@@ -1,0 +1,13 @@
+{
+    "Name": "P2D",
+    "Header": {},
+    "material": false,
+    "Parameters": {
+       "use_thermal": false,
+       "include_current_collector": false,
+       "use_solid_diffusion_model": true,
+       "solid_diffusion_model_type": "full",
+       "use_ramp_up": true
+       
+    }
+ }

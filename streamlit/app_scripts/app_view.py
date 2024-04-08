@@ -303,7 +303,7 @@ class SetTabs:
         # image dict stored for easier access
         self.image_dict = images
         self.model_id = model_id
-        self.model_name = np.squeeze(db_helper.get_model_name_from_id(model_id))
+        self.model_name = db_helper.get_model_name_from_id(model_id)
 
         # retrieve corresponding templates (not implemented yet)
         #self.model_templates = db_helper.get_templates_by_id(model_id)
@@ -397,15 +397,17 @@ class SetTabs:
             image_column.image(self.image_dict[str(tab_index+1)])
 
         title_column.text(" ")
-        title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_id)[tab_index])
+        title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_name)[tab_index])
 
     def set_tabs(self):
 
         cell_parameters = LD.setup_sub_dict(type="cell")
 
-        
-        all_tabs = st.tabs(db_helper.get_basis_tabs_display_names(self.model_id))
-        db_tab_ids = db_helper.get_db_tab_id(self.model_id)
+        all_tab_display_names = db_helper.get_basis_tabs_display_names(self.model_name)
+
+        all_tabs = st.tabs(all_tab_display_names)
+
+        db_tab_ids = db_helper.get_db_tab_id(self.model_name)
 
         index = 0
         for tab in all_tabs:
@@ -416,7 +418,7 @@ class SetTabs:
             tab_context_type= db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_name = db_helper.get_tab_name_by_id(db_tab_id)
 
-            tab_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_id)[index], context_type=tab_context_type, existence="new")
+            tab_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_name)[index], context_type=tab_context_type, existence="new")
 
             tab_relation = LD.get_relation(db_tab_id, "tab")
 
@@ -428,13 +430,13 @@ class SetTabs:
 
             if len(categories) > 1:  # create one sub tab per category
 
-                all_category_display_names = [a[8] for a in categories]
+                all_category_display_names = [a[7] for a in categories]
                 all_sub_tabs = tab.tabs(all_category_display_names)
                 i = 0
                 mass_loadings = {}
 
                 for category in categories:
-                    category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
+                    category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
  
                 for category in categories:
 
@@ -443,7 +445,7 @@ class SetTabs:
                                                             existence="new"
                                                             )
                     
-                    category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
+                    category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
                     category_relation = LD.get_relation(category_id, "category")
 
@@ -468,7 +470,7 @@ class SetTabs:
 
                 category_parameters = {}
                 
-                category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
+                category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
                 
                 if category_name == "protocol":
                     
@@ -548,8 +550,8 @@ class SetTabs:
         # Retrieve parameter values
         mf_ne = input_dict.ne.am.get("mass_fraction").get("value")
         mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
-        length = input_dict.ne.properties.get("length").get("value")
-        width = input_dict.ne.properties.get("width").get("value")
+        length = input_dict.cell.get("length").get("value")
+        width = input_dict.cell.get("width").get("value")
         CC_thickness = input_dict.ne.properties.get("current_collector_thickness").get("value")
         packing_mass = input_dict.cell.get("packing_mass").get("value")
         c_max_ne = input_dict.ne.am.get("maximum_concentration").get("value")
@@ -662,13 +664,12 @@ class SetTabs:
             material_col.markdown("**Material**")
 
 
-            material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_components[0]
+            material_component_id, component_name, _,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_components[0]
             parameter_id, \
                     name, \
                     model_name, \
                     par_class, \
                     difficulty, \
-                    model_id, \
                     template_id, \
                     context_type, \
                     mf_context_type_iri, \
@@ -698,7 +699,7 @@ class SetTabs:
             for material_component in material_components:
                 component_parameters_ = []
                 component_parameters = {}
-                material_component_id, component_name, _,_,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
+                material_component_id, component_name, _,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
                 
                 
 
@@ -724,7 +725,7 @@ class SetTabs:
                 if material_choice == "User defined":
                     component_parameters_ = []
                     component_parameters = {}
-                    category_parameters = self.fill_user_defined_expander(parameters,component_parameters,component_parameters_,density,tab,category_id,component_name,material_comp_display_name,material_component_id,material_comp_context_type,selected_value_id)
+                    category_parameters = self.fill_user_defined_expander(parameters,category_parameters,component_parameters,component_parameters_,density,tab,category_id,component_name,material_comp_display_name,material_component_id,material_comp_context_type,selected_value_id)
 
                 component_parameters_ = []
                 component_parameters = {}
@@ -759,7 +760,7 @@ class SetTabs:
         
         non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
         
-        non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+        non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
         
         tab.markdown("**%s**" % non_material_comp_display_name)
         if category_name == "negative_electrode" or category_name == "positive_electrode":
@@ -767,7 +768,6 @@ class SetTabs:
         else:
             property_col, value_col= tab.columns(2)
             check_col = None
-    
         
         non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)
         
@@ -787,9 +787,9 @@ class SetTabs:
         component_parameters = {}
         non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
 
-        non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+        non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
             
-        raw_template_parameters = db_helper.get_non_material_template_by_template_id(default_template_id,self.model_id)
+        raw_template_parameters = db_helper.get_non_material_template_by_template_id(default_template_id,self.model_name)
 
         parameter_sets = db_helper.get_all_parameter_sets_by_component_id(non_material_component_id)
 
@@ -873,7 +873,7 @@ class SetTabs:
 
         return category_parameters
 
-    def fill_user_defined_expander(parameters,component_parameters,component_parameters_,density,tab,category_id,component_name,material_comp_display_name,material_component_id,material_comp_context_type,selected_value_id):
+    def fill_user_defined_expander(self,parameters,category_parameters,component_parameters,component_parameters_,density,tab,category_id,component_name,material_comp_display_name,material_component_id,material_comp_context_type,selected_value_id):
 
         
         ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
@@ -884,22 +884,35 @@ class SetTabs:
                 parameter_options =parameter.options.get(selected_value_id)
 
 
+
                 if not isinstance(parameter, FunctionParameter):
                     property_col, value_col= ex.columns((1.5,2))
 
+                    if isinstance(parameter, StrParameter):
+                                property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
 
-                    property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
-                    user_input = value_col.number_input(
-                        label=parameter.name,
-                        value=parameter.default_value,
-                        min_value=parameter.min_value,
-                        max_value=parameter.max_value,
-                        key="input_{}_{}".format(category_id, parameter.id),
-                        format=parameter.format,
-                        step=parameter.increment,
-                        label_visibility="collapsed"
-                        )
+                                user_input = value_col.text_input(
+                                label=parameter.name,
+                                value=parameter_options.value,
+                                key="input_{}_{}".format(category_id, parameter.id),
+                                label_visibility="collapsed"
+                                )
+
+                    else:
+
+                        property_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri)+ " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
+
+                        user_input = value_col.number_input(
+                            label=parameter.name,
+                            value=parameter.default_value,
+                            min_value=parameter.min_value,
+                            max_value=parameter.max_value,
+                            key="input_{}_{}".format(category_id, parameter.id),
+                            format=parameter.format,
+                            step=parameter.increment,
+                            label_visibility="collapsed"
+                            )
                     
                 elif isinstance(parameter, FunctionParameter):
 
@@ -914,12 +927,12 @@ class SetTabs:
 
                         if variables not in st.session_state:
                             
-                            st.session_state[variables] = r'c,cmax,T,refT'
+                            st.session_state[variables] = r'c,cmax'
                         if ref_ocp not in st.session_state:
                             if component_name == "negative_electrode_active_material":
-                                st.session_state[ref_ocp] = r'''0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*c/cmax) - 0.7984 * exp(0.4465*c/cmax - 0.4108) + (T - refT) *1e-3 *( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)^5- 37147.89470 * (c/cmax)^6+ 38379.18127 * (c/cmax)^7- 16515.05308 * (c/cmax)^8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)^5+ 374577.3152 * (c/cmax)^6- 385821.1607 * (c/cmax)^7+ 165705.8597 * (c/cmax)^8 )'''
+                                st.session_state[ref_ocp] = r'''1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))'''
                             elif component_name == "positive_electrode_active_material":
-                                st.session_state[ref_ocp] = r'''(-4.656 + 0 * (c/cmax) + 88.669 * (c/cmax)^2 + 0 * (c./cmax)^3 - 401.119 * (c/cmax)^4 + 0 * (c/cmax)^5 + 342.909 * (c/cmax)^6 + 0 * (c/cmax)^7 - 462.471 * (c/cmax)^8 + 0 * (c/cmax)^9 + 433.434 * (c/cmax)^10)/(-1 + 0  * (c/cmax)+ 18.933 * (c./cmax)^2+ 0 * (c/cmax)^3- 79.532 * (c/cmax)^4+ 0 * (c/cmax)^5+ 37.311 * (c/cmax)^6+ 0 * (c/cmax)^7- 73.083 * (c/cmax)^8+ 0 * (c/cmax)^9+ 95.960 * (c/cmax)^10)+ (T - refT) * ( -1e-3* ( 0.199521039- 0.928373822 * (c/cmax)+ 1.364550689000003 * (c/cmax)^2- 0.611544893999998 * (c/cmax)^3)/ (1- 5.661479886999997 * (c/cmax)+ 11.47636191 * (c/cmax)^2- 9.82431213599998 * (c/cmax)^3+ 3.048755063 * (c/cmax)^4))'''
+                                st.session_state[ref_ocp] = r'''-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))'''
 
                         info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
                         if info:
@@ -994,7 +1007,13 @@ class SetTabs:
 
                         if variables not in st.session_state:
                             
-                            st.session_state[variables] = r'c,T'
+                            st.session_state[variables] = r'c'
+
+                        if "conductivity" not in st.session_state:
+                            st.session_state.conductivity = r'''0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)'''
+                    
+                        if "diffusion_coefficient" not in st.session_state:
+                            st.session_state.diffusion_coefficient = r'''8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)'''
                         
 
                         info = ex.toggle(label="{} Guidelines".format(parameter.display_name), key = "toggle_{}".format(parameter_id))
@@ -1063,7 +1082,7 @@ class SetTabs:
                     parameter.set_selected_value(user_input)
                     component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
 
-                    if parameter.name == "density":
+                    if parameter.name == "density" and density:
                         density[material_component_id] = parameter.selected_value
 
             component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
@@ -1079,8 +1098,7 @@ class SetTabs:
     
     def fill_non_material_components(self,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters_, check_col,non_material_component_name,tab, density_mix, mass_loadings):
         par_index = None
-        non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,model_id)
-        
+        non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,self.model_name)
         non_material_parameter_sets_name_by_id = {}
         non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
 
@@ -1088,7 +1106,7 @@ class SetTabs:
         non_material_parameters_raw = []
         for non_material_parameter_raw_template in non_material_parameters_raw_template:
 
-            non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
+            non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
 
             non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
             
@@ -1432,10 +1450,9 @@ class SetTabs:
 
         material_parameter_sets = []
         # get corresponding template parameters from db
-        material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id)
+        material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id, self.model_name)
 
-        materials = tuple(db_helper.get_material_from_component_id(material_component_id))
-        
+        materials = db_helper.get_material_from_component_id(self.model_name,material_component_id)
 
         for material in materials:
 
@@ -1449,8 +1466,9 @@ class SetTabs:
 
         material_raw_parameters = []
         for material_parameter_set_id in material_parameter_sets_name_by_id:
-            material_raw_parameters += db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id)
-        material_raw_parameters = tuple(material_raw_parameters)        
+            material_raw_parameters.append(db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id))
+        
+       # material_raw_parameters = tuple(material_raw_parameters)        
         # format all those parameters: use template parameters for metadata, and parameters for values.
         # all information is packed in a single python object
         # formatted_parameters is a dict containing those python objects
@@ -1499,9 +1517,9 @@ class SetTabs:
 
     def fill_advanced_expander(self, tab,category_name, category_display_name,category_parameters):
         advanced_input=tab.expander("Show '{}' advanced parameters".format(category_display_name))
-        all_advanced_tabs = advanced_input.tabs(db_helper.get_advanced_tab_display_names(self.model_id, category_name))
+        all_advanced_tabs = advanced_input.tabs(db_helper.get_advanced_tab_display_names(self.model_name, category_name))
         
-        db_tab_ids_advanced = db_helper.get_advanced_db_tab_id(self.model_id,category_name)
+        db_tab_ids_advanced = db_helper.get_advanced_db_tab_id(self.model_name,category_name)
         index_advanced = 0
         for tab_advanced in all_advanced_tabs:
             
@@ -1517,7 +1535,7 @@ class SetTabs:
 
             #if len(categories_advanced) > 1:  # create one sub tab per category
 
-            all_category_display_names = [a[8] for a in categories_advanced]
+            all_category_display_names = [a[7] for a in categories_advanced]
             if len(categories_advanced) > 1:  # create one sub tab per category
                 all_sub_tabs = tab_advanced.tabs(all_category_display_names)
             else:
@@ -1529,7 +1547,7 @@ class SetTabs:
                 component_parameters_ = []
                 component_parameters = {}
 
-                category_id, category_name,_,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
+                category_id, category_name,_,_,category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
                 if all_sub_tabs:
                     tab_advanced = all_sub_tabs[i]
@@ -1539,10 +1557,9 @@ class SetTabs:
                 non_material_component = tuple(db_helper.get_advanced_components_from_category_id(category_id))     
                 
 
-                non_material_component_id, non_material_component_name, _,_,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
+                non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
                     
-                raw_template_parameters = db_helper.get_advanced_template_by_template_id(default_template_id)
-                
+                raw_template_parameters = db_helper.get_advanced_template_by_template_id(default_template_id,self.model_name)
 
                 if raw_template_parameters:
                     
@@ -1552,20 +1569,19 @@ class SetTabs:
                     non_material_parameters_raw = []
                     for non_material_parameter_raw_template in raw_template_parameters:
 
-                        non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
+                        non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
                     
                     
                         non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)
-                    
+                        
                         non_material_parameters_raw.append(non_material_parameter)
-
-                    non_material_parameters_raw = tuple(np.squeeze(non_material_parameters_raw))
-
+                    
                     formatted_parameters = self.formatter.format_parameters(non_material_parameters_raw, raw_template_parameters, non_material_parameters_set_name)
                     
                     for parameter_id in formatted_parameters:
                         
                         parameter = formatted_parameters.get(str(parameter_id))
+                        
                         if parameter.is_shown_to_user:
                             selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                                 template_parameter_id=parameter.id,
@@ -1579,7 +1595,7 @@ class SetTabs:
                                 
                                 user_input = input_col.number_input(
                                     label=parameter.name,
-                                    value=parameter.options.get(str(selected_parameter_id)).value,
+                                    value=parameter.options.get(selected_parameter_id).value,
                                     min_value=parameter.min_value,
                                     max_value=parameter.max_value,
                                     key="input_{}_{}".format(non_material_component_name, parameter.name),
@@ -1677,7 +1693,7 @@ class RunSimulation:
     def __init__(self, gui_parameters):
         self.header = "Run simulation"
         self.json_file = app_access.get_path_to_battmo_formatted_input()
-        self.style = get_theme_style()
+        #self.style = get_theme_style()
         self.gui_parameters = gui_parameters
         #self.gui_file_data = json.dumps(gui_parameters, indent=2)
         #self.gui_file_name = "gui_output_parameters.json"
@@ -1716,11 +1732,13 @@ class RunSimulation:
         #     args= (save_run, )
         #     #help = "Update the parameter values."
         # )
-
-        runing = save_run.button(
+        col1,_ = save_run.columns((1,3))
+        runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
-            args = (save_run, )
+            args = (save_run, ),
+            type = "primary",
+            use_container_width = True
             #help = "Run the simulation (after updating the parameters)."
             
         )
@@ -1792,26 +1810,17 @@ class RunSimulation:
 
         if response_start.status_code == 200:
 
-            st.session_state.succes = True
-
-            #success = DivergenceCheck(response_start.status_code).success
-
-            #if success == True:
-            with open(app_access.get_path_to_linked_data_input(), 'r') as f:
-                gui_parameters = json.load(f)
-
-            indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
-
-            with open(app_access.get_path_to_indicator_values(), 'w') as f:
-                json.dump(indicators, f, indent=3)
-
-            data = response_start.content 
+            st.session_state.reponse = True
 
             with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                f.write(data)
+                    f.write(response_start.content)
+
+            success = DivergenceCheck(response_start).success
+
+                
 
         else:
-                st.session_state.succes = False
+                st.session_state.reponse = False
                 #success = DivergenceCheck(response_start.status_code).success
                 
     
@@ -1841,9 +1850,9 @@ class DivergenceCheck:
     Checks if the simulation is fully executed. If not it provides a warning to the user. 
     If the simulation is fully executed, it shows the battmo logging if there is any.
     """
-    def __init__(self,error):
+    def __init__(self,response):
 
-        self.error = error
+        self.response = response
         self.success = False
         self.check_for_divergence()
         
@@ -1897,36 +1906,44 @@ class DivergenceCheck:
     
     def divergence_check_logging(self,N, number_of_states,log_messages):
         save_run = st.empty()
-        if st.session_state.succes == False:
+        if st.session_state.reponse == False:
             st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             
         else:
-
-            # if len(log_messages) > 1:
-            #     c = save_run.container()
-                
-            #     if number_of_states >= N:
+            if number_of_states == 0:
+                self.success = False
+                  
+                st.session_state.succes = False
+                if len(log_messages[()]) > 1:
+                    c = save_run.container()
+                    c.error("Simulation wasn't successful unfortunately. Some errors were produced, see the logging.")
+                    c.markdown("***Logging:***")
+                        
+                    log_message = ''' \n'''
+                    for message in log_messages[()]:
+                        log_message = log_message + message+ '''\n'''
                     
-            #         st.session_state.succes = True
-            #         self.success = True
-            #         c.success("Simulation finished successfully, but some warnings were produced. See the logging below for the warnings and check the results on the next page.")
+                    c.code(log_message + ''' \n''')
+                else:
 
-            #     else:
-            #         c.error("Simulation did not finish, some warnings were produced. Change some parameters and try again.")
-            #         st.session_state.succes = False
-                
-            #     c.markdown("***Logging:***")
-                    
-            #     log_message = ''' \n'''
-            #     for message in log_messages:
-            #         log_message = log_message + message+ '''\n'''
-                
-            #     c.code(log_message + ''' \n''')
+                    save_run.error("Simulation wasn't successful unfortunately.")
 
-            # else: 
-            self.success = True
-            save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-            st.session_state.succes = True
+            else: 
+                self.success = True
+                save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
+                st.session_state.succes = True
+
+                if self.response:
+                    with open(app_access.get_path_to_linked_data_input(), 'r') as f:
+                        gui_parameters = json.load(f)
+
+                    indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
+
+                    with open(app_access.get_path_to_indicator_values(), 'w') as f:
+                        json.dump(indicators, f, indent=3)
+
+                    with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                        f.write(self.response.content)
 
 
 class DownloadParameters:
@@ -2082,7 +2099,7 @@ class SetModelDescription():
 
     def set_model_description(self):
         models_as_dict = db_helper.get_models_as_dict()
-        P2D_model= db_helper.get_model_parameters_as_dict(1)
+        P2D_model= db_helper.get_model_parameters_as_dict("P2D")
         P2D_model_description = db_helper.get_model_description(self.model)[0][0]
 
         st.title("The available models")
@@ -2972,7 +2989,7 @@ class SetGeometryVisualization():
         number_of_particles_pe = int(round(mass_area_pe/particle_area_pe))
 
         ne_pts_full = np.full((2, int(round(total_thickness))), np.nan)
-        st.write(particle_radius_ne)
+
         # Generate negative electrode particles
         ne_pts, ne_radii = _self.generate_random_particles(width, thickness_ne, number_of_particles_ne, particle_radius_ne)
         
@@ -3814,7 +3831,7 @@ class SetMaterialDescription():
         for material_values in materials:
             
             material = material_values
-            id,name,_,_,reference_name,reference,reference_link,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
+            id,name,_,_,_,reference_name,reference,reference_link,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
             display_names.append(display_name)
 
 
@@ -3823,7 +3840,7 @@ class SetMaterialDescription():
         for material_values in materials:
             
             material = material_values
-            id,name,_,_,reference_name,reference,reference_link,_,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
+            id,name,_,_,_,reference_name,reference,reference_link,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
 
             for choice in select:
                 if choice == display_name:
@@ -3847,7 +3864,7 @@ class SetMaterialDescription():
 
                             template_parameter = db_helper.get_template_from_name(parameter_name)
                             
-                            template_parameter_id, template_parameter_name,_,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
+                            template_parameter_id, template_parameter_name,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
                             
                             if template_parameter_name == "open_circuit_potential" or template_parameter_name == "conductivity" or template_parameter_name == "diffusion_coefficient":
                         

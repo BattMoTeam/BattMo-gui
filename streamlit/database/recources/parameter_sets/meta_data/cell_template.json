@@ -1,75 +1,43 @@
 {
    "Type": "template",
-   "Name": "cell_full_template",
+   "Name": "cell_template",
    "Parameters": {
-      "ambient_temperature": {
-         "model_name": "p2d_p3d_p4d",
+      "length": {
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
-         "context_type": "echem:AmbientThermodynamicTemperature",
-         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_39a44af0_0e1a_4859_b550_bdabad64386e",
-         "max_value": 373.15,
-         "min_value": 238.15,
-         "description": "the ambient temperature of the environment around the battery",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "K",
-         "unit_name": "Kelvin",
-         "unit_iri": "https://w3id.org/emmo#Kelvin",
-         "display_name": "Ambient temperature"
-      },
-      "initial_temperature": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "basis",
-         "context_type": "echem:InititalThermodynamicTemperature",
-         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_9c9b80a4_a00b_4b91_8e17_3a7831f2bf2f",
-         "max_value": 373.15,
-         "min_value": 238.15,
+         "context_type": "emmo:Length",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+         "max_value": 1,
+         "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "K",
-         "unit_name": "Kelvin",
-         "unit_iri": "https://w3id.org/emmo#Kelvin",
-         "display_name": "Initial temperature"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "https://w3id.org/emmo#Metre",
+         "display_name": "Length"
       },
-      "reference_temperature": {
-         "model_name": "p3d_p4d",
+      "width": {
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
-         "context_type": "echem:ReferenceThermodynamicTemperature",
-         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_db40df7e_1aa5_49a7_85cb_2aa2c1c70489",
-         "max_value": 373.15,
-         "min_value": 238.15,
+         "context_type": "emmo:Width",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+         "max_value": 1,
+         "min_value": 0.001,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "K",
-         "unit_name": "Kelvin",
-         "unit_iri": "https://w3id.org/emmo#Kelvin",
-         "display_name": "Reference temperature"
-      },
-      "external_heat_transfer_coefficient": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "advanced",
-         "context_type": "emmo:CoefficientOfHeatTransfer",
-         "context_type_iri": "https://w3id.org/emmo#EMMO_43b349fc_c7ed_480d_b0ca_9db84b700813",
-         "max_value": 10000,
-         "min_value": 100,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "W\u00B7m\u207b\u00b2\u00B7K\u207b\u00b9",
-         "unit_name": "WattPerSquareMetreKelvin",
-         "unit_iri": "https://w3id.org/emmo#WattPerSquareMetreKelvin",
-         "display_name": "External heat transfer coefficient"
+         "unit": "m",
+         "unit_name": "Metre",
+         "unit_iri": "https://w3id.org/emmo#Metre",
+         "display_name": "Width"
       },
       "packing_mass": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type": "emmo:Weight",
          "context_type_iri": "https://emmo-repo.github.io/emmo.html#EMMO_04cf0295_3e8f_4693_a87f_3130d125cf05",
          "max_value": 200,
@@ -82,24 +50,8 @@
          "unit_iri": "https://w3id.org/emmo#Gram",
          "display_name": "Packing mass"
       },
-      "initial_state_of_charge": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "basis",
-         "context_type": "battery:StateOfCharge",
-         "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
-         "max_value": 1,
-         "min_value": 0.01,
-         "description": "SOC, state of charge of the battery, where 1 is fully charged and 0 is fully discharged",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "1",
-         "unit_name": "UnitOne",
-         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
-         "display_name": "Initial state of charge"
-      },
       "nominal_cell_capacity": {
-         "model_name": "p3d_p4d",
+         "model_name": ["P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_9b3b4668_0795_4a35_9965_2af383497a26",
@@ -114,7 +66,7 @@
          "display_name": "Nominal cell capacity"
       },
       "number_parallel_electrode_pairs_within_cell": {
-         "model_name": "p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",
@@ -122,7 +74,7 @@
          "max_value": 100,
          "min_value": 1,
          "description": "",
-         "is_shown_to_user": false,
+         "is_shown_to_user": true,
          "type": "int",
          "unit": "1",
          "unit_name": "UnitOne",
@@ -130,7 +82,7 @@
          "display_name": "Number of parallel electrode pairs within cell"
       },
       "external_surface_area": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_47ab1dad_cc09_4fd8_af23_acb36fb680dd",
@@ -161,7 +113,7 @@
          "display_name": "Volume"
       },
       "n_to_p_ratio": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:N/PRatio",
@@ -177,7 +129,7 @@
          "display_name": "N/P ratio"
       },
       "cell_mass": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:CellMass",
@@ -193,7 +145,7 @@
          "display_name": "Cell Mass"
       },
       "cell_energy": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:CellEnergy",

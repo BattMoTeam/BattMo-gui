@@ -20,7 +20,7 @@ Those files are located in the directory python/resources/db/resources
 """
 
 #########################################
-# RUN FILE 2 TIMES TO UPDATE EVERYTHING
+# RUN FILE TO UPDATE EVERYTHING
 #########################################
 
 if __name__ == "__main__":
@@ -29,18 +29,14 @@ if __name__ == "__main__":
     # sql_template_parameter = db_handler.TemplateParameterHandler()
     # sql_template_parameter.drop_table(confirm=True)
     # os.system("db_model.py")
-
-
-
-    # 1. Models (independent)
-    UpdateModels().execute_script()
     
 
-    # 2. Templates (depends on models)
+    # 1. Templates (independent)
     UpdateTemplates().execute_script()
 
+    # 2. Models (depends on templates)
+    UpdateModels().execute_script()
     
-
     # 3. Tabs (depends on models)
     UpdateTabs().execute_script()
 
@@ -63,7 +59,7 @@ if __name__ == "__main__":
 # Uncomment to see data in material table:
 
 con, cur = app_access.get_sqlite_con_and_cur()
-data=cur.execute('''SELECT * FROM template_parameter''')
+data=cur.execute('''SELECT * FROM material''')
 # Fetch all rows from the result
 data = cur.fetchall()
 
@@ -71,6 +67,7 @@ data = cur.fetchall()
 if cur.description:
     # Print the column information
     print("Column names:", [col[0] for col in cur.description])
+
 else:
     print("No columns to describe (empty result set)")
 

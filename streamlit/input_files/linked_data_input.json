@@ -1,20 +1,12 @@
 {
    "@context": {
-      "skos": "http://www.w3.org/2004/02/skos/core#",
-      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "schema": "https://schema.org/",
+      "": "https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
       "emmo": "https://w3id.org/emmo#",
       "echem": "https://w3id.org/emmo/domain/electrochemistry#",
       "battery": "https://w3id.org/emmo/domain/battery#",
-      "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
-      "qudt": "http://qudt.org/vocab/unit/",
-      "hasQuantitativeProperty": "emmo:hasQuantitativeProperty",
-      "hasConstituent": "emmo:hasConstituent",
-      "hasActiveMaterial": "echem:hasActiveMaterial",
-      "hasNumericalData": "emmo:hasNumericalData",
-      "hasStringData": "emmo:hasStringData",
-      "value": "emmo:hasQuantityValue",
-      "unit": "emmo:hasReferenceUnit",
-      "label": "skos:prefLabel"
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "hasConstituent": "emmo:hasConstituent"
    },
    "MySimulationSetup": {
       "hasModel": {
@@ -25,21 +17,21 @@
                "label": "use_thermal",
                "value": {
                   "@type": "emmo:Boolean",
-                  "hasStringData": false
+                  "hasStringData": "False"
                }
             },
             {
                "label": "include_current_collector",
                "value": {
                   "@type": "emmo:Boolean",
-                  "hasStringData": false
+                  "hasStringData": "False"
                }
             },
             {
                "label": "use_solid_diffusion_model",
                "value": {
                   "@type": "emmo:Boolean",
-                  "hasStringData": true
+                  "hasStringData": "True"
                }
             },
             {
@@ -50,34 +42,10 @@
                }
             },
             {
-               "label": "time_step_duration",
-               "unit": {
-                  "label": "Second",
-                  "symbol": "s",
-                  "@type": "emmo:Second"
-               },
-               "value": {
-                  "@type": "emmo:Numerical",
-                  "hasNumericalData": 100.0
-               }
-            },
-            {
                "label": "use_ramp_up",
                "value": {
                   "@type": "emmo:Boolean",
-                  "hasStringData": true
-               }
-            },
-            {
-               "label": "ramp_up_time",
-               "unit": {
-                  "label": "Second",
-                  "symbol": "s",
-                  "@type": "emmo:Second"
-               },
-               "value": {
-                  "@type": "emmo:Numerical",
-                  "hasNumericalData": 10.0
+                  "hasStringData": "True"
                }
             }
          ]
@@ -486,7 +454,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 85.0
+                           "hasNumericalData": 55.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -512,38 +480,12 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 14.926
+                           "hasNumericalData": 9.7372
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
                            "symbol": "mg\u00b7cm\u207b\u00b2",
                            "@type": "emmo:MiliGramPerCubicCentiMeter"
-                        }
-                     },
-                     {
-                        "label": "length",
-                        "@type": "emmo:Length",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.3
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "width",
-                        "@type": "emmo:Width",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.09
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -590,7 +532,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 984.6814862555711
+                           "hasNumericalData": 725.0835400931336
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -1032,32 +974,6 @@
                         }
                      },
                      {
-                        "label": "length",
-                        "@type": "emmo:Length",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.3
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "width",
-                        "@type": "emmo:Width",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.09
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
                         "label": "bruggeman_coefficient",
                         "@type": "string",
                         "value": {
@@ -1315,7 +1231,7 @@
                   "@type": "emmo:Porosity",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.4
+                     "hasNumericalData": 0.30999999999999994
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1352,8 +1268,118 @@
             ]
          },
          "hasBatteryCell": {
-            "label": "Boundary conditions",
+            "label": "Cell properties",
             "@type": "battery:BatteryCell",
+            "hasQuantitativeProperty": [
+               {
+                  "label": "length",
+                  "@type": "emmo:Length",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.3
+                  },
+                  "unit": {
+                     "label": "Metre",
+                     "symbol": "m",
+                     "@type": "emmo:Metre"
+                  }
+               },
+               {
+                  "label": "width",
+                  "@type": "emmo:Width",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.09
+                  },
+                  "unit": {
+                     "label": "Metre",
+                     "symbol": "m",
+                     "@type": "emmo:Metre"
+                  }
+               },
+               {
+                  "label": "packing_mass",
+                  "@type": "emmo:Weight",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 20.0
+                  },
+                  "unit": {
+                     "label": "Gram",
+                     "symbol": "g",
+                     "@type": "emmo:Gram"
+                  }
+               },
+               {
+                  "label": "number_parallel_electrode_pairs_within_cell",
+                  "@type": "emmo:NumberOfEntities",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 34
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "external_surface_area",
+                  "@type": "string",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.0379
+                  },
+                  "unit": {
+                     "label": "SquareMetre",
+                     "symbol": "m\u00b2",
+                     "@type": "emmo:SquareMetre"
+                  }
+               },
+               {
+                  "label": "n_to_p_ratio",
+                  "@type": "emmo:N/PRatio",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.69
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "cell_mass",
+                  "@type": "emmo:CellMass",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 32.98003994
+                  },
+                  "unit": {
+                     "label": "Gram",
+                     "symbol": "g",
+                     "@type": "emmo:Gram"
+                  }
+               },
+               {
+                  "label": "nominal_cell_capacity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 725.0835400931336
+                  },
+                  "unit": {
+                     "label": "AmpereHour",
+                     "symbol": "mAh",
+                     "@type": "emmo:AmpereHour"
+                  }
+               }
+            ]
+         },
+         "hasBoundaryConditions": {
+            "label": "Boundary conditions",
+            "@type": "battery:BoundaryConditions",
             "hasQuantitativeProperty": [
                {
                   "label": "ambient_temperature",
@@ -1405,71 +1431,6 @@
                      "label": "WattPerSquareMetreKelvin",
                      "symbol": "W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9",
                      "@type": "emmo:WattPerSquareMetreKelvin"
-                  }
-               },
-               {
-                  "label": "packing_mass",
-                  "@type": "emmo:Weight",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 20.0
-                  },
-                  "unit": {
-                     "label": "Gram",
-                     "symbol": "g",
-                     "@type": "emmo:Gram"
-                  }
-               },
-               {
-                  "label": "external_surface_area",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.0379
-                  },
-                  "unit": {
-                     "label": "SquareMetre",
-                     "symbol": "m\u00b2",
-                     "@type": "emmo:SquareMetre"
-                  }
-               },
-               {
-                  "label": "n_to_p_ratio",
-                  "@type": "emmo:N/PRatio",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.94
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
-                  }
-               },
-               {
-                  "label": "cell_mass",
-                  "@type": "emmo:CellMass",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 34.62841424
-                  },
-                  "unit": {
-                     "label": "Gram",
-                     "symbol": "g",
-                     "@type": "emmo:Gram"
-                  }
-               },
-               {
-                  "label": "nominal_cell_capacity",
-                  "@type": null,
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 984.6814862555711
-                  },
-                  "unit": {
-                     "label": "AmpereHour",
-                     "symbol": "mAh",
-                     "@type": "emmo:AmpereHour"
                   }
                }
             ]
@@ -1582,6 +1543,32 @@
                      "label": "VoltPerSecond",
                      "symbol": "V\u00b7s\u207b\u00b9",
                      "@type": "emmo:VoltPerSecond"
+                  }
+               },
+               {
+                  "label": "time_step_duration",
+                  "@type": "['CurrentCollector', 'parameter']",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 100.0
+                  },
+                  "unit": {
+                     "label": "Second",
+                     "symbol": "s",
+                     "@type": "emmo:Second"
+                  }
+               },
+               {
+                  "label": "ramp_up_time",
+                  "@type": "['LinearCurrentRamp', 'Duration']",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 10.0
+                  },
+                  "unit": {
+                     "label": "Second",
+                     "symbol": "s",
+                     "@type": "emmo:Second"
                   }
                }
             ]

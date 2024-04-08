@@ -1,9 +1,9 @@
 {
    "Type": "template",
-   "Name": "protocol_full_template",
+   "Name": "protocol_template",
    "Parameters": {
       "initial_step_type": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "description": "",
@@ -12,7 +12,7 @@
          "display_name": "Initial step type"
       },
       "number_of_cycles": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:NumberOfEntities",
@@ -28,7 +28,7 @@
          "display_name": "Number of cycles"
       },
       "d_rate": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_25e20915_c35d_4bee_ad31_736235a79780",
@@ -43,7 +43,7 @@
          "display_name": "Crate"
       },
       "c_rate": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_e1fd84eb_acdb_4b2c_b90c_e899d552a3ee",
@@ -58,7 +58,7 @@
          "display_name": "Crate"
       },
       "lower_cutoff_voltage": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_534dd59c_904c_45d9_8550_ae9d2eb6bbc9",
@@ -73,7 +73,7 @@
          "display_name": "Lower cutoff voltage"
       },
       "upper_cutoff_voltage": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_6dcd5baf_58cd_43f5_a692_51508e036c88",
@@ -88,7 +88,7 @@
          "display_name": "Upper cutoff coltage"
       },
       "d_idt_limit": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 0.1,
@@ -100,7 +100,7 @@
          "display_name": "d idt limit"
       },
       "d_edt_limit": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 0.1,
@@ -112,6 +112,59 @@
          "unit_name": "VoltPerSecond",
          "unit_iri": "https://w3id.org/emmo#VoltPerSecond",
          "display_name": "d edt limit"
+      },
+      "time_step_duration": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "max_value": 1000,
+         "min_value": 1,
+         "context_type": ["CurrentCollector","parameter"],
+         "label": "CurrentCollector",
+         "description": "",
+         "type": "float",
+         "is_shown_to_user": true,
+         "unit": "s",
+         "unit_name": "Second",
+         "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
+      },
+      "ramp_up_time": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "max_value": 100,
+         "min_value": 0.0001,
+         "context_type": ["LinearCurrentRamp", "Duration"],
+         "label": "rampupTime",
+         "description": "duration of the switch between changing from rest, discharging, or charging",
+         "type": "float",
+         "is_shown_to_user": true,
+         "unit": "s",
+         "unit_name": "Second",
+         "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
+      },
+      "total_time": {
+         "context_type": ["Duration"],
+         "label": "totalTime",
+         "description": "",
+         "max_value": 100000,
+         "min_value": 0.0001,
+         "type": "float",
+         "is_shown_to_user": false,
+         "unit": "s",
+         "unit_name": "Second",
+         "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
+      },
+      "number_of_time_steps": {
+         "context_type": ["Duration"],
+         "label": "numberOfTimeSteps",
+         "description": "",
+         "max_value": 1000,
+         "min_value": 1,
+         "type": "int",
+         "is_shown_to_user": false,
+         "unit_name": "Second",
+         "unit_iri": "https://w3id.org/emmo/domain/emmo#CountingUnit"
       }
    }
 }

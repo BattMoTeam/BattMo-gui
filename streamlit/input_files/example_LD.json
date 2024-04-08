@@ -1,0 +1,724 @@
+{
+    "@context":{
+       "schema":"https://schema.org/",
+       "":"https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
+       "emmo":"https://w3id.org/emmo#", 
+       "rdfs":"http://www.w3.org/2000/01/rdf-schema#"      
+       },
+       "@id":"https://www.batterymodel.org/parameters/m309c-ed93mdp3d",
+       "@type":["Dataset"],
+       "schema:version":0.1,
+       "shema:headline":"LFP Graphite Chen 2020",
+       "schema:description": "Parameters for the Chen 2020 article",
+       "battinfo:hasModel":{
+          "@type":["battinfo:p2dModel", "schema:SoftwareApplication"],
+             "@id":"https://battmoteam.github.io/BattMo/index.html", 
+             "rdfs:label":"DFN model",
+             "hasInput":[
+                {
+                   "@type":["SpatialTiling", "Geometrical"],
+                   "rdfs:label":"Geometry",
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["OneManifold"],
+                         "rdfs:label": "case", 
+                         "hasSymbolValue":"1D"
+                      },
+                      {
+                         "@type":["ElectrodeGeometricSurfaceArea", "Parameter"],
+                         "rdfs:label": "faceArea",
+                         "hasNumericalPart":{
+                            "@type":"battinfo:Real",
+                            "hasNumericalValue": 0.0001
+                      },
+                      "hasMeasurementUnit": "emmo:SquareMetre"
+ 
+                      },
+                      {
+                         "@type":["Arrangement", "Parameter", "Array"],
+                         "rdfs:label": "G",
+                         "hasNumericalPart":{
+                            "@type":"battinfo:Real",
+                            "hasDataValue": []
+                         }
+                      }
+                   ]
+                },
+                {
+                   "@type":["NegativeElectrode"],
+                   "rdfs:label":"NegativeElectrode",
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["ElectrodeCoating"],
+                         "rdfs:label":"Coating",
+                         "hasObjectiveProperty":[
+                            {
+                               "@type":["CoatingThickness", "Parameter"],
+                               "rdfs:label":"thickness",
+                               "hasNumericalPart":{
+                                     "@type":"Real",
+                                     "hasNumericalValue": 0.000112
+                               },
+                               "hasMeasurementUnit": "emmo:Metre"
+                            },
+                            {
+                               "@type":["MISSING", "Parameter"],
+                               "rdfs:label":"N",
+                               "hasNumericalPart":{
+                                     "@type":"Integer",
+                                     "hasNumericalValue": 10
+                               },
+                               "hasMeasurementUnit": "emmo:CountingUnit"
+                            },
+                            {
+                               "@type":["Density", "Parameter"],
+                               "rdfs:label":"effectiveDensity",
+                               "hasNumericalPart":{
+                                     "@type":"Real",
+                                     "hasNumericalValue": 1900
+                                  },
+                               "hasMeasurementUnit": "GramPerLitre"
+                            },
+                            {
+                               "@type":["MISSING", "Parameter"],
+                               "rdfs:label":"bruggemanCoefficient",
+                               "hasNumericalPart":{
+                                     "@type":"Real",
+                                     "hasNumericalValue": 1.5
+                                  },
+                               "hasMeasurementUnit": "emmo:DimensionlessUnit"
+                            },
+                            {
+                               "@type":["ActiveMaterial"],
+                               "rdfs:label":"ActiveMaterial",
+                               "hasObjectiveProperty":[                                 
+                                  {
+                                     "@type":["MassFraction", "Parameter"],
+                                     "rdfs:label":"massFraction",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 0.8
+                                        },
+                                     "hasMeasurementUnit": "emmo:MassFractionUnit"
+                                  },
+                                  {
+                                     "@type":["Density", "Parameter"],
+                                     "rdfs:label":"density",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 2240.0
+                                        },
+                                     "hasMeasurementUnit": "GramPerLitre"
+                                  },
+                                  {
+                                     "@type":["ElectronicConductivity", "Parameter"],
+                                     "rdfs:label":"electronicConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 100.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:SiemensPerMetre"
+                                  },
+                                  {
+                                     "@type":["SpecificHeatCapacity", "Parameter"],
+                                     "rdfs:label":"specificHeatCapacity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 632.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:JoulePerKilogramKelvin"
+                                  },
+                                  {
+                                     "@type":["ThermalConductivity", "Parameter"],
+                                     "rdfs:label":"thermalConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 1.04
+                                     },
+                                     "hasMeasurementUnit": "emmo:WattPerMetreKelvin"
+                                  },
+                                  {
+                                     "@type":["BatteryInterface"],
+                                     "rdfs:label":"Interface",
+                                     "hasObjectiveProperty":[
+                                        {
+                                           "@type":["ConcentrationLimit", "Parameter"],
+                                           "rdfs:label":"saturationConcentration",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 30555.0
+                                              },
+                                           "hasMeasurementUnit": "emmo:MolePerCubicMetre"
+                                        },
+                                        {
+                                           "@type":["SurfaceAreaPerVolume", "Parameter"],
+                                           "rdfs:label":"volumetricSurfaceArea",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 723600.0
+                                              },
+                                           "hasMeasurementUnit": "emmo:ReciprocalMetre"
+                                        },
+                                        {
+                                           "@type":["Density", "Parameter"],
+                                           "rdfs:label":"density",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 2240.0
+                                              },
+                                           "hasMeasurementUnit": "GramPerLitre"
+                                        },
+                                        {
+                                           "@type":["ElectronNumberOfAnElectrochemicalReaction", "Parameter"],
+                                           "rdfs:label":"numberOfElectronsTransferred",
+                                           "hasNumericalPart":{
+                                                 "@type":"Integer",
+                                                 "hasNumericalValue": 1
+                                              },
+                                           "hasMeasurementUnit": "CountingUnit"
+                                        },
+                                        {
+                                           "@type":["MISSING", "Parameter"],
+                                           "rdfs:label":"activationEnergyOfReaction",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 5000.0
+                                              },
+                                           "hasMeasurementUnit": "emmo:JoulePerMole"
+                                        },
+                                        {
+                                           "@type":["ReactionRateConstant", "Parameter"],
+                                           "rdfs:label":"reactionRateConstant",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 5.031e-11
+                                              },
+                                           "hasMeasurementUnit": "emmo:MolePerSquareMetrePerSecond"
+                                        },
+                                        {
+                                           "@type":["MISSING", "Parameter"],
+                                           "rdfs:label":"guestStoichiometry100",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 0.88551
+                                              },
+                                           "hasMeasurementUnit": "emmo:MolePerMole"
+                                        },
+                                        {
+                                           "@type":["MISSING", "Parameter"],
+                                           "rdfs:label":"guestStoichiometry0",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 0.1429
+                                              },
+                                           "hasMeasurementUnit": "emmo:MolePerMole"
+                                        },
+                                        {
+                                           "@type":["ChargeTransferCoefficient", "Parameter"],
+                                           "rdfs:label":"chargeTransferCoefficient",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 0.5
+                                              },
+                                           "hasMeasurementUnit": "emmo:FractionUnit"
+                                        },
+                                        {
+                                           "@type":["OpenCircuitVoltage", "Expression"],
+                                           "rdfs:label":"openCircuitPotential",
+                                           "@id": "URL to function implementation MISSING",
+                                           "hasVariable":[
+                                              {
+                                                  "@type":"IonConcentration",
+                                                  "hasSymbolValue":"c"
+                                              },
+                                              {
+                                                  "@type":"ThermodynamicTemperature",
+                                                  "hasSymbolValue":"T"
+                                              },
+                                              {
+                                                  "@type":"MaximumConcentration",
+                                                  "hasSymbolValue":"cmax"
+                                              },
+                                              {
+                                                  "@type":"emmo:ReferenceThermodynamicTemperature",
+                                                  "hasSymbolValue":"refT"
+                                              }
+                                          ],
+                                           "hasMeasurementUnit": "emmo:Volt"
+                                        }
+                                     ]
+                                  },
+                                  {
+                                     "@type":["MISSING", "Parameter"],
+                                     "rdfs:label":"diffusionModelType",
+                                     "hasNumericalPart":{
+                                           "@type":"MISSING",
+                                           "hasStringValue": "full"
+                                        },
+                                     "hasMeasurementUnit": null
+                                  },
+                                  {
+                                     "@type":["MISSING"],
+                                     "rdfs:label":"SolidDiffusion",
+                                     "hasObjectiveProperty":[
+                                        {
+                                           "@type":["MISSING", "Parameter"],
+                                           "rdfs:label":"activationEnergyOfDiffusion",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 5000.0
+                                              },
+                                           "hasMeasurementUnit": "emmo:JoulePerMole"
+                                        },
+                                        {
+                                           "@type":["DiffusionCoefficient", "Parameter"],
+                                           "rdfs:label":"referenceDiffusionCoefficient",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 3.9e-14
+                                              },
+                                           "hasMeasurementUnit": "emmo:SquareMetrePerSecond"
+                                        },
+                                        {
+                                           "@type":["ParticleRadius", "Parameter"],
+                                           "rdfs:label":"particleRadius",
+                                           "hasNumericalPart":{
+                                                 "@type":"Real",
+                                                 "hasNumericalValue": 1e-06
+                                           },
+                                           "hasMeasurementUnit": "emmo:Metre"
+                                        },
+                                        {
+                                           "@type":["MISSING", "Parameter"],
+                                           "rdfs:label":"N",
+                                           "hasNumericalPart":{
+                                                 "@type":"Integer",
+                                                 "hasNumericalValue": 10
+                                           },
+                                           "hasMeasurementUnit": "emmo:CountingUnit"
+                                        }
+                                     ]
+                                  }
+                               ]
+                               
+                            },
+                            {
+                               "@type":["Binder"],
+                               "rdfs:label":"Binder",
+                               "hasObjectiveProperty":[
+                                  {
+                                     "@type":["Density", "Parameter"],
+                                     "rdfs:label":"density",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 1780.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:GramPerLitre"
+                                  },
+                                  {
+                                     "@type":["MassFraction", "Parameter"],
+                                     "rdfs:label":"massFraction",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 0.14
+                                     },
+                                     "hasMeasurementUnit": "emmo:MassFractionUnit"
+                                  },
+                                  {
+                                     "@type":["ElectronicConductivity", "Parameter"],
+                                     "rdfs:label":"electronicConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 100.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:SiemensPerMetre"
+                                  },
+                                  {
+                                     "@type":["SpecificHeatCapacity", "Parameter"],
+                                     "rdfs:label":"specificHeatCapacity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 1400.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:JoulePerKilogramKelvin"
+                                  },
+                                  {
+                                     "@type":["ThermalConductivity", "Parameter"],
+                                     "rdfs:label":"thermalConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 0.165
+                                     },
+                                     "hasMeasurementUnit": "emmo:WattPerMetreKelvin"
+                                  }
+                               ]
+                            },
+                            {
+                               "@type":["ConductiveAdditive"],
+                               "rdfs:label":"ConductingAdditive",
+                               "hasObjectiveProperty":[
+                                  {
+                                     "@type":["Density", "Parameter"],
+                                     "rdfs:label":"density",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 1800.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:GramPerLitre"
+                                  },
+                                  {
+                                     "@type":["MassFraction", "Parameter"],
+                                     "rdfs:label":"massFraction",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 0.14
+                                     },
+                                     "hasMeasurementUnit": "emmo:MassFractionUnit"
+                                  },
+                                  {
+                                     "@type":["ElectronicConductivity", "Parameter"],
+                                     "rdfs:label":"electronicConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 100.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:SiemensPerMetre"
+                                  },
+                                  {
+                                     "@type":["SpecificHeatCapacity", "Parameter"],
+                                     "rdfs:label":"specificHeatCapacity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 300.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:JoulePerKilogramKelvin"
+                                  },
+                                  {
+                                     "@type":["ThermalConductivity", "Parameter"],
+                                     "rdfs:label":"thermalConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 0.5
+                                     },
+                                     "hasMeasurementUnit": "emmo:WattPerMetreKelvin"
+                                  }
+                               ]
+                            },
+                            {
+                               "@type":["CurrentCollector"],
+                               "rdfs:label":"CurrentCollector",
+                               "hasObjectiveProperty":[
+                                  {
+                                     "@type":["ElectronicConductivity", "Parameter"],
+                                     "rdfs:label":"electronicConductivity",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 59600000.0
+                                     },
+                                     "hasMeasurementUnit": "emmo:SiemensPerMetre" 
+                                  },
+                                  {
+                                     "@type":["MISSING", "Parameter"],
+                                     "rdfs:label":"N",
+                                     "hasNumericalPart":{
+                                           "@type":"Integer",
+                                           "hasNumericalValue": 5
+                                     },
+                                     "hasMeasurementUnit": "emmo:CountingUnit"
+                                  },
+                                  {
+                                     "@type":["Thickness", "Parameter"],
+                                     "rdfs:label":"thickness",
+                                     "hasNumericalPart":{
+                                           "@type":"Real",
+                                           "hasNumericalValue": 1.5e-05
+                                     },
+                                     "hasMeasurementUnit": "emmo:Metre"
+                                  }
+                               ]
+                            }
+                         ]
+                      }
+                   ]                  
+                },
+                {
+                   "@type":["Separator"],
+                   "rdfs:label":"Separator",
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["Thickness", "Parameter"],
+                         "rdfs:label":"thickness",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 4e-07
+                         },
+                         "hasMeasurementUnit": "emmo:Metre"
+                      },
+                      {
+                         "@type":["MISSING", "Parameter"],
+                         "rdfs:label":"N",
+                         "hasNumericalPart":{
+                               "@type":"Integer",
+                               "hasNumericalValue": 10
+                         },
+                         "hasMeasurementUnit": "emmo:CountingUnit"
+                      },
+                      {
+                         "@type":["Porosity", "Parameter"],
+                         "rdfs:label":"Porosity",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 0.4
+                         },
+                         "hasMeasurementUnit": "emmo:VolumeFractionUnit"
+                      },
+                      {
+                         "@type":["SpecificHeatCapacity", "Parameter"],
+                         "rdfs:label":"specificHeatCapacity",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1692.0
+                         },
+                         "hasMeasurementUnit": "emmo:JoulePerKilogramKelvin"
+                      },
+                      {
+                         "@type":["ThermalConductivity", "Parameter"],
+                         "rdfs:label":"thermalConductivity",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 0.334
+                         },
+                         "hasMeasurementUnit": "emmo:WattPerMetreKelvin"
+                      },
+                      {
+                         "@type":["Density", "Parameter"],
+                         "rdfs:label":"density",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 779.0
+                            },
+                         "hasMeasurementUnit": "GramPerLitre"
+                      },
+                      {
+                         "@type":["MISSING", "Parameter"],
+                         "rdfs:label":"bruggemanCoefficient",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1.5
+                            },
+                         "hasMeasurementUnit": "emmo:DimensionlessUnit"
+                      }
+                   ]
+                },
+                {
+                   "@type":["Electrolyte"],
+                   "rdfs:label":"Electrolyte",
+                   "hasConstituent":[
+                      {
+                         "@type":["LithiumHexafluorophosphate", "Salt"],
+                         "hasConstituent":[
+                            {
+                               "@type":["Lithium", "Cation"],
+                               "rdfs:label":"Li",
+                               "hasObjectiveProperty":[
+                                  {
+                                     "@type":["ChargeNumber"],
+                                     "rdfs:label":"chargeNumber",
+                                     "hasNumericalPart":{
+                                        "@type":"Integer",
+                                        "hasNumericalValue": 1
+                                     },
+                                     "hasMeasurementUnit": "emmo:UnitOne"
+                                  },
+                                  {
+                                     "@type":["IonTransportNumber"],
+                                     "rdfs:label":"chargeNumber",
+                                     "hasNumericalPart":{
+                                        "@type":"Real",
+                                        "hasNumericalValue": 0.601
+                                     },
+                                     "hasMeasurementUnit": "emmo:FractionUnit"
+                                  },
+                                  {
+                                     "@type":["AmountConcentration", "ConventionalProperty"],
+                                     "rdfs:label":"nominalConcentration",
+                                     "hasNumericalPart":{
+                                        "@type":"Real",
+                                        "hasNumericalValue": 1000
+                                     },
+                                     "hasMeasurementUnit": "emmo:MolePerCubicMetre"
+                                  }
+                               ]
+                            },
+                            {
+                               "@type":["Hexafluorophosphate", "Anion"],
+                               "rdfs:label":"PF6"
+                            }
+                         ]
+                      }
+                   ],
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["AmountConcentration", "MISSING the INITIAL part", "Parameter"],
+                         "rdfs:label":"initialConcentration",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1000
+                         },
+                         "hasMeasurementUnit": "emmo:MolePerCubicMetre"
+                      },
+                      {
+                         "@type":["SpecificHeatCapacity", "Parameter"],
+                         "rdfs:label":"specificHeatCapacity",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1518.0
+                         },
+                         "hasMeasurementUnit": "emmo:JoulePerKilogramKelvin"
+                      },
+                      {
+                         "@type":["ThermalConductivity", "Parameter"],
+                         "rdfs:label":"thermalConductivity",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 0.099
+                         },
+                         "hasMeasurementUnit": "emmo:WattPerMetreKelvin"
+                      },
+                      {
+                         "@type":["Density", "Parameter"],
+                         "rdfs:label":"density",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1210
+                            },
+                         "hasMeasurementUnit": "GramPerLitre"
+                      },
+                      {
+                         "@type":["IonicConductivity", "Expression"],
+                         "rdfs:label":"ionicConductivity",
+                         "@id": "URL to function implementation MISSING",
+                         "hasVariable":[
+                            {
+                                "@type":"IonConcentration",
+                                "hasSymbolValue":"c"
+                            },
+                            {
+                                "@type":"ThermodynamicTemperature",
+                                "hasSymbolValue":"T"
+                            }
+                        ],
+                         "hasMeasurementUnit": "emmo:SiemensPerMetre" 
+                      },
+                      {
+                         "@type":["DiffusionCoefficient", "Expression"],
+                         "rdfs:label":"diffusionCoefficient",
+                         "@id": "URL to function implementation MISSING",
+                         "hasVariable":[
+                            {
+                                "@type":"IonConcentration",
+                                "hasSymbolValue":"c"
+                            },
+                            {
+                                "@type":"ThermodynamicTemperature",
+                                "hasSymbolValue":"T"
+                            }
+                        ],
+                         "hasMeasurementUnit": "emmo:SquareMetrePerSecond" 
+                      },
+                      {
+                         "@type":["MISSING", "Parameter"],
+                         "rdfs:label":"bruggemanCoefficient",
+                         "hasNumericalPart":{
+                               "@type":"Real",
+                               "hasNumericalValue": 1.5
+                            },
+                         "hasMeasurementUnit": "emmo:DimensionlessUnit"
+                      }
+                   ]
+                },
+                {
+                   "@type":["MISSING"],
+                   "rdfs:label":"ThermalModel",
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["CoefficientOfHeatTransfer", "MISSING external?"],
+                         "rdfs:label":"externalHeatTransferCoefficient",
+                         "hasNumericalPart":{
+                            "@type":"Real",
+                            "hasNumericalValue": 1000.0
+                         },
+                      "hasMeasurementUnit": "emmo:WattPerSquareMetreKelvin"
+                      },
+                      {
+                         "@type":["AmbientThermodynamicTemperature"],
+                         "rdfs:label":"externalTemperature",
+                         "hasNumericalPart":{
+                            "@type":"Real",
+                            "hasNumericalValue": 298.15
+                         },
+                      "hasMeasurementUnit": "emmo:Kelvin"
+                      }
+                   ]
+                },
+                {
+                   "@type":["TemporalTiling"],
+                   "rdfs:label":"TimeStepping",
+                   "hasObjectiveProperty":[
+                      {
+                         "@type":["Duration"],
+                         "rdfs:label":"totalTime",
+                         "hasNumericalPart":{
+                            "@type":"Real",
+                            "hasNumericalValue": 7200.0
+                         },
+                         "hasMeasurementUnit": "emmo:Second"
+                      },
+                      {
+                         "@type":["MISSING", "Duration"],
+                         "rdfs:label":"N",
+                         "hasNumericalPart":{
+                            "@type":"Real",
+                            "hasNumericalValue": 72.0
+                         },
+                         "hasMeasurementUnit": "emmo:Second"
+                      },
+                      {
+                         "@type":["LinearCurrentRamp"],
+                         "rdfs:label":"useRampup",
+                         "hasNumericalPart":{
+                            "@type":"Boolean",
+                            "hasNumericalValue": true
+                         },
+                         "hasObjectiveProperty":[
+                            {
+                               "@type":["MISSING", "Duration"],
+                               "rdfs:label":"rampupTime",
+                               "hasNumericalPart":{
+                                  "@type":"Real",
+                                  "hasNumericalValue": 10.0
+                               },
+                               "hasMeasurementUnit": "emmo:Second"
+                            },
+                            {
+                               "@type":["MISSING", "Duration"],
+                               "rdfs:label":"numberOfTimeSteps",
+                               "hasNumericalPart":{
+                                  "@type":"Integer",
+                                  "hasNumericalValue": 72
+                               },
+                               "hasMeasurementUnit": "emmo:CountingUnit"
+                            }
+                         ]
+                      }
+                   ]
+                }
+             ],
+             "hasOutput":[
+                {
+                   "@type":["BatteryEnergy"],
+                   "hasMeasurementUnit": "emmo:WattHour"
+                }
+             ]
+       }
+ }

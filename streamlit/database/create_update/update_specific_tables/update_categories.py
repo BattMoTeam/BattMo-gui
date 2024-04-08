@@ -56,15 +56,15 @@ class UpdateCategories:
 
             if tab_id:
 
-                if model_name == "p2d_p3d_p4d":
-                    model = "P2D"
-                    model_id = self.sql_model.get_model_id_from_model_name(model)
-                if model_name == "p3d_p4d":
-                    model = "P3D"
-                    model_id = self.sql_model.get_model_id_from_model_name(model)
-                if model_name == "p4d":
-                    model = "P4D"
-                    model_id = self.sql_model.get_model_id_from_model_name(model)
+                # if model_name == "p2d_p3d_p4d":
+                #     model = "P2D"
+                #     model_id = self.sql_model.get_model_id_from_model_name(model)
+                # if model_name == "p3d_p4d":
+                #     model = "P3D"
+                #     model_id = self.sql_model.get_model_id_from_model_name(model)
+                # if model_name == "p4d":
+                #     model = "P4D"
+                #     model_id = self.sql_model.get_model_id_from_model_name(model)
 
                 model_name = details.get("model_name")
                 difficulty = details.get("difficulty")
@@ -88,7 +88,6 @@ class UpdateCategories:
                             "tab_id": tab_id,
                             "model_name": model_name,
                             "difficulty": difficulty,
-                            "model_id": model_id,
                             "context_type": context_type,
                             "context_type_iri": context_type_iri,
                             "emmo_relation": emmo_relation,
@@ -106,7 +105,6 @@ class UpdateCategories:
                         tab_id=tab_id,
                         model_name=model_name,
                         difficulty=difficulty,
-                        model_id = model_id,
                         context_type=context_type,
                         context_type_iri=context_type_iri,
                         emmo_relation=emmo_relation,

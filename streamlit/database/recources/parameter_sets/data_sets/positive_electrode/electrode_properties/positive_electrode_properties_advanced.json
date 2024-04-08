@@ -4,8 +4,6 @@
    "component": "positive_electrode_properties_advanced",
    "material": false,
    "Parameters": {
-      "length": 0.3,
-      "width": 0.09,
       "bruggeman_coefficient": 1.5,
       "current_collector_thickness": 15,
       "number_of_discrete_cells_electrode": 20

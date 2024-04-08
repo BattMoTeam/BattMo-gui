@@ -52,15 +52,15 @@ class UpdateTabs:
             description = details.get("description")
             tab_id = self.sql_tab.get_id_from_name(tab_name)
 
-            if model_name == "p2d_p3d_p4d":
-                model = "P2D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
-            if model_name == "p3d_p4d":
-                model = "P3D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
-            if model_name == "p4d":
-                model = "P4D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p2d_p3d_p4d":
+            #     model = "P2D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p3d_p4d":
+            #     model = "P3D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p4d":
+            #     model = "P4D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
         
 
             if tab_id:  # existing type
@@ -68,7 +68,6 @@ class UpdateTabs:
                     id=tab_id,
                     columns_and_values={
                         "model_name": model_name,
-                        "model_id": model_id,
                         "difficulty": difficulty,
                         "display_name": display_name,
                         "context_type": context_type,
@@ -83,7 +82,6 @@ class UpdateTabs:
                 self.sql_tab.insert_value(
                     name=tab_name,
                     model_name=model_name,
-                    model_id = model_id,
                     difficulty=difficulty,
                     display_name=display_name,
                     context_type=context_type,

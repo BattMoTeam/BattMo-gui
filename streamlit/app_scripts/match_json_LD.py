@@ -77,6 +77,7 @@ class GuiDict(object):
         
         self.model = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasModel").get("hasQuantitativeProperty"))
         self.cell = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBatteryCell").get("hasQuantitativeProperty"))
+        self.bc = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasBoundaryConditions").get("hasQuantitativeProperty"))
         self.raw_ele = gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrode")
         self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
         self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
@@ -152,7 +153,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": json_ld.pe.properties.get("length").get("value") * json_ld.pe.properties.get("width").get("value")
+            "faceArea": json_ld.cell.get("length").get("value") * json_ld.cell.get("width").get("value")
         },
         "NegativeElectrode": {
             "Coating":{
@@ -316,9 +317,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value")
         },
         "G": [],
-        "SOC": json_ld.cell.get("initial_state_of_charge").get("value"),
+        "SOC": json_ld.bc.get("initial_state_of_charge").get("value"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
-        "initT": json_ld.cell.get("initial_temperature").get("value"),
+        "initT": json_ld.bc.get("initial_temperature").get("value"),
         "use_thermal": json_ld.model.get("use_thermal"),
         "include_current_collectors": False,
         #"use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),
@@ -329,21 +330,21 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "CRate": json_ld.protocol.get("c_rate").get("value"),
             "DRate": json_ld.protocol.get("d_rate").get("value"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
-            "rampupTime" : json_ld.model.get("ramp_up_time"),
+            "rampupTime" : json_ld.protocol.get("ramp_up_time").get("value"),
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get("value"),
             "dIdtLimit": json_ld.protocol.get("d_idt_limit").get("value"),
             "dEdtLimit": json_ld.protocol.get("d_edt_limit").get("value")
         },
         "ThermalModel": {
-            "externalHeatTransferCoefficient": json_ld.cell.get("external_heat_transfer_coefficient").get("value"),
-            "externalTemperature": json_ld.cell.get("ambient_temperature").get("value")
+            "externalHeatTransferCoefficient": json_ld.bc.get("external_heat_transfer_coefficient").get("value"),
+            "externalTemperature": json_ld.bc.get("ambient_temperature").get("value")
         },
         "TimeStepping": {
             "useRampup": json_ld.model.get("use_ramp_up"),
             "totalTime": total_time,
-            "rampupTime": json_ld.model.get("ramp_up_time").get("value"),
+            "rampupTime": json_ld.protocol.get("ramp_up_time").get("value"),
             #"numberOfRampupSteps": 10,
-            "numberOfTimeSteps": int(total_time / json_ld.model.get("time_step_duration").get("value")),
+            "numberOfTimeSteps": int(total_time / json_ld.protocol.get("time_step_duration").get("value")),
         },
         "Output": {
             "variables": [
@@ -435,8 +436,8 @@ def get_geometry_data_from_gui_dict(gui_dict):
 
     json_ld = GuiDict(gui_dict)
     geometry_data = {
-        "length": json_ld.ne.properties.get("length").get("value"),
-        "width": json_ld.ne.properties.get("width").get("value"),
+        "length": json_ld.cell.get("length").get("value"),
+        "width": json_ld.cell.get("width").get("value"),
         "thickness_ne": json_ld.ne.properties.get("coating_thickness").get("value"),
         "thickness_pe": json_ld.pe.properties.get("coating_thickness").get("value"),
         "thickness_sep": json_ld.sep_prop.get("thickness").get("value"),

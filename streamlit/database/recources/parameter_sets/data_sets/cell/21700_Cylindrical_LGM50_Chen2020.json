@@ -1,18 +1,15 @@
 {
    "Name": "21700_Cylindrical_LGM50_Chen2020",
    "Header": {},
-   "component": "boundary_conditions",
+   "component": "cell_properties",
    "material": false,
    "Parameters": {
-      "ambient_temperature": 298.15,
-      "initial_temperature": 298.15,
-      "reference_temperature": 298.15,
-      "external_heat_transfer_coefficient": 1000,
-      "initial_state_of_charge": 0.99,
       "nominal_cell_capacity": 12.5,
       "number_parallel_electrode_pairs_within_cell": 34,
       "external_surface_area": 0.0379,
       "volume": 0.000128,
-      "packing_mass": 20
+      "packing_mass": 20,
+      "length": 0.3,
+      "width": 0.09 
    }
 }

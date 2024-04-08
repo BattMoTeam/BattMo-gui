@@ -52,15 +52,15 @@ class UpdateMaterials:
             model_name = details.get("model_name")
 
 
-            if model_name == "p2d_p3d_p4d":
-                model = "P2D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
-            if model_name == "p3d_p4d":
-                model = "P3D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
-            if model_name == "p4d":
-                model = "P4D"
-                model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p2d_p3d_p4d":
+            #     model = "P2D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p3d_p4d":
+            #     model = "P3D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
+            # if model_name == "p4d":
+            #     model = "P4D"
+            #     model_id = self.sql_model.get_model_id_from_model_name(model)
             
 
             if number_of_components == 2:
@@ -75,6 +75,7 @@ class UpdateMaterials:
                     
                     model_name = details.get("model_name")
                     difficulty = details.get("difficulty")
+                    is_shown_to_user = details.get("is_shown_to_user")
                     reference_name = details.get("reference_name")
                     reference = details.get("reference")
                     reference_url = details.get("reference_url")
@@ -87,7 +88,7 @@ class UpdateMaterials:
                     component_name_1 = details.get("component_name_1")
           
                     component_name_2 = details.get("component_name_2")
-                    default_material = int(details.get("default_material"))
+                    default_material = details.get("default_material")
 
 
                     material_id = self.sql_material.get_id_from_name(material_name)
@@ -99,10 +100,10 @@ class UpdateMaterials:
                                 "component_id_2": component_id_2,
                                 "model_name": model_name,
                                 "difficulty": difficulty,
+                                "is_shown_to_user": is_shown_to_user,
                                 "reference_name": reference_name,
                                 "reference": reference,
                                 "reference_url": reference_url,
-                                "model_id": model_id,
                                 "context_type": context_type,
                                 "context_type_iri": context_type_iri,
                                 "emmo_relation": emmo_relation,
@@ -124,10 +125,10 @@ class UpdateMaterials:
                             component_id_2=component_id_2,
                             model_name=model_name,
                             difficulty=difficulty,
+                            is_shown_to_user=is_shown_to_user,
                             reference_name = reference_name,
                             reference = reference,
                             reference_url = reference_url,
-                            model_id = model_id,
                             context_type=context_type,
                             context_type_iri=context_type_iri,
                             emmo_relation=emmo_relation,
@@ -147,6 +148,7 @@ class UpdateMaterials:
                 if component_id_1:
                     model_name = details.get("model_name")
                     difficulty = details.get("difficulty")
+                    is_shown_to_user = details.get("is_shown_to_user")
                     reference_name = details.get("reference_name")
                     reference = details.get("reference")
                     reference_url = details.get("reference_url")
@@ -168,10 +170,10 @@ class UpdateMaterials:
                                 "component_id_1": component_id_1,
                                 "model_name": model_name,
                                 "difficulty": difficulty,
+                                "is_shown_to_user": is_shown_to_user,
                                 "reference_name": reference_name,
                                 "reference": reference,
                                 "reference_url": reference_url,
-                                "model_id": model_id,
                                 "context_type": context_type,
                                 "context_type_iri": context_type_iri,
                                 "emmo_relation": emmo_relation,
@@ -191,10 +193,10 @@ class UpdateMaterials:
                             component_id_1=component_id_1,
                             model_name=model_name,
                             difficulty=difficulty,
+                            is_shown_to_user=is_shown_to_user,
                             reference_name = reference_name,
                             reference = reference,
                             reference_url = reference_url,
-                            model_id = model_id,
                             context_type=context_type,
                             context_type_iri=context_type_iri,
                             emmo_relation=emmo_relation,
