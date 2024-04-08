@@ -26,7 +26,8 @@ open("compiler_log.txt", "w") do io
 		sysimage_path = sysimage_path,
 		project = project_path,
 		precompile_execution_file=example_path,
-		cpu_target="generic")
+		cpu_target = "generic;native,sandybridge,-xsaveopt,clone_all;haswell,-rdrnd,base(1)")
+		#cpu_target="generic")
 		#cpu_target = PackageCompiler.default_app_cpu_target())
 	end
 end
