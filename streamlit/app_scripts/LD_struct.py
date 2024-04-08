@@ -13,6 +13,11 @@ class SetupLinkedDataStruct():
     def __init__(self):
         # Ontology definitions
                     
+        self.id = "@id"
+        self.type = "@type"
+        self.label = "rdfs:label"
+
+        self.hasInput = "hasInput"
         self.hasActiveMaterial = "hasActiveMaterial"
         self.hasBinder = "hasBinder"
         self.hasConductiveAdditive = "hasConductiveAdditive"
@@ -27,6 +32,7 @@ class SetupLinkedDataStruct():
 
         self.hasQuantitativeProperty = "hasQuantitativeProperty"
         self.hasObjectiveProperty = "hasObjectiveProperty"
+        self.hasConstituent = "hasConstituent"
         self.hasNumericalData = "hasNumericalData"
         self.hasNumericalPart = "hasNumericalPart"
         self.hasNumericalValue = "hasNumericalValue"
@@ -42,26 +48,30 @@ class SetupLinkedDataStruct():
 
 
         self.context= {
-                        "skos": "http://www.w3.org/2004/02/skos/core#",
-                        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                        "schema":"https://schema.org/",
+                        "":"https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
                         "emmo": "https://w3id.org/emmo#",
                         "echem": "https://w3id.org/emmo/domain/electrochemistry#",
                         "battery": "https://w3id.org/emmo/domain/battery#",
-                        "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
-                        "qudt": "http://qudt.org/vocab/unit/",
-                        self.hasQuantitativeProperty: "emmo:hasQuantitativeProperty",
+                        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
                         "hasConstituent": "emmo:hasConstituent",
-                        self.hasActiveMaterial: "echem:hasActiveMaterial",
-                        "hasNumericalData": "emmo:hasNumericalData",
-                        "hasStringData": "emmo:hasStringData",
-                        "value": "emmo:hasQuantityValue",
-                        "unit": "emmo:hasReferenceUnit",
-                        "label": "skos:prefLabel"
+
+
+                        # "hasNumericalData": "emmo:hasNumericalData",
+                        # "hasStringData": "emmo:hasStringData",
+                        # "value": "emmo:hasQuantityValue",
+                        # "unit": "emmo:hasReferenceUnit",
+                        # "label": "skos:prefLabel"
+
+                        # "skos": "http://www.w3.org/2004/02/skos/core#",
+                        # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
+                        # "qudt": "http://qudt.org/vocab/unit/",
                     }
 
     def setup_linked_data_dict(self, model_id, model_name):
 
         model_label = "{} model".format(model_name)
+        id = ""
         model_type = "battery:{}Model".format(model_name)
 
         dict = {
@@ -71,10 +81,26 @@ class SetupLinkedDataStruct():
                 self.hasModel:{
                     "label": model_label,
                     "@type": model_type,
-                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_id)
+                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_name)
                 }
             }             
         }
+
+        # dict = {
+        #     "@context": self.context,
+        
+        #     self.id:id,
+        #     self.type:["Dataset"],
+        #     "schema:headline": headline,
+        #     "battinfo:hasModel":{
+        #         self.type: model_type,
+        #         self.id: model_id,
+        #         self.label: model_label,
+                
+        #         self.hasInput: db_helper.get_model_parameters_as_dict(model_id)
+        #     }
+        #     }             
+        
         return dict
 
     def fill_sub_dict(self,dict,relation_dict_1, parameters,existence,relation_dict_2 = None,relation_par=None):
@@ -197,7 +223,6 @@ class SetupLinkedDataStruct():
                         model_name, \
                         par_class, \
                         difficulty, \
-                        model_id, \
                         template_id, \
                         context_type, \
                         context_type_iri, \

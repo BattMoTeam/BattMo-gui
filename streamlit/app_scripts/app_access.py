@@ -135,7 +135,7 @@ def get_path_to_database_recources_parameter_sets_dir():
 @st.cache_data
 def get_path_to_database_recources_parameter_sets_experimental_data_dir():
     parameter_sets_path = get_path_to_database_recources_parameter_sets_dir()
-    experimental_data_path = os.path.join(parameter_sets_path, "experimental_data")
+    experimental_data_path = os.path.join(parameter_sets_path, "data_sets")
     return experimental_data_path
 
 @st.cache_data
@@ -186,6 +186,7 @@ def get_all_parameter_sets_experimental_data_files_path():
     for root, _, files in os.walk(get_path_to_database_recources_parameter_sets_experimental_data_dir()):
         for name in files:
             all_files.append(os.path.join(root, name))
+    print("files = ", all_files)
     return all_files
 
 @st.cache_data

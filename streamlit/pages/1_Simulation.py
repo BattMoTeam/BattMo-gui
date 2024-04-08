@@ -61,14 +61,31 @@ def run_page():
     if "succes" not in st.session_state:
         st.session_state.succes = None
 
+    if "response" not in st.session_state:
+        st.session_state.response = None
+
     if "upload" not in st.session_state:
         st.session_state.upload = None
 
     if "theme" not in st.session_state:
         st.session_state.theme = None
 
-    st.session_state.theme = st_theme()["base"]
-    #st.write(st_theme()["base"])
+    # e = True
+    # while e == True:
+    #     theme = st_theme()["base"]
+
+    #     if theme == None:
+    #         st.succes("A short moment please.")
+    #     else:
+    #         st.session_state.theme = theme
+    #         e = False
+
+    # with st.exception_handler(Exception):
+    # st.session_state.theme = st_theme()["base"]
+
+    # # Display a warning message if there was a delay
+    # if "theme" not in st.session_state:
+    #     st.warning("Give it a short moment")
 
     log_memory_usage()
 

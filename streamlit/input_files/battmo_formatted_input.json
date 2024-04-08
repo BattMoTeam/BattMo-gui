@@ -5,8 +5,8 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
-         "N": 70,
+         "thickness": 5.4999999999999995e-05,
+         "N": 20,
          "effectiveDensity": 1900,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
@@ -126,7 +126,7 @@
    "Separator": {
       "thickness": 1.4999999999999999e-05,
       "N": 10,
-      "porosity": 0.4,
+      "porosity": 0.30999999999999994,
       "specificHeatCapacity": 1692.0,
       "thermalConductivity": 0.334,
       "density": 946.0,
@@ -165,7 +165,7 @@
    "G": [],
    "SOC": 0.99,
    "initT": 298.15,
-   "use_thermal": false,
+   "use_thermal": true,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "CCCV",
@@ -174,10 +174,7 @@
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
-      "rampupTime": {
-         "value": 10.0,
-         "unit": "s"
-      },
+      "rampupTime": 10.0,
       "upperCutoffVoltage": 4.1,
       "dIdtLimit": 0.01,
       "dEdtLimit": 0.01

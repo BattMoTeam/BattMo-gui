@@ -1,7 +1,7 @@
 {
     "components":{
         "negative_electrode_active_material": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:ActiveMaterial",
@@ -10,10 +10,10 @@
             "display_name": "Active Material",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "active_material_full_template"
+            "default_template": "active_material_template"
         },
         "negative_electrode_binder": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:Binder",
@@ -21,10 +21,10 @@
             "display_name": "Binder",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "binder_full_template"
+            "default_template": "binder_template"
         },
         "negative_electrode_additive": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:ConductiveAdditive",
@@ -32,11 +32,11 @@
             "display_name": "Additive",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "additive_full_template"
+            "default_template": "additive_template"
         },
 
         "positive_electrode_active_material": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:ActiveMaterial",
@@ -45,10 +45,10 @@
             "display_name": "Active Material",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "active_material_full_template"
+            "default_template": "active_material_template"
         },
         "positive_electrode_binder": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:Binder",
@@ -56,10 +56,10 @@
             "display_name": "Binder",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "binder_full_template"
+            "default_template": "binder_template"
         },
         "positive_electrode_additive": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:ConductiveAdditive",
@@ -67,10 +67,10 @@
             "display_name": "Additive",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "additive_full_template"
+            "default_template": "additive_template"
         },
         "electrolyte_materials": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:Electrolyte",
@@ -78,11 +78,11 @@
             "display_name": "Electrolyte materials",
             "category_name": "electrolyte",
             "description": "",
-            "default_template": "electrolyte_full_template"
+            "default_template": "electrolyte_template"
         },
 
         "electrolyte_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": false,
             "context_type": "echem:Electrolyte",
@@ -90,10 +90,10 @@
             "display_name": "Electrolyte properties",
             "category_name": "electrolyte",
             "description": "",
-            "default_template": "electrolyte_full_template"
+            "default_template": "electrolyte_template"
         },
         "electrolyte_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": false,
             "context_type": "echem:Electrolyte",
@@ -101,10 +101,10 @@
             "display_name": "Electrolyte properties",
             "category_name": "electrolyte",
             "description": "",
-            "default_template": "electrolyte_full_template"
+            "default_template": "electrolyte_template"
         },
         "positive_electrode_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": false,
             "context_type": "echem:PositiveElectrode",
@@ -112,10 +112,10 @@
             "display_name": "Positive electrode properties",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "n_p_electrode_properties_full_template"
+            "default_template": "electrode_properties_template"
         },
         "negative_electrode_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": false,
             "context_type": "echem:NegativeElectrode",
@@ -123,10 +123,10 @@
             "display_name": "Negative electrode properties",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "n_p_electrode_properties_full_template"
+            "default_template": "electrode_properties_template"
         },
         "protocol_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "material": false,
             "context_type": "echem:CyclingProcess",
@@ -134,10 +134,21 @@
             "display_name": "Protocol properties",
             "category_name": "protocol",
             "description": "",
-            "default_template": "protocol_full_template"
+            "default_template": "protocol_template"
+        },
+        "cell_properties": {
+            "model_name": ["P2D","P3D"],
+            "difficulty": "basis_advanced",
+            "material": false,
+            "context_type": "battery:BatteryCell",
+            "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
+            "display_name": "Cell properties",
+            "category_name": "cell",
+            "description": "",
+            "default_template": "cell_template"
         },
         "separator_materials": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": true,
             "context_type": "echem:Separator",
@@ -145,10 +156,10 @@
             "display_name": "Separator materials",
             "category_name": "separator",
             "description": "",
-            "default_template": "separator_materials"
+            "default_template": "separator_template"
         },
         "separator_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": false,
             "context_type": "echem:Separator",
@@ -156,10 +167,10 @@
             "display_name": "Separator properties",
             "category_name": "separator",
             "description": "",
-            "default_template": "separator_properties"
+            "default_template": "separator_template"
         },
         "separator_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": false,
             "context_type": "echem:Separator",
@@ -167,31 +178,31 @@
             "display_name": "Separator properties",
             "category_name": "separator",
             "description": "",
-            "default_template": "separator_properties"
+            "default_template": "separator_template"
         },
         "boundary_conditions": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "material": false,
-            "context_type": "battery:BatteryCell",
+            "context_type": "battery:BoundaryConditions",
             "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
             "display_name": "Boundary conditions",
             "category_name": "boundary_conditions",
             "description": "",
-            "default_template": "cell_full_template"
+            "default_template": "boundary_conditions_template"
         },
         "electrode_properties": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "material": false,
             "context_type": "echem:Electrode",
             "display_name": "Electrode properties",
             "tab_name": "electrodes",
             "description": "",
-            "default_template": "electrode_properties_full_template"
+            "default_template": "electrode_properties_template"
         },
         "negative_electrode_current_collector_materials": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:CurrentCollector",
@@ -199,10 +210,10 @@
             "display_name": "Current collector materials",
             "category_name": "negative_electrode",
             "description": "",
-            "default_template": "current_collector_full_template"
+            "default_template": "current_collector_template"
         },
         "positive_electrode_current_collector_materials": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:CurrentCollector",
@@ -210,10 +221,10 @@
             "display_name": "Current collector materials",
             "category_name": "positive_electrode",
             "description": "",
-            "default_template": "current_collector_full_template"
+            "default_template": "current_collector_template"
         },
         "negative_electrode_active_material_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:ActiveMaterial",
@@ -222,10 +233,10 @@
             "display_name": "Active Material",
             "category_name": "negative_electrode_active_material",
             "description": "",
-            "default_template": "active_material_full_template"
+            "default_template": "active_material_template"
         },
         "negative_electrode_binder_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:Binder",
@@ -233,10 +244,10 @@
             "display_name": "Binder",
             "category_name": "negative_electrode_binder",
             "description": "",
-            "default_template": "binder_full_template"
+            "default_template": "binder_template"
         },
         "negative_electrode_additive_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:ConductiveAdditive",
@@ -244,11 +255,11 @@
             "display_name": "Additive",
             "category_name": "negative_electrode_additive",
             "description": "",
-            "default_template": "additive_full_template"
+            "default_template": "additive_template"
         },
 
         "positive_electrode_active_material_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:ActiveMaterial",
@@ -257,10 +268,10 @@
             "display_name": "Active Material",
             "category_name": "positive_electrode_active_material",
             "description": "",
-            "default_template": "active_material_full_template"
+            "default_template": "active_material_template"
         },
         "positive_electrode_binder_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:Binder",
@@ -268,10 +279,10 @@
             "display_name": "Binder",
             "category_name": "positive_electrode_binder",
             "description": "",
-            "default_template": "binder_full_template"
+            "default_template": "binder_template"
         },
         "positive_electrode_additive_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": true,
             "context_type": "echem:ConductiveAdditive",
@@ -279,11 +290,11 @@
             "display_name": "Additive",
             "category_name": "positive_electrode_additive",
             "description": "",
-            "default_template": "additive_full_template"
+            "default_template": "additive_template"
 
         },
         "positive_electrode_properties_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": false,
             "context_type": "echem:PositiveElectrode",
@@ -291,10 +302,10 @@
             "display_name": "Positive electrode properties",
             "category_name": "positive_electrode_properties",
             "description": "",
-            "default_template": "n_p_electrode_properties_full_template"
+            "default_template": "electrode_properties_template"
         },
         "negative_electrode_properties_advanced": {
-            "model_name": "p2d_p3d_p4d",
+            "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
             "material": false,
             "context_type": "echem:NegativeElectrode",
@@ -302,7 +313,7 @@
             "display_name": "Negative electrode properties",
             "category_name": "negative_electrode_properties",
             "description": "",
-            "default_template": "n_p_electrode_properties_full_template"
+            "default_template": "electrode_properties_template"
         }
 
     }

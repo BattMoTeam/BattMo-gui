@@ -1,0 +1,51 @@
+{
+    "Type": "template",
+    "Name": "model_template",
+    "Parameters": {
+        "use_thermal": {
+            "model_name": ["P2D","P3D"],
+            "par_class": "non_material",
+            "difficulty": "advanced",
+            "context_type": ["ThermalModel"],
+            "label": "useThermalModel",
+            "description": "",
+            "is_shown_to_user": false,
+            "type": "bool"
+        },
+        "include_current_collector": {
+            "model_name": ["P2D","P3D"],
+            "par_class": "non_material",
+            "difficulty": "advanced",
+            "context_type": ["CurrentCollector"],
+            "label": "includeCurrentCollector",
+            "description": "option to include current collectors in the simulation",
+            "is_shown_to_user": false,
+            "type": "bool"
+        },
+        "use_solid_diffusion_model": {
+            "model_name": ["P2D","P3D"],
+            "par_class": "non_material",
+            "difficulty": "advanced",
+            "context_type": ["usediffusionModel"],
+            "label": "diffusionModel",
+            "description": "",
+            "is_shown_to_user": false,
+            "type": "bool"
+        },
+        "solid_diffusion_model_type": {
+            "context_type": ["diffusionModelType","parameter"],
+            "label": "diffusionModelType",
+            "description": "",
+            "type": "str",
+            "is_shown_to_user": false
+         },
+         "use_ramp_up": {
+            "context_type": ["LinearCurrentRamp"],
+            "label": "useRampup",
+            "description": "simulation option to use a ramp up time at the beginning of the simulation",
+            "type": "bool",
+            "is_shown_to_user": false
+         }
+
+    }
+}

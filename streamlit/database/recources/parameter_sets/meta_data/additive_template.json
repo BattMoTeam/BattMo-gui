@@ -1,9 +1,9 @@
 {
    "Type": "template",
-   "Name": "additive_full_template",
+   "Name": "additive_template",
    "Parameters": {
       "density": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:Density",
@@ -19,7 +19,7 @@
          "display_name": "Density"
       },
       "specific_heat_capacity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:SpecificHeatCapacity",
@@ -35,7 +35,7 @@
          "display_name": "Specific heat capacity"
       },
       "thermal_conductivity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",
          "context_type": "emmo:ThermalConductivity",
@@ -52,7 +52,7 @@
          
       },
       "electronic_conductivity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:ElectricConductivity",
@@ -68,7 +68,7 @@
          "display_name": "Electronic conductivity"
       },
       "mass_fraction": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:MassFraction",

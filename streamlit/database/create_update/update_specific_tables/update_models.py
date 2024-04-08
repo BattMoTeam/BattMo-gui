@@ -15,6 +15,8 @@ class UpdateModels:
     def __init__(self):
         self.sql_model = db_handler.ModelHandler()
         self.sql_model_parameter = db_handler.ModelParameterHandler()
+        self.sql_template_parameter = db_handler.TemplateParameterHandler()
+        self.sql_template = db_handler.TemplateHandler()
 
     def get_resource_as_json(self):
         return app_access.get_json_from_path(
@@ -59,8 +61,11 @@ class UpdateModels:
 
         for model_name in models:
             details = models.get(model_name)
-            show_to_user = int(details.get("show_to_user"))
-            parameters = details.get("parameters")
+            is_shown_to_user = int(details.get("is_shown_to_user"))
+            default_template = details.get("default_template")
+            template_id = self.sql_template.get_id_from_name(default_template)
+            parameters = self.sql_template_parameter.get_all_by_template_id(template_id)
+            # parameters = details.get("parameters")
             description = details.get("description")
             model_id = self.sql_model.get_id_from_name(model_name)
 
@@ -68,7 +73,8 @@ class UpdateModels:
                 self.sql_model.update_by_id(
                     id=model_id,
                     columns_and_values={
-                        "show_to_user": show_to_user,
+                        "is_shown_to_user": is_shown_to_user,
+                        "default_template": default_template,
                         "description": description
                     }
                 )
@@ -78,19 +84,20 @@ class UpdateModels:
             else:  # non-existing type, create it
                 model_id = self.sql_model.insert_value(
                     name=model_name,
-                    show_to_user = show_to_user,
+                    is_shown_to_user = is_shown_to_user,
+                    default_template = default_template,
                     description=description
                 )
                 new_types.append(model_name)
 
-            self.create_or_update_parameters(model_id, parameters)
+            #self.create_or_update_parameters(model_id, parameters)
 
         # Delete unused models which remain in the sql table
         deleted_types = []
         for id_to_delete in existing_ids_to_be_deleted:
             deleted_types.append(self.sql_model.get_name_from_id(id_to_delete))
             self.sql_model.delete_by_id(id_to_delete)
-            self.create_or_update_parameters(id_to_delete, {})  # trick to delete corresponding parameters
+            #self.create_or_update_parameters(id_to_delete, {})  # trick to delete corresponding parameters
 
         print("\n SQL tables model and model_parameters are up to date according to the resource file models.json")
         if updated_types:

@@ -9,6 +9,7 @@ from math import ceil
 import numpy as np
 import os
 import sys
+import streamlit as st
 
 ##############################
 # Set page directory to base level to allow for module import from different folder
@@ -84,7 +85,7 @@ class TemplateParameter(object):
 class Material(Materials):
     def __init__(
             self,
-            id, name,model_name,difficulty,material ,model_id,default_template,display_name,
+            id, name,model_name,difficulty,material ,default_template,display_name,
             emmo_relation,category_id,tab_id,default_template_id,context_type,context_type_iri, \
             description 
     ):
@@ -101,7 +102,7 @@ class Material(Materials):
 class NumericalParameter(TemplateParameter):
     def __init__(
             self,
-            id, name, model_name, par_class, difficulty,model_id, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
+            id, name, model_name, par_class, difficulty, template_id, context_type, context_type_iri, type, is_shown_to_user, description,
             min_value, max_value, unit, unit_name, unit_iri, display_name
     ):
 
@@ -241,10 +242,10 @@ class FormatParameters:
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
     
         #if np.ndim(parameter_sets)> 1:
-
+        
 
         material_display_names = []
-    
+        index_set = 0
         for parameter_set in parameter_sets:
             parameter_set_id, \
             parameter_set, \
@@ -254,22 +255,23 @@ class FormatParameters:
            
             material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
             material_display_names.append(material_display_name)
+
+            raw_parameters_set = raw_parameters[index_set]
             
             # Create list with parameter set ids
-            raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters])
+            raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
           
             parameter_ids = []
             parameter_names = []
             template_parameter_ids = []
             parameter_values = []
             
-            index =0
-            for parameter in raw_parameters:
+            index_set += 1
+            index_parameter =0
+            for parameter in raw_parameters_set:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
-               
-               
-                if raw_parameters_set_ids[index] == parameter_set_id:
+                if raw_parameters_set_ids[index_parameter] == parameter_set_id:
                     
                     parameter_id, \
                     parameter_name, \
@@ -277,12 +279,13 @@ class FormatParameters:
                     template_parameter_id, \
                     parameter_value = parameter
                     
+                    
                     parameter_ids.append(parameter_id)
                     parameter_names.append(parameter_name)
                     template_parameter_ids.append(template_parameter_id)
                     parameter_values.append(parameter_value)
 
-                index +=1
+                index_parameter +=1
             
             values = []
             for i,value in enumerate(parameter_values):
@@ -367,10 +370,10 @@ class FormatParameters:
         
 
         if np.ndim(raw_parameters) > 1:
-
+  
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
-        
+            
 
             for parameter in raw_parameters:
                 parameter_id, \
@@ -380,7 +383,6 @@ class FormatParameters:
                     value = parameter
               
                 template_parameter = formatted_parameters.get(str(template_parameter_id))
-
             
                 if template_parameter:
                     if isinstance(template_parameter, NumericalParameter):
@@ -419,7 +421,9 @@ class FormatParameters:
                             parameter_set=parameter_sets_name_by_id.get(parameter_set_id),
                             parameter_display_name = parameter_display_name
                         )
+                    
                     template_parameter.add_option(parameter_id, new_option)
+        
         else:
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
@@ -491,7 +495,6 @@ class FormatParameters:
                 material_name, \
                 model_name, \
                 difficulty , \
-                model_id, \
                 default_template, \
                 display_name, \
                 category_id, \
@@ -507,7 +510,6 @@ class FormatParameters:
                     name=material_name,
                     model_name=model_name,
                     difficulty=difficulty,
-                    model_id=model_id,
                     default_template = default_template,
                     display_name =display_name,
                     category_id =category_id,
@@ -524,7 +526,6 @@ class FormatParameters:
             model_name, \
             difficulty , \
             material, \
-            model_id, \
             default_template, \
             display_name, \
             emmo_relation, \
@@ -542,7 +543,6 @@ class FormatParameters:
                 model_name=model_name,
                 difficulty=difficulty,
                 material = material,
-                model_id=model_id,
                 default_template = default_template,
                 display_name =display_name,
                 emmo_relation = emmo_relation,
@@ -567,7 +567,6 @@ class FormatParameters:
                     model_name, \
                     par_class, \
                     difficulty, \
-                    model_id, \
                     template_id, \
                     context_type, \
                     context_type_iri, \
@@ -591,7 +590,6 @@ class FormatParameters:
                         model_name=model_name,
                         par_class=par_class,
                         difficulty=difficulty,
-                        model_id=model_id,
                         template_id=template_id,
                         context_type=context_type,
                         context_type_iri=context_type_iri,
@@ -653,7 +651,6 @@ class FormatParameters:
                 model_name, \
                 par_class, \
                 difficulty, \
-                model_id, \
                 template_id, \
                 context_type, \
                 context_type_iri, \
@@ -677,7 +674,6 @@ class FormatParameters:
                     model_name=model_name,
                     par_class=par_class,
                     difficulty=difficulty,
-                    model_id=model_id,
                     template_id=template_id,
                     context_type=context_type,
                     context_type_iri=context_type_iri,

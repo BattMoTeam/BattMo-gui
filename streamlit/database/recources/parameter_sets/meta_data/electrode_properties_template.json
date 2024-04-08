@@ -1,9 +1,9 @@
 {
    "Type": "template",
-   "Name": "n_p_electrode_properties_full_template",
+   "Name": "electrode_properties_template",
    "Parameters": {
       "coating_thickness": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Thickness",
@@ -19,7 +19,7 @@
          "display_name": "Coating thickness"
       },
       "coating_porosity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:Porosity",
@@ -35,7 +35,7 @@
          "display_name": "Coating porosity"
       },
       "mass_loading": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "basis",
          "context_type": "emmo:MassLoading",
@@ -50,40 +50,8 @@
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Mass loading"
       },
-      "length": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "advanced",
-         "context_type": "emmo:Length",
-         "context_type_iri": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
-         "max_value": 1,
-         "min_value": 0.001,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "m",
-         "unit_name": "Metre",
-         "unit_iri": "https://w3id.org/emmo#Metre",
-         "display_name": "Length"
-      },
-      "width": {
-         "model_name": "p2d_p3d_p4d",
-         "par_class": "non_material",
-         "difficulty": "advanced",
-         "context_type": "emmo:Width",
-         "context_type_iri": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
-         "max_value": 1,
-         "min_value": 0.001,
-         "description": "",
-         "is_shown_to_user": true,
-         "type": "float",
-         "unit": "m",
-         "unit_name": "Metre",
-         "unit_iri": "https://w3id.org/emmo#Metre",
-         "display_name": "Width"
-      },
       "bruggeman_coefficient": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 5,
@@ -97,7 +65,7 @@
          "display_name": "Bruggeman coefficient"
       },
       "electrode_capacity": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "N/A",
          "context_type": "emmo:Capacity",
@@ -113,7 +81,7 @@
          "display_name": "Capacity"
       },
       "current_collector_thickness": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:Thickness",
@@ -129,7 +97,7 @@
          "display_name": "Coating thickness"
       },
       "number_of_discrete_cells_electrode": {
-         "model_name": "p2d_p3d_p4d",
+         "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",
          "context_type": "emmo:NumberOfEntities",

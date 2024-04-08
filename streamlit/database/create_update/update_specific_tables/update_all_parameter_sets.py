@@ -34,6 +34,7 @@ class UpdateParameterSets:
         self.sql_materials = db_handler.MaterialHandler()
         self.sql_template = db_handler.TemplateHandler()
         self.sql_template_parameter = db_handler.TemplateParameterHandler()
+        self.sql_model = db_handler.ModelHandler()
         self.print_details = print_details
 
     def update_parameter_set_from_json(self, parameter_set, path, component = None):
@@ -69,12 +70,12 @@ class UpdateParameterSets:
             return None, False
 
         assert name is not None, "Name of parameter_set {} must have a name".format(path)
-        assert component is not None, "component of parameter_set {} is not defined".format(name)
+        #assert component is not None, "component of parameter_set {} is not defined".format(name)
         assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
 
         component_id = self.sql_component.get_id_from_name(component)
         display_name = parameter_set.get("display_name")  #not correct yet
-        assert component_id is not None, "component = {} is not specified in components.json. path={}".format(component, path)
+        #assert component_id is not None, "component = {} is not specified in components.json. path={}".format(component, path)
         
         #test = self.sql_materials.get_material_id_by_parameter_set_name(component_id)
         #print("test=", test)
@@ -93,18 +94,20 @@ class UpdateParameterSets:
             )
         
         else:
+            print("name = ",name)
             parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
                 name=name,
                 component_id=component_id,
                 material= material,
                 material_id = None
             )
-
+        
         formatted_parameters = self.format_parameters(
             parameters=parameters,
             parameter_set_id=parameter_set_id,
             component_id=component_id,
-            display_name = display_name
+            display_name = display_name,
+            parameter_set_name = name
         )
 
         if parameter_set_already_exists:
@@ -117,10 +120,16 @@ class UpdateParameterSets:
                 print("\n Creating {}".format(name))
             self.add_parameters(parameters=formatted_parameters)
 
+        
+
         return parameter_set_id, parameter_set_already_exists, name
 
     def create_or_update_parameter_set(self, name, component_id, material, material_id):
-        parameter_set_id = self.sql_parameter_set.get_id_by_name_and_category(name, component_id)
+
+        if name == "P2D":
+            parameter_set_id = self.sql_parameter_set.get_id_from_name(name)
+        else:
+            parameter_set_id = self.sql_parameter_set.get_id_by_name_and_category(name, component_id)
         
         if parameter_set_id:
             return parameter_set_id, True
@@ -132,8 +141,13 @@ class UpdateParameterSets:
                 material_id = material_id
             ), False
 
-    def format_parameters(self, parameters, parameter_set_id, component_id, display_name):
-        template_id = self.sql_component.get_default_template_id_by_id(component_id)
+    def format_parameters(self, parameters, parameter_set_id, component_id, display_name, parameter_set_name):
+        try:
+            template_id = self.sql_component.get_default_template_id_by_id(component_id)
+        except:
+            template_name = self.sql_model.get_default_template_name_by_name(parameter_set_name)
+            template_id = self.sql_template.get_id_from_name(template_name)
+
         raw_template_parameters = self.sql_template_parameter.get_id_name_and_type_by_template_id(template_id)
         template_parameters = {}
         template_parameters_types = {}
@@ -196,7 +210,6 @@ class UpdateParameterSets:
         if not parameters:
             return
         parameter_set_id = parameters[0].parameter_set_id
-
         new_parameters = []
         # every item which is not updated will be deleted, so we don't keep useless items in db
         existing_ids_to_be_deleted = self.sql_parameter.get_all_ids_by_parameter_set_id(parameter_set_id)
@@ -271,6 +284,7 @@ class UpdateParameterSets:
 
         for file_path in all_file_path:
             file_as_json = app_access.get_json_from_path(file_path)
+            print("file = ", file_as_json)
             parameter_set_id, parameter_set_already_exists, name = self.update_parameter_set_from_json(file_as_json, file_path)
             new_or_updated.append(name)
             if parameter_set_already_exists:

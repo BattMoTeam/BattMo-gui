@@ -42,22 +42,32 @@ class BaseHandler:
         con.commit()
         return cur.lastrowid
 
-    def select(self, values, where=None):
+    def select(self, values, where=None, like=None):
         if where:
-            query = """
-                SELECT %s FROM %s WHERE %s
-            """ % (values, self._table_name, where)
+            if like:
+                query = """
+                    SELECT %s FROM %s WHERE %s LIKE %s
+                """ % (values, self._table_name, where, like)
+            else:
+                query = """
+                    SELECT %s FROM %s WHERE %s
+                """ % (values, self._table_name, where)
         else:
             query = """
                 SELECT %s FROM %s 
             """ % (values, self._table_name)
         return cur.execute(query).fetchall()
 
-    def select_one(self, values, where=None):
+    def select_one(self, values, where=None, like=None):
         if where:
-            query = """
-                SELECT %s FROM %s WHERE %s
-            """ % (values, self._table_name, where)
+            if like:
+                query = """
+                    SELECT %s FROM %s WHERE %s LIKE %s
+                """ % (values, self._table_name, where, like)
+            else:
+                query = """
+                    SELECT %s FROM %s WHERE %s
+                """ % (values, self._table_name, where)
         else:
             query = """
                 SELECT %s FROM %s 
