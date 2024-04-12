@@ -2075,11 +2075,11 @@ class LoadImages:
         return {
             "4": image_open("cell_coin.png"),
             "9": image_open("cell_prismatic.png"),
-            "3": image_open("plus.png"),
-            "1": image_open("plus.png"),
-            "0": image_open("minus.png"),
-            "2": image_open("electrolyte.png"),
-            "5": image_open("current.png"),
+            "3": image_open("separator_icon.png"),
+            "1": image_open("plus_icon.png"),
+            "0": image_open("minus_icon.png"),
+            "2": image_open("electrolyte_icon.png"),
+            "5": image_open("bc_icon.png"),
             "6": image_open("current.png"),
             "7": image_open("current.png"),
             "8": image_open("cell_cylindrical.png")
