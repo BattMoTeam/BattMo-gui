@@ -92,7 +92,7 @@ Clone the repository:
 git clone https://github.com/BattMoTeam/BattMo-gui.git
 ```
 
-No the only thing you have to do in order to run the application is to build the images and run the docker containers using Docker Compose. The building setup for the development environment can be found in the file 'docker-compose.yml'. To build the images, go into the BattMo-GUI directory in your terminal and run:
+Now the only thing you have to do in order to run the application is to build the images and run the docker containers using Docker Compose. The building setup for the development environment can be found in the file 'docker-compose.yml'. To build the images, go into the BattMo-GUI directory in your terminal and run:
 
 ```<bash>
 docker-compose build
