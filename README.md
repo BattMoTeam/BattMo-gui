@@ -14,17 +14,17 @@ The **BattMo GUI** is a web-based application build with **streamlit** which off
 conduct an end to end simulation experience. Each physical quantity needed to define an experimental protocol can be 
 modified to suit the user's needs. The parameter set thus defined is then used to run the BattMo P2D model. 
 
-## Docker images
+## Using the application
 
-The BattMo GUI is available as a set of Docker images in the Github container registry and can be found among BattMoTeam's packages. In order to use it you have to install Docker. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. 
+The BattMo application can very easily be used on [app.batterymodel.com](http://app.batterymodel.com/). If you'd rather use the application offline, it can be installed using Docker. If you'd like to install for development, see the next section called 'Developer installation'. The BattMo GUI is available as a set of Docker images in the Github container registry and can be found among BattMoTeam's packages. In order to use it you have to install Docker and Docker Compose. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. Assuming you have both Docker and Docker Compose installed on your machine:
 
 Open a bash terminal and pull the latest Docker images from the registry. For the streamlit image that represents the frontend:
 ```<bash>
 docker pull ghcr.io/battmoteam/battmogui_streamlit:latest
 ```
-For the flask api Docker images that runs the BattMo.jl package:
+For the genie Docker image that serves as an api and runs the BattMo.jl package:
 ```<bash>
-docker pull ghcr.io/battmoteam/battmogui_flask_api:latest
+docker pull ghcr.io/battmoteam/battmogui_genie:latest
 ```
 And for the production server Nginx:
 ```<bash>
@@ -32,17 +32,19 @@ docker pull ghcr.io/battmoteam/battmogui_nginx:latest
 ```
 Run the images in containers by using a docker compose file. Create a docker-compose.yml file with the following content:
 ```<docker>
-version: "3"
+version: "3.3"
 
 services:
 
-  flask_api:
-    build: ./flask_api
-    container_name: flask_api
+  genie:
+    build: ./genie
+    container_name: genie
     restart: always
     ports:
       - "8000:8000"
-    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
+    volumes:
+      - ./genie:/home/genie/app
+    command: julia --project=. -e 'include("app/rest.jl")' --color=yes --depwarn=no --project=@. --sysimage="/home/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
 
   nginx:
     build: ./nginx
@@ -50,8 +52,13 @@ services:
     restart: always
     ports:
       - "8001:8001"
+      - "8002:8002"
+    volumes:
+      - ./nginx:/app
+
     depends_on:
-      - flask_api
+      - genie
+      - streamlit
  
   streamlit:
     build: ./streamlit
@@ -59,60 +66,63 @@ services:
     restart: always
     ports:
       - "8501:8501"
+    volumes:
+      - ./streamlit:/app
+    depends_on:
+      - genie
 
-    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80
+    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501
 ```
 Now run the following command to start the containers:
 ```<bash>
-docker-compose up
+docker-compose up -d
 ```
 
-Now you can open your browser and go to 'localhost:8501' where the GUI will be visible.
+Now you can open your browser and go to 'localhost:8501' where the GUI should be visible and ready to use.
 
-## Install & Run the BattMo GUI
+## Developer installation
+
+If you'd like to install the BattMo application for development you need to have both Docker and Docker Compose installed on your computer. See the [Docker website](https://www.docker.com/) for more information about Docker and how to install it. Assuming you have both Docker and Docker Compose installed on your machine:
 
 Clone the repository:
 ```<git>
 git clone https://github.com/BattMoTeam/BattMo-gui.git
 ```
 
-Within your environment, go in the BattMo-gui directory and install the required python packages, as follows:
+No the only thing you have to do in order to run the application is to build the images and run the docker containers using Docker Compose. The building setup for the development environment can be found in the file 'docker-compose.yml'. To build the images, go into the BattMo-GUI directory in your terminal and run:
 
-```<powershell>
-cd BattMo-gui; pip install -r streamlit/requirements.txt; pip install -r flask_api/requirements.txt
+```<bash>
+docker-compose build
 ```
 
-Initiate the Julia terminal in the command prompt and install the Julia packages (see 'Manifest.toml' for the correct versions):
+The first build can take up to 20 minutes to finish. After that, it takes a couple of seconds depending on the changes you make during development. To run the containers/application:
 
-```<powershell>
-julia
-```
-```<Julia>
-using Pkg; Pkg.add(["BattMo@0.1.6","Jutul@0.2.14","LoggingExtras@1.0.3", "JSON@0.21.4","PythonCall@0.9.14"])
-```
-Now the GUI can be run from 2 different terminals:
-
-1. One for the Flask api running on the background. Initiate the flask server in a command prompt:
-
-```<powershell>
-python flask_api/wsgi.py
-```
-    
-2. One to initiate the streamlit interface. Iniate the streamlit server in another command prompt:
-
-```<powershell>
-streamlit run streamlit/Introduction.py
+```<bash>
+docker-compose up -d
 ```
 
 Now you can go to 'Localhost:8501' in your browser in order to visualize and use the web-application.
 
+After changing anything in the streamlit folder, in order to see the changes in the application you can run:
+
+```<bash>
+docker restart streamlit
+```
+
+After changing anything in the genie folder, in order to see the changes in the application you can run:
+
+```<bash>
+docker restart genie
+```
+
+When changing anything in the recources and database, or in the Julia system image building setup, make sure to rebuild the images again instead of only restarting certain containers.
 
 ## Development structure
 
 The **BattMo GUI** is build in python using **streamlit**. 
 - The *streamlit* directory contains the streamlit app code and a 
 database that stores the parameters used to define an experimental protocol (default values, metadata).
-- The *flask_api* directory contains the Julia backend code that runs the **BattMo** package, and the flask code that serves as an api by running the Julia backend code on demand of the streamlit frontend.  
+- The *genie* directory contains the Julia backend code that uses the Genie framework to create a rest-api. This api enables data transfer between the **BattMo** package and the streamlit frontend and starts a simulation upon receiving input data from the streamlit frontend.
 
 This streamlit app is a multipage app
 (cf [streamlit doc](https://docs.streamlit.io/library/get-started/multipage-apps/create-a-multipage-app)).
