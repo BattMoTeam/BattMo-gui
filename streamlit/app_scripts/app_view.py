@@ -2060,11 +2060,11 @@ class LoadImages:
 
         # images are resized for better rendering
 
-        l, w = 80, 80
+        #l, w = 80, 80
 
         def image_open(file_name):
             image = Image.open(join_path(file_name))
-            return image.resize((l, w))
+            return image #.resize((l, w))
 
         """
         This dict has to be refactored, it needs at least:
@@ -2080,7 +2080,7 @@ class LoadImages:
             "0": image_open("minus_icon.png"),
             "2": image_open("electrolyte_icon.png"),
             "5": image_open("bc_icon.png"),
-            "6": image_open("current.png"),
+            "6": image_open("protocol_icon.png"),
             "7": image_open("current.png"),
             "8": image_open("cell_cylindrical.png")
         }
