@@ -37,6 +37,7 @@ version: "3.3"
 services:
 
   genie:
+    image: ghcr.io/battmoteam/battmogui_genie:latest
     build: ./genie
     container_name: genie
     restart: always
@@ -47,6 +48,7 @@ services:
     command: julia --project=. -e 'include("app/rest.jl")' --color=yes --depwarn=no --project=@. --sysimage="/home/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
 
   nginx:
+    image: ghcr.io/battmoteam/battmogui_nginx:latest
     build: ./nginx
     container_name: nginx
     restart: always
@@ -61,6 +63,7 @@ services:
       - streamlit
  
   streamlit:
+    image: ghcr.io/battmoteam/battmogui_streamlit:latest
     build: ./streamlit
     container_name: streamlit
     restart: always
