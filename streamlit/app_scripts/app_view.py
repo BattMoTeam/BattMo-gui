@@ -25,12 +25,12 @@ from scipy import ndimage
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
-from database import db_helper
+from database import db_helper, db_handler
 from app_scripts import app_access, match_json_LD, LD_struct, match_json_upload, app_controller
 from app_scripts import app_calculations as calc
 from LD_struct import SetupLinkedDataStruct 
 LD = SetupLinkedDataStruct()
-
+con, cur = app_access.get_sqlite_con_and_cur()
 
 
 #####################################
@@ -598,8 +598,8 @@ class SetTabs:
         # specific_cap_am_ne_parameter["selected_value"] = specific_capacity_am_ne
         # specific_cap_am_pe_parameter = self.formatter.initialize_parameters(raw_template_am_pe)
         # specific_cap_am_pe_parameter["selected_value"] = specific_capacity_am_pe
-        specific_capacities_category_parameters_am_ne = LD.setup_parameter_struct(raw_template_am_ne, value = specific_capacity_am_ne)  
-        specific_capacities_category_parameters_am_pe = LD.setup_parameter_struct(raw_template_am_pe, value = specific_capacity_am_pe) 
+        specific_capacities_category_parameters_am_ne = LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)  
+        specific_capacities_category_parameters_am_pe = LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe) 
 
         # Specific capacity electrodes
         specific_capacity_ne = self.calc_capacity_electrode(specific_capacity_am_ne, 
@@ -700,9 +700,6 @@ class SetTabs:
                 component_parameters_ = []
                 component_parameters = {}
                 material_component_id, component_name, _,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
-                
-                
-
                 
                 component_col.write("[{}]({})".format(material_comp_display_name, material_comp_context_type_iri))
                 component_col.text(" ")
@@ -1449,8 +1446,7 @@ class SetTabs:
     def fill_material_components(self,component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density, emmo_relation = None):
 
         material_parameter_sets = []
-        # get corresponding template parameters from db
-        material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id, self.model_name)
+        
 
         materials = db_helper.get_material_from_component_id(self.model_name,material_component_id)
 
@@ -1465,9 +1461,30 @@ class SetTabs:
             material_parameter_sets_name_by_id[id] = name
 
         material_raw_parameters = []
-        for material_parameter_set_id in material_parameter_sets_name_by_id:
+        for material_parameter_set_id in material_parameter_sets_name_by_id: 
             material_raw_parameters.append(db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id))
+
+
+        material_raw_template_parameters_sub = []
+        material_raw_template_parameters = []
+        ind = 0
+ 
+        for material_parameter_set_id in material_parameter_sets_name_by_id:
+            for material_raw_parameter in material_raw_parameters[ind]:
+                _, \
+                _, \
+                _, \
+                template_parameter_id, \
+                _ = material_raw_parameter
+          
+  
+                # get corresponding template parameters from db
+                material_raw_template_parameters_sub.append(db_helper.get_parameter_by_template_parameter_id(template_parameter_id))
+
+            material_raw_template_parameters.append(material_raw_template_parameters_sub)
+            ind +=1
         
+        material_raw_template_parameters = material_raw_template_parameters[0]
        # material_raw_parameters = tuple(material_raw_parameters)        
         # format all those parameters: use template parameters for metadata, and parameters for values.
         # all information is packed in a single python object
@@ -1492,28 +1509,90 @@ class SetTabs:
             # on_change=reset_func,
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
-        
+
         if formatted_component:
 
             material_choice = formatted_component.options.get(selected_value_id)
-
             material_parameter_set_id = material_choice.parameter_set_id
 
             parameter_ids = material_choice.parameter_ids
             parameters = material_choice.parameters
+            print(parameters)
 
             for parameter_id in parameters:
 
                 parameter = parameters.get(parameter_id)
-
                 set_parameter = parameter.options.get(material_parameter_set_id)
                 parameter.set_selected_value(set_parameter.value)
+                st.write("par = ", type(parameter))
                 component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
                 if parameter.name == "density" and density != None:
                     density[material_component_id] = set_parameter.value    
 
+        self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
+
         return material_formatted_parameters,formatted_component, selected_value_id, component_parameters_, emmo_relation, density
     
+    def set_material_parameter_difficulty(self,parameter_sets, raw_parameters,default_template_id):
+            
+            index_set = 0
+            for parameter_set in parameter_sets:
+                parameter_set_id, \
+                parameter_set, \
+                _, \
+                _ , \
+                material_id = parameter_set
+
+                raw_parameters_set = raw_parameters[index_set]
+                
+                # Create list with parameter set ids
+                raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
+                
+                parameter_ids = []
+                parameter_names = []
+                template_parameter_ids = []
+                parameter_values = []
+                
+                index_set += 1
+                index_parameter =0
+                db_helper.reset_material_template_parameters(default_template_id)
+
+                for parameter in raw_parameters_set:
+                # get index of id
+                    #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
+                    if raw_parameters_set_ids[index_parameter] == parameter_set_id:
+
+                        parameter_id, \
+                        parameter_name, \
+                        _, \
+                        template_parameter_id, \
+                        parameter_value = parameter
+                        
+                        db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
+                 
+                        con.close()
+                        # con, cur = app_access.get_sqlite_con_and_cur()
+                        # data=cur.execute('''SELECT * FROM template_parameter''')
+                        # # Fetch all rows from the result
+                        # data = cur.fetchall()
+
+                        # # Check if there are columns to describe
+                        # if cur.description:
+                        #     # Print the column information
+                        #     print("Column names:", [col[0] for col in cur.description])
+
+                        # else:
+                        #     print("No columns to describe (empty result set)")
+
+                        # # Print the retrieved data
+                        # for row in data:
+                        #     st.write(row)
+                            
+                        # # Don't forget to close the cursor and connection when done
+                        # cur.close()
+                        # con.close()
+                    index_parameter +=1
+
 
     def fill_advanced_expander(self, tab,category_name, category_display_name,category_parameters):
         advanced_input=tab.expander("Show '{}' advanced parameters".format(category_display_name))
@@ -1560,6 +1639,7 @@ class SetTabs:
                 non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
                     
                 raw_template_parameters = db_helper.get_advanced_template_by_template_id(default_template_id,self.model_name)
+
 
                 if raw_template_parameters:
                     
@@ -3764,8 +3844,6 @@ class SetGraphs():
     
     def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
         
-        # st.write(x_data)
-        # st.write(y_data)
         fig = px.line(x=x_data, y=y_data)
 
         fig.update_traces(line=dict(width=5))

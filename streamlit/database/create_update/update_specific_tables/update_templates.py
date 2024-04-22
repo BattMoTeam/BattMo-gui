@@ -92,6 +92,7 @@ class UpdateTemplates:
         template_id, template_already_exists = self.create_or_update_parameter_set(
             name=name
         )
+        print(template_already_exists)
         fields = TemplateField()
 
         # Can be adapted to add the model_id links:
@@ -137,7 +138,10 @@ class UpdateTemplates:
 
 
     def create_or_update_parameter_set(self, name):
+        print("name = ",name)
+
         template_id = self.sql_template.get_id_from_name(name)
+        print("template_id = ",template_id)
         return (template_id, True) if template_id else (self.sql_template.insert_value(name=name), False)
 
     def add_parameters(self, parameters, template_id, fields):

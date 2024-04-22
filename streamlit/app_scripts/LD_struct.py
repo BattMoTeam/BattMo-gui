@@ -169,6 +169,12 @@ class SetupLinkedDataStruct():
     def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
 
         # st.cache_data.clear()
+        if isinstance(parameter, NumericalParameter):
+            numeric = True
+        else:
+            numeric = False
+        print("numeric = ",numeric)
+        print("object = ",parameter)
 
         try:
 
@@ -215,49 +221,53 @@ class SetupLinkedDataStruct():
             return component_parameters
         
         except:
-            
             category_parameters = []
-
-            parameter_id, \
-                        name, \
-                        model_name, \
-                        par_class, \
-                        difficulty, \
-                        template_id, \
-                        context_type, \
-                        context_type_iri, \
-                        parameter_type, \
-                        unit, \
-                        unit_name, \
-                        unit_iri, \
-                        max_value, \
-                        min_value, \
-                        is_shown_to_user, \
-                        description,  \
-                        display_name = tuple(np.squeeze(parameter[0]))
-
-
-            formatted_value_dict = value
-
-        
-            formatted_value_dict = {
-                "@type": "emmo:Numerical",
-                self.hasNumericalData: value
-            }
-
-            parameter_details = {
-                "label": name,
-                "@type": context_type,
-                "value": formatted_value_dict
-            }
+            try:
+                parameter_id, \
+                            name, \
+                            model_name, \
+                            par_class, \
+                            difficulty, \
+                            template_id, \
+                            context_type, \
+                            context_type_iri, \
+                            parameter_type, \
+                            unit, \
+                            unit_name, \
+                            unit_iri, \
+                            max_value, \
+                            min_value, \
+                            is_shown_to_user, \
+                            description,  \
+                            display_name = np.squeeze(parameter)
             
-            parameter_details["unit"] = {
-                "label": unit_name,
-                "symbol": unit,
-                "@type": "emmo:"+unit_name
-            }
 
-            category_parameters.append(parameter_details)
+
+                formatted_value_dict = value
+
+            
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    self.hasNumericalData: value
+                }
+
+                parameter_details = {
+                    "label": name,
+                    "@type": context_type,
+                    "value": formatted_value_dict
+                }
+                
+                parameter_details["unit"] = {
+                    "label": unit_name,
+                    "symbol": unit,
+                    "@type": "emmo:"+unit_name
+                }
+
+                category_parameters.append(parameter_details)
+
+            except:
+                print("par = ", parameter)
+            
             return category_parameters
             
         

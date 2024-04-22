@@ -1,7 +1,7 @@
 {
    "Type": "template",
-   "Name": "additive_template",
-   "Parameters": {
+   "Name": "ne_binder_template",
+   "Parameters": { 
       "density": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
@@ -9,7 +9,7 @@
          "context_type": "emmo:Density",
          "context_type_iri": "https://w3id.org/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000.0,
-         "min_value": 100.0,
+         "min_value": 100,
          "description": "",
          "is_shown_to_user": true,
          "type": "float",
@@ -49,7 +49,6 @@
          "unit_name": "WattPerMetreKelvin",
          "unit_iri": "https://w3id.org/emmo#WattPerMetreKelvin",
          "display_name": "Thermal conductivity"
-         
       },
       "electronic_conductivity": {
          "model_name": ["P2D","P3D"],

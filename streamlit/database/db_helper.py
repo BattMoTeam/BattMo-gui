@@ -9,30 +9,30 @@ Functions called from GUI code to access db.
 """
 
 
-@st.cache_data
+# @st.cache_data
 def sql_parameter():
     return db_handler.ParameterHandler()
 
 
-@st.cache_data
+# @st.cache_data
 def sql_parameter_set():
     return db_handler.ParameterSetHandler()
 
 
-@st.cache_data
+# @st.cache_data
 def sql_category():
     return db_handler.CategoryHandler()
 
 
-@st.cache_data
+# @st.cache_data
 def sql_component():
     return db_handler.ComponentHandler()
 
-@st.cache_data
+# @st.cache_data
 def sql_material():
     return db_handler.MaterialHandler()
 
-@st.cache_data
+# @st.cache_data
 def sql_tab():
     return db_handler.TabHandler()
 
@@ -47,12 +47,12 @@ def sql_model_parameter():
     return db_handler.ModelParameterHandler()
 
 
-@st.cache_data
+# @st.cache_data
 def sql_template():
     return db_handler.TemplateHandler()
 
 
-@st.cache_data
+# @st.cache_data
 def sql_template_parameter():
     return db_handler.TemplateParameterHandler()
 
@@ -293,6 +293,7 @@ def get_material_id_by_parameter_set_name(name):
             values='id',
             where="name='%s'" % name
         )
+        print(res)
         return [a[0] for a in res][0]
 
 
@@ -532,6 +533,23 @@ def get_template_from_name(name):
         )
     return res[0]
 
+def get_parameter_by_template_parameter_id(template_parameter_id):
+        return sql_template_parameter().select(
+            values='*',
+            where="id={}".format(template_parameter_id)
+        )
+
+def reset_material_template_parameters(template_id):
+    sql_template_parameter().update(
+            set = "difficulty = 'advanced'",
+            where="par_class ='material' AND template_id = {}".format(int(template_id))
+        )
+    
+def set_material_template_parameters_to_basis_by_id(template_parameter_id):
+    sql_template_parameter().update(
+            set = "difficulty = 'basis'",
+            where="id = {}".format(int(template_parameter_id))
+        )
 
 def get_all_material_by_template_id(template_id,model_name):
         return sql_template_parameter().select(
