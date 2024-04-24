@@ -16,20 +16,28 @@ sys.path.insert(0, path_to_streamlit_module)
 from app_scripts import app_access
 
 @st.cache_data
-def validate_volume_fraction(vf_sum,category_display_name,_tab):
-    vf_summing = 0
-    for id, value in vf_sum.items():
-        vf_summing += value
-    if vf_summing != 1.0:
+def validate_mass_fraction(mf_sum,category_display_name,_tab):
+    mf_summing = 0
+    for id, value in mf_sum.items():
+        mf_summing += value
+    if mf_summing != 1.0:
         _tab.warning("The sum of the '%s' material mass fractions is not equal to 1." % (category_display_name))
 
+
 @st.cache_data
-def calc_density_mix(vf, density):
+def calc_density_mix(mf, density):
         
-    density_eff=0
-    for id, fraction in vf.items():
+    density_mix=0
+    for id, fraction in mf.items():
         
-        density_eff += fraction*density.get(id)
+        density_mix += fraction*density.get(id)
+    
+    return density_mix
+
+@st.cache_data
+def calc_density_eff(density_mix,porosity):
+    
+    density_eff = density_mix * (1-porosity)
     
     return density_eff
 
@@ -41,13 +49,13 @@ def calc_mass_loading(density_eff, thickness, porosity):
     return ml
 
 @st.cache_data
-def calc_thickness( density_eff, mass_loading, porosity):
-    th = mass_loading*10**(7)/(density_eff*1000*(1-porosity))
+def calc_thickness( density_mix, mass_loading, porosity):
+    th = mass_loading*10**(7)/(density_mix*1000(1-porosity))
     return th
 
 @st.cache_data
-def calc_porosity( density_eff, thickness, mass_loading):
-    por = 1-(mass_loading/(thickness*10**(-6)*density_eff*100))
+def calc_porosity( density_mix, thickness, mass_loading):
+    por = 1-(mass_loading/(thickness*10**(-6)*density_mix*100))
     return por
 
 @st.cache_data
@@ -57,9 +65,9 @@ def calc_specific_capacity_active_material(c_max, density, li_stoich_max, li_sto
     return Q_sp
 
 @st.cache_data
-def calc_capacity_electrode(specific_capacity_am, mass_fraction, effective_density, volume, porosity):
+def calc_capacity_electrode(specific_capacity_am, mass_fraction, density_eff, volume, porosity):
     Q_sp = specific_capacity_am
-    Q_elde = mass_fraction*Q_sp*((1-porosity)* volume * effective_density*1000)
+    Q_elde = mass_fraction*Q_sp*(volume * density_eff*1000)
     return Q_elde
 
 @st.cache_data

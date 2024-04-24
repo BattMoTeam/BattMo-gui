@@ -222,7 +222,7 @@ class SetExternalLinks:
         self.batterymodel = "[BatteryModel.com](https://batterymodel.com/)"
         self.zenodo = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6362783.svg)](https://doi.org/10.5281/zenodo.6362783)"
         self.github = "[![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/BattMoTeam/BattMo)"
-        self.documentation = "[![Repo](https://badgen.net/badge/Doc/BattMo-app)](https://battmoteam.github.io/battmo-doc-test/gui.html)"
+        self.documentation = "[![Repo](https://badgen.net/badge/Doc/BattMo-app)](https://battmoteam.github.io/BattMo/gui.html)"
 
         self.set_external_links()
 
@@ -320,8 +320,9 @@ class SetTabs:
         self.set_title()
 
         # Import functions for calculations
-        self.validate_volume_fraction = calc.validate_volume_fraction
+        self.validate_mass_fraction = calc.validate_mass_fraction
         self.calc_density_mix = calc.calc_density_mix
+        self.calc_density_eff = calc.calc_density_eff
         self.calc_mass_loading = calc.calc_mass_loading
         self.calc_thickness = calc.calc_thickness
         self.calc_porosity = calc.calc_porosity
@@ -740,23 +741,8 @@ class SetTabs:
                     
                     category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=material_comp_relation)
         else:
-            mass_fraction_id_dict = None
-
-        if mass_fraction_id_dict:    
-            self.validate_volume_fraction(mass_fraction_id_dict, category_display_name,tab)
-            density_mix = self.calc_density_mix(mass_fraction_id_dict, density) 
-
-            try:
-                with open(app_access.get_path_to_calculated_values(), 'r') as f:
-                    parameters_dict = json.load(f)
-            except json.JSONDecodeError as e:
-                st.write(app_access.get_path_to_calculated_values())
-
-
-            parameters_dict["calculatedParameters"]["effective_density"][category_name] = density_mix
-
-            with open(app_access.get_path_to_calculated_values(),'w') as f:
-                json.dump(parameters_dict,f, indent=3) 
+            mass_fraction_id_dict = None 
+            density = None
         
         non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
         
@@ -773,7 +759,7 @@ class SetTabs:
         
         component_parameters_ = []
         component_parameters = {}
-        non_material_parameter,user_input,category_parameters, mass_loadings = self.fill_non_material_components(category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters_, check_col,non_material_component_name,tab, density_mix, mass_loadings)
+        non_material_parameter,user_input,category_parameters, mass_loadings = self.fill_non_material_components(density,category_display_name,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters_, check_col,non_material_component_name,tab, mass_fraction_id_dict, mass_loadings)
 
         category_parameters = self.fill_advanced_expander(tab,category_name, category_display_name, category_parameters)
         return category_parameters, emmo_relation, mass_loadings
@@ -1096,7 +1082,7 @@ class SetTabs:
 
         return category_parameters
     
-    def fill_non_material_components(self,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters_, check_col,non_material_component_name,tab, density_mix, mass_loadings):
+    def fill_non_material_components(self,density,category_display_name,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters_, check_col,non_material_component_name,tab, mass_fraction_id_dict, mass_loadings):
         par_index = None
         non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,self.model_name)
         non_material_parameter_sets_name_by_id = {}
@@ -1261,6 +1247,23 @@ class SetTabs:
                     mass_loadings[category_name]=mass_loading
             i +=1
             ac += 1
+
+        if mass_fraction_id_dict:    
+            self.validate_mass_fraction(mass_fraction_id_dict, category_display_name,tab)
+            density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
+            density_eff = self.calc_density_eff(density_mix, porosity) 
+
+            try:
+                with open(app_access.get_path_to_calculated_values(), 'r') as f:
+                    parameters_dict = json.load(f)
+            except json.JSONDecodeError as e:
+                st.write(app_access.get_path_to_calculated_values())
+
+
+            parameters_dict["calculatedParameters"]["effective_density"][category_name] = density_eff
+
+            with open(app_access.get_path_to_calculated_values(),'w') as f:
+                json.dump(parameters_dict,f, indent=3)
         
         if check_col:
             states = "states_" + str(category_id)

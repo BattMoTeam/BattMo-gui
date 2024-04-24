@@ -1145,7 +1145,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.5
+                     "hasNumericalData": 1000.0
                   },
                   "unit": {
                      "label": "MolPerLiter",
@@ -1352,7 +1352,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 34.66146224
+                     "hasNumericalData": 31.7796972032
                   },
                   "unit": {
                      "label": "Gram",
@@ -1450,7 +1450,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 3
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",

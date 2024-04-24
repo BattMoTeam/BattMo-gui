@@ -159,7 +159,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Coating":{
                 "thickness": json_ld.ne.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.ne.properties.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 1900, # calculated_values["effective_density"]["negative_electrode"],
+                "effectiveDensity": calculated_values["effective_density"]["negative_electrode"],
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.ne.am.get("mass_fraction").get("value"),
@@ -220,7 +220,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "Coating":{
                 "thickness": json_ld.pe.properties.get("coating_thickness").get("value")*10**(-6),
                 "N": json_ld.pe.properties.get("number_of_discrete_cells_electrode").get("value"),
-                "effectiveDensity": 3500, #calculated_values["effective_density"]["positive_electrode"],
+                "effectiveDensity": calculated_values["effective_density"]["positive_electrode"],
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get("value"),
                 "ActiveMaterial": {
                     "massFraction": json_ld.pe.am.get("mass_fraction").get("value"),
@@ -291,7 +291,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             
 
         "Electrolyte": {
-            "initialConcentration": 1000,
+            "initialConcentration": json_ld.elyte_mat.get("concentration").get("value"),
             "specificHeatCapacity": json_ld.elyte_mat.get("specific_heat_capacity").get("value"),
             "thermalConductivity": json_ld.elyte_mat.get("thermal_conductivity").get("value"),
             "density": json_ld.elyte_mat.get("density").get("value"),
