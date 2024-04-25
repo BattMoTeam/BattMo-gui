@@ -2,14 +2,14 @@ version: "3.3"
 
 services:
 
-  genie:
-    build: ./genie
-    container_name: genie
+  battmo_jl_api:
+    build: ./battmo_jl_api
+    container_name: battmo_jl_api
     restart: always
     ports:
       - "8000:8000"
     volumes:
-      - ./genie:/home/genie/app
+      - ./battmo_jl_api:/home/genie/app
     #command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
     command: julia --project=. -e 'include("app/rest.jl")' --color=yes --depwarn=no --project=@. --sysimage="/home/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
     # --color=yes --depwarn=no --project=@. --sysimage=/usr/local/julia/lib/julia/sys.so -q -i -- $(dirname $0)/../bootstrap.jl -s=true "$@"
@@ -25,18 +25,18 @@ services:
       - ./nginx:/app
 
     depends_on:
-      - genie
-      - streamlit
+      - battmo_jl_api
+      - battmo_gui
 
-  streamlit:
-    build: ./streamlit
-    container_name: streamlit
+  battmo_gui:
+    build: ./battmo_gui
+    container_name: battmo_gui
     restart: always
     ports:
       - "8501:8501"
     volumes:
-      - ./streamlit:/app
+      - ./battmo_gui:/app
     depends_on:
-      - genie
+      - battmo_jl_api
 
     command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501

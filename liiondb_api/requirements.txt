@@ -1,0 +1,10 @@
+SQLAlchemy==2.0.29
+flask==3.0.3
+flask_restful==0.3.10
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
+setuptools==69.5.1
+streamlit==1.33.0
+awesome_streamlit==20200728.1
+matplotlib==3.8.4
+markdown==3.6

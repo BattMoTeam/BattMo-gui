@@ -2,10 +2,10 @@ version: "3.3"
 
 services:
 
-  genie:
-    image: ghcr.io/battmoteam/battmogui_genie:latest
-    build: ./genie
-    container_name: genie
+  battmo_jl_api:
+    image: ghcr.io/battmoteam/battmogui_battmo_jl_api:latest
+    build: ./battmo_jl_api
+    container_name: battmo_jl_api
     restart: always
     ports:
       - "8000:8000"
@@ -21,13 +21,13 @@ services:
       - "8001:8001"
       - "8002:8002"
     depends_on:
-      - genie
-      - streamlit
+      - battmo_jl_api
+      - battmo_gui
  
-  streamlit:
-    image: ghcr.io/battmoteam/battmogui_streamlit:latest
-    build: ./streamlit
-    container_name: streamlit
+  battmo_gui:
+    image: ghcr.io/battmoteam/battmogui_battmo_gui:latest
+    build: ./battmo_gui
+    container_name: battmo_gui
     restart: always
     ports:
       - "80:80"

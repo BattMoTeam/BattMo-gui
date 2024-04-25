@@ -1699,7 +1699,7 @@ class RunSimulation:
         #self.gui_file_name = "gui_output_parameters.json"
         #self.file_mime_type = "application/json"
 
-        self.api_url = "http://genie:8000/run_simulation"
+        self.api_url = "http://battmo_jl_api:8000/run_simulation"
         self.json_input_folder = 'BattMoJulia'
         self.json_input_file = 'battmo_formatted_input.json'
         self.julia_module_folder = 'BattMoJulia'
