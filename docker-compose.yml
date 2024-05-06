@@ -1,6 +1,15 @@
 version: "3.3"
 
 services:
+  # liiondb_api:
+  #   build: ./liiondb_api
+  #   container_name: liiondb_api
+  #   restart: always
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./liiondb_api:/app
+  #   command: python wsgi.py
 
   battmo_jl_api:
     build: ./battmo_jl_api
