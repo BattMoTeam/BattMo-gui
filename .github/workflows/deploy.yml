@@ -37,9 +37,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Mirror changes
-        env:
-          GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
         run: |
-          git remote add gitlab ${{ env.GITLAB_URL }}
+          # Set GitLab URL with embedded PAT
+          GITLAB_URL="https://${GITLAB_PAT}@gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git"
+          git remote add gitlab $GITLAB_URL
           git fetch origin
           git push --mirror gitlab
