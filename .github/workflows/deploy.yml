@@ -6,15 +6,14 @@ on:
       - main
 
 env:
-  SSH_USER: lhendrix
-  SSH_HOST: 51.68.188.78
   REGISTRY: ghcr.io
   IMAGE_NAME: battmoteam/battmogui:latest
   WORKDIR: battmogui
+  GITLAB_URL: https://gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git
 
 jobs:
   publish:
-    name: publish image
+    name: publish docker images
     runs-on: ubuntu-latest
 
     steps:
@@ -30,25 +29,17 @@ jobs:
       - name: Publish
         run: docker-compose -f docker-compose-deploy.yml push
 
-  deploy:
-    name: Deploy image
+  mirror:
+    name: mirror repository to GitLab
     runs-on: ubuntu-latest
-    needs: publish
-    
     steps:
-    - name: Install SSH keys
-      run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
-    - name: Test SSH Connection
-      run: ssh -o StrictHostKeyChecking=no ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
-    - name: Login to Registry
-      run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin  
-    - name: Pull and Run Containers
-      run: |
-        ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && \
-        docker compose -f docker-compose.yml pull && \
-        docker compose -f docker-compose.yml up -d"
-    - name: Cleanup
-      run: rm -rf ~/.ssh
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Mirror changes
+        env:
+          GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
+        run: |
+          git remote add gitlab ${{ env.GITLAB_URL }}
+          git fetch origin
+          git push --mirror gitlab
