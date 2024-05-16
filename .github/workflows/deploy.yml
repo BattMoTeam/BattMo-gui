@@ -40,4 +40,4 @@ jobs:
         run: |
           git remote add gitlab ${{ env.GITLAB_URL }}
           git fetch origin main
-          git push --mirror gitlab main:dev
+          git push --mirror gitlab
