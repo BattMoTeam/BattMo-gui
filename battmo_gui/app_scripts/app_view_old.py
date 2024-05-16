@@ -930,10 +930,10 @@ class SetTabs:
             "current_collector": length*width*CC_thickness*10**(-6)
         }
         
-        li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
-        li_stoich_min_ne = input_dict.ne.am.get("minimum_lithium_stoichiometry").get("value")
-        li_stoich_max_pe =  input_dict.pe.am.get("maximum_lithium_stoichiometry").get("value")
-        li_stoich_min_pe = input_dict.pe.am.get("minimum_lithium_stoichiometry").get("value")
+        li_stoich_max_ne =  input_dict.ne.am.get("maximum_soc_stoichiometry").get("value")
+        li_stoich_min_ne = input_dict.ne.am.get("minimum_soc_stoichiometry").get("value")
+        li_stoich_max_pe =  input_dict.pe.am.get("maximum_soc_stoichiometry").get("value")
+        li_stoich_min_pe = input_dict.pe.am.get("minimum_soc_stoichiometry").get("value")
         n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
         
         # Specific capacity active materials

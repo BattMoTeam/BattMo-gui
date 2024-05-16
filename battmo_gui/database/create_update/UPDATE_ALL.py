@@ -19,9 +19,9 @@ Update all db tables, according to the information stored in the different json 
 Those files are located in the directory python/resources/db/resources
 """
 
-#########################################
-# RUN FILE TO UPDATE EVERYTHING
-#########################################
+###################################################################################
+# RUN FILE TO UPDATE EVERYTHING (first run db_model.py file to empty the database)
+###################################################################################
 
 if __name__ == "__main__":
     # IF NEEDED, uncomment following lines to reset table, in order to update template parameters' order

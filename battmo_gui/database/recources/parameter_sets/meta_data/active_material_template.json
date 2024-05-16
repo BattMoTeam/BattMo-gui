@@ -160,7 +160,7 @@
          "unit_iri": "https://w3id.org/emmo#MolePerSquareMetrePerSecond",
          "display_name": "Reaction rate constant"
       },
-      "maximum_lithium_stoichiometry": {
+      "maximum_soc_stoichiometry": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",
@@ -176,7 +176,7 @@
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
          "display_name": "Maximum lithium stoichiometry"
       },
-      "minimum_lithium_stoichiometry": {
+      "minimum_soc_stoichiometry": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",

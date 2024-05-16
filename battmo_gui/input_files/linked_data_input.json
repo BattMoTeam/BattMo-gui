@@ -142,7 +142,7 @@
                         }
                      },
                      {
-                        "label": "maximum_lithium_stoichiometry",
+                        "label": "maximum_soc_stoichiometry",
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
@@ -155,7 +155,7 @@
                         }
                      },
                      {
-                        "label": "minimum_lithium_stoichiometry",
+                        "label": "minimum_soc_stoichiometry",
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
@@ -627,7 +627,7 @@
                         }
                      },
                      {
-                        "label": "maximum_lithium_stoichiometry",
+                        "label": "maximum_soc_stoichiometry",
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
@@ -640,7 +640,7 @@
                         }
                      },
                      {
-                        "label": "minimum_lithium_stoichiometry",
+                        "label": "minimum_soc_stoichiometry",
                         "@type": "emmo:StoichiometricNumberOfSubstance",
                         "value": {
                            "@type": "emmo:Numerical",
@@ -1450,7 +1450,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 3
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",

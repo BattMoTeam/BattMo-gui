@@ -174,8 +174,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "numberOfElectronsTransferred": json_ld.ne.am.get("number_of_electrons_transferred").get("value"),
                         "activationEnergyOfReaction": json_ld.ne.am.get("activation_energy_of_reaction").get("value"),
                         "reactionRateConstant": json_ld.ne.am.get("reaction_rate_constant").get("value"),
-                        "guestStoichiometry100": json_ld.ne.am.get("maximum_lithium_stoichiometry").get("value"),
-                        "guestStoichiometry0": json_ld.ne.am.get("minimum_lithium_stoichiometry").get("value"),
+                        "guestStoichiometry100": json_ld.ne.am.get("maximum_soc_stoichiometry").get("value"),
+                        "guestStoichiometry0": json_ld.ne.am.get("minimum_soc_stoichiometry").get("value"),
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",
@@ -235,8 +235,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "numberOfElectronsTransferred": json_ld.pe.am.get("number_of_electrons_transferred").get("value"),
                         "activationEnergyOfReaction": json_ld.pe.am.get("activation_energy_of_reaction").get("value"),
                         "reactionRateConstant": json_ld.pe.am.get("reaction_rate_constant").get("value"),
-                        "guestStoichiometry100": json_ld.pe.am.get("maximum_lithium_stoichiometry").get("value"),
-                        "guestStoichiometry0": json_ld.pe.am.get("minimum_lithium_stoichiometry").get("value"),
+                        "guestStoichiometry100": json_ld.pe.am.get("maximum_soc_stoichiometry").get("value"),
+                        "guestStoichiometry0": json_ld.pe.am.get("minimum_soc_stoichiometry").get("value"),
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",

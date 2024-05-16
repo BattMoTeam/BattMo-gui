@@ -170,7 +170,7 @@
    "Control": {
       "controlPolicy": "CCCV",
       "initialControl": "discharging",
-      "numberOfCycles": 3,
+      "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,

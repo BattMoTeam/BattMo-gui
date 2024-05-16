@@ -10,8 +10,8 @@
        "number_of_electrons_transferred": 1,
        "activation_energy_of_reaction":1,
        "reaction_rate_constant": 1,
-       "maximum_lithium_stoichiometry": 0.2,
-       "minimum_lithium_stoichiometry": 0.1,
+       "maximum_soc_stoichiometry": 0.2,
+       "minimum_soc_stoichiometry": 0.1,
        "open_circuit_potential": {
           "functionname": "compute_ocp_nmc111",
           "argument_list": [

@@ -2,6 +2,7 @@ from PIL import Image
 import pprint
 import json
 import pickle
+import pandas as pd
 import io
 import h5py
 import streamlit as st
@@ -576,10 +577,10 @@ class SetTabs:
             "current_collector": length*width*CC_thickness*10**(-6)
         }
         
-        li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
-        li_stoich_min_ne = input_dict.ne.am.get("minimum_lithium_stoichiometry").get("value")
-        li_stoich_max_pe =  input_dict.pe.am.get("maximum_lithium_stoichiometry").get("value")
-        li_stoich_min_pe = input_dict.pe.am.get("minimum_lithium_stoichiometry").get("value")
+        li_stoich_max_ne =  input_dict.ne.am.get("maximum_soc_stoichiometry").get("value")
+        li_stoich_min_ne = input_dict.ne.am.get("minimum_soc_stoichiometry").get("value")
+        li_stoich_max_pe =  input_dict.pe.am.get("maximum_soc_stoichiometry").get("value")
+        li_stoich_min_pe = input_dict.pe.am.get("minimum_soc_stoichiometry").get("value")
         n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
         
         # Specific capacity active materials
@@ -3814,7 +3815,7 @@ class SetMaterialDescription():
     """
     def __init__(self):
     
-
+        self.liiondb_api_url = "http://liiondb_api:5000/"
         self.set_material_description()
 
     def set_material_description(self):
@@ -3837,7 +3838,7 @@ class SetMaterialDescription():
             display_names.append(display_name)
 
 
-        select = st.multiselect(label = "Materials",options = display_names, label_visibility="collapsed")
+        select = st.multiselect(label = "Default materials",options = display_names, label_visibility="visible")
 
         for material_values in materials:
             
@@ -3902,6 +3903,185 @@ class SetMaterialDescription():
                                             value + " / " + "[{}]({})".format(unit, unit_iri))
 
 
+        components = ["Negative electrode Active material", "Positive electrode Active material", "Electrolyte", "Separator"]
+
+        liiondb_materials = self.retrieve_liiondb_data(components)    
+    
+
+        material_paper_tag_list = liiondb_materials['material_paper_tag'].tolist()
+
+        select_ = st.multiselect(label = "LiionDB materials",options = material_paper_tag_list, label_visibility="visible")
+
+        for name in material_paper_tag_list:
+            for choice_ in select_:
+                if choice_==name:
+
+                    filtered_df = liiondb_materials[liiondb_materials['material_paper_tag'] == name]
+                    parameter_names = np.array(filtered_df['parameter_names'])[0]
+                    raw_data_values = list(filtered_df['raw_data_values'])[0]
+                    units_output_values = list(filtered_df['units_output_values'])[0]
+                    doi_values = filtered_df['doi_values']
+
+                    with st.expander("{} information".format(name)):
+                            #st.markdown("**Context**:")
+                            #st.write("[{}]({})".format(context_type_encoded + " ", context_type_iri))
+                            if reference_link:
+                                st.markdown("**DOI**:")
+                                st.write(np.squeeze(doi_values)[0])
+                                #st.write("[{}]({})".format(reference, reference_link))
+                            st.markdown("**Parameter values**:")
+    
+                            for i,parameter in enumerate(parameter_names):
+
+                                try:
+                                    units_output_values[i]
+
+                                except:
+                                    units_output_values.append("none")
+
+                                try:
+                                    raw_data_values[i]
+
+                                except:
+                                    raw_data_values.append("none")
+
+                                st.write(parameter, " = ",
+                                                raw_data_values[i], " / ", units_output_values[i])
+                                
+
+                            
+                            
+                            
+                            # if template_parameter_name == "open_circuit_potential" or template_parameter_name == "conductivity" or template_parameter_name == "diffusion_coefficient":
+                        
+                            #     json_formatted_string = value.replace("'", '"')
+                            #     value_dict = json.loads(json_formatted_string)
+                            #     st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))
+                                
+                            #     if "function" in value_dict:
+
+                            #         st.markdown('''```<Julia> 
+                            #                     {}'''.format(value_dict["function"]))
+                            #         string_py = value_dict["function"].replace("^", "**")
+
+                                    
+                        
+                            #         fun = st.toggle(
+                            #             label = "Visualize function",
+                            #             key = "toggle_{}_{}".format(parameter_name, name)
+                            #             )
+                            #         if fun:
+                            #             if len(string_py) == 0:
+                            #                 st.write("This material doesn't include the function yet.")
+                            #             else:
+                            #                 st.latex(sp.latex(sp.sympify(string_py)))
+                                    
+                            #     else:
+                            #         st.markdown('''```<Julia> 
+                            #                     {}'''.format(value_dict["functionname"]))
+
+                            # else:
+
+                            #     st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 
+                            #                 value + " / " + "[{}]({})".format(unit, unit_iri))
+
+       
+        # if select == "data":
+        #     st.write(response.content)
+
+    @st.cache_data
+    def retrieve_liiondb_data(_self,components):
+        data_df = pd.DataFrame()
+        for component in components:
+            response = requests.post(_self.liiondb_api_url, data=component).json()
+
+            response_dict = json.loads(response)
+            response_pd = pd.DataFrame(response_dict)
+            response_pd['material_paper_tag'] = response_pd['material'] + ' (' + response_pd['paper_tag'] + ') '
+            response_pd['parameter_count'] = response_pd.groupby(['material', 'paper_tag'])['parameter'].transform('nunique')
+
+            if component == "Negative electrode Active material" or component == "Positive electrode Active material":
+                wanted_parameters_am = ["electronic conductivity", "half cell ocv", "maximum concentration","particle surface area per unit volume", "particle radius", "minimum soc stoichiometry", "maximum soc stoichiometry"]
+                # Filter the DataFrame to keep only the rows where the 'parameter' column matches any value in the parameter_names list
+                filtered_df = response_pd[response_pd['parameter'].isin(wanted_parameters_am)]   
+
+                value_df = filtered_df[(filtered_df['material'] =='Graphite-Silicon') & (filtered_df['parameter'] == 'half cell ocv') & (filtered_df['paper_tag'] == 'Chen2020')]
+
+                if not value_df.empty:
+                    values = value_df['raw_data'].values[0]
+
+                    # Remove outer curly braces
+                    data_string = values[2:-2]
+
+                    # Split string into individual tuple strings
+                    tuple_strings = data_string.split("},{")
+
+                    # Parse each tuple string into a tuple of floats
+                    data_array = np.transpose(np.array([(float(tuple_str.split(",")[0]), float(tuple_str.split(",")[1])) for tuple_str in tuple_strings]))
+
+                    N = len(data_array[0,:])
+
+                    data_x = np.zeros(N)
+                    data_y = np.zeros(N)
+                    for i in range(N):
+                        data_x[i] = data_array[0,i]
+                        data_y[i] = data_array[1,i]
 
 
+
+                    dict = {
+                        "x": list(data_x),
+                        "y": list(data_y)
+                    }
+
+                    with open("json.json", 'w') as f:
+                        json.dump(dict,f)
+
+                # Use the rename() method to change the column name
+                filtered_df.loc[filtered_df['parameter'] == 'electronic conductivity', 'parameter'] = 'Electronic conductivity'
+                filtered_df.loc[filtered_df['parameter'] == 'half cell ocv', 'parameter'] = 'Open circuit potential'
+                filtered_df.loc[filtered_df['parameter'] == 'maximum concentration', 'parameter'] = 'Maximum concentration'
+                filtered_df.loc[filtered_df['parameter'] == 'particle surface area per unit volume', 'parameter'] = 'Volumetric surface area'
+                filtered_df.loc[filtered_df['parameter'] == 'particle radius', 'parameter'] = 'Particle radius'
+                filtered_df.loc[filtered_df['parameter'] == 'minimum soc stoichiometry', 'parameter'] = 'Minimum soc stoichiometry'
+                filtered_df.loc[filtered_df['parameter'] == 'maximum soc stoichiometry', 'parameter'] = 'Maximum soc stoichiometry'
+                
+                filtered_df = filtered_df[filtered_df['parameter_count'] >= 5]
+
+            if component == "Electrolyte":
+                wanted_parameters_elyte = ["ionic conductivity", "diffusion coefficient","transference number"]
+                # Filter the DataFrame to keep only the rows where the 'parameter' column matches any value in the parameter_names list
+                filtered_df = response_pd[response_pd['parameter'].isin(wanted_parameters_elyte)]      
+                # Use the rename() method to change the column name
+                filtered_df.loc[filtered_df['parameter'] == 'ionic conductivity', 'parameter'] = 'Conductivity'
+                filtered_df.loc[filtered_df['parameter'] == 'diffusion coefficient', 'parameter'] = 'Diffusion coefficient'
+                filtered_df.loc[filtered_df['parameter'] == 'transference number', 'parameter'] = 'Charge carrier transference number'
+
+                filtered_df = filtered_df[~(filtered_df['paper_tag'] == 'Chen2020')]
+                filtered_df = filtered_df[filtered_df['parameter_count'] >= 2]
+
+            elif component == "Separator":
+                wanted_parameters_sep = ["density"]
+                # Filter the DataFrame to keep only the rows where the 'parameter' column matches any value in the parameter_names list
+                filtered_df = response_pd[response_pd['parameter'].isin(wanted_parameters_sep)]      
+                # Use the rename() method to change the column name
+                filtered_df.loc[filtered_df['parameter'] == 'density', 'parameter'] = 'Density'
+                filtered_df = filtered_df[~(filtered_df['paper_tag'] == 'Chen2020')]
+                filtered_df = response_pd[response_pd['parameter_count'] >= 1]
+                
+            data_df = pd.concat([data_df, filtered_df], ignore_index=True)
+
+        liiondb_materials = data_df.groupby('material_paper_tag').agg(
+            parameter_names=('parameter', lambda x: x.unique().tolist()),
+            raw_data_values=('raw_data', lambda x: x.tolist()),
+            units_output_values=('units_output', lambda x: x.tolist()),
+            doi_values=('doi', lambda x: x.unique().tolist())
+
+            
+        ).reset_index()
+
+
+        
+
+        return liiondb_materials
 

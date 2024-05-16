@@ -375,8 +375,8 @@ class GuiInputFormatting():
             "number_of_electrons_transfered": dict.get("numberOfElectronsTransfered"),
             "activation_energy_of_reaction": dict.get("activationEnergyOfReaction"),
             "reaction_rate_constant": dict.get("reactionRateConstant"),
-            "maximum_lithium_stoichiometry": dict.get("maximumLithiumStoichiometry"),
-            "minimum_lithium_stochiometry": dict.get("minimumLithiumStochiometry"),
+            "maximum_soc_stoichiometry": dict.get("maximumSOCStoichiometry"),
+            "minimum_soc_stochiometry": dict.get("minimumSOCStochiometry"),
             "open_circuit_potential": {
                 "function": dict.get("openCircuitPotential").get("function"),
                 "argumentlist": dict.get("openCircuitPotential").get("argumentlist")
