@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: battmoteam/battmogui:latest
   WORKDIR: battmogui
-  GITLAB_URL: "https://${{ secrets.GITLAB_PAT}}@gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git"
+  GITLAB_URL: "https://lorena.hendrix:${{ secrets.GITLAB_PAT}}@gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git"
 
 jobs:
   publish:
