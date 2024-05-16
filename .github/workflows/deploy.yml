@@ -39,5 +39,5 @@ jobs:
       - name: Mirror changes
         run: |
           git remote add gitlab ${{ env.GITLAB_URL }}
-          git fetch origin
+          git fetch origin main
           git push --mirror gitlab
