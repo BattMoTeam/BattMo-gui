@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: battmoteam/battmogui:latest
   WORKDIR: battmogui
-  GITLAB_URL: https://gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git
+  GITLAB_URL: "https://${{ secrets.GITLAB_PAT}}@gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git"
 
 jobs:
   publish:
@@ -38,8 +38,6 @@ jobs:
 
       - name: Mirror changes
         run: |
-          # Set GitLab URL with embedded PAT
-          GITLAB_URL="https://${GITLAB_PAT}@gitlab.sintef.no/FFP-products/prod/webapp-instances/102023526-1006.git"
-          git remote add gitlab $GITLAB_URL
+          git remote add gitlab ${{ env.GITLAB_URL }}
           git fetch origin
           git push --mirror gitlab
