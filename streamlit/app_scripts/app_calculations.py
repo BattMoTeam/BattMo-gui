@@ -113,3 +113,9 @@ def calc_cell_capacity(capacities_electrodes):
 
     return Qcell
 
+
+@st.cache_data
+def calc_round_trip_efficiency():
+    
+
+    return
