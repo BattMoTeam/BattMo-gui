@@ -62,7 +62,9 @@ class UpdateParameterSets:
         """
         name = parameter_set.get("Name")
         type = parameter_set.get("Type")
+
         component = parameter_set.get("component")
+
         material = int(parameter_set.get("material"))
         parameters = parameter_set.get("Parameters")
 
@@ -73,28 +75,68 @@ class UpdateParameterSets:
         #assert component is not None, "component of parameter_set {} is not defined".format(name)
         assert parameters is not None, "Parameters of parameter_set {} is not defined".format(name)
 
-        component_id = self.sql_component.get_id_from_name(component)
+        if isinstance(component, list):
+            component_id = []
+            for component_name in component:
+                print("name = ",component_name)
+
+                component_id.append(self.sql_component.get_id_from_name(component_name))
+        else:
+            component_id = self.sql_component.get_id_from_name(component)
+
         display_name = parameter_set.get("display_name")  #not correct yet
         #assert component_id is not None, "component = {} is not specified in components.json. path={}".format(component, path)
         
         #test = self.sql_materials.get_material_id_by_parameter_set_name(component_id)
         #print("test=", test)
         #material = int(self.sql_parameter_set.get_material_from_name(name))
-     
+        print("id = ",component_id)
         if material == True:
             
-
+            print("name = ",name)
             material_id = np.squeeze(db_helper.get_material_id_by_parameter_set_name(name)).astype(str)
             
-            parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
-                name=name,
-                component_id=component_id,
-                material= material,
-                material_id = material_id
-            )
+            if isinstance(component, list):
+                for id in component_id:
+                    
+                    parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
+                        name=name,
+                        component_id=id,
+                        material= material,
+                        material_id = material_id
+                    )
+
+                    formatted_parameters = self.format_parameters(
+                    parameters=parameters,
+                    parameter_set_id=parameter_set_id,
+                    component_id=id,
+                    display_name = display_name,
+                    parameter_set_name = name
+                )
+
+                if parameter_set_already_exists:
+                    if self.print_details:
+                        print("\n Updating {}".format(name))
+                    self.update_parameters(parameters=formatted_parameters)
+
+                else:
+                    if self.print_details:
+                        print("\n Creating {}".format(name))
+                    self.add_parameters(parameters=formatted_parameters)
+
+                
+
+                return parameter_set_id, parameter_set_already_exists, name
+            else:
+                parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
+                        name=name,
+                        component_id=component_id,
+                        material= material,
+                        material_id = material_id
+                    )
         
         else:
-            print("name = ",name)
+  
             parameter_set_id, parameter_set_already_exists = self.create_or_update_parameter_set(
                 name=name,
                 component_id=component_id,

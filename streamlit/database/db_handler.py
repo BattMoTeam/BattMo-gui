@@ -84,7 +84,7 @@ class ParameterSetHandler(BaseHandler):
     def get_id_by_name_and_category(self, name, component_id):
         res = self.select_one(
             values="*",
-            where="name = '%s' and component_id = %d" % (name, component_id)
+            where="name = '%s' and component_id Like %d" % (name, component_id)
         )
         return res[0] if res else None
 

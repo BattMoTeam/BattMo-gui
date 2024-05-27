@@ -4133,8 +4133,7 @@ class SetGraphs():
     
     def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
         
-        # st.write(x_data)
-        # st.write(y_data)
+   
         fig = px.line(x=x_data, y=y_data)
 
         fig.update_traces(line=dict(width=5))

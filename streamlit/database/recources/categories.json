@@ -79,7 +79,7 @@
             "display_name": "Active Material",
             "tab_name": "negative_electrode",
             "description": "",
-            "default_template": "active_material_template"
+            "default_template": "ne_active_material_template"
         },
         "negative_electrode_binder": {
             "model_name": ["P2D","P3D"],
@@ -89,7 +89,7 @@
             "display_name": "Binder",
             "tab_name": "negative_electrode",
             "description": "",
-            "default_template": "binder_template"
+            "default_template": "ne_binder_template"
         },
         "negative_electrode_additive": {
             "model_name": ["P2D","P3D"],
@@ -99,7 +99,7 @@
             "display_name": "Additive",
             "tab_name": "negative_electrode",
             "description": "",
-            "default_template": "additive_template"
+            "default_template": "ne_additive_template"
         },
         "negative_electrode_properties": {
             "model_name": ["P2D","P3D"],
@@ -120,7 +120,7 @@
             "display_name": "Active Material",
             "tab_name": "positive_electrode",
             "description": "",
-            "default_template": "active_material_template"
+            "default_template": "pe_active_material_template"
         },
         "positive_electrode_binder": {
             "model_name": ["P2D","P3D"],
@@ -130,7 +130,7 @@
             "display_name": "Binder",
             "tab_name": "positive_electrode",
             "description": "",
-            "default_template": "binder_template"
+            "default_template": "pe_binder_template"
         },
         "positive_electrode_additive": {
             "model_name": ["P2D","P3D"],
@@ -140,7 +140,7 @@
             "display_name": "Additive",
             "tab_name": "positive_electrode",
             "description": "",
-            "default_template": "additive_template"
+            "default_template": "pe_additive_template"
         },
         "positive_electrode_properties": {
             "model_name": ["P2D","P3D"],
