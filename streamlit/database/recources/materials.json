@@ -229,6 +229,22 @@
             "default_material": true
 
         },
+        "LiFePO4_Gerver2011":{
+            "model_name": ["P2D","P3D"],
+            "difficulty": "basis",
+            "is_shown_to_user": true,
+            "reference_name": "Gerver, Rachel E., et al. 2011",
+            "reference": "Gerver, Rachel E., and Jeremy P. Meyers. \u0022Three-dimensional modeling of electrochemical performance and heat generation of lithium\u2013ion batteries in tabbed planar configurations.\u0022 Journal of The Electrochemical Society 158.7 (2011): A835.",
+            "reference_url": "https://iopscience.iop.org/article/10.1149/1.3591799",
+            "context_type": "echem:LithiumIronPhosphateElectrode",
+            "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_1d0f15cb_d6b5_4c27_89ca_fe78adc1ce5b",
+            "display_name": "LiFePO4 (Gerver\u20132011)",
+            "number_of_components": 1,
+            "component_name_1": "positive_electrode_active_material",
+            "description": "",
+            "default_material": true
+
+        },
         "user_defined_pe_am":{
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
