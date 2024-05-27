@@ -25,8 +25,8 @@ class AppController:
     def set_model_choice(self):
         return view.SetModelChoice()
 
-    def set_tabs(self, model_id):
-        return view.SetTabs(self.images, model_id, self.context)
+    def set_tabs(self, model_id,liiondb_data):
+        return view.SetTabs(self.images, model_id,liiondb_data, self.context)
 
     def set_json_viewer(self, json_data, label=None):
         if label:

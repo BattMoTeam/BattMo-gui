@@ -174,7 +174,7 @@
          "unit": "1",
          "unit_name": "UnitOne",
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
-         "display_name": "Maximum lithium stoichiometry"
+         "display_name": "Maximum soc stoichiometry"
       },
       "minimum_soc_stoichiometry": {
          "model_name": ["P2D","P3D"],
@@ -190,7 +190,7 @@
          "unit": "1",
          "unit_name": "UnitOne",
          "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
-         "display_name": "Minimum lithium stoichiometry"
+         "display_name": "Minimum soc stoichiometry"
       },
       "activation_energy_of_diffusion": {
          "model_name": ["P2D","P3D"],
@@ -262,6 +262,7 @@
          "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_d91940f0_c8b6_4505_9b68_6bf6cfc5c544",
          "dscription": "the open-circuit potential of the active material under given concentration and temperature conditions",
          "type": "function",
+         "unit": "V",
          "unit_iri":"https://w3id.org/emmo#Volt",
          "display_name": "Open circuit potential"
       },

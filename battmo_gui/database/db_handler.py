@@ -219,6 +219,13 @@ class TemplateParameterHandler(BaseHandler):
             where="name='%s'" % name
         )
         return res[0]
+    
+    def get_all_by_display_name(self, name):
+        res = self.select(
+            values='*',
+            where="display_name='%s'" % name
+        )
+        return res[0] if res else None
          
     
     def get_all_by_template_id(self, template_id):

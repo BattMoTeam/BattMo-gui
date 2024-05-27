@@ -49,6 +49,12 @@ def get_path_to_input_files_dir():
     return input_files_path
 
 @st.cache_data
+def get_path_to_liiondb_data():
+    input_files_path = get_path_to_input_files_dir()
+    liiondb_input_path = os.path.join(input_files_path, "liiondb_data.json")
+    return liiondb_input_path
+
+@st.cache_data
 def get_path_to_battmo_formatted_input():
     input_files_path = get_path_to_input_files_dir()
     battmo_formatted_input_path = os.path.join(input_files_path, "battmo_formatted_input.json")

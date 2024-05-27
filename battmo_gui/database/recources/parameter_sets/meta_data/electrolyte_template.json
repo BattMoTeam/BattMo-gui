@@ -180,7 +180,8 @@
          "difficulty": "basis",
          "description": "the ionic conductivity of the electrolyte under given concentration and temparture conditions",
          "type": "function",
-         "unit_iri":"https://w3id.org/emmo#SiemensPerCentiMetre",
+         "unit": "S\u00B7m\u207b",
+         "unit_iri":"https://w3id.org/emmo#SiemensPerMetre",
          "display_name": "Conductivity"
       },
       "diffusion_coefficient": {
@@ -190,6 +191,8 @@
          "difficulty": "basis",
          "description": "the diffusion coefficient of the charge carrier in the electrolyte",
          "type": "function",
+         "unit": "m\u00b2\u00B7m\u207b",
+         "unit_iri":"https://w3id.org/emmo#SquareMetrePerSecond",
          "display_name": "Diffusion coefficient"
       }
    }

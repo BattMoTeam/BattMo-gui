@@ -24,7 +24,7 @@ st.set_page_config(
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage
 from database import db_helper
-from app_scripts import app_access
+from app_scripts import app_access, format_liiondb
 
 ##############################
 # Remember user changed values when switching between pages
@@ -86,14 +86,24 @@ def run_page():
     # # Display a warning message if there was a delay
     # if "theme" not in st.session_state:
     #     st.warning("Give it a short moment")
+    liiondb_class = format_liiondb.RetrieveAndFormatLiionDB()
+    success, liiondb_data = liiondb_class.create_liiondb_data_file()
+
+    if success:
+        pass
+    else:
+        with open(app_access.get_path_to_liiondb_data(), 'r') as f:
+            liiondb_data = json.load(f)
+
+
 
     log_memory_usage()
 
     app = get_app_controller()
 
-    model_id = app.set_model_choice().selected_model
+    model_id = app.set_model_choice().selected_model 
 
-    gui_parameters = app.set_tabs(model_id).user_input
+    gui_parameters = app.set_tabs(model_id,liiondb_data).user_input
 
     #st.write("---")
     app.set_indicators(page_name)

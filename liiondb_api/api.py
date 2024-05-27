@@ -21,7 +21,7 @@ def create_query(material_name):
     
 
     query = '''
-            SELECT DISTINCT parameter.symbol,parameter.name as parameter, material.name as material,data.raw_data, parameter.units_output, paper.paper_tag, paper.doi
+            SELECT DISTINCT parameter.symbol,parameter.name as parameter, material.name as material,data.raw_data, parameter.units_output, parameter.units_input, paper.paper_tag, paper.doi
             FROM data
             JOIN paper ON paper.paper_id = data.paper_id
             JOIN material ON material.material_id = data.material_id
