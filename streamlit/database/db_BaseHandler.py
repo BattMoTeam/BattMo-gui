@@ -102,6 +102,19 @@ class BaseHandler:
             cur.execute(sql_query)
             con.commit()
 
+    def update(self,set, where=None):
+        if where:
+            query = """
+                        UPDATE {} SET {} WHERE {}
+                    """.format(self._table_name,set, where)
+        else:
+            query = """
+                        UPDATE {} SET {}
+                    """.format(self._table_name,set)
+        cur.execute(query)
+        con.commit()
+
+
     def delete_by_id(self, id):
         cur.execute("DELETE FROM %s WHERE id=%d" % (self._table_name, id))
         con.commit()

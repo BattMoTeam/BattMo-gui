@@ -168,6 +168,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "open_circuit_potential",
                         "@type": "string",
                         "value": {
@@ -193,19 +206,6 @@
                            "label": "UnitOne",
                            "symbol": "1",
                            "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1070,48 +1070,6 @@
                   }
                },
                {
-                  "label": "charge_carrier_name",
-                  "@type": "echem:ChargeCarrierIon",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": "Li"
-                  }
-               },
-               {
-                  "label": "charge_carrier_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
-                  }
-               },
-               {
-                  "label": "counter_ion_name",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_transference_number",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.7406
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
-                  }
-               },
-               {
                   "label": "conductivity",
                   "@type": "string",
                   "value": {
@@ -1137,6 +1095,74 @@
                            "c"
                         ]
                      }
+                  }
+               },
+               {
+                  "label": "charge_carrier_name",
+                  "@type": "echem:ChargeCarrierIon",
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": "Li"
+                  }
+               },
+               {
+                  "label": "charge_carrier_charge_number",
+                  "@type": "emmo:ChargeNumber",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "charge_carrier_transference_number",
+                  "@type": "string",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "counter_ion_name",
+                  "@type": "string",
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": "PF6"
+                  }
+               },
+               {
+                  "label": "counter_ion_charge_number",
+                  "@type": "emmo:ChargeNumber",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": -1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "counter_ion_transference_number",
+                  "@type": "string",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {

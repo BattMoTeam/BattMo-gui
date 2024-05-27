@@ -95,7 +95,6 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    #st.write("---")
     app.set_indicators(page_name)
     #st.divider()
 

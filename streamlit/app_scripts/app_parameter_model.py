@@ -246,6 +246,7 @@ class FormatParameters:
 
         material_display_names = []
         index_set = 0
+
         for parameter_set in parameter_sets:
             parameter_set_id, \
             parameter_set, \
@@ -255,19 +256,22 @@ class FormatParameters:
            
             material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
             material_display_names.append(material_display_name)
-
+      
             raw_parameters_set = raw_parameters[index_set]
             
             # Create list with parameter set ids
+            
             raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
           
             parameter_ids = []
             parameter_names = []
             template_parameter_ids = []
             parameter_values = []
+            parameter_display_names = []
             
             index_set += 1
             index_parameter =0
+
             for parameter in raw_parameters_set:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
@@ -319,6 +323,7 @@ class FormatParameters:
                     
                     values.append(formatted_value)
                     parameter_display_name = template_parameter.display_name
+                    parameter_display_names.append(parameter_display_name)
                     parameter_name = template_parameter.name
 
                     # each parameter has metadata from the "template", to which we add the options containing value and origin
@@ -357,7 +362,7 @@ class FormatParameters:
                 parameter_ids = parameter_ids,
                 parameter_names = parameter_names,
                 parameter_values=values,
-                parameter_display_names = parameter_display_name
+                parameter_display_names = parameter_display_names
                 
             )
             #template_parameter.set_selected_value(formatted_value)
@@ -368,7 +373,6 @@ class FormatParameters:
 
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
         
-
         if np.ndim(raw_parameters) > 1:
   
             # initialize from template parameters
@@ -558,7 +562,6 @@ class FormatParameters:
 
     def initialize_parameters(self, raw_template_parameters):
         initialized_parameters = {}
-       
         if np.ndim(raw_template_parameters) > 1:
             
             for template_parameter in raw_template_parameters:
@@ -578,7 +581,7 @@ class FormatParameters:
                     min_value, \
                     is_shown_to_user, \
                     description,  \
-                    display_name = template_parameter
+                    display_name = np.squeeze(template_parameter)
                 
                 parameter_id = int(parameter_id)
 
