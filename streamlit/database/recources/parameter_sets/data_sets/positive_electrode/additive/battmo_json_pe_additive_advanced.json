@@ -4,6 +4,9 @@
    "component": "positive_electrode_additive_advanced",
    "material": false,
    "Parameters": {
-      "electronic_conductivity": 100
+      "electronic_conductivity": 100,
+      "density": 1800,
+      "specific_heat_capacity": 300,
+      "thermal_conductivity": 0.5
    }
 }

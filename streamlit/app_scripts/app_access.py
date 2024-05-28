@@ -211,6 +211,11 @@ def get_sqlite_con_and_cur():
     con = sqlite3.connect(database, check_same_thread=False)
     return con, con.cursor()
 
+def get_sqlite_con_and_cur_thread_safe():
+    database = get_path_to_database()
+    con = sqlite3.connect(database, check_same_thread=False)
+    return con, con.cursor()
+
 @st.cache_data
 def get_json_from_path(path):
     with open(path) as file_content:

@@ -1,9 +1,11 @@
 import os
 import sys
+from threading import Lock
+db_lock = Lock()
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts import app_access
-con, cur = app_access.get_sqlite_con_and_cur()
+
 
 
 class BaseHandler:
@@ -38,9 +40,44 @@ class BaseHandler:
         
         # Convert values to strings
         string_values = [str(val) for val in values]
-        cur.execute(query, tuple(string_values))
-        con.commit()
-        return cur.lastrowid
+        with db_lock:
+            con, cur = app_access.get_sqlite_con_and_cur()
+            try: 
+
+                cur.execute(query, tuple(string_values))
+            finally:
+                cur.close()
+                con.commit()
+                con.close()
+            return cur.lastrowid
+        
+    def thread_safe_db_access(self,query, params = None, fetch = None):
+        with db_lock:
+            con, cur = app_access.get_sqlite_con_and_cur()
+            try: 
+                if params:
+                    if fetch == "fetchall":
+                        results = cur.execute(query, params).fetchall()
+                    elif fetch == "fetchone":
+                        results = cur.execute(query, params).fetchone()
+                    else:
+                        cur.execute(query, params)
+                        results=None
+
+                else:
+                    if fetch == "fetchall":
+                        results = cur.execute(query).fetchall()
+                    elif fetch == "fetchone":
+                        results = cur.execute(query).fetchone()
+                    else:
+                        cur.execute(query)
+                        results=None
+            finally:
+                cur.close()
+                con.commit()
+                con.close()
+            if results:
+                return results
 
     def select(self, values, where=None, like=None):
         if where:
@@ -56,7 +93,7 @@ class BaseHandler:
             query = """
                 SELECT %s FROM %s 
             """ % (values, self._table_name)
-        return cur.execute(query).fetchall()
+        return self.thread_safe_db_access(query, fetch="fetchall")
 
     def select_one(self, values, where=None, like=None):
         if where:
@@ -72,17 +109,19 @@ class BaseHandler:
             query = """
                 SELECT %s FROM %s 
             """ % (self._table_name, values)
-        return cur.execute(query).fetchone()
+        return self.thread_safe_db_access(query, fetch="fetchone")
 
     def select_by_id(self, id):
         res = self.select('*', 'id=%d' % id)
         return res[0] if res else None
 
     def select_all(self):
-        return cur.execute("SELECT * FROM %s" % self._table_name).fetchall()
+        query = "SELECT * FROM %s" % self._table_name
+        return self.thread_safe_db_access(query, fetch="fetchone")
     
     def select_shown_to_user(self):
-        return cur.execute("SELECT * FROM %s WHERE show_to_user= %d" % (self._table_name,1)).fetchall()
+        query = "SELECT * FROM %s WHERE show_to_user= %d" % (self._table_name,1)
+        return self.thread_safe_db_access(query, fetch="fetchone")
 
     def update_by_id(self, id, columns_and_values):
         """
@@ -99,8 +138,7 @@ class BaseHandler:
 
         if bool(sql_set):  # else, nothing to update
             sql_query = "UPDATE {} SET {} WHERE id={}".format(self._table_name, ', '.join(sql_set), id)
-            cur.execute(sql_query)
-            con.commit()
+            self.thread_safe_db_access(sql_query)
 
     def update(self,set, where=None):
         if where:
@@ -111,9 +149,20 @@ class BaseHandler:
             query = """
                         UPDATE {} SET {}
                     """.format(self._table_name,set)
-        cur.execute(query)
-        con.commit()
+        self.thread_safe_db_access(query)
 
+
+    def update_thread_safe(self,set, where=None):
+        with db_lock:
+            if where:
+                query = """
+                            UPDATE {} SET {} WHERE {}
+                        """.format(self._table_name,set, where)
+            else:
+                query = """
+                            UPDATE {} SET {}
+                        """.format(self._table_name,set)
+            self.thread_safe_db_access(query)
 
     def delete_by_id(self, id):
         cur.execute("DELETE FROM %s WHERE id=%d" % (self._table_name, id))
@@ -140,12 +189,12 @@ class BaseHandler:
     def drop_table(self, other_table=None, confirm=False):
         if other_table:
             if confirm:
-                cur.execute("DROP TABLE %s" % other_table)
+                self.thread_safe_db_access("DROP TABLE %s" % other_table)
             else:
                 print("Please set confirm parameter as True to delete the table '%s'" % other_table)
         else:
             if confirm:
-                cur.execute("DROP TABLE %s" % self._table_name)
+                self.thread_safe_db_access("DROP TABLE %s" % self._table_name)
             else:
                 print("Please set confirm parameter as True to delete the table '%s'" % self._table_name)
 
@@ -155,6 +204,6 @@ class BaseHandler:
             print("\n", item)
 
     def show_tables(self):
-        for table in cur.execute("SELECT name, sql FROM sqlite_schema").fetchall():
+        for table in self.thread_safe_db_access("SELECT name, sql FROM sqlite_schema", fetch="fetchall"):
             name, structure = table
             print(name, "\n", structure, "\n")

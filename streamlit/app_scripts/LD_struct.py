@@ -166,15 +166,13 @@ class SetupLinkedDataStruct():
         return user_input
 
 
-    def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
+    def setup_parameter_struct(_self, parameter,component_parameters=None, value = None):
+        if component_parameters is None:
+            component_parameters = []
 
-        # st.cache_data.clear()
-        if isinstance(parameter, NumericalParameter):
-            numeric = True
-        else:
-            numeric = False
-        print("numeric = ",numeric)
-        print("object = ",parameter)
+        numeric = isinstance(parameter, NumericalParameter)
+        print("numeric =", numeric)
+        print("object =", parameter)
 
         try:
 
@@ -182,29 +180,27 @@ class SetupLinkedDataStruct():
                 
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    self.hasNumericalData: parameter.selected_value
+                    _self.hasNumericalData: parameter.selected_value
                 }
 
             elif isinstance(parameter, StrParameter):
                 
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value
+                    _self.hasStringData: parameter.selected_value
                 }
 
             elif isinstance(parameter, BooleanParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Boolean",
-                    self.hasStringData: parameter.selected_value
+                    _self.hasStringData: parameter.selected_value
                 }
             elif isinstance(parameter, FunctionParameter):
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value
+                    _self.hasStringData: parameter.selected_value
                 }
-            # else: 
-
-            #     st.error("This instance of parameter is not handled: {}".format(parameter))
+            
 
             parameter_details = {
                 "label": parameter.name,
@@ -218,10 +214,13 @@ class SetupLinkedDataStruct():
                         "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
                     }
             component_parameters.append(parameter_details)
+
             return component_parameters
         
-        except:
+        except Exception as e:
+            st.error("An error occurred 1: {}".format(e))
             category_parameters = []
+            
             try:
                 parameter_id, \
                             name, \
@@ -248,7 +247,7 @@ class SetupLinkedDataStruct():
             
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    self.hasNumericalData: value
+                    _self.hasNumericalData: value
                 }
 
                 parameter_details = {
@@ -264,9 +263,12 @@ class SetupLinkedDataStruct():
                 }
 
                 category_parameters.append(parameter_details)
+            except Exception as e:
+                st.error("An error occurred 2: {}".format(e))
+       
 
-            except:
-                print("par = ", parameter)
+                st.error("This instance of parameter is not handled: {}".format(type(parameter)))
+                st.info(NumericalParameter)
             
             return category_parameters
             
@@ -315,6 +317,8 @@ class SetupLinkedDataStruct():
         return dict
     
     def change_numerical_value(self,dict, index, value):
+        st.write(dict)
+        st.write(index)
         try:
             dict[index]["value"][self.hasNumericalData]=value
         except:

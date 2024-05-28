@@ -19,6 +19,7 @@ sys.path.insert(0, path_to_streamlit_module)
 
 from database import db_helper
 
+
 class Materials(object):
     def __init__(self,id,name,display_name,context_type,context_type_iri,description, selected_value=None):
         
@@ -74,13 +75,13 @@ class TemplateParameter(object):
         self.display_name = " ".join(words)
 
     def add_option(self, option_id, option_details):
-        ("val=", option_details.value)
         self.options[option_id] = option_details
         if self.default_value is None:
             self.default_value = option_details.value
 
     def set_selected_value(self, value):
         self.selected_value = value
+
 
 class Material(Materials):
     def __init__(
@@ -194,6 +195,16 @@ class FunctionParameter(TemplateParameter):
         super().__init__(id, name, template_id, type, is_shown_to_user, description)
 
 
+
+
+    #     self.set_display_name()
+
+    # def set_display_name(self):
+    #     if self.display_name is None:
+    #         self.display_name = self.parameter_set
+
+
+
 class Option_material(object):
     def __init__(self,parameter_set_name=None, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
         self.display_name = parameter_set_display_name
@@ -212,12 +223,6 @@ class Option_parameter(object):
         self.parameter_set = parameter_set
         self.parameter_display_name = parameter_display_name
         self.parameter_name = parameter_name
-
-    #     self.set_display_name()
-
-    # def set_display_name(self):
-    #     if self.display_name is None:
-    #         self.display_name = self.parameter_set
 
 class FormatParameters:
 
@@ -240,6 +245,7 @@ class FormatParameters:
         # initialize from template parameters
         formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
+
     
         #if np.ndim(parameter_sets)> 1:
         
@@ -372,7 +378,7 @@ class FormatParameters:
 
 
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
-        
+
         if np.ndim(raw_parameters) > 1:
   
             # initialize from template parameters
@@ -649,6 +655,7 @@ class FormatParameters:
                 else:
                     assert False, "parameter_type={} is not handled. parameter_id={}".format(parameter_type, parameter_id)
         else:
+
             parameter_id, \
                 name, \
                 model_name, \

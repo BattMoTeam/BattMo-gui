@@ -84,7 +84,7 @@
       },
       "bruggeman_coefficient": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "basis",
          "max_value": 5,
          "min_value": 0.1,
