@@ -4,6 +4,11 @@
    "material": false,
    "Header": {},
    "Parameters": {
-      "number_of_discrete_cells_separator": 10
+      "number_of_discrete_cells_separator": 10,
+      "porosity": 0.4,
+      "bruggeman_coefficient": 1.5,
+      "specific_heat_capacity": 1692,
+      "thermal_conductivity": 0.334,
+      "density": 946
    }
 }

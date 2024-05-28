@@ -4,6 +4,9 @@
    "component": "negative_electrode_binder_advanced",
    "material": false,
    "Parameters": {
-      "electronic_conductivity": 100
+      "electronic_conductivity": 100,
+      "density": 1780,
+      "specific_heat_capacity": 1400,
+      "thermal_conductivity": 0.165
    }
 }

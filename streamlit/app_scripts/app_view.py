@@ -28,9 +28,7 @@ from app_scripts.app_parameter_model import *
 from database import db_helper, db_handler
 from app_scripts import app_access, match_json_LD, LD_struct, match_json_upload, app_controller
 from app_scripts import app_calculations as calc
-from LD_struct import SetupLinkedDataStruct 
-LD = SetupLinkedDataStruct()
-con, cur = app_access.get_sqlite_con_and_cur()
+#con, cur = app_access.get_sqlite_con_and_cur()
 
 
 #####################################
@@ -276,6 +274,334 @@ class SetModelChoice:
         self.selected_model = selected_model_id
 
 
+class SetupLinkedDataStruct():
+
+    def __init__(self):
+        # Ontology definitions
+                    
+        self.id = "@id"
+        self.type = "@type"
+        self.label = "rdfs:label"
+
+        self.hasInput = "hasInput"
+        self.hasActiveMaterial = "hasActiveMaterial"
+        self.hasBinder = "hasBinder"
+        self.hasConductiveAdditive = "hasConductiveAdditive"
+        self.hasElectrode = "hasElectrode"
+        self.hasNegativeElectrode = "hasNegativeElectrode"
+        self.hasPositiveElectrode = "hasPositiveElectrode"
+        self.hasElectrolyte = "hasElectrolyte"
+        self.hasSeparator = "hasSeparator"
+        self.hasBoundaryConditions = "hasBoundaryConditions"
+        self.hasCyclingProcess = "hasCyclingProcess"
+        self.hasBatteryCell = "hasBatteryCell"
+
+        self.hasQuantitativeProperty = "hasQuantitativeProperty"
+        self.hasObjectiveProperty = "hasObjectiveProperty"
+        self.hasConstituent = "hasConstituent"
+        self.hasNumericalData = "hasNumericalData"
+        self.hasNumericalPart = "hasNumericalPart"
+        self.hasNumericalValue = "hasNumericalValue"
+        self.hasStringData = "hasStringData"
+        self.hasStringValue = "hasStringValue"
+        self.hasStringPart = "hasStringPart"
+        self.hasModel = "hasModel"
+        self.hasCell = "hasCell"
+
+        self.universe_label = "MySimulationSetup"
+        self.cell_label = "MyCell"
+        self.cell_type = "battery:Cell"
+
+
+        self.context= {
+                        "schema":"https://schema.org/",
+                        "":"https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
+                        "emmo": "https://w3id.org/emmo#",
+                        "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+                        "battery": "https://w3id.org/emmo/domain/battery#",
+                        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                        "hasConstituent": "emmo:hasConstituent",
+
+
+                        # "hasNumericalData": "emmo:hasNumericalData",
+                        # "hasStringData": "emmo:hasStringData",
+                        # "value": "emmo:hasQuantityValue",
+                        # "unit": "emmo:hasReferenceUnit",
+                        # "label": "skos:prefLabel"
+
+                        # "skos": "http://www.w3.org/2004/02/skos/core#",
+                        # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
+                        # "qudt": "http://qudt.org/vocab/unit/",
+                    }
+
+    def setup_linked_data_dict(self, model_id, model_name):
+
+        model_label = "{} model".format(model_name)
+        id = ""
+        model_type = "battery:{}Model".format(model_name)
+
+        dict = {
+            "@context": self.context,
+        
+            self.universe_label:{
+                self.hasModel:{
+                    "label": model_label,
+                    "@type": model_type,
+                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_name)
+                }
+            }             
+        }
+
+        # dict = {
+        #     "@context": self.context,
+        
+        #     self.id:id,
+        #     self.type:["Dataset"],
+        #     "schema:headline": headline,
+        #     "battinfo:hasModel":{
+        #         self.type: model_type,
+        #         self.id: model_id,
+        #         self.label: model_label,
+                
+        #         self.hasInput: db_helper.get_model_parameters_as_dict(model_id)
+        #     }
+        #     }             
+        
+        return dict
+
+    def fill_sub_dict(self,dict,relation_dict_1, parameters,existence,relation_dict_2 = None,relation_par=None):
+        parameters = parameters.copy()
+        if self.universe_label in dict:
+            if relation_par:
+                if existence == "new":
+                    dict[self.universe_label][relation_dict_1] = parameters[relation_par]
+                elif existence == "existing":
+                    dict[self.universe_label][relation_dict_1] += parameters[relation_par]
+            else:
+                if existence == "new":
+                    dict[self.universe_label][relation_dict_1] = parameters
+                elif existence == "existing":
+                    dict[self.universe_label][relation_dict_1] += parameters
+        else:
+            if relation_par:
+                if existence == "new":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] = parameters[relation_par]
+                    else:
+                        dict[relation_dict_1] = parameters[relation_par]
+                elif existence == "existing":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] += parameters[relation_par]
+                    else:
+                        dict[relation_dict_1] += parameters[relation_par]
+            else:
+                if existence == "new":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] = parameters
+                    else:
+                        dict[relation_dict_1] = parameters
+
+                elif existence == "existing":
+                    dict[relation_dict_1] += parameters
+        return dict
+    
+    def setup_sub_dict(self,dict=None,display_name=None, context_type=None, type=None, existence = None):
+        
+        if type:
+            if type == "cell":
+                dict = {
+                    "label": self.cell_label,
+                    "@type": self.cell_type
+                }
+        elif existence =="new":
+            dict = {
+                    "label": display_name,
+                    "@type": context_type
+                }
+                
+
+        else:
+            dict["label"] = display_name
+            dict["@type"] = context_type
+        
+        return dict
+    
+    def fill_linked_data_dict(self, user_input, content):
+        user_input[self.universe_label][self.hasCell] = content
+
+        return user_input
+
+
+    def setup_parameter_struct(_self, parameter,component_parameters=None, value = None):
+        if component_parameters is None:
+            component_parameters = []
+
+        numeric = isinstance(parameter, NumericalParameter)
+        print("numeric =", numeric)
+        print("object =", parameter)
+
+        try:
+
+            if isinstance(parameter, NumericalParameter):
+                
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    _self.hasNumericalData: parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+                
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    _self.hasStringData: parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    _self.hasStringData: parameter.selected_value
+                }
+            elif isinstance(parameter, FunctionParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    _self.hasStringData: parameter.selected_value
+                }
+            
+
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type if parameter.context_type else "string",
+                "value": formatted_value_dict
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = {
+                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "symbol": parameter.unit,
+                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                    }
+            component_parameters.append(parameter_details)
+
+            return component_parameters
+        
+        except Exception as e:
+            #st.error("An error occurred 1: {}".format(e))
+            category_parameters = []
+            
+            try:
+                parameter_id, \
+                            name, \
+                            model_name, \
+                            par_class, \
+                            difficulty, \
+                            template_id, \
+                            context_type, \
+                            context_type_iri, \
+                            parameter_type, \
+                            unit, \
+                            unit_name, \
+                            unit_iri, \
+                            max_value, \
+                            min_value, \
+                            is_shown_to_user, \
+                            description,  \
+                            display_name = np.squeeze(parameter)
+            
+
+
+                formatted_value_dict = value
+
+            
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    _self.hasNumericalData: value
+                }
+
+                parameter_details = {
+                    "label": name,
+                    "@type": context_type,
+                    "value": formatted_value_dict
+                }
+                
+                parameter_details["unit"] = {
+                    "label": unit_name,
+                    "symbol": unit,
+                    "@type": "emmo:"+unit_name
+                }
+
+                category_parameters.append(parameter_details)
+            except Exception as e:
+                st.error("An error occurred 2: {}".format(e))
+       
+
+                st.error("This instance of parameter is not handled: {}".format(type(parameter)))
+                st.info(NumericalParameter)
+            
+            return category_parameters
+            
+        
+    
+    def get_relation(self, id, type):
+
+        if type == "tab":
+            context_type= db_helper.get_context_type_and_iri_by_id(id)
+            
+        elif type == "category":
+            context_type = db_helper.get_categories_context_type_from_id(id)
+        elif type == "component":
+            context_type = db_helper.get_components_context_type_from_id(id)
+        else:
+            print("Error: The relation for type {} is non-existing.".format(type))
+
+        relation = "has" + context_type.split(':')[1]
+        return relation
+        
+    def fill_component_dict(self,component_parameters,existence, dict = None, relation = None):
+        component_parameters = component_parameters.copy()
+        if existence == "new":
+            dict = {self.hasQuantitativeProperty: component_parameters}
+
+        elif existence == "existing":
+            if self.hasQuantitativeProperty in component_parameters:
+                
+                if self.hasQuantitativeProperty in dict:
+                    dict[self.hasQuantitativeProperty] += component_parameters[self.hasQuantitativeProperty]
+                elif relation in dict:
+                    if self.hasQuantitativeProperty in dict[relation]:
+                        dict[relation][self.hasQuantitativeProperty] += component_parameters[self.hasQuantitativeProperty]
+                    else:
+                        dict[relation][self.hasQuantitativeProperty] = component_parameters
+                else:
+                    if relation:
+                        dict[relation] = component_parameters
+                        
+                    else:
+                        dict[self.hasQuantitativeProperty] = component_parameters[self.hasQuantitativeProperty]
+            else:
+                
+                dict[relation] = component_parameters
+
+        return dict
+    
+    def change_numerical_value(self,dict, index, value):
+        try:
+            dict[index]["value"][self.hasNumericalData]=value
+        except:
+            dict[index]["value"]=value
+
+        return dict
+    
+    def add_indicators_to_struct(self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe):
+        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += n_to_p
+        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_mass
+        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_cap
+        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasNegativeElectrode][self.hasQuantitativeProperty] += specific_cap_ne
+        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasPositiveElectrode][self.hasQuantitativeProperty] += specific_cap_pe
+        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasActiveMaterial][self.hasQuantitativeProperty] += cap_ne
+        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasActiveMaterial][self.hasQuantitativeProperty] += cap_pe
+
+        return dict
+
+
 class SetTabs:
     """
     - Rendering of almost all the Define Parameter tab
@@ -332,7 +658,8 @@ class SetTabs:
         self.calc_cell_capacity = calc.calc_cell_capacity
         
         # user_input is the dict containing all the json LD data
-        self.user_input = LD.setup_linked_data_dict(self.model_id, self.model_name)
+        self.LD = SetupLinkedDataStruct()
+        self.user_input = self.LD.setup_linked_data_dict(self.model_id, self.model_name)
 
         # Create file input
         #self.set_file_input()
@@ -401,7 +728,7 @@ class SetTabs:
 
     def set_tabs(self):
 
-        cell_parameters = LD.setup_sub_dict(type="cell")
+        cell_parameters = self.LD.setup_sub_dict(type="cell")
 
         all_tab_display_names = db_helper.get_basis_tabs_display_names(self.model_name)
 
@@ -418,9 +745,9 @@ class SetTabs:
             tab_context_type= db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_name = db_helper.get_tab_name_by_id(db_tab_id)
 
-            tab_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_name)[index], context_type=tab_context_type, existence="new")
+            tab_parameters = self.LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_name)[index], context_type=tab_context_type, existence="new")
 
-            tab_relation = LD.get_relation(db_tab_id, "tab")
+            tab_relation = self.LD.get_relation(db_tab_id, "tab")
 
             # logo and title
             self.set_logo_and_title(tab, index)
@@ -440,14 +767,14 @@ class SetTabs:
  
                 for category in categories:
 
-                    category_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
+                    category_parameters = self.LD.setup_sub_dict(display_name=db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
                                                             context_type=db_helper.get_categories_context_type(db_tab_id)[i][0],
                                                             existence="new"
                                                             )
                     
                     category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
-                    category_relation = LD.get_relation(category_id, "category")
+                    category_relation = self.LD.get_relation(category_id, "category")
 
                     category_parameters, emmo_relation, mass_loadings = self.fill_category(
                         category_id=category_id,
@@ -509,7 +836,7 @@ class SetTabs:
  
         
             # cell is fully defined, its parameters are saved in the user_input dict
-            self.user_input = LD.fill_linked_data_dict(self.user_input, cell_parameters)
+            self.user_input = self.LD.fill_linked_data_dict(self.user_input, cell_parameters)
 
             index +=1
         self.update_json_LD()
@@ -598,8 +925,8 @@ class SetTabs:
         # specific_cap_am_ne_parameter["selected_value"] = specific_capacity_am_ne
         # specific_cap_am_pe_parameter = self.formatter.initialize_parameters(raw_template_am_pe)
         # specific_cap_am_pe_parameter["selected_value"] = specific_capacity_am_pe
-        specific_capacities_category_parameters_am_ne = LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)  
-        specific_capacities_category_parameters_am_pe = LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe) 
+        specific_capacities_category_parameters_am_ne = self.LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)  
+        specific_capacities_category_parameters_am_pe = self.LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe) 
 
         # Specific capacity electrodes
         specific_capacity_ne = self.calc_capacity_electrode(specific_capacity_am_ne, 
@@ -618,19 +945,19 @@ class SetTabs:
         }
         raw_template_ne = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
         raw_template_pe = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
-        specific_capacities_category_parameters_ne= LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)  
-        specific_capacities_category_parameters_pe= LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)  
+        specific_capacities_category_parameters_ne= self.LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)  
+        specific_capacities_category_parameters_pe= self.LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)  
 
         # N to P ratio
         n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities_electrodes)
         raw_template_np = db_helper.get_template_parameter_by_parameter_name("n_to_p_ratio")
-        n_to_p_category_parameters= LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
+        n_to_p_category_parameters= self.LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
 
         # Cell Mass
         cc_mass = volumes["current_collector"]* 8950
         cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name("cell_mass")
-        cell_mass_category_parameters= LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
+        cell_mass_category_parameters= self.LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
 
         # Cell Capacity
         masses = {
@@ -639,10 +966,10 @@ class SetTabs:
         }
         cell_capacity = self.calc_cell_capacity(specific_capacities_electrodes)
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
-        cell_capacity_category_parameters= LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
+        cell_capacity_category_parameters= self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
 
         # Include indicators in linked data input dict
-        user_input = LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
+        user_input = self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
         
         return user_input
 
@@ -708,12 +1035,12 @@ class SetTabs:
 
                 material_formatted_parameters,formatted_materials, selected_value_id, component_parameters_, emmo_relation, density = self.fill_material_components(component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters,density)
 
-                component_parameters_ = LD.fill_component_dict(component_parameters_, "new")
-                component_parameters = LD.setup_sub_dict(display_name=material_comp_display_name,context_type=material_comp_context_type, existence="new")
-                component_parameters = LD.fill_component_dict(component_parameters=component_parameters_,existence="existing",dict=component_parameters)
+                component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
+                component_parameters = self.LD.setup_sub_dict(display_name=material_comp_display_name,context_type=material_comp_context_type, existence="new")
+                component_parameters = self.LD.fill_component_dict(component_parameters=component_parameters_,existence="existing",dict=component_parameters)
                 
-                material_comp_relation = LD.get_relation(material_component_id,"component")
-                category_parameters = LD.fill_sub_dict(category_parameters,material_comp_relation,component_parameters,"new",)
+                material_comp_relation = self.LD.get_relation(material_component_id,"component")
+                category_parameters = self.LD.fill_sub_dict(category_parameters,material_comp_relation,component_parameters,"new",)
                 material_choice = formatted_materials.options.get(selected_value_id).display_name
 
                 material = formatted_materials.options.get(selected_value_id)
@@ -729,13 +1056,13 @@ class SetTabs:
                 parameter, user_input, component_parameters_, emmo_relation, mass_fraction_id_dict = self.fill_mass_fraction_column(mass_fraction_col,category_id,material_comp_default_template_id,material_component_id,component_parameters_,mass_fraction_id_dict)
 
                 if parameter:
-                    component_parameters_ = LD.fill_component_dict(component_parameters_, "new")
-                    component_parameters = LD.setup_sub_dict(dict=component_parameters,display_name=material_comp_display_name,context_type=material_comp_context_type)
-                    component_parameters = LD.fill_component_dict(component_parameters_, "existing",dict=component_parameters)
+                    component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
+                    component_parameters = self.LD.setup_sub_dict(dict=component_parameters,display_name=material_comp_display_name,context_type=material_comp_context_type)
+                    component_parameters = self.LD.fill_component_dict(component_parameters_, "existing",dict=component_parameters)
                     
-                    material_comp_relation = LD.get_relation(material_component_id,"component")
+                    material_comp_relation = self.LD.get_relation(material_component_id,"component")
                     
-                    category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=material_comp_relation)
+                    category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=material_comp_relation)
         else:
             mass_fraction_id_dict = None
 
@@ -770,6 +1097,7 @@ class SetTabs:
         
         component_parameters_ = []
         component_parameters = {}
+
         non_material_parameter,user_input,category_parameters, mass_loadings = self.fill_non_material_components(category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters_, check_col,non_material_component_name,tab, density_mix, mass_loadings)
 
         category_parameters = self.fill_advanced_expander(tab,category_name, category_display_name, category_parameters)
@@ -849,7 +1177,7 @@ class SetTabs:
                         )
                     parameter.set_selected_value(user_input)
 
-                component_parameters_ = LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
+                component_parameters_ = self.LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
 
         parameter_details = {
                 "label": "protocol_name",
@@ -859,12 +1187,12 @@ class SetTabs:
                 }
             }
         component_parameters_.append(parameter_details)
-        component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
-        component_parameters = LD.setup_sub_dict(existence="new",display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
-        component_parameters = LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
+        component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
+        component_parameters = self.LD.setup_sub_dict(existence="new",display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
+        component_parameters = self.LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
 
-        relation = LD.get_relation(non_material_component_id, "component")
-        category_parameters = LD.fill_sub_dict(category_parameters,relation, component_parameters, "new")
+        relation = self.LD.get_relation(non_material_component_id, "component")
+        category_parameters = self.LD.fill_sub_dict(category_parameters,relation, component_parameters, "new")
 
         category_parameters= self.fill_advanced_expander(tab,category_name, category_display_name,category_parameters)
 
@@ -1077,19 +1405,19 @@ class SetTabs:
                 if parameter:
 
                     parameter.set_selected_value(user_input)
-                    component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                    component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
 
                     if parameter.name == "density" and density:
                         density[material_component_id] = parameter.selected_value
 
-            component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
+            component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
 
-            component_parameters = LD.setup_sub_dict(existence="new",display_name=material_comp_display_name,context_type=material_comp_context_type)
-            component_parameters = LD.fill_component_dict(component_parameters_,"existing",dict=component_parameters)
+            component_parameters = self.LD.setup_sub_dict(existence="new",display_name=material_comp_display_name,context_type=material_comp_context_type)
+            component_parameters = self.LD.fill_component_dict(component_parameters_,"existing",dict=component_parameters)
 
-            material_comp_relation = LD.get_relation(material_component_id, "component")
+            material_comp_relation = self.LD.get_relation(material_component_id, "component")
 
-            category_parameters = LD.fill_sub_dict(category_parameters, material_comp_relation, component_parameters,"new")
+            category_parameters = self.LD.fill_sub_dict(category_parameters, material_comp_relation, component_parameters,"new")
 
         return category_parameters
     
@@ -1124,6 +1452,7 @@ class SetTabs:
         parameter_names =[]
         # Initialize session state values outside of the loop
         state_prefix = "state_"  # A prefix for state keys
+
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
             non_material_parameter_name = non_material_parameter.name
@@ -1147,7 +1476,7 @@ class SetTabs:
                 st.session_state[states_to_count] = {} 
 
             if checkbox_key not in st.session_state:
-                   
+                
                     if non_material_parameter_name == "mass_loading":
                         st.session_state[checkbox_key] = False
                     else:
@@ -1189,16 +1518,16 @@ class SetTabs:
                     elif i == 2:
                         ml_place = st.empty()
 
-               
+            
                 with check_col:
                     state = st.toggle(label = checkbox_key, 
-                                      key = checkbox_key, 
-                                      value= st.session_state[checkbox_key], 
-                                      on_change = self.checkbox_input_connect,
-                                      args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
-                                      label_visibility="collapsed")
+                                    key = checkbox_key, 
+                                    value= st.session_state[checkbox_key], 
+                                    on_change = self.checkbox_input_connect,
+                                    args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
+                                    label_visibility="collapsed")
                     st.text(" ")  
-                   
+                
             property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " / " + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri))
 
             property_col.text(" ")
@@ -1221,7 +1550,7 @@ class SetTabs:
                     label_visibility="collapsed",
                     disabled = False
                     )
-                       
+                    
             if check_col:  
                 if i ==0:
                     place = co_th_place
@@ -1243,11 +1572,9 @@ class SetTabs:
                         disabled = not st.session_state[checkbox_key]
                         )
 
-
             if non_material_parameter:
                 non_material_parameter.set_selected_value(user_input)
-
-                component_parameters_ = LD.setup_parameter_struct(non_material_parameter, component_parameters=component_parameters_)
+                component_parameters_ = self.LD.setup_parameter_struct(non_material_parameter, component_parameters=component_parameters_)
                 
                 if non_material_parameter.name == "coating_thickness":
                     thickness = non_material_parameter.selected_value
@@ -1391,18 +1718,18 @@ class SetTabs:
 
 
             if st.session_state[input_value]:
-                if par_index:
+                if component_parameters_:
                     
-                    component_parameters_ = LD.change_numerical_value(component_parameters_,par_index,st.session_state[input_value])
+                    component_parameters_ = self.LD.change_numerical_value(component_parameters_,par_index,st.session_state[input_value])
                     st.experimental_rerun
 
-        component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
-        component_parameters = LD.setup_sub_dict(dict=component_parameters,display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
-        component_parameters = LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
+        component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
+        component_parameters = self.LD.setup_sub_dict(dict=component_parameters,display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
+        component_parameters = self.LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
 
-        component_relation = LD.get_relation(non_material_component_id, "component")
+        component_relation = self.LD.get_relation(non_material_component_id, "component")
 
-        category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=component_relation)
+        category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=component_relation)
 
 
         return non_material_parameter,user_input, category_parameters, mass_loadings
@@ -1510,6 +1837,9 @@ class SetTabs:
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
 
+        db_helper.reset_material_template_parameters(material_comp_default_template_id)
+
+
         if formatted_component:
 
             material_choice = formatted_component.options.get(selected_value_id)
@@ -1517,82 +1847,50 @@ class SetTabs:
 
             parameter_ids = material_choice.parameter_ids
             parameters = material_choice.parameters
-            print(parameters)
 
             for parameter_id in parameters:
 
                 parameter = parameters.get(parameter_id)
                 set_parameter = parameter.options.get(material_parameter_set_id)
-                parameter.set_selected_value(set_parameter.value)
-                st.write("par = ", type(parameter))
-                component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
-                if parameter.name == "density" and density != None:
-                    density[material_component_id] = set_parameter.value    
+                template_parameter_id = parameter.id
 
-        self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
+                if set_parameter:
+                    parameter.set_selected_value(set_parameter.value)
+                    component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                    db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
+
+
+                if parameter.name == "density" and density != None:
+                    density[material_component_id] = set_parameter.value   
+
+            
+
+            # con, cur = app_access.get_sqlite_con_and_cur()
+            # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 82''')
+            # # Fetch all rows from the result
+            # data = cur.fetchall()
+
+            # # Check if there are columns to describe
+            # if cur.description:
+            #     # Print the column information
+            #     print("Column names:", [col[0] for col in cur.description])
+
+            # else:
+            #     print("No columns to describe (empty result set)")
+
+            # # Print the retrieved data
+            # for row in data:
+            #     st.write(row)
+                
+            # # Don't forget to close the cursor and connection when done
+            # cur.close()
+            # con.close() 
+
+        #self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
 
         return material_formatted_parameters,formatted_component, selected_value_id, component_parameters_, emmo_relation, density
     
-    def set_material_parameter_difficulty(self,parameter_sets, raw_parameters,default_template_id):
-            
-            index_set = 0
-            for parameter_set in parameter_sets:
-                parameter_set_id, \
-                parameter_set, \
-                _, \
-                _ , \
-                material_id = parameter_set
-
-                raw_parameters_set = raw_parameters[index_set]
-                
-                # Create list with parameter set ids
-                raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
-                
-                parameter_ids = []
-                parameter_names = []
-                template_parameter_ids = []
-                parameter_values = []
-                
-                index_set += 1
-                index_parameter =0
-                db_helper.reset_material_template_parameters(default_template_id)
-
-                for parameter in raw_parameters_set:
-                # get index of id
-                    #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
-                    if raw_parameters_set_ids[index_parameter] == parameter_set_id:
-
-                        parameter_id, \
-                        parameter_name, \
-                        _, \
-                        template_parameter_id, \
-                        parameter_value = parameter
-                        
-                        db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
-                 
-                        con.close()
-                        # con, cur = app_access.get_sqlite_con_and_cur()
-                        # data=cur.execute('''SELECT * FROM template_parameter''')
-                        # # Fetch all rows from the result
-                        # data = cur.fetchall()
-
-                        # # Check if there are columns to describe
-                        # if cur.description:
-                        #     # Print the column information
-                        #     print("Column names:", [col[0] for col in cur.description])
-
-                        # else:
-                        #     print("No columns to describe (empty result set)")
-
-                        # # Print the retrieved data
-                        # for row in data:
-                        #     st.write(row)
-                            
-                        # # Don't forget to close the cursor and connection when done
-                        # cur.close()
-                        # con.close()
-                    index_parameter +=1
-
+    
 
     def fill_advanced_expander(self, tab,category_name, category_display_name,category_parameters):
         advanced_input=tab.expander("Show '{}' advanced parameters".format(category_display_name))
@@ -1693,11 +1991,11 @@ class SetTabs:
                                 )
                             parameter.set_selected_value(user_input)    
 
-                            component_parameters_ = LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
-                    component_parameters = LD.setup_sub_dict(display_name=non_material_comp_display_name, context_type=non_material_comp_context_type,existence="new")
-                    component_parameters = LD.fill_component_dict(component_parameters_,existence="new", dict=component_parameters)
-                    non_material_comp_relation = LD.get_relation(non_material_component_id, "component")
-                    category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=non_material_comp_relation )
+                            component_parameters_ = self.LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
+                    component_parameters = self.LD.setup_sub_dict(display_name=non_material_comp_display_name, context_type=non_material_comp_context_type,existence="new")
+                    component_parameters = self.LD.fill_component_dict(component_parameters_,existence="new", dict=component_parameters)
+                    non_material_comp_relation = self.LD.get_relation(non_material_component_id, "component")
+                    category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=non_material_comp_relation )
 
 
                 
@@ -1740,7 +2038,7 @@ class SetTabs:
                 if parameter:
                     parameter.set_selected_value(user_input)
 
-                    component_parameters = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_) 
+                    component_parameters = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_) 
 
                     mass_fraction_id_dict[material_component_id] = parameter.selected_value 
         

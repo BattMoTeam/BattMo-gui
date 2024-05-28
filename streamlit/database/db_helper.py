@@ -426,6 +426,7 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 #####################################
 
 def get_models_as_dict():
+
     models = sql_model().select(
         values = '*',
         where = "is_shown_to_user = '1'" 

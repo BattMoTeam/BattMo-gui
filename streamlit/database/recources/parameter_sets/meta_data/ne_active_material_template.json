@@ -68,7 +68,7 @@
       },
       "specific_heat_capacity": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
@@ -84,7 +84,7 @@
       },
       "thermal_conductivity": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
@@ -100,7 +100,7 @@
       },
       "electronic_conductivity": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:ElectricConductivity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",
@@ -194,7 +194,7 @@
       },
       "activation_energy_of_diffusion": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:Energy",
          "context_type_iri": "https://w3id.org/emmo#EMMO_31ec09ba_1713_42cb_83c7_b38bf6f9ced2",
@@ -210,7 +210,7 @@
       },
       "diffusion_pre_exponential_factor": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "max_value": 1,
          "min_value": 1e-15,
@@ -224,7 +224,7 @@
       },
       "particle_radius": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:Radius",
          "context_type_iri": "https://w3id.org/emmo#EMMO_32dcd601_47c7_4028_b7fa_5e972ae57f12",
