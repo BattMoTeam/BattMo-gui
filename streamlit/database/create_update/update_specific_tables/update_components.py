@@ -128,17 +128,18 @@ class UpdateComponents:
 
         # Delete unused types which remain in the sql table
         deleted_types = []
-        for id_to_delete in existing_ids_to_be_deleted:
-            deleted_types.append(self.sql_component.get_name_from_id(id_to_delete))
-            self.sql_component.delete_by_id(id_to_delete)
+        if existing_ids_to_be_deleted:
+            for id_to_delete in existing_ids_to_be_deleted:
+                deleted_types.append(self.sql_component.get_name_from_id(id_to_delete))
+                self.sql_component.delete_by_id(id_to_delete)
 
-        print("\n SQL table category is up to date according to the resource file components.json")
-        if updated_types:
-            print(" Updated components : ", updated_types)
-        if new_types:
-            print(" New components: ", new_types)
-        if deleted_types:
-            print(" Deleted components: ", deleted_types)
+            print("\n SQL table category is up to date according to the resource file components.json")
+            if updated_types:
+                print(" Updated components : ", updated_types)
+            if new_types:
+                print(" New components: ", new_types)
+            if deleted_types:
+                print(" Deleted components: ", deleted_types)
 
     def execute_script(self):
         return self.update_component_from_json(self.get_resource_as_json())

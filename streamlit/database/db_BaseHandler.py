@@ -129,10 +129,15 @@ class BaseHandler:
         """
         sql_set = []
         for column in columns_and_values:
+            
             value = columns_and_values.get(column)
+
             if value is not None:
+                if isinstance(value, list):
+                    value = ','.join(value)
                 if isinstance(value, str):
                     sql_set.append("{} = '{}'".format(column, value))
+
                 else:
                     sql_set.append("{} = {}".format(column, value))
 
@@ -165,8 +170,7 @@ class BaseHandler:
             self.thread_safe_db_access(query)
 
     def delete_by_id(self, id):
-        cur.execute("DELETE FROM %s WHERE id=%d" % (self._table_name, id))
-        con.commit()
+        self.thread_safe_db_access("DELETE FROM %s WHERE id=%d" % (self._table_name, id))
 
     def get_id_from_name(self, name):
         res = self.select_one(
@@ -184,7 +188,7 @@ class BaseHandler:
 
     def get_all_ids(self):
         res = self.select(values='id')
-        return [a[0] for a in res]
+        return [a[0] for a in res] if res else None
 
     def drop_table(self, other_table=None, confirm=False):
         if other_table:

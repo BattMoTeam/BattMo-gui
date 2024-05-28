@@ -9,30 +9,30 @@ Functions called from GUI code to access db.
 """
 
 
-# @st.cache_data
+@st.cache_data
 def sql_parameter():
     return db_handler.ParameterHandler()
 
 
-# @st.cache_data
+@st.cache_data
 def sql_parameter_set():
     return db_handler.ParameterSetHandler()
 
 
-# @st.cache_data
+@st.cache_data
 def sql_category():
     return db_handler.CategoryHandler()
 
 
-# @st.cache_data
+@st.cache_data
 def sql_component():
     return db_handler.ComponentHandler()
 
-# @st.cache_data
+@st.cache_data
 def sql_material():
     return db_handler.MaterialHandler()
 
-# @st.cache_data
+@st.cache_data
 def sql_tab():
     return db_handler.TabHandler()
 
@@ -47,12 +47,12 @@ def sql_model_parameter():
     return db_handler.ModelParameterHandler()
 
 
-# @st.cache_data
+@st.cache_data
 def sql_template():
     return db_handler.TemplateHandler()
 
 
-# @st.cache_data
+@st.cache_data
 def sql_template_parameter():
     return db_handler.TemplateParameterHandler()
 
@@ -166,7 +166,7 @@ def get_advanced_db_tab_id(model_name,category_name):
     return res
 
 
-
+@st.cache_data
 def get_tab_index_from_st_tab(st_tab):
     # according to st.tabs container structure
     return st_tab._provided_cursor._parent_path[1]
@@ -358,17 +358,21 @@ def get_parameter_set_id_by_name(name):
     )
     return res[0][0]
 
+@st.cache_data
 def get_all_material_by_component_id(component_id):
         return sql_parameter_set().select(
             values='*',
             where="component_id=%d AND material = %d"  % (component_id,1)
         )
+
+@st.cache_data
 def get_material_by_material_id(material_id):
         return sql_parameter_set().select(
             values='*',
             where="material_id = %d"  % (material_id)
         )
 
+@st.cache_data
 def get_mf_parameter_set_id_by_component_id(component_id):
     res = sql_parameter_set().select(
         values = 'id, name',
@@ -376,6 +380,7 @@ def get_mf_parameter_set_id_by_component_id(component_id):
     )
     return res[0] if res else [None,None]
 
+@st.cache_data
 def get_n_p_parameter_set_id_by_component_id(component_id):
     res = np.squeeze(sql_parameter_set().select(
         values = 'id,name',
@@ -384,6 +389,7 @@ def get_n_p_parameter_set_id_by_component_id(component_id):
     
     return res[0],res[1] if res[0] else None
 
+@st.cache_data
 def get_non_material_set_id_by_component_id(component_id):
     res = sql_parameter_set().select(
         values = '*',
@@ -391,7 +397,7 @@ def get_non_material_set_id_by_component_id(component_id):
     )
     return res[0]
 
-
+@st.cache_data
 def get_mf_raw_parameter_by_parameter_set_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
@@ -399,6 +405,7 @@ def get_mf_raw_parameter_by_parameter_set_id(parameter_set_id):
     )
     return res
 
+@st.cache_data
 def get_n_p_parameter_by_template_id(parameter_set_id):
     res = sql_parameter().select(
         values = '*',
@@ -406,6 +413,7 @@ def get_n_p_parameter_by_template_id(parameter_set_id):
     )
     return res
 
+@st.cache_data
 def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(template_parameter_id,parameter_set_id):
     res = sql_parameter().select(
         values = '*',
@@ -413,6 +421,7 @@ def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id
     )
     return res
 
+@st.cache_data
 def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_set_id):
     res = sql_parameter().select(
         values = '*',
@@ -424,7 +433,7 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 #####################################
 # MODEL
 #####################################
-
+@st.cache_data
 def get_models_as_dict():
 
     models = sql_model().select(
@@ -441,7 +450,7 @@ def get_models_as_dict():
     return models_as_dict
 
 
-
+@st.cache_data
 def get_model_name_from_id(model_id):
     model = sql_model().select(
         values = "name",
@@ -460,7 +469,7 @@ def get_model_name_from_id(model_id):
 #     return eval(res[0]) if res else None
 
 
-#@st.cache_data
+@st.cache_data
 def get_model_parameters_as_dict(model_name):
 
     parameter_set_id = sql_parameter_set().get_id_from_name(model_name)
@@ -509,7 +518,7 @@ def get_model_parameters_as_dict(model_name):
     return model_quantitative_properties
 
 
-
+@st.cache_data
 def get_model_description(model_name):
     
     return sql_model().select(
@@ -534,24 +543,28 @@ def get_template_from_name(name):
         )
     return res[0]
 
+@st.cache_data
 def get_parameter_by_template_parameter_id(template_parameter_id):
         return sql_template_parameter().select(
             values='*',
             where="id={}".format(template_parameter_id)
         )
 
+@st.cache_data()
 def reset_material_template_parameters(template_id):
     sql_template_parameter().update(
             set = "difficulty = 'advanced'",
             where="par_class ='material' AND template_id = {}".format(int(template_id))
         )
-    
+
+@st.cache_data   
 def set_material_template_parameters_to_basis_by_id(template_parameter_id):
     sql_template_parameter().update(
             set = "difficulty = 'basis'",
             where="id = {}".format(int(template_parameter_id))
         )
 
+@st.cache_data
 def get_all_material_by_template_id(template_id,model_name):
         return sql_template_parameter().select(
             values='*',
@@ -564,12 +577,14 @@ def get_mf_template_by_template_id(template_id):
             where="template_id=%d AND name = '%s'" % (template_id,"mass_fraction")
         )
 
+@st.cache_data
 def get_non_material_template_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
             values='*',
             where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis' AND is_shown_to_user = 'True'".format(template_id,"non_material",model_name)
         )
 
+@st.cache_data
 def get_advanced_template_by_template_id(template_id,model_name):
     res = sql_template_parameter().select(
             values='*',
@@ -577,12 +592,14 @@ def get_advanced_template_by_template_id(template_id,model_name):
         )
     return res
 
+@st.cache_data
 def get_n_p_template_by_template_id(template_id):
     return sql_template_parameter().select(
             values='*',
             where="template_id=%d AND par_class = '%s' AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % (template_id,"non_material")
         )
 
+@st.cache_data
 def get_template_parameter_by_parameter_name(parameter_name):
     return sql_template_parameter().select(
             values='*',
@@ -593,4 +610,4 @@ def get_template_parameter_by_parameter_name(parameter_name):
 #all_advanced_tab_display_names = get_advanced_tabs_display_names()
 # all_tab_display_names = get_tabs_display_names()
 # all_tab_names = get_tabs_names()
-all_tab_id = st_tab_id_to_db_tab_id()
+# all_tab_id = st_tab_id_to_db_tab_id()

@@ -25,7 +25,7 @@ Those files are located in the directory python/resources/db/resources
 
 if __name__ == "__main__":
     # IF NEEDED, uncomment following lines to reset table, in order to update template parameters' order
-    #
+    
     # sql_template_parameter = db_handler.TemplateParameterHandler()
     # sql_template_parameter.drop_table(confirm=True)
     # os.system("db_model.py")
@@ -48,8 +48,6 @@ if __name__ == "__main__":
 
     # 6. Materials (depend on models, components)
     UpdateMaterials().execute_script()
-
-   
 
     # 5. Parameter sets (depend on templates and components)
     UpdateParameterSets().execute_script()

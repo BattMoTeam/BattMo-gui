@@ -236,7 +236,7 @@ class TemplateParameterHandler(BaseHandler):
 
     def get_all_types(self):
         res = self.select(values="type")
-        return set([a[0] for a in res])
+        return set([a[0] for a in res]) if res else None
 
     def assert_all_types_are_handled(self):
         """
@@ -244,9 +244,10 @@ class TemplateParameterHandler(BaseHandler):
         Its code has to handle all the parameter types existing in db
         """
         all_types = self.get_all_types()
-        assert all_types.issubset(self.types_handled), \
-            "\n Not all parameter types are handled. Please handle missing type in app_parameter_model.py" \
-            "\n types_handled={} \n all_types={}".format(self.types_handled, all_types)
+        if all_types:
+            assert all_types.issubset(self.types_handled), \
+                "\n Not all parameter types are handled. Please handle missing type in app_parameter_model.py" \
+                "\n types_handled={} \n all_types={}".format(self.types_handled, all_types)
 
 
 #####################################

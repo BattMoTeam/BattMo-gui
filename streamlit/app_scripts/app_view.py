@@ -333,7 +333,7 @@ class SetupLinkedDataStruct():
                         # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
                         # "qudt": "http://qudt.org/vocab/unit/",
                     }
-
+    
     def setup_linked_data_dict(self, model_id, model_name):
 
         model_label = "{} model".format(model_name)
@@ -869,7 +869,8 @@ class SetTabs:
                 indent=3
             ) 
 
-    def calc_indicators(self,user_input):
+    @st.cache_data
+    def calc_indicators(_self,user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
         with open(app_access.get_path_to_calculated_values(), 'r') as f:
@@ -911,11 +912,11 @@ class SetTabs:
         n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
         
         # Specific capacity active materials
-        specific_capacity_am_ne = self.calc_specific_capacity_active_material(c_max_ne, densities["negative_electrode_active_material"], 
+        specific_capacity_am_ne = _self.calc_specific_capacity_active_material(c_max_ne, densities["negative_electrode_active_material"], 
                                                                      li_stoich_max_ne, 
                                                                      li_stoich_min_ne,
                                                                      n)
-        specific_capacity_am_pe = self.calc_specific_capacity_active_material(c_max_pe, densities["positive_electrode_active_material"], 
+        specific_capacity_am_pe = _self.calc_specific_capacity_active_material(c_max_pe, densities["positive_electrode_active_material"], 
                                                                      li_stoich_max_pe, 
                                                                      li_stoich_min_pe,
                                                                      n)
@@ -926,16 +927,17 @@ class SetTabs:
         # specific_cap_am_ne_parameter["selected_value"] = specific_capacity_am_ne
         # specific_cap_am_pe_parameter = self.formatter.initialize_parameters(raw_template_am_pe)
         # specific_cap_am_pe_parameter["selected_value"] = specific_capacity_am_pe
-        specific_capacities_category_parameters_am_ne = self.LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)  
-        specific_capacities_category_parameters_am_pe = self.LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe) 
+ 
+        specific_capacities_category_parameters_am_ne = _self.LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)  
+        specific_capacities_category_parameters_am_pe = _self.LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe) 
 
         # Specific capacity electrodes
-        specific_capacity_ne = self.calc_capacity_electrode(specific_capacity_am_ne, 
+        specific_capacity_ne = _self.calc_capacity_electrode(specific_capacity_am_ne, 
                                                                     mf_ne, 
                                                                     densities["negative_electrode"],
                                                                     volumes["negative_electrode"], 
                                                                     porosities["negative_electrode"])
-        specific_capacity_pe = self.calc_capacity_electrode(specific_capacity_am_pe, 
+        specific_capacity_pe = _self.calc_capacity_electrode(specific_capacity_am_pe, 
                                                                     mf_pe, 
                                                                     densities["positive_electrode"],
                                                                     volumes["positive_electrode"], 
@@ -946,31 +948,31 @@ class SetTabs:
         }
         raw_template_ne = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
         raw_template_pe = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
-        specific_capacities_category_parameters_ne= self.LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)  
-        specific_capacities_category_parameters_pe= self.LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)  
+        specific_capacities_category_parameters_ne= _self.LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)  
+        specific_capacities_category_parameters_pe= _self.LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)  
 
         # N to P ratio
-        n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities_electrodes)
+        n_to_p_ratio = _self.calc_n_to_p_ratio(specific_capacities_electrodes)
         raw_template_np = db_helper.get_template_parameter_by_parameter_name("n_to_p_ratio")
-        n_to_p_category_parameters= self.LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
+        n_to_p_category_parameters= _self.LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
 
         # Cell Mass
         cc_mass = volumes["current_collector"]* 8950
-        cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
+        cell_mass, ne_mass, pe_mass = _self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name("cell_mass")
-        cell_mass_category_parameters= self.LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
+        cell_mass_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
 
         # Cell Capacity
         masses = {
             "negative_electrode": ne_mass,
             "positive_electrode": pe_mass
         }
-        cell_capacity = self.calc_cell_capacity(specific_capacities_electrodes)
+        cell_capacity = _self.calc_cell_capacity(specific_capacities_electrodes)
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
-        cell_capacity_category_parameters= self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
+        cell_capacity_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
 
         # Include indicators in linked data input dict
-        user_input = self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
+        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
         
         return user_input
 

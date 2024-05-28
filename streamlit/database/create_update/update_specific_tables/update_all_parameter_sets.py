@@ -332,14 +332,15 @@ class UpdateParameterSets:
             if parameter_set_already_exists:
                 existing_ids_to_be_deleted.remove(parameter_set_id)
 
-        for id_to_be_deleted in existing_ids_to_be_deleted:
-            deleted.append(self.delete_parameter_set_by_id(id_to_be_deleted))
+        if existing_ids_to_be_deleted:
+            for id_to_be_deleted in existing_ids_to_be_deleted:
+                deleted.append(self.delete_parameter_set_by_id(id_to_be_deleted))
 
-        print("\n SQL tables parameter and parameter_set are up to date according to the templates resource files")
-        if new_or_updated:
-            print(" Created or updated parameter_set : ", new_or_updated)
-        if deleted:
-            print(" Deleted parameter_set: ", deleted)
+            print("\n SQL tables parameter and parameter_set are up to date according to the templates resource files")
+            if new_or_updated:
+                print(" Created or updated parameter_set : ", new_or_updated)
+            if deleted:
+                print(" Deleted parameter_set: ", deleted)
 
 
 if __name__ == "__main__":

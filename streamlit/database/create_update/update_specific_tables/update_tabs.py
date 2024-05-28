@@ -61,7 +61,6 @@ class UpdateTabs:
             # if model_name == "p4d":
             #     model = "P4D"
             #     model_id = self.sql_model.get_model_id_from_model_name(model)
-        
 
             if tab_id:  # existing type
                 self.sql_tab.update_by_id(
@@ -91,9 +90,10 @@ class UpdateTabs:
                 new_types.append(tab_name)
 # Delete unused types which remain in the sql table
         deleted_types = []
-        for id_to_delete in existing_ids_to_be_deleted:
-            deleted_types.append(self.sql_tab.get_name_from_id(id_to_delete))
-            self.sql_tab.delete_by_id(id_to_delete)
+        if existing_ids_to_be_deleted:
+            for id_to_delete in existing_ids_to_be_deleted:
+                deleted_types.append(self.sql_tab.get_name_from_id(id_to_delete))
+                self.sql_tab.delete_by_id(id_to_delete)
 
         print("\n SQL table tab is up to date according to the resource file tabs.json")
         if updated_types:
