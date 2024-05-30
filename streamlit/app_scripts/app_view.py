@@ -1184,7 +1184,7 @@ class SetTabs:
                                       key = checkbox_key, 
                                       value= st.session_state[checkbox_key], 
                                       on_change = self.checkbox_input_connect,
-                                      args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
+                                      args = (checkbox_key, tab, category_id, non_material_parameter.name),
                                       label_visibility="collapsed")
                     st.text(" ")  
                    
