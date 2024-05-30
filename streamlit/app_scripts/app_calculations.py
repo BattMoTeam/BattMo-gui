@@ -50,7 +50,7 @@ def calc_mass_loading(density_eff, thickness, porosity):
 
 @st.cache_data
 def calc_thickness( density_mix, mass_loading, porosity):
-    th = mass_loading*10**(7)/(density_mix*1000(1-porosity))
+    th = mass_loading*10**(7)/(density_mix*1000*(1-porosity))
     return th
 
 @st.cache_data
