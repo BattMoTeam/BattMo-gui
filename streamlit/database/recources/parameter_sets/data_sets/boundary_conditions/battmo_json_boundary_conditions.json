@@ -5,7 +5,6 @@
     "material": false,
     "Parameters": {
         "external_heat_transfer_coefficient": 1000,
-        "initial_state_of_charge": 0.99,
         "ambient_temperature": 298.15,
         "initial_temperature": 298.15,
         "reference_temperature": 298.15

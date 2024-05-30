@@ -79,6 +79,12 @@ def get_path_to_output_files_dir():
     return output_files_path
 
 @st.cache_data
+def get_path_to_uploaded_hdf5_files_dir():
+    streamlit_path = get_path_to_streamlit_dir()
+    uploaded_hdf5_files_path = os.path.join(streamlit_path, "uploaded_hdf5_files")
+    return uploaded_hdf5_files_path
+
+@st.cache_data
 def get_path_to_zipped_results():
     output_files_path = get_path_to_output_files_dir()
     zipped_results_path = os.path.join(output_files_path, "zipped")

@@ -6,6 +6,7 @@
     "Header": {},
     "Parameters": {
        "initial_step_type": "discharging",
+       "initial_state_of_charge": 0.99,
        "d_rate": 1,
        "lower_cutoff_voltage": 2.4,
        "upper_cutoff_voltage": 4.1,

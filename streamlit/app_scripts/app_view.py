@@ -26,7 +26,7 @@ from scipy import ndimage
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper, db_handler
-from app_scripts import app_access, match_json_LD, LD_struct, match_json_upload, app_controller
+from app_scripts import app_access, match_json_LD, match_json_upload, app_controller
 from app_scripts import app_calculations as calc
 #con, cur = app_access.get_sqlite_con_and_cur()
 
@@ -2616,19 +2616,31 @@ class SetIndicators():
     """
     used to render the indicator parameters on the results page.
     """
-    def __init__(self, page_name):
+    def __init__(self, page_name,results_simulation=None):
         
         self.page_name = page_name
-        
+        self.results_simulation = results_simulation
+        self.calc_round_trip_efficiency = calc.calc_round_trip_efficiency
         #self.style = get_theme_style()
         self.set_indicators()
 
     def set_indicators(self):
 
         if self.page_name == "Simulation":
+
             indicators= self.get_indicators_from_LD()
+
         else:
+            if self.results_simulation:
+                calculated_indicaters = self.calculate_indicators()
+            else:
+                calculated_indicaters = None
+
             indicators= self.get_indicators_from_run()
+
+            if calculated_indicaters:
+                indicators["cell"] = indicators["cell"] + calculated_indicaters["cell"]
+            
 
         self.render_indicators(indicators)
 
@@ -2644,6 +2656,10 @@ class SetIndicators():
 
         indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)   
 
+        return indicators
+
+    def calculate_indicators(self):
+        round_trip_eff = self.calc_round_trip_efficiency(self.)
         return indicators
     
     def render_indicators(self,indicators):
@@ -3503,8 +3519,11 @@ class SetHDF5Download():
 
             grids = f.create_group("grids")
             grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid)
+            grids.create_dataset("negative_electrode_grid_bc", data=negative_electrode_grid_bc)
             grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid)
+            grids.create_dataset("positive_electrode_grid_bc", data=positive_electrode_grid_bc)
             grids.create_dataset("electrolyte_grid", data=electrolyte_grid)
+            grids.create_dataset("electrolyte_grid_bc", data=electrolyte_grid_bc)
 
             concentrations = f.create_group("concentrations")
 
@@ -3546,6 +3565,91 @@ class SetHDF5Download():
                 )
 
         return bio
+
+class SetHDF5Upload():
+    def __init__(self):
+        self.upload_folder_path = app_access.get_path_to_uploaded_hdf5_files_dir()
+
+    def set_results_uploader(self):
+
+        uploaded_file = st.file_uploader("Upload your HDF5 file.")
+
+        if uploaded_file:
+            results = self.retrieve_h5_data(uploaded_file)
+            file_path = os.path.join(st.session_state['temp_dir'], uploaded_file.name)
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            st.write(f"File saved to {file_path}")
+            
+
+        else:
+            results = None
+        return results
+
+
+    def retrieve_h5_data(self, uploaded_file):
+        results = []
+        #bytes_data = uploaded_file.getvalue()
+        with h5py.File(uploaded_file, "r") as f:
+            number_of_states = int(f.attrs['number_of_states'])
+
+            time_values = np.array(f['time_values'][:])
+            cell_voltage = np.array(f['cell_voltage'][:])
+            cell_current = np.array(f['cell_current'][:])
+
+            negative_electrode_grid = np.array(f['grids/negative_electrode_grid'][:])
+            negative_electrode_grid_bc = np.array(f['grids/negative_electrode_grid_bc'][:])
+            positive_electrode_grid = np.array(f['grids/positive_electrode_grid'][:])
+            positive_electrode_grid_bc = np.array(f['grids/positive_electrode_grid_bc'][:])
+            electrolyte_grid = np.array(f['grids/electrolyte_grid'][:])
+            electrolyte_grid_bc = np.array(f['grids/electrolyte_grid_bc'][:])
+
+            negative_electrode_concentration = []
+            positive_electrode_concentration = []
+            electrolyte_concentration = []
+
+            negative_electrode_potential = []
+            positive_electrode_potential = []
+            electrolyte_potential = []
+
+            for i in range(number_of_states):
+                ne_conc = np.array(f[f'concentrations/negative_electrode/ne_c_state_{i}'][:])
+                pe_conc = np.array(f[f'concentrations/positive_electrode/pe_c_state_{i}'][:])
+                elyte_conc = np.array(f[f'concentrations/electrolyte/elyte_c_state_{i}'][:])
+
+                ne_pot = np.array(f[f'potentials/negative_electrode/ne_p_state_{i}'][:])
+                pe_pot = np.array(f[f'potentials/positive_electrode/pe_p_state_{i}'][:])
+                elyte_pot = np.array(f[f'potentials/electrolyte/elyte_p_state_{i}'][:])
+
+                negative_electrode_concentration.append(ne_conc)
+                positive_electrode_concentration.append(pe_conc)
+                electrolyte_concentration.append(elyte_conc)
+
+                negative_electrode_potential.append(ne_pot)
+                positive_electrode_potential.append(pe_pot)
+                electrolyte_potential.append(elyte_pot)
+
+            results = [
+                f['log_messages'][:].tolist() if 'log_messages' in f else [],
+                number_of_states,
+                cell_voltage,
+                cell_current,
+                time_values,
+                negative_electrode_grid,
+                negative_electrode_grid_bc,
+                electrolyte_grid,
+                electrolyte_grid_bc,
+                positive_electrode_grid,
+                positive_electrode_grid_bc,
+                negative_electrode_concentration,
+                electrolyte_concentration,
+                positive_electrode_concentration,
+                negative_electrode_potential,
+                electrolyte_potential,
+                positive_electrode_potential
+            ]
+
+        return results
 
 
 

@@ -165,6 +165,22 @@
          "is_shown_to_user": false,
          "unit_name": "Second",
          "unit_iri": "https://w3id.org/emmo/domain/emmo#CountingUnit"
+      },
+      "initial_state_of_charge": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "basis",
+         "context_type": "battery:StateOfCharge",
+         "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_17591da0_34ec_41b9_b3c1_3a4446dc6f0a",
+         "max_value": 1,
+         "min_value": 0.01,
+         "description": "SOC, state of charge of the battery, where 1 is fully charged and 0 is fully discharged",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Initial state of charge"
       }
    }
 }

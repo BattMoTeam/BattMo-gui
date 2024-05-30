@@ -6,6 +6,7 @@
    "Header": {},
    "Parameters": {
       "initial_step_type": "discharging",
+      "initial_state_of_charge": 0.99,
       "number_of_cycles": 1,
       "d_rate": 1,
       "c_rate": 1,

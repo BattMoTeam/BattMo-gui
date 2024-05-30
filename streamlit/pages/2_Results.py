@@ -9,6 +9,9 @@ from streamlit_javascript import st_javascript
 import time
 from queue import Queue
 import sys
+import uuid
+import tempfile
+import shutil
 
 
 ##############################
@@ -49,24 +52,41 @@ def run_page():
     if "succes" not in st.session_state:
         st.session_state.succes = None
 
+    # Generate a unique identifier for the session
+    if 'unique_id' not in st.session_state:
+        st.session_state['unique_id'] = str(uuid.uuid4())
+    
+    
+    unique_id = st.session_state['unique_id']
+    # Create a temporary directory for the session
+    temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
+    # Store the temp_dir in session state
+    st.session_state['temp_dir'] = temp_dir
+
+
     app = get_app_controller()
 
-    if st.session_state.succes == True:
-        results = get_results_data().get_results_data()
+    results_uploaded = app.set_hdf5_upload().set_results_uploader()
 
-        app.set_indicators(page_name)
+    if results_uploaded:
+        app.set_graphs(results_uploaded)
+
+    if st.session_state.succes == True:
+        results_simulation = get_results_data().get_results_data()
+
+        app.set_indicators(page_name, results_simulation)
         #st.divider()
 
         #app_view.st_space(space_number=1) 
 
-        app.set_graphs(results)
+        app.set_graphs(results_simulation)
 
         app_view.st_space(space_number=1)
 
-        app.set_download_hdf5_button(results)
+        app.set_download_hdf5_button(results_simulation)
 
     elif st.session_state.succes == None:
-        st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation.")
+        st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation or upload your previous results to visualize them.")
 
     else: 
         st.error("Your simulation was not succesful unfortunately, give it another try.")

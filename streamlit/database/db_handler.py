@@ -1,6 +1,11 @@
-from .db_BaseHandler import BaseHandler
+
 import numpy as np
 import streamlit as st
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from database.db_BaseHandler import BaseHandler
 
 #####################################
 # PARAMETER

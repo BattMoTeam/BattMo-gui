@@ -45,8 +45,8 @@ class AppController:
     def json_LD_to_BattMo(self, gui_dict):
         return view.match_json_LD.get_batt_mo_dict_from_gui_dict(gui_dict)
     
-    def set_indicators(self, page_name):
-        return view.SetIndicators(page_name)
+    def set_indicators(self, page_name, results_simulation):
+        return view.SetIndicators(page_name,results_simulation)
     
     def set_geometry_visualization(self,gui_parameters):
         return view.SetGeometryVisualization(gui_parameters)
@@ -56,6 +56,9 @@ class AppController:
     
     def set_graphs(self, results):
         return view.SetGraphs(results)
+    
+    def set_hdf5_upload(self):
+        return view.SetHDF5Upload()
 
 
 #####################################

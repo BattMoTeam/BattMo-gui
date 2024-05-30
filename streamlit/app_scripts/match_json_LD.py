@@ -317,7 +317,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value")
         },
         "G": [],
-        "SOC": json_ld.bc.get("initial_state_of_charge").get("value"),
+        "SOC": json_ld.protocol.get("initial_state_of_charge").get("value"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.bc.get("initial_temperature").get("value"),
         "use_thermal": json_ld.model.get("use_thermal"),

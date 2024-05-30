@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 7.9e-05,
+         "thickness": 8.499999999999999e-05,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
@@ -133,7 +133,7 @@
       "bruggemanCoefficient": 1.5
    },
    "Electrolyte": {
-      "initialConcentration": 1300.0,
+      "initialConcentration": 1000.0,
       "specificHeatCapacity": 1518.0,
       "thermalConductivity": 0.099,
       "density": 1200,

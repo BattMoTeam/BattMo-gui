@@ -452,7 +452,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 79.0
+                           "hasNumericalData": 85.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -478,7 +478,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 13.986159999999998
+                           "hasNumericalData": 15.0484
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -530,7 +530,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1041.483630315592
+                           "hasNumericalData": 1120.5836528712066
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -1171,7 +1171,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1300.0
+                     "hasNumericalData": 1000.0
                   },
                   "unit": {
                      "label": "MolPerLiter",
@@ -1365,7 +1365,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.99
+                     "hasNumericalData": 1.07
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -1378,7 +1378,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 31.5113733632
+                     "hasNumericalData": 31.7796972032
                   },
                   "unit": {
                      "label": "Gram",
@@ -1391,7 +1391,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1041.483630315592
+                     "hasNumericalData": 1047.6223333812661
                   },
                   "unit": {
                      "label": "AmpereHour",
@@ -1429,19 +1429,6 @@
                      "label": "Kelvin",
                      "symbol": "K",
                      "@type": "emmo:Kelvin"
-                  }
-               },
-               {
-                  "label": "initial_state_of_charge",
-                  "@type": "battery:StateOfCharge",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.99
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -1503,6 +1490,19 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "initial_state_of_charge",
+                  "@type": "battery:StateOfCharge",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.99
                   },
                   "unit": {
                      "label": "UnitOne",
