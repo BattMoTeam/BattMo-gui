@@ -1,6 +1,11 @@
 import streamlit as st
-from . import db_handler
 import numpy as np
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from database import db_handler
+
 
 """
 Functions called from GUI code to access db.

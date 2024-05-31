@@ -1398,6 +1398,19 @@
                      "symbol": "mAh",
                      "@type": "emmo:AmpereHour"
                   }
+               },
+               {
+                  "label": "round_trip_efficiency",
+                  "@type": "emmo:EnergyEfficiency",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": null
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
+                  }
                }
             ]
          },
@@ -1455,7 +1468,20 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:String",
-                     "hasStringData": "discharging"
+                     "hasStringData": "charging"
+                  }
+               },
+               {
+                  "label": "initial_state_of_charge",
+                  "@type": "battery:StateOfCharge",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 0.01
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -1490,19 +1516,6 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
-                  }
-               },
-               {
-                  "label": "initial_state_of_charge",
-                  "@type": "battery:StateOfCharge",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.99
                   },
                   "unit": {
                      "label": "UnitOne",

@@ -163,13 +163,13 @@
       "bruggemanCoefficient": 1.5
    },
    "G": [],
-   "SOC": 0.99,
+   "SOC": 0.01,
    "initT": 298.15,
    "use_thermal": true,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "CCCV",
-      "initialControl": "discharging",
+      "initialControl": "charging",
       "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,

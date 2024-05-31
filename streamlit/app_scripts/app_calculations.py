@@ -115,7 +115,30 @@ def calc_cell_capacity(capacities_electrodes):
 
 
 @st.cache_data
-def calc_round_trip_efficiency():
-    
+def calc_round_trip_efficiency(time_values,cell_current,cell_voltage ):
 
-    return
+    max_t = np.max(time_values)
+    EEs_charge= []
+    EEs_discharge= []
+    if cell_current[0] > 0:
+        Energy_efficiency = "N/A"
+    else:
+
+        for i in range(len(time_values)-1):
+            delta_t = time_values[i+1]-time_values[i]
+            if cell_current[i] <= 0:
+                EE_charge =+ abs(cell_current[i])*cell_voltage[i]*delta_t
+                if cell_current[i+1] > 0 or time_values[i+1] == max_t:
+                    EEs_charge.append(EE_charge)
+                    EE_charge = 0
+                    
+            else:
+                EE_discharge =+ abs(cell_current[i])*cell_voltage[i]*delta_t
+                if cell_current[i+1] <= 0 or time_values[i+1] == max_t:
+                    EEs_discharge.append(EE_discharge)
+                    EE_discharge = 0
+
+        Energy_efficiency = np.array(EEs_discharge)/np.array(EEs_charge)
+
+
+    return Energy_efficiency

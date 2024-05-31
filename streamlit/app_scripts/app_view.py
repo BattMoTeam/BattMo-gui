@@ -21,6 +21,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
 from scipy import ndimage
+import ast
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -437,8 +438,8 @@ class SetupLinkedDataStruct():
             component_parameters = []
 
         numeric = isinstance(parameter, NumericalParameter)
-        print("numeric =", numeric)
-        print("object =", parameter)
+        # print("numeric =", numeric)
+        # print("object =", parameter)
 
         try:
 
@@ -590,10 +591,11 @@ class SetupLinkedDataStruct():
 
         return dict
     
-    def add_indicators_to_struct(self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe):
+    def add_indicators_to_struct(self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte):
         dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += n_to_p
         dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_mass
         dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_cap
+        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += rte
         dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasNegativeElectrode][self.hasQuantitativeProperty] += specific_cap_ne
         dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasPositiveElectrode][self.hasQuantitativeProperty] += specific_cap_pe
         dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasActiveMaterial][self.hasQuantitativeProperty] += cap_ne
@@ -971,8 +973,13 @@ class SetTabs:
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
         cell_capacity_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
 
+        # Round trip efficiency
+        raw_template_rte = db_helper.get_template_parameter_by_parameter_name("round_trip_efficiency")
+        rte_category_parameters= _self.LD.setup_parameter_struct(raw_template_rte,value=None)
+
+
         # Include indicators in linked data input dict
-        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
+        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe,rte_category_parameters)
         
         return user_input
 
@@ -1155,10 +1162,11 @@ class SetTabs:
                             label_visibility="collapsed"
                         )
                     else:
+                        value_list = ast.literal_eval(parameter.options.get(selected_parameter_id).value)
                         name_col.write(parameter.display_name)
                         user_input = input_col.selectbox(
                             label=parameter.display_name,
-                            options=[parameter.options.get(selected_parameter_id).value],
+                            options=value_list,
                             key="input_{}_{}".format(non_material_component_id, parameter_id),
                             label_visibility="collapsed",
                         )
@@ -1511,7 +1519,7 @@ class SetTabs:
                                     key = checkbox_key, 
                                     value= st.session_state[checkbox_key], 
                                     on_change = self.checkbox_input_connect,
-                                    args = (checkbox_key, tab, category_id, non_material_parameter.name,non_material_parameter),
+                                    args = (checkbox_key, tab, category_id, non_material_parameter.name),
                                     label_visibility="collapsed")
                     st.text(" ")  
                 
@@ -2097,14 +2105,29 @@ class RunSimulation:
         save_run = st.container()
 
         self.set_header(save_run)
-        self.set_buttons(save_run)
+        file_name = self.set_naming(save_run)
+        self.set_buttons(save_run, file_name)
 
     def set_header(self,save_run):
 
         save_run.markdown("### " + self.header)
         save_run.text(" ")
 
-    def set_buttons(self,save_run):
+    def set_naming(self,save_run):
+
+        col1, col2 = save_run.columns(2)
+        checkbox = col1.checkbox("Give your results a name. (The results will be automatically deleted on refreshing or closing of the browser.)")
+
+        if checkbox:
+            file_name = col2.text_input("Give your results a name.")
+
+            if file_name:
+                st.session_state["simulation_results_file_name"] = file_name
+        else:
+            random_file_name = str(uuid4())
+            st.session_state["simulation_results_file_name"] = "Result_" + random_file_name
+
+    def set_buttons(self,save_run,file_name):
 
         #empty,run,empty2 = save_run.columns((0.3,1,1))
 
@@ -2118,7 +2141,7 @@ class RunSimulation:
         runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
-            args = (save_run, ),
+            args = (save_run,file_name ),
             type = "primary",
             use_container_width = True
             #help = "Run the simulation (after updating the parameters)."
@@ -2126,14 +2149,14 @@ class RunSimulation:
         )
 
         
-    def update_on_click(self):
+    def update_on_click(self,file_name):
         self.update_json_LD()
         self.update_json_battmo_input()
-        
         
         st.session_state.update_par = True
 
         #save_run.success("Your parameters are saved! Run the simulation to get your results.")
+
 
     def update_json_LD(self):
 
@@ -2159,7 +2182,7 @@ class RunSimulation:
                 indent=3
             )
 
-    def execute_api_on_click(self, save_run):
+    def execute_api_on_click(self, save_run,file_name):
 
         ##############################
         # # Remember user changed values
@@ -2174,7 +2197,7 @@ class RunSimulation:
         
         ##############################
 
-        self.update_on_click()
+        self.update_on_click(file_name)
 
         #if st.session_state.update_par != True:
             # save_run.warning("""The parameters are not updated yet. 
@@ -2326,6 +2349,13 @@ class DivergenceCheck:
 
                     with open(app_access.get_path_to_battmo_results(), "wb") as f:
                         f.write(self.response.content)
+
+                    temp_file_name = st.session_state["simulation_results_file_name"]
+                    file_path = os.path.join(st.session_state['temp_dir'], temp_file_name)
+                    with open(file_path, "wb") as f:
+                        f.write(self.response.content)
+
+
 
 
 class DownloadParameters:
@@ -2514,6 +2544,9 @@ class GetResultsData():
         formatted_results = self.format_results()
 
         self.results = formatted_results
+        # file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
+        # with open(file_path, "wb") as f:
+        #     f.write(uploaded_file[0].getbuffer())
         return self.results
 
     def retrieve_results(self):
@@ -2610,6 +2643,8 @@ class GetResultsData():
 
             ]
         
+
+        
         return results
     
 class SetIndicators():
@@ -2633,13 +2668,15 @@ class SetIndicators():
         else:
             if self.results_simulation:
                 calculated_indicaters = self.calculate_indicators()
+                # calculated_indicaters = None
+
             else:
                 calculated_indicaters = None
 
             indicators= self.get_indicators_from_run()
 
             if calculated_indicaters:
-                indicators["cell"] = indicators["cell"] + calculated_indicaters["cell"]
+                indicators["Cell"]["roundTripEfficiency"]["value"] = calculated_indicaters["Cell"]["roundTripEfficiency"]
             
 
         self.render_indicators(indicators)
@@ -2659,7 +2696,35 @@ class SetIndicators():
         return indicators
 
     def calculate_indicators(self):
-        round_trip_eff = self.calc_round_trip_efficiency(self.)
+
+        [
+            log_messages,
+            number_of_states,
+            cell_voltage,
+            cell_current,
+            time_values,
+            negative_electrode_grid,
+            negative_electrode_grid_bc,
+            electrolyte_grid,
+            electrolyte_grid_bc,
+            positive_electrode_grid,
+            positive_electrode_grid_bc,
+            negative_electrode_concentration,
+            electrolyte_concentration,
+            positive_electrode_concentration,
+            negative_electrode_potential,
+            electrolyte_potential,
+            positive_electrode_potential
+
+            ] = self.results_simulation
+        
+        round_trip_eff = self.calc_round_trip_efficiency(time_values,cell_current,cell_voltage)
+
+        indicators = {
+            "Cell": {
+                "roundTripEfficiency": round_trip_eff
+            }
+        }
         return indicators
     
     def render_indicators(self,indicators):
@@ -2668,6 +2733,7 @@ class SetIndicators():
         # cell_energy = indicators["Cell"]["cellEnergy"]
         cell_capacity = indicators["Cell"]["nominalCellCapacity"]
         n_to_p_ratio = indicators["Cell"]["NPRatio"]
+        energy_efficiency = indicators["Cell"]["roundTripEfficiency"]
 
         ne_mass_loading = indicators["NegativeElectrode"]["massLoading"]
         ne_thickness = indicators["NegativeElectrode"]["thickness"]
@@ -2687,11 +2753,7 @@ class SetIndicators():
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
-            # col2.metric(
-            #         label = "Energy ({})".format(cell_energy["unit"]),
-            #         value = np.round(cell_energy["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            
             col3.metric(
                     label = "Cell Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
@@ -2702,6 +2764,7 @@ class SetIndicators():
                     value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
+            
 
         elif self.page_name == "Results":
             NE, PE,cell = st.tabs(["Negative Electrode", "Positive Electrode","Cell"])
@@ -2715,11 +2778,18 @@ class SetIndicators():
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
-            # col2.metric(
-            #         label = "Energy ({})".format(cell_energy["unit"]),
-            #         value = np.round(cell_energy["value"],2),
-            #         label_visibility= "visible"
-            #     )
+            if isinstance(energy_efficiency["value"], str):
+                col4.metric(
+                    label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                    value = energy_efficiency["value"],
+                    label_visibility= "visible"
+                )
+            else:
+                col4.metric(
+                        label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                        value = np.round(energy_efficiency["value"][0],2),
+                        label_visibility= "visible"
+                    )
             col3.metric(
                     label = "Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
@@ -3568,24 +3638,27 @@ class SetHDF5Download():
 
 class SetHDF5Upload():
     def __init__(self):
+        self.header = "Upload your data file"
         self.upload_folder_path = app_access.get_path_to_uploaded_hdf5_files_dir()
 
     def set_results_uploader(self):
 
-        uploaded_file = st.file_uploader("Upload your HDF5 file.")
+        with st.sidebar:
+            st.markdown("## " + self.header)
+            uploaded_file = st.file_uploader("Upload your HDF5 results file.",type='hdf5', label_visibility="collapsed",accept_multiple_files = True)
 
         if uploaded_file:
-            results = self.retrieve_h5_data(uploaded_file)
-            file_path = os.path.join(st.session_state['temp_dir'], uploaded_file.name)
+            results = self.retrieve_h5_data(uploaded_file[0])
+            file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
             with open(file_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
+                f.write(uploaded_file[0].getbuffer())
             st.write(f"File saved to {file_path}")
+            st.session_state.hdf5_upload = True
             
 
         else:
             results = None
         return results
-
 
     def retrieve_h5_data(self, uploaded_file):
         results = []
@@ -3651,7 +3724,18 @@ class SetHDF5Upload():
 
         return results
 
+class SetDataSetSelector():
+    def __init__(self):
+        self.header = "Select data to visualize/compare"
+        self.session_temp_folder = st.session_state["temp_dir"]
 
+    def set_selector(self):
+        with st.sidebar:
+            st.markdown("## " + self.header)
+        
+            file_names = [f for f in os.listdir(self.session_temp_folder) if os.path.isfile(os.path.join(self.session_temp_folder, f))]
+            selected = st.selectbox("Select data",options= file_names, label_visibility="collapsed", key = "selected_data")
+        st.write(st.session_state["selected_data"])
 
 class SetGraphs():
     """
@@ -3689,14 +3773,6 @@ class SetGraphs():
 
     def set_graphs(_self):
 
-        ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
-
-        #Remember widget actions when switching between pages (for example: selectbox choice)
-        st.session_state.update(st.session_state)
-        ##############################
         
         #dynamic, colormaps = _self.set_graph_toggles()
 

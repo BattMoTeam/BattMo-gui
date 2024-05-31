@@ -5,12 +5,12 @@ import sys
 import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from database.db_BaseHandler import BaseHandler
+from database import db_BaseHandler as db
 
 #####################################
 # PARAMETER
 #####################################
-class ParameterHandler(BaseHandler):
+class ParameterHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "parameter"
         self._columns = "name, parameter_set_id, template_parameter_id, value"
@@ -67,7 +67,7 @@ class ParameterHandler(BaseHandler):
 #####################################
 # PARAMETER SET
 #####################################
-class ParameterSetHandler(BaseHandler):
+class ParameterSetHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "parameter_set"
         self._columns = "name, component_id, material"
@@ -123,7 +123,7 @@ class ParameterSetHandler(BaseHandler):
 #####################################
 # TEMPLATE
 #####################################
-class TemplateHandler(BaseHandler):
+class TemplateHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "template"
         self._columns = "name"
@@ -147,7 +147,7 @@ class TemplateHandler(BaseHandler):
 #####################################
 # TEMPLATE PARAMETER
 #####################################
-class TemplateParameterHandler(BaseHandler):
+class TemplateParameterHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "template_parameter"
         self._columns = "name, template_id,model_name,par_class,difficulty, context_type, context_type_iri, type, unit, unit_name, unit_iri, max_value, min_value, is_shown_to_user, description, display_name"
@@ -258,7 +258,7 @@ class TemplateParameterHandler(BaseHandler):
 #####################################
 # MODEL
 #####################################
-class ModelHandler(BaseHandler):
+class ModelHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "model"
         self._columns = "name, show_to_user, description"
@@ -294,7 +294,7 @@ class ModelHandler(BaseHandler):
 #####################################
 # MODEL PARAMETER
 #####################################
-class ModelParameterHandler(BaseHandler):
+class ModelParameterHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "model_parameter"
         self._columns = "name, value, type, unit, unit_name, unit_iri, description"
@@ -339,7 +339,7 @@ class ModelParameterHandler(BaseHandler):
 #####################################
 # TAB
 #####################################
-class TabHandler(BaseHandler):
+class TabHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "tab"
         self._columns = "name, model_name, difficulty, display_name, context_type, context_type_iri, description"
@@ -368,7 +368,7 @@ class TabHandler(BaseHandler):
 #####################################
 # CATEGORY
 #####################################
-class CategoryHandler(BaseHandler):
+class CategoryHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "category"
         self._columns = "name, model_name, difficulty, context_type, context_type_iri, emmo_relation, display_name, tab_id, default_template_id, description"
@@ -414,7 +414,7 @@ class CategoryHandler(BaseHandler):
 #####################################
 # COMPONENT
 #####################################
-class ComponentHandler(BaseHandler):
+class ComponentHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "component"
         self._columns = "name, model_name, difficulty,material, context_type, context_type_iri, emmo_relation, display_name, category_id, default_template_id, description"
@@ -469,7 +469,7 @@ class ComponentHandler(BaseHandler):
 #####################################
 # MATERIAL
 #####################################
-class MaterialHandler(BaseHandler):
+class MaterialHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "material"
         self._columns = "name, model_name, difficulty, is_shown_to_user, context_type, context_type_iri, emmo_relation, display_name, tab_id, default_template_id, description"
