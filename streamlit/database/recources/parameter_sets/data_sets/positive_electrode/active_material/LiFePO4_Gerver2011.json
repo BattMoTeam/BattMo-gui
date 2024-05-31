@@ -7,6 +7,7 @@
        "maximum_concentration": 21200,
        "particle_radius": 5e-07,
        "electronic_conductivity": 0.80,
+       "density": 991,
        "volumetric_surface_area": 4418460,
        "number_of_electrons_transferred": 1,
        "activation_energy_of_reaction": 35000,

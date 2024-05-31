@@ -7,6 +7,7 @@ import os
 import sys
 import streamlit as st
 import json
+import scipy.integrate as integrate
 
 ##############################
 # Set page directory to base level to allow for module import from different folder

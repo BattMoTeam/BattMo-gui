@@ -2339,7 +2339,18 @@ class DivergenceCheck:
                 save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
                 st.session_state.succes = True
 
+                
+
                 if self.response:
+                    temp_file_name = st.session_state["simulation_results_file_name"]
+                    st.write(f"temp_file name = {temp_file_name}")
+                    st.write("temp_dir = {st.session_state['temp_dir']}")
+                    file_path = os.path.join(st.session_state['temp_dir'], temp_file_name +".hdf5")
+                    st.write("temp_file_dir = {}".format(file_path))
+
+                    with open(file_path, "wb") as f:
+                        f.write(self.response.content)
+
                     with open(app_access.get_path_to_linked_data_input(), 'r') as f:
                         gui_parameters = json.load(f)
 
@@ -2351,10 +2362,9 @@ class DivergenceCheck:
                     with open(app_access.get_path_to_battmo_results(), "wb") as f:
                         f.write(self.response.content)
 
-                    temp_file_name = st.session_state["simulation_results_file_name"]
-                    file_path = os.path.join(st.session_state['temp_dir'], temp_file_name)
-                    with open(file_path, "wb") as f:
-                        f.write(self.response.content)
+                    
+
+                    
 
 
 
@@ -2785,10 +2795,16 @@ class SetIndicators():
                     value = energy_efficiency["value"],
                     label_visibility= "visible"
                 )
-            else:
+            elif isinstance(energy_efficiency["value"],  np.ndarray):
                 col4.metric(
                         label = "Energy efficiency({})".format(energy_efficiency["unit"]),
                         value = np.round(energy_efficiency["value"][0],2),
+                        label_visibility= "visible"
+                    )
+            else:
+                col4.metric(
+                        label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                        value = np.round(energy_efficiency["value"],2),
                         label_visibility= "visible"
                     )
             col3.metric(
@@ -3735,6 +3751,7 @@ class SetDataSetSelector():
             st.markdown("## " + self.header)
         
             file_names = [f for f in os.listdir(self.session_temp_folder) if os.path.isfile(os.path.join(self.session_temp_folder, f))]
+ 
             selected = st.selectbox("Select data",options= file_names, label_visibility="collapsed", key = "selected_data")
         st.write(st.session_state["selected_data"])
 
