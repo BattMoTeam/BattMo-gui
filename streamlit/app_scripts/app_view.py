@@ -1869,6 +1869,8 @@ class SetTabs:
                 if set_parameter:
                     parameter.set_selected_value(set_parameter.value)
                     component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                    st.write(parameter.name)
+                    st.write(parameter.id)
                     db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
 
 
@@ -1877,26 +1879,26 @@ class SetTabs:
 
             
 
-            # con, cur = app_access.get_sqlite_con_and_cur()
-            # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 82''')
-            # # Fetch all rows from the result
-            # data = cur.fetchall()
+            con, cur = app_access.get_sqlite_con_and_cur()
+            data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
+            # Fetch all rows from the result
+            data = cur.fetchall()
 
-            # # Check if there are columns to describe
-            # if cur.description:
-            #     # Print the column information
-            #     print("Column names:", [col[0] for col in cur.description])
+            # Check if there are columns to describe
+            if cur.description:
+                # Print the column information
+                print("Column names:", [col[0] for col in cur.description])
 
-            # else:
-            #     print("No columns to describe (empty result set)")
+            else:
+                print("No columns to describe (empty result set)")
 
-            # # Print the retrieved data
-            # for row in data:
-            #     st.write(row)
+            # Print the retrieved data
+            for row in data:
+                st.write(row)
                 
-            # # Don't forget to close the cursor and connection when done
-            # cur.close()
-            # con.close() 
+            # Don't forget to close the cursor and connection when done
+            cur.close()
+            con.close() 
 
         #self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
 
@@ -1965,7 +1967,7 @@ class SetTabs:
                         non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)
                         
                         non_material_parameters_raw.append(non_material_parameter)
-                    
+                    st.write(non_material_parameters_raw)
                     formatted_parameters = self.formatter.format_parameters(non_material_parameters_raw, raw_template_parameters, non_material_parameters_set_name)
                     
                     for parameter_id in formatted_parameters:

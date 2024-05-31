@@ -555,14 +555,14 @@ def get_parameter_by_template_parameter_id(template_parameter_id):
             where="id={}".format(template_parameter_id)
         )
 
-@st.cache_data()
+
 def reset_material_template_parameters(template_id):
     sql_template_parameter().update(
             set = "difficulty = 'advanced'",
             where="par_class ='material' AND template_id = {}".format(int(template_id))
         )
 
-@st.cache_data   
+  
 def set_material_template_parameters_to_basis_by_id(template_parameter_id):
     sql_template_parameter().update(
             set = "difficulty = 'basis'",
@@ -589,7 +589,6 @@ def get_non_material_template_by_template_id(template_id, model_name):
             where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis' AND is_shown_to_user = 'True'".format(template_id,"non_material",model_name)
         )
 
-@st.cache_data
 def get_advanced_template_by_template_id(template_id,model_name):
     res = sql_template_parameter().select(
             values='*',
