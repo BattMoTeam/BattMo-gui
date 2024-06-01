@@ -58,8 +58,8 @@ def run_page():
     st.session_state.update(st.session_state)
     ##############################
 
-    if "succes" not in st.session_state:
-        st.session_state.succes = None
+    if "success" not in st.session_state:
+        st.session_state.success = None
 
     if "hdf5_upload" not in st.session_state:
         st.session_state.hdf5_upload = None
@@ -85,19 +85,19 @@ def run_page():
 
     app = get_app_controller()
 
-    if st.session_state.succes == True:
+    if st.session_state.success == True:
         results_simulation = get_results_data().get_results_data()
 
     results_uploaded = app.set_hdf5_upload().set_results_uploader()
     selected_data_sets = app.set_data_set_selector().set_selector()
 
-    if st.session_state.succes == True or st.session_state.hdf5_upload == True:
-        if st.session_state.succes == True:
+    if st.session_state.success == True or st.session_state.hdf5_upload == True:
+        if st.session_state.success == True:
             app.set_indicators(page_name, results_simulation)
         #st.divider()
 
         #app_view.st_space(space_number=1)
-        if st.session_state.succes == True: 
+        if st.session_state.success == True: 
             results = results_simulation
         else:
             results = results_uploaded
@@ -106,11 +106,11 @@ def run_page():
 
         app_view.st_space(space_number=1)
 
-        if st.session_state.succes == True:
+        if st.session_state.success == True:
             app.set_download_hdf5_button(results_simulation)
 
 
-    elif st.session_state.succes == None:
+    elif st.session_state.success == None:
         st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation or upload your previous results to visualize them.")
 
     else: 

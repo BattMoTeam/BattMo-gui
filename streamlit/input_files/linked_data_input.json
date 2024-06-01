@@ -1561,7 +1561,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.01
+                     "hasNumericalData": 0.0001
                   },
                   "unit": {
                      "label": "A\u00b7s\u207b\u00b9",
@@ -1587,7 +1587,7 @@
                   "@type": "['CurrentCollector', 'parameter']",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 100.0
+                     "hasNumericalData": 30.0
                   },
                   "unit": {
                      "label": "Second",

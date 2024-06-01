@@ -14,50 +14,50 @@ Functions called from GUI code to access db.
 """
 
 
-@st.cache_data
+@st.cache_resource
 def sql_parameter():
     return db_handler.ParameterHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_parameter_set():
     return db_handler.ParameterSetHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_category():
     return db_handler.CategoryHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_component():
     return db_handler.ComponentHandler()
 
-@st.cache_data
+@st.cache_resource
 def sql_material():
     return db_handler.MaterialHandler()
 
-@st.cache_data
+@st.cache_resource
 def sql_tab():
     return db_handler.TabHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_model():
     return db_handler.ModelHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_model_parameter():
     return db_handler.ModelParameterHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_template():
     return db_handler.TemplateHandler()
 
 
-@st.cache_data
+@st.cache_resource
 def sql_template_parameter():
     return db_handler.TemplateParameterHandler()
 
@@ -438,7 +438,7 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id,parameter_
 #####################################
 # MODEL
 #####################################
-@st.cache_data
+
 def get_models_as_dict():
 
     models = sql_model().select(

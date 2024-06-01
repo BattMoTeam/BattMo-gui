@@ -2089,7 +2089,7 @@ class RunSimulation:
         #self.gui_file_data = json.dumps(gui_parameters, indent=2)
         #self.gui_file_name = "gui_output_parameters.json"
         #self.file_mime_type = "application/json"
-
+        self.success = st.session_state.success
         self.api_url = "http://genie:8000/run_simulation"
         self.json_input_folder = 'BattMoJulia'
         self.json_input_file = 'battmo_formatted_input.json'
@@ -2197,6 +2197,7 @@ class RunSimulation:
         sys.path.insert(0, app_access.get_path_to_streamlit_dir())
         
         ##############################
+        st.write("success 1 = ",self.success)
 
         self.update_on_click(file_name)
 
@@ -2221,15 +2222,18 @@ class RunSimulation:
             with open(app_access.get_path_to_battmo_results(), "wb") as f:
                     f.write(response_start.content)
 
-            success = DivergenceCheck(response_start).success
+            self.success = DivergenceCheck(response_start.content).success
 
+            st.write("success 7 = ",self.success)
                 
 
         else:
                 st.session_state.reponse = False
-                #success = DivergenceCheck(response_start.status_code).success
+
+                self.success = DivergenceCheck(False).success
                 
-    
+                st.write("success 8 = ",self.success)
+
         
         # with open("BattMo_results.pkl", "rb") as f:
         #     data = pickle.load(f)
@@ -2256,23 +2260,23 @@ class DivergenceCheck:
     Checks if the simulation is fully executed. If not it provides a warning to the user. 
     If the simulation is fully executed, it shows the battmo logging if there is any.
     """
-    def __init__(self,response):
+    def __init__(self,response= None):
 
         self.response = response
-        self.success = False
+        self.success = st.session_state.success
         self.check_for_divergence()
         
 
     def check_for_divergence(self):
 
-        if st.session_state.sim_finished:
+       if self.response:
 
             results = app_controller.get_results_data().get_results_data()
 
             N = self.get_timesteps_setting()
             number_of_states, log_messages = self.get_timesteps_execution(results)
 
-            self.divergence_check_logging(N,number_of_states, log_messages)
+            self.divergence_check_logging(N,number_of_states, log_messages,results)
 
     def get_timesteps_setting(self):
 
@@ -2310,16 +2314,20 @@ class DivergenceCheck:
 
         return number_of_states, log_messages
     
-    def divergence_check_logging(self,N, number_of_states,log_messages):
+    def divergence_check_logging(self,N, number_of_states,log_messages,results):
         save_run = st.empty()
-        if st.session_state.reponse == False:
+
+        if self.response == False:
             st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+            st.session_state.success = False
+            self.success = False
             
-        else:
+        elif self.response:
             if number_of_states == 0:
                 self.success = False
-                  
-                st.session_state.succes = False
+ 
+                st.session_state.success = False
+
                 if len(log_messages[()]) > 1:
                     c = save_run.container()
                     c.error("Simulation wasn't successful unfortunately. Some errors were produced, see the logging.")
@@ -2337,20 +2345,10 @@ class DivergenceCheck:
             else: 
                 self.success = True
                 save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-                st.session_state.succes = True
+                st.session_state.success = True
 
-                
-
-                if self.response:
-                    temp_file_name = st.session_state["simulation_results_file_name"]
-                    st.write(f"temp_file name = {temp_file_name}")
-                    st.write("temp_dir = {st.session_state['temp_dir']}")
-                    file_path = os.path.join(st.session_state['temp_dir'], temp_file_name +".hdf5")
-                    st.write("temp_file_dir = {}".format(file_path))
-
-                    with open(file_path, "wb") as f:
-                        f.write(self.response.content)
-
+                # if self.response:
+                try:
                     with open(app_access.get_path_to_linked_data_input(), 'r') as f:
                         gui_parameters = json.load(f)
 
@@ -2359,8 +2357,26 @@ class DivergenceCheck:
                     with open(app_access.get_path_to_indicator_values(), 'w') as f:
                         json.dump(indicators, f, indent=3)
 
-                    with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                        f.write(self.response.content)
+                    # with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                    #     f.write(results)
+
+                    temp_file_name = st.session_state["simulation_results_file_name"]
+                    save_run.write(f"temp_file name = {temp_file_name}")
+                    save_run.write("temp_dir = {st.session_state['temp_dir']}")
+                    file_path = os.path.join(st.session_state['temp_dir'], temp_file_name +".hdf5")
+                    save_run.write("temp_file_dir = {}".format(file_path))
+
+                    with open(file_path, "wb") as f:
+                        f.write(results)
+
+                except:
+                    pass
+        else:
+            #st.session_state.success = True
+
+            #st.write("success 5 = ",self.success)
+
+            pass
 
                     
 
@@ -3751,9 +3767,10 @@ class SetDataSetSelector():
             st.markdown("## " + self.header)
         
             file_names = [f for f in os.listdir(self.session_temp_folder) if os.path.isfile(os.path.join(self.session_temp_folder, f))]
- 
-            selected = st.selectbox("Select data",options= file_names, label_visibility="collapsed", key = "selected_data")
-        st.write(st.session_state["selected_data"])
+            st.write(file_names)
+            st.write(self.session_temp_folder)
+            selected = st.multiselect(label="Select data",options= list(file_names), label_visibility="collapsed")
+        
 
 class SetGraphs():
     """

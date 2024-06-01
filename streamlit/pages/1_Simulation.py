@@ -54,8 +54,8 @@ if "sim_finished" not in st.session_state:
 if "update_par" not in st.session_state:
     st.session_state.update_par = False
 
-if "succes" not in st.session_state:
-    st.session_state.succes = None
+if "success" not in st.session_state:
+    st.session_state.success = None
 
 if "response" not in st.session_state:
     st.session_state.response = None
@@ -103,10 +103,10 @@ def run_page():
     app.download_parameters(gui_parameters)
 
     
-    error = app.run_simulation(gui_parameters).response_start
+    success = app.run_simulation(gui_parameters).success
     # st.session_state.succes = True
-
-    app.divergence_check(error)
+    st.write("success 9 = ",success)
+    app.divergence_check(success)
 
 
     
