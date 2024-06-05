@@ -2158,7 +2158,7 @@ class RunSimulation:
         #     args= (save_run, )
         #     #help = "Update the parameter values."
         # )
-        col1,_ = save_run.columns((1,3))
+        col1,col2 = save_run.columns((1,3))
         runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
@@ -2168,6 +2168,14 @@ class RunSimulation:
             #help = "Run the simulation (after updating the parameters)."
 
         )
+
+        results_page = col2.button(label = "Results",
+                        help = self.help_results,
+                        use_container_width=True
+                        )
+
+        if results_page:
+            switch_page("Results")
 
 
     def update_on_click(self,file_name):
