@@ -137,7 +137,7 @@ class NumericalParameter(TemplateParameter):
 
         else:
             max_readable_value = 10000
-            min_readable_value = 0.001
+            min_readable_value = 0.0001
             is_readable = self.max_value < max_readable_value and self.min_value > min_readable_value
             self.format = "%g" if is_readable else "%.2e"
 
@@ -311,6 +311,7 @@ class FormatParameters:
                             formatted_value = int(value)
                         elif template_parameter.type == "float":
                             formatted_value = float(value)
+                            #formatted_value = self.custom_number_input(formatted_value)
                         else:
                             assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                                 parameter_id, template_parameter.type
@@ -377,8 +378,16 @@ class FormatParameters:
         return formatted_parameters, formatted_material,formatted_materials
 
 
+    def custom_number_input(self,value):
+        if value != 0 and (abs(value) < 1e-3 or abs(value) >= 1e4):
+            format_str = "{:.2e}"  # Scientific notation with 2 decimal places
+        else:
+            format_str = "{:.2f}"  # Normal notation with 2 decimal places
+        return format_str.format(value)
+
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
 
+        
         if np.ndim(raw_parameters) > 1:
   
             # initialize from template parameters
@@ -400,6 +409,7 @@ class FormatParameters:
                             formatted_value = int(value)
                         elif template_parameter.type == "float":
                             formatted_value = float(value)
+                            #formatted_value = self.custom_number_input(formatted_value)
                         else:
                             assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                                 parameter_id, template_parameter.type
@@ -452,7 +462,7 @@ class FormatParameters:
                     formatted_value = int(value)
                 elif template_parameter.type == "float":
                     formatted_value = float(value)
-                   
+                    #formatted_value = self.custom_number_input(formatted_value)
                 else:
                     assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                         parameter_id, template_parameter.type

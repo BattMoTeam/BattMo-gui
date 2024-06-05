@@ -27,16 +27,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage
 
 
-##############################
-# Remember user changed values when switching between pages
-for k, v in st.session_state.items():
-    st.session_state[k] = v
-
-# Remember widget actions when switching between pages (for example: selectbox choice)
-st.session_state.update(st.session_state)
-##############################
-
-
 # Get page name
 url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
 url_parts = url.rsplit('/',1)
@@ -77,13 +67,21 @@ if 'temp_dir' not in st.session_state:
     unique_id = st.session_state['unique_id_temp_folder']
     # Create a temporary directory for the session
     temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
-    st.write("Themp dir has been made: ", temp_dir)
     # Store the temp_dir in session state
     st.session_state['temp_dir'] = temp_dir
 
 
 
 def run_page():
+
+    ##############################
+    # Remember user changed values when switching between pages
+    for k, v in st.session_state.items():
+        st.session_state[k] = v
+
+    # Remember widget actions when switching between pages (for example: selectbox choice)
+    st.session_state.update(st.session_state)
+    ##############################
 
 
     log_memory_usage()
@@ -105,7 +103,7 @@ def run_page():
     
     success = app.run_simulation(gui_parameters).success
     # st.session_state.succes = True
-    st.write("success 9 = ",success)
+ 
     app.divergence_check(success)
 
 

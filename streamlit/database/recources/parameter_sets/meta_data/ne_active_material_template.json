@@ -141,9 +141,9 @@
          "description": "the activation energy of the electrochemical reaction",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "J\u00B7mol\u207b\u00b9\u00B7K\u207b\u00b9",
-         "unit_name": "JoulePerMoleKelvin",
-         "unit_iri": "https://w3id.org/emmo#JoulePerMoleKelvin",
+         "unit": "J\u00B7mol\u207b\u00b9\u00B7",
+         "unit_name": "JoulePerMole",
+         "unit_iri": "https://w3id.org/emmo#JoulePerMole",
          "display_name": "Activation energy of reaction"
       },
       "reaction_rate_constant": {
@@ -203,9 +203,9 @@
          "description": "activation energy for diffusion of the guest molecule in the host material",
          "is_shown_to_user": true,
          "type": "float",
-         "unit": "J\u00B7mol\u207b\u00b9\u00B7K\u207b\u00b9",
-         "unit_name": "JoulePerMoleKelvin",
-         "unit_iri": "https://w3id.org/emmo#JoulePerMoleKelvin",
+         "unit": "J\u00B7mol\u207b\u00b9\u00B7",
+         "unit_name": "JoulePerMole",
+         "unit_iri": "https://w3id.org/emmo#JoulePerMole",
          "display_name": "Activation energy of diffusion"
       },
       "diffusion_pre_exponential_factor": {

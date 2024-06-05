@@ -73,7 +73,6 @@ def run_page():
         # Create a temporary directory for the session
         temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
 
-        st.write("Themp dir has been made: ", temp_dir)
         # Store the temp_dir in session state
         st.session_state['temp_dir'] = temp_dir
     
@@ -85,29 +84,28 @@ def run_page():
 
     app = get_app_controller()
 
-    if st.session_state.success == True:
-        results_simulation = get_results_data().get_results_data()
-
-    results_uploaded = app.set_hdf5_upload().set_results_uploader()
+    app.set_hdf5_upload().set_results_uploader()
     selected_data_sets = app.set_data_set_selector().set_selector()
 
     if st.session_state.success == True or st.session_state.hdf5_upload == True:
-        if st.session_state.success == True:
-            app.set_indicators(page_name, results_simulation)
+        
         #st.divider()
 
         #app_view.st_space(space_number=1)
-        if st.session_state.success == True: 
-            results = results_simulation
+        if selected_data_sets:
+
+            results = get_results_data(selected_data_sets).get_results_data(selected_data_sets)
+
+            if st.session_state.success == True:
+                app.set_indicators(page_name, results[0])
+            
+            app.set_graphs(results, selected_data_sets)
+
+            app_view.st_space(space_number=1)
+
+            app.set_download_hdf5_button(results,selected_data_sets)
         else:
-            results = results_uploaded
-    
-        app.set_graphs(results)
-
-        app_view.st_space(space_number=1)
-
-        if st.session_state.success == True:
-            app.set_download_hdf5_button(results_simulation)
+            st.info("Select a data set to plot.")
 
 
     elif st.session_state.success == None:

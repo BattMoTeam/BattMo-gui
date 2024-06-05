@@ -51,11 +51,11 @@ class AppController:
     def set_geometry_visualization(self,gui_parameters):
         return view.SetGeometryVisualization(gui_parameters)
     
-    def set_download_hdf5_button(self, results):
-        return view.SetHDF5Download(results)
+    def set_download_hdf5_button(self, results,selected_data_sets):
+        return view.SetHDF5Download(results,selected_data_sets)
     
-    def set_graphs(self, results):
-        return view.SetGraphs(results)
+    def set_graphs(self, results,selected_data_sets):
+        return view.SetGraphs(results,selected_data_sets)
     
     def set_hdf5_upload(self):
         return view.SetHDF5Upload()
@@ -91,8 +91,8 @@ def set_model_description():
 def set_material_description():
     return view.SetMaterialDescription()
 
-def get_results_data():
-    return view.GetResultsData()
+def get_results_data(file_names):
+    return view.GetResultsData(file_names)
 
 def set_acknowlegent_info(col):
     return view.SetAcknowledgementInfo(col)

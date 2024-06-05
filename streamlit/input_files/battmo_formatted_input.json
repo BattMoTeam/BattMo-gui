@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
+         "thickness": 0.000103,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
