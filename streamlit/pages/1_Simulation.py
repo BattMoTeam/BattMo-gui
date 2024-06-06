@@ -2,13 +2,11 @@ import os
 import sys
 from PIL import Image
 import streamlit as st
-from streamlit_javascript import st_javascript
 import pprint
 import pdb
 import pickle
 import json
 import numpy as np
-from streamlit_theme import st_theme
 import tempfile
 import uuid
 
@@ -28,15 +26,15 @@ from app_scripts.app_controller import get_app_controller, log_memory_usage
 
 
 # Get page name
-url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
-url_parts = url.rsplit('/',1)
+# url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
+# url_parts = url.rsplit('/',1)
 
-if len(url_parts) > 1:
-    # Extract the page name from the last part
-    page_name = url_parts[1]
-else:
-    # Handle the case where '/' is not found in the URL
-    page_name = "Unknown"
+# if len(url_parts) > 1:
+#     # Extract the page name from the last part
+#     page_name = url_parts[1]
+# else:
+#     # Handle the case where '/' is not found in the URL
+#     page_name = "Unknown"
 
 if "sim_finished" not in st.session_state:
     st.session_state.sim_finished = False
@@ -83,6 +81,7 @@ def run_page():
     st.session_state.update(st.session_state)
     ##############################
 
+    page_name = "Simulation"
 
     log_memory_usage()
 
@@ -103,8 +102,9 @@ def run_page():
     
     success = app.run_simulation(gui_parameters).success
     # st.session_state.succes = True
- 
-    app.divergence_check(success)
+    
+    save_run = st.container()
+    app.divergence_check(save_run,success)
 
 
     

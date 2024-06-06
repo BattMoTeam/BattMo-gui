@@ -6,7 +6,6 @@ import io
 import h5py
 import streamlit as st
 import numpy as np
-from copy import deepcopy
 from uuid import uuid4
 import sys
 import requests
@@ -14,14 +13,12 @@ import pdb
 from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
-from streamlit_theme import st_theme
-from streamlit_javascript import st_javascript
 import os
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
-from scipy import ndimage
 import ast
+import pandas as pd
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -406,13 +403,14 @@ class SetupLinkedDataStruct():
                     dict[relation_dict_1] += parameters
         return dict
 
-    def setup_sub_dict(self,dict=None,display_name=None, context_type=None, type=None, existence = None):
+    @st.cache_data
+    def setup_sub_dict(_self,dict=None,display_name=None, context_type=None, type=None, existence = None):
 
         if type:
             if type == "cell":
                 dict = {
-                    "label": self.cell_label,
-                    "@type": self.cell_type
+                    "label": _self.cell_label,
+                    "@type": _self.cell_type
                 }
         elif existence =="new":
             dict = {
@@ -432,8 +430,7 @@ class SetupLinkedDataStruct():
 
         return user_input
 
-
-    def setup_parameter_struct(_self, parameter,component_parameters=None, value = None):
+    def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
         if component_parameters is None:
             component_parameters = []
 
@@ -447,25 +444,25 @@ class SetupLinkedDataStruct():
 
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    _self.hasNumericalData: parameter.selected_value
+                    self.hasNumericalData: parameter.selected_value
                 }
 
             elif isinstance(parameter, StrParameter):
 
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    _self.hasStringData: parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
             elif isinstance(parameter, BooleanParameter):
                 formatted_value_dict = {
                     "@type": "emmo:Boolean",
-                    _self.hasStringData: parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
             elif isinstance(parameter, FunctionParameter):
                 formatted_value_dict = {
                     "@type": "emmo:String",
-                    _self.hasStringData: parameter.selected_value
+                    self.hasStringData: parameter.selected_value
                 }
 
 
@@ -514,7 +511,7 @@ class SetupLinkedDataStruct():
 
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
-                    _self.hasNumericalData: value
+                    self.hasNumericalData: value
                 }
 
                 parameter_details = {
@@ -540,8 +537,8 @@ class SetupLinkedDataStruct():
             return category_parameters
 
 
-
-    def get_relation(self, id, type):
+    @st.cache_data
+    def get_relation(_self, id, type):
 
         if type == "tab":
             context_type= db_helper.get_context_type_and_iri_by_id(id)
@@ -556,27 +553,28 @@ class SetupLinkedDataStruct():
         relation = "has" + context_type.split(':')[1]
         return relation
 
-    def fill_component_dict(self,component_parameters,existence, dict = None, relation = None):
+    @st.cache_data
+    def fill_component_dict(_self,component_parameters,existence, dict = None, relation = None):
         component_parameters = component_parameters.copy()
         if existence == "new":
-            dict = {self.hasQuantitativeProperty: component_parameters}
+            dict = {_self.hasQuantitativeProperty: component_parameters}
 
         elif existence == "existing":
-            if self.hasQuantitativeProperty in component_parameters:
+            if _self.hasQuantitativeProperty in component_parameters:
 
-                if self.hasQuantitativeProperty in dict:
-                    dict[self.hasQuantitativeProperty] += component_parameters[self.hasQuantitativeProperty]
+                if _self.hasQuantitativeProperty in dict:
+                    dict[_self.hasQuantitativeProperty] += component_parameters[_self.hasQuantitativeProperty]
                 elif relation in dict:
-                    if self.hasQuantitativeProperty in dict[relation]:
-                        dict[relation][self.hasQuantitativeProperty] += component_parameters[self.hasQuantitativeProperty]
+                    if _self.hasQuantitativeProperty in dict[relation]:
+                        dict[relation][_self.hasQuantitativeProperty] += component_parameters[_self.hasQuantitativeProperty]
                     else:
-                        dict[relation][self.hasQuantitativeProperty] = component_parameters
+                        dict[relation][_self.hasQuantitativeProperty] = component_parameters
                 else:
                     if relation:
                         dict[relation] = component_parameters
 
                     else:
-                        dict[self.hasQuantitativeProperty] = component_parameters[self.hasQuantitativeProperty]
+                        dict[_self.hasQuantitativeProperty] = component_parameters[_self.hasQuantitativeProperty]
             else:
 
                 dict[relation] = component_parameters
@@ -591,15 +589,16 @@ class SetupLinkedDataStruct():
 
         return dict
 
-    def add_indicators_to_struct(self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte):
-        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += n_to_p
-        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_mass
-        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += cell_cap
-        dict[self.universe_label][self.hasCell][self.hasBatteryCell][self.hasQuantitativeProperty] += rte
-        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasNegativeElectrode][self.hasQuantitativeProperty] += specific_cap_ne
-        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasPositiveElectrode][self.hasQuantitativeProperty] += specific_cap_pe
-        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasNegativeElectrode][self.hasActiveMaterial][self.hasQuantitativeProperty] += cap_ne
-        dict[self.universe_label][self.hasCell][self.hasElectrode][self.hasPositiveElectrode][self.hasActiveMaterial][self.hasQuantitativeProperty] += cap_pe
+    @st.cache_data
+    def add_indicators_to_struct(_self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte):
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += n_to_p
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_mass
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_cap
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += rte
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasNegativeElectrode][_self.hasQuantitativeProperty] += specific_cap_ne
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasPositiveElectrode][_self.hasQuantitativeProperty] += specific_cap_pe
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_ne
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_pe
 
         return dict
 
@@ -854,7 +853,7 @@ class SetTabs:
             self.user_input = self.LD.fill_linked_data_dict(self.user_input, cell_parameters)
 
             index +=1
-        self.update_json_LD()
+
         self.user_input = self.calc_indicators(self.user_input)
         self.update_json_LD()
         self.update_json_battmo_input()
@@ -2136,17 +2135,16 @@ class RunSimulation:
 
     def set_naming(self,save_run):
 
-        col1, col2 = save_run.columns(2)
-        checkbox = col1.checkbox("Give your results a name. (The results will be automatically deleted on refreshing or closing of the browser.)")
+        if 'checkbox_value' not in st.session_state:
+            st.session_state.checkbox_value = False     
 
-        if checkbox:
-            file_name = col2.text_input("Give your results a name.")
+        checkbox_value = save_run.checkbox("Give your results a name. (The results will be automatically deleted on refreshing or closing of the browser.)", value=st.session_state.checkbox_value)
+        st.session_state.checkbox_value = checkbox_value
+        if checkbox_value:
+            file_name = save_run.text_input("Give your results a name.", value = st.session_state["simulation_results_file_name"])
 
-            if file_name:
-                st.session_state["simulation_results_file_name"] = file_name
-        else:
-            random_file_name = str(uuid4())
-            st.session_state["simulation_results_file_name"] = "Result_" + random_file_name
+            st.session_state["simulation_results_file_name"] = file_name
+        
 
     def set_buttons(self,save_run,file_name):
 
@@ -2158,7 +2156,7 @@ class RunSimulation:
         #     args= (save_run, )
         #     #help = "Update the parameter values."
         # )
-        col1,col2 = save_run.columns((1,3))
+        col1,col2 = save_run.columns((1,1))
         runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
@@ -2170,9 +2168,9 @@ class RunSimulation:
         )
 
         results_page = col2.button(label = "Results",
-                        help = self.help_results,
-                        use_container_width=True
-                        )
+                                   type = "primary",
+                                    use_container_width=True
+                                    )
 
         if results_page:
             switch_page("Results")
@@ -2213,11 +2211,6 @@ class RunSimulation:
 
     def execute_api_on_click(self, save_run,file_name):
 
-        ##############################
-        # # Remember user changed values
-        # for k, v in st.session_state.items():
-        #     st.session_state[k] = v
-        # ##############################
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
@@ -2254,7 +2247,12 @@ class RunSimulation:
 
             #     st.write(hdf5_file["concentrations"]["electrolyte"]["elyte_c_state_1"][()])
 
-            self.success = DivergenceCheck(response_start.content).success
+            if st.session_state["checkbox_value"] == False:
+
+                random_file_name = str(uuid4())
+                st.session_state["simulation_results_file_name"] = "Result_" + random_file_name
+
+            self.success = DivergenceCheck(save_run,response_start.content).success
 
 
         else:
@@ -2263,7 +2261,7 @@ class RunSimulation:
                 # st.session_state.success = False
                 # self.success = False
 
-                self.success = DivergenceCheck(False).success
+                self.success = DivergenceCheck(save_run,False).success
 
 
         # with open("BattMo_results.pkl", "rb") as f:
@@ -2291,9 +2289,10 @@ class DivergenceCheck:
     Checks if the simulation is fully executed. If not it provides a warning to the user.
     If the simulation is fully executed, it shows the battmo logging if there is any.
     """
-    def __init__(self,response= None):
+    def __init__(self,save_run,response= None):
 
         self.response = response
+        self.save_run = save_run
         self.success = st.session_state.success
         self.check_for_divergence()
 
@@ -2345,10 +2344,9 @@ class DivergenceCheck:
         return number_of_states, log_messages
 
     def divergence_check_logging(self,N, number_of_states,log_messages,results):
-        save_run = st.empty()
 
         if self.response == False:
-            st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+            self.save_run.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             st.session_state.success = False
             self.success = False
 
@@ -2359,7 +2357,7 @@ class DivergenceCheck:
                 st.session_state.success = False
 
                 if len(log_messages[()]) > 1:
-                    c = save_run.container()
+                    c = self.save_run.container()
                     c.error("Simulation wasn't successful unfortunately. Some errors were produced, see the logging.")
                     c.markdown("***Logging:***")
 
@@ -2370,7 +2368,7 @@ class DivergenceCheck:
                     c.code(log_message + ''' \n''')
                 else:
 
-                    save_run.error("Simulation wasn't successful unfortunately.")
+                    self.save_run.error("Simulation wasn't successful unfortunately.")
 
             else:
                 temp_file_name = st.session_state["simulation_results_file_name"]
@@ -2378,9 +2376,9 @@ class DivergenceCheck:
 
 
                 self.success = True
-                save_run.success(f"""Simulation finished successfully! Check the results on the 'Results' page. \n\n
+                self.save_run.success(f"""Simulation finished successfully! Check the results on the 'Results' page.""")# \n\n
                                  
-                                 Your results are stored under the following name: {temp_file_name}""")
+                                # Your results are stored under the following name: {temp_file_name}""")
                 st.session_state.success = True
 
                 
@@ -2605,7 +2603,7 @@ class GetResultsData():
         return self.results
 
     def retrieve_results(self,file_names):
-        if file_names:
+        if isinstance(file_names,list):
             results = []
             for file_name in file_names:
                 file_path = os.path.join(st.session_state.temp_dir,file_name)
@@ -2613,7 +2611,12 @@ class GetResultsData():
                 result = self.translate_results(result)
 
                 results.append(result)
-
+        elif isinstance(file_names, str):
+            st.write(file_names)
+            file_path = os.path.join(st.session_state.temp_dir,file_names)
+            result = h5py.File(file_path, "r")
+            results = self.translate_results(result)
+            
 
         else:
             file_path = app_access.get_path_to_battmo_results()
@@ -2863,24 +2866,24 @@ class SetIndicators():
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
-            if isinstance(energy_efficiency["value"], str):
-                col4.metric(
-                    label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                    value = energy_efficiency["value"],
-                    label_visibility= "visible"
-                )
-            elif isinstance(energy_efficiency["value"],  np.ndarray):
-                col4.metric(
-                        label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                        value = np.round(energy_efficiency["value"][0],2),
-                        label_visibility= "visible"
-                    )
-            else:
-                col4.metric(
-                        label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                        value = np.round(energy_efficiency["value"],2),
-                        label_visibility= "visible"
-                    )
+            # if isinstance(energy_efficiency["value"], str):
+            #     col4.metric(
+            #         label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #         value = energy_efficiency["value"],
+            #         label_visibility= "visible"
+            #     )
+            # elif isinstance(energy_efficiency["value"],  np.ndarray):
+            #     col4.metric(
+            #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #             value = np.round(energy_efficiency["value"][0],2),
+            #             label_visibility= "visible"
+            #         )
+            # else:
+            #     col4.metric(
+            #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #             value = np.round(energy_efficiency["value"],2),
+            #             label_visibility= "visible"
+            #         )
             col3.metric(
                     label = "Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
@@ -3750,7 +3753,6 @@ class SetHDF5Upload():
             uploaded_file = st.file_uploader("Upload your HDF5 results file.",type='hdf5', label_visibility="collapsed",accept_multiple_files = True)
 
         if uploaded_file:
-            #results = self.retrieve_h5_data(uploaded_file[0])
             file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
             with open(file_path, "wb") as f:
                 f.write(uploaded_file[0].getbuffer())
@@ -3761,10 +3763,8 @@ class SetHDF5Upload():
 
     def retrieve_h5_data(self, uploaded_file):
         results = []
-        #bytes_data = uploaded_file.getvalue()
-        # st.write(uploaded_file)
+
         with h5py.File(uploaded_file, "r") as f:
-            # st.write("f = ",f.keys())
 
             number_of_states = int(f['number_of_states'][()])
 
@@ -3844,7 +3844,8 @@ class SetDataSetSelector():
             st.markdown("## " + self.header)
 
             file_names = [f for f in os.listdir(self.session_temp_folder) if os.path.isfile(os.path.join(self.session_temp_folder, f))]
-            selected = st.multiselect(label="Select data",options= list(file_names), label_visibility="collapsed")
+            selected = st.multiselect(label="Select data",options= list(file_names), label_visibility="collapsed",default = st.session_state["selected_data"])
+            st.session_state["selected_data"] = selected
         return  selected
 
 class SetGraphs():
@@ -3922,26 +3923,31 @@ class SetGraphs():
                 positive_electrode_potential
                 ] = result
 
-                _self.log_messages.append(log_messages)
-                st.write(_self.number_of_states)
-                _self.number_of_states.append(number_of_states)
-                _self.cell_voltage.append(cell_voltage)
-                _self.cell_current.append(cell_current)
-                _self.time_values.append(time_values)
-                _self.negative_electrode_grid.append(negative_electrode_grid)
-                _self.negative_electrode_grid_bc.append(negative_electrode_grid_bc)
-                _self.electrolyte_grid.append(electrolyte_grid)
-                _self.electrolyte_grid_bc.append(electrolyte_grid_bc)
-                _self.positive_electrode_grid.append(positive_electrode_grid)
-                _self.positive_electrode_grid_bc.append(positive_electrode_grid_bc)
-                _self.negative_electrode_concentration.append(negative_electrode_concentration)
-                _self.electrolyte_concentration.append(electrolyte_concentration)
-                _self.positive_electrode_concentration.append(positive_electrode_concentration)
-                _self.negative_electrode_potential.append(negative_electrode_potential)
-                _self.electrolyte_potential.append(electrolyte_potential)
-                _self.positive_electrode_potential.append(positive_electrode_potential)
+                def array_and_transpose(data):
+                    data = np.array(data)
+                    if data.ndim > 1:
+                        if len(data[0]) > len(data[:,0]):
+                            data = np.transpose(data)
 
-                st.write("result = ",_self.number_of_states)
+                    return data
+
+                _self.log_messages.append(log_messages)
+                _self.number_of_states.append(array_and_transpose(number_of_states))
+                _self.cell_voltage.append(array_and_transpose(cell_voltage))
+                _self.cell_current.append(array_and_transpose(cell_current))
+                _self.time_values.append(array_and_transpose(time_values))
+                _self.negative_electrode_grid.append(array_and_transpose(negative_electrode_grid))
+                _self.negative_electrode_grid_bc.append(array_and_transpose(negative_electrode_grid_bc))
+                _self.electrolyte_grid.append(array_and_transpose(electrolyte_grid))
+                _self.electrolyte_grid_bc.append(array_and_transpose(electrolyte_grid_bc))
+                _self.positive_electrode_grid.append(array_and_transpose(positive_electrode_grid))
+                _self.positive_electrode_grid_bc.append(array_and_transpose(positive_electrode_grid_bc))
+                _self.negative_electrode_concentration.append(array_and_transpose(negative_electrode_concentration))
+                _self.electrolyte_concentration.append(array_and_transpose(electrolyte_concentration))
+                _self.positive_electrode_concentration.append(array_and_transpose(positive_electrode_concentration))
+                _self.negative_electrode_potential.append(array_and_transpose(negative_electrode_potential))
+                _self.electrolyte_potential.append(array_and_transpose(electrolyte_potential))
+                _self.positive_electrode_potential.append(array_and_transpose(positive_electrode_potential))
 
         else:
             [
@@ -3990,19 +3996,14 @@ class SetGraphs():
         return display_dynamic_dashboard, display_colormaps
 
     def set_dynamic_dashboard(_self):
-        max_time_values = np.zeros(len(_self.time_values))
-        for i,dataset in enumerate(_self.time_values):
-            if isinstance(dataset,float):
-                max_time_values = dataset
-            else:
-                max_time_values[i] = max(dataset)
-
-        init_time_value = 0.0
-        if isinstance(max_time_values,float):
-            max_time_value = max_time_values
+        if len(_self.selected_data_sets) <= 1:
+            time_values = _self.time_values
         else:
-            max_time_value = max(max_time_values)
-        step_size = _self.get_min_difference()
+            time_values = _self.find_max_length_array_x_axis(_self.time_values)
+
+        max_time_value = max(time_values)
+        init_time_value = 0.0
+        step_size = _self.get_min_difference(time_values)
         selected_time = st.slider(
             key = "DynamicDashboard",
             label="Select a time (hours)",
@@ -4013,12 +4014,10 @@ class SetGraphs():
 
 
         state = 0
-        try:
-            time = _self.time_values[0][state]
-        except:
-            time = _self.time_values[state]
+        time = time_values[state]
         while time < selected_time:
             state += 1
+            time = time_values[state]
 
         _self.view_plots_static(state)
 
@@ -4186,11 +4185,11 @@ class SetGraphs():
 
 
     @st.cache_data
-    def get_min_difference(_self):
+    def get_min_difference(_self, time_values):
         diff = []
-        n = len(_self.time_values)
+        n = len(time_values)
         for i in range(1, n):
-            diff.append(round(_self.time_values[i] - _self.time_values[i - 1], 5))
+            diff.append(round(time_values[i] - time_values[i - 1], 5))
         return float(min(diff))
     
     def find_max_length_array_x_axis(self,arrays):
@@ -4219,43 +4218,50 @@ class SetGraphs():
         if not arrays:  # Check if the list is empty
             return None, 0, -1
 
-        max_length = 0
+        max_length_1 = 0
+        max_length_2 = 0
         max_array = None
         max_index = -1
 
         # Find the maximum length
         for index, array in enumerate(arrays):
-            if isinstance(array, np.ndarray):
-                current_length = array.shape[0] if len(array.shape) == 2 else len(array)
-            else:  # Handle lists
-                current_length = len(array) if isinstance(array, list) else 0
+            if len(array.shape) == 1:
+                current_length_1 = len(array)
+                if current_length_1 > max_length_1:
+                    max_length_1 = current_length_1
+                    max_array = array
+                    max_index = index
+            else:
+                current_length_1 = len(array[:,0])
+                current_length_2 = len(array[0])
 
-            if current_length > max_length:
-                max_length = current_length
-                max_array = array
-                max_index = index
-        
+                if current_length_1 > max_length_1:
+                    max_length_1 = current_length_1
+                    max_array = array
+                    max_index = index
+
+                if current_length_2 > max_length_2:
+                    max_length_2 = current_length_2
+                    max_array = array
+                    max_index = index
+                
+                
+    
         # Extend smaller arrays with np.nan
         for index, array in enumerate(arrays):
-            if isinstance(array, np.ndarray):
-                if len(array.shape) == 1:
-                    if array.shape[0] < max_length:
-                        arrays[index] = np.append(array, [np.nan] * (max_length - array.shape[0]))
-                elif len(array.shape) == 2:
-                    if array.shape[0] < max_length:
-                        diff = max_length - array.shape[0]
-                        nan_array = np.full((diff, array.shape[1]), np.nan)
-                        arrays[index] = np.vstack((array, nan_array))
-                    elif array.shape[0] > max_length:  # Trim excess rows
-                        arrays[index] = array[:max_length, :]
-                    # Check and extend second dimension if needed
-                    if array.shape[1] < max_length:
-                        diff = max_length - array.shape[1]
-                        nan_array = np.full((max_length, diff), np.nan)
+            if len(array.shape) == 1:
+                if len(array) < max_length_1:
+                    arrays[index] = np.append(array, [np.nan] * (max_length_1 - len(array)))
+            elif len(array.shape) == 2:
+                if len(array[:,0]) < max_length_1:
+                    diff = max_length_1 - len(array[:,0])
+                    nan_array = np.full((diff, array.shape[1]), np.nan)
+                    arrays[index] = np.vstack((array, nan_array))
+                elif len(array[0]) < max_length_2:
+                        diff = max_length_2 - len(array[0])
+                        nan_array = np.full((max_length_2, diff), np.nan)
                         arrays[index] = np.hstack((arrays[index], nan_array))
-            elif isinstance(array, list):
-                if len(array) < max_length:
-                    arrays[index] += [np.nan] * (max_length - len(array))
+                    
 
         return arrays
 
@@ -4306,13 +4312,15 @@ class SetGraphs():
             length_grid_NE = len(_self.negative_electrode_grid[0])
             number_of_datasets = len(_self.electrolyte_grid)
             negative_electrode_concentration_ext_list = []
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
 
             _self.negative_electrode_concentration = _self.find_max_length_array_y_axis(_self.negative_electrode_concentration)
+            
 
             for i,dataset in enumerate(_self.negative_electrode_concentration):
                 negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
-                #st.write("data = ", np.shape(dataset))
+                
                 negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state]
                 negative_electrode_concentration_ext_list.append(negative_electrode_concentration_ext)
 
@@ -4339,7 +4347,7 @@ class SetGraphs():
         else:
 
             elyte_concentration_ext_list = []
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
 
             _self.electrolyte_concentration = _self.find_max_length_array_y_axis(_self.electrolyte_concentration)
 
@@ -4366,13 +4374,13 @@ class SetGraphs():
             length_grid_PE = len(_self.positive_electrode_grid)
             number_of_datasets = None
             positive_electrode_concentration_ext_list = np.full(length_grid_elyte, np.nan)
-            positive_electrode_concentration_ext_list[0:length_grid_PE] = np.squeeze(_self.positive_electrode_concentration)[state]
+            positive_electrode_concentration_ext_list[-length_grid_PE:] = np.squeeze(_self.positive_electrode_concentration)[state]
             electrolyte_grid = _self.electrolyte_grid
         else:
 
             length_grid_elyte = len(_self.electrolyte_grid[0])
             length_grid_PE = len(_self.positive_electrode_grid[0])
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.positive_electrode_concentration = _self.find_max_length_array_y_axis(_self.positive_electrode_concentration)
 
 
@@ -4400,11 +4408,13 @@ class SetGraphs():
         # Cell Current
         if isinstance(_self.electrolyte_grid[0],float):
             time_values_list = _self.time_values
+            vertical_line = _self.time_values[state]
 
         else:
             _self.cell_current = _self.find_max_length_array_y_axis(_self.cell_current)
+            time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
+            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
 
-            time_values_list = _self.find_max_length_array_x_axis(_self.time_values)
 
         cell_current_fig = _self.create_subplot(
             x_data=time_values_list,
@@ -4412,7 +4422,7 @@ class SetGraphs():
             title="Cell Current  /  A",
             x_label="Time  /  h",
             y_label="Cell Current  /  A",
-            vertical_line= time_values_list[state]
+            vertical_line= vertical_line
         )
 
         # Negative Electrode Potential
@@ -4427,11 +4437,8 @@ class SetGraphs():
         else:
             length_grid_elyte = len(_self.electrolyte_grid[0])
             length_grid_NE = len(_self.negative_electrode_grid[0])
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.negative_electrode_potential = _self.find_max_length_array_y_axis(_self.negative_electrode_potential)
-            st.write("len = ", np.shape(_self.negative_electrode_grid[0]))
-            st.write("gird = ", _self.negative_electrode_grid)
-
 
             negative_electrode_potential_ext_list = []
 
@@ -4462,7 +4469,7 @@ class SetGraphs():
 
         else:
             elyte_potential_ext_list = []
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.electrolyte_potential = _self.find_max_length_array_y_axis(_self.electrolyte_potential)
 
 
@@ -4489,12 +4496,12 @@ class SetGraphs():
             length_grid_PE = len(_self.positive_electrode_grid)
             number_of_datasets = None
             positive_electrode_potential_ext_list = np.full(length_grid_elyte, np.nan)
-            positive_electrode_potential_ext_list[0:length_grid_PE] = np.squeeze(_self.positive_electrode_potential)[state]
+            positive_electrode_potential_ext_list[-length_grid_PE:] = np.squeeze(_self.positive_electrode_potential)[state]
             electrolyte_grid = _self.electrolyte_grid
         else:
             length_grid_elyte = len(_self.electrolyte_grid[0])
             length_grid_PE = len(_self.positive_electrode_grid[0])
-            electrolyte_grid = _self.find_max_length_array_x_axis(_self.electrolyte_grid)
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.positive_electrode_potential = _self.find_max_length_array_y_axis(_self.positive_electrode_potential)
 
 
@@ -4523,11 +4530,13 @@ class SetGraphs():
         # Cell Voltage
         if isinstance(_self.electrolyte_grid[0],float):
             time_values_list = _self.time_values
+            vertical_line = _self.time_values[state]
 
         else:
 
-            time_values_list = _self.find_max_length_array_x_axis(_self.time_values)
+            time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
             _self.cell_voltage = _self.find_max_length_array_y_axis(_self.cell_voltage)
+            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
 
 
         cell_voltage_fig = _self.create_subplot(
@@ -4536,7 +4545,7 @@ class SetGraphs():
             title="Cell Voltage  /  V",
             x_label="Time  /  h",
             y_label = "Cell Voltage  /  V",
-            vertical_line=time_values_list[state]
+            vertical_line=vertical_line
         )
 
         ######################
@@ -4620,7 +4629,6 @@ class SetGraphs():
                 line1,color1 = st.columns(2)
 
                 line1.plotly_chart(elyte_concentration, clear_figure=True,use_container_width = use_container_width)
-                st.write(use_color_plots)
                 if use_color_plots:
                     color1.plotly_chart(_self.get_elyte_c_color(state),use_container_width = use_container_width)
 
@@ -4655,16 +4663,16 @@ class SetGraphs():
             with conc3:
                 line5,color5 = st.columns(2)
 
-                line5.plotly_chart(pe_concentration, clear_figure=True,use_container_width = True)
+                line5.plotly_chart(pe_concentration, clear_figure=True,use_container_width = use_container_width)
                 if use_color_plots:
-                    color5.plotly_chart(_self.get_pe_c_color(state),use_container_width = True)
+                    color5.plotly_chart(_self.get_pe_c_color(state),use_container_width = use_container_width)
 
             with pot3:
                 line6,color6 = st.columns(2)
 
-                line6.plotly_chart(pe_potential, clear_figure=True,use_container_width = True)
+                line6.plotly_chart(pe_potential, clear_figure=True,use_container_width = use_container_width)
                 if use_color_plots:
-                    color6.plotly_chart(_self.get_pe_p_color(state),use_container_width = True)
+                    color6.plotly_chart(_self.get_pe_p_color(state),use_container_width = use_container_width)
 
     @st.cache_data
     def find_max(_self,data):
@@ -4811,14 +4819,28 @@ class SetGraphs():
 
     def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
 
-        fig = px.line(x=x_data, y=y_data)
+        # Create a DataFrame from the data
+        # df = pd.DataFrame({
+        #     "x": [x for sublist in x_data for x in sublist],
+        #     "y": [y for sublist in y_data for y in sublist],
+        #     "label": [label for label in _self.selected_data_sets for _ in range(len(x_data))]
+        # })
+        fig = go.Figure()
+
+        if len(_self.selected_data_sets) == 1:
+            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='lines', line=dict(width=5)))
+        else:
+            for i,x in enumerate(x_data):
+                trace_label = _self.selected_data_sets[i].rsplit('.', 1)[0]
+                fig.add_trace(go.Scatter(x=x, y=y_data[i], mode='lines', line=dict(width=5), name = trace_label))
+                # fig = px.line(x=x_data, y=y_data[i])
 
         fig.update_traces(line=dict(width=5))
 
         fig.update_layout(
             title=title,
             xaxis_title=x_label,
-            yaxis_title = y_label,
+            yaxis_title = y_label
             # xaxis = dict(range =[0, x_max]),
             # yaxis=dict(range=[0, y_max])
         )

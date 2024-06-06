@@ -455,7 +455,6 @@ def get_models_as_dict():
     return models_as_dict
 
 
-@st.cache_data
 def get_model_name_from_id(model_id):
     model = sql_model().select(
         values = "name",
@@ -562,7 +561,7 @@ def reset_material_template_parameters(template_id):
             where="par_class ='material' AND template_id = {}".format(int(template_id))
         )
 
-  
+
 def set_material_template_parameters_to_basis_by_id(template_parameter_id):
     sql_template_parameter().update(
             set = "difficulty = 'basis'",

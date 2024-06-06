@@ -1,5 +1,6 @@
 import os
 import sys
+import streamlit as st
 from threading import Lock
 db_lock = Lock()
 
@@ -50,8 +51,9 @@ class BaseHandler:
                 con.commit()
                 con.close()
             return cur.lastrowid
-        
-    def thread_safe_db_access(self,query, params = None, fetch = None):
+
+  
+    def thread_safe_db_access(_self,query, params = None, fetch = None):
         with db_lock:
             con, cur = app_access.get_sqlite_con_and_cur()
             try: 
@@ -73,43 +75,44 @@ class BaseHandler:
                         cur.execute(query)
                         results=None
             finally:
-                cur.close()
+                # cur.close()
                 con.commit()
-                con.close()
+                # con.close()
             if results:
                 return results
 
-    def select(self, values, where=None, like=None):
-        if where:
-            if like:
-                query = """
-                    SELECT %s FROM %s WHERE %s LIKE %s
-                """ % (values, self._table_name, where, like)
-            else:
-                query = """
-                    SELECT %s FROM %s WHERE %s
-                """ % (values, self._table_name, where)
-        else:
-            query = """
-                SELECT %s FROM %s 
-            """ % (values, self._table_name)
-        return self.thread_safe_db_access(query, fetch="fetchall")
 
-    def select_one(self, values, where=None, like=None):
+    def select(_self, values, where=None, like=None):
         if where:
             if like:
                 query = """
                     SELECT %s FROM %s WHERE %s LIKE %s
-                """ % (values, self._table_name, where, like)
+                """ % (values, _self._table_name, where, like)
             else:
                 query = """
                     SELECT %s FROM %s WHERE %s
-                """ % (values, self._table_name, where)
+                """ % (values, _self._table_name, where)
         else:
             query = """
                 SELECT %s FROM %s 
-            """ % (self._table_name, values)
-        return self.thread_safe_db_access(query, fetch="fetchone")
+            """ % (values, _self._table_name)
+        return _self.thread_safe_db_access(query, fetch="fetchall")
+
+    def select_one(_self, values, where=None, like=None):
+        if where:
+            if like:
+                query = """
+                    SELECT %s FROM %s WHERE %s LIKE %s
+                """ % (values, _self._table_name, where, like)
+            else:
+                query = """
+                    SELECT %s FROM %s WHERE %s
+                """ % (values, _self._table_name, where)
+        else:
+            query = """
+                SELECT %s FROM %s 
+            """ % (_self._table_name, values)
+        return _self.thread_safe_db_access(query, fetch="fetchone")
 
     def select_by_id(self, id):
         res = self.select('*', 'id=%d' % id)
@@ -123,7 +126,8 @@ class BaseHandler:
         query = "SELECT * FROM %s WHERE show_to_user= %d" % (self._table_name,1)
         return self.thread_safe_db_access(query, fetch="fetchone")
 
-    def update_by_id(self, id, columns_and_values):
+
+    def update_by_id(_self, id, columns_and_values):
         """
         columns_and_values: {"value": 1.1, "value_type": "float"}
         """
@@ -142,8 +146,8 @@ class BaseHandler:
                     sql_set.append("{} = {}".format(column, value))
 
         if bool(sql_set):  # else, nothing to update
-            sql_query = "UPDATE {} SET {} WHERE id={}".format(self._table_name, ', '.join(sql_set), id)
-            self.thread_safe_db_access(sql_query)
+            sql_query = "UPDATE {} SET {} WHERE id={}".format(_self._table_name, ', '.join(sql_set), id)
+            _self.thread_safe_db_access(sql_query)
 
     def update(self,set, where=None):
         if where:

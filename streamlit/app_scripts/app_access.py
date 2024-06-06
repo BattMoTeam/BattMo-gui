@@ -192,7 +192,6 @@ def get_all_parameter_sets_experimental_data_files_path():
     for root, _, files in os.walk(get_path_to_database_recources_parameter_sets_experimental_data_dir()):
         for name in files:
             all_files.append(os.path.join(root, name))
-    print("files = ", all_files)
     return all_files
 
 @st.cache_data
@@ -211,12 +210,13 @@ def get_all_parameter_sets_meta_data_files_path():
 ## CONNECTIONS ##
 #################
 
-
+@st.cache_resource
 def get_sqlite_con_and_cur():
     database = get_path_to_database()
     con = sqlite3.connect(database, check_same_thread=False)
     return con, con.cursor()
 
+@st.cache_resource
 def get_sqlite_con_and_cur_thread_safe():
     database = get_path_to_database()
     con = sqlite3.connect(database, check_same_thread=False)

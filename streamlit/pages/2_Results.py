@@ -5,7 +5,6 @@ import h5py
 import numpy as np
 from PIL import Image
 import streamlit as st
-from streamlit_javascript import st_javascript
 import time
 from queue import Queue
 import sys
@@ -36,15 +35,15 @@ from app_scripts.app_controller import get_app_controller, get_results_data
 from app_scripts import app_view
 
 # Get page name
-url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
-url_parts = url.rsplit('/',1)
+# url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
+# url_parts = url.rsplit('/',1)
 
-if len(url_parts) > 1:
-    # Extract the page name from the last part
-    page_name = url_parts[1]
-else:
-    # Handle the case where '/' is not found in the URL
-    page_name = "Unknown"
+# if len(url_parts) > 1:
+#     # Extract the page name from the last part
+#     page_name = url_parts[1]
+# else:
+#     # Handle the case where '/' is not found in the URL
+#     page_name = "Unknown"
 
 
 def run_page():
@@ -57,6 +56,9 @@ def run_page():
     #Remember widget actions when switching between pages (for example: selectbox choice)
     st.session_state.update(st.session_state)
     ##############################
+
+    page_name = "Results"
+
 
     if "success" not in st.session_state:
         st.session_state.success = None
@@ -86,9 +88,11 @@ def run_page():
 
     app.set_hdf5_upload().set_results_uploader()
     selected_data_sets = app.set_data_set_selector().set_selector()
+    
 
     if st.session_state.success == True or st.session_state.hdf5_upload == True:
-        
+        session_temp_folder = st.session_state["temp_dir"]
+        file_names = [f for f in os.listdir(session_temp_folder) if os.path.isfile(os.path.join(session_temp_folder, f))]
         #st.divider()
 
         #app_view.st_space(space_number=1)
@@ -104,8 +108,21 @@ def run_page():
             app_view.st_space(space_number=1)
 
             app.set_download_hdf5_button(results,selected_data_sets)
-        else:
-            st.info("Select a data set to plot.")
+        elif file_names:
+            last_file_name = file_names[-1]
+            st.session_state["selected_data"] = last_file_name
+            selected_data_sets = last_file_name
+            
+            results = get_results_data(last_file_name).get_results_data(last_file_name)
+
+            if st.session_state.success == True:
+                app.set_indicators(page_name, results[0])
+            
+            app.set_graphs(results, selected_data_sets)
+
+            app_view.st_space(space_number=1)
+
+            app.set_download_hdf5_button(results,selected_data_sets)
 
 
     elif st.session_state.success == None:

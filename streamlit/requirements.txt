@@ -8,7 +8,6 @@ pylance==0.6.2
 streamlit_extras == 0.3.2
 sympy == 1.12
 psutil == 3.2.2
-streamlit_javascript == 0.1.5
 plotly == 5.22.0
 streamlit-elements==0.1
 st-theme
