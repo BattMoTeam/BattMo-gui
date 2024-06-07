@@ -55,31 +55,34 @@ class BaseHandler:
   
     def thread_safe_db_access(_self,query, params = None, fetch = None):
         with db_lock:
-            con, cur = app_access.get_sqlite_con_and_cur()
-            try: 
+            con, cur = None, None
+            try:
+                con, cur = app_access.get_sqlite_con_and_cur()
                 if params:
-                    if fetch == "fetchall":
-                        results = cur.execute(query, params).fetchall()
-                    elif fetch == "fetchone":
-                        results = cur.execute(query, params).fetchone()
-                    else:
-                        cur.execute(query, params)
-                        results=None
-
+                    cur.execute(query, params)
                 else:
-                    if fetch == "fetchall":
-                        results = cur.execute(query).fetchall()
-                    elif fetch == "fetchone":
-                        results = cur.execute(query).fetchone()
-                    else:
-                        cur.execute(query)
-                        results=None
-            finally:
-                # cur.close()
-                con.commit()
-                # con.close()
-            if results:
+                    cur.execute(query)
+                
+                if fetch == "fetchall":
+                    results = cur.fetchall()
+                elif fetch == "fetchone":
+                    results = cur.fetchone()
+                else:
+                    results = None
+
                 return results
+
+            except Exception as e:
+                st.write("Error during database operation: %s", str(e))
+                raise
+
+            finally:
+                if cur:
+                    cur.close()
+                if con:
+                    con.commit()
+                    con.close()
+                
 
 
     def select(_self, values, where=None, like=None):

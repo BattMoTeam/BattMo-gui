@@ -19,6 +19,7 @@ import plotly.graph_objects as go
 import streamlit_elements as el
 import ast
 import pandas as pd
+import random
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -1597,6 +1598,7 @@ class SetTabs:
 
         if mass_fraction_id_dict:
             self.validate_mass_fraction(mass_fraction_id_dict, category_display_name,tab)
+
             density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
             density_eff = self.calc_density_eff(density_mix, porosity)
 
@@ -1891,7 +1893,8 @@ class SetTabs:
 
 
                 if parameter.name == "density" and density != None:
-                    density[material_component_id] = set_parameter.value
+                    if set_parameter:
+                        density[material_component_id] = set_parameter.value
 
 
 
@@ -2249,8 +2252,10 @@ class RunSimulation:
 
             if st.session_state["checkbox_value"] == False:
 
-                random_file_name = str(uuid4())
-                st.session_state["simulation_results_file_name"] = "Result_" + random_file_name
+                # random_file_name = str(uuid4())
+                random_number = random.randint(1000, 9999)
+                random_file_name = str(random_number)
+                st.session_state["simulation_results_file_name"] = "data_" + random_file_name
 
             self.success = DivergenceCheck(save_run,response_start.content).success
 
@@ -2612,7 +2617,7 @@ class GetResultsData():
 
                 results.append(result)
         elif isinstance(file_names, str):
-            st.write(file_names)
+      
             file_path = os.path.join(st.session_state.temp_dir,file_names)
             result = h5py.File(file_path, "r")
             results = self.translate_results(result)
@@ -2754,12 +2759,13 @@ class SetIndicators():
             indicators= self.get_indicators_from_LD()
 
         else:
-            if self.results_simulation:
-                calculated_indicaters = self.calculate_indicators()
-                # calculated_indicaters = None
+            # st.write(self.results_simulation)
+            # if self.results_simulation:
+            #     calculated_indicaters = self.calculate_indicators()
+            #     # calculated_indicaters = None
 
-            else:
-                calculated_indicaters = None
+            # else:
+            calculated_indicaters = None
 
             indicators= self.get_indicators_from_run()
 
@@ -3753,10 +3759,30 @@ class SetHDF5Upload():
             uploaded_file = st.file_uploader("Upload your HDF5 results file.",type='hdf5', label_visibility="collapsed",accept_multiple_files = True)
 
         if uploaded_file:
-            file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
-            with open(file_path, "wb") as f:
-                f.write(uploaded_file[0].getbuffer())
-            st.success(f"File is saved with name {uploaded_file[0].name}")
+            if isinstance(uploaded_file, list) and len(uploaded_file) > 1:
+                names = []
+                for i, data in enumerate(uploaded_file):
+                    file_path = os.path.join(st.session_state['temp_dir'], data.name)
+                    with open(file_path, "wb") as f:
+                        f.write(data.getbuffer())
+                    names.append(data.name)
+                    
+                st.success(f"""Files are saved with names {names}. \n\n
+
+                                All results are stored temporarily and will be deleted on refreshing or closing the browser.
+                """)
+            
+            else:
+                file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
+                with open(file_path, "wb") as f:
+                    f.write(uploaded_file[0].getbuffer())
+                
+                st.success(f"""File is saved with name {uploaded_file[0].name}.
+                           
+                           All results are stored temporarily and will be deleted on refreshing or closing the browser.
+                           
+                           """)
+            
             st.session_state.hdf5_upload = True
 
         
@@ -3881,7 +3907,8 @@ class SetGraphs():
         # _self.set_colormaps()
 
     def structure_results(_self):
-        if len(_self.selected_data_sets) >1:
+
+        if isinstance(_self.selected_data_sets,list) and len(_self.selected_data_sets) >1:
             _self.log_messages = []
             _self.number_of_states = []
             _self.cell_voltage = []
@@ -3950,6 +3977,7 @@ class SetGraphs():
                 _self.positive_electrode_potential.append(array_and_transpose(positive_electrode_potential))
 
         else:
+    
             [
             _self.log_messages,
             _self.number_of_states,
@@ -3968,9 +3996,7 @@ class SetGraphs():
             _self.negative_electrode_potential,
             _self.electrolyte_potential,
             _self.positive_electrode_potential
-            ] = _self.results[0]
-
-
+            ] = _self.results
 
 
     def set_graph_toggles(_self):
@@ -3996,11 +4022,14 @@ class SetGraphs():
         return display_dynamic_dashboard, display_colormaps
 
     def set_dynamic_dashboard(_self):
-        if len(_self.selected_data_sets) <= 1:
-            time_values = _self.time_values
-        else:
-            time_values = _self.find_max_length_array_x_axis(_self.time_values)
 
+        if isinstance(_self.selected_data_sets,list) and len(_self.selected_data_sets) > 1:
+            time_values = _self.find_max_length_array_x_axis(_self.time_values)
+            
+        else:
+            time_values = _self.time_values
+
+        
         max_time_value = max(time_values)
         init_time_value = 0.0
         step_size = _self.get_min_difference(time_values)
@@ -4193,8 +4222,6 @@ class SetGraphs():
         return float(min(diff))
     
     def find_max_length_array_x_axis(self,arrays):
-        if not arrays:  # Check if the list is empty
-            return None, 0, -1
 
         max_length = 0
         max_array = None
@@ -4255,12 +4282,12 @@ class SetGraphs():
             elif len(array.shape) == 2:
                 if len(array[:,0]) < max_length_1:
                     diff = max_length_1 - len(array[:,0])
-                    nan_array = np.full((diff, array.shape[1]), np.nan)
+                    nan_array = np.full((diff, len(array[0])), np.nan)
                     arrays[index] = np.vstack((array, nan_array))
-                elif len(array[0]) < max_length_2:
-                        diff = max_length_2 - len(array[0])
-                        nan_array = np.full((max_length_2, diff), np.nan)
-                        arrays[index] = np.hstack((arrays[index], nan_array))
+                if len(array[0]) < max_length_2:
+                    diff = max_length_2 - len(array[0])
+                    nan_array = np.full((len(array[:,0]), diff), np.nan)
+                    arrays[index] = np.hstack((arrays[index], nan_array))
                     
 
         return arrays
@@ -4307,22 +4334,23 @@ class SetGraphs():
             negative_electrode_concentration_ext_list[0:length_grid_NE] = np.squeeze(_self.negative_electrode_concentration)[state]
             electrolyte_grid = _self.electrolyte_grid
         else:
-            length_grid_elyte = len(_self.electrolyte_grid[0])
-
-            length_grid_NE = len(_self.negative_electrode_grid[0])
+            
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
             number_of_datasets = len(_self.electrolyte_grid)
             negative_electrode_concentration_ext_list = []
-
             electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            
 
             _self.negative_electrode_concentration = _self.find_max_length_array_y_axis(_self.negative_electrode_concentration)
             
-
+            
             for i,dataset in enumerate(_self.negative_electrode_concentration):
+                length_grid_NE = len(dataset[0])
                 negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
                 
                 negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state]
                 negative_electrode_concentration_ext_list.append(negative_electrode_concentration_ext)
+
 
         ne_concentration = _self.create_subplot(
             x_data=electrolyte_grid,
@@ -4378,8 +4406,7 @@ class SetGraphs():
             electrolyte_grid = _self.electrolyte_grid
         else:
 
-            length_grid_elyte = len(_self.electrolyte_grid[0])
-            length_grid_PE = len(_self.positive_electrode_grid[0])
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
             electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.positive_electrode_concentration = _self.find_max_length_array_y_axis(_self.positive_electrode_concentration)
 
@@ -4387,6 +4414,7 @@ class SetGraphs():
             positive_electrode_concentration_ext_list = []
 
             for i,dataset in enumerate(_self.positive_electrode_concentration):
+                length_grid_PE = len(dataset[0])
                 positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
                 positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state]
                 positive_electrode_concentration_ext_list.append(positive_electrode_concentration_ext)
@@ -4435,14 +4463,14 @@ class SetGraphs():
             negative_electrode_potential_ext_list[0:length_grid_NE] = np.squeeze(_self.negative_electrode_potential)[state]
             electrolyte_grid = _self.electrolyte_grid
         else:
-            length_grid_elyte = len(_self.electrolyte_grid[0])
-            length_grid_NE = len(_self.negative_electrode_grid[0])
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
             electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.negative_electrode_potential = _self.find_max_length_array_y_axis(_self.negative_electrode_potential)
 
             negative_electrode_potential_ext_list = []
 
             for i,dataset in enumerate(_self.negative_electrode_potential):
+                length_grid_NE = len(dataset[0])
                 negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
                 negative_electrode_potential_ext[0:length_grid_NE] = dataset[state]
                 negative_electrode_potential_ext_list.append(negative_electrode_potential_ext)
@@ -4499,8 +4527,7 @@ class SetGraphs():
             positive_electrode_potential_ext_list[-length_grid_PE:] = np.squeeze(_self.positive_electrode_potential)[state]
             electrolyte_grid = _self.electrolyte_grid
         else:
-            length_grid_elyte = len(_self.electrolyte_grid[0])
-            length_grid_PE = len(_self.positive_electrode_grid[0])
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
             electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
             _self.positive_electrode_potential = _self.find_max_length_array_y_axis(_self.positive_electrode_potential)
 
@@ -4508,6 +4535,7 @@ class SetGraphs():
             positive_electrode_potential_ext_list = []
 
             for i,dataset in enumerate(_self.positive_electrode_potential):
+                length_grid_PE = len(dataset[0])
                 positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
                 positive_electrode_potential_ext[-length_grid_PE:]  = dataset[state]
                 positive_electrode_potential_ext_list.append(positive_electrode_potential_ext)
@@ -4675,46 +4703,52 @@ class SetGraphs():
                     color6.plotly_chart(_self.get_pe_p_color(state),use_container_width = use_container_width)
 
     @st.cache_data
-    def find_max(_self,data):
-            try:
-                maxi = max(max(array) for array in data[0])
-            except:
-                maxi = max(data)
+    def find_max(_self,data, state = None):
+            if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+                if state:
+                    maxi = max(np.max(array[state]) for array in data)
+                else:
+                    maxi = max(np.max(array) for array in data)
+            else:
+                if state:
+                    maxi = np.max(data[state])
+                else:   
+                    maxi = np.max(data)
             return maxi
 
     @st.cache_data
-    def find_min(_self,data):
-            try:
-                mini = min(max(array) for array in data[0])
-            except:
-                mini = min(data)
+    def find_min(_self,data, state = None):
+            if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+                mini = min(np.min(array) for array in data)
+            else:
+                mini = np.min(data)
             return mini
 
 
     @st.cache_data
     def get_graph_initial_limits(_self):
 
-        xmin = min(min(array) for array in _self.electrolyte_grid_bc)
+        xmin = _self.find_min(_self.electrolyte_grid_bc)
 
-        xmax = max(max(array) for array in _self.electrolyte_grid_bc)
+        xmax = _self.find_max(_self.electrolyte_grid_bc)
 
-        cmax_elyte = _self.find_max(_self.electrolyte_concentration[0])
-        cmin_elyte = _self.find_min(_self.electrolyte_concentration[0])
+        cmax_elyte = _self.find_max(_self.electrolyte_concentration)
+        cmin_elyte = _self.find_min(_self.electrolyte_concentration)
 
-        cmax_ne = _self.find_max(_self.negative_electrode_concentration[0])
-        cmin_ne = _self.find_min(_self.negative_electrode_concentration[0])
+        cmax_ne = _self.find_max(_self.negative_electrode_concentration)
+        cmin_ne = _self.find_min(_self.negative_electrode_concentration)
 
-        cmax_pe = _self.find_max(_self.positive_electrode_concentration[0])
-        cmin_pe = _self.find_min(_self.positive_electrode_concentration[0])
+        cmax_pe = _self.find_max(_self.positive_electrode_concentration)
+        cmin_pe = _self.find_min(_self.positive_electrode_concentration)
 
-        phimax_elyte = _self.find_max(_self.electrolyte_potential[0])
-        phimin_elyte = _self.find_min(_self.electrolyte_potential[0])
+        phimax_elyte = _self.find_max(_self.electrolyte_potential)
+        phimin_elyte = _self.find_min(_self.electrolyte_potential)
 
-        phimax_ne = _self.find_max(_self.negative_electrode_potential[0])
-        phimin_ne = _self.find_min(_self.negative_electrode_potential[0])
+        phimax_ne = _self.find_max(_self.negative_electrode_potential)
+        phimin_ne = _self.find_min(_self.negative_electrode_potential)
 
-        phimax_pe = _self.find_max(_self.positive_electrode_potential[0])
-        phimin_pe = _self.find_min(_self.positive_electrode_potential[0])
+        phimax_pe = _self.find_max(_self.positive_electrode_potential)
+        phimin_pe = _self.find_min(_self.positive_electrode_potential)
 
         return [
             xmin,
@@ -4752,23 +4786,23 @@ class SetGraphs():
             init_phimin_pe
         ] = _self.get_graph_initial_limits()
 
-        cmax_elyte_sub = _self.find_max(_self.electrolyte_concentration[state])
-        cmin_elyte_sub = _self.find_min(_self.electrolyte_concentration[state])
+        cmax_elyte_sub = _self.find_max(_self.electrolyte_concentration,state)
+        cmin_elyte_sub = _self.find_min(_self.electrolyte_concentration,state)
 
-        cmax_ne_sub = _self.find_max(_self.negative_electrode_concentration[state])
-        cmin_ne_sub = _self.find_min(_self.negative_electrode_concentration[state])
+        cmax_ne_sub = _self.find_max(_self.negative_electrode_concentration,state)
+        cmin_ne_sub = _self.find_min(_self.negative_electrode_concentration,state)
 
-        cmax_pe_sub = _self.find_max(_self.positive_electrode_concentration[state])
-        cmin_pe_sub = _self.find_min(_self.positive_electrode_concentration[state])
+        cmax_pe_sub = _self.find_max(_self.positive_electrode_concentration,state)
+        cmin_pe_sub = _self.find_min(_self.positive_electrode_concentration,state)
 
-        phimax_elyte_sub = _self.find_max(_self.electrolyte_potential[state])
-        phimin_elyte_sub = _self.find_min(_self.electrolyte_potential[state])
+        phimax_elyte_sub = _self.find_max(_self.electrolyte_potential,state)
+        phimin_elyte_sub = _self.find_min(_self.electrolyte_potential,state)
 
-        phimax_ne_sub = _self.find_max(_self.negative_electrode_potential[state])
-        phimin_ne_sub = _self.find_min(_self.negative_electrode_potential[state])
+        phimax_ne_sub = _self.find_max(_self.negative_electrode_potential,state)
+        phimin_ne_sub = _self.find_min(_self.negative_electrode_potential,state)
 
-        phimax_pe_sub = _self.find_max(_self.positive_electrode_potential[state])
-        phimin_pe_sub = _self.find_min(_self.positive_electrode_potential[state])
+        phimax_pe_sub = _self.find_max(_self.positive_electrode_potential,state)
+        phimin_pe_sub = _self.find_min(_self.positive_electrode_potential,state)
 
         cmax_elyte = max(init_cmax_elyte, cmax_elyte_sub)
         cmin_elyte = min(init_cmin_elyte, cmin_elyte_sub)
@@ -4827,13 +4861,16 @@ class SetGraphs():
         # })
         fig = go.Figure()
 
-        if len(_self.selected_data_sets) == 1:
-            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='lines', line=dict(width=5)))
-        else:
+        if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+
             for i,x in enumerate(x_data):
                 trace_label = _self.selected_data_sets[i].rsplit('.', 1)[0]
                 fig.add_trace(go.Scatter(x=x, y=y_data[i], mode='lines', line=dict(width=5), name = trace_label))
                 # fig = px.line(x=x_data, y=y_data[i])
+
+        else:
+            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='lines', line=dict(width=5)))
+            
 
         fig.update_traces(line=dict(width=5))
 

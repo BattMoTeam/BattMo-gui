@@ -6,15 +6,15 @@
     "Parameters": {
        "maximum_concentration": 21200,
        "particle_radius": 5e-07,
-       "electronic_conductivity": 0.80,
        "density": 991,
+       "electronic_conductivity": 0.80,
        "volumetric_surface_area": 4418460,
        "number_of_electrons_transferred": 1,
        "activation_energy_of_reaction": 35000,
        "activation_energy_of_diffusion": 80000,
        "reaction_rate_constant": 9.736e-07,
-       "maximum_lithium_stoichiometry": 0.95038,
-       "minimum_lithium_stoichiometry":0.0875,
+       "maximum_lithium_stoichiometry": 0.0875,
+       "minimum_lithium_stoichiometry":0.95038,
        "open_circuit_potential": {
           "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
           "argument_list": [
