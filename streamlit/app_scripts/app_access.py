@@ -79,6 +79,12 @@ def get_path_to_output_files_dir():
     return output_files_path
 
 @st.cache_data
+def get_path_to_uploaded_hdf5_files_dir():
+    streamlit_path = get_path_to_streamlit_dir()
+    uploaded_hdf5_files_path = os.path.join(streamlit_path, "uploaded_hdf5_files")
+    return uploaded_hdf5_files_path
+
+@st.cache_data
 def get_path_to_zipped_results():
     output_files_path = get_path_to_output_files_dir()
     zipped_results_path = os.path.join(output_files_path, "zipped")
@@ -87,7 +93,7 @@ def get_path_to_zipped_results():
 @st.cache_data
 def get_path_to_battmo_results():
     output_files_path = get_path_to_output_files_dir()
-    battmo_results_path = os.path.join(output_files_path, "battmo_results.h5")
+    battmo_results_path = os.path.join(output_files_path, "battmo_results.hdf5")
     return battmo_results_path
 
 @st.cache_data
@@ -186,7 +192,6 @@ def get_all_parameter_sets_experimental_data_files_path():
     for root, _, files in os.walk(get_path_to_database_recources_parameter_sets_experimental_data_dir()):
         for name in files:
             all_files.append(os.path.join(root, name))
-    print("files = ", all_files)
     return all_files
 
 @st.cache_data
@@ -207,6 +212,11 @@ def get_all_parameter_sets_meta_data_files_path():
 
 
 def get_sqlite_con_and_cur():
+    database = get_path_to_database()
+    con = sqlite3.connect(database, check_same_thread=False)
+    return con, con.cursor()
+
+def get_sqlite_con_and_cur_thread_safe():
     database = get_path_to_database()
     con = sqlite3.connect(database, check_same_thread=False)
     return con, con.cursor()

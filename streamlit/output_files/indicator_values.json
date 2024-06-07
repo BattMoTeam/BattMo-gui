@@ -4,6 +4,9 @@
          "value": 31.7796972032,
          "unit": "g"
       },
+      "roundTripEfficiency": {
+         "unit": "1"
+      },
       "nominalCellCapacity": {
          "value": 1047.6223333812661,
          "unit": "mAh"

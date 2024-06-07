@@ -159,6 +159,22 @@
          "unit_name": "WattHour",
          "unit_iri": "https://w3id.org/emmo#Watthour",
          "display_name": "Energy"
+      },
+      "round_trip_efficiency": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "N/A",
+         "context_type": "emmo:EnergyEfficiency",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_79198264_cdf5_4fc3_8bcf_e5140a52547a",
+         "max_value": 1,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": false,
+         "type": "float",
+         "unit": "1",
+         "unit_name": "UnitOne",
+         "unit_iri": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978",
+         "display_name": "Round-trip efficiency"
       }
       
    }

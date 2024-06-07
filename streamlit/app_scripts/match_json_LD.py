@@ -105,7 +105,7 @@ class GuiDict(object):
         self.sep_prop = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasSeparator").get("hasQuantitativeProperty"))
         self.protocol = get_dict_from_has_quantitative(gui_dict.get("MySimulationSetup").get("hasCell").get("hasCyclingProcess").get("hasQuantitativeProperty"))
         
-
+@st.cache_data
 def get_batt_mo_dict_from_gui_dict(gui_dict):
 
     with open(app_access.get_path_to_calculated_values(), 'r') as f:
@@ -317,7 +317,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value")
         },
         "G": [],
-        "SOC": json_ld.bc.get("initial_state_of_charge").get("value"),
+        "SOC": json_ld.protocol.get("initial_state_of_charge").get("value"),
         #"Ucut": json_ld.protocol.get("lower_cutoff_voltage"),
         "initT": json_ld.bc.get("initial_temperature").get("value"),
         "use_thermal": json_ld.model.get("use_thermal"),
@@ -354,6 +354,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     }
 
 
+@st.cache_data
 def get_indicators_from_gui_dict(gui_dict):
     
     json_ld = GuiDict(gui_dict)
@@ -364,10 +365,9 @@ def get_indicators_from_gui_dict(gui_dict):
                 "value": json_ld.cell.get("cell_mass").get("value"),
                 "unit": json_ld.cell.get("cell_mass").get("unit")
             },
-            # "cellEnergy": {
-            #     "value": json_ld.cell.get("cell_energy").get("value"),
-            #     "unit": json_ld.cell.get("cell_energy").get("unit")
-            # },
+            "roundTripEfficiency": {
+                "unit": json_ld.cell.get("round_trip_efficiency").get("unit")
+            },
             "nominalCellCapacity": {
                 "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
                 "unit": json_ld.cell.get("nominal_cell_capacity").get("unit")

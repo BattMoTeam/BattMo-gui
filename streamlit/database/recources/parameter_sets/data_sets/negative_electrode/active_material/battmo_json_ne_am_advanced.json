@@ -10,6 +10,14 @@
       "particle_radius": 1e-6,
       "number_of_discrete_cells_particle_radius": 10,
       "specific_heat_capacity": 632,
-      "thermal_conductivity": 1.04
+      "thermal_conductivity": 1.04,
+      "density": 2260.0,
+      "number_of_electrons_transferred": 1,
+      "maximum_concentration": 29583.0,
+      "volumetric_surface_area": 383959.0,
+      "activation_energy_of_reaction": 35000.0,
+       "reaction_rate_constant": 6.716e-12,
+       "maximum_lithium_stoichiometry": 0.9014,
+       "minimum_lithium_stoichiometry": 0.0279
    }
 }

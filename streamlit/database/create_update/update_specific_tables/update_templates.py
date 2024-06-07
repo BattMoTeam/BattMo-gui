@@ -92,6 +92,7 @@ class UpdateTemplates:
         template_id, template_already_exists = self.create_or_update_parameter_set(
             name=name
         )
+        print(template_already_exists)
         fields = TemplateField()
 
         # Can be adapted to add the model_id links:
@@ -137,7 +138,10 @@ class UpdateTemplates:
 
 
     def create_or_update_parameter_set(self, name):
+        print("name = ",name)
+
         template_id = self.sql_template.get_id_from_name(name)
+        print("template_id = ",template_id)
         return (template_id, True) if template_id else (self.sql_template.insert_value(name=name), False)
 
     def add_parameters(self, parameters, template_id, fields):
@@ -258,14 +262,15 @@ class UpdateTemplates:
             if template_already_exists:
                 existing_ids_to_be_deleted.remove(template_id)
 
-        for id_to_be_deleted in existing_ids_to_be_deleted:
-            deleted.append(self.delete_template_by_id(id_to_be_deleted))
+        if existing_ids_to_be_deleted:
+            for id_to_be_deleted in existing_ids_to_be_deleted:
+                deleted.append(self.delete_template_by_id(id_to_be_deleted))
 
-        print("\n SQL tables template and template_parameter are up to date according to the templates resource files")
-        if new_or_updated:
-            print(" Created or updated templates : ", new_or_updated)
-        if deleted:
-            print(" Deleted templates: ", deleted)
+            print("\n SQL tables template and template_parameter are up to date according to the templates resource files")
+            if new_or_updated:
+                print(" Created or updated templates : ", new_or_updated)
+            if deleted:
+                print(" Deleted templates: ", deleted)
 
 
 if __name__ == "__main__":

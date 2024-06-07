@@ -1,6 +1,6 @@
 {
    "Type": "template",
-   "Name": "additive_template",
+   "Name": "pe_additive_template",
    "Parameters": {
       "density": {
          "model_name": ["P2D","P3D"],
@@ -53,7 +53,7 @@
       },
       "electronic_conductivity": {
          "model_name": ["P2D","P3D"],
-         "par_class": "non_material",
+         "par_class": "material",
          "difficulty": "advanced",
          "context_type": "emmo:ElectricConductivity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_cde4368c_1d4d_4c94_8548_604749523c6d",

@@ -5,15 +5,16 @@
    "material": false,
    "Header": {},
    "Parameters": {
-      "initial_step_type": "discharging",
+      "initial_step_type": ["charging","discharging"],
+      "initial_state_of_charge": 0.01,
       "number_of_cycles": 1,
       "d_rate": 1,
       "c_rate": 1,
       "lower_cutoff_voltage": 2.4,
       "upper_cutoff_voltage": 4.1,
-      "d_idt_limit": 0.01,
+      "d_idt_limit": 0.0001,
       "d_edt_limit": 0.01,
-      "time_step_duration": 100,
+      "time_step_duration": 30,
       "ramp_up_time": 10
    }
 }

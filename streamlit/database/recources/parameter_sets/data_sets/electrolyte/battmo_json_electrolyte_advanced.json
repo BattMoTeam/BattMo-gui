@@ -4,6 +4,16 @@
    "component": "electrolyte_advanced",
    "material": false,
    "Parameters": {
-      "bruggeman_coefficient": 1.5
+      "bruggeman_coefficient": 1.5,
+      "EC_DMC_ratio": 1.2,
+      "specific_heat_capacity": 1518.0,
+      "thermal_conductivity": 0.099,
+      "density": 1200,
+      "charge_carrier_name": "Li",
+      "charge_carrier_charge_number": 1,
+      "charge_carrier_transference_number": 0.2594,
+      "counter_ion_name": "PF6",
+      "counter_ion_charge_number": -1,
+      "counter_ion_transference_number": 0.7406
    }
 }

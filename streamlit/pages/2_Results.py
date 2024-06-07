@@ -5,10 +5,12 @@ import h5py
 import numpy as np
 from PIL import Image
 import streamlit as st
-from streamlit_javascript import st_javascript
 import time
 from queue import Queue
 import sys
+import uuid
+import tempfile
+import shutil
 
 
 ##############################
@@ -33,40 +35,101 @@ from app_scripts.app_controller import get_app_controller, get_results_data
 from app_scripts import app_view
 
 # Get page name
-url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
-url_parts = url.rsplit('/',1)
+# url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
+# url_parts = url.rsplit('/',1)
 
-if len(url_parts) > 1:
-    # Extract the page name from the last part
-    page_name = url_parts[1]
-else:
-    # Handle the case where '/' is not found in the URL
-    page_name = "Unknown"
+# if len(url_parts) > 1:
+#     # Extract the page name from the last part
+#     page_name = url_parts[1]
+# else:
+#     # Handle the case where '/' is not found in the URL
+#     page_name = "Unknown"
 
 
 def run_page():
 
-    if "succes" not in st.session_state:
-        st.session_state.succes = None
+    ##############################
+    # Remember user changed values
+    for k, v in st.session_state.items():
+        st.session_state[k] = v
+
+    #Remember widget actions when switching between pages (for example: selectbox choice)
+    st.session_state.update(st.session_state)
+    ##############################
+
+    page_name = "Results"
+
+
+    if "success" not in st.session_state:
+        st.session_state.success = None
+
+    if "hdf5_upload" not in st.session_state:
+        st.session_state.hdf5_upload = None
+
+    # Generate a unique identifier for the session
+    if 'unique_id_temp_folder' not in st.session_state:
+        st.session_state['unique_id_temp_folder'] = str(uuid.uuid4())
+
+    if 'temp_dir' not in st.session_state:
+        unique_id = st.session_state['unique_id_temp_folder']
+        # Create a temporary directory for the session
+        temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
+
+        # Store the temp_dir in session state
+        st.session_state['temp_dir'] = temp_dir
+    
+    if "selected_data" not in st.session_state:
+        st.session_state["selected_data"] = None
+    
+    
+
 
     app = get_app_controller()
 
-    if st.session_state.succes == True:
-        results = get_results_data().get_results_data()
+    app.set_hdf5_upload().set_results_uploader()
+    selected_data_sets = app.set_data_set_selector().set_selector()
+    
 
-        app.set_indicators(page_name)
+    if st.session_state.success == True or st.session_state.hdf5_upload == True:
+        session_temp_folder = st.session_state["temp_dir"]
+        file_names = [f for f in os.listdir(session_temp_folder) if os.path.isfile(os.path.join(session_temp_folder, f))]
         #st.divider()
 
-        #app_view.st_space(space_number=1) 
+        #app_view.st_space(space_number=1)
+        if selected_data_sets:
 
-        app.set_graphs(results)
+            results = get_results_data(selected_data_sets).get_results_data(selected_data_sets)
 
-        app_view.st_space(space_number=1)
+            if len(selected_data_sets) <= 1:
+                results = results[0]
 
-        app.set_download_hdf5_button(results)
+            if st.session_state.success == True:
+                app.set_indicators(page_name, results)
+            
+            app.set_graphs(results, selected_data_sets)
 
-    elif st.session_state.succes == None:
-        st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation.")
+            app_view.st_space(space_number=1)
+
+            app.set_download_hdf5_button(results,selected_data_sets)
+        elif file_names:
+            last_file_name = file_names[-1]
+            st.session_state["selected_data"] = last_file_name
+            selected_data_sets = last_file_name
+            
+            results = get_results_data(last_file_name).get_results_data(last_file_name)
+            
+            if st.session_state.success == True:
+                app.set_indicators(page_name, results[0])
+
+            app.set_graphs(results, selected_data_sets)
+
+            app_view.st_space(space_number=1)
+
+            app.set_download_hdf5_button(results,selected_data_sets)
+
+
+    elif st.session_state.success == None:
+        st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation or upload your previous results to visualize them.")
 
     else: 
         st.error("Your simulation was not succesful unfortunately, give it another try.")

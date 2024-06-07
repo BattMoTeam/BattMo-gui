@@ -2,13 +2,13 @@ import os
 import sys
 from PIL import Image
 import streamlit as st
-from streamlit_javascript import st_javascript
 import pprint
 import pdb
 import pickle
 import json
 import numpy as np
-from streamlit_theme import st_theme
+import tempfile
+import uuid
 
 
 ##############################
@@ -23,69 +23,65 @@ st.set_page_config(
 # set config before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage
-from database import db_helper
-from app_scripts import app_access
-
-##############################
-# Remember user changed values when switching between pages
-for k, v in st.session_state.items():
-    st.session_state[k] = v
-
-# Remember widget actions when switching between pages (for example: selectbox choice)
-st.session_state.update(st.session_state)
-##############################
 
 
 # Get page name
-url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
-url_parts = url.rsplit('/',1)
+# url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
+# url_parts = url.rsplit('/',1)
 
-if len(url_parts) > 1:
-    # Extract the page name from the last part
-    page_name = url_parts[1]
-else:
-    # Handle the case where '/' is not found in the URL
-    page_name = "Unknown"
+# if len(url_parts) > 1:
+#     # Extract the page name from the last part
+#     page_name = url_parts[1]
+# else:
+#     # Handle the case where '/' is not found in the URL
+#     page_name = "Unknown"
 
+if "sim_finished" not in st.session_state:
+    st.session_state.sim_finished = False
+
+if "update_par" not in st.session_state:
+    st.session_state.update_par = False
+
+if "success" not in st.session_state:
+    st.session_state.success = None
+
+if "response" not in st.session_state:
+    st.session_state.response = None
+
+if "upload" not in st.session_state:
+    st.session_state.upload = None
+
+if "theme" not in st.session_state:
+    st.session_state.theme = None
+
+if "simulation_results_file_name" not in st.session_state:
+    st.session_state.simulation_results_file_name = None
+
+# Generate a unique identifier for the session
+if 'unique_id_temp_folder' not in st.session_state:
+    st.session_state['unique_id_temp_folder'] = str(uuid.uuid4())
+
+if 'temp_dir' not in st.session_state:
+    unique_id = st.session_state['unique_id_temp_folder']
+    # Create a temporary directory for the session
+    temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
+    # Store the temp_dir in session state
+    st.session_state['temp_dir'] = temp_dir
 
 
 
 def run_page():
 
-    if "sim_finished" not in st.session_state:
-        st.session_state.sim_finished = False
+    ##############################
+    # Remember user changed values when switching between pages
+    for k, v in st.session_state.items():
+        st.session_state[k] = v
 
-    if "update_par" not in st.session_state:
-        st.session_state.update_par = False
+    # Remember widget actions when switching between pages (for example: selectbox choice)
+    st.session_state.update(st.session_state)
+    ##############################
 
-    if "succes" not in st.session_state:
-        st.session_state.succes = None
-
-    if "response" not in st.session_state:
-        st.session_state.response = None
-
-    if "upload" not in st.session_state:
-        st.session_state.upload = None
-
-    if "theme" not in st.session_state:
-        st.session_state.theme = None
-
-    # e = True
-    # while e == True:
-    #     theme = st_theme()["base"]
-
-    #     if theme == None:
-    #         st.succes("A short moment please.")
-    #     else:
-    #         st.session_state.theme = theme
-    #         e = False
-
-    # with st.exception_handler(Exception):
-    # st.session_state.theme = st_theme()["base"]
-
-    # # Display a warning message if there was a delay
-    # if "theme" not in st.session_state:
-    #     st.warning("Give it a short moment")
+    page_name = "Simulation"
 
     log_memory_usage()
 
@@ -95,7 +91,6 @@ def run_page():
 
     gui_parameters = app.set_tabs(model_id).user_input
 
-    #st.write("---")
     app.set_indicators(page_name)
     #st.divider()
 
@@ -105,10 +100,11 @@ def run_page():
     app.download_parameters(gui_parameters)
 
     
-    error = app.run_simulation(gui_parameters).response_start
+    success = app.run_simulation(gui_parameters).success
     # st.session_state.succes = True
-
-    app.divergence_check(error)
+    
+    save_run = st.container()
+    app.divergence_check(save_run,success)
 
 
     

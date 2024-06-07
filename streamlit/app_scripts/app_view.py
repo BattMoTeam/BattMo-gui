@@ -6,7 +6,6 @@ import io
 import h5py
 import streamlit as st
 import numpy as np
-from copy import deepcopy
 from uuid import uuid4
 import sys
 import requests
@@ -14,23 +13,21 @@ import pdb
 from streamlit_extras.switch_page_button import switch_page
 import sympy as sp
 import matplotlib.pyplot as plt
-from streamlit_theme import st_theme
-from streamlit_javascript import st_javascript
 import os
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit_elements as el
-from scipy import ndimage
+import ast
+import pandas as pd
+import random
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
-from database import db_helper
-from app_scripts import app_access, match_json_LD, LD_struct, match_json_upload, app_controller
+from database import db_helper, db_handler
+from app_scripts import app_access, match_json_LD, match_json_upload, app_controller
 from app_scripts import app_calculations as calc
-from LD_struct import SetupLinkedDataStruct 
-LD = SetupLinkedDataStruct()
-
+#con, cur = app_access.get_sqlite_con_and_cur()
 
 
 #####################################
@@ -39,8 +36,8 @@ LD = SetupLinkedDataStruct()
 
 
 def get_theme_style():
-    
-    
+
+
     if st.session_state.theme == "dark":
         with open(app_access.get_path_to_dark_style_css()) as f:
             style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -85,7 +82,7 @@ def st_space(tab=None, space_width=1, space_number=1):
 #########################################
 # Classes used on the Introduction page
 #########################################
-            
+
 
 class SetHeading:
     """
@@ -97,21 +94,21 @@ class SetHeading:
         self.title = "BattMo"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
-            This graphical user interface can be used to run (cell level) battery simulations 
-            with BattMo. BattMo is a framework for continuum modelling of electrochemical 
-            devices. It simulates the Current-Voltage response of a battery using 
+            This graphical user interface can be used to run (cell level) battery simulations
+            with BattMo. BattMo is a framework for continuum modelling of electrochemical
+            devices. It simulates the Current-Voltage response of a battery using
             Physics-based models.
         """
         self.info = "Hover over the following buttons to see what you can find on each page."
 
         # Set heading
         self.set_heading()
-               
+
 
     def set_heading(self):
         self.set_title_and_logo()
-        self.set_description() 
-        self.set_info()    
+        self.set_description()
+        self.set_info()
 
     def set_title_and_logo(self):
         # Title and subtitle
@@ -134,7 +131,7 @@ class SetPageNavigation:
     Used in the "Introduction" page, sets the navigation info and buttons to to the other pages.
     """
     def __init__(self):
-        
+
         self.help_simulation = "Define your input parameters and run a simulation."
         self.help_results = "Download and visualize your results."
         self.help_materials_and_models = "See which pre-defined materials and which simulation models are available."
@@ -145,7 +142,7 @@ class SetPageNavigation:
         col = self.set_page_buttons()
 
         return col
-        
+
 
     def set_page_buttons(self):
 
@@ -160,17 +157,17 @@ class SetPageNavigation:
                         help = self.help_simulation,
                         use_container_width=True
                         )
-        
+
         results_page = col2.button(label = "Results",
                         help = self.help_results,
                         use_container_width=True
                         )
-        
+
         materials_and_models_page = col3.button(label = "Materials and models",
                         help = self.help_materials_and_models,
                         use_container_width=True
                         )
-        
+
         if simulation_page:
             switch_page("Simulation")
 
@@ -188,7 +185,7 @@ class SetAcknowledgementInfo:
     Used to render the info on the funding of the project on the 'Introduction' page.
     """
     def __init__(self,col):
-        
+
         self.col = col
         self.text = "This project has received [funding](https://github.com/BattMoTeam/BattMo#) from the European Union"
         self.flag_image = Image.open(os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg"))
@@ -201,7 +198,7 @@ class SetAcknowledgementInfo:
         #_,col2 = st.columns([4,1.5])
         self.set_europe_flag()
         self.set_funding_info()
-        
+
 
     def set_funding_info(self):
 
@@ -227,7 +224,7 @@ class SetExternalLinks:
         self.set_external_links()
 
     def set_external_links(self):
-        
+
         st.divider()
         website_col, doi_col, github_col, doc_col = st.columns([3.5, 5, 3,3])
         website_col.markdown(self.batterymodel)
@@ -241,7 +238,7 @@ class SetExternalLinks:
 #########################################
 # Classes used on the Simulation page
 #########################################
-        
+
 
 class SetModelChoice:
     """
@@ -274,6 +271,337 @@ class SetModelChoice:
             label_visibility="collapsed"
         )
         self.selected_model = selected_model_id
+
+
+class SetupLinkedDataStruct():
+
+    def __init__(self):
+        # Ontology definitions
+
+        self.id = "@id"
+        self.type = "@type"
+        self.label = "rdfs:label"
+
+        self.hasInput = "hasInput"
+        self.hasActiveMaterial = "hasActiveMaterial"
+        self.hasBinder = "hasBinder"
+        self.hasConductiveAdditive = "hasConductiveAdditive"
+        self.hasElectrode = "hasElectrode"
+        self.hasNegativeElectrode = "hasNegativeElectrode"
+        self.hasPositiveElectrode = "hasPositiveElectrode"
+        self.hasElectrolyte = "hasElectrolyte"
+        self.hasSeparator = "hasSeparator"
+        self.hasBoundaryConditions = "hasBoundaryConditions"
+        self.hasCyclingProcess = "hasCyclingProcess"
+        self.hasBatteryCell = "hasBatteryCell"
+
+        self.hasQuantitativeProperty = "hasQuantitativeProperty"
+        self.hasObjectiveProperty = "hasObjectiveProperty"
+        self.hasConstituent = "hasConstituent"
+        self.hasNumericalData = "hasNumericalData"
+        self.hasNumericalPart = "hasNumericalPart"
+        self.hasNumericalValue = "hasNumericalValue"
+        self.hasStringData = "hasStringData"
+        self.hasStringValue = "hasStringValue"
+        self.hasStringPart = "hasStringPart"
+        self.hasModel = "hasModel"
+        self.hasCell = "hasCell"
+
+        self.universe_label = "MySimulationSetup"
+        self.cell_label = "MyCell"
+        self.cell_type = "battery:Cell"
+
+
+        self.context= {
+                        "schema":"https://schema.org/",
+                        "":"https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
+                        "emmo": "https://w3id.org/emmo#",
+                        "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+                        "battery": "https://w3id.org/emmo/domain/battery#",
+                        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                        "hasConstituent": "emmo:hasConstituent",
+
+
+                        # "hasNumericalData": "emmo:hasNumericalData",
+                        # "hasStringData": "emmo:hasStringData",
+                        # "value": "emmo:hasQuantityValue",
+                        # "unit": "emmo:hasReferenceUnit",
+                        # "label": "skos:prefLabel"
+
+                        # "skos": "http://www.w3.org/2004/02/skos/core#",
+                        # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
+                        # "qudt": "http://qudt.org/vocab/unit/",
+                    }
+
+    def setup_linked_data_dict(self, model_id, model_name):
+
+        model_label = "{} model".format(model_name)
+        id = ""
+        model_type = "battery:{}Model".format(model_name)
+
+        dict = {
+            "@context": self.context,
+
+            self.universe_label:{
+                self.hasModel:{
+                    "label": model_label,
+                    "@type": model_type,
+                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_name)
+                }
+            }
+        }
+
+        # dict = {
+        #     "@context": self.context,
+
+        #     self.id:id,
+        #     self.type:["Dataset"],
+        #     "schema:headline": headline,
+        #     "battinfo:hasModel":{
+        #         self.type: model_type,
+        #         self.id: model_id,
+        #         self.label: model_label,
+
+        #         self.hasInput: db_helper.get_model_parameters_as_dict(model_id)
+        #     }
+        #     }
+
+        return dict
+
+    def fill_sub_dict(self,dict,relation_dict_1, parameters,existence,relation_dict_2 = None,relation_par=None):
+        parameters = parameters.copy()
+        if self.universe_label in dict:
+            if relation_par:
+                if existence == "new":
+                    dict[self.universe_label][relation_dict_1] = parameters[relation_par]
+                elif existence == "existing":
+                    dict[self.universe_label][relation_dict_1] += parameters[relation_par]
+            else:
+                if existence == "new":
+                    dict[self.universe_label][relation_dict_1] = parameters
+                elif existence == "existing":
+                    dict[self.universe_label][relation_dict_1] += parameters
+        else:
+            if relation_par:
+                if existence == "new":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] = parameters[relation_par]
+                    else:
+                        dict[relation_dict_1] = parameters[relation_par]
+                elif existence == "existing":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] += parameters[relation_par]
+                    else:
+                        dict[relation_dict_1] += parameters[relation_par]
+            else:
+                if existence == "new":
+                    if relation_dict_2:
+                        dict[relation_dict_1][relation_dict_2] = parameters
+                    else:
+                        dict[relation_dict_1] = parameters
+
+                elif existence == "existing":
+                    dict[relation_dict_1] += parameters
+        return dict
+
+    @st.cache_data
+    def setup_sub_dict(_self,dict=None,display_name=None, context_type=None, type=None, existence = None):
+
+        if type:
+            if type == "cell":
+                dict = {
+                    "label": _self.cell_label,
+                    "@type": _self.cell_type
+                }
+        elif existence =="new":
+            dict = {
+                    "label": display_name,
+                    "@type": context_type
+                }
+
+
+        else:
+            dict["label"] = display_name
+            dict["@type"] = context_type
+
+        return dict
+
+    def fill_linked_data_dict(self, user_input, content):
+        user_input[self.universe_label][self.hasCell] = content
+
+        return user_input
+
+    def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
+        if component_parameters is None:
+            component_parameters = []
+
+        numeric = isinstance(parameter, NumericalParameter)
+        # print("numeric =", numeric)
+        # print("object =", parameter)
+
+        try:
+
+            if isinstance(parameter, NumericalParameter):
+
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    self.hasNumericalData: parameter.selected_value
+                }
+
+            elif isinstance(parameter, StrParameter):
+
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    self.hasStringData: parameter.selected_value
+                }
+
+            elif isinstance(parameter, BooleanParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:Boolean",
+                    self.hasStringData: parameter.selected_value
+                }
+            elif isinstance(parameter, FunctionParameter):
+                formatted_value_dict = {
+                    "@type": "emmo:String",
+                    self.hasStringData: parameter.selected_value
+                }
+
+
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type if parameter.context_type else "string",
+                "value": formatted_value_dict
+            }
+            if isinstance(parameter, NumericalParameter):
+                parameter_details["unit"] = {
+                        "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                        "symbol": parameter.unit,
+                        "@type": "emmo:"+parameter.unit_name if parameter.unit_name else parameter.unit,
+                    }
+            component_parameters.append(parameter_details)
+
+            return component_parameters
+
+        except Exception as e:
+            #st.error("An error occurred 1: {}".format(e))
+            category_parameters = []
+
+            try:
+                parameter_id, \
+                            name, \
+                            model_name, \
+                            par_class, \
+                            difficulty, \
+                            template_id, \
+                            context_type, \
+                            context_type_iri, \
+                            parameter_type, \
+                            unit, \
+                            unit_name, \
+                            unit_iri, \
+                            max_value, \
+                            min_value, \
+                            is_shown_to_user, \
+                            description,  \
+                            display_name = np.squeeze(parameter)
+
+
+
+                formatted_value_dict = value
+
+
+                formatted_value_dict = {
+                    "@type": "emmo:Numerical",
+                    self.hasNumericalData: value
+                }
+
+                parameter_details = {
+                    "label": name,
+                    "@type": context_type,
+                    "value": formatted_value_dict
+                }
+
+                parameter_details["unit"] = {
+                    "label": unit_name,
+                    "symbol": unit,
+                    "@type": "emmo:"+unit_name
+                }
+
+                category_parameters.append(parameter_details)
+            except Exception as e:
+                st.error("An error occurred 2: {}".format(e))
+
+
+                st.error("This instance of parameter is not handled: {}".format(type(parameter)))
+                st.info(NumericalParameter)
+
+            return category_parameters
+
+
+    @st.cache_data
+    def get_relation(_self, id, type):
+
+        if type == "tab":
+            context_type= db_helper.get_context_type_and_iri_by_id(id)
+
+        elif type == "category":
+            context_type = db_helper.get_categories_context_type_from_id(id)
+        elif type == "component":
+            context_type = db_helper.get_components_context_type_from_id(id)
+        else:
+            print("Error: The relation for type {} is non-existing.".format(type))
+
+        relation = "has" + context_type.split(':')[1]
+        return relation
+
+    @st.cache_data
+    def fill_component_dict(_self,component_parameters,existence, dict = None, relation = None):
+        component_parameters = component_parameters.copy()
+        if existence == "new":
+            dict = {_self.hasQuantitativeProperty: component_parameters}
+
+        elif existence == "existing":
+            if _self.hasQuantitativeProperty in component_parameters:
+
+                if _self.hasQuantitativeProperty in dict:
+                    dict[_self.hasQuantitativeProperty] += component_parameters[_self.hasQuantitativeProperty]
+                elif relation in dict:
+                    if _self.hasQuantitativeProperty in dict[relation]:
+                        dict[relation][_self.hasQuantitativeProperty] += component_parameters[_self.hasQuantitativeProperty]
+                    else:
+                        dict[relation][_self.hasQuantitativeProperty] = component_parameters
+                else:
+                    if relation:
+                        dict[relation] = component_parameters
+
+                    else:
+                        dict[_self.hasQuantitativeProperty] = component_parameters[_self.hasQuantitativeProperty]
+            else:
+
+                dict[relation] = component_parameters
+
+        return dict
+
+    def change_numerical_value(self,dict, index, value):
+        try:
+            dict[index]["value"][self.hasNumericalData]=value
+        except:
+            dict[index]["value"]=value
+
+        return dict
+
+    @st.cache_data
+    def add_indicators_to_struct(_self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte):
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += n_to_p
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_mass
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_cap
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += rte
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasNegativeElectrode][_self.hasQuantitativeProperty] += specific_cap_ne
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasPositiveElectrode][_self.hasQuantitativeProperty] += specific_cap_pe
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_ne
+        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_pe
+
+        return dict
 
 
 class SetTabs:
@@ -331,9 +659,10 @@ class SetTabs:
         self.calc_capacity_electrode = calc.calc_capacity_electrode
         self.calc_specific_capacity_active_material = calc.calc_specific_capacity_active_material
         self.calc_cell_capacity = calc.calc_cell_capacity
-        
+
         # user_input is the dict containing all the json LD data
-        self.user_input = LD.setup_linked_data_dict(self.model_id, self.model_name)
+        self.LD = SetupLinkedDataStruct()
+        self.user_input = self.LD.setup_linked_data_dict(self.model_id, self.model_name)
 
         # Create file input
         #self.set_file_input()
@@ -346,13 +675,13 @@ class SetTabs:
 
     def set_file_input(self):
 
-     
+
         """ Function that create a file input at the Simulation page
         """
 
         upload, update = st.columns((3,1))
         uploaded_file = upload.file_uploader(self.info, type='json', help= self.help)
-        
+
         if uploaded_file:
             uploaded_file = uploaded_file.read()
             uploaded_file_dict = json.loads(uploaded_file)
@@ -360,7 +689,7 @@ class SetTabs:
 
             with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
                 json.dump(uploaded_file_dict, outfile,  indent=3)
-            
+
             gui_formatted_dict = match_json_upload.GuiInputFormatting(self.model_name).gui_dict
 
             with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
@@ -382,8 +711,8 @@ class SetTabs:
                 self.uploaded_input = uploaded_input
                 st.session_state.upload = True
 
-                st.success("The input values are succesfully adapted to your input file. You can still change some settings below if wanted.")  
-                
+                st.success("The input values are succesfully adapted to your input file. You can still change some settings below if wanted.")
+
             else:
                 st.error("ERROR: No file has been uploaded yet.")
 
@@ -400,9 +729,21 @@ class SetTabs:
         title_column.text(" ")
         title_column.subheader(db_helper.get_basis_tabs_display_names(self.model_name)[tab_index])
 
+    @st.cache_data
+    def set_format(_self,value):
+        if isinstance(value, int):
+            format = "%d"
+
+        else:
+            max_readable_value = 10000
+            min_readable_value = 0.001
+            is_readable = value < max_readable_value and value > min_readable_value
+            format = "%g" if is_readable else "%.2e"
+        return format
+
     def set_tabs(self):
 
-        cell_parameters = LD.setup_sub_dict(type="cell")
+        cell_parameters = self.LD.setup_sub_dict(type="cell")
 
         all_tab_display_names = db_helper.get_basis_tabs_display_names(self.model_name)
 
@@ -419,9 +760,9 @@ class SetTabs:
             tab_context_type= db_helper.get_context_type_and_iri_by_id(db_tab_id)
             tab_name = db_helper.get_tab_name_by_id(db_tab_id)
 
-            tab_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_name)[index], context_type=tab_context_type, existence="new")
+            tab_parameters = self.LD.setup_sub_dict(display_name=db_helper.get_basis_tabs_display_names(self.model_name)[index], context_type=tab_context_type, existence="new")
 
-            tab_relation = LD.get_relation(db_tab_id, "tab")
+            tab_relation = self.LD.get_relation(db_tab_id, "tab")
 
             # logo and title
             self.set_logo_and_title(tab, index)
@@ -438,17 +779,17 @@ class SetTabs:
 
                 for category in categories:
                     category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
- 
+
                 for category in categories:
 
-                    category_parameters = LD.setup_sub_dict(display_name=db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
+                    category_parameters = self.LD.setup_sub_dict(display_name=db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
                                                             context_type=db_helper.get_categories_context_type(db_tab_id)[i][0],
                                                             existence="new"
                                                             )
-                    
+
                     category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _ = category
 
-                    category_relation = LD.get_relation(category_id, "category")
+                    category_relation = self.LD.get_relation(category_id, "category")
 
                     category_parameters, emmo_relation, mass_loadings = self.fill_category(
                         category_id=category_id,
@@ -461,20 +802,20 @@ class SetTabs:
                         mass_loadings = mass_loadings,
                     )
                     i += 1
-                    
-                    tab_parameters[category_relation] = category_parameters 
-                    cell_parameters[tab_relation] = tab_parameters  
-               
+
+                    tab_parameters[category_relation] = category_parameters
+                    cell_parameters[tab_relation] = tab_parameters
+
 
 
             else:  # no sub tab is needed
 
                 category_parameters = {}
-                
+
                 category_id, category_name,_,_, category_context_type, category_context_type_iri, emmo_relation, category_display_name, _, default_template_id, _= categories[0]
-                
+
                 if category_name == "protocol":
-                    
+
                     # different way of filling parameters for protocol section, the idea is to choose the name of the
                     # protocol and then the parameters are filled. Could be done also for the Cell tab
                     category_parameters = self.fill_category_protocol(
@@ -487,12 +828,12 @@ class SetTabs:
                         category_parameters = category_parameters
                     )
 
-                    
+
                     cell_parameters[tab_relation] = category_parameters[tab_relation]
                     #cell_parameters = LD.fill_sub_dict(cell_parameters, tab_relation, protocol_parameters,"new",relation_dict_2=tab_relation)
 
                 else:
-                    
+
                     category_parameters, _,_ = self.fill_category(
                             category_id=category_id,
                             category_display_name =category_display_name,
@@ -503,17 +844,17 @@ class SetTabs:
                             category_parameters = category_parameters,
                             mass_loadings = None
                         )
-                    
+
                     cell_parameters[tab_relation] = category_parameters[tab_relation]
 
                     #cell_parameters = LD.fill_sub_dict(cell_parameters, tab_relation, category_parameters,"new",relation_dict_2=tab_relation)
- 
-        
+
+
             # cell is fully defined, its parameters are saved in the user_input dict
-            self.user_input = LD.fill_linked_data_dict(self.user_input, cell_parameters)
+            self.user_input = self.LD.fill_linked_data_dict(self.user_input, cell_parameters)
 
             index +=1
-        self.update_json_LD()
+
         self.user_input = self.calc_indicators(self.user_input)
         self.update_json_LD()
         self.update_json_battmo_input()
@@ -540,9 +881,10 @@ class SetTabs:
                 match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input),
                 new_file,
                 indent=3
-            ) 
+            )
 
-    def calc_indicators(self,user_input):
+    @st.cache_data
+    def calc_indicators(_self,user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
         with open(app_access.get_path_to_calculated_values(), 'r') as f:
@@ -576,42 +918,43 @@ class SetTabs:
             "separator": length*width*input_dict.sep_prop.get("thickness").get("value")*10**(-6),
             "current_collector": length*width*CC_thickness*10**(-6)
         }
-        
+
         li_stoich_max_ne =  input_dict.ne.am.get("maximum_lithium_stoichiometry").get("value")
         li_stoich_min_ne = input_dict.ne.am.get("minimum_lithium_stoichiometry").get("value")
         li_stoich_max_pe =  input_dict.pe.am.get("maximum_lithium_stoichiometry").get("value")
         li_stoich_min_pe = input_dict.pe.am.get("minimum_lithium_stoichiometry").get("value")
         n = input_dict.pe.am.get("number_of_electrons_transferred").get("value")
-        
+
         # Specific capacity active materials
-        specific_capacity_am_ne = self.calc_specific_capacity_active_material(c_max_ne, densities["negative_electrode_active_material"], 
-                                                                     li_stoich_max_ne, 
+        specific_capacity_am_ne = _self.calc_specific_capacity_active_material(c_max_ne, densities["negative_electrode_active_material"],
+                                                                     li_stoich_max_ne,
                                                                      li_stoich_min_ne,
                                                                      n)
-        specific_capacity_am_pe = self.calc_specific_capacity_active_material(c_max_pe, densities["positive_electrode_active_material"], 
-                                                                     li_stoich_max_pe, 
+        specific_capacity_am_pe = _self.calc_specific_capacity_active_material(c_max_pe, densities["positive_electrode_active_material"],
+                                                                     li_stoich_max_pe,
                                                                      li_stoich_min_pe,
                                                                      n)
-        
+
         raw_template_am_ne = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
         raw_template_am_pe = db_helper.get_template_parameter_by_parameter_name("specific_capacity")
         # specific_cap_am_ne_parameter = self.formatter.initialize_parameters(raw_template_am_ne)
         # specific_cap_am_ne_parameter["selected_value"] = specific_capacity_am_ne
         # specific_cap_am_pe_parameter = self.formatter.initialize_parameters(raw_template_am_pe)
         # specific_cap_am_pe_parameter["selected_value"] = specific_capacity_am_pe
-        specific_capacities_category_parameters_am_ne = LD.setup_parameter_struct(raw_template_am_ne, value = specific_capacity_am_ne)  
-        specific_capacities_category_parameters_am_pe = LD.setup_parameter_struct(raw_template_am_pe, value = specific_capacity_am_pe) 
+
+        specific_capacities_category_parameters_am_ne = _self.LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)
+        specific_capacities_category_parameters_am_pe = _self.LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe)
 
         # Specific capacity electrodes
-        specific_capacity_ne = self.calc_capacity_electrode(specific_capacity_am_ne, 
-                                                                    mf_ne, 
+        specific_capacity_ne = _self.calc_capacity_electrode(specific_capacity_am_ne,
+                                                                    mf_ne,
                                                                     densities["negative_electrode"],
-                                                                    volumes["negative_electrode"], 
+                                                                    volumes["negative_electrode"],
                                                                     porosities["negative_electrode"])
-        specific_capacity_pe = self.calc_capacity_electrode(specific_capacity_am_pe, 
-                                                                    mf_pe, 
+        specific_capacity_pe = _self.calc_capacity_electrode(specific_capacity_am_pe,
+                                                                    mf_pe,
                                                                     densities["positive_electrode"],
-                                                                    volumes["positive_electrode"], 
+                                                                    volumes["positive_electrode"],
                                                                     porosities["positive_electrode"])
         specific_capacities_electrodes = {
             "negative_electrode": specific_capacity_ne,
@@ -619,47 +962,52 @@ class SetTabs:
         }
         raw_template_ne = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
         raw_template_pe = db_helper.get_template_parameter_by_parameter_name("electrode_capacity")
-        specific_capacities_category_parameters_ne= LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)  
-        specific_capacities_category_parameters_pe= LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)  
+        specific_capacities_category_parameters_ne= _self.LD.setup_parameter_struct(raw_template_ne,value=specific_capacity_ne)
+        specific_capacities_category_parameters_pe= _self.LD.setup_parameter_struct(raw_template_pe,value=specific_capacity_pe)
 
         # N to P ratio
-        n_to_p_ratio = self.calc_n_to_p_ratio(specific_capacities_electrodes)
+        n_to_p_ratio = _self.calc_n_to_p_ratio(specific_capacities_electrodes)
         raw_template_np = db_helper.get_template_parameter_by_parameter_name("n_to_p_ratio")
-        n_to_p_category_parameters= LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
+        n_to_p_category_parameters= _self.LD.setup_parameter_struct(raw_template_np, value=n_to_p_ratio)
 
         # Cell Mass
         cc_mass = volumes["current_collector"]* 8950
-        cell_mass, ne_mass, pe_mass = self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
+        cell_mass, ne_mass, pe_mass = _self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name("cell_mass")
-        cell_mass_category_parameters= LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
+        cell_mass_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
 
         # Cell Capacity
         masses = {
             "negative_electrode": ne_mass,
             "positive_electrode": pe_mass
         }
-        cell_capacity = self.calc_cell_capacity(specific_capacities_electrodes)
+        cell_capacity = _self.calc_cell_capacity(specific_capacities_electrodes)
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
-        cell_capacity_category_parameters= LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
+        cell_capacity_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
+
+        # Round trip efficiency
+        raw_template_rte = db_helper.get_template_parameter_by_parameter_name("round_trip_efficiency")
+        rte_category_parameters= _self.LD.setup_parameter_struct(raw_template_rte,value=None)
+
 
         # Include indicators in linked data input dict
-        user_input = LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe)
-        
+        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe,rte_category_parameters)
+
         return user_input
 
     def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,uploaded_input = None, selected_am_value_id=None):
 
         density_mix = None
-        
+
         # get components associated with material parameter sets
         if category_name == "boundary_conditions":
             material_components = None
         else:
             material_components = db_helper.get_material_components_from_category_id(category_id)
-        
-        
+
+
         if category_name == "negative_electrode" or category_name == "positive_electrode":
-            
+
             component_col, material_col, mass_fraction_col = tab.columns(3)
             component_col.markdown("**Component**")
             material_col.markdown("**Material**")
@@ -696,28 +1044,25 @@ class SetTabs:
 
 
         if material_components:
-    
+
             for material_component in material_components:
                 component_parameters_ = []
                 component_parameters = {}
                 material_component_id, component_name, _,_,_,_,material_comp_display_name,_,_,_,material_comp_default_template_id,material_comp_context_type,material_comp_context_type_iri,_ = material_component
-                
-                
 
-                
                 component_col.write("[{}]({})".format(material_comp_display_name, material_comp_context_type_iri))
                 component_col.text(" ")
 
-                
+
 
                 material_formatted_parameters,formatted_materials, selected_value_id, component_parameters_, emmo_relation, density = self.fill_material_components(component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters,density)
 
-                component_parameters_ = LD.fill_component_dict(component_parameters_, "new")
-                component_parameters = LD.setup_sub_dict(display_name=material_comp_display_name,context_type=material_comp_context_type, existence="new")
-                component_parameters = LD.fill_component_dict(component_parameters=component_parameters_,existence="existing",dict=component_parameters)
-                
-                material_comp_relation = LD.get_relation(material_component_id,"component")
-                category_parameters = LD.fill_sub_dict(category_parameters,material_comp_relation,component_parameters,"new",)
+                component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
+                component_parameters = self.LD.setup_sub_dict(display_name=material_comp_display_name,context_type=material_comp_context_type, existence="new")
+                component_parameters = self.LD.fill_component_dict(component_parameters=component_parameters_,existence="existing",dict=component_parameters)
+
+                material_comp_relation = self.LD.get_relation(material_component_id,"component")
+                category_parameters = self.LD.fill_sub_dict(category_parameters,material_comp_relation,component_parameters,"new",)
                 material_choice = formatted_materials.options.get(selected_value_id).display_name
 
                 material = formatted_materials.options.get(selected_value_id)
@@ -733,37 +1078,37 @@ class SetTabs:
                 parameter, user_input, component_parameters_, emmo_relation, mass_fraction_id_dict = self.fill_mass_fraction_column(mass_fraction_col,category_id,material_comp_default_template_id,material_component_id,component_parameters_,mass_fraction_id_dict)
 
                 if parameter:
-                    component_parameters_ = LD.fill_component_dict(component_parameters_, "new")
-                    component_parameters = LD.setup_sub_dict(dict=component_parameters,display_name=material_comp_display_name,context_type=material_comp_context_type)
-                    component_parameters = LD.fill_component_dict(component_parameters_, "existing",dict=component_parameters)
-                    
-                    material_comp_relation = LD.get_relation(material_component_id,"component")
-                    
-                    category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=material_comp_relation)
+                    component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
+                    component_parameters = self.LD.setup_sub_dict(dict=component_parameters,display_name=material_comp_display_name,context_type=material_comp_context_type)
+                    component_parameters = self.LD.fill_component_dict(component_parameters_, "existing",dict=component_parameters)
+
+                    material_comp_relation = self.LD.get_relation(material_component_id,"component")
+
+                    category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=material_comp_relation)
         else:
-            mass_fraction_id_dict = None 
+            mass_fraction_id_dict = None
             density = None
-        
-        non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
-        
+
+        non_material_component = db_helper.get_non_material_components_from_category_id(category_id)
+
         non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
-        
+
         tab.markdown("**%s**" % non_material_comp_display_name)
         if category_name == "negative_electrode" or category_name == "positive_electrode":
             check_col, property_col, value_col= tab.columns((0.3,1,2))
         else:
             property_col, value_col= tab.columns(2)
             check_col = None
-        
+
         non_material_parameters_sets = db_helper.get_non_material_set_id_by_component_id(non_material_component_id)
-        
+
         component_parameters_ = []
         component_parameters = {}
         non_material_parameter,user_input,category_parameters, mass_loadings = self.fill_non_material_components(density,category_display_name,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,self.model_id, component_parameters_, check_col,non_material_component_name,tab, mass_fraction_id_dict, mass_loadings)
 
         category_parameters = self.fill_advanced_expander(tab,category_name, category_display_name, category_parameters)
         return category_parameters, emmo_relation, mass_loadings
-    
+
 
     def fill_category_protocol(self, category_id,category_display_name, category_name, emmo_relation, default_template_id, tab,category_parameters):
         """
@@ -771,10 +1116,10 @@ class SetTabs:
         """
         component_parameters_ = []
         component_parameters = {}
-        non_material_component = db_helper.get_non_material_components_from_category_id(category_id)      
+        non_material_component = db_helper.get_non_material_components_from_category_id(category_id)
 
         non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
-            
+
         raw_template_parameters = db_helper.get_non_material_template_by_template_id(default_template_id,self.model_name)
 
         parameter_sets = db_helper.get_all_parameter_sets_by_component_id(non_material_component_id)
@@ -802,12 +1147,12 @@ class SetTabs:
 
             if parameter.is_shown_to_user:
 
-                    
+
                 selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                     template_parameter_id=parameter.id,
                     parameter_set_id=selected_parameter_set_id
                 )
-                
+
 
                 if parameter.options.get(selected_parameter_id):
 
@@ -815,7 +1160,7 @@ class SetTabs:
                     name_col, input_col = tab.columns([1, 2])
 
                     if isinstance(parameter, NumericalParameter):
-                    
+
                         name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " /" + "[{}]({})".format(parameter.unit, parameter.unit_iri))
 
                         user_input = input_col.number_input(
@@ -824,21 +1169,23 @@ class SetTabs:
                             min_value=parameter.min_value,
                             max_value=parameter.max_value,
                             key="input_{}_{}".format(non_material_component_id, parameter_id),
-                            format=parameter.format,
+                            #format=parameter.format,
+                            format = self.set_format(parameter.options.get(selected_parameter_id).value),
                             step=parameter.increment,
                             label_visibility="collapsed"
                         )
                     else:
+                        value_list = ast.literal_eval(parameter.options.get(selected_parameter_id).value)
                         name_col.write(parameter.display_name)
                         user_input = input_col.selectbox(
                             label=parameter.display_name,
-                            options=[parameter.options.get(selected_parameter_id).value],
+                            options=value_list,
                             key="input_{}_{}".format(non_material_component_id, parameter_id),
                             label_visibility="collapsed",
                         )
                     parameter.set_selected_value(user_input)
 
-                component_parameters_ = LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
+                component_parameters_ = self.LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
 
         parameter_details = {
                 "label": "protocol_name",
@@ -848,12 +1195,12 @@ class SetTabs:
                 }
             }
         component_parameters_.append(parameter_details)
-        component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
-        component_parameters = LD.setup_sub_dict(existence="new",display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
-        component_parameters = LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
+        component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
+        component_parameters = self.LD.setup_sub_dict(existence="new",display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
+        component_parameters = self.LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
 
-        relation = LD.get_relation(non_material_component_id, "component")
-        category_parameters = LD.fill_sub_dict(category_parameters,relation, component_parameters, "new")
+        relation = self.LD.get_relation(non_material_component_id, "component")
+        category_parameters = self.LD.fill_sub_dict(category_parameters,relation, component_parameters, "new")
 
         category_parameters= self.fill_advanced_expander(tab,category_name, category_display_name,category_parameters)
 
@@ -861,9 +1208,9 @@ class SetTabs:
 
     def fill_user_defined_expander(self,parameters,category_parameters,component_parameters,component_parameters_,density,tab,category_id,component_name,material_comp_display_name,material_component_id,material_comp_context_type,selected_value_id):
 
-        
+
         ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
-            
+
         with ex:
             for parameter_id in parameters:
                 parameter = parameters.get(parameter_id)
@@ -895,24 +1242,25 @@ class SetTabs:
                             min_value=parameter.min_value,
                             max_value=parameter.max_value,
                             key="input_{}_{}".format(category_id, parameter.id),
-                            format=parameter.format,
+                            # format=parameter.format,
+                            format = self.set_format(parameter.default_value),
                             step=parameter.increment,
                             label_visibility="collapsed"
                             )
-                    
+
                 elif isinstance(parameter, FunctionParameter):
 
                     st.divider()
                     st.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
 
                     if component_name == "negative_electrode_active_material" or component_name == "positive_electrode_active_material":
-                
-                
+
+
                         ref_ocp = "ref_ocp_{}".format(material_component_id)
                         variables = "variables_{}".format(material_component_id)
 
                         if variables not in st.session_state:
-                            
+
                             st.session_state[variables] = r'c,cmax'
                         if ref_ocp not in st.session_state:
                             if component_name == "negative_electrode_active_material":
@@ -924,15 +1272,15 @@ class SetTabs:
                         if info:
                             parameters,language  = ex.columns(2)
                             language.markdown(r'''
-                                    **Allowed language** 
+                                    **Allowed language**
                                     - Use '^' to indicate a superscript
                                     - Use '*' to indicate a multiplication
                                     - Use 'exp(a)' to indicate an exponential with power a
                                     - Use 'tanh()' for hyperbolic tangent
                                     - Use '/' for dividing
-                                    
+
                                     ''')
-                            
+
                             parameters.markdown(r'''
                                     **Allowed variables**
                                     - Surface concentration : c
@@ -940,9 +1288,9 @@ class SetTabs:
                                     - Temperature    : T
                                     - Reference Temperature : refT
                                     - State of charge: SOC
-    
 
-                                    
+
+
                                     ''')
 
                         ex.text_input(
@@ -960,7 +1308,7 @@ class SetTabs:
                                 ref_ocp_str_py = ref_ocp_str.replace("^", "**")
                                 eq_ref_ocp = sp.sympify(ref_ocp_str_py)
                                 ex.latex("OCP = "+ sp.latex(eq_ref_ocp))
-                                
+
                             except sp.SympifyError:
                                 ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
 
@@ -972,13 +1320,13 @@ class SetTabs:
                             label_visibility= "visible"
                         )
 
-                    
+
                         variables_str = st.session_state[variables]
 
 
                         if variables_str == "":
                             ex.warning("You haven't specified the variables your equation depends on.")
-                            
+
                         else:
                             variables_array = variables_str.split(',')
                             #user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
@@ -987,39 +1335,39 @@ class SetTabs:
 
                     if component_name == "electrolyte_materials":
 
-                                
+
 
                         variables = "variables_{}".format(parameter_id)
 
                         if variables not in st.session_state:
-                            
+
                             st.session_state[variables] = r'c'
 
                         if "conductivity" not in st.session_state:
                             st.session_state.conductivity = r'''0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)'''
-                    
+
                         if "diffusion_coefficient" not in st.session_state:
                             st.session_state.diffusion_coefficient = r'''8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)'''
-                        
+
 
                         info = ex.toggle(label="{} Guidelines".format(parameter.display_name), key = "toggle_{}".format(parameter_id))
                         if info:
                             parameters_col,language_col  = ex.columns(2)
                             language_col.markdown(r'''
-                                    **Allowed language** 
+                                    **Allowed language**
                                     - Use '^' to indicate a superscript
                                     - Use '*' to indicate a multiplication
                                     - Use 'exp(a)' to indicate an exponential with power a
                                     - Use 'tanh()' for hyperbolic tangent
                                     - Use '/' for dividing
-                                    
+
                                     ''')
-                            
+
                             parameters_col.markdown(r'''
                                     **Allowed variables**
                                     - Surface concentration : c
                                     - Temperature    : T
-                                    
+
                                     ''')
 
                         #quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
@@ -1040,7 +1388,7 @@ class SetTabs:
                                 quantity_str_py = quantity_str.replace("^", "**")
                                 eq_quantity = sp.sympify(quantity_str_py)
                                 ex.latex("{} = ".format(parameter.display_name) + sp.latex(eq_quantity))
-                                
+
                             except sp.SympifyError:
                                 ex.warning("Invalid equation input. Please enter a valid mathematical expression.")
 
@@ -1052,13 +1400,13 @@ class SetTabs:
                             label_visibility= "visible"
                         )
 
-                    
+
                         variables_str = st.session_state[variables]
 
 
                         if variables_str == "":
                             ex.warning("You haven't specified the variables your equation depends on.")
-                            
+
                         else:
                             variables_array = variables_str.split(',')
                             user_input = {'function': quantity_str, 'argument_list':variables_array}
@@ -1066,22 +1414,22 @@ class SetTabs:
                 if parameter:
 
                     parameter.set_selected_value(user_input)
-                    component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                    component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
 
                     if parameter.name == "density" and density:
                         density[material_component_id] = parameter.selected_value
 
-            component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
+            component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
 
-            component_parameters = LD.setup_sub_dict(existence="new",display_name=material_comp_display_name,context_type=material_comp_context_type)
-            component_parameters = LD.fill_component_dict(component_parameters_,"existing",dict=component_parameters)
+            component_parameters = self.LD.setup_sub_dict(existence="new",display_name=material_comp_display_name,context_type=material_comp_context_type)
+            component_parameters = self.LD.fill_component_dict(component_parameters_,"existing",dict=component_parameters)
 
-            material_comp_relation = LD.get_relation(material_component_id, "component")
+            material_comp_relation = self.LD.get_relation(material_component_id, "component")
 
-            category_parameters = LD.fill_sub_dict(category_parameters, material_comp_relation, component_parameters,"new")
+            category_parameters = self.LD.fill_sub_dict(category_parameters, material_comp_relation, component_parameters,"new")
 
         return category_parameters
-    
+
     def fill_non_material_components(self,density,category_display_name,category_parameters,component_parameters,non_material_comp_display_name,non_material_comp_context_type, category_id,category_name,non_material_comp_default_template_id,non_material_component_id,property_col,value_col,non_material_parameters_sets,model_id, component_parameters_, check_col,non_material_component_name,tab, mass_fraction_id_dict, mass_loadings):
         par_index = None
         non_material_parameters_raw_template = db_helper.get_non_material_template_by_template_id(non_material_comp_default_template_id,self.model_name)
@@ -1095,7 +1443,7 @@ class SetTabs:
             non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
 
             non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)[0]
-            
+
             parameter_id.append(str(non_material_parameter_id))
             non_material_parameters_raw.append(non_material_parameter_raw)
         non_material_parameters_raw = tuple(non_material_parameters_raw)
@@ -1104,15 +1452,16 @@ class SetTabs:
         if check_col:
             with check_col:
                 placeholder = st.empty()
-        ac = 1 
+        ac = 1
         i = 0
-        
+
         toggle_names = parameter_id
-        
+
 
         parameter_names =[]
         # Initialize session state values outside of the loop
         state_prefix = "state_"  # A prefix for state keys
+
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
             non_material_parameter_name = non_material_parameter.name
@@ -1133,10 +1482,10 @@ class SetTabs:
                 st.session_state[states] = {"coating_thickness": True, "coating_porosity": True, "mass_loading": False}
 
             if states_to_count not in st.session_state:
-                st.session_state[states_to_count] = {} 
+                st.session_state[states_to_count] = {}
 
             if checkbox_key not in st.session_state:
-                   
+
                     if non_material_parameter_name == "mass_loading":
                         st.session_state[checkbox_key] = False
                     else:
@@ -1150,8 +1499,8 @@ class SetTabs:
                 state = {}
                 for id in parameter_id:
                     state[id] = False
-                st.session_state[state_key] = state 
-        
+                st.session_state[state_key] = state
+
         for non_material_parameter_id in formatted_non_material_parameters:
             non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
             non_material_parameter_name = non_material_parameter.name
@@ -1164,9 +1513,9 @@ class SetTabs:
             checkbox_key = "checkbox_{}_{}".format(category_id, non_material_parameter_name)
             state_key = state_prefix + checkbox_key
             input_value = "input_value_{}_{}".format(category_id, non_material_parameter_name)
-            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name) 
+            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name)
             states_to_count = "counts_" + str(category_id)
-            
+
             st.session_state[states_to_count][checkbox_key] = st.session_state[checkbox_key]
 
             if check_col:
@@ -1178,16 +1527,16 @@ class SetTabs:
                     elif i == 2:
                         ml_place = st.empty()
 
-               
+
                 with check_col:
-                    state = st.toggle(label = checkbox_key, 
-                                      key = checkbox_key, 
-                                      value= st.session_state[checkbox_key], 
-                                      on_change = self.checkbox_input_connect,
-                                      args = (checkbox_key, tab, category_id, non_material_parameter.name),
-                                      label_visibility="collapsed")
-                    st.text(" ")  
-                   
+                    state = st.toggle(label = checkbox_key,
+                                    key = checkbox_key,
+                                    value= st.session_state[checkbox_key],
+                                    on_change = self.checkbox_input_connect,
+                                    args = (checkbox_key, tab, category_id, non_material_parameter.name),
+                                    label_visibility="collapsed")
+                    st.text(" ")
+
             property_col.write("[{}]({})".format(non_material_parameter.display_name, non_material_parameter.context_type_iri)+ " / " + "[{}]({})".format(non_material_parameter.unit, non_material_parameter.unit_iri))
 
             property_col.text(" ")
@@ -1197,7 +1546,7 @@ class SetTabs:
 
             else:
                 pass
-    
+
             if not check_col:
                 user_input = value_col.number_input(
                     label=non_material_parameter.name,
@@ -1205,17 +1554,18 @@ class SetTabs:
                     min_value=non_material_parameter.min_value,
                     max_value=non_material_parameter.max_value,
                     key=input_key,
-                    format=non_material_parameter.format,
+                    # format=non_material_parameter.format,
+                    format = self.set_format(non_material_parameter.options.get(selected_parameter_id).value),
                     step=non_material_parameter.increment,
                     label_visibility="collapsed",
                     disabled = False
                     )
-                       
-            if check_col:  
+
+            if check_col:
                 if i ==0:
                     place = co_th_place
                 elif i == 1:
-                    place = co_po_place 
+                    place = co_po_place
                 elif i ==2:
                     place = ml_place
 
@@ -1232,12 +1582,10 @@ class SetTabs:
                         disabled = not st.session_state[checkbox_key]
                         )
 
-
             if non_material_parameter:
                 non_material_parameter.set_selected_value(user_input)
+                component_parameters_ = self.LD.setup_parameter_struct(non_material_parameter, component_parameters=component_parameters_)
 
-                component_parameters_ = LD.setup_parameter_struct(non_material_parameter, component_parameters=component_parameters_)
-                
                 if non_material_parameter.name == "coating_thickness":
                     thickness = non_material_parameter.selected_value
                 elif non_material_parameter.name == "coating_porosity":
@@ -1248,10 +1596,11 @@ class SetTabs:
             i +=1
             ac += 1
 
-        if mass_fraction_id_dict:    
+        if mass_fraction_id_dict:
             self.validate_mass_fraction(mass_fraction_id_dict, category_display_name,tab)
+
             density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
-            density_eff = self.calc_density_eff(density_mix, porosity) 
+            density_eff = self.calc_density_eff(density_mix, porosity)
 
             try:
                 with open(app_access.get_path_to_calculated_values(), 'r') as f:
@@ -1264,10 +1613,10 @@ class SetTabs:
 
             with open(app_access.get_path_to_calculated_values(),'w') as f:
                 json.dump(parameters_dict,f, indent=3)
-        
+
         if check_col:
             states = "states_" + str(category_id)
-            
+
 
             if st.session_state[states]["coating_thickness"] and st.session_state[states]["coating_porosity"]:
                 for non_material_parameter_id in formatted_non_material_parameters:
@@ -1287,7 +1636,7 @@ class SetTabs:
                             json.dump(parameters_dict,f, indent=3)
 
                         input_key = "input_key_{}_{}".format(category_id, "mass_loading")
-                        empty_key = "empty_{}_{}".format(category_id,"mass_loading") 
+                        empty_key = "empty_{}_{}".format(category_id,"mass_loading")
                         input_value = "input_value_{}_{}".format(category_id, "mass_loading")
                         checkbox_key= "checkbox_{}_{}".format(category_id, "mass_loading")
 
@@ -1301,8 +1650,8 @@ class SetTabs:
                         elif st.session_state[input_value] < non_material_parameter.min_value:
                             tab.warning("{} outside range: the {} should have a value between {} and {}".format(st.session_state[input_value],non_material_parameter.display_name, non_material_parameter.min_value, non_material_parameter.max_value))
                             st.session_state[input_value] = non_material_parameter.default_value
-                            
-                        
+
+
 
                         user_input = ml_place.number_input(
                             label=non_material_parameter.name,
@@ -1310,13 +1659,14 @@ class SetTabs:
                             min_value=non_material_parameter.min_value,
                             max_value=non_material_parameter.max_value,
                             key=input_value+str(np.random.rand(100)),
-                            format=non_material_parameter.format,
+                            # format=non_material_parameter.format,
+                            format = self.set_format(st.session_state[input_value]),
                             step=non_material_parameter.increment,
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
                             )
-                
-                
+
+
             elif st.session_state[states]["coating_thickness"] and st.session_state[states]["mass_loading"]:
                 for non_material_parameter_id in formatted_non_material_parameters:
                     non_material_parameter = formatted_non_material_parameters.get(non_material_parameter_id)
@@ -1324,9 +1674,9 @@ class SetTabs:
                     if non_material_parameter_name == "coating_porosity":
                         par_value_co = self.calc_porosity(density_mix, thickness, mass_loading)
                         par_index = 1
-                        
+
                         input_key = "input_key_{}_{}".format(category_id, "coating_porosity")
-                        empty_key = "empty_{}_{}".format(category_id,"coating_porosity") 
+                        empty_key = "empty_{}_{}".format(category_id,"coating_porosity")
                         input_value = "input_value_{}_{}".format(category_id, "coating_porosity")
                         checkbox_key= "checkbox_{}_{}".format(category_id, "coating_porosity")
 
@@ -1345,14 +1695,15 @@ class SetTabs:
                             min_value=non_material_parameter.min_value,
                             max_value=non_material_parameter.max_value,
                             key=input_value+str(np.random.rand(100)),
-                            format=non_material_parameter.format,
+                            # format=non_material_parameter.format,
+                            format = self.set_format(st.session_state[input_value]),
                             step=non_material_parameter.increment,
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
                             )
-                    
+
                         tab.write("Coating porosity is now equal to {}".format(round(par_value_co,2)))
-                    
+
 
 
             elif st.session_state[states]["mass_loading"] and st.session_state[states]["coating_porosity"]:
@@ -1361,9 +1712,9 @@ class SetTabs:
                     non_material_parameter_name = non_material_parameter.name
                     if non_material_parameter_name == "coating_thickness":
                         par_value_th = self.calc_thickness(density_mix, mass_loading, porosity)
-                        
+
                         input_key = "input_key_{}_{}".format(category_id, "coating_thickness")
-                        empty_key = "empty_{}_{}".format(category_id,"coating_thickness") 
+                        empty_key = "empty_{}_{}".format(category_id,"coating_thickness")
                         input_value = "input_value_{}_{}".format(category_id, "coating_thickness")
                         checkbox_key= "checkbox_{}_{}".format(category_id, "coating_thickness")
 
@@ -1382,7 +1733,8 @@ class SetTabs:
                             min_value=non_material_parameter.min_value,
                             max_value=non_material_parameter.max_value,
                             key=input_value+str(np.random.rand(100)),
-                            format=non_material_parameter.format,
+                            # format=non_material_parameter.format,
+                            format = self.set_format(st.session_state[input_value]),
                             step=non_material_parameter.increment,
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
@@ -1397,22 +1749,22 @@ class SetTabs:
 
 
             if st.session_state[input_value]:
-                if par_index:
-                    
-                    component_parameters_ = LD.change_numerical_value(component_parameters_,par_index,st.session_state[input_value])
+                if component_parameters_:
+
+                    component_parameters_ = self.LD.change_numerical_value(component_parameters_,par_index,st.session_state[input_value])
                     st.experimental_rerun
 
-        component_parameters_ = LD.fill_component_dict(component_parameters_,"new")
-        component_parameters = LD.setup_sub_dict(dict=component_parameters,display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
-        component_parameters = LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
+        component_parameters_ = self.LD.fill_component_dict(component_parameters_,"new")
+        component_parameters = self.LD.setup_sub_dict(dict=component_parameters,display_name=non_material_comp_display_name,context_type=non_material_comp_context_type)
+        component_parameters = self.LD.fill_component_dict(component_parameters_,"existing", dict=component_parameters)
 
-        component_relation = LD.get_relation(non_material_component_id, "component")
+        component_relation = self.LD.get_relation(non_material_component_id, "component")
 
-        category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=component_relation)
+        category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=component_relation)
 
 
         return non_material_parameter,user_input, category_parameters, mass_loadings
-    
+
     def checkbox_input_connect(self,checkbox_key, tab, category_id, parameter_name):
         """
         Function needed for the toggles and number_inputs to work properly together.
@@ -1421,13 +1773,13 @@ class SetTabs:
         state_count ="state_count_" + str(category_id)
         states = "states_" + str(category_id)
         states_to_count = "counts_" + str(category_id)
-        
-        
+
+
         if st.session_state[checkbox_key]==True:
-            
+
             st.session_state[states_to_count][checkbox_key] = True
             st.session_state[states][parameter_name] = True
-            st.session_state[state_count] = sum(st.session_state[states_to_count].values())           
+            st.session_state[state_count] = sum(st.session_state[states_to_count].values())
 
         elif st.session_state[checkbox_key]== False:
 
@@ -1435,7 +1787,7 @@ class SetTabs:
             st.session_state[states][parameter_name] = False
             st.session_state[state_count] = sum(st.session_state[states_to_count].values())
 
-        
+
         if st.session_state[state_count] >2:
             st.session_state[states_to_count][checkbox_key] = False
             st.session_state[checkbox_key] = False
@@ -1448,12 +1800,11 @@ class SetTabs:
         else:
             pass
 
-    
+
     def fill_material_components(self,component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density, emmo_relation = None):
 
         material_parameter_sets = []
-        # get corresponding template parameters from db
-        material_raw_template_parameters = db_helper.get_all_material_by_template_id(material_comp_default_template_id, self.model_name)
+
 
         materials = db_helper.get_material_from_component_id(self.model_name,material_component_id)
 
@@ -1470,8 +1821,29 @@ class SetTabs:
         material_raw_parameters = []
         for material_parameter_set_id in material_parameter_sets_name_by_id:
             material_raw_parameters.append(db_helper.extract_parameters_by_parameter_set_id(material_parameter_set_id))
-        
-       # material_raw_parameters = tuple(material_raw_parameters)        
+
+
+        material_raw_template_parameters_sub = []
+        material_raw_template_parameters = []
+        ind = 0
+
+        for material_parameter_set_id in material_parameter_sets_name_by_id:
+            for material_raw_parameter in material_raw_parameters[ind]:
+                _, \
+                _, \
+                _, \
+                template_parameter_id, \
+                _ = material_raw_parameter
+
+
+                # get corresponding template parameters from db
+                material_raw_template_parameters_sub.append(db_helper.get_parameter_by_template_parameter_id(template_parameter_id))
+
+            material_raw_template_parameters.append(material_raw_template_parameters_sub)
+            ind +=1
+
+        material_raw_template_parameters = material_raw_template_parameters[0]
+       # material_raw_parameters = tuple(material_raw_parameters)
         # format all those parameters: use template parameters for metadata, and parameters for values.
         # all information is packed in a single python object
         # formatted_parameters is a dict containing those python objects
@@ -1495,11 +1867,13 @@ class SetTabs:
             # on_change=reset_func,
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
-        
+
+        db_helper.reset_material_template_parameters(material_comp_default_template_id)
+
+
         if formatted_component:
 
             material_choice = formatted_component.options.get(selected_value_id)
-
             material_parameter_set_id = material_choice.parameter_set_id
 
             parameter_ids = material_choice.parameter_ids
@@ -1508,24 +1882,57 @@ class SetTabs:
             for parameter_id in parameters:
 
                 parameter = parameters.get(parameter_id)
-
                 set_parameter = parameter.options.get(material_parameter_set_id)
-                parameter.set_selected_value(set_parameter.value)
-                component_parameters_ = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                template_parameter_id = parameter.id
+
+                if set_parameter:
+                    parameter.set_selected_value(set_parameter.value)
+                    component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+
+                    db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
+
+
                 if parameter.name == "density" and density != None:
-                    density[material_component_id] = set_parameter.value    
+                    if set_parameter:
+                        density[material_component_id] = set_parameter.value
+
+
+
+            # con, cur = app_access.get_sqlite_con_and_cur()
+            # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
+            # # Fetch all rows from the result
+            # data = cur.fetchall()
+
+            # # Check if there are columns to describe
+            # if cur.description:
+            #     # Print the column information
+            #     print("Column names:", [col[0] for col in cur.description])
+
+            # else:
+            #     print("No columns to describe (empty result set)")
+
+            # # Print the retrieved data
+            # for row in data:
+            #     st.write(row)
+
+            # # Don't forget to close the cursor and connection when done
+            # cur.close()
+            # con.close()
+
+        #self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
 
         return material_formatted_parameters,formatted_component, selected_value_id, component_parameters_, emmo_relation, density
-    
+
+
 
     def fill_advanced_expander(self, tab,category_name, category_display_name,category_parameters):
         advanced_input=tab.expander("Show '{}' advanced parameters".format(category_display_name))
         all_advanced_tabs = advanced_input.tabs(db_helper.get_advanced_tab_display_names(self.model_name, category_name))
-        
+
         db_tab_ids_advanced = db_helper.get_advanced_db_tab_id(self.model_name,category_name)
         index_advanced = 0
         for tab_advanced in all_advanced_tabs:
-            
+
             db_tab_id_advanced = db_tab_ids_advanced[index_advanced][0]
             tab_context_type= db_helper.get_context_type_and_iri_by_id(db_tab_id_advanced)
             # tab_parameters = {
@@ -1534,7 +1941,7 @@ class SetTabs:
             # }
             # get tab's categories
             categories_advanced = db_helper.get_advanced_categories_from_tab_id(db_tab_id_advanced)
-            
+
 
             #if len(categories_advanced) > 1:  # create one sub tab per category
 
@@ -1543,7 +1950,7 @@ class SetTabs:
                 all_sub_tabs = tab_advanced.tabs(all_category_display_names)
             else:
                 all_sub_tabs = None
-            
+
             i = 0
 
             for category in categories_advanced:
@@ -1557,34 +1964,35 @@ class SetTabs:
 
                 i += 1
 
-                non_material_component = tuple(db_helper.get_advanced_components_from_category_id(category_id))     
-                
+                non_material_component = tuple(db_helper.get_advanced_components_from_category_id(category_id))
+
 
                 non_material_component_id, non_material_component_name, _,_,_,_,non_material_comp_display_name,_,_,_,non_material_comp_default_template_id,non_material_comp_context_type,non_material_comp_context_type_iri,_ = non_material_component
-                    
+
                 raw_template_parameters = db_helper.get_advanced_template_by_template_id(default_template_id,self.model_name)
 
+
                 if raw_template_parameters:
-                    
+
                     non_material_parameters_sets = np.squeeze(db_helper.get_non_material_set_id_by_component_id(non_material_component_id))
                     non_material_parameter_set_id, non_material_parameters_set_name, _ ,_,_ = non_material_parameters_sets
-                    
+
                     non_material_parameters_raw = []
                     for non_material_parameter_raw_template in raw_template_parameters:
 
                         non_material_parameter_id,name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = non_material_parameter_raw_template
-                    
-                    
+
+
                         non_material_parameter = db_helper.get_advanced_parameters_by_parameter_set_id(non_material_parameter_id, non_material_parameter_set_id)
-                        
+
                         non_material_parameters_raw.append(non_material_parameter)
-                    
+
                     formatted_parameters = self.formatter.format_parameters(non_material_parameters_raw, raw_template_parameters, non_material_parameters_set_name)
-                    
+
                     for parameter_id in formatted_parameters:
-                        
+
                         parameter = formatted_parameters.get(str(parameter_id))
-                        
+
                         if parameter.is_shown_to_user:
                             selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
                                 template_parameter_id=parameter.id,
@@ -1595,14 +2003,15 @@ class SetTabs:
 
                             if isinstance(parameter, NumericalParameter):
                                 name_col.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri) + " / " + "[{}]({})".format(parameter.unit, parameter.unit_iri))
-                                
+
                                 user_input = input_col.number_input(
                                     label=parameter.name,
                                     value=parameter.options.get(selected_parameter_id).value,
                                     min_value=parameter.min_value,
                                     max_value=parameter.max_value,
                                     key="input_{}_{}".format(non_material_component_name, parameter.name),
-                                    format=parameter.format,
+                                    # format=parameter.format,
+                                    format = self.set_format(parameter.options.get(selected_parameter_id).value),
                                     step=parameter.increment,
                                     label_visibility="collapsed"
                                 )
@@ -1614,22 +2023,22 @@ class SetTabs:
                                     key="input_{}_{}".format(non_material_component_id, parameter_id),
                                     label_visibility="collapsed",
                                 )
-                            parameter.set_selected_value(user_input)    
+                            parameter.set_selected_value(user_input)
 
-                            component_parameters_ = LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
-                    component_parameters = LD.setup_sub_dict(display_name=non_material_comp_display_name, context_type=non_material_comp_context_type,existence="new")
-                    component_parameters = LD.fill_component_dict(component_parameters_,existence="new", dict=component_parameters)
-                    non_material_comp_relation = LD.get_relation(non_material_component_id, "component")
-                    category_parameters = LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=non_material_comp_relation )
+                            component_parameters_ = self.LD.setup_parameter_struct(parameter,component_parameters=component_parameters_)
+                    component_parameters = self.LD.setup_sub_dict(display_name=non_material_comp_display_name, context_type=non_material_comp_context_type,existence="new")
+                    component_parameters = self.LD.fill_component_dict(component_parameters_,existence="new", dict=component_parameters)
+                    non_material_comp_relation = self.LD.get_relation(non_material_component_id, "component")
+                    category_parameters = self.LD.fill_component_dict(component_parameters,"existing",dict=category_parameters,relation=non_material_comp_relation )
 
 
-                
+
             return category_parameters
 
     def fill_mass_fraction_column(self,mass_fraction_col,category_id,material_comp_default_template_id,material_component_id,component_parameters_,mass_fraction_id_dict,emmo_relation=None):
-    
+
         volume_fraction_raw_template = db_helper.get_mf_template_by_template_id(material_comp_default_template_id)
-        
+
         parameter_set_id, parameters_set_name = db_helper.get_mf_parameter_set_id_by_component_id(material_component_id)
         if parameter_set_id:
             parameter_set_id = int(parameter_set_id)
@@ -1637,7 +2046,7 @@ class SetTabs:
 
             raw_values = tuple(np.squeeze(db_helper.get_mf_raw_parameter_by_parameter_set_id(parameter_set_id)))
 
-            
+
             formatted_parameters = self.formatter.format_parameters(raw_values, volume_fraction_raw_template,parameters_set_name )
 
 
@@ -1655,18 +2064,19 @@ class SetTabs:
                     min_value=parameter.min_value,
                     max_value=parameter.max_value,
                     key="input_{}_{}".format(category_id, parameter.id),
-                    format=parameter.format,
+                    # format=parameter.format,
+                    format = self.set_format(parameter.default_value),
                     step=parameter.increment,
                     label_visibility="collapsed"
                     )
-                
+
                 if parameter:
                     parameter.set_selected_value(user_input)
 
-                    component_parameters = LD.setup_parameter_struct(parameter, component_parameters=component_parameters_) 
+                    component_parameters = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
 
-                    mass_fraction_id_dict[material_component_id] = parameter.selected_value 
-        
+                    mass_fraction_id_dict[material_component_id] = parameter.selected_value
+
             return parameter, user_input, component_parameters, emmo_relation, mass_fraction_id_dict
         else:
             return None, None, None, None,None
@@ -1701,7 +2111,7 @@ class RunSimulation:
         #self.gui_file_data = json.dumps(gui_parameters, indent=2)
         #self.gui_file_name = "gui_output_parameters.json"
         #self.file_mime_type = "application/json"
-
+        self.success = st.session_state.success
         self.api_url = "http://genie:8000/run_simulation"
         self.json_input_folder = 'BattMoJulia'
         self.json_input_file = 'battmo_formatted_input.json'
@@ -1710,7 +2120,7 @@ class RunSimulation:
         self.results_folder = "results"
         self.temporary_results_file = "battmo_result"
         self.response_start = None
-        
+
         self.set_section()
 
     def set_section(self):
@@ -1718,14 +2128,28 @@ class RunSimulation:
         save_run = st.container()
 
         self.set_header(save_run)
-        self.set_buttons(save_run)
+        file_name = self.set_naming(save_run)
+        self.set_buttons(save_run, file_name)
 
     def set_header(self,save_run):
 
         save_run.markdown("### " + self.header)
         save_run.text(" ")
 
-    def set_buttons(self,save_run):
+    def set_naming(self,save_run):
+
+        if 'checkbox_value' not in st.session_state:
+            st.session_state.checkbox_value = False     
+
+        checkbox_value = save_run.checkbox("Give your results a name. (The results will be automatically deleted on refreshing or closing of the browser.)", value=st.session_state.checkbox_value)
+        st.session_state.checkbox_value = checkbox_value
+        if checkbox_value:
+            file_name = save_run.text_input("Give your results a name.", value = st.session_state["simulation_results_file_name"])
+
+            st.session_state["simulation_results_file_name"] = file_name
+        
+
+    def set_buttons(self,save_run,file_name):
 
         #empty,run,empty2 = save_run.columns((0.3,1,1))
 
@@ -1735,26 +2159,34 @@ class RunSimulation:
         #     args= (save_run, )
         #     #help = "Update the parameter values."
         # )
-        col1,_ = save_run.columns((1,3))
+        col1,col2 = save_run.columns((1,1))
         runing = col1.button(
             label="RUN",
             on_click= self.execute_api_on_click,
-            args = (save_run, ),
+            args = (save_run,file_name ),
             type = "primary",
             use_container_width = True
             #help = "Run the simulation (after updating the parameters)."
-            
+
         )
 
-        
-    def update_on_click(self):
+        results_page = col2.button(label = "Results",
+                                   type = "primary",
+                                    use_container_width=True
+                                    )
+
+        if results_page:
+            switch_page("Results")
+
+
+    def update_on_click(self,file_name):
         self.update_json_LD()
         self.update_json_battmo_input()
-        
-        
+
         st.session_state.update_par = True
 
         #save_run.success("Your parameters are saved! Run the simulation to get your results.")
+
 
     def update_json_LD(self):
 
@@ -1766,7 +2198,7 @@ class RunSimulation:
                 self.gui_parameters,
                 new_file,
                 indent=3)
-            
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
@@ -1780,32 +2212,27 @@ class RunSimulation:
                 indent=3
             )
 
-    def execute_api_on_click(self, save_run):
+    def execute_api_on_click(self, save_run,file_name):
 
-        ##############################
-        # # Remember user changed values
-        # for k, v in st.session_state.items():
-        #     st.session_state[k] = v
-        # ##############################
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
 
         sys.path.insert(0, app_access.get_path_to_streamlit_dir())
-        
+
         ##############################
 
-        self.update_on_click()
+        self.update_on_click(file_name)
 
         #if st.session_state.update_par != True:
-            # save_run.warning("""The parameters are not updated yet. 
+            # save_run.warning("""The parameters are not updated yet.
             #             Simulation not initiated. Click on the 'UPDATE' button first.""")
-        
-        # elif st.session_state.update_par == True: 
+
+        # elif st.session_state.update_par == True:
 
         with open(app_access.get_path_to_battmo_formatted_input(), 'r') as j:
-            json_data = json.loads(j.read()) 
-            
+            json_data = json.loads(j.read())
+
         # Set the Content-Type header to application/json
         headers = {'Content-Type': 'application/json'}
 
@@ -1818,16 +2245,30 @@ class RunSimulation:
             with open(app_access.get_path_to_battmo_results(), "wb") as f:
                     f.write(response_start.content)
 
-            success = DivergenceCheck(response_start).success
+            # file_like_object = io.BytesIO(response_start.content)
+            # with h5py.File(file_like_object, 'r') as hdf5_file:
 
-                
+            #     st.write(hdf5_file["concentrations"]["electrolyte"]["elyte_c_state_1"][()])
+
+            if st.session_state["checkbox_value"] == False:
+
+                # random_file_name = str(uuid4())
+                random_number = random.randint(1000, 9999)
+                random_file_name = str(random_number)
+                st.session_state["simulation_results_file_name"] = "data_" + random_file_name
+
+            self.success = DivergenceCheck(save_run,response_start.content).success
+
 
         else:
                 st.session_state.reponse = False
-                #success = DivergenceCheck(response_start.status_code).success
-                
-    
-        
+                # st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+                # st.session_state.success = False
+                # self.success = False
+
+                self.success = DivergenceCheck(save_run,False).success
+
+
         # with open("BattMo_results.pkl", "rb") as f:
         #     data = pickle.load(f)
 
@@ -1850,26 +2291,27 @@ class RunSimulation:
 
 class DivergenceCheck:
     """
-    Checks if the simulation is fully executed. If not it provides a warning to the user. 
+    Checks if the simulation is fully executed. If not it provides a warning to the user.
     If the simulation is fully executed, it shows the battmo logging if there is any.
     """
-    def __init__(self,response):
+    def __init__(self,save_run,response= None):
 
         self.response = response
-        self.success = False
+        self.save_run = save_run
+        self.success = st.session_state.success
         self.check_for_divergence()
-        
+
 
     def check_for_divergence(self):
 
-        if st.session_state.sim_finished:
+       if self.response:
 
-            results = app_controller.get_results_data().get_results_data()
+            results = app_controller.get_results_data(None).get_results_data(None)
 
             N = self.get_timesteps_setting()
             number_of_states, log_messages = self.get_timesteps_execution(results)
 
-            self.divergence_check_logging(N,number_of_states, log_messages)
+            self.divergence_check_logging(N,number_of_states, log_messages,results)
 
     def get_timesteps_setting(self):
 
@@ -1880,10 +2322,9 @@ class DivergenceCheck:
         N = gui_parameters["TimeStepping"]["numberOfTimeSteps"]
 
         return N
-    
+
     def get_timesteps_execution(self, results):
 
-        
         [
             log_messages,
             number_of_states,
@@ -1903,40 +2344,52 @@ class DivergenceCheck:
             electrolyte_potential,
             positive_electrode_potential
 
-        ] = results 
+        ] = results
 
         return number_of_states, log_messages
-    
-    def divergence_check_logging(self,N, number_of_states,log_messages):
-        save_run = st.empty()
-        if st.session_state.reponse == False:
-            st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
-            
-        else:
+
+    def divergence_check_logging(self,N, number_of_states,log_messages,results):
+
+        if self.response == False:
+            self.save_run.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+            st.session_state.success = False
+            self.success = False
+
+        elif self.response:
             if number_of_states == 0:
                 self.success = False
-                  
-                st.session_state.succes = False
+
+                st.session_state.success = False
+
                 if len(log_messages[()]) > 1:
-                    c = save_run.container()
+                    c = self.save_run.container()
                     c.error("Simulation wasn't successful unfortunately. Some errors were produced, see the logging.")
                     c.markdown("***Logging:***")
-                        
+
                     log_message = ''' \n'''
                     for message in log_messages[()]:
                         log_message = log_message + message+ '''\n'''
-                    
+
                     c.code(log_message + ''' \n''')
                 else:
 
-                    save_run.error("Simulation wasn't successful unfortunately.")
+                    self.save_run.error("Simulation wasn't successful unfortunately.")
 
-            else: 
+            else:
+                temp_file_name = st.session_state["simulation_results_file_name"]
+                file_path = os.path.join(st.session_state['temp_dir'], temp_file_name +".hdf5")
+
+
                 self.success = True
-                save_run.success("Simulation finished successfully! Check the results on the 'Results' page.")  
-                st.session_state.succes = True
+                self.save_run.success(f"""Simulation finished successfully! Check the results on the 'Results' page.""")# \n\n
+                                 
+                                # Your results are stored under the following name: {temp_file_name}""")
+                st.session_state.success = True
 
-                if self.response:
+                
+
+                # if self.response:
+                if not isinstance(self.response,bool):
                     with open(app_access.get_path_to_linked_data_input(), 'r') as f:
                         gui_parameters = json.load(f)
 
@@ -1945,8 +2398,23 @@ class DivergenceCheck:
                     with open(app_access.get_path_to_indicator_values(), 'w') as f:
                         json.dump(indicators, f, indent=3)
 
-                    with open(app_access.get_path_to_battmo_results(), "wb") as f:
-                        f.write(self.response.content)
+                    # with open(app_access.get_path_to_battmo_results(), "wb") as f:
+                    #     f.write(results)
+
+                    with open(file_path, "wb") as f:
+                        f.write(self.response)
+
+                # except:
+                #     pass
+        else:
+
+            pass
+
+
+
+
+
+
 
 
 class DownloadParameters:
@@ -1955,13 +2423,13 @@ class DownloadParameters:
     """
     def __init__(self,gui_parameters):
         self.run_header = "Run Simulation"
-        self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first 
+        self.run_info = """ The BattMo toolbox used for running the simulations is Julia based. Julia is a compiled language and because of this, the first
                             simulation will be slow, but next simulations will be very quick."""
-        
+
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
-        self.gui_parameters = gui_parameters       
+        self.gui_parameters = gui_parameters
         # retrieve saved parameters from json file
         # with open(app_access.get_path_to_linked_data_input()) as json_gui_parameters:
         #     self.gui_parameters = json.load(json_gui_parameters)
@@ -1980,14 +2448,14 @@ class DownloadParameters:
         self.formatted_parameters_file_data = json.dumps(self.formatted_gui_parameters, indent=2)
         self.formatted_parameters_file_name = "battmo_formatted_parameters.json"
 
-        
+
         self.set_submit_button()
 
     def update_on_click(self):
-        
+
         self.update_json_LD()
         self.update_json_battmo_input()
-        
+
         #st.session_state.update_par = True
 
         #save_run.success("Your parameters are saved! Run the simulation to get your results.")
@@ -2002,8 +2470,8 @@ class DownloadParameters:
                 self.gui_parameters,
                 new_file,
                 indent=3)
-            
-            
+
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
@@ -2094,7 +2562,7 @@ class SetModelDescription():
     Used to render the 'Available models' section on the Materials and models page
     """
     def __init__(self):
-    
+
         self.model = "P2D"
         self.hasNumericalData = "hasNumericalData"
         self.hasStringData = "hasStringData"
@@ -2110,7 +2578,7 @@ class SetModelDescription():
         model = st.expander(self.model)
 
         with model:
-            
+
             st.markdown("""**Includes** """)
             st.markdown("- Thermal effects = <span style='color: blue;'>" + str(P2D_model[0]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
             st.markdown("- Current collector = <span style='color: blue;'>" + str(P2D_model[1]["value"][self.hasStringData]) + "</span>", unsafe_allow_html=True)
@@ -2125,92 +2593,73 @@ class GetResultsData():
     """
     Used to retrieve and format the results of the simulation.
     """
-    def __init__(self):
+    def __init__(self, file_names):
         self.results = None
-        self.get_results_data()
+        self.get_results_data(file_names)
 
-    def get_results_data(self):
+    def get_results_data(self, file_names):
 
-        #results = self.retrieve_results()
-        formatted_results = self.format_results()
-
+        results = self.retrieve_results(file_names)
+        formatted_results = self.format_results(results,file_names)
         self.results = formatted_results
+        # file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
+        # with open(file_path, "wb") as f:
+        #     f.write(uploaded_file[0].getbuffer())
         return self.results
 
-    def retrieve_results(self):
+    def retrieve_results(self,file_names):
+        if isinstance(file_names,list):
+            results = []
+            for file_name in file_names:
+                file_path = os.path.join(st.session_state.temp_dir,file_name)
+                result = h5py.File(file_path, "r")
+                result = self.translate_results(result)
 
-        with h5py.File(app_access.get_path_to_battmo_results(), "r") as f:
-            result = f
+                results.append(result)
+        elif isinstance(file_names, str):
+      
+            file_path = os.path.join(st.session_state.temp_dir,file_names)
+            result = h5py.File(file_path, "r")
+            results = self.translate_results(result)
+            
 
-        return result
-    
-    def format_results(self):
+        else:
+            file_path = app_access.get_path_to_battmo_results()
+            results = h5py.File(file_path, "r")
 
-        results = h5py.File(app_access.get_path_to_battmo_results(), "r")
 
+
+        return results
+
+    def translate_results(self,result):
         # Retrieve the attributes
-        number_of_states = results["number_of_states"][()]
-        
-        # Retrieve datasets
-        log_messages = results["log_messages"].asstr()
-        time_values = results["time_values"][:]
-        cell_voltage = results["cell_voltage"][:]
-        cell_current = results["cell_current"][:]
-        negative_electrode_grid_bc = results["negative_electrode_grid_bc"][:]
-        electrolyte_grid_bc = results["electrolyte_grid_bc"][:]
-        positive_electrode_grid_bc = results["positive_electrode_grid_bc"][:]
+        number_of_states = result["number_of_states"][()]
 
+        # Retrieve datasets
+        log_messages = result["log_messages"][:]
+        time_values = result["time_values"][:]
+        cell_voltage = result["cell_voltage"][:]
+        cell_current = result["cell_current"][:]
 
         # Retrieve grid datasets
-        negative_electrode_grid = np.squeeze(results["grids/negative_electrode_grid"][:])
-        positive_electrode_grid = np.squeeze(results["grids/positive_electrode_grid"][:])
-        electrolyte_grid = np.squeeze(results["grids/electrolyte_grid"][:])
-        
+        negative_electrode_grid = np.squeeze(result["grids/negative_electrode_grid"][:])
+        positive_electrode_grid = np.squeeze(result["grids/positive_electrode_grid"][:])
+        electrolyte_grid = np.squeeze(result["grids/electrolyte_grid"][:])
+        negative_electrode_grid_bc = result["grids/negative_electrode_grid_bc"][:]
+        electrolyte_grid_bc = result["grids/electrolyte_grid_bc"][:]
+        positive_electrode_grid_bc = result["grids/positive_electrode_grid_bc"][:]
+
         # Retrieve concentration datasets
-        negative_electrode_concentration = [results["concentrations/negative_electrode_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
-        positive_electrode_concentration = [results["concentrations/positive_electrode_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
-        electrolyte_concentration = [results["concentrations/electrolyte_concentration_{}".format(i+1)][:] for i in range(number_of_states)]
-        
+        negative_electrode_concentration = [result["concentrations/negative_electrode/ne_c_state_{}".format(i+1)][:] for i in range(number_of_states)]
+        positive_electrode_concentration = [result["concentrations/positive_electrode/pe_c_state_{}".format(i+1)][:] for i in range(number_of_states)]
+        electrolyte_concentration = [result["concentrations/electrolyte/elyte_c_state_{}".format(i+1)][:] for i in range(number_of_states)]
+
         # Retrieve potential datasets
-        negative_electrode_potential = [results["potentials/negative_electrode_potential_{}".format(i+1)][:] for i in range(number_of_states)]
-        positive_electrode_potential = [results["potentials/positive_electrode_potential_{}".format(i+1)][:] for i in range(number_of_states)]
-        electrolyte_potential = [results["potentials/electrolyte_potential_{}".format(i+1)][:] for i in range(number_of_states)]
+        negative_electrode_potential = [result["potentials/negative_electrode/ne_p_state_{}".format(i+1)][:] for i in range(number_of_states)]
+        positive_electrode_potential = [result["potentials/positive_electrode/pe_p_state_{}".format(i+1)][:] for i in range(number_of_states)]
+        electrolyte_potential = [result["potentials/electrolyte/elyte_p_state_{}".format(i+1)][:] for i in range(number_of_states)]
 
-        # length_1d_ne = len(negative_electrode_concentration_jl)
-        # length_2d_ne = len(negative_electrode_concentration_jl[0])
-        # length_1d_pe = len(positive_electrode_concentration_jl)
-        # length_2d_pe = len(positive_electrode_concentration_jl[0])
-        # length_1d_el = len(electrolyte_concentration_jl)
-        # length_2d_el = len(electrolyte_concentration_jl[0])
-        # negative_electrode_concentration = np.zeros((length_1d_ne,length_2d_ne))
-        # positive_electrode_concentration = np.zeros((length_1d_pe,length_2d_pe))
-        # negative_electrode_potential = np.zeros((length_1d_ne,length_2d_ne))
-        # positive_electrode_potential = np.zeros((length_1d_pe,length_2d_pe))
-        # electrolyte_concentration = np.zeros((length_1d_el,length_2d_el))
-        # electrolyte_potential = np.zeros((length_1d_el,length_2d_el))
-
-        # for i in range(length_1d_pe):
-        #     for j in range(length_2d_pe):
-        #         pe_c_sub = positive_electrode_concentration_jl[i]
-        #         pe_p_sub = positive_electrode_potential_jl[i]
-        #         positive_electrode_concentration[i,j] = pe_c_sub[j]
-        #         positive_electrode_potential[i,j] = pe_p_sub[j]
-
-        # for i in range(length_1d_el):
-        #     for j in range(length_2d_el):
-        #         el_c_sub = electrolyte_concentration_jl[i]
-        #         el_p_sub = electrolyte_potential_jl[i]
-        #         electrolyte_concentration[i,j] = el_c_sub[j]
-        #         electrolyte_potential[i,j] = el_p_sub[j]
-
-        # for i in range(length_1d_ne):
-        #     for j in range(length_2d_ne):
-        #         ne_c_sub = negative_electrode_concentration_jl[i]
-        #         ne_p_sub = negative_electrode_potential_jl[i]
-        #         negative_electrode_concentration[i,j] = ne_c_sub[j]
-        #         negative_electrode_potential[i,j] = ne_p_sub[j]
-            
-        results = [
+        result = [
             log_messages,
             number_of_states,
             cell_voltage,
@@ -2230,26 +2679,99 @@ class GetResultsData():
             positive_electrode_potential
 
             ]
-        
+        return result
+
+
+
+    def format_results(self,results,file_names):
+
+        if file_names == None:
+            file_names = [file_names]
+
+        list = []
+        for file_name in file_names:
+
+            if file_name:
+                results = results
+            else:
+                result = results
+                result = self.translate_results(result)
+                results = result
+
+
+
+            # length_1d_ne = len(negative_electrode_concentration_jl)
+            # length_2d_ne = len(negative_electrode_concentration_jl[0])
+            # length_1d_pe = len(positive_electrode_concentration_jl)
+            # length_2d_pe = len(positive_electrode_concentration_jl[0])
+            # length_1d_el = len(electrolyte_concentration_jl)
+            # length_2d_el = len(electrolyte_concentration_jl[0])
+            # negative_electrode_concentration = np.zeros((length_1d_ne,length_2d_ne))
+            # positive_electrode_concentration = np.zeros((length_1d_pe,length_2d_pe))
+            # negative_electrode_potential = np.zeros((length_1d_ne,length_2d_ne))
+            # positive_electrode_potential = np.zeros((length_1d_pe,length_2d_pe))
+            # electrolyte_concentration = np.zeros((length_1d_el,length_2d_el))
+            # electrolyte_potential = np.zeros((length_1d_el,length_2d_el))
+
+            # for i in range(length_1d_pe):
+            #     for j in range(length_2d_pe):
+            #         pe_c_sub = positive_electrode_concentration_jl[i]
+            #         pe_p_sub = positive_electrode_potential_jl[i]
+            #         positive_electrode_concentration[i,j] = pe_c_sub[j]
+            #         positive_electrode_potential[i,j] = pe_p_sub[j]
+
+            # for i in range(length_1d_el):
+            #     for j in range(length_2d_el):
+            #         el_c_sub = electrolyte_concentration_jl[i]
+            #         el_p_sub = electrolyte_potential_jl[i]
+            #         electrolyte_concentration[i,j] = el_c_sub[j]
+            #         electrolyte_potential[i,j] = el_p_sub[j]
+
+            # for i in range(length_1d_ne):
+            #     for j in range(length_2d_ne):
+            #         ne_c_sub = negative_electrode_concentration_jl[i]
+            #         ne_p_sub = negative_electrode_potential_jl[i]
+            #         negative_electrode_concentration[i,j] = ne_c_sub[j]
+            #         negative_electrode_potential[i,j] = ne_p_sub[j]
+
+
+
+
+
         return results
-    
+
 class SetIndicators():
     """
     used to render the indicator parameters on the results page.
     """
-    def __init__(self, page_name):
-        
+    def __init__(self, page_name,results_simulation=None):
+
         self.page_name = page_name
-        
+        self.results_simulation = results_simulation
+        self.calc_round_trip_efficiency = calc.calc_round_trip_efficiency
         #self.style = get_theme_style()
         self.set_indicators()
 
     def set_indicators(self):
 
         if self.page_name == "Simulation":
+
             indicators= self.get_indicators_from_LD()
+
         else:
+            # st.write(self.results_simulation)
+            # if self.results_simulation:
+            #     calculated_indicaters = self.calculate_indicators()
+            #     # calculated_indicaters = None
+
+            # else:
+            calculated_indicaters = None
+
             indicators= self.get_indicators_from_run()
+
+            if calculated_indicaters:
+                indicators["Cell"]["roundTripEfficiency"]["value"] = calculated_indicaters["Cell"]["roundTripEfficiency"]
+
 
         self.render_indicators(indicators)
 
@@ -2263,16 +2785,49 @@ class SetIndicators():
         with open(app_access.get_path_to_linked_data_input(), 'r') as f:
             gui_parameters = json.load(f)
 
-        indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)   
+        indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
         return indicators
-    
+
+    def calculate_indicators(self):
+
+        [
+            log_messages,
+            number_of_states,
+            cell_voltage,
+            cell_current,
+            time_values,
+            negative_electrode_grid,
+            negative_electrode_grid_bc,
+            electrolyte_grid,
+            electrolyte_grid_bc,
+            positive_electrode_grid,
+            positive_electrode_grid_bc,
+            negative_electrode_concentration,
+            electrolyte_concentration,
+            positive_electrode_concentration,
+            negative_electrode_potential,
+            electrolyte_potential,
+            positive_electrode_potential
+
+            ] = self.results_simulation
+
+        round_trip_eff = self.calc_round_trip_efficiency(time_values,cell_current,cell_voltage)
+
+        indicators = {
+            "Cell": {
+                "roundTripEfficiency": round_trip_eff
+            }
+        }
+        return indicators
+
     def render_indicators(self,indicators):
 
         cell_mass = indicators["Cell"]["cellMass"]
         # cell_energy = indicators["Cell"]["cellEnergy"]
         cell_capacity = indicators["Cell"]["nominalCellCapacity"]
         n_to_p_ratio = indicators["Cell"]["NPRatio"]
+        energy_efficiency = indicators["Cell"]["roundTripEfficiency"]
 
         ne_mass_loading = indicators["NegativeElectrode"]["massLoading"]
         ne_thickness = indicators["NegativeElectrode"]["thickness"]
@@ -2292,11 +2847,7 @@ class SetIndicators():
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
-            # col2.metric(
-            #         label = "Energy ({})".format(cell_energy["unit"]),
-            #         value = np.round(cell_energy["value"],2),
-            #         label_visibility= "visible"
-            #     )
+
             col3.metric(
                     label = "Cell Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
@@ -2307,6 +2858,7 @@ class SetIndicators():
                     value = np.round(n_to_p_ratio["value"],1),
                     label_visibility= "visible"
                 )
+
 
         elif self.page_name == "Results":
             NE, PE,cell = st.tabs(["Negative Electrode", "Positive Electrode","Cell"])
@@ -2320,11 +2872,24 @@ class SetIndicators():
                 value = int(np.round(cell_mass["value"])),
                 label_visibility= "visible"
             )
-            # col2.metric(
-            #         label = "Energy ({})".format(cell_energy["unit"]),
-            #         value = np.round(cell_energy["value"],2),
+            # if isinstance(energy_efficiency["value"], str):
+            #     col4.metric(
+            #         label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #         value = energy_efficiency["value"],
             #         label_visibility= "visible"
             #     )
+            # elif isinstance(energy_efficiency["value"],  np.ndarray):
+            #     col4.metric(
+            #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #             value = np.round(energy_efficiency["value"][0],2),
+            #             label_visibility= "visible"
+            #         )
+            # else:
+            #     col4.metric(
+            #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+            #             value = np.round(energy_efficiency["value"],2),
+            #             label_visibility= "visible"
+            #         )
             col3.metric(
                     label = "Capacity / {}".format(cell_capacity["unit"]),
                     value = int(np.round(cell_capacity["value"])),
@@ -2343,13 +2908,13 @@ class SetIndicators():
                     value = int(np.round(ne_mass_loading["value"])),
                     label_visibility= "visible"
                 )
-            
+
             thickness.metric(
                     label = "Thickness / {}".format(ne_thickness["unit"]),
                     value = int(np.round(ne_thickness["value"])),
                     label_visibility= "visible"
                 )
-            
+
             porosity.metric(
                     label = "Porosity / {}".format(ne_porosity["unit"]),
                     value = np.round(ne_porosity["value"],2),
@@ -2360,14 +2925,14 @@ class SetIndicators():
                     value = int(np.round(ne_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
-            
+
             capacity, _, _ ,_= AM_ne.columns(4)
             capacity.metric(
                     label = "Specific Capacity / {}".format(ne_am_specific_capacity["unit"]),
                     value = int(np.round(ne_am_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
-            
+
             mass_loading, thickness, porosity, capacity= Electrode_pe.columns(4)
 
             mass_loading.metric(
@@ -2375,13 +2940,13 @@ class SetIndicators():
                     value = int(np.round(pe_mass_loading["value"])),
                     label_visibility= "visible"
                 )
-            
+
             thickness.metric(
                     label = "Thickness / {}".format(pe_thickness["unit"]),
                     value =int(np.round(pe_thickness["value"])),
                     label_visibility= "visible"
                 )
-            
+
             porosity.metric(
                     label = "Porosity / {}".format(pe_porosity["unit"]),
                     value = np.round(pe_porosity["value"],2),
@@ -2392,27 +2957,27 @@ class SetIndicators():
                     value = int(np.round(pe_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
-            
+
             capacity, _, _ ,_= AM_pe.columns(4)
             capacity.metric(
                     label = "Specific Capacity / {}".format(pe_am_specific_capacity["unit"]),
                     value = int(np.round(pe_am_specific_capacity["value"])),
                     label_visibility= "visible"
                 )
-            
 
-            
+
+
         else:
             print("ERROR: Page name '{}' to get indicators doesn't match.".format(self.page_name))
 
-            
+
 class SetGeometryVisualization():
     """
     Used to render the geometry in a Plotly 3D volume plot on the 'Simulation' page.
     """
     def __init__(self,gui_parameters):
         self.header = "Visualize geometry"
-        self.info = """This geometry visualization is an approximation based on the input parameters specified above. 
+        self.info = """This geometry visualization is an approximation based on the input parameters specified above.
                         The particles are for example visualized using a random data generator."""
         self.gui_parameters = gui_parameters
         self.set_geometry_visualization()
@@ -2429,7 +2994,7 @@ class SetGeometryVisualization():
     def get_data(self):
         geometry_data = match_json_LD.get_geometry_data_from_gui_dict(self.gui_parameters)
         return geometry_data
-    
+
     def generate_random_particles(self, width, thickness, num_particles, particle_radius):
         # Generate random particle coordinates within the specified dimensions
         pts = np.random.rand(2,num_particles)
@@ -2439,14 +3004,14 @@ class SetGeometryVisualization():
         # Generate random particle radii
         radii = 2*np.ones(num_particles)*particle_radius #get diameter instead of radius
         return pts, radii
-    
+
     def create_graphs(_self, geometry_data):
 
         toggle_box = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
 
         if toggle_box:
             _self.create_3d_graph_box(geometry_data)
-        
+
         toggle_box_scaled = st.toggle("Scaled 3D geometry",key="scaled", label_visibility="visible")
 
         if toggle_box_scaled:
@@ -2455,8 +3020,8 @@ class SetGeometryVisualization():
         # toggle_full = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
 
         # if toggle_full:
-        #     _self.create_3d_graph_full(geometry_data)          
-            
+        #     _self.create_3d_graph_full(geometry_data)
+
         # toggle_zoomed = st.toggle("3D volume plot",key="zoomed", label_visibility="visible")
 
         # if toggle_zoomed:
@@ -2466,7 +3031,7 @@ class SetGeometryVisualization():
 
         # if toggle_2d:
         #     _self.create_2d_graph(geometry_data)
-            
+
 
     @st.cache_data
     def create_3d_graph_box_scaled(_self, geometry_data):
@@ -2477,8 +3042,8 @@ class SetGeometryVisualization():
         total_thickness = thickness_ne + thickness_pe + thickness_sep
         length = geometry_data["length"]*10**6
         width = geometry_data["width"]*10**6
-        porosity_ne =geometry_data["porosity_ne"] 
-        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_ne =geometry_data["porosity_ne"]
+        porosity_pe =geometry_data["porosity_pe"]
         porosity_sep =geometry_data["porosity_sep"]
 
         # Define the dimensions and colors of the boxes
@@ -2559,13 +3124,13 @@ class SetGeometryVisualization():
                     zaxis_title='Scaled width  /  \u03BCm'),
                 xaxis=dict(range=[0, total_thickness]),
                 width=700,
-                margin=dict(r=20, b=10, l=10, t=10), 
+                margin=dict(r=20, b=10, l=10, t=10),
                 # coloraxis_colorbar_x=colorbarx,#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
                 # colorbar2=dict(coloraxis_colorbar_x=0.6),#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
-                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0) 
+                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0)
                 )
-                
-        
+
+
         st.plotly_chart(fig,theme=None, use_container_width=True)
 
     @st.cache_data
@@ -2577,8 +3142,8 @@ class SetGeometryVisualization():
         total_thickness = thickness_ne + thickness_pe + thickness_sep
         length = geometry_data["length"]*10**6
         width = geometry_data["width"]*10**6
-        porosity_ne =geometry_data["porosity_ne"] 
-        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_ne =geometry_data["porosity_ne"]
+        porosity_pe =geometry_data["porosity_pe"]
         porosity_sep =geometry_data["porosity_sep"]
 
         # Define the dimensions and colors of the boxes
@@ -2659,13 +3224,13 @@ class SetGeometryVisualization():
                     zaxis_title='Width  /  \u03BCm'),
                 xaxis=dict(range=[0, total_thickness]),
                 width=700,
-                margin=dict(r=20, b=10, l=10, t=10), 
+                margin=dict(r=20, b=10, l=10, t=10),
                 # coloraxis_colorbar_x=colorbarx,#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
                 # colorbar2=dict(coloraxis_colorbar_x=0.6),#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0),
-                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0) 
+                # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0)
                 )
-                
-        
+
+
         st.plotly_chart(fig,theme=None, use_container_width=True)
 
     @st.cache_data
@@ -2678,8 +3243,8 @@ class SetGeometryVisualization():
         width = geometry_data["width"]*10**6
         particle_radius_ne = geometry_data["particle_radius_ne"]*10**6
         particle_radius_pe = geometry_data["particle_radius_pe"]*10**6
-        porosity_ne =geometry_data["porosity_ne"] 
-        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_ne =geometry_data["porosity_ne"]
+        porosity_pe =geometry_data["porosity_pe"]
         porosity_sep =geometry_data["porosity_sep"]
 
         vf_ne = 1-porosity_ne
@@ -2693,9 +3258,9 @@ class SetGeometryVisualization():
         particle_volume_pe = 4/3 *np.pi*particle_radius_pe**3
         number_of_particles_ne = int(round(mass_volume_ne/particle_volume_ne))
         number_of_particles_pe = int(round(mass_volume_pe/particle_volume_pe))
-        
+
         np.random.seed(0)
-        
+
         factor = int(round(thickness_sep))
         scaled_thickness_ne = thickness_ne/factor
         scaled_thickness_pe = thickness_pe/factor
@@ -2774,7 +3339,7 @@ class SetGeometryVisualization():
             colorscale='Blues',
             showscale=False
             ))
-        
+
         # fig.add_trace(go.Volume(
         #     x=X_pe.flatten(), y=Y.flatten(), z=Z.flatten(),
         #     value=vol_pe.flatten(),
@@ -2815,10 +3380,10 @@ class SetGeometryVisualization():
                     xaxis=dict(range=[0, total_thickness]),
                     width=700,
                     margin=dict(r=20, b=10, l=10, t=10),
-                    
+
                 )
         st.plotly_chart(fig,theme=None, use_container_width=True)
-    
+
     @st.cache_data
     def create_3d_graph_small(_self, geometry_data):
         thickness_ne = geometry_data["thickness_ne"]
@@ -2829,8 +3394,8 @@ class SetGeometryVisualization():
         width = total_thickness
         particle_radius_ne = geometry_data["particle_radius_ne"]*10**6
         particle_radius_pe = geometry_data["particle_radius_pe"]*10**6
-        porosity_ne =geometry_data["porosity_ne"] 
-        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_ne =geometry_data["porosity_ne"]
+        porosity_pe =geometry_data["porosity_pe"]
         porosity_sep =geometry_data["porosity_sep"]
 
         vf_ne = 1-porosity_ne
@@ -2844,9 +3409,9 @@ class SetGeometryVisualization():
         particle_volume_pe = 4/3 *np.pi*particle_radius_pe**3
         number_of_particles_ne = int(round(mass_volume_ne/particle_volume_ne))
         number_of_particles_pe = int(round(mass_volume_pe/particle_volume_pe))
-        
+
         np.random.seed(0)
-        
+
         factor = int(round(thickness_sep/2))
 
         scaled_thickness_ne = thickness_ne/factor
@@ -2924,7 +3489,7 @@ class SetGeometryVisualization():
             colorscale='Blues',
             showscale=False
             ))
-        
+
         fig.add_trace(go.Volume(
             x=X_pe.flatten(), y=Y.flatten(), z=Z.flatten(),
             value=vol_pe.flatten(),
@@ -2979,8 +3544,8 @@ class SetGeometryVisualization():
         width = total_thickness
         particle_radius_ne = geometry_data["particle_radius_ne"]*10**6*10
         particle_radius_pe = geometry_data["particle_radius_pe"]*10**6*10
-        porosity_ne =geometry_data["porosity_ne"] 
-        porosity_pe =geometry_data["porosity_pe"] 
+        porosity_ne =geometry_data["porosity_ne"]
+        porosity_pe =geometry_data["porosity_pe"]
 
         vf_ne = 1-porosity_ne
         vf_pe = 1-porosity_pe
@@ -2997,7 +3562,7 @@ class SetGeometryVisualization():
 
         # Generate negative electrode particles
         ne_pts, ne_radii = _self.generate_random_particles(width, thickness_ne, number_of_particles_ne, particle_radius_ne)
-        
+
         # Generate positive electrode particles
         pe_pts, pe_radii = _self.generate_random_particles(width, thickness_pe, number_of_particles_pe, particle_radius_pe)
         pe_pts[0,:] += thickness_ne +thickness_sep
@@ -3034,10 +3599,10 @@ class SetGeometryVisualization():
                         symbol_sequence= ['diamond-dot', 'square', 'circle'],
                         color_discrete_sequence = ['blue','green', 'red']
                         )
-        
+
         ratio = 8
         plot_width = 400
-        
+
 
         # Update layout
         fig.update_layout(
@@ -3054,21 +3619,22 @@ class SetGeometryVisualization():
                     ))
         st.plotly_chart(fig, use_container_width=False, width=1400,height=1400)
         # fig.show()
-    
-    
-            
 
-        
-        
+
+
+
+
+
 
 class SetHDF5Download():
     """
     Used to render the hdf5 output file on the Results page.
     """
-    def __init__(self,results):
+    def __init__(self,results,selected_data_sets):
 
         self.header = "Download results"
         self.results = results
+        self.selected_data_sets = selected_data_sets
         self.set_download_hdf5_button()
 
     def set_download_hdf5_button(self):
@@ -3077,18 +3643,28 @@ class SetHDF5Download():
             # set Download header
             st.markdown("## " + self.header)
 
-            st.download_button(
-                label="HDF5 Results",
-                file_name="hdf5_results.hdf5",
-                data=self.prepare_h5_file(),
-                mime="application/x-hdf",
-                help="Download your results."
-            )
+            if len(self.selected_data_sets) > 1:
+                st.error("Select only one file to download.")
+            else:
+
+                st.download_button(
+                    label="HDF5 Results",
+                    file_name=self.selected_data_sets[0],
+                    data=self.prepare_h5_file(),
+                    mime="application/x-hdf",
+                    help="Download your results."
+                )
 
     # Create hdf5 from numpy arrays, result cached to optimize software.
     # Cache cleared after generating new results (cf RunSimulation)
-    @st.cache_data
+
     def prepare_h5_file(_self):
+
+        
+        file_path = os.path.join(st.session_state.temp_dir,_self.selected_data_sets[0])
+
+        results = SetHDF5Upload().retrieve_h5_data(file_path)
+
 
         [
             log_messages,
@@ -3109,23 +3685,26 @@ class SetHDF5Download():
             electrolyte_potential,
             positive_electrode_potential
 
-            ] = _self.results
+            ] = results
 
 
         bio = io.BytesIO()
         # cf https://stackoverflow.com/questions/73157377/how-to-download-various-data-from-streamlit-to-hdf5-file-with-st-download-butto
 
         with h5py.File(bio, "w") as f:
-            f.attrs['number_of_states'] = number_of_states
-
+            f['number_of_states'] = number_of_states
+            f['log_messages'] = log_messages
             f.create_dataset("time_values", data=time_values)
             f.create_dataset("cell_voltage", data=cell_voltage)
             f.create_dataset("cell_current", data=cell_current)
 
             grids = f.create_group("grids")
             grids.create_dataset("negative_electrode_grid", data=negative_electrode_grid)
+            grids.create_dataset("negative_electrode_grid_bc", data=negative_electrode_grid_bc)
             grids.create_dataset("positive_electrode_grid", data=positive_electrode_grid)
+            grids.create_dataset("positive_electrode_grid_bc", data=positive_electrode_grid_bc)
             grids.create_dataset("electrolyte_grid", data=electrolyte_grid)
+            grids.create_dataset("electrolyte_grid_bc", data=electrolyte_grid_bc)
 
             concentrations = f.create_group("concentrations")
 
@@ -3141,46 +3720,265 @@ class SetHDF5Download():
 
             for i in range(number_of_states):
                 negative_electrode_concentrations.create_dataset(
-                    "ne_c_state_{}".format(i),
+                    "ne_c_state_{}".format(i+1),
                     data=np.array(negative_electrode_concentration[i], dtype=float)
                 )
                 positive_electrode_concentrations.create_dataset(
-                    "pe_c_state_{}".format(i),
+                    "pe_c_state_{}".format(i+1),
                     data=np.array(positive_electrode_concentration[i], dtype=float)
                 )
                 electrolyte_concentrations.create_dataset(
-                    "elyte_c_state_{}".format(i),
+                    "elyte_c_state_{}".format(i+1),
                     data=np.array(electrolyte_concentration[i], dtype=float)
                 )
 
                 negative_electrode_potentials.create_dataset(
-                    "ne_p_state_{}".format(i),
+                    "ne_p_state_{}".format(i+1),
                     data=np.array(negative_electrode_potential[i], dtype=float)
                 )
                 positive_electrode_potentials.create_dataset(
-                    "pe_p_state_{}".format(i),
+                    "pe_p_state_{}".format(i+1),
                     data=np.array(positive_electrode_potential[i], dtype=float)
                 )
                 electrolyte_potentials.create_dataset(
-                    "elyte_p_state_{}".format(i),
+                    "elyte_p_state_{}".format(i+1),
                     data=np.array(electrolyte_potential[i], dtype=float)
                 )
 
         return bio
 
+class SetHDF5Upload():
+    def __init__(self):
+        self.header = "Upload your data file"
+        self.upload_folder_path = app_access.get_path_to_uploaded_hdf5_files_dir()
 
+    def set_results_uploader(self):
+
+        with st.sidebar:
+            st.markdown("## " + self.header)
+            uploaded_file = st.file_uploader("Upload your HDF5 results file.",type='hdf5', label_visibility="collapsed",accept_multiple_files = True)
+
+        if uploaded_file:
+            if isinstance(uploaded_file, list) and len(uploaded_file) > 1:
+                names = []
+                for i, data in enumerate(uploaded_file):
+                    file_path = os.path.join(st.session_state['temp_dir'], data.name)
+                    with open(file_path, "wb") as f:
+                        f.write(data.getbuffer())
+                    names.append(data.name)
+                    
+                st.success(f"""Files are saved with names {names}. \n\n
+
+                                All results are stored temporarily and will be deleted on refreshing or closing the browser.
+                """)
+            
+            else:
+                file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
+                with open(file_path, "wb") as f:
+                    f.write(uploaded_file[0].getbuffer())
+                
+                st.success(f"""File is saved with name {uploaded_file[0].name}.
+                           
+                           All results are stored temporarily and will be deleted on refreshing or closing the browser.
+                           
+                           """)
+            
+            st.session_state.hdf5_upload = True
+
+        
+
+    def retrieve_h5_data(self, uploaded_file):
+        results = []
+
+        with h5py.File(uploaded_file, "r") as f:
+
+            number_of_states = int(f['number_of_states'][()])
+
+            time_values = np.array(f['time_values'][:])
+            cell_voltage = np.array(f['cell_voltage'][:])
+            cell_current = np.array(f['cell_current'][:])
+
+            negative_electrode_grid = np.array(f['grids/negative_electrode_grid'][:])
+            negative_electrode_grid_bc = np.array(f['grids/negative_electrode_grid_bc'][()])
+            positive_electrode_grid = np.array(f['grids/positive_electrode_grid'][:])
+            positive_electrode_grid_bc = np.array(f['grids/positive_electrode_grid_bc'][()])
+            electrolyte_grid = np.array(f['grids/electrolyte_grid'][:])
+            electrolyte_grid_bc = np.array(f['grids/electrolyte_grid_bc'][()])
+
+            negative_electrode_concentration = []
+            positive_electrode_concentration = []
+            electrolyte_concentration = []
+
+            negative_electrode_potential = []
+            positive_electrode_potential = []
+            electrolyte_potential = []
+
+            for i in range(number_of_states):
+                ne_conc = np.array(f[f'concentrations/negative_electrode/ne_c_state_{i+1}'][()])
+                pe_conc = np.array(f[f'concentrations/positive_electrode/pe_c_state_{i+1}'][()])
+                elyte_conc = np.array(f[f'concentrations/electrolyte/elyte_c_state_{i+1}'][()])
+
+                ne_pot = np.array(f[f'potentials/negative_electrode/ne_p_state_{i+1}'][()])
+                pe_pot = np.array(f[f'potentials/positive_electrode/pe_p_state_{i+1}'][()])
+                elyte_pot = np.array(f[f'potentials/electrolyte/elyte_p_state_{i+1}'][()])
+
+                negative_electrode_concentration.append(ne_conc)
+                positive_electrode_concentration.append(pe_conc)
+                electrolyte_concentration.append(elyte_conc)
+
+                negative_electrode_potential.append(ne_pot)
+                positive_electrode_potential.append(pe_pot)
+                electrolyte_potential.append(elyte_pot)
+
+            results = [
+                f['log_messages'][:].tolist() if 'log_messages' in f else [],
+                number_of_states,
+                cell_voltage,
+                cell_current,
+                time_values,
+                negative_electrode_grid,
+                negative_electrode_grid_bc,
+                electrolyte_grid,
+                electrolyte_grid_bc,
+                positive_electrode_grid,
+                positive_electrode_grid_bc,
+                negative_electrode_concentration,
+                electrolyte_concentration,
+                positive_electrode_concentration,
+                negative_electrode_potential,
+                electrolyte_potential,
+                positive_electrode_potential
+            ]
+
+        return results
+
+class SetDataSetSelector():
+    def __init__(self):
+        self.header = "Select data to visualize/compare"
+        self.session_temp_folder = st.session_state["temp_dir"]
+
+    def set_selector(self):
+
+
+        with st.sidebar:
+
+            # Remember user changed values when switching between pages
+            for k, v in st.session_state.items():
+                st.session_state[k] = v
+
+
+            st.markdown("## " + self.header)
+
+            file_names = [f for f in os.listdir(self.session_temp_folder) if os.path.isfile(os.path.join(self.session_temp_folder, f))]
+            selected = st.multiselect(label="Select data",options= list(file_names), label_visibility="collapsed",default = st.session_state["selected_data"])
+            st.session_state["selected_data"] = selected
+        return  selected
 
 class SetGraphs():
     """
     Used to render the graphs on the Results page.
     """
-    def __init__(_self,results):
+    def __init__(_self,results,selected_data_sets):
 
         _self.header = "Visualize results"
         _self.dashboard_header = "Dynamic dashboard"
+        _self.selected_data_sets = selected_data_sets
         _self.results = results
 
-        [
+
+        _self.set_graphs()
+
+    def set_graphs(_self):
+
+
+        #dynamic, colormaps = _self.set_graph_toggles()
+
+        #if dynamic:
+
+        st.markdown("# " + _self.dashboard_header)
+
+        st_space(space_number=1, space_width= 3 )
+
+        _self.structure_results()
+
+        _self.set_dynamic_dashboard()
+
+        #if colormaps:
+        # _self.set_colormaps()
+
+    def structure_results(_self):
+
+        if isinstance(_self.selected_data_sets,list) and len(_self.selected_data_sets) >1:
+            _self.log_messages = []
+            _self.number_of_states = []
+            _self.cell_voltage = []
+            _self.cell_current = []
+            _self.time_values = []
+            _self.negative_electrode_grid = []
+            _self.negative_electrode_grid_bc = []
+            _self.electrolyte_grid = []
+            _self.electrolyte_grid_bc = []
+            _self.positive_electrode_grid = []
+            _self.positive_electrode_grid_bc = []
+            _self.negative_electrode_concentration = []
+            _self.electrolyte_concentration = []
+            _self.positive_electrode_concentration = []
+            _self.negative_electrode_potential = []
+            _self.electrolyte_potential = []
+            _self.positive_electrode_potential = []
+
+            for i,result in enumerate(_self.results):
+
+
+                [
+                log_messages,
+                number_of_states,
+                cell_voltage,
+                cell_current,
+                time_values,
+                negative_electrode_grid,
+                negative_electrode_grid_bc,
+                electrolyte_grid,
+                electrolyte_grid_bc,
+                positive_electrode_grid,
+                positive_electrode_grid_bc,
+                negative_electrode_concentration,
+                electrolyte_concentration,
+                positive_electrode_concentration,
+                negative_electrode_potential,
+                electrolyte_potential,
+                positive_electrode_potential
+                ] = result
+
+                def array_and_transpose(data):
+                    data = np.array(data)
+                    if data.ndim > 1:
+                        if len(data[0]) > len(data[:,0]):
+                            data = np.transpose(data)
+
+                    return data
+
+                _self.log_messages.append(log_messages)
+                _self.number_of_states.append(array_and_transpose(number_of_states))
+                _self.cell_voltage.append(array_and_transpose(cell_voltage))
+                _self.cell_current.append(array_and_transpose(cell_current))
+                _self.time_values.append(array_and_transpose(time_values))
+                _self.negative_electrode_grid.append(array_and_transpose(negative_electrode_grid))
+                _self.negative_electrode_grid_bc.append(array_and_transpose(negative_electrode_grid_bc))
+                _self.electrolyte_grid.append(array_and_transpose(electrolyte_grid))
+                _self.electrolyte_grid_bc.append(array_and_transpose(electrolyte_grid_bc))
+                _self.positive_electrode_grid.append(array_and_transpose(positive_electrode_grid))
+                _self.positive_electrode_grid_bc.append(array_and_transpose(positive_electrode_grid_bc))
+                _self.negative_electrode_concentration.append(array_and_transpose(negative_electrode_concentration))
+                _self.electrolyte_concentration.append(array_and_transpose(electrolyte_concentration))
+                _self.positive_electrode_concentration.append(array_and_transpose(positive_electrode_concentration))
+                _self.negative_electrode_potential.append(array_and_transpose(negative_electrode_potential))
+                _self.electrolyte_potential.append(array_and_transpose(electrolyte_potential))
+                _self.positive_electrode_potential.append(array_and_transpose(positive_electrode_potential))
+
+        else:
+    
+            [
             _self.log_messages,
             _self.number_of_states,
             _self.cell_voltage,
@@ -3198,41 +3996,14 @@ class SetGraphs():
             _self.negative_electrode_potential,
             _self.electrolyte_potential,
             _self.positive_electrode_potential
+            ] = _self.results
 
-        ] = results
-
-
-        _self.set_graphs()
-
-    def set_graphs(_self):
-
-        ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
-
-        #Remember widget actions when switching between pages (for example: selectbox choice)
-        st.session_state.update(st.session_state)
-        ##############################
-        
-        #dynamic, colormaps = _self.set_graph_toggles()
-
-        #if dynamic:
-       
-        st.markdown("# " + _self.dashboard_header)
-
-        st_space(space_number=1, space_width= 3 )
-
-        _self.set_dynamic_dashboard()
-
-        #if colormaps:
-        _self.set_colormaps()
 
     def set_graph_toggles(_self):
-        
+
         #dash, color = st.columns((2,5))
         with st.sidebar:
-            
+
 
             display_dynamic_dashboard = st.toggle(
                 label="Dynamic dashboard",
@@ -3245,15 +4016,23 @@ class SetGraphs():
                 value=False
             )
 
-        
+
 
         #st.divider()
         return display_dynamic_dashboard, display_colormaps
-    
+
     def set_dynamic_dashboard(_self):
+
+        if isinstance(_self.selected_data_sets,list) and len(_self.selected_data_sets) > 1:
+            time_values = _self.find_max_length_array_x_axis(_self.time_values)
+            
+        else:
+            time_values = _self.time_values
+
+        
+        max_time_value = max(time_values)
         init_time_value = 0.0
-        max_time_value = max(_self.time_values)
-        step_size = _self.get_min_difference()
+        step_size = _self.get_min_difference(time_values)
         selected_time = st.slider(
             key = "DynamicDashboard",
             label="Select a time (hours)",
@@ -3264,41 +4043,43 @@ class SetGraphs():
 
 
         state = 0
-        while _self.time_values[state] < selected_time:
+        time = time_values[state]
+        while time < selected_time:
             state += 1
+            time = time_values[state]
 
         _self.view_plots_static(state)
 
-    def set_colormaps(_self):
+    # def set_colormaps(_self):
         # Colormaps
 
 
-        with st.sidebar:
-            select = st.multiselect(label= "Select contour plots.",
-                                    options=["Negative electrode concentration", "Positive electrode concentration", 
-                                             "Negative electrode potential", "Positive electrode potential", 
-                                             "Electrolyte concentration", "Electrolyte potential" ],
-                                             key = "multi_contour_plots"
-                                             )
+        # with st.sidebar:
+        #     select = st.multiselect(label= "Select contour plots.",
+        #                             options=["Negative electrode concentration", "Positive electrode concentration",
+        #                                      "Negative electrode potential", "Positive electrode potential",
+        #                                      "Electrolyte concentration", "Electrolyte potential" ],
+        #                                      key = "multi_contour_plots"
+        #                                      )
 
-        #col1, col2= st.columns(2)
-        for choice in select:
-            if choice == "Negative electrode concentration":
-                st.plotly_chart(_self.get_ne_c_color())
-            if choice == "Positive electrode concentration":
-                st.plotly_chart(_self.get_pe_c_color())
-            if choice == "Negative electrode potential":
-                st.plotly_chart(_self.get_ne_p_color())
-            if choice == "Positive electrode potential":
-                st.plotly_chart(_self.get_pe_p_color())
-            if choice == "Electrolyte concentration":
-                st.plotly_chart(_self.get_elyte_c_color())
-            if choice == "Electrolyte potential":
-                st.plotly_chart(_self.get_elyte_p_color())
+        # #col1, col2= st.columns(2)
+        # for choice in select:
+        #     if choice == "Negative electrode concentration":
+        #         st.plotly_chart(_self.get_ne_c_color())
+        #     if choice == "Positive electrode concentration":
+        #         st.plotly_chart(_self.get_pe_c_color())
+        #     if choice == "Negative electrode potential":
+        #         st.plotly_chart(_self.get_ne_p_color())
+        #     if choice == "Positive electrode potential":
+        #         st.plotly_chart(_self.get_pe_p_color())
+        #     if choice == "Electrolyte concentration":
+        #         st.plotly_chart(_self.get_elyte_c_color())
+        #     if choice == "Electrolyte potential":
+        #         st.plotly_chart(_self.get_elyte_p_color())
 
 
     @st.cache_data
-    def get_elyte_p_color(_self):
+    def get_elyte_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.electrolyte_grid,
             y_data=_self.time_values,
@@ -3306,11 +4087,12 @@ class SetGraphs():
             title="Electrolyte - Potential",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Potential  /  V"
+            cbar_label="Potential  /  V",
+            horizontal_line=_self.time_values[state]
         )
 
     @st.cache_data
-    def get_elyte_c_color(_self):
+    def get_elyte_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.electrolyte_grid,
             y_data=_self.time_values,
@@ -3318,11 +4100,12 @@ class SetGraphs():
             title="Electrolyte - Liquid phase lithium concentration",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Concentration  /  mol . L-1"
+            cbar_label="Concentration  /  mol . L-1",
+            horizontal_line=_self.time_values[state]
         )
-    
+
     @st.cache_data
-    def get_pe_p_color(_self):
+    def get_pe_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.positive_electrode_grid,
             y_data=_self.time_values,
@@ -3330,11 +4113,12 @@ class SetGraphs():
             title="Positive Electrode - Potential",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Potential  /  V"
+            cbar_label="Potential  /  V",
+            horizontal_line=_self.time_values[state]
         )
-    
+
     @st.cache_data
-    def get_pe_c_color(_self):
+    def get_pe_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.positive_electrode_grid,
             y_data=_self.time_values,
@@ -3342,11 +4126,12 @@ class SetGraphs():
             title="Positive Electrode - Solid phase lithium concentration",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Concentration  /  mol . L-1"
+            cbar_label="Concentration  /  mol . L-1",
+            horizontal_line=_self.time_values[state]
         )
-    
+
     @st.cache_data
-    def get_ne_c_color(_self):
+    def get_ne_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.negative_electrode_grid,
             y_data=_self.time_values,
@@ -3354,12 +4139,13 @@ class SetGraphs():
             title="Negative Electrode - Solid phase lithium concentration",
             x_label="Position  / \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Concentration  /  mol . L-1"
+            cbar_label="Concentration  /  mol . L-1",
+            horizontal_line=_self.time_values[state]
         )
 
 
     @st.cache_data
-    def get_ne_p_color(_self):
+    def get_ne_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.negative_electrode_grid,
             y_data=_self.time_values,
@@ -3367,28 +4153,45 @@ class SetGraphs():
             title="Negative Electrode - Potential",
             x_label="Position  /  \u00B5m",
             y_label="Time  /  h",
-            cbar_label="Potential  /  V"
+            cbar_label="Potential  /  V",
+            horizontal_line=_self.time_values[state]
         )
-    
-    def create_colormap(_self,x_data, y_data, z_data, title, x_label, y_label, cbar_label):
 
-        
+    def create_colormap(_self,x_data, y_data, z_data, title, x_label, y_label, cbar_label, horizontal_line = None):
+
+
         x_data = np.squeeze(np.array(x_data))
         y_data = np.array(y_data)
 
         x_color, y_color = np.meshgrid(x_data, y_data)
 
         fig = go.Figure(data = go.Contour(
-                                    z=z_data, 
+                                    z=z_data,
                                     y=y_data,
                                     x = x_data,
-                                    colorbar=dict(title=cbar_label)
+                                    colorbar=dict(title=cbar_label),
                                     ))
         fig.update_layout(
             title=title,
             xaxis_title=x_label,
             yaxis_title=y_label
         )
+
+        if horizontal_line:
+            fig.add_shape(
+                type="line",
+                x0=0,  # x-coordinate of the start of the line
+                x1=1,  # x-coordinate of the end of the line (1 corresponds to 100% of the x-axis range)
+                y0=horizontal_line,  # y-coordinate of the line
+                y1=horizontal_line,  # y-coordinate of the line
+                xref='paper',  # x-reference to the plotting area (paper coordinates)
+                yref='y',  # y-reference to the y-axis
+                line=dict(
+                    color="grey",
+                    width=3,
+                    dash = "dash"
+                )
+            )
         # fig.update_yaxes(
         #     range=[0,1/crate[0]],  # sets the range of xaxis
         #     constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
@@ -3411,26 +4214,98 @@ class SetGraphs():
 
 
     @st.cache_data
-    def get_min_difference(_self):
+    def get_min_difference(_self, time_values):
         diff = []
-        n = len(_self.time_values)
+        n = len(time_values)
         for i in range(1, n):
-            diff.append(round(_self.time_values[i] - _self.time_values[i - 1], 5))
+            diff.append(round(time_values[i] - time_values[i - 1], 5))
         return float(min(diff))
     
-    def view_plots_static(_self,state):
+    def find_max_length_array_x_axis(self,arrays):
+
+        max_length = 0
+        max_array = None
+
+        # Find the maximum length
+        for index, array in enumerate(arrays):
+            if isinstance(array, np.ndarray):
+                current_length = array.shape[0] if len(array.shape) == 2 else len(array)
+            else:  # Handle lists
+                current_length = len(array) if isinstance(array, list) else 0
+
+            if current_length > max_length:
+                max_length = current_length
+                max_array = array
+
+        return max_array
+
+
     
+    def find_max_length_array_y_axis(self,arrays):
+        if not arrays:  # Check if the list is empty
+            return None, 0, -1
+
+        max_length_1 = 0
+        max_length_2 = 0
+        max_array = None
+        max_index = -1
+
+        # Find the maximum length
+        for index, array in enumerate(arrays):
+            if len(array.shape) == 1:
+                current_length_1 = len(array)
+                if current_length_1 > max_length_1:
+                    max_length_1 = current_length_1
+                    max_array = array
+                    max_index = index
+            else:
+                current_length_1 = len(array[:,0])
+                current_length_2 = len(array[0])
+
+                if current_length_1 > max_length_1:
+                    max_length_1 = current_length_1
+                    max_array = array
+                    max_index = index
+
+                if current_length_2 > max_length_2:
+                    max_length_2 = current_length_2
+                    max_array = array
+                    max_index = index
+                
+                
+    
+        # Extend smaller arrays with np.nan
+        for index, array in enumerate(arrays):
+            if len(array.shape) == 1:
+                if len(array) < max_length_1:
+                    arrays[index] = np.append(array, [np.nan] * (max_length_1 - len(array)))
+            elif len(array.shape) == 2:
+                if len(array[:,0]) < max_length_1:
+                    diff = max_length_1 - len(array[:,0])
+                    nan_array = np.full((diff, len(array[0])), np.nan)
+                    arrays[index] = np.vstack((array, nan_array))
+                if len(array[0]) < max_length_2:
+                    diff = max_length_2 - len(array[0])
+                    nan_array = np.full((len(array[:,0]), diff), np.nan)
+                    arrays[index] = np.hstack((arrays[index], nan_array))
+                    
+
+        return arrays
+
+
+    def view_plots_static(_self,state):
+
         initial_graph_limits = _self.get_graph_initial_limits()
         xmin = initial_graph_limits[0]
         xmax = initial_graph_limits[1]
         [
             cmax_elyte_sub,
             cmin_elyte_sub,
-            cmax_ne_sub, 
-            cmin_ne_sub, 
+            cmax_ne_sub,
+            cmin_ne_sub,
             cmax_pe_sub,
             cmin_pe_sub,
-            phimax_elyte_sub, 
+            phimax_elyte_sub,
             phimin_elyte_sub,
             phimax_ne_sub,
             phimin_ne_sub,
@@ -3451,13 +4326,35 @@ class SetGraphs():
         ] = _self.get_graph_limits_from_state(state)
 
         # Negative Electrode Concentration
-        length_grid_elyte = len(_self.electrolyte_grid)
-        length_grid_NE = len(_self.negative_electrode_grid)
-        negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
-        negative_electrode_concentration_ext[0:length_grid_NE] = np.squeeze(_self.negative_electrode_concentration)[state]
+        if isinstance(_self.electrolyte_grid[0],float):
+            length_grid_elyte = len(_self.electrolyte_grid)
+            length_grid_NE = len(_self.negative_electrode_grid)
+            number_of_datasets = None
+            negative_electrode_concentration_ext_list = np.full(length_grid_elyte, np.nan)
+            negative_electrode_concentration_ext_list[0:length_grid_NE] = np.squeeze(_self.negative_electrode_concentration)[state]
+            electrolyte_grid = _self.electrolyte_grid
+        else:
+            
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
+            number_of_datasets = len(_self.electrolyte_grid)
+            negative_electrode_concentration_ext_list = []
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            
+
+            _self.negative_electrode_concentration = _self.find_max_length_array_y_axis(_self.negative_electrode_concentration)
+            
+            
+            for i,dataset in enumerate(_self.negative_electrode_concentration):
+                length_grid_NE = len(dataset[0])
+                negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
+                
+                negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state]
+                negative_electrode_concentration_ext_list.append(negative_electrode_concentration_ext)
+
+
         ne_concentration = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=negative_electrode_concentration_ext,
+            x_data=electrolyte_grid,
+            y_data=negative_electrode_concentration_ext_list,
             title="Negative Electrode - Solid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
@@ -3470,9 +4367,24 @@ class SetGraphs():
         )
 
         # Electrolyte Concentration
+        if isinstance(_self.electrolyte_grid[0],float):
+            elyte_concentration_ext_list = _self.electrolyte_concentration[state]
+            electrolyte_grid = _self.electrolyte_grid
+            number_of_datasets = None
+
+        else:
+
+            elyte_concentration_ext_list = []
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+
+            _self.electrolyte_concentration = _self.find_max_length_array_y_axis(_self.electrolyte_concentration)
+
+
+            for i,dataset in enumerate(_self.electrolyte_concentration):
+                elyte_concentration_ext_list.append(dataset[state])
         elyte_concentration = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=_self.electrolyte_concentration[state],
+            x_data=electrolyte_grid,
+            y_data=elyte_concentration_ext_list,
             title="Electrolyte - Liquid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
@@ -3483,15 +4395,33 @@ class SetGraphs():
             y_min_sub = cmin_elyte_sub,
             y_max_sub = cmax_elyte_sub
         )
-        
+
         # Positive Electrode Concentration
-        length_grid_elyte = len(_self.electrolyte_grid)
-        length_grid_PE = len(_self.positive_electrode_grid)
-        positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
-        positive_electrode_concentration_ext[-length_grid_PE:] = np.squeeze(_self.positive_electrode_concentration)[state]
+        if isinstance(_self.electrolyte_grid[0],float):
+            length_grid_elyte = len(_self.electrolyte_grid)
+            length_grid_PE = len(_self.positive_electrode_grid)
+            number_of_datasets = None
+            positive_electrode_concentration_ext_list = np.full(length_grid_elyte, np.nan)
+            positive_electrode_concentration_ext_list[-length_grid_PE:] = np.squeeze(_self.positive_electrode_concentration)[state]
+            electrolyte_grid = _self.electrolyte_grid
+        else:
+
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            _self.positive_electrode_concentration = _self.find_max_length_array_y_axis(_self.positive_electrode_concentration)
+
+
+            positive_electrode_concentration_ext_list = []
+
+            for i,dataset in enumerate(_self.positive_electrode_concentration):
+                length_grid_PE = len(dataset[0])
+                positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
+                positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state]
+                positive_electrode_concentration_ext_list.append(positive_electrode_concentration_ext)
+
         pe_concentration = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=positive_electrode_concentration_ext,
+            x_data=electrolyte_grid,
+            y_data=positive_electrode_concentration_ext_list,
             title="Positive Electrode - Solid phase lithium concentration  /  mol . L-1",
             x_label="Position  /  \u00B5m",
             y_label="Concentration  /  mol . L-1",
@@ -3504,23 +4434,50 @@ class SetGraphs():
         )
 
         # Cell Current
+        if isinstance(_self.electrolyte_grid[0],float):
+            time_values_list = _self.time_values
+            vertical_line = _self.time_values[state]
+
+        else:
+            _self.cell_current = _self.find_max_length_array_y_axis(_self.cell_current)
+            time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
+            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
+
+
         cell_current_fig = _self.create_subplot(
-            x_data=_self.time_values,
+            x_data=time_values_list,
             y_data=_self.cell_current,
             title="Cell Current  /  A",
             x_label="Time  /  h",
             y_label="Cell Current  /  A",
-            vertical_line=_self.time_values[state]
+            vertical_line= vertical_line
         )
 
         # Negative Electrode Potential
-        length_grid_elyte = len(_self.electrolyte_grid)
-        length_grid_NE = len(_self.negative_electrode_grid)
-        negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
-        negative_electrode_potential_ext[0:length_grid_NE] = np.squeeze(_self.negative_electrode_potential)[state]
+
+        if isinstance(_self.electrolyte_grid[0],float):
+            length_grid_elyte = len(_self.electrolyte_grid)
+            length_grid_NE = len(_self.negative_electrode_grid)
+            number_of_datasets = None
+            negative_electrode_potential_ext_list = np.full(length_grid_elyte, np.nan)
+            negative_electrode_potential_ext_list[0:length_grid_NE] = np.squeeze(_self.negative_electrode_potential)[state]
+            electrolyte_grid = _self.electrolyte_grid
+        else:
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            _self.negative_electrode_potential = _self.find_max_length_array_y_axis(_self.negative_electrode_potential)
+
+            negative_electrode_potential_ext_list = []
+
+            for i,dataset in enumerate(_self.negative_electrode_potential):
+                length_grid_NE = len(dataset[0])
+                negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
+                negative_electrode_potential_ext[0:length_grid_NE] = dataset[state]
+                negative_electrode_potential_ext_list.append(negative_electrode_potential_ext)
+
         ne_potential = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=negative_electrode_potential_ext,
+            x_data=electrolyte_grid,
+            y_data=negative_electrode_potential_ext_list,
             title="Negative Electrode - Potential  /  V",
             x_label="Position  /  \u00B5m",
             y_label="Potential  /  V",
@@ -3533,9 +4490,23 @@ class SetGraphs():
         )
 
         # Electrolyte Potential
+        if isinstance(_self.electrolyte_grid[0],float):
+            elyte_potential_ext_list = _self.electrolyte_potential[state]
+            electrolyte_grid = _self.electrolyte_grid
+            number_of_datasets = None
+
+        else:
+            elyte_potential_ext_list = []
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            _self.electrolyte_potential = _self.find_max_length_array_y_axis(_self.electrolyte_potential)
+
+
+            for i,dataset in enumerate(_self.electrolyte_potential):
+                elyte_potential_ext_list.append(dataset[state])
+
         elyte_potential = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=_self.electrolyte_potential[state],
+            x_data=electrolyte_grid,
+            y_data=elyte_potential_ext_list,
             title="Electrolyte - Potential  /  V",
             x_label="Position  /  \u00B5m",
             y_label="Potential  /  V",
@@ -3548,13 +4519,30 @@ class SetGraphs():
         )
 
         # Positive Electrode Potential
-        length_grid_elyte = len(_self.electrolyte_grid)
-        length_grid_PE = len(_self.positive_electrode_grid)
-        positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
-        positive_electrode_potential_ext[-length_grid_PE:] = _self.positive_electrode_potential[state]
+        if isinstance(_self.electrolyte_grid[0],float):
+            length_grid_elyte = len(_self.electrolyte_grid)
+            length_grid_PE = len(_self.positive_electrode_grid)
+            number_of_datasets = None
+            positive_electrode_potential_ext_list = np.full(length_grid_elyte, np.nan)
+            positive_electrode_potential_ext_list[-length_grid_PE:] = np.squeeze(_self.positive_electrode_potential)[state]
+            electrolyte_grid = _self.electrolyte_grid
+        else:
+            length_grid_elyte = len(_self.find_max_length_array_x_axis(_self.electrolyte_grid))
+            electrolyte_grid = _self.find_max_length_array_y_axis(_self.electrolyte_grid)
+            _self.positive_electrode_potential = _self.find_max_length_array_y_axis(_self.positive_electrode_potential)
+
+
+            positive_electrode_potential_ext_list = []
+
+            for i,dataset in enumerate(_self.positive_electrode_potential):
+                length_grid_PE = len(dataset[0])
+                positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
+                positive_electrode_potential_ext[-length_grid_PE:]  = dataset[state]
+                positive_electrode_potential_ext_list.append(positive_electrode_potential_ext)
+
         pe_potential = _self.create_subplot(
-            x_data=_self.electrolyte_grid,
-            y_data=positive_electrode_potential_ext,
+            x_data=electrolyte_grid,
+            y_data=positive_electrode_potential_ext_list,
             title="Positive Electrode - Potential  /  V",
             x_label="Position  /  \u00B5m",
             y_label="Potential  /  V",
@@ -3564,17 +4552,28 @@ class SetGraphs():
             y_max=phimax_pe,
             y_min_sub = phimin_pe_sub,
             y_max_sub = phimax_pe_sub
-            
+
         )
 
         # Cell Voltage
+        if isinstance(_self.electrolyte_grid[0],float):
+            time_values_list = _self.time_values
+            vertical_line = _self.time_values[state]
+
+        else:
+
+            time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
+            _self.cell_voltage = _self.find_max_length_array_y_axis(_self.cell_voltage)
+            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
+
+
         cell_voltage_fig = _self.create_subplot(
-            x_data=_self.time_values,
+            x_data=time_values_list,
             y_data=_self.cell_voltage,
             title="Cell Voltage  /  V",
             x_label="Time  /  h",
             y_label = "Cell Voltage  /  V",
-            vertical_line=_self.time_values[state]
+            vertical_line=vertical_line
         )
 
         ######################
@@ -3607,62 +4606,149 @@ class SetGraphs():
         #             components.html(plotly_html, width=600, height=400)
 
 
-        with st.sidebar:
-            st.markdown("## " + _self.header)
-            select = st.multiselect(label= "Select line plots.",
-                                    options=["Cell current","Cell voltage", "Negative electrode concentration", 
-                                             "Positive electrode concentration", "Negative electrode potential", 
-                                             "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ],
-                                             default= "Cell voltage",
-                                             key = "multi_line_plots"
-                                             )
+        # with st.sidebar:
+        #     st.markdown("## " + _self.header)
+        #     select = st.multiselect(label= "Select line plots.",
+        #                             options=["Cell current","Cell voltage", "Negative electrode concentration",
+        #                                      "Positive electrode concentration", "Negative electrode potential",
+        #                                      "Positive electrode potential", "Electrolyte concentration", "Electrolyte potential" ],
+        #                                      default= "Cell voltage",
+        #                                      key = "multi_line_plots"
+        #                                      )
 
-        #col1, col2= st.columns(2)
-        for choice in select:
-            if choice == "Cell current":
-                st.plotly_chart(cell_current_fig, clear_figure=True)
-            if choice == "Cell voltage":
-                st.plotly_chart(cell_voltage_fig, clear_figure=True)
-            if choice == "Negative electrode concentration":
-                st.plotly_chart(ne_concentration, clear_figure=True)
-            if choice == "Positive electrode concentration":
-                st.plotly_chart(pe_concentration, clear_figure=True)
-            if choice == "Negative electrode potential":
-                st.plotly_chart(ne_potential, clear_figure=True)
-            if choice == "Positive electrode potential":
-                st.plotly_chart(pe_potential, clear_figure=True)
-            if choice == "Electrolyte concentration":
-                st.plotly_chart(elyte_concentration, clear_figure=True)
-            if choice == "Electrolyte potential":
-                st.plotly_chart(elyte_potential, clear_figure=True)
+        # #col1, col2= st.columns(2)
+        # for choice in select:
+        #     if choice == "Cell current":
+        #         st.plotly_chart(cell_current_fig, clear_figure=True)
+        #     if choice == "Cell voltage":
+        #         st.plotly_chart(cell_voltage_fig, clear_figure=True)
+        #     if choice == "Negative electrode concentration":
+        #         st.plotly_chart(ne_concentration, clear_figure=True)
+        #     if choice == "Positive electrode concentration":
+        #         st.plotly_chart(pe_concentration, clear_figure=True)
+        #     if choice == "Negative electrode potential":
+        #         st.plotly_chart(ne_potential, clear_figure=True)
+        #     if choice == "Positive electrode potential":
+        #         st.plotly_chart(pe_potential, clear_figure=True)
+        #     if choice == "Electrolyte concentration":
+        #         st.plotly_chart(elyte_concentration, clear_figure=True)
+        #     if choice == "Electrolyte potential":
+        #         st.plotly_chart(elyte_potential, clear_figure=True)
 
-        
-        
+        voltage,current = st.columns(2)
 
-        
-    
+        voltage.plotly_chart(cell_voltage_fig, clear_figure=True, use_container_width = True)
+        current.plotly_chart(cell_current_fig, clear_figure=True, use_container_width = True)
+
+        if number_of_datasets:
+
+            use_container_width = False
+            use_color_plots = None
+
+        else:
+            use_container_width = True
+            use_color_plots = True
+
+        with st.expander("Electrolyte"):
+
+            conc1,pot1 = st.tabs(["Concentration", "Potential"])
+
+            with conc1:
+                line1,color1 = st.columns(2)
+
+                line1.plotly_chart(elyte_concentration, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color1.plotly_chart(_self.get_elyte_c_color(state),use_container_width = use_container_width)
+
+            with pot1:
+                line2,color2 = st.columns(2)
+
+                line2.plotly_chart(elyte_potential, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color2.plotly_chart(_self.get_elyte_p_color(state),use_container_width = use_container_width)
+
+
+        with st.expander("Negative electrode"):
+
+            conc2,pot2 = st.tabs(["Concentration", "Potential"])
+            with conc2:
+                line3, color3 = st.columns(2)
+
+                line3.plotly_chart(ne_concentration, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color3.plotly_chart(_self.get_ne_c_color(state),use_container_width = use_container_width)
+            with pot2:
+                line4,color4 = st.columns(2)
+
+                line4.plotly_chart(ne_potential, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color4.plotly_chart(_self.get_ne_p_color(state),use_container_width = use_container_width)
+
+
+        with st.expander("Positive electrode"):
+
+            conc3,pot3 = st.tabs(["Concentration", "Potential"])
+            with conc3:
+                line5,color5 = st.columns(2)
+
+                line5.plotly_chart(pe_concentration, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color5.plotly_chart(_self.get_pe_c_color(state),use_container_width = use_container_width)
+
+            with pot3:
+                line6,color6 = st.columns(2)
+
+                line6.plotly_chart(pe_potential, clear_figure=True,use_container_width = use_container_width)
+                if use_color_plots:
+                    color6.plotly_chart(_self.get_pe_p_color(state),use_container_width = use_container_width)
+
+    @st.cache_data
+    def find_max(_self,data, state = None):
+            if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+                if state:
+                    maxi = max(np.max(array[state]) for array in data)
+                else:
+                    maxi = max(np.max(array) for array in data)
+            else:
+                if state:
+                    maxi = np.max(data[state])
+                else:   
+                    maxi = np.max(data)
+            return maxi
+
+    @st.cache_data
+    def find_min(_self,data, state = None):
+            if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+                mini = min(np.min(array) for array in data)
+            else:
+                mini = np.min(data)
+            return mini
+
+
     @st.cache_data
     def get_graph_initial_limits(_self):
-        xmin = min(_self.electrolyte_grid_bc)
-        xmax = max(_self.electrolyte_grid_bc)
 
-        cmax_elyte = max(_self.electrolyte_concentration[0])
-        cmin_elyte = min(_self.electrolyte_concentration[0])
+        xmin = _self.find_min(_self.electrolyte_grid_bc)
 
-        cmax_ne = max(_self.negative_electrode_concentration[0])
-        cmin_ne = min(_self.negative_electrode_concentration[0])
+        xmax = _self.find_max(_self.electrolyte_grid_bc)
 
-        cmax_pe = max(_self.positive_electrode_concentration[0])
-        cmin_pe = min(_self.positive_electrode_concentration[0])
+        cmax_elyte = _self.find_max(_self.electrolyte_concentration)
+        cmin_elyte = _self.find_min(_self.electrolyte_concentration)
 
-        phimax_elyte = max(_self.electrolyte_potential[0])
-        phimin_elyte = min(_self.electrolyte_potential[0])
+        cmax_ne = _self.find_max(_self.negative_electrode_concentration)
+        cmin_ne = _self.find_min(_self.negative_electrode_concentration)
 
-        phimax_ne = max(_self.negative_electrode_potential[0])
-        phimin_ne = min(_self.negative_electrode_potential[0])
+        cmax_pe = _self.find_max(_self.positive_electrode_concentration)
+        cmin_pe = _self.find_min(_self.positive_electrode_concentration)
 
-        phimax_pe = max(_self.positive_electrode_potential[0])
-        phimin_pe = min(_self.positive_electrode_potential[0])
+        phimax_elyte = _self.find_max(_self.electrolyte_potential)
+        phimin_elyte = _self.find_min(_self.electrolyte_potential)
+
+        phimax_ne = _self.find_max(_self.negative_electrode_potential)
+        phimin_ne = _self.find_min(_self.negative_electrode_potential)
+
+        phimax_pe = _self.find_max(_self.positive_electrode_potential)
+        phimin_pe = _self.find_min(_self.positive_electrode_potential)
 
         return [
             xmin,
@@ -3680,7 +4766,7 @@ class SetGraphs():
             phimax_pe,
             phimin_pe
         ]
-    
+
     @st.cache_data
     def get_graph_limits_from_state(_self,state):
         [
@@ -3700,23 +4786,23 @@ class SetGraphs():
             init_phimin_pe
         ] = _self.get_graph_initial_limits()
 
-        cmax_elyte_sub = max(_self.electrolyte_concentration[state])
-        cmin_elyte_sub = min(_self.electrolyte_concentration[state])
+        cmax_elyte_sub = _self.find_max(_self.electrolyte_concentration,state)
+        cmin_elyte_sub = _self.find_min(_self.electrolyte_concentration,state)
 
-        cmax_ne_sub = max(_self.negative_electrode_concentration[state])
-        cmin_ne_sub = min(_self.negative_electrode_concentration[state])
+        cmax_ne_sub = _self.find_max(_self.negative_electrode_concentration,state)
+        cmin_ne_sub = _self.find_min(_self.negative_electrode_concentration,state)
 
-        cmax_pe_sub = max(_self.positive_electrode_concentration[state])
-        cmin_pe_sub = min(_self.positive_electrode_concentration[state])
+        cmax_pe_sub = _self.find_max(_self.positive_electrode_concentration,state)
+        cmin_pe_sub = _self.find_min(_self.positive_electrode_concentration,state)
 
-        phimax_elyte_sub = max(_self.electrolyte_potential[state])
-        phimin_elyte_sub =min(_self.electrolyte_potential[state])
+        phimax_elyte_sub = _self.find_max(_self.electrolyte_potential,state)
+        phimin_elyte_sub = _self.find_min(_self.electrolyte_potential,state)
 
-        phimax_ne_sub = max(_self.negative_electrode_potential[state])
-        phimin_ne_sub = min(_self.negative_electrode_potential[state])
+        phimax_ne_sub = _self.find_max(_self.negative_electrode_potential,state)
+        phimin_ne_sub = _self.find_min(_self.negative_electrode_potential,state)
 
-        phimax_pe_sub = max(_self.positive_electrode_potential[state])
-        phimin_pe_sub = min(_self.positive_electrode_potential[state])
+        phimax_pe_sub = _self.find_max(_self.positive_electrode_potential,state)
+        phimin_pe_sub = _self.find_min(_self.positive_electrode_potential,state)
 
         cmax_elyte = max(init_cmax_elyte, cmax_elyte_sub)
         cmin_elyte = min(init_cmin_elyte, cmin_elyte_sub)
@@ -3741,11 +4827,11 @@ class SetGraphs():
         return [
             cmax_elyte_sub,
             cmin_elyte_sub,
-            cmax_ne_sub, 
-            cmin_ne_sub, 
+            cmax_ne_sub,
+            cmin_ne_sub,
             cmax_pe_sub,
             cmin_pe_sub,
-            phimax_elyte_sub, 
+            phimax_elyte_sub,
             phimin_elyte_sub,
             phimax_ne_sub,
             phimin_ne_sub,
@@ -3764,19 +4850,34 @@ class SetGraphs():
             phimax_pe,
             phimin_pe
         ]
-    
+
     def create_subplot(_self,x_data, y_data, title, x_label, y_label, x_min=None, y_min_sub=None, y_max_sub=None,x_max=None, y_min=None, y_max=None, vertical_line=None):
-        
-        # st.write(x_data)
-        # st.write(y_data)
-        fig = px.line(x=x_data, y=y_data)
+
+        # Create a DataFrame from the data
+        # df = pd.DataFrame({
+        #     "x": [x for sublist in x_data for x in sublist],
+        #     "y": [y for sublist in y_data for y in sublist],
+        #     "label": [label for label in _self.selected_data_sets for _ in range(len(x_data))]
+        # })
+        fig = go.Figure()
+
+        if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+
+            for i,x in enumerate(x_data):
+                trace_label = _self.selected_data_sets[i].rsplit('.', 1)[0]
+                fig.add_trace(go.Scatter(x=x, y=y_data[i], mode='lines', line=dict(width=5), name = trace_label))
+                # fig = px.line(x=x_data, y=y_data[i])
+
+        else:
+            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='lines', line=dict(width=5)))
+            
 
         fig.update_traces(line=dict(width=5))
 
         fig.update_layout(
             title=title,
             xaxis_title=x_label,
-            yaxis_title = y_label,
+            yaxis_title = y_label
             # xaxis = dict(range =[0, x_max]),
             # yaxis=dict(range=[0, y_max])
         )
@@ -3787,7 +4888,7 @@ class SetGraphs():
         if vertical_line:
              fig.add_vline(x=vertical_line, line_width=3, line_dash="dash", line_color = "grey")
              #ax.axvline(x=vertical_line, color='k', linestyle="dashed")
-        
+
         # fig, ax = plt.subplots()
 
 
@@ -3816,7 +4917,7 @@ class SetMaterialDescription():
     Used to render the 'Available materials' section on the Materials and models page
     """
     def __init__(self):
-    
+
 
         self.set_material_description()
 
@@ -3827,14 +4928,14 @@ class SetMaterialDescription():
         for k, v in st.session_state.items():
             st.session_state[k] = v
         ##############################
-            
+
         materials = db_helper.get_all_default_material()
 
         st.title("The available materials")
 
         display_names = []
         for material_values in materials:
-            
+
             material = material_values
             id,name,_,_,_,reference_name,reference,reference_link,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
             display_names.append(display_name)
@@ -3843,7 +4944,7 @@ class SetMaterialDescription():
         select = st.multiselect(label = "Materials",options = display_names, label_visibility="collapsed")
 
         for material_values in materials:
-            
+
             material = material_values
             id,name,_,_,_,reference_name,reference,reference_link,_,display_name,number_of_components,component_name_1,component_name_2,_,context_type,_,_,context_type_iri,_ = material
 
@@ -3858,33 +4959,33 @@ class SetMaterialDescription():
                             st.markdown("**Reference**:")
                             st.write("[{}]({})".format(reference, reference_link))
                         st.markdown("**Parameter values**:")
-                    
+
                         parameter_set_id = db_helper.get_parameter_set_id_by_name(name)
-                        
+
                         parameter_values = tuple(db_helper.extract_parameters_by_parameter_set_id(parameter_set_id))
-                        
+
                         for parameter in parameter_values:
-                            
+
                             id,parameter_name,_,template_parameter_id,value = parameter
 
                             template_parameter = db_helper.get_template_from_name(parameter_name)
-                            
+
                             template_parameter_id, template_parameter_name,_,_,_,_,template_context_type, template_context_type_iri,_,unit,unit_name,unit_iri,_,_,_,_,parameter_display_name = template_parameter
-                            
+
                             if template_parameter_name == "open_circuit_potential" or template_parameter_name == "conductivity" or template_parameter_name == "diffusion_coefficient":
-                        
+
                                 json_formatted_string = value.replace("'", '"')
                                 value_dict = json.loads(json_formatted_string)
                                 st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri))
-                                
+
                                 if "function" in value_dict:
 
-                                    st.markdown('''```<Julia> 
+                                    st.markdown('''```<Julia>
                                                 {}'''.format(value_dict["function"]))
                                     string_py = value_dict["function"].replace("^", "**")
 
-                                    
-                        
+
+
                                     fun = st.toggle(
                                         label = "Visualize function",
                                         key = "toggle_{}_{}".format(parameter_name, name)
@@ -3894,14 +4995,14 @@ class SetMaterialDescription():
                                             st.write("This material doesn't include the function yet.")
                                         else:
                                             st.latex(sp.latex(sp.sympify(string_py)))
-                                    
+
                                 else:
-                                    st.markdown('''```<Julia> 
+                                    st.markdown('''```<Julia>
                                                 {}'''.format(value_dict["functionname"]))
 
                             else:
 
-                                st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+ 
+                                st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+
                                             value + " / " + "[{}]({})".format(unit, unit_iri))
 
 

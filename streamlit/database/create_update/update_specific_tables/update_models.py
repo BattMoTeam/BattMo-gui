@@ -94,10 +94,11 @@ class UpdateModels:
 
         # Delete unused models which remain in the sql table
         deleted_types = []
-        for id_to_delete in existing_ids_to_be_deleted:
-            deleted_types.append(self.sql_model.get_name_from_id(id_to_delete))
-            self.sql_model.delete_by_id(id_to_delete)
-            #self.create_or_update_parameters(id_to_delete, {})  # trick to delete corresponding parameters
+        if existing_ids_to_be_deleted:
+            for id_to_delete in existing_ids_to_be_deleted:
+                deleted_types.append(self.sql_model.get_name_from_id(id_to_delete))
+                self.sql_model.delete_by_id(id_to_delete)
+                #self.create_or_update_parameters(id_to_delete, {})  # trick to delete corresponding parameters
 
         print("\n SQL tables model and model_parameters are up to date according to the resource file models.json")
         if updated_types:

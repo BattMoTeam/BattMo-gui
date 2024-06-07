@@ -36,8 +36,8 @@ class AppController:
     def run_simulation(self, gui_parameters):
         return view.RunSimulation(gui_parameters)
     
-    def divergence_check(self,error):
-        return view.DivergenceCheck(error)
+    def divergence_check(self,save_run,error):
+        return view.DivergenceCheck(save_run,error)
 
     def download_parameters(self,gui_parameters):
         return view.DownloadParameters(gui_parameters)
@@ -45,17 +45,23 @@ class AppController:
     def json_LD_to_BattMo(self, gui_dict):
         return view.match_json_LD.get_batt_mo_dict_from_gui_dict(gui_dict)
     
-    def set_indicators(self, page_name):
-        return view.SetIndicators(page_name)
+    def set_indicators(self, page_name, results_simulation=None):
+        return view.SetIndicators(page_name,results_simulation)
     
     def set_geometry_visualization(self,gui_parameters):
         return view.SetGeometryVisualization(gui_parameters)
     
-    def set_download_hdf5_button(self, results):
-        return view.SetHDF5Download(results)
+    def set_download_hdf5_button(self, results,selected_data_sets):
+        return view.SetHDF5Download(results,selected_data_sets)
     
-    def set_graphs(self, results):
-        return view.SetGraphs(results)
+    def set_graphs(self, results,selected_data_sets):
+        return view.SetGraphs(results,selected_data_sets)
+    
+    def set_hdf5_upload(self):
+        return view.SetHDF5Upload()
+    
+    def set_data_set_selector(self):
+        return view.SetDataSetSelector()
 
 
 #####################################
@@ -85,8 +91,8 @@ def set_model_description():
 def set_material_description():
     return view.SetMaterialDescription()
 
-def get_results_data():
-    return view.GetResultsData()
+def get_results_data(file_names):
+    return view.GetResultsData(file_names)
 
 def set_acknowlegent_info(col):
     return view.SetAcknowledgementInfo(col)

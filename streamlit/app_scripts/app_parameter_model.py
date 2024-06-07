@@ -19,6 +19,7 @@ sys.path.insert(0, path_to_streamlit_module)
 
 from database import db_helper
 
+
 class Materials(object):
     def __init__(self,id,name,display_name,context_type,context_type_iri,description, selected_value=None):
         
@@ -74,13 +75,13 @@ class TemplateParameter(object):
         self.display_name = " ".join(words)
 
     def add_option(self, option_id, option_details):
-        ("val=", option_details.value)
         self.options[option_id] = option_details
         if self.default_value is None:
             self.default_value = option_details.value
 
     def set_selected_value(self, value):
         self.selected_value = value
+
 
 class Material(Materials):
     def __init__(
@@ -136,7 +137,7 @@ class NumericalParameter(TemplateParameter):
 
         else:
             max_readable_value = 10000
-            min_readable_value = 0.001
+            min_readable_value = 0.0001
             is_readable = self.max_value < max_readable_value and self.min_value > min_readable_value
             self.format = "%g" if is_readable else "%.2e"
 
@@ -194,6 +195,16 @@ class FunctionParameter(TemplateParameter):
         super().__init__(id, name, template_id, type, is_shown_to_user, description)
 
 
+
+
+    #     self.set_display_name()
+
+    # def set_display_name(self):
+    #     if self.display_name is None:
+    #         self.display_name = self.parameter_set
+
+
+
 class Option_material(object):
     def __init__(self,parameter_set_name=None, parameter_set_display_name=None,parameters=None,parameter_ids=None, parameter_names=None,parameter_values=None, parameter_display_names=None,parameter_set_id =None):
         self.display_name = parameter_set_display_name
@@ -212,12 +223,6 @@ class Option_parameter(object):
         self.parameter_set = parameter_set
         self.parameter_display_name = parameter_display_name
         self.parameter_name = parameter_name
-
-    #     self.set_display_name()
-
-    # def set_display_name(self):
-    #     if self.display_name is None:
-    #         self.display_name = self.parameter_set
 
 class FormatParameters:
 
@@ -240,12 +245,14 @@ class FormatParameters:
         # initialize from template parameters
         formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
+
     
         #if np.ndim(parameter_sets)> 1:
         
 
         material_display_names = []
         index_set = 0
+
         for parameter_set in parameter_sets:
             parameter_set_id, \
             parameter_set, \
@@ -255,19 +262,22 @@ class FormatParameters:
            
             material_display_name = db_helper.get_display_name_from_material_id(int(material_id))
             material_display_names.append(material_display_name)
-
+      
             raw_parameters_set = raw_parameters[index_set]
             
             # Create list with parameter set ids
+            
             raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
           
             parameter_ids = []
             parameter_names = []
             template_parameter_ids = []
             parameter_values = []
+            parameter_display_names = []
             
             index_set += 1
             index_parameter =0
+
             for parameter in raw_parameters_set:
             # get index of id
                 #parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
@@ -301,6 +311,7 @@ class FormatParameters:
                             formatted_value = int(value)
                         elif template_parameter.type == "float":
                             formatted_value = float(value)
+                            #formatted_value = self.custom_number_input(formatted_value)
                         else:
                             assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                                 parameter_id, template_parameter.type
@@ -319,6 +330,7 @@ class FormatParameters:
                     
                     values.append(formatted_value)
                     parameter_display_name = template_parameter.display_name
+                    parameter_display_names.append(parameter_display_name)
                     parameter_name = template_parameter.name
 
                     # each parameter has metadata from the "template", to which we add the options containing value and origin
@@ -357,7 +369,7 @@ class FormatParameters:
                 parameter_ids = parameter_ids,
                 parameter_names = parameter_names,
                 parameter_values=values,
-                parameter_display_names = parameter_display_name
+                parameter_display_names = parameter_display_names
                 
             )
             #template_parameter.set_selected_value(formatted_value)
@@ -366,9 +378,16 @@ class FormatParameters:
         return formatted_parameters, formatted_material,formatted_materials
 
 
-    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
-        
+    def custom_number_input(self,value):
+        if value != 0 and (abs(value) < 1e-3 or abs(value) >= 1e4):
+            format_str = "{:.2e}"  # Scientific notation with 2 decimal places
+        else:
+            format_str = "{:.2f}"  # Normal notation with 2 decimal places
+        return format_str.format(value)
 
+    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
+
+        
         if np.ndim(raw_parameters) > 1:
   
             # initialize from template parameters
@@ -390,6 +409,7 @@ class FormatParameters:
                             formatted_value = int(value)
                         elif template_parameter.type == "float":
                             formatted_value = float(value)
+                            #formatted_value = self.custom_number_input(formatted_value)
                         else:
                             assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                                 parameter_id, template_parameter.type
@@ -442,7 +462,7 @@ class FormatParameters:
                     formatted_value = int(value)
                 elif template_parameter.type == "float":
                     formatted_value = float(value)
-                   
+                    #formatted_value = self.custom_number_input(formatted_value)
                 else:
                     assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                         parameter_id, template_parameter.type
@@ -558,7 +578,6 @@ class FormatParameters:
 
     def initialize_parameters(self, raw_template_parameters):
         initialized_parameters = {}
-       
         if np.ndim(raw_template_parameters) > 1:
             
             for template_parameter in raw_template_parameters:
@@ -578,7 +597,7 @@ class FormatParameters:
                     min_value, \
                     is_shown_to_user, \
                     description,  \
-                    display_name = template_parameter
+                    display_name = np.squeeze(template_parameter)
                 
                 parameter_id = int(parameter_id)
 
@@ -646,6 +665,7 @@ class FormatParameters:
                 else:
                     assert False, "parameter_type={} is not handled. parameter_id={}".format(parameter_type, parameter_id)
         else:
+
             parameter_id, \
                 name, \
                 model_name, \
