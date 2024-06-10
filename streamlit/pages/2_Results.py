@@ -98,13 +98,13 @@ def run_page():
         #app_view.st_space(space_number=1)
         if selected_data_sets:
 
-            results = get_results_data(selected_data_sets).get_results_data(selected_data_sets)
+            results,indicators = get_results_data(selected_data_sets).get_results_data(selected_data_sets)
 
             if len(selected_data_sets) <= 1:
                 results = results[0]
+                indicators = indicators[0]
 
-            if st.session_state.success == True:
-                app.set_indicators(page_name, results)
+            app.set_indicators(page_name, indicators,selected_data_sets)
             
             app.set_graphs(results, selected_data_sets)
 
@@ -116,10 +116,9 @@ def run_page():
             st.session_state["selected_data"] = last_file_name
             selected_data_sets = last_file_name
             
-            results = get_results_data(last_file_name).get_results_data(last_file_name)
-            
-            if st.session_state.success == True:
-                app.set_indicators(page_name, results[0])
+            results,indicators = get_results_data(last_file_name).get_results_data(last_file_name)
+
+            app.set_indicators(page_name, indicators,last_file_name)
 
             app.set_graphs(results, selected_data_sets)
 
