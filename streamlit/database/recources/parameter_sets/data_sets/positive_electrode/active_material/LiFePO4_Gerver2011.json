@@ -6,7 +6,6 @@
     "Parameters": {
        "maximum_concentration": 21200,
        "particle_radius": 5e-07,
-       "density": 991,
        "electronic_conductivity": 0.80,
        "volumetric_surface_area": 4418460,
        "number_of_electrons_transferred": 1,

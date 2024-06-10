@@ -1055,7 +1055,7 @@ class SetTabs:
 
 
 
-                material_formatted_parameters,formatted_materials, selected_value_id, component_parameters_, emmo_relation, density = self.fill_material_components(component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters,density)
+                material_formatted_parameters,formatted_materials, selected_value_id, component_parameters_, emmo_relation, density = self.fill_material_components(component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters,density,tab)
 
                 component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
                 component_parameters = self.LD.setup_sub_dict(display_name=material_comp_display_name,context_type=material_comp_context_type, existence="new")
@@ -1801,7 +1801,7 @@ class SetTabs:
             pass
 
 
-    def fill_material_components(self,component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density, emmo_relation = None):
+    def fill_material_components(self,component_name,component_parameters,component_parameters_,material_comp_default_template_id,material_component_id,material_col,material_comp_display_name,material_comp_context_type_iri,material_component,category_parameters, density,tab, emmo_relation = None):
 
         material_parameter_sets = []
 
@@ -1843,6 +1843,7 @@ class SetTabs:
             ind +=1
 
         material_raw_template_parameters = material_raw_template_parameters[0]
+        all_basis_material_raw_template_parameters = db_helper.get_all_basis_material_by_template_id(material_comp_default_template_id,self.model_name)
        # material_raw_parameters = tuple(material_raw_parameters)
         # format all those parameters: use template parameters for metadata, and parameters for values.
         # all information is packed in a single python object
@@ -1868,33 +1869,146 @@ class SetTabs:
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
 
-        db_helper.reset_material_template_parameters(material_comp_default_template_id)
+        # db_helper.reset_material_template_parameters(material_comp_default_template_id)
 
 
         if formatted_component:
 
             material_choice = formatted_component.options.get(selected_value_id)
             material_parameter_set_id = material_choice.parameter_set_id
+            material = material_choice.display_name
 
             parameter_ids = material_choice.parameter_ids
             parameters = material_choice.parameters
 
-            for parameter_id in parameters:
+            template_parameter_ids = []
+            excluded_template_parameter_ids = []
+            for template_parameter in all_basis_material_raw_template_parameters:
 
-                parameter = parameters.get(parameter_id)
-                set_parameter = parameter.options.get(material_parameter_set_id)
-                template_parameter_id = parameter.id
+                id,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = template_parameter
 
-                if set_parameter:
-                    parameter.set_selected_value(set_parameter.value)
-                    component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+                for parameter_id in parameters:
 
-                    db_helper.set_material_template_parameters_to_basis_by_id(template_parameter_id)
+                    parameter = parameters.get(parameter_id)
+                    set_parameter = parameter.options.get(material_parameter_set_id)
+                    template_parameter_id = parameter.id
 
-
-                if parameter.name == "density" and density != None:
                     if set_parameter:
-                        density[material_component_id] = set_parameter.value
+                        parameter.set_selected_value(set_parameter.value)
+                        component_parameters_ = self.LD.setup_parameter_struct(parameter, component_parameters=component_parameters_)
+
+                        template_parameter_ids.append(template_parameter_id)
+                
+                    if parameter.name == "density" and density != None:
+                        if set_parameter:
+                            density[material_component_id] = set_parameter.value
+                            
+                if id not in template_parameter_ids:
+                    excluded_template_parameter_ids.append(id)
+                
+                
+
+                
+            if excluded_template_parameter_ids:
+
+                expander_missing_parameters = tab.expander(label="Define {} missing material parameters".format(material))
+                
+                with expander_missing_parameters:
+                    
+                    for i,ex_id in enumerate(excluded_template_parameter_ids):
+                    
+                        template_parameter = db_helper.get_parameter_by_template_parameter_id(ex_id)
+                        id,par_name,_,_,_,_,context_type,context_type_iri,type,unit,_,unit_iri,max_value,min_value,_,_,par_display_name = template_parameter
+
+                        raw_parameters = db_helper.get_parameter_from_template_parameter_id(ex_id)
+                        material_display_names = []
+                        material_values = []
+                        for raw_parameter in raw_parameters:
+                            id,name,material_parameter_set_id,_,value = raw_parameter
+                            material_name = db_helper.get_parameter_set_name_from_id(material_parameter_set_id)
+                            material_display_name  = db_helper.get_material_display_name_from_name(material_name[0])
+                            
+                            if material_display_name:   
+                                material_display_names.append(material_display_name[0][0])
+                            else:
+                                material_display_names.append("Default")
+                            material_values.append(value)
+                            
+
+                        st.write("[{}]({})".format(par_name, context_type_iri) + " / " + "[{}]({})".format(unit,unit_iri))
+                        select_col,value_col = st.columns(2)
+
+
+                        key_select = "select_{}_{}_{}".format(material_component_id, parameter_id,material_parameter_set_id)
+                        if key_select not in st.session_state:
+                            st.session_state[key_select] = 0
+
+
+                        key_input_number = "input_number_{}_{}_{}".format(material_component_id, parameter_id,material_parameter_set_id)
+                        if key_input_number not in st.session_state:
+                            st.session_state[key_input_number] = None
+                        
+                        # if not isinstance(material_display_names, list):
+                        #     material_display_names = [material_display_names]
+
+                        st.write(material_display_names)
+
+                        if isinstance(material_display_names, str):
+                            st.session_state[key_select] = None
+                        st.write(st.session_state[key_select])
+                        selected_parameter_set = select_col.selectbox(
+                            label=par_display_name,
+                            options= material_display_names,
+                            index = st.session_state[key_select],
+                            key= key_select,
+                            label_visibility="collapsed",
+                        )
+                        
+                        index = 0
+
+
+                        st.write(selected_parameter_set)
+                        for raw_parameter in raw_parameters:
+                            id,name,material_parameter_set_id,_,value = raw_parameter
+                            if selected_parameter_set == material_display_names[index]:
+                                material_value = material_values[index]
+                                st.session_state[key_select] = index
+                                st.session_state[key_input_number] = material_value
+
+
+                            index += 1
+
+
+                        
+                        if isinstance(material_value, float) or isinstance(material_value, int):
+                                
+
+                            user_input = value_col.number_input(
+                                label=par_name,
+                                value=st.session_state[key_input_number],
+                                min_value=min_value,
+                                max_value=max_value,
+                                key=key_input_number,
+                                # format=parameter.format,
+                                format = self.set_format(material_value),
+                                #step=parameter.increment,
+                                label_visibility="collapsed"
+                            )
+
+                        else:
+                                user_input = value_col.text_input(
+                                    label=par_name,
+                                    value=st.session_state[key_input_number],
+                                    key="input_number_{}_{}_{}".format(material_component_id, par_name,material_parameter_set_id),
+                                    label_visibility="collapsed",
+                                )
+
+                        if par_name == "density" and density != None:
+                            st.write(user_input)
+                            density[material_component_id] = user_input
+
+
+                
 
 
 

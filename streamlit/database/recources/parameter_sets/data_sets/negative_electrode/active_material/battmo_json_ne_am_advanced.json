@@ -9,7 +9,6 @@
       "diffusion_pre_exponential_factor": 3.9e-14,
       "particle_radius": 1e-6,
       "number_of_discrete_cells_particle_radius": 10,
-      "specific_heat_capacity": 632,
       "thermal_conductivity": 1.04,
       "density": 2260.0,
       "number_of_electrons_transferred": 1,

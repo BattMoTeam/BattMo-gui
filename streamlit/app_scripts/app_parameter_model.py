@@ -386,7 +386,6 @@ class FormatParameters:
         return format_str.format(value)
 
     def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
-
         
         if np.ndim(raw_parameters) > 1:
   

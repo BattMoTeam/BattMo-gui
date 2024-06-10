@@ -301,6 +301,13 @@ def get_material_id_by_parameter_set_name(name):
         print(res)
         return [a[0] for a in res][0]
 
+@st.cache_data
+def get_material_display_name_from_name(name):
+    res = sql_material().select(
+        values="display_name",
+        where="name='%s'" % name
+    )
+    return res
 
 @st.cache_data
 def get_material_id_by_display_name(name):
@@ -333,6 +340,14 @@ def get_all_default_material():
 def get_parameter_id_from_template_parameter_and_parameter_set(template_parameter_id, parameter_set_id):
     return sql_parameter().get_id_from_template_parameter_id_and_parameter_set_id(template_parameter_id, parameter_set_id)
 
+@st.cache_data
+def get_parameter_from_template_parameter_id(template_parameter_id):
+    res = sql_parameter().select(
+        values= "*",
+        where="template_parameter_id = '%d'" % int(template_parameter_id)
+    )
+    return res
+
 
 #####################################
 # PARAMETER SET
@@ -354,6 +369,13 @@ def get_all_material_parameter_sets_by_component_id(component_id):
 def extract_parameters_by_parameter_set_id(parameter_set_id):
     return sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
 
+@st.cache_data
+def get_parameter_set_name_from_id(id):
+    res = sql_parameter_set().select(
+        values = 'name',
+        where = "id = %d" % id
+    )
+    return res[0]
 
 @st.cache_data
 def get_parameter_set_id_by_name(name):
@@ -552,7 +574,7 @@ def get_parameter_by_template_parameter_id(template_parameter_id):
         return sql_template_parameter().select(
             values='*',
             where="id={}".format(template_parameter_id)
-        )
+        )[0]
 
 
 def reset_material_template_parameters(template_id):
@@ -573,6 +595,13 @@ def get_all_material_by_template_id(template_id,model_name):
         return sql_template_parameter().select(
             values='*',
             where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%'".format(template_id,"material",model_name)
+        )
+
+@st.cache_data
+def get_all_basis_material_by_template_id(template_id,model_name):
+        return sql_template_parameter().select(
+            values='*',
+            where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis'".format(template_id,"material",model_name)
         )
 
 def get_mf_template_by_template_id(template_id):
