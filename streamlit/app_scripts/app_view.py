@@ -147,9 +147,9 @@ class SetPageNavigation:
     def set_page_buttons(self):
 
         _,col1,_ = st.columns(3)
-        st_space(space_width=6)
+        #st_space(space_width=6)
         _,col2,_ = st.columns(3)
-        st_space(space_width=6)
+        #st_space(space_width=6)
         _,col3,col4 = st.columns(3)
         st_space(space_width=6)
 
@@ -484,7 +484,7 @@ class SetupLinkedDataStruct():
 
         except Exception as e:
             #st.error("An error occurred 1: {}".format(e))
-            category_parameters = []
+            
 
             try:
                 parameter_id, \
@@ -527,7 +527,7 @@ class SetupLinkedDataStruct():
                     "@type": "emmo:"+unit_name
                 }
 
-                category_parameters.append(parameter_details)
+                component_parameters.append(parameter_details)
             except Exception as e:
                 st.error("An error occurred 2: {}".format(e))
 
@@ -535,7 +535,7 @@ class SetupLinkedDataStruct():
                 st.error("This instance of parameter is not handled: {}".format(type(parameter)))
                 st.info(NumericalParameter)
 
-            return category_parameters
+            return component_parameters
 
 
     @st.cache_data
@@ -603,6 +603,20 @@ class SetupLinkedDataStruct():
 
         return dict
 
+
+def set_select(raw_parameters, material_display_names, material_values, material_component_id, id):
+    key_input_number = "input_number_{}_{}".format(material_component_id, id)
+    key_select = "select_{}_{}".format(material_component_id, id)
+
+    selected_parameter_set = st.session_state[key_select]
+    index = material_display_names.index(selected_parameter_set)
+
+    if index >= 0:
+        material_value = material_values[index]
+        st.session_state[key_input_number] = material_value
+        
+def set_number_input(material_component_id,id):
+    pass
 
 class SetTabs:
     """
@@ -1918,96 +1932,94 @@ class SetTabs:
                     for i,ex_id in enumerate(excluded_template_parameter_ids):
                     
                         template_parameter = db_helper.get_parameter_by_template_parameter_id(ex_id)
-                        id,par_name,_,_,_,_,context_type,context_type_iri,type,unit,_,unit_iri,max_value,min_value,_,_,par_display_name = template_parameter
+                        id,par_name,_,_,_,_,context_type,context_type_iri,par_type,unit,_,unit_iri,max_value,min_value,_,_,par_display_name = template_parameter
 
                         raw_parameters = db_helper.get_parameter_from_template_parameter_id(ex_id)
                         material_display_names = []
                         material_values = []
                         for raw_parameter in raw_parameters:
                             id,name,material_parameter_set_id,_,value = raw_parameter
+                            
+                            # if par_type == "float":
+                            #     value = float(value)
+                            #     min_value = float(min_value)
+                            #     max_value = float(max_value)
+
+                            # elif par_type == "int":
+                            #     value = int(value)
+                            #     min_value = int(min_value)
+                            #     max_value = int(max_value)
+
                             material_name = db_helper.get_parameter_set_name_from_id(material_parameter_set_id)
                             material_display_name  = db_helper.get_material_display_name_from_name(material_name[0])
+
+
                             
-                            if material_display_name:   
-                                material_display_names.append(material_display_name[0][0])
+
+                            if material_display_name:
+                                if material_display_name[0][0] == "User defined": 
+                                    pass
+                                else:  
+                                    material_display_names.append(material_display_name[0][0])
                             else:
                                 material_display_names.append("Default")
+
                             material_values.append(value)
                             
 
                         st.write("[{}]({})".format(par_name, context_type_iri) + " / " + "[{}]({})".format(unit,unit_iri))
                         select_col,value_col = st.columns(2)
 
+                        key_select = "select_{}_{}".format(material_component_id, id)
+                        key_input_number = "input_number_{}_{}".format(material_component_id, id)
 
-                        key_select = "select_{}_{}_{}".format(material_component_id, parameter_id,material_parameter_set_id)
                         if key_select not in st.session_state:
-                            st.session_state[key_select] = 0
+                            st.session_state[key_select] = material_display_names[-1]
 
-
-                        key_input_number = "input_number_{}_{}_{}".format(material_component_id, parameter_id,material_parameter_set_id)
                         if key_input_number not in st.session_state:
                             st.session_state[key_input_number] = None
-                        
-                        # if not isinstance(material_display_names, list):
-                        #     material_display_names = [material_display_names]
 
-                        st.write(material_display_names)
-
-                        if isinstance(material_display_names, str):
-                            st.session_state[key_select] = None
-                        st.write(st.session_state[key_select])
                         selected_parameter_set = select_col.selectbox(
                             label=par_display_name,
-                            options= material_display_names,
-                            index = st.session_state[key_select],
-                            key= key_select,
-                            label_visibility="collapsed",
+                            options=material_display_names,
+                            key=key_select,
+                            on_change=set_select,
+                            args=(raw_parameters, material_display_names, material_values, material_component_id, id),
+                            label_visibility="collapsed"
                         )
-                        
-                        index = 0
 
+                        index = material_display_names.index(selected_parameter_set)
+                        material_value = material_values[index]
 
-                        st.write(selected_parameter_set)
-                        for raw_parameter in raw_parameters:
-                            id,name,material_parameter_set_id,_,value = raw_parameter
-                            if selected_parameter_set == material_display_names[index]:
-                                material_value = material_values[index]
-                                st.session_state[key_select] = index
-                                st.session_state[key_input_number] = material_value
+                        if st.session_state[key_input_number] is None:
+                            st.session_state[key_input_number] = material_value
 
+                        user_input = value_col.text_input(
+                            label=par_display_name,
+                            value=st.session_state[key_input_number],
+                            # min_value=min_value,
+                            # max_value=max_value,
+                            key=key_input_number,
+                            on_change=set_number_input,
+                            args=(material_component_id, id),
+                            label_visibility="collapsed"
+                        )
 
-                            index += 1
-
-
-                        
-                        if isinstance(material_value, float) or isinstance(material_value, int):
-                                
-
-                            user_input = value_col.number_input(
-                                label=par_name,
-                                value=st.session_state[key_input_number],
-                                min_value=min_value,
-                                max_value=max_value,
-                                key=key_input_number,
-                                # format=parameter.format,
-                                format = self.set_format(material_value),
-                                #step=parameter.increment,
-                                label_visibility="collapsed"
-                            )
-
-                        else:
-                                user_input = value_col.text_input(
-                                    label=par_name,
-                                    value=st.session_state[key_input_number],
-                                    key="input_number_{}_{}_{}".format(material_component_id, par_name,material_parameter_set_id),
-                                    label_visibility="collapsed",
-                                )
+                        if user_input != st.session_state[key_input_number]:
+                            st.session_state[key_input_number] = user_input
 
                         if par_name == "density" and density != None:
                             st.write(user_input)
-                            density[material_component_id] = user_input
+                            density[material_component_id] = float(user_input)
 
+                        if par_type == "int":
+                            user_input = int(user_input)
+                        elif par_type == "float":
+                            user_input = float(user_input)
+                        else:
+                            user_input = str(user_input)
 
+                        component_parameters_ = self.LD.setup_parameter_struct(template_parameter, component_parameters=component_parameters_, value = user_input)
                 
 
 

@@ -29,8 +29,9 @@ def validate_mass_fraction(mf_sum,category_display_name,_tab):
 def calc_density_mix(mf, density):
         
     density_mix=0
+    
     for id, fraction in mf.items():
-        
+
         density_mix += fraction*density.get(id)
     
     return density_mix

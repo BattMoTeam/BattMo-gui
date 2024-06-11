@@ -33,7 +33,7 @@ def run_app():
     set_heading()
 
     app_view.st_space(space_width=3) 
-    app_view.st_space(space_width=3)
+
     #Set page navigation
     col = set_page_navigation()
 
