@@ -1170,7 +1170,6 @@ class SetTabs:
 
                 if parameter.options.get(selected_parameter_id):
 
-                    st_space(tab)
                     name_col, input_col = tab.columns([1, 2])
 
                     if isinstance(parameter, NumericalParameter):
@@ -2124,7 +2123,7 @@ class SetTabs:
                                 template_parameter_id=parameter.id,
                                 parameter_set_id=non_material_parameter_set_id
                             )
-                            st_space(tab_advanced)
+                            #st_space(tab_advanced)
                             name_col, input_col = tab_advanced.columns(2)
 
                             if isinstance(parameter, NumericalParameter):
