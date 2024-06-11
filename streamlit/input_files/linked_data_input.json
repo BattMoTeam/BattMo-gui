@@ -2293,7 +2293,7 @@
                         "@type": "echem:MaximumConcentration",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
+                           "hasNumericalData": 26390.0
                         },
                         "unit": {
                            "label": "MolePerCubicMetre",
@@ -2306,1858 +2306,12 @@
                         "@type": "echem:VolumetricSurfaceArea",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
+                           "hasNumericalData": 1878260.0
                         },
                         "unit": {
                            "label": "Metre",
                            "symbol": "m\u00b2m\u207b\u00b3",
                            "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "maximum_concentration",
-                        "@type": "echem:MaximumConcentration",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 21200.0
-                        },
-                        "unit": {
-                           "label": "MolePerCubicMetre",
-                           "symbol": "mol\u00b7m\u207b\u00b3",
-                           "@type": "emmo:MolePerCubicMetre"
-                        }
-                     },
-                     {
-                        "label": "volumetric_surface_area",
-                        "@type": "echem:VolumetricSurfaceArea",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 4418460.0
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m\u00b2m\u207b\u00b3",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "number_of_electrons_transferred",
-                        "@type": "emmo:NumberOfEntities",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 1
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_reaction",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 35000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
-                        }
-                     },
-                     {
-                        "label": "reaction_rate_constant",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 9.736e-07
-                        },
-                        "unit": {
-                           "label": "MolePerSquareMetrePerSecond",
-                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
-                           "@type": "emmo:MolePerSquareMetrePerSecond"
-                        }
-                     },
-                     {
-                        "label": "maximum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.0875
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "minimum_lithium_stoichiometry",
-                        "@type": "emmo:StoichiometricNumberOfSubstance",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.95038
-                        },
-                        "unit": {
-                           "label": "UnitOne",
-                           "symbol": "1",
-                           "@type": "emmo:UnitOne"
-                        }
-                     },
-                     {
-                        "label": "open_circuit_potential",
-                        "@type": "string",
-                        "value": {
-                           "@type": "emmo:String",
-                           "hasStringData": {
-                              "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-                              "argument_list": [
-                                 "c",
-                                 "cmax"
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "label": "particle_radius",
-                        "@type": "emmo:Radius",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 5e-07
-                        },
-                        "unit": {
-                           "label": "Metre",
-                           "symbol": "m",
-                           "@type": "emmo:Metre"
-                        }
-                     },
-                     {
-                        "label": "electronic_conductivity",
-                        "@type": "emmo:ElectricConductivity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.8
-                        },
-                        "unit": {
-                           "label": "SiemensPerMetre",
-                           "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
-                        }
-                     },
-                     {
-                        "label": "activation_energy_of_diffusion",
-                        "@type": "emmo:Energy",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
-                        },
-                        "unit": {
-                           "label": "JoulePerMole",
-                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -4165,12 +2319,1520 @@
                         "@type": "emmo:Density",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 4950.0
+                           "hasNumericalData": 991.0
                         },
                         "unit": {
                            "label": "GramPerCubicMetre",
                            "symbol": "kg\u00b7m\u207b\u00b3",
                            "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
+                        }
+                     },
+                     {
+                        "label": "maximum_concentration",
+                        "@type": "echem:MaximumConcentration",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 26390.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "volumetric_surface_area",
+                        "@type": "echem:VolumetricSurfaceArea",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1878260.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
+                        }
+                     },
+                     {
+                        "label": "density",
+                        "@type": "emmo:Density",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 991.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
+                        }
+                     },
+                     {
+                        "label": "number_of_electrons_transferred",
+                        "@type": "emmo:NumberOfEntities",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "activation_energy_of_reaction",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 4000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
+                        "label": "reaction_rate_constant",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 3.626e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
+                        }
+                     },
+                     {
+                        "label": "maximum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.14778
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "minimum_lithium_stoichiometry",
+                        "@type": "emmo:StoichiometricNumberOfSubstance",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 0.999
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
+                        }
+                     },
+                     {
+                        "label": "open_circuit_potential",
+                        "@type": "string",
+                        "value": {
+                           "@type": "emmo:String",
+                           "hasStringData": {
+                              "functionname": "computeOCP_LFP_Xu2015",
+                              "argument_list": [
+                                 "c",
+                                 "T",
+                                 "cmax"
+                              ]
+                           }
                         }
                      },
                      {
@@ -4187,6 +3849,19 @@
                         }
                      },
                      {
+                        "label": "activation_energy_of_diffusion",
+                        "@type": "emmo:Energy",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 80000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
+                        }
+                     },
+                     {
                         "label": "diffusion_pre_exponential_factor",
                         "@type": null,
                         "value": {
@@ -4197,6 +3872,19 @@
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
                            "@type": "emmo:ReciprocalSecond"
+                        }
+                     },
+                     {
+                        "label": "particle_radius",
+                        "@type": "emmo:Radius",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 5e-07
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -4256,7 +3944,7 @@
                         "@type": "emmo:SpecificCapacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 99.04488764767676
+                           "hasNumericalData": 607.5171656264379
                         },
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
@@ -4573,7 +4261,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 76.0
+                           "hasNumericalData": 94.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -4599,7 +4287,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 23.948511999999994
+                           "hasNumericalData": 6.8451928
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -4651,7 +4339,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 576.3905763296764
+                           "hasNumericalData": 1010.5330271094673
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -6081,7 +5769,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.94
+                     "hasNumericalData": 1.11
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6094,7 +5782,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 31.7796972032
+                     "hasNumericalData": 28.826151798079998
                   },
                   "unit": {
                      "label": "Gram",
@@ -6107,7 +5795,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 576.3905763296764
+                     "hasNumericalData": 1010.5330271094673
                   },
                   "unit": {
                      "label": "AmpereHour",
@@ -6218,7 +5906,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.3
+                     "hasNumericalData": 1.0
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6264,7 +5952,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 4.1
+                     "hasNumericalData": 3.6
                   },
                   "unit": {
                      "label": "Volt",
@@ -6277,7 +5965,7 @@
                   "@type": "string",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.0001
+                     "hasNumericalData": 0.01
                   },
                   "unit": {
                      "label": "A\u00b7s\u207b\u00b9",
