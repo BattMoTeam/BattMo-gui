@@ -4520,7 +4520,7 @@ class SetGraphs():
                             data = np.transpose(data)
 
                     return data
-
+                
                 _self.log_messages.append(log_messages)
                 _self.number_of_states.append(array_and_transpose(number_of_states))
                 _self.cell_voltage.append(array_and_transpose(cell_voltage))
@@ -4583,18 +4583,41 @@ class SetGraphs():
 
         #st.divider()
         return display_dynamic_dashboard, display_colormaps
+    
+    def contains_value(self,array, value):
+        """Utility function to check if the array contains a specific value."""
+        if isinstance(array, np.ndarray):
+            return np.any(array == value)
+        elif isinstance(array, list):
+            return value in array
+        return False
 
     def set_dynamic_dashboard(_self):
 
         if isinstance(_self.selected_data_sets,list) and len(_self.selected_data_sets) > 1:
-            time_values = _self.find_max_length_array_x_axis(_self.time_values)
+
+            max_values = [_self.safe_nanmax(array) for array in _self.time_values]
+            min_values = [np.min(array) for array in _self.time_values]
+            min_value = np.min(min_values)
+
+            max_values = [value for value in max_values if value is not None]
+            max_time_value = np.nanmax(max_values)
+
+            if max_time_value is not None:
+                for array in _self.time_values:
+                    if _self.contains_value(array, max_time_value):
+                        time_values = array
             
         else:
+            max_values = _self.time_values
             time_values = _self.time_values
+            min_value = np.min( _self.time_values)
+
 
         
-        max_time_value = max(time_values)
-        init_time_value = 0.0
+        max_time_value = np.nanmax(max_values)
+
+        init_time_value = min_value
         step_size = _self.get_min_difference(time_values)
         selected_time = st.slider(
             key = "DynamicDashboard",
@@ -4611,7 +4634,7 @@ class SetGraphs():
             state += 1
             time = time_values[state]
 
-        _self.view_plots_static(state)
+        _self.view_plots_static(time,state)
 
     # def set_colormaps(_self):
         # Colormaps
@@ -4788,17 +4811,25 @@ class SetGraphs():
 
         max_length = 0
         max_array = None
-
+        max_array_contains_nans = True
         # Find the maximum length
         for index, array in enumerate(arrays):
             if isinstance(array, np.ndarray):
                 current_length = array.shape[0] if len(array.shape) == 2 else len(array)
             else:  # Handle lists
                 current_length = len(array) if isinstance(array, list) else 0
-
+            
             if current_length > max_length:
                 max_length = current_length
                 max_array = array
+                max_array_contains_nans = np.isnan(array).any() if isinstance(array, np.ndarray) else False
+            elif current_length == max_length:
+                array_contains_nans = np.isnan(array).any() if isinstance(array, np.ndarray) else False
+                # Prefer the array without NaNs
+                if max_array_contains_nans and not array_contains_nans:
+                    max_array = array
+                    max_array_contains_nans = False
+
 
         return max_array
 
@@ -4856,7 +4887,25 @@ class SetGraphs():
         return arrays
 
 
-    def view_plots_static(_self,state):
+    def find_closest_value_index(self,array, value):
+        """Find the index of the value in the array that is closest to the specified value."""
+        if isinstance(array, np.ndarray):
+            diff = np.abs(array - value)
+            idx = np.where(diff <= np.diff(array).min())[0]
+            if idx.size > 0:
+                return idx[diff[idx].argmin()]
+        elif isinstance(array, list):
+            min_diff = float('inf')
+            closest_index = None
+            for i, elem in enumerate(array):
+                diff = abs(elem - value)
+                if diff <= min_diff:
+                    min_diff = diff
+                    closest_index = i
+            return closest_index
+        return None
+
+    def view_plots_static(_self,time,state):
 
         initial_graph_limits = _self.get_graph_initial_limits()
         xmin = initial_graph_limits[0]
@@ -4886,7 +4935,7 @@ class SetGraphs():
             phimin_ne,
             phimax_pe,
             phimin_pe
-        ] = _self.get_graph_limits_from_state(state)
+        ] = _self.get_graph_limits_from_state(time,state)
 
         # Negative Electrode Concentration
         if isinstance(_self.electrolyte_grid[0],float):
@@ -4910,8 +4959,16 @@ class SetGraphs():
             for i,dataset in enumerate(_self.negative_electrode_concentration):
                 length_grid_NE = len(dataset[0])
                 negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
-                
-                negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state]
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+
+
+                if state_index:
+
+                    negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state_index]
+                else:
+
+
+                    negative_electrode_concentration_ext = negative_electrode_concentration_ext
                 negative_electrode_concentration_ext_list.append(negative_electrode_concentration_ext)
 
 
@@ -4944,7 +5001,13 @@ class SetGraphs():
 
 
             for i,dataset in enumerate(_self.electrolyte_concentration):
-                elyte_concentration_ext_list.append(dataset[state])
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                if state_index:
+                    elyte_concentration_ext_list.append(dataset[state_index])
+                else: 
+                    elyte_concentration_ext_list.append(np.full(length_grid_elyte, np.nan))
+
+
         elyte_concentration = _self.create_subplot(
             x_data=electrolyte_grid,
             y_data=elyte_concentration_ext_list,
@@ -4979,7 +5042,11 @@ class SetGraphs():
             for i,dataset in enumerate(_self.positive_electrode_concentration):
                 length_grid_PE = len(dataset[0])
                 positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
-                positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state]
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                if state_index:
+                    positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state_index]
+                else: 
+                    positive_electrode_concentration_ext= positive_electrode_concentration_ext
                 positive_electrode_concentration_ext_list.append(positive_electrode_concentration_ext)
 
         pe_concentration = _self.create_subplot(
@@ -5003,8 +5070,21 @@ class SetGraphs():
 
         else:
             _self.cell_current = _self.find_max_length_array_y_axis(_self.cell_current)
-            time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
-            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
+            
+            time_values_list = _self.time_values
+            time_values_list = _self.find_max_length_array_y_axis(time_values_list)
+
+
+            max_values = [_self.safe_nanmax(array) for array in _self.time_values]
+
+            max_values = [value for value in max_values if value is not None]
+            max_time_value = np.nanmax(max_values)
+
+            if max_time_value is not None:
+                for array in _self.time_values:
+                    if _self.contains_value(array, max_time_value):
+                        vertical_line = array[state]
+            # vertical_line = _self.find_max_length_array_x_axis(_self.time_values)
 
 
         cell_current_fig = _self.create_subplot(
@@ -5035,7 +5115,12 @@ class SetGraphs():
             for i,dataset in enumerate(_self.negative_electrode_potential):
                 length_grid_NE = len(dataset[0])
                 negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
-                negative_electrode_potential_ext[0:length_grid_NE] = dataset[state]
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                if state_index:
+
+                    negative_electrode_potential_ext[0:length_grid_NE] = dataset[state_index]
+                else:
+                    negative_electrode_potential_ext = negative_electrode_potential_ext
                 negative_electrode_potential_ext_list.append(negative_electrode_potential_ext)
 
         ne_potential = _self.create_subplot(
@@ -5065,7 +5150,12 @@ class SetGraphs():
 
 
             for i,dataset in enumerate(_self.electrolyte_potential):
-                elyte_potential_ext_list.append(dataset[state])
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                if state_index:
+
+                    elyte_potential_ext_list.append(dataset[state_index])
+                else: 
+                    elyte_potential_ext_list.append(np.full(length_grid_elyte, np.nan))
 
         elyte_potential = _self.create_subplot(
             x_data=electrolyte_grid,
@@ -5100,7 +5190,12 @@ class SetGraphs():
             for i,dataset in enumerate(_self.positive_electrode_potential):
                 length_grid_PE = len(dataset[0])
                 positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
-                positive_electrode_potential_ext[-length_grid_PE:]  = dataset[state]
+                state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                if state_index:
+
+                    positive_electrode_potential_ext[-length_grid_PE:]  = dataset[state_index]
+                else:
+                    positive_electrode_potential_ext = positive_electrode_potential_ext
                 positive_electrode_potential_ext_list.append(positive_electrode_potential_ext)
 
         pe_potential = _self.create_subplot(
@@ -5127,7 +5222,17 @@ class SetGraphs():
 
             time_values_list = _self.find_max_length_array_y_axis(_self.time_values)
             _self.cell_voltage = _self.find_max_length_array_y_axis(_self.cell_voltage)
-            vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
+
+            max_values = [_self.safe_nanmax(array) for array in _self.time_values]
+
+            max_values = [value for value in max_values if value is not None]
+            max_time_value = np.nanmax(max_values)
+
+            if max_time_value is not None:
+                for array in _self.time_values:
+                    if _self.contains_value(array, max_time_value):
+                        vertical_line = array[state]
+            # vertical_line = _self.find_max_length_array_x_axis(_self.time_values)[state]
 
 
         cell_voltage_fig = _self.create_subplot(
@@ -5266,17 +5371,44 @@ class SetGraphs():
                     color6.plotly_chart(_self.get_pe_p_color(state),use_container_width = use_container_width)
 
     @st.cache_data
-    def find_max(_self,data, state = None):
+    def safe_nanmax(_self,array):
+        """Utility function to safely compute nanmax and handle all NaNs."""
+        max_val = np.nanmax(array)
+        return max_val if not np.isnan(max_val) else None
+
+    @st.cache_data
+    def find_max(_self,data,time = None, state = None):
+
+                # if state_index:
+                #     positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state_index]
+                # else: 
+                #     positive_electrode_concentration_ext= positive_electrode_concentration_ext
+            
             if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
+                adapted_data = _self.find_max_length_array_y_axis(data)
+                
                 if state:
-                    maxi = max(np.max(array[state]) for array in data)
+                    max_values =[]
+                    for i,array in enumerate(adapted_data):
+                        
+                        state_index = _self.find_closest_value_index(_self.time_values[i],time)
+                        max_values.append(_self.safe_nanmax(array[state_index]))
+
                 else:
-                    maxi = max(np.max(array) for array in data)
+                    max_values = [_self.safe_nanmax(array) for array in adapted_data]
+
+                max_values = [value for value in max_values if value is not None]
+        
+                # Determine the global maximum
+                if max_values:
+                    maxi = max(max_values)
+
             else:
+                
                 if state:
-                    maxi = np.max(data[state])
+                    maxi = np.nanmax(data[state])
                 else:   
-                    maxi = np.max(data)
+                    maxi = np.nanmax(data)
             return maxi
 
     @st.cache_data
@@ -5331,7 +5463,7 @@ class SetGraphs():
         ]
 
     @st.cache_data
-    def get_graph_limits_from_state(_self,state):
+    def get_graph_limits_from_state(_self,time,state):
         [
             xmin,
             xmax,
@@ -5349,22 +5481,22 @@ class SetGraphs():
             init_phimin_pe
         ] = _self.get_graph_initial_limits()
 
-        cmax_elyte_sub = _self.find_max(_self.electrolyte_concentration,state)
+        cmax_elyte_sub = _self.find_max(_self.electrolyte_concentration,time,state)
         cmin_elyte_sub = _self.find_min(_self.electrolyte_concentration,state)
 
-        cmax_ne_sub = _self.find_max(_self.negative_electrode_concentration,state)
+        cmax_ne_sub = _self.find_max(_self.negative_electrode_concentration,time,state)
         cmin_ne_sub = _self.find_min(_self.negative_electrode_concentration,state)
 
-        cmax_pe_sub = _self.find_max(_self.positive_electrode_concentration,state)
+        cmax_pe_sub = _self.find_max(_self.positive_electrode_concentration,time,state)
         cmin_pe_sub = _self.find_min(_self.positive_electrode_concentration,state)
 
-        phimax_elyte_sub = _self.find_max(_self.electrolyte_potential,state)
+        phimax_elyte_sub = _self.find_max(_self.electrolyte_potential,time,state)
         phimin_elyte_sub = _self.find_min(_self.electrolyte_potential,state)
 
-        phimax_ne_sub = _self.find_max(_self.negative_electrode_potential,state)
+        phimax_ne_sub = _self.find_max(_self.negative_electrode_potential,time,state)
         phimin_ne_sub = _self.find_min(_self.negative_electrode_potential,state)
 
-        phimax_pe_sub = _self.find_max(_self.positive_electrode_potential,state)
+        phimax_pe_sub = _self.find_max(_self.positive_electrode_potential,time,state)
         phimin_pe_sub = _self.find_min(_self.positive_electrode_potential,state)
 
         cmax_elyte = max(init_cmax_elyte, cmax_elyte_sub)
