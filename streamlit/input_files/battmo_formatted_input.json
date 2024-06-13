@@ -27,7 +27,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                  "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -73,7 +73,7 @@
             "massFraction": 0.9,
             "density": 4950.0,
             "electronicConductivity": 100.0,
-            "specificHeatCapacity": 700.0,
+            "specificHeatCapacity": 632.0,
             "thermalConductivity": 2.1,
             "Interface": {
                "saturationConcentration": 51765.0,
@@ -87,7 +87,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "functionname": "computeOCP_NMC811_Chen2020",
+                  "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -163,14 +163,14 @@
       "bruggemanCoefficient": 1.5
    },
    "G": [],
-   "SOC": 0.0105,
+   "SOC": 0.01,
    "initT": 298.15,
    "use_thermal": true,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "CCCV",
       "initialControl": "charging",
-      "numberOfCycles": 3,
+      "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,

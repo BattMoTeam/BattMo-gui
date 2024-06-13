@@ -1283,8 +1283,8 @@ class SetTabs:
 
                         info = ex.toggle(label="OCP guidelines", key = "toggle_{}".format(material_component_id))
                         if info:
-                            parameters,language  = ex.columns(2)
-                            language.markdown(r'''
+                            parameters_col,language_col  = ex.columns(2)
+                            language_col.markdown(r'''
                                     **Allowed language**
                                     - Use '^' to indicate a superscript
                                     - Use '*' to indicate a multiplication
@@ -1294,7 +1294,7 @@ class SetTabs:
 
                                     ''')
 
-                            parameters.markdown(r'''
+                            parameters_col.markdown(r'''
                                     **Allowed variables**
                                     - Surface concentration : c
                                     - Maximum concentration : cmax
@@ -3236,7 +3236,7 @@ class SetIndicators():
                     }
                     pe_specific_capacity = {
                         "value":pe_electrode_cap_value,
-                        "unit": pe_electrode_ml_unit
+                        "unit": pe_electrode_cap_unit
                     }
                     pe_am_specific_capacity = {
                         "value":pe_electrode_cap_value,
