@@ -5,7 +5,6 @@
    "Header": {},
    "Parameters": {
       "thickness": 15,
-      "porosity": 0.4,
-      "bruggeman_coefficient": 1.5
+      "porosity": 0.4
    }
 }

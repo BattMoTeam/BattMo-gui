@@ -5,7 +5,7 @@
       "specific_heat_capacity": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type": "emmo:SpecificHeatCapacity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca",
          "max_value": 10000.0,
@@ -21,7 +21,7 @@
       "thermal_conductivity": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type": "emmo:ThermalConductivity",
          "context_type_iri": "https://w3id.org/emmo#EMMO_8dd40ec6_2c5a_43f3_bf64_cadcd447a1c1",
          "max_value": 1000.0,
@@ -37,7 +37,7 @@
       "density": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type": "emmo:Density",
          "context_type_iri": "https://w3id.org/emmo#EMMO_06448f64_8db6_4304_8b2c_e785dba82044",
          "max_value": 10000.0,
@@ -85,7 +85,7 @@
       "bruggeman_coefficient": {
          "model_name": ["P2D","P3D"],
          "par_class": "material",
-         "difficulty": "basis",
+         "difficulty": "advanced",
          "max_value": 5,
          "min_value": 0.1,
          "description": "the Bruggeman coefficient for calculating effective transport parameters in porous media",

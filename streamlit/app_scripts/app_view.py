@@ -184,9 +184,8 @@ class SetAcknowledgementInfo:
     """
     Used to render the info on the funding of the project on the 'Introduction' page.
     """
-    def __init__(self,col):
+    def __init__(self):
 
-        self.col = col
         self.text = "This project has received [funding](https://github.com/BattMoTeam/BattMo#) from the European Union"
         self.flag_image = Image.open(os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg"))
 
@@ -752,8 +751,42 @@ class SetTabs:
             max_readable_value = 10000
             min_readable_value = 0.001
             is_readable = value < max_readable_value and value > min_readable_value
-            format = "%g" if is_readable else "%.2e"
+            format = "%.2g" if is_readable else "%.2e"
         return format
+    
+    @st.cache_data
+    def set_increment(_self, value):
+        """
+        Calculates increment from min and max values.
+        Increment is used to define the number input widget.
+        """
+
+        if type(value) == float:
+            if value == 0:
+                increment = 1e-17
+                return increment
+
+            # Calculate the order of magnitude
+            order_of_magnitude = math.floor(math.log10(abs(value)))
+
+            # Determine a base increment which is a power of 10
+            base_increment = 10 ** order_of_magnitude
+
+            # Adjust the increment to be more user-friendly
+            if value < 1:
+                increment = base_increment / 10
+            else:
+                increment = base_increment / 2
+
+            # Further refinement for very small values
+            if abs(increment) < 1e-10:
+                increment = 1e-10
+
+            return float(increment)
+        else:
+            increment = 1
+
+            return int(increment)
 
     def set_tabs(self):
 
@@ -1184,16 +1217,20 @@ class SetTabs:
                             key="input_{}_{}".format(non_material_component_id, parameter_id),
                             #format=parameter.format,
                             format = self.set_format(parameter.options.get(selected_parameter_id).value),
-                            step=parameter.increment,
+                            step=self.set_increment(parameter.options.get(selected_parameter_id).value),
                             label_visibility="collapsed"
                         )
                     else:
-                        value_list = ast.literal_eval(parameter.options.get(selected_parameter_id).value)
+                        try:
+                            value_list = ast.literal_eval(parameter.options.get(selected_parameter_id).value)
+                        except:
+                            value_list = [parameter.options.get(selected_parameter_id).value]
+
                         name_col.write(parameter.display_name)
                         user_input = input_col.selectbox(
                             label=parameter.display_name,
                             options=value_list,
-                            key="input_{}_{}".format(non_material_component_id, parameter_id),
+                            key="input_{}_{}_{}".format(non_material_component_id, parameter_id,Protocol_name),
                             label_visibility="collapsed",
                         )
                     parameter.set_selected_value(user_input)
@@ -1257,7 +1294,7 @@ class SetTabs:
                             key="input_{}_{}".format(category_id, parameter.id),
                             # format=parameter.format,
                             format = self.set_format(parameter.default_value),
-                            step=parameter.increment,
+                            step=self.set_increment(parameter.default_value),
                             label_visibility="collapsed"
                             )
 
@@ -1569,7 +1606,7 @@ class SetTabs:
                     key=input_key,
                     # format=non_material_parameter.format,
                     format = self.set_format(non_material_parameter.options.get(selected_parameter_id).value),
-                    step=non_material_parameter.increment,
+                    step=self.set_increment(non_material_parameter.options.get(selected_parameter_id).value),
                     label_visibility="collapsed",
                     disabled = False
                     )
@@ -1589,8 +1626,8 @@ class SetTabs:
                         min_value=non_material_parameter.min_value,
                         max_value=non_material_parameter.max_value,
                         key=input_key,
-                        format=non_material_parameter.format,
-                        step=non_material_parameter.increment,
+                        format=self.set_format(st.session_state[input_value]),
+                        step=self.set_increment(st.session_state[input_value]),
                         label_visibility="collapsed",
                         disabled = not st.session_state[checkbox_key]
                         )
@@ -1674,7 +1711,7 @@ class SetTabs:
                             key=input_value+str(np.random.rand(100)),
                             # format=non_material_parameter.format,
                             format = self.set_format(st.session_state[input_value]),
-                            step=non_material_parameter.increment,
+                            step=self.set_increment(st.session_state[input_value]),
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
                             )
@@ -1710,7 +1747,7 @@ class SetTabs:
                             key=input_value+str(np.random.rand(100)),
                             # format=non_material_parameter.format,
                             format = self.set_format(st.session_state[input_value]),
-                            step=non_material_parameter.increment,
+                            step=self.set_increment(st.session_state[input_value]),
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
                             )
@@ -1748,7 +1785,7 @@ class SetTabs:
                             key=input_value+str(np.random.rand(100)),
                             # format=non_material_parameter.format,
                             format = self.set_format(st.session_state[input_value]),
-                            step=non_material_parameter.increment,
+                            step=self.set_increment(st.session_state[input_value]),
                             label_visibility="collapsed",
                             disabled = not st.session_state[checkbox_key]
                             )
@@ -2137,7 +2174,7 @@ class SetTabs:
                                     key="input_{}_{}".format(non_material_component_name, parameter.name),
                                     # format=parameter.format,
                                     format = self.set_format(parameter.options.get(selected_parameter_id).value),
-                                    step=parameter.increment,
+                                    step=self.set_increment(parameter.options.get(selected_parameter_id).value),
                                     label_visibility="collapsed"
                                 )
                             else:
@@ -2191,7 +2228,7 @@ class SetTabs:
                     key="input_{}_{}".format(category_id, parameter.id),
                     # format=parameter.format,
                     format = self.set_format(parameter.default_value),
-                    step=parameter.increment,
+                    step=self.set_increment(parameter.default_value),
                     label_visibility="collapsed"
                     )
 
@@ -2339,6 +2376,8 @@ class RunSimulation:
 
     def execute_api_on_click(self, save_run,file_name):
 
+        st.session_state["toast"](":green-background[Starting simulation!]", icon='🕙')
+
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
@@ -2386,32 +2425,32 @@ class RunSimulation:
 
 
         else:
-                st.session_state.reponse = False
-                # st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
-                # st.session_state.success = False
-                # self.success = False
+            st.session_state.reponse = False
+            # st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
+            # st.session_state.success = False
+            # self.success = False
 
-                self.success = DivergenceCheck(save_run,False).success
-
-
-        # with open("BattMo_results.pkl", "rb") as f:
-        #     data = pickle.load(f)
+            self.success = DivergenceCheck(save_run,False).success
 
 
-
-        # with open(os.path.join(app_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
-        #     result = pickle.load(pickle_result)
-
-        # with open(os.path.join(app_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
-        #             pickle.dump(result, new_pickle_file)
+            # with open("BattMo_results.pkl", "rb") as f:
+            #     data = pickle.load(f)
 
 
-        # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-        st.cache_data.clear()
+
+            # with open(os.path.join(app_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
+            #     result = pickle.load(pickle_result)
+
+            # with open(os.path.join(app_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
+            #             pickle.dump(result, new_pickle_file)
 
 
-        st.session_state.update_par = False
-        st.session_state.sim_finished = True
+            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
+            st.cache_data.clear()
+
+
+            st.session_state.update_par = False
+            st.session_state.sim_finished = True
 
 
 class DivergenceCheck:
@@ -2556,6 +2595,7 @@ class DivergenceCheck:
         if self.response == False:
             self.save_run.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             st.session_state.success = False
+            st.session_state.transfer_results = False
             self.success = False
 
         elif self.response:
@@ -2563,6 +2603,7 @@ class DivergenceCheck:
                 self.success = False
 
                 st.session_state.success = False
+                st.session_state.transfer_results = False
 
                 if len(log_messages[()]) > 1:
                     c = self.save_run.container()
@@ -2588,6 +2629,7 @@ class DivergenceCheck:
                                  
                                 # Your results are stored under the following name: {temp_file_name}""")
                 st.session_state.success = True
+                st.session_state.transfer_results = True
 
                 
 
@@ -3239,8 +3281,8 @@ class SetIndicators():
                         "unit": pe_electrode_cap_unit
                     }
                     pe_am_specific_capacity = {
-                        "value":pe_electrode_cap_value,
-                        "unit": pe_electrode_cap_unit
+                        "value":pe_am_cap_value,
+                        "unit": pe_am_cap_unit
                     }
 
                 
@@ -4453,11 +4495,6 @@ class SetGraphs():
 
     def set_graphs(_self):
 
-
-        #dynamic, colormaps = _self.set_graph_toggles()
-
-        #if dynamic:
-
         st.markdown("# " + _self.dashboard_header)
 
         st_space(space_number=1, space_width= 3 )
@@ -4465,9 +4502,6 @@ class SetGraphs():
         _self.structure_results()
 
         _self.set_dynamic_dashboard()
-
-        #if colormaps:
-        # _self.set_colormaps()
 
     def structure_results(_self):
 
@@ -4561,28 +4595,6 @@ class SetGraphs():
             _self.positive_electrode_potential
             ] = _self.results
 
-
-    def set_graph_toggles(_self):
-
-        #dash, color = st.columns((2,5))
-        with st.sidebar:
-
-
-            display_dynamic_dashboard = st.toggle(
-                label="Dynamic dashboard",
-                value=True
-            )
-
-
-            display_colormaps = st.toggle(
-                label="Colormaps",
-                value=False
-            )
-
-
-
-        #st.divider()
-        return display_dynamic_dashboard, display_colormaps
     
     def contains_value(self,array, value):
         """Utility function to check if the array contains a specific value."""
@@ -4961,9 +4973,7 @@ class SetGraphs():
                 negative_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
 
-
-                if state_index:
-
+                if state_index != None:
                     negative_electrode_concentration_ext[0:length_grid_NE] = dataset[state_index]
                 else:
 
@@ -5002,7 +5012,7 @@ class SetGraphs():
 
             for i,dataset in enumerate(_self.electrolyte_concentration):
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
-                if state_index:
+                if state_index != None:
                     elyte_concentration_ext_list.append(dataset[state_index])
                 else: 
                     elyte_concentration_ext_list.append(np.full(length_grid_elyte, np.nan))
@@ -5043,7 +5053,7 @@ class SetGraphs():
                 length_grid_PE = len(dataset[0])
                 positive_electrode_concentration_ext = np.full(length_grid_elyte, np.nan)
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
-                if state_index:
+                if state_index != None:
                     positive_electrode_concentration_ext[-length_grid_PE:]  = dataset[state_index]
                 else: 
                     positive_electrode_concentration_ext= positive_electrode_concentration_ext
@@ -5116,7 +5126,7 @@ class SetGraphs():
                 length_grid_NE = len(dataset[0])
                 negative_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
-                if state_index:
+                if state_index != None:
 
                     negative_electrode_potential_ext[0:length_grid_NE] = dataset[state_index]
                 else:
@@ -5151,7 +5161,7 @@ class SetGraphs():
 
             for i,dataset in enumerate(_self.electrolyte_potential):
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
-                if state_index:
+                if state_index != None:
 
                     elyte_potential_ext_list.append(dataset[state_index])
                 else: 
@@ -5191,7 +5201,7 @@ class SetGraphs():
                 length_grid_PE = len(dataset[0])
                 positive_electrode_potential_ext = np.full(length_grid_elyte, np.nan)
                 state_index = _self.find_closest_value_index(_self.time_values[i],time)
-                if state_index:
+                if state_index != None:
 
                     positive_electrode_potential_ext[-length_grid_PE:]  = dataset[state_index]
                 else:

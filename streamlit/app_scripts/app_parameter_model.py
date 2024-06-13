@@ -10,6 +10,7 @@ import numpy as np
 import os
 import sys
 import streamlit as st
+import math
 
 ##############################
 # Set page directory to base level to allow for module import from different folder
@@ -148,15 +149,26 @@ class NumericalParameter(TemplateParameter):
         """
 
         if self.type == float.__name__:
-            average_value = 0.5*(self.min_value + self.max_value)
-            five_percent_of_value = "%e" % (0.05 * average_value)
+            average_value = 0.5 * (self.min_value + self.max_value)
+            if average_value == 0:
+                self.increment = 1e-17
+                return
 
-            decimal, exponential = five_percent_of_value.split("e")
+            # Calculate the order of magnitude
+            order_of_magnitude = math.floor(math.log10(abs(average_value)))
 
-            self.increment = round(
-                float(ceil(float(decimal)) * 10 ** int(exponential)),
-                2
-            )
+            # Determine a base increment which is a power of 10
+            base_increment = 10 ** order_of_magnitude
+
+            # Adjust the increment to be more user-friendly
+            if average_value < 1:
+                self.increment = base_increment / 10
+            else:
+                self.increment = base_increment / 2
+
+            # Further refinement for very small values
+            if abs(self.increment) < 1e-10:
+                self.increment = 1e-10
 
         else:
             self.increment = 1

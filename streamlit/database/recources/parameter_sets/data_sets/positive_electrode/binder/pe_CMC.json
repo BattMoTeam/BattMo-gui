@@ -1,12 +1,12 @@
 {
-    "Name": "pe_CMC",
-    "Header": {},
-    "component": "positive_electrode_binder",
-    "material": true,
-    "Parameters": {
-       "density": 1780,
-       "specific_heat_capacity": 1400,
-       "thermal_conductivity": 0.165
-       
-    }
- }
+   "Name": "pe_CMC",
+   "Header": {},
+   "component": "positive_electrode_binder",
+   "material": true,
+   "Parameters": {
+      "density": 1600,
+      "specific_heat_capacity": 1400,
+      "thermal_conductivity": 0.06
+      
+   }
+}

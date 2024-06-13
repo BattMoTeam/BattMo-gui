@@ -22,7 +22,8 @@ st.set_page_config(
 
 # set config before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app_scripts.app_controller import get_app_controller, log_memory_usage
+from app_scripts.app_controller import get_app_controller, log_memory_usage, set_acknowlegent_info
+from app_scripts import app_view,app_access
 
 
 # Get page name
@@ -44,6 +45,9 @@ if "update_par" not in st.session_state:
 
 if "success" not in st.session_state:
     st.session_state.success = None
+
+if "transfer_results" not in st.session_state:
+    st.session_state.transfer_results = None
 
 if "response" not in st.session_state:
     st.session_state.response = None
@@ -68,9 +72,15 @@ if 'temp_dir' not in st.session_state:
     # Store the temp_dir in session state
     st.session_state['temp_dir'] = temp_dir
 
+if "toast" not in st.session_state:
+    st.session_state["toast"] = st.toast
+
 
 
 def run_page():
+
+    # with open(app_access.get_path_to_custom_style_css()) as f:
+    #     style = st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
     ##############################
     # Remember user changed values when switching between pages
@@ -89,6 +99,9 @@ def run_page():
 
     model_id = app.set_model_choice().selected_model
 
+    if st.session_state.success:
+        st.session_state["toast"](":green-background[Gattering the results!]", icon='💤')
+
     gui_parameters = app.set_tabs(model_id).user_input
 
     app.set_indicators(page_name)
@@ -101,10 +114,21 @@ def run_page():
 
     
     success = app.run_simulation(gui_parameters).success
+
     # st.session_state.succes = True
     
     save_run = st.container()
-    app.divergence_check(save_run,success)
+    app.divergence_check(save_run,st.session_state.success)
+
+    if st.session_state.success:
+        st.session_state["toast"](":green-background[Find you results on the results page!]", icon='✅')
+        st.session_state.success = False
+    
+    with st.sidebar:
+       # app_view.st_space(space_width=3)
+
+        st.divider()
+        set_acknowlegent_info()
 
 
     

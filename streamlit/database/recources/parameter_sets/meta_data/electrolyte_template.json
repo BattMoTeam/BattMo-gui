@@ -78,7 +78,7 @@
          "display_name": "Charge carrier charge number"
       },
       "charge_carrier_transference_number": {
-         "model_name": ["P3D"],
+         "model_name": ["P2D","P3D"],
          "par_class": "material",
          "difficulty": "basis",
          "context_type_iri": "https://w3id.org/emmo#EMMO_d97b27cb_61a4_4568_a38b_4edd4f224acc",

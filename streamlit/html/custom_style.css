@@ -1,0 +1,15 @@
+div[data-testid=toastContainer] {
+    padding: 10px 10px 100px 50px;
+    align-items: center;
+}
+
+div[data-testid=stToast] {
+    padding: 20px 10px 40px 10px;
+    background-color: #0E5DE3;   /* blue */
+    width: 40%;
+}
+ 
+[data-testid=toastContainer] [data-testid=stMarkdownContainer] > p {
+    font-size: 20px; font-style: normal; font-weight: 400;
+    foreground-color: #ffffff;
+}

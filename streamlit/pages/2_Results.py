@@ -31,7 +31,7 @@ for k, v in st.session_state.items():
 st.session_state.update(st.session_state)
 ##############################
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app_scripts.app_controller import get_app_controller, get_results_data
+from app_scripts.app_controller import get_app_controller, get_results_data, set_acknowlegent_info
 from app_scripts import app_view
 
 # Get page name
@@ -62,6 +62,9 @@ def run_page():
 
     if "success" not in st.session_state:
         st.session_state.success = None
+    
+    if "transfer_results" not in st.session_state:
+        st.session_state.transfer_results = None
 
     if "hdf5_upload" not in st.session_state:
         st.session_state.hdf5_upload = None
@@ -90,7 +93,7 @@ def run_page():
     selected_data_sets = app.set_data_set_selector().set_selector()
     
 
-    if st.session_state.success == True or st.session_state.hdf5_upload == True:
+    if st.session_state.transfer_results == True or st.session_state.hdf5_upload == True:
         session_temp_folder = st.session_state["temp_dir"]
         file_names = [f for f in os.listdir(session_temp_folder) if os.path.isfile(os.path.join(session_temp_folder, f))]
         #st.divider()
@@ -132,6 +135,10 @@ def run_page():
 
     else: 
         st.error("Your simulation was not succesful unfortunately, give it another try.")
+
+    with st.sidebar:
+        st.divider()
+        set_acknowlegent_info()
 
 
 if __name__ == "__main__":

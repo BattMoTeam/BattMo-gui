@@ -26,15 +26,19 @@ for k, v in st.session_state.items():
 
 # set config is done before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import app_scripts.app_access
+from app_scripts import app_access, app_view
 
-from app_scripts.app_controller import set_model_description, set_material_description
+from app_scripts.app_controller import set_model_description, set_material_description, set_acknowlegent_info
 
 def run_page():
 
     set_model_description()
 
     set_material_description()
+
+    with st.sidebar:
+        app_view.st_space(space_width=3)
+        set_acknowlegent_info()
                     
 if __name__ == "__main__":
     run_page()

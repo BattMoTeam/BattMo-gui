@@ -44,7 +44,7 @@ def run_app():
         app_view.st_space(space_width=3)
         
         #Set funding acknowledgement
-        set_acknowlegent_info(col)
+        set_acknowlegent_info()
 
     
 

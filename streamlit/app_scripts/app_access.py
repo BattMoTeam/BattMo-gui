@@ -37,6 +37,12 @@ def get_path_to_light_style_css():
     return light_style_css_path
 
 @st.cache_data
+def get_path_to_custom_style_css():
+    html_path = get_path_to_html_dir()
+    light_style_css_path = os.path.join(html_path, "light_style.css")
+    return light_style_css_path
+
+@st.cache_data
 def get_path_to_dark_style_css():
     html_path = get_path_to_html_dir()
     dark_style_css_path = os.path.join(html_path, "dark_style.css")

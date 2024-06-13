@@ -94,8 +94,8 @@ def set_material_description():
 def get_results_data(file_names):
     return view.GetResultsData(file_names)
 
-def set_acknowlegent_info(col):
-    return view.SetAcknowledgementInfo(col)
+def set_acknowlegent_info():
+    return view.SetAcknowledgementInfo()
 
 
 #####################################
