@@ -19,10 +19,12 @@ services:
     restart: always
     ports:
       - "8001:8001"
-      - "8002:8002"
+      - "80:80"
+      - "443:443"
     depends_on:
       - genie
       - streamlit
+    command: /bin/bash -c "/renew-certs.sh && nginx -g 'daemon off;'"
  
   streamlit:
     image: ghcr.io/battmoteam/battmogui_streamlit:latest
