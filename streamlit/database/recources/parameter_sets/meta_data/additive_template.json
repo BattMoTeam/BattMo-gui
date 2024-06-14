@@ -1,6 +1,6 @@
 {
    "Type": "template",
-   "Name": "pe_additive_template",
+   "Name": "additive_template",
    "Parameters": {
       "density": {
          "model_name": ["P2D","P3D"],

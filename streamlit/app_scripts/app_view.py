@@ -989,8 +989,8 @@ class SetTabs:
         # specific_cap_am_pe_parameter = self.formatter.initialize_parameters(raw_template_am_pe)
         # specific_cap_am_pe_parameter["selected_value"] = specific_capacity_am_pe
 
-        specific_capacities_category_parameters_am_ne = _self.LD.setup_parameter_struct(raw_template_am_ne[0], value = specific_capacity_am_ne)
-        specific_capacities_category_parameters_am_pe = _self.LD.setup_parameter_struct(raw_template_am_pe[1], value = specific_capacity_am_pe)
+        specific_capacities_category_parameters_am_ne = _self.LD.setup_parameter_struct(raw_template_am_ne, value = specific_capacity_am_ne)
+        specific_capacities_category_parameters_am_pe = _self.LD.setup_parameter_struct(raw_template_am_pe, value = specific_capacity_am_pe)
 
         # Specific capacity electrodes
         specific_capacity_ne = _self.calc_capacity_electrode(specific_capacity_am_ne,
@@ -1860,12 +1860,14 @@ class SetTabs:
 
         for material in materials:
 
-            material_id,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = material
+            material_id,material_name,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ = material
             # get parameter sets corresponding to component, then parameters from each set
-            material_parameter_sets.append(tuple(db_helper.get_material_by_material_id(material_id)[0]))
+            material_parameter_sets.append(db_helper.get_material_by_material_id(material_id)[0])
 
         material_parameter_sets_name_by_id = {}
-        for id, name, _,_,_ in material_parameter_sets:
+
+        for material_parameter_set in material_parameter_sets:
+            id, name, _,_,_ = material_parameter_set
             material_parameter_sets_name_by_id[id] = name
 
         material_raw_parameters = []
@@ -1997,10 +1999,13 @@ class SetTabs:
                                     pass
                                 else:  
                                     material_display_names.append(material_display_name[0][0])
+                                    material_values.append(value)
                             else:
-                                material_display_names.append("Default")
+                                if "Default" not in material_display_names:
+                                    material_display_names.append("Default")
+                                    material_values.append(value)
 
-                            material_values.append(value)
+                            
                             
 
                         st.write("[{}]({})".format(par_name, context_type_iri) + " / " + "[{}]({})".format(unit,unit_iri))
@@ -2045,7 +2050,6 @@ class SetTabs:
                             st.session_state[key_input_number] = user_input
 
                         if par_name == "density" and density != None:
-                            st.write(user_input)
                             density[material_component_id] = float(user_input)
 
                         if par_type == "int":

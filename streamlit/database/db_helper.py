@@ -299,7 +299,7 @@ def get_material_id_by_parameter_set_name(name):
             where="name='%s'" % name
         )
         print(res)
-        return [a[0] for a in res][0]
+        return [a[0] for a in res]
 
 @st.cache_data
 def get_material_display_name_from_name(name):

@@ -59,54 +59,30 @@
             "default_material": false
 
         },
-        "ne_PVDF":{
+        "PVDF":{
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "is_shown_to_user": true,
             "context_type": "echem:PVDFBinder",
             "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "PVDF",
-            "number_of_components": 1,
+            "number_of_components": 2,
             "component_name_1": "negative_electrode_binder",
+            "component_name_2": "positive_electrode_binder",
             "description": "",
             "default_material": true
 
         },
-        "ne_CMC":{
+        "CMC":{
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "is_shown_to_user": true,
             "context_type": "echem:CMCBinder",
             "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "CMC",
-            "number_of_components": 1,
+            "number_of_components": 2,
             "component_name_1": "negative_electrode_binder",
-            "description": "",
-            "default_material": true
-
-        },
-        "pe_PVDF":{
-            "model_name": ["P2D","P3D"],
-            "difficulty": "basis",
-            "is_shown_to_user": true,
-            "context_type": "echem:PVDFBinder",
-            "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
-            "display_name": "PVDF",
-            "number_of_components": 1,
-            "component_name_1": "positive_electrode_binder",
-            "description": "",
-            "default_material": true
-
-        },
-        "pe_CMC":{
-            "model_name": ["P2D","P3D"],
-            "difficulty": "basis",
-            "is_shown_to_user": true,
-            "context_type": "echem:CMCBinder",
-            "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
-            "display_name": "CMC",
-            "number_of_components": 1,
-            "component_name_1": "positive_electrode_binder",
+            "component_name_2": "positive_electrode_binder",
             "description": "",
             "default_material": true
 
@@ -133,31 +109,19 @@
             "default_material": false
 
         },
-        "ne_carbon_black":{
+        "carbon_black":{
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
             "is_shown_to_user": true,
             "context_type": "echem:CarbonAdditive",
             "display_name": "Carbon black",
-            "number_of_components": 1,
+            "number_of_components": 2,
             "component_name_1": "negative_electrode_additive",
+            "component_name_2": "positive_electrode_additive",
             "description": "",
             "default_material": true
 
         },
-        "pe_carbon_black":{
-            "model_name": ["P2D","P3D"],
-            "difficulty": "basis",
-            "is_shown_to_user": true,
-            "context_type": "echem:CarbonAdditive",
-            "display_name": "Carbon black",
-            "number_of_components": 1,
-            "component_name_1": "positive_electrode_additive",
-            "description": "",
-            "default_material": true
-
-        },
-
         "user_defined_pe_ad":{
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",

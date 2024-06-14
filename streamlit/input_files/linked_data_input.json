@@ -1916,7 +1916,7 @@
                         "@type": "emmo:ElectricConductivity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 100.0
+                           "hasNumericalData": 0.8
                         },
                         "unit": {
                            "label": "SiemensPerMetre",
@@ -1929,7 +1929,7 @@
                         "@type": "emmo:Energy",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 5000.0
+                           "hasNumericalData": 80000.0
                         },
                         "unit": {
                            "label": "JoulePerMole",
@@ -2337,7 +2337,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.3000000000000001
+                           "hasNumericalData": 0.2
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -2350,7 +2350,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 13.16735
+                           "hasNumericalData": 15.0484
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -2402,7 +2402,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 980.5106962623056
+                           "hasNumericalData": 1120.5836528712066
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -4091,7 +4091,7 @@
                         "@type": "emmo:SpecificHeatCapacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 700.0
+                           "hasNumericalData": 632.0
                         },
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
@@ -4130,7 +4130,7 @@
                         "@type": null,
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1e-14
+                           "hasNumericalData": 3.9e-14
                         },
                         "unit": {
                            "label": "ReciprocalSecond",
@@ -6233,7 +6233,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 0.94
+                     "hasNumericalData": 1.07
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6246,7 +6246,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 31.2932719532
+                     "hasNumericalData": 31.7796972032
                   },
                   "unit": {
                      "label": "Gram",
@@ -6259,7 +6259,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 980.5106962623056
+                     "hasNumericalData": 1047.6223333812661
                   },
                   "unit": {
                      "label": "AmpereHour",

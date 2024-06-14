@@ -1,6 +1,6 @@
 {
    "Type": "template",
-   "Name": "ne_active_material_template",
+   "Name": "active_material_template",
    "Parameters": {
       "maximum_concentration": {
          "model_name": ["P2D","P3D"],
