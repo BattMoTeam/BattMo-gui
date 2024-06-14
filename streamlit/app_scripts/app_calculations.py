@@ -16,7 +16,7 @@ sys.path.insert(0, path_to_streamlit_module)
 ##############################
 from app_scripts import app_access
 
-@st.cache_data
+
 def validate_mass_fraction(mf_sum,category_display_name,_tab):
     mf_summing = 0
     for id, value in mf_sum.items():

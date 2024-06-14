@@ -20,6 +20,8 @@ import streamlit_elements as el
 import ast
 import pandas as pd
 import random
+import re
+import math
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -331,21 +333,21 @@ class SetupLinkedDataStruct():
                         # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
                         # "qudt": "http://qudt.org/vocab/unit/",
                     }
-
-    def setup_linked_data_dict(self, model_id, model_name):
+    @st.cache_data
+    def setup_linked_data_dict(_self, model_id, model_name):
 
         model_label = "{} model".format(model_name)
         id = ""
         model_type = "battery:{}Model".format(model_name)
 
         dict = {
-            "@context": self.context,
+            "@context": _self.context,
 
-            self.universe_label:{
-                self.hasModel:{
+            _self.universe_label:{
+                _self.hasModel:{
                     "label": model_label,
                     "@type": model_type,
-                    self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_name)
+                    _self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(model_name)
                 }
             }
         }
@@ -367,19 +369,20 @@ class SetupLinkedDataStruct():
 
         return dict
 
-    def fill_sub_dict(self,dict,relation_dict_1, parameters,existence,relation_dict_2 = None,relation_par=None):
+    @st.cache_data
+    def fill_sub_dict(_self,dict,relation_dict_1, parameters,existence,relation_dict_2 = None,relation_par=None):
         parameters = parameters.copy()
-        if self.universe_label in dict:
+        if _self.universe_label in dict:
             if relation_par:
                 if existence == "new":
-                    dict[self.universe_label][relation_dict_1] = parameters[relation_par]
+                    dict[_self.universe_label][relation_dict_1] = parameters[relation_par]
                 elif existence == "existing":
-                    dict[self.universe_label][relation_dict_1] += parameters[relation_par]
+                    dict[_self.universe_label][relation_dict_1] += parameters[relation_par]
             else:
                 if existence == "new":
-                    dict[self.universe_label][relation_dict_1] = parameters
+                    dict[_self.universe_label][relation_dict_1] = parameters
                 elif existence == "existing":
-                    dict[self.universe_label][relation_dict_1] += parameters
+                    dict[_self.universe_label][relation_dict_1] += parameters
         else:
             if relation_par:
                 if existence == "new":
@@ -425,11 +428,12 @@ class SetupLinkedDataStruct():
 
         return dict
 
-    def fill_linked_data_dict(self, user_input, content):
-        user_input[self.universe_label][self.hasCell] = content
+    @st.cache_data
+    def fill_linked_data_dict(_self, user_input, content):
+        user_input[_self.universe_label][_self.hasCell] = content
 
         return user_input
-
+    
     def setup_parameter_struct(self, parameter,component_parameters=None, value = None):
         if component_parameters is None:
             component_parameters = []
@@ -581,9 +585,10 @@ class SetupLinkedDataStruct():
 
         return dict
 
-    def change_numerical_value(self,dict, index, value):
+    @st.cache_data
+    def change_numerical_value(_self,dict, index, value):
         try:
-            dict[index]["value"][self.hasNumericalData]=value
+            dict[index]["value"][_self.hasNumericalData]=value
         except:
             dict[index]["value"]=value
 
@@ -1045,7 +1050,7 @@ class SetTabs:
     def fill_category(self, category_id, category_display_name,category_name, emmo_relation, default_template_id, tab, category_parameters,mass_loadings,uploaded_input = None, selected_am_value_id=None):
 
         density_mix = None
-
+        
         # get components associated with material parameter sets
         if category_name == "boundary_conditions":
             material_components = None
@@ -1124,6 +1129,7 @@ class SetTabs:
                 component_parameters = {}
                 parameter, user_input, component_parameters_, emmo_relation, mass_fraction_id_dict = self.fill_mass_fraction_column(mass_fraction_col,category_id,material_comp_default_template_id,material_component_id,component_parameters_,mass_fraction_id_dict)
 
+                
                 if parameter:
                     component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
                     component_parameters = self.LD.setup_sub_dict(dict=component_parameters,display_name=material_comp_display_name,context_type=material_comp_context_type)
@@ -1135,6 +1141,9 @@ class SetTabs:
         else:
             mass_fraction_id_dict = None
             density = None
+
+        if mass_fraction_id_dict:
+                    self.validate_mass_fraction(mass_fraction_id_dict, category_display_name,tab)
 
         non_material_component = db_helper.get_non_material_components_from_category_id(category_id)
 
@@ -1647,7 +1656,6 @@ class SetTabs:
             ac += 1
 
         if mass_fraction_id_dict:
-            self.validate_mass_fraction(mass_fraction_id_dict, category_display_name,tab)
 
             density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
             density_eff = self.calc_density_eff(density_mix, porosity)
@@ -5704,6 +5712,40 @@ class SetMaterialDescription():
                                             st.write("This material doesn't include the function yet.")
                                         else:
                                             st.latex(sp.latex(sp.sympify(string_py)))
+
+                                            # updated_string = string_py.replace("c/cmax", "x")
+                                            # def parsed_function(x):
+                                            #     # Define a dictionary to store allowed functions and their mappings
+                                            #     allowed_functions = {
+                                            #         "exp": math.exp,
+                                            #         "tanh": math.tanh,
+                                            #         # Add more functions as needed
+                                            #     }
+                                                
+                                            #     # Regular expression pattern to find function calls
+                                            #     pattern = r"([a-zA-Z_][a-zA-Z0-9_]*)\("  # Matches function names
+                                                
+                                            #     # Replace function calls with their respective mappings
+                                            #     safe_equation_string = re.sub(pattern, lambda match: f"allowed_functions['{match.group(1)}'](", updated_string)
+                                                
+                                            #     # Evaluate the modified equation string with x
+                                            #     return eval(safe_equation_string, {"allowed_functions": allowed_functions, "x": x})
+                                            
+                                            # x = np.linspace(0,1,100)
+                                            # y = np.zeros(len(x))
+                                            # for i in range(len(x)):
+                                            #     y[i] = parsed_function(x[i])
+
+                                            # fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Sample Line'))
+
+                                            # # Add titles and labels
+                                            # fig.update_layout(
+                                            #     title='Simple Line Graph',
+                                            #     xaxis_title='X Axis',
+                                            #     yaxis_title='Y Axis'
+                                            # )
+
+                                            # st.plotly_chart(fig, use_container_width=True)
 
                                 else:
                                     st.markdown('''```<Julia>

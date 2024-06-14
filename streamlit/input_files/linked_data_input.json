@@ -1929,7 +1929,7 @@
                         "@type": "emmo:Energy",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 80000.0
+                           "hasNumericalData": 70000.0
                         },
                         "unit": {
                            "label": "JoulePerMole",
@@ -1955,7 +1955,7 @@
                         "@type": "emmo:Radius",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1e-06
+                           "hasNumericalData": 5e-07
                         },
                         "unit": {
                            "label": "Metre",
@@ -2337,7 +2337,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.2
+                           "hasNumericalData": 0.22000000000000003
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -2350,7 +2350,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 15.0484
+                           "hasNumericalData": 14.67219
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -2402,7 +2402,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1120.5836528712066
+                           "hasNumericalData": 1092.5690615494264
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -6233,7 +6233,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.07
+                     "hasNumericalData": 1.04
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6246,7 +6246,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 31.7796972032
+                     "hasNumericalData": 31.6742860172
                   },
                   "unit": {
                      "label": "Gram",
@@ -6357,7 +6357,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1
+                     "hasNumericalData": 3
                   },
                   "unit": {
                      "label": "UnitOne",
