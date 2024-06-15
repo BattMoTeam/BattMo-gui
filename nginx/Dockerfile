@@ -23,4 +23,4 @@ COPY project.conf /etc/nginx/conf.d/
 COPY renew-certs.sh /renew-certs.sh
 RUN chmod +x /renew-certs.sh
 
-ENTRYPOINT ["/usr/local/bin/renew-certs.sh"]
+ENTRYPOINT ["/renew-certs.sh"]
