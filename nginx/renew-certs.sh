@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Run Certbot to obtain or renew certificates
-certbot certonly --non-interactive --agree-tos --email lorena.hendrix@sintef.no --webroot -w /usr/share/nginx/html -d app.batterymodel.com
+# Stop existing containers
+docker compose down
 
+# Obtain/renew SSL certificates
+certbot certonly --webroot -w /usr/share/nginx/html -d app.batterymodel.com --agree-tos --email lorena.hendrix@sintef.no
 
-# Reload Nginx configuration to apply new certificates
+# Start containers again
+docker compose up -d
+
+# Reload Nginx to apply new certificates
 nginx -s reload
