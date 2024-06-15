@@ -1,4 +1,4 @@
-FROM nginx:1.15.8
+FROM nginx:latest
 
 # Install Certbot and dependencies
 RUN apt-get update && \
