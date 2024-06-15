@@ -23,4 +23,5 @@ COPY project.conf /etc/nginx/conf.d/
 COPY renew-certs.sh /renew-certs.sh
 RUN chmod +x /renew-certs.sh
 
+# Entrypoint to handle certificate issuance and renewal
 ENTRYPOINT ["/renew-certs.sh"]
