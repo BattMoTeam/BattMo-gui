@@ -50,7 +50,7 @@ jobs:
     - name: Pull and Run Containers
       run: |
         ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && \
-        docker compose -f docker-compose.yml pull && \
-        docker compose -f docker-compose.yml up -d"
+        docker compose -f docker-compose-deploy.yml pull && \
+        docker compose -f docker-compose-deploy.yml up -d"
     - name: Cleanup
       run: rm -rf ~/.ssh
