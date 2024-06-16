@@ -29,5 +29,5 @@ services:
     container_name: streamlit
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
     command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=80
