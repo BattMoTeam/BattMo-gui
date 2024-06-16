@@ -77,10 +77,11 @@ class BaseHandler:
                 raise
 
             finally:
-                # if cur:
-                    # cur.close()
+                if cur:
+                    cur.close()
                 if con:
                     con.commit()
+                    con.close()
                   
                 
 

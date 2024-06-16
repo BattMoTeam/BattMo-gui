@@ -2480,7 +2480,7 @@ class DivergenceCheck:
 
     def check_for_divergence(self):
 
-       if self.response:
+       if self.response != None:
 
             results,_ = app_controller.get_results_data(None).get_results_data(None)
 
@@ -2604,7 +2604,7 @@ class DivergenceCheck:
 
     def divergence_check_logging(self,N, number_of_states,log_messages,results):
 
-        if self.response == False:
+        if self.response == False and st.session_state.success == None or self.response == False and st.session_state.success == False:
             self.save_run.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             st.session_state.success = False
             st.session_state.transfer_results = False
@@ -2614,16 +2614,16 @@ class DivergenceCheck:
             if number_of_states == 0:
                 self.success = False
 
-                st.session_state.success = False
+                st.session_state.success = True
                 st.session_state.transfer_results = False
 
-                if len(log_messages[()]) > 1:
+                if len(log_messages) > 1:
                     c = self.save_run.container()
                     c.error("Simulation wasn't successful unfortunately. Some errors were produced, see the logging.")
                     c.markdown("***Logging:***")
 
                     log_message = ''' \n'''
-                    for message in log_messages[()]:
+                    for message in log_messages:
                         log_message = log_message + message+ '''\n'''
 
                     c.code(log_message + ''' \n''')
@@ -2665,9 +2665,6 @@ class DivergenceCheck:
 
                 # except:
                 #     pass
-        else:
-
-            pass
 
 
 
@@ -2899,6 +2896,7 @@ class GetResultsData():
 
         # Retrieve datasets
         log_messages = result["log_messages"][:]
+        log_messages = [msg.decode('utf-8') for msg in log_messages]
         time_values = result["time_values"][:]
         cell_voltage = result["cell_voltage"][:]
         cell_current = result["cell_current"][:]

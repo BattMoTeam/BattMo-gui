@@ -329,8 +329,9 @@ class ModelParameterHandler(db.BaseHandler):
         )
         return [a[0] for a in res]
 
-    def get_all_by_model_id(self, model_id):
-        return self.select(
+    @st.cache_data
+    def get_all_by_model_id(_self, model_id):
+        return _self.select(
             values='*',
             where='model_id=%d' % model_id
         )
@@ -393,8 +394,9 @@ class CategoryHandler(db.BaseHandler):
             }
         )
 
-    def get_all_by_tab_id(self, tab_id):
-        return self.select(
+    @st.cache_data
+    def get_all_by_tab_id(_self, tab_id):
+        return _self.select(
             values='*',
             where='tab_id=%d' % tab_id
         )
@@ -452,8 +454,9 @@ class ComponentHandler(db.BaseHandler):
             where='model_name=%s' % model_name
         )
     
-    def get_all_by_category_id(self, category_id):
-        return self.select(
+    @st.cache_data
+    def get_all_by_category_id(_self, category_id):
+        return _self.select(
             values='*',
             where='category_id=%d' % category_id
         )
@@ -512,8 +515,10 @@ class MaterialHandler(db.BaseHandler):
             values='id',
             where='model_name=%s' % model_name
         )
-    def get_all_by_component_id(self, component_id):
-        return self.select(
+    
+    @st.cache_data
+    def get_all_by_component_id(_self, component_id):
+        return _self.select(
             values='*',
             where='component_id=%d' % component_id
         )

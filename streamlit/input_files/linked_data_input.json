@@ -1929,7 +1929,7 @@
                         "@type": "emmo:Energy",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 70000.0
+                           "hasNumericalData": 80000.0
                         },
                         "unit": {
                            "label": "JoulePerMole",
@@ -6357,7 +6357,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 3
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",
