@@ -21,7 +21,7 @@ services:
       - genie
       - streamlit
     volumes:
-      - /path/to/host/certificates:/etc/letsencrypt/live/app.batterymodel.com:ro
+      - /etc/letsencrypt/live/app.batterymodel.com:/etc/letsencrypt/live/app.batterymodel.com:ro
     command: /bin/bash -c "/renew-certs.sh && nginx -g 'daemon off;'"
 
   streamlit:
