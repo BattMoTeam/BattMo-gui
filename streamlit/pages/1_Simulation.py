@@ -100,7 +100,7 @@ def run_page():
     model_id = app.set_model_choice().selected_model
 
     if st.session_state.success and st.session_state.transfer_results:
-        st.session_state["toast"](":green-background[Gattering the results!]", icon='💤')
+        st.session_state["toast"](":green-background[Gathering the results!]", icon='💤')
 
     gui_parameters = app.set_tabs(model_id).user_input
 
@@ -121,9 +121,10 @@ def run_page():
     app.divergence_check(save_run,st.session_state.success)
 
     if st.session_state.success and st.session_state.transfer_results:
-        st.session_state["toast"](":green-background[Find you results on the results page!]", icon='✅')
+        st.session_state["toast"](":green-background[Find your results on the results page!]", icon='✅')
         st.session_state.success = False
     
+    st.session_state.response = None
     with st.sidebar:
        # app_view.st_space(space_width=3)
 

@@ -242,8 +242,7 @@ class FormatParameters:
         self.type_function = "function"
         self.user_defined_id = 0
 
-    st.cache_data
-    def get_index(_self,list, id):
+    def get_index(self,list, id):
 
         for list_index, value in enumerate(list):
             if value == id:
@@ -253,11 +252,11 @@ class FormatParameters:
         assert index is not None, "id={} not found in list".format(id)
         return index
 
-    @st.cache_data
-    def format_parameter_sets(_self,material_component,materials, parameter_sets,material_parameter_sets_name_by_id, raw_template_parameters,raw_parameters,material_component_id):
+
+    def format_parameter_sets(self,material_component,materials, parameter_sets,material_parameter_sets_name_by_id, raw_template_parameters,raw_parameters,material_component_id):
         # initialize from template parameters
-        formatted_materials = _self.initialize_parameter_set(material_component)
-        formatted_parameters = _self.initialize_parameters(raw_template_parameters)
+        formatted_materials = self.initialize_parameter_set(material_component)
+        formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
     
         #if np.ndim(parameter_sets)> 1:
@@ -398,13 +397,13 @@ class FormatParameters:
             format_str = "{:.2f}"  # Normal notation with 2 decimal places
         return format_str.format(value)
 
-    @st.cache_data
-    def format_parameters(_self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
+
+    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
         
         if np.ndim(raw_parameters) > 1:
   
             # initialize from template parameters
-            formatted_parameters = _self.initialize_parameters(raw_template_parameters)
+            formatted_parameters = self.initialize_parameters(raw_template_parameters)
             
 
             for parameter in raw_parameters:
@@ -459,7 +458,7 @@ class FormatParameters:
         
         else:
             # initialize from template parameters
-            formatted_parameters = _self.initialize_parameters(raw_template_parameters)
+            formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
             parameter_id, \
                     name, \
@@ -516,7 +515,7 @@ class FormatParameters:
 
 
         return formatted_parameters
-    @st.cache_data
+
     def initialize_parameter_set(_self, materials):
         initialized_materials = {}
 
@@ -588,7 +587,7 @@ class FormatParameters:
             )
         return initialized_materials
 
-    @st.cache_data
+
     def initialize_parameters(_self, raw_template_parameters):
         initialized_parameters = {}
         if np.ndim(raw_template_parameters) > 1:

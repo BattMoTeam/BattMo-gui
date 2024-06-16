@@ -2023,7 +2023,7 @@ class SetTabs:
                         key_input_number = "input_number_{}_{}".format(material_component_id, id)
 
                         if key_select not in st.session_state:
-                            st.session_state[key_select] = material_display_names[-1]
+                            st.session_state[key_select] = "Default"
 
                         if key_input_number not in st.session_state:
                             st.session_state[key_input_number] = None
@@ -2416,7 +2416,7 @@ class RunSimulation:
 
         if response_start.status_code == 200:
 
-            st.session_state.reponse = True
+            st.session_state.response = True
 
             with open(app_access.get_path_to_battmo_results(), "wb") as f:
                     f.write(response_start.content)
@@ -2437,13 +2437,14 @@ class RunSimulation:
 
 
         else:
-            st.session_state.reponse = False
+            
             # st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             # st.session_state.success = False
             # self.success = False
 
             self.success = DivergenceCheck(save_run,False).success
 
+            st.session_state.response = False
 
             # with open("BattMo_results.pkl", "rb") as f:
             #     data = pickle.load(f)
@@ -2604,7 +2605,7 @@ class DivergenceCheck:
 
     def divergence_check_logging(self,N, number_of_states,log_messages,results):
 
-        if self.response == False and st.session_state.success == None or self.response == False and st.session_state.success == False:
+        if self.response == False and st.session_state.success == False and st.session_state.response != None:
             self.save_run.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
             st.session_state.success = False
             st.session_state.transfer_results = False
@@ -2666,7 +2667,8 @@ class DivergenceCheck:
                 # except:
                 #     pass
 
-
+        elif st.session_state.response == None:
+            pass
 
 
 
