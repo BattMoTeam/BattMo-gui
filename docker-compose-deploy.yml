@@ -20,7 +20,9 @@ services:
     depends_on:
       - genie
       - streamlit
-    command: /renew-certs.sh
+    volumes:
+      - /path/to/host/certificates:/etc/letsencrypt/live/app.batterymodel.com:ro
+    command: /bin/bash -c "/renew-certs.sh && nginx -g 'daemon off;'"
 
   streamlit:
     image: ghcr.io/battmoteam/battmogui_streamlit:latest
