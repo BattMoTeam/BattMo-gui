@@ -8,7 +8,8 @@ services:
     restart: always
     ports:
       - "8000:8000"
-    command: su genie -c 'julia --project=. -e "include(\"app/rest.jl\")" --color=yes --depwarn=no --project=@. --sysimage=\"/home/sysimage.so\" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"'
+    command: sudo -u genie julia --project=. -e 'include("app/rest.jl")' --color=yes --depwarn=no --project=@. --sysimage="/home/sysimage.so" -q -i -- $(dirname $0)/../bootstrap.jl -s=true
+
 
   nginx:
     build: ./nginx
