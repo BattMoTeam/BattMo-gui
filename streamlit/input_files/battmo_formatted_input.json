@@ -7,7 +7,7 @@
       "Coating": {
          "thickness": 8.499999999999999e-05,
          "N": 20,
-         "effectiveDensity": 1726.14,
+         "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
             "massFraction": 0.9,
@@ -36,7 +36,7 @@
             },
             "diffusionModelType": "full",
             "SolidDiffusion": {
-               "activationEnergyOfDiffusion": 70000.0,
+               "activationEnergyOfDiffusion": 80000.0,
                "referenceDiffusionCoefficient": 3.9e-14,
                "particleRadius": 5e-07,
                "N": 10
@@ -170,7 +170,7 @@
    "Control": {
       "controlPolicy": "CCCV",
       "initialControl": "charging",
-      "numberOfCycles": 3,
+      "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
