@@ -93,7 +93,7 @@ def run_page():
     selected_data_sets = app.set_data_set_selector().set_selector()
     
 
-    if st.session_state.transfer_results == True or st.session_state.hdf5_upload == True:
+    if st.session_state.transfer_results == True or st.session_state.hdf5_upload == True or selected_data_sets:
         session_temp_folder = st.session_state["temp_dir"]
         file_names = [f for f in os.listdir(session_temp_folder) if os.path.isfile(os.path.join(session_temp_folder, f))]
         #st.divider()
@@ -133,7 +133,7 @@ def run_page():
     elif st.session_state.success == None:
         st.error("You have not executed a simulation yet. Go to the 'Simulation' page to run a simulation or upload your previous results to visualize them.")
 
-    else: 
+    elif st.session_state.success == False and st.session_state.transfer_results == False and not selected_data_sets: 
         st.error("Your simulation was not succesful unfortunately, give it another try.")
 
     with st.sidebar:

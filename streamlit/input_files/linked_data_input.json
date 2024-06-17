@@ -6357,7 +6357,7 @@
                   "@type": "emmo:NumberOfEntities",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 2
+                     "hasNumericalData": 1
                   },
                   "unit": {
                      "label": "UnitOne",

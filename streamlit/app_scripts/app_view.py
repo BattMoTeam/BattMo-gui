@@ -3185,7 +3185,13 @@ class SetIndicators():
             file_names = self.file_names
             multi = len(indicators)
 
-        tabs = st.tabs(file_names)
+        trace_labels = []
+
+        for file_name in file_names:
+
+            trace_labels.append(file_name.rsplit('.', 1)[0])
+
+        tabs = st.tabs(trace_labels)
 
         for i,tab in enumerate(tabs):
 
@@ -4905,7 +4911,7 @@ class SetGraphs():
                 if len(array[0]) < max_length_2:
                     diff = max_length_2 - len(array[0])
                     nan_array = np.full((len(array[:,0]), diff), np.nan)
-                    arrays[index] = np.hstack((arrays[index], nan_array))
+                    arrays[index] = np.hstack((array, nan_array))
                     
 
         return arrays
