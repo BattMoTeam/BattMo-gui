@@ -6,6 +6,8 @@ using HTTP
 using UUIDs
 using JSON
 using HDF5
+using Base.Threads: ReentrantLock, lock, unlock
+
 
 include("runP2DBattery.jl") 
 
@@ -14,6 +16,9 @@ include("runP2DBattery.jl")
 Genie.config.run_as_server = true
 Genie.config.server_host = "0.0.0.0"
 Genie.config.cors_allowed_origins = ["*"]
+
+# Initialize lock
+const simulation_lock = ReentrantLock()
 
 function create_hdf5_output_file(output,file_path)
 
@@ -117,16 +122,23 @@ route("/run_simulation", method = POST) do
     # For example, you can access input_data["key"] to access specific values
 
     # Run BattMo simulation
-    output = runP2DBattery.runP2DBatt(input_file_name);
+    try
+        lock(simulation_lock) do
+            output = runP2DBattery.runP2DBatt(input_file_name);
 
-    if isfile(input_file_name)
-        rm(input_file_name)  # Delete the file
-        println("File deleted successfully.")
-    else
-        println("File does not exist.")
+            if isfile(input_file_name)
+                rm(input_file_name)  # Delete the file
+                println("File deleted successfully.")
+            else
+                println("File does not exist.")
+            end
+
+            create_hdf5_output_file(output,"results/$output_path_name.h5")
+        end
+    catch e
+        return json(Dict("error" => string(e)))
+
     end
-
-    create_hdf5_output_file(output,"results/$output_path_name.h5")
 
     hdf5_data = read("results/$output_path_name.h5")
 

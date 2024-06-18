@@ -1,12 +1,12 @@
 {
    "calculatedParameters": {
       "effective_density": {
-         "negative_electrode": 1781.465,
-         "positive_electrode": 3243.7999999999997
+         "negative_electrode": 1770.4,
+         "positive_electrode": 3151.12
       },
       "mass_loadings": {
-         "negative_electrode": 80.165925,
-         "positive_electrode": 125.06328172799999
+         "negative_electrode": 16.8188,
+         "positive_electrode": 23.948511999999994
       }
    }
 }
