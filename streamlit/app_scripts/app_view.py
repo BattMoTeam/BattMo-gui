@@ -756,7 +756,7 @@ class SetTabs:
             max_readable_value = 10000
             min_readable_value = 0.001
             is_readable = value < max_readable_value and value > min_readable_value
-            format = "%.2g" if is_readable else "%.2e"
+            format = "%g" if is_readable else "%.2e"
         return format
     
     @st.cache_data
@@ -5644,7 +5644,52 @@ class SetMaterialDescription():
 
         self.set_material_description()
 
-    def set_material_description(self):
+    @st.cache_data
+    def parsed_function(_self,string, x, T, refT):
+        # Define a dictionary to store allowed functions and their mappings
+        allowed_functions = {
+            "exp": math.exp,
+            "tanh": math.tanh,
+            # Add more functions as needed
+        }
+        
+        # Regular expression pattern to find function calls
+        pattern = r"([a-zA-Z_][a-zA-Z0-9_]*)\("  # Matches function names
+        
+        # Replace function calls with their respective mappings
+        safe_equation_string = re.sub(pattern, lambda match: f"allowed_functions['{match.group(1)}'](", string)
+        
+        # Evaluate the modified equation string with x
+        return eval(safe_equation_string, {"allowed_functions": allowed_functions, "x": x, "T": T, "refT":refT})
+    
+    @st.cache_data
+    def plot_function(_self,string, parameter_display_name, contains_c_cmax):
+
+        T = 300
+        refT = 298.15
+        if contains_c_cmax:
+            x = np.linspace(0,1,100)
+            x_title = 'c/cmax'
+        else:
+            x = np.linspace(0.6,1.6,100)
+            x_title = 'c'
+
+        y = np.zeros(len(x))
+        for i in range(len(x)):
+            y[i] = _self.parsed_function(string,x[i], T, refT)
+
+        fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Sample Line'))
+
+        # Add titles and labels
+        fig.update_layout(
+            title= parameter_display_name,
+            xaxis_title=x_title,
+            yaxis_title= parameter_display_name
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    def set_material_description(_self):
 
         ##############################
         # Remember user changed values
@@ -5719,39 +5764,14 @@ class SetMaterialDescription():
                                         else:
                                             st.latex(sp.latex(sp.sympify(string_py)))
 
-                                            # updated_string = string_py.replace("c/cmax", "x")
-                                            # def parsed_function(x):
-                                            #     # Define a dictionary to store allowed functions and their mappings
-                                            #     allowed_functions = {
-                                            #         "exp": math.exp,
-                                            #         "tanh": math.tanh,
-                                            #         # Add more functions as needed
-                                            #     }
-                                                
-                                            #     # Regular expression pattern to find function calls
-                                            #     pattern = r"([a-zA-Z_][a-zA-Z0-9_]*)\("  # Matches function names
-                                                
-                                            #     # Replace function calls with their respective mappings
-                                            #     safe_equation_string = re.sub(pattern, lambda match: f"allowed_functions['{match.group(1)}'](", updated_string)
-                                                
-                                            #     # Evaluate the modified equation string with x
-                                            #     return eval(safe_equation_string, {"allowed_functions": allowed_functions, "x": x})
+                                            # contains_c_cmax = "c/cmax" in string_py
+
+                                            # if contains_c_cmax:
+                                            #     updated_string = string_py.replace("c/cmax", "x")
+                                            # else:
+                                            #     updated_string = string_py.replace("c", "x")
                                             
-                                            # x = np.linspace(0,1,100)
-                                            # y = np.zeros(len(x))
-                                            # for i in range(len(x)):
-                                            #     y[i] = parsed_function(x[i])
-
-                                            # fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines', name='Sample Line'))
-
-                                            # # Add titles and labels
-                                            # fig.update_layout(
-                                            #     title='Simple Line Graph',
-                                            #     xaxis_title='X Axis',
-                                            #     yaxis_title='Y Axis'
-                                            # )
-
-                                            # st.plotly_chart(fig, use_container_width=True)
+                                            # _self.plot_function(updated_string, parameter_display_name, contains_c_cmax)
 
                                 else:
                                     st.markdown('''```<Julia>

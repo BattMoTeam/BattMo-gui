@@ -5,7 +5,7 @@
    "material": false,
    "Parameters": {
       "nominal_cell_capacity": 12.5,
-      "number_parallel_electrode_pairs_within_cell": 34,
+      "number_parallel_electrode_pairs_within_cell": 1,
       "external_surface_area": 0.0379,
       "packing_mass": 20,
       "volume": 0.000128,

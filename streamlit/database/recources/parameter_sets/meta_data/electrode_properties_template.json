@@ -8,7 +8,7 @@
          "difficulty": "basis",
          "context_type": "emmo:Thickness",
          "context_type_iri": "https://w3id.org/emmo#EMMO_43003c86_9d15_433b_9789_ee2940920656",
-         "max_value": 200,
+         "max_value": 500,
          "min_value": 1,
          "description": "The thickness of the active material coating",
          "is_shown_to_user": true,

@@ -44,9 +44,9 @@ def calc_density_eff(density_mix,porosity):
     return density_eff
 
 @st.cache_data
-def calc_mass_loading(density_eff, thickness, porosity):
+def calc_mass_loading(density_mix, thickness, porosity):
         
-    ml = thickness*10**(-6)*density_eff*100*(1-porosity)
+    ml = thickness*10**(-6)*density_mix*100*(1-porosity)
     
     return ml
 

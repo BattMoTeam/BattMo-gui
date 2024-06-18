@@ -6,7 +6,7 @@
    "Parameters": {
       "maximum_concentration": 26390,
       "volumetric_surface_area": 1878260,
-      "density": 991,
+      "density": 1500,
       "number_of_electrons_transferred": 1,
       "activation_energy_of_reaction": 4000,
       "reaction_rate_constant": 3.626e-11,
