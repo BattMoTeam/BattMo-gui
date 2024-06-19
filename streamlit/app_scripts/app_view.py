@@ -4694,7 +4694,7 @@ class SetGraphs():
         #         st.plotly_chart(_self.get_elyte_p_color())
 
 
-    @st.cache_data
+    #@st.cache_data
     def get_elyte_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.electrolyte_grid,
@@ -4707,7 +4707,7 @@ class SetGraphs():
             horizontal_line=_self.time_values[state]
         )
 
-    @st.cache_data
+    #@st.cache_data
     def get_elyte_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.electrolyte_grid,
@@ -4720,7 +4720,7 @@ class SetGraphs():
             horizontal_line=_self.time_values[state]
         )
 
-    @st.cache_data
+    #@st.cache_data
     def get_pe_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.positive_electrode_grid,
@@ -4733,7 +4733,7 @@ class SetGraphs():
             horizontal_line=_self.time_values[state]
         )
 
-    @st.cache_data
+    #@st.cache_data
     def get_pe_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.positive_electrode_grid,
@@ -4746,7 +4746,7 @@ class SetGraphs():
             horizontal_line=_self.time_values[state]
         )
 
-    @st.cache_data
+    #@st.cache_data
     def get_ne_c_color(_self,state):
         return _self.create_colormap(
             x_data=_self.negative_electrode_grid,
@@ -4760,7 +4760,7 @@ class SetGraphs():
         )
 
 
-    @st.cache_data
+    #@st.cache_data
     def get_ne_p_color(_self,state):
         return _self.create_colormap(
             x_data=_self.negative_electrode_grid,
@@ -4786,7 +4786,10 @@ class SetGraphs():
                                     y=y_data,
                                     x = x_data,
                                     colorbar=dict(title=cbar_label),
-                                    ))
+                                    ),
+                        layout=go.Layout(
+                                    autosize=True 
+                                ))
         fig.update_layout(
             title=title,
             xaxis_title=x_label,
@@ -5582,7 +5585,9 @@ class SetGraphs():
         #     "y": [y for sublist in y_data for y in sublist],
         #     "label": [label for label in _self.selected_data_sets for _ in range(len(x_data))]
         # })
-        fig = go.Figure()
+        fig = go.Figure(layout=go.Layout(
+                                    autosize=True 
+                                ))
 
         if isinstance(_self.selected_data_sets, list) and len(_self.selected_data_sets) > 1:
 
@@ -5605,7 +5610,7 @@ class SetGraphs():
             # yaxis=dict(range=[0, y_max])
         )
         fig.update_xaxes(
-            range=[0,x_max],  # sets the range of xaxis
+            # range=[0,x_max],  # sets the range of xaxis
             constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
         )
         if vertical_line:
@@ -5733,7 +5738,7 @@ class SetMaterialDescription():
                         parameter_values = tuple(db_helper.extract_parameters_by_parameter_set_id(parameter_set_id))
 
                         for parameter in parameter_values:
-
+                            
                             id,parameter_name,_,template_parameter_id,value = parameter
 
                             template_parameter = db_helper.get_template_from_name(parameter_name)
@@ -5778,9 +5783,13 @@ class SetMaterialDescription():
                                                 {}'''.format(value_dict["functionname"]))
 
                             else:
+                                if unit == None:
 
-                                st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+
-                                            value + " / " + "[{}]({})".format(unit, unit_iri))
+                                    st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+
+                                                value)
+                                else:
+                                    st.write("[{}]({}) = ".format(parameter_display_name, template_context_type_iri)+
+                                                value + " / " + "[{}]({})".format(unit, unit_iri))
 
 
 
