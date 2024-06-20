@@ -47,9 +47,9 @@ class BaseHandler:
 
                 cur.execute(query, tuple(string_values))
             finally:
-                cur.close()
+                # cur.close()
                 con.commit()
-                con.close()
+                # con.close()
             return cur.lastrowid
 
   
@@ -77,11 +77,11 @@ class BaseHandler:
                 raise
 
             finally:
-                if cur:
-                    cur.close()
+                # if cur:
+                    # cur.close()
                 if con:
                     con.commit()
-                    con.close()
+                    # con.close()
                   
                 
 

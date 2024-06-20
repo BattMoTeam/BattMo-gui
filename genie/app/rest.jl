@@ -1,15 +1,17 @@
 
 println("Current project genie: $(Base.active_project())")
 println("BattMo loaded")
-using Genie, Genie.Renderer.Json, Genie.Requests
+using Genie, Genie.Requests
 using HTTP
 using UUIDs
 using JSON
 using HDF5
 using Base.Threads: ReentrantLock, lock, unlock
+import Genie.Renderer.Json: json
 
 
-include("runP2DBattery.jl") 
+include("runP2DBattery.jl")
+include("getIndicators.jl")
 
 
 # Set the host explicitly
@@ -20,24 +22,24 @@ Genie.config.cors_allowed_origins = ["*"]
 # Initialize lock
 const simulation_lock = ReentrantLock()
 
-function create_hdf5_output_file(output,file_path)
+function create_hdf5_output_file(output, file_path)
 
-    log_messages, 
-    number_of_states, 
-    cell_voltage, 
-    cell_current, 
-    time_values, 
-    negative_electrode_grid, 
-    negative_electrode_grid_bc, 
-    electrolyte_grid, 
-    electrolyte_grid_bc, 
-    positive_electrode_grid, 
-    positive_electrode_grid_bc, 
-    negative_electrode_concentration, 
-    electrolyte_concentration, 
-    positive_electrode_concentration, 
-    negative_electrode_potential, 
-    electrolyte_potential, 
+    log_messages,
+    number_of_states,
+    cell_voltage,
+    cell_current,
+    time_values,
+    negative_electrode_grid,
+    negative_electrode_grid_bc,
+    electrolyte_grid,
+    electrolyte_grid_bc,
+    positive_electrode_grid,
+    positive_electrode_grid_bc,
+    negative_electrode_concentration,
+    electrolyte_concentration,
+    positive_electrode_concentration,
+    negative_electrode_potential,
+    electrolyte_potential,
     positive_electrode_potential = output
 
     log_messages_strings = string.(log_messages)
@@ -46,14 +48,14 @@ function create_hdf5_output_file(output,file_path)
     HDF5.h5open(file_path, "w") do file
         print(number_of_states)
         file["number_of_states"] = number_of_states[1]
-        
+
         # Write datasets
         print(typeof(log_messages))
         file["log_messages"] = log_messages_strings
         file["cell_voltage"] = cell_voltage
         file["cell_current"] = cell_current
         file["time_values"] = time_values
-    
+
         println("number of states = ", number_of_states[1])
 
         # Create groups
@@ -69,7 +71,7 @@ function create_hdf5_output_file(output,file_path)
         grids["electrolyte_grid_bc"] = electrolyte_grid_bc
         grids["positive_electrode_grid_bc"] = positive_electrode_grid_bc
 
-        
+
         negative_electrode_concentrations = create_group(concentrations, "negative_electrode")
         electrolyte_concentrations = create_group(concentrations, "electrolyte")
         positive_electrode_concentrations = create_group(concentrations, "positive_electrode")
@@ -89,7 +91,7 @@ function create_hdf5_output_file(output,file_path)
             write(negative_electrode_concentrations, ne_c_dataset_name, negative_electrode_concentration[i])
             write(positive_electrode_concentrations, pe_c_dataset_name, positive_electrode_concentration[i])
             write(electrolyte_concentrations, elyte_c_dataset_name, electrolyte_concentration[i])
-            
+
             write(negative_electrode_potentials, ne_p_dataset_name, negative_electrode_potential[i])
             write(positive_electrode_potentials, pe_p_dataset_name, positive_electrode_potential[i])
             write(electrolyte_potentials, elyte_p_dataset_name, electrolyte_potential[i])
@@ -100,7 +102,7 @@ end
 
 
 
-route("/run_simulation", method = POST) do
+route("/run_simulation", method=POST) do
     # Retrieve JSON data from the request sent by Client
     input_data = jsonpayload()
 
@@ -117,14 +119,14 @@ route("/run_simulation", method = POST) do
     open(input_file_name, "w") do temp_input_file
         JSON.print(temp_input_file, input_data)
     end
-    
-     # Process the input data as needed
+
+    # Process the input data as needed
     # For example, you can access input_data["key"] to access specific values
 
     # Run BattMo simulation
     try
         lock(simulation_lock) do
-            output = runP2DBattery.runP2DBatt(input_file_name);
+            output = runP2DBattery.runP2DBatt(input_file_name)
 
             if isfile(input_file_name)
                 rm(input_file_name)  # Delete the file
@@ -133,7 +135,7 @@ route("/run_simulation", method = POST) do
                 println("File does not exist.")
             end
 
-            create_hdf5_output_file(output,"results/$output_path_name.h5")
+            create_hdf5_output_file(output, "results/$output_path_name.h5")
         end
     catch e
         return json(Dict("error" => string(e)))
@@ -148,7 +150,7 @@ route("/run_simulation", method = POST) do
     #     println(number_of_states)
     # end
 
-    
+
     # Concatenate the vectors of UInt8 into a single vector
     concatenated_data = vcat(hdf5_data...)
 
@@ -160,6 +162,53 @@ route("/run_simulation", method = POST) do
 
     return response
 
+end
+
+
+route("/get_indicators", method=POST) do
+
+    input_data = jsonpayload()
+
+    # Generate a UUID
+    uuid_str_in = string(UUIDs.uuid4())
+
+    # Create a file name with the UUID
+    input_file_name = "$uuid_str_in.json"
+
+    # Write the JSON data to the file
+    open(input_file_name, "w") do temp_input_file
+        JSON.print(temp_input_file, input_data)
+    end
+
+    # Process the input data as needed
+    # For example, you can access input_data["key"] to access specific values
+
+    # Run BattMo simulation
+    try
+        lock(simulation_lock) do
+            output = getIndicators.getIndicatorsBattMo(input_file_name)
+            println(output)
+
+            if isfile(input_file_name)
+                rm(input_file_name)  # Delete the file
+                println("File deleted successfully.")
+            else
+                println("File does not exist.")
+            end
+            # Return the output as a JSON dictionary
+            return json(Dict("result" => output))
+        end
+    catch e
+        error_message = "Error: "
+        if isa(e, UndefVarError)
+            error_message *= "Undefined variable error: $(e.var)"
+        elseif isa(e, ArgumentError)
+            error_message *= "Argument error: $(e.msg)"
+        else
+            error_message *= string(e)
+        end
+        return json(Dict("error" => error_message))
+    end
 end
 
 up()

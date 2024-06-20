@@ -82,30 +82,30 @@ def calc_n_to_p_ratio(electrode_capacities):
     return n_to_p
 
 @st.cache_data
-def calc_cell_mass(densities, porosities, volumes, CC_mass, packing_mass):
+def calc_cell_mass(mass, CC_mass, packing_mass):
     
-    vf_sep = 1-porosities["separator"]
-    vf_el_ne = 1-porosities["negative_electrode"]
-    vf_el_pe = 1-porosities["positive_electrode"]
-    vf_elyte_el_ne = porosities["negative_electrode"]
-    vf_elyte_el_pe = porosities["positive_electrode"]
-    vf_elyte_sep = porosities["separator"]
+    # vf_sep = 1-porosities["separator"]
+    # vf_el_ne = 1-porosities["negative_electrode"]
+    # vf_el_pe = 1-porosities["positive_electrode"]
+    # vf_elyte_el_ne = porosities["negative_electrode"]
+    # vf_elyte_el_pe = porosities["positive_electrode"]
+    # vf_elyte_sep = porosities["separator"]
 
-    # Electrodes
-    mass_ne= densities["negative_electrode"]*volumes["negative_electrode"]*vf_el_ne
-    mass_pe = densities["positive_electrode"]*volumes["positive_electrode"]*vf_el_pe
+    # # Electrodes
+    # mass_ne= densities["negative_electrode"]*volumes["negative_electrode"]*vf_el_ne
+    # mass_pe = densities["positive_electrode"]*volumes["positive_electrode"]*vf_el_pe
 
-    # Separator
-    mass_sep = densities["separator"]*volumes["separator"]*vf_sep
+    # # Separator
+    # mass_sep = densities["separator"]*volumes["separator"]*vf_sep
 
-    # Electrolyte
-    mass_elyte_ne = densities["electrolyte"]*volumes["negative_electrode"]*vf_elyte_el_ne
-    mass_elyte_pe = densities["electrolyte"]*volumes["positive_electrode"]*vf_elyte_el_pe
-    mass_elyte_sep = densities["electrolyte"]*volumes["separator"]*vf_elyte_sep
+    # # Electrolyte
+    # mass_elyte_ne = densities["electrolyte"]*volumes["negative_electrode"]*vf_elyte_el_ne
+    # mass_elyte_pe = densities["electrolyte"]*volumes["positive_electrode"]*vf_elyte_el_pe
+    # mass_elyte_sep = densities["electrolyte"]*volumes["separator"]*vf_elyte_sep
     
-    mass = mass_ne +mass_pe +mass_sep +mass_elyte_ne +mass_elyte_pe +mass_elyte_sep+mass_elyte_sep + CC_mass 
-    mass = mass*1000 + packing_mass
-    return mass, mass_ne, mass_pe
+    # mass = mass_ne +mass_pe +mass_sep +mass_elyte_ne +mass_elyte_pe +mass_elyte_sep+mass_elyte_sep + CC_mass 
+    mass = (mass + CC_mass)*1000 + packing_mass
+    return mass
 
 @st.cache_data
 def calc_cell_capacity(capacities_electrodes):
@@ -114,6 +114,13 @@ def calc_cell_capacity(capacities_electrodes):
     Qcell = capacities_electrodes[min_key]
 
     return Qcell
+
+@st.cache_data
+def calc_specific_energy(energy, mass):
+
+    specific_energy = energy/mass
+
+    return specific_energy
 
 
 @st.cache_data

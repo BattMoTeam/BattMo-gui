@@ -7,7 +7,7 @@ Flask==2.3.2
 pylance==0.6.2
 streamlit_extras == 0.3.2
 sympy == 1.12
-psutil == 3.2.2
+psutil == 5.6.6
 plotly == 5.22.0
 streamlit-elements==0.1
 st-theme

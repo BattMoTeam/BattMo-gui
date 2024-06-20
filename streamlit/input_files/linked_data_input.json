@@ -2324,7 +2324,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 200.0
+                           "hasNumericalData": 85.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -2350,7 +2350,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 35.407999999999994
+                           "hasNumericalData": 15.0484
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -2402,7 +2402,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 2636.667418520486
+                           "hasNumericalData": 4034.173605073557
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -4590,7 +4590,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 1047.6223333812661
+                           "hasNumericalData": 3771.508137374212
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -6233,7 +6233,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 2.52
+                     "hasNumericalData": 1.07
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6246,7 +6246,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 36.9225708032
+                     "hasNumericalData": 425.69689377645386
                   },
                   "unit": {
                      "label": "Gram",
@@ -6259,7 +6259,7 @@
                   "@type": null,
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1047.6223333812661
+                     "hasNumericalData": 3771.508137374212
                   },
                   "unit": {
                      "label": "AmpereHour",
@@ -6278,6 +6278,19 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "specific_energy",
+                  "@type": "emmo:SpecificEnergyDischarging",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": 34871.730129598225
+                  },
+                  "unit": {
+                     "label": "WattHourPerKilogram",
+                     "symbol": "Wh",
+                     "@type": "emmo:WattHourPerKilogram"
                   }
                }
             ]

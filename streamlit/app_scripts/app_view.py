@@ -595,11 +595,12 @@ class SetupLinkedDataStruct():
         return dict
 
     @st.cache_data
-    def add_indicators_to_struct(_self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte):
+    def add_indicators_to_struct(_self, dict, n_to_p, cell_mass, cell_cap, specific_cap_ne, specific_cap_pe, cap_ne,cap_pe,rte,energy):
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += n_to_p
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_mass
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_cap
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += rte
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][_self.hasQuantitativeProperty] += energy
         dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasNegativeElectrode][_self.hasQuantitativeProperty] += specific_cap_ne
         dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasPositiveElectrode][_self.hasQuantitativeProperty] += specific_cap_pe
         dict[_self.universe_label][_self.hasCell][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_ne
@@ -677,6 +678,7 @@ class SetTabs:
         self.calc_capacity_electrode = calc.calc_capacity_electrode
         self.calc_specific_capacity_active_material = calc.calc_specific_capacity_active_material
         self.calc_cell_capacity = calc.calc_cell_capacity
+        self.calc_specific_energy = calc.calc_specific_energy
 
         # user_input is the dict containing all the json LD data
         self.LD = SetupLinkedDataStruct()
@@ -898,7 +900,6 @@ class SetTabs:
                         )
 
                     cell_parameters[tab_relation] = category_parameters[tab_relation]
-
                     #cell_parameters = LD.fill_sub_dict(cell_parameters, tab_relation, category_parameters,"new",relation_dict_2=tab_relation)
 
 
@@ -906,7 +907,8 @@ class SetTabs:
             self.user_input = self.LD.fill_linked_data_dict(self.user_input, cell_parameters)
 
             index +=1
-
+        self.update_json_LD()
+        self.update_json_battmo_input()
         self.user_input = self.calc_indicators(self.user_input)
         self.update_json_LD()
         self.update_json_battmo_input()
@@ -941,6 +943,28 @@ class SetTabs:
         input_dict = match_json_LD.GuiDict(user_input)
         with open(app_access.get_path_to_calculated_values(), 'r') as f:
             calculated_values = json.load(f)["calculatedParameters"]
+
+        # Get indicators from BattMo.jl
+
+        with open(app_access.get_path_to_battmo_formatted_input(), 'r') as f:
+            battmo_formatted_input = json.load(f)
+
+        response_start = requests.post("http://genie:8000/get_indicators", json=battmo_formatted_input).json()
+        st.write(response_start)
+        if response_start:
+            
+            specs = response_start
+            specs = specs["result"]
+            specific_capacity_ne = specs["NegativeElectrodeCapacity"]
+            specific_capacity_pe = specs["PositiveElectrodeCapacity"]
+            mass = specs["Mass"]
+            energy = specs["Energy"]
+
+        else:
+            specific_capacity_ne = None
+            specific_capacity_pe = None
+
+
 
         # Retrieve parameter values
         mf_ne = input_dict.ne.am.get("mass_fraction").get("value")
@@ -998,16 +1022,16 @@ class SetTabs:
         specific_capacities_category_parameters_am_pe = _self.LD.setup_parameter_struct(raw_template_am_pe, value = specific_capacity_am_pe)
 
         # Specific capacity electrodes
-        specific_capacity_ne = _self.calc_capacity_electrode(specific_capacity_am_ne,
-                                                                    mf_ne,
-                                                                    densities["negative_electrode"],
-                                                                    volumes["negative_electrode"],
-                                                                    porosities["negative_electrode"])
-        specific_capacity_pe = _self.calc_capacity_electrode(specific_capacity_am_pe,
-                                                                    mf_pe,
-                                                                    densities["positive_electrode"],
-                                                                    volumes["positive_electrode"],
-                                                                    porosities["positive_electrode"])
+        # specific_capacity_ne = _self.calc_capacity_electrode(specific_capacity_am_ne,
+        #                                                             mf_ne,
+        #                                                             densities["negative_electrode"],
+        #                                                             volumes["negative_electrode"],
+        #                                                             porosities["negative_electrode"])
+        # specific_capacity_pe = _self.calc_capacity_electrode(specific_capacity_am_pe,
+        #                                                             mf_pe,
+        #                                                             densities["positive_electrode"],
+        #                                                             volumes["positive_electrode"],
+        #                                                             porosities["positive_electrode"])
         specific_capacities_electrodes = {
             "negative_electrode": specific_capacity_ne,
             "positive_electrode": specific_capacity_pe
@@ -1024,18 +1048,23 @@ class SetTabs:
 
         # Cell Mass
         cc_mass = volumes["current_collector"]* 8950
-        cell_mass, ne_mass, pe_mass = _self.calc_cell_mass(densities, porosities, volumes, cc_mass, packing_mass)
+        cell_mass= _self.calc_cell_mass(mass,cc_mass, packing_mass)
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name("cell_mass")
         cell_mass_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellmass,value=cell_mass)
 
         # Cell Capacity
-        masses = {
-            "negative_electrode": ne_mass,
-            "positive_electrode": pe_mass
-        }
+        # masses = {
+        #     "negative_electrode": ne_mass,
+        #     "positive_electrode": pe_mass
+        # }
         cell_capacity = _self.calc_cell_capacity(specific_capacities_electrodes)
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name("nominal_cell_capacity")
         cell_capacity_category_parameters= _self.LD.setup_parameter_struct(raw_template_cellcap,value=cell_capacity)
+
+        # Specific energy
+        specific_energy = _self.calc_specific_energy(energy,mass)
+        raw_template_energy = db_helper.get_template_parameter_by_parameter_name("specific_energy")
+        energy_category_parameters= _self.LD.setup_parameter_struct(raw_template_energy,value=specific_energy)
 
         # Round trip efficiency
         raw_template_rte = db_helper.get_template_parameter_by_parameter_name("round_trip_efficiency")
@@ -1043,7 +1072,7 @@ class SetTabs:
 
 
         # Include indicators in linked data input dict
-        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe,rte_category_parameters)
+        user_input = _self.LD.add_indicators_to_struct(user_input,n_to_p_category_parameters,cell_mass_category_parameters,cell_capacity_category_parameters,specific_capacities_category_parameters_ne,specific_capacities_category_parameters_pe,specific_capacities_category_parameters_am_ne,specific_capacities_category_parameters_am_pe,rte_category_parameters,energy_category_parameters )
 
         return user_input
 
