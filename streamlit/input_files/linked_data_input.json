@@ -6279,6 +6279,19 @@
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
                   }
+               },
+               {
+                  "label": "specific_energy",
+                  "@type": "emmo:SpecificEnergyDischarging",
+                  "value": {
+                     "@type": "emmo:Numerical",
+                     "hasNumericalData": null
+                  },
+                  "unit": {
+                     "label": "WattHourPerKilogram",
+                     "symbol": "Wh\u00b7kg\u207b\u00b9",
+                     "@type": "emmo:WattHourPerKilogram"
+                  }
                }
             ]
          },
@@ -6464,11 +6477,11 @@
                   }
                },
                {
-                  "label": "ramp_up_time",
+                  "label": "number_of_ramp_up_steps",
                   "@type": "['LinearCurrentRamp', 'Duration']",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 10.0
+                     "hasNumericalData": 5.0
                   },
                   "unit": {
                      "label": "Second",

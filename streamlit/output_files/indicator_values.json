@@ -7,6 +7,9 @@
       "roundTripEfficiency": {
          "unit": "1"
       },
+      "specificEnergy": {
+         "unit": "Wh\u00b7kg\u207b\u00b9"
+      },
       "nominalCellCapacity": {
          "value": 1047.6223333812661,
          "unit": "mAh"

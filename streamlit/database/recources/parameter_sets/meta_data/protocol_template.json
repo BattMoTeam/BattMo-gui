@@ -144,7 +144,7 @@
          "unit_name": "Second",
          "unit_iri": "https://w3id.org/emmo/domain/emmo#Second"
       },
-      "ramp_up_time": {
+      "number_of_ramp_up_steps": {
          "model_name": ["P2D","P3D"],
          "par_class": "non_material",
          "difficulty": "advanced",

@@ -33,7 +33,7 @@ module runP2DBattery
             global_logger(ConsoleLogger(log_buffer))
 
             print("Calling BattMo simulation")
-            states, reports, extra = run_battery(json_file, extra_timing = false);
+            states,cellSpecifications , reports, extra = run_battery(json_file, extra_timing = false);
             print("Simulation finished")
             
             # file = "./"*output_path*"/jutul_1.jld2"
@@ -88,12 +88,14 @@ module runP2DBattery
             negative_electrode_concentration = negative_electrode_concentration[1]
             positive_electrode_concentration = positive_electrode_concentration[1]
 
+            specific_energy = cellSpecifications[:energy]
+
             # Capture log messages
             seekstart(log_buffer)
             log_messages = split(String(take!(log_buffer)), "\n")
             println("Number of states = ", number_of_states)
              
-            return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
+            return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential,specific_energy
         catch e
             println("Simulation failed: $e")
 
@@ -113,11 +115,12 @@ module runP2DBattery
             negative_electrode_potential = [0]
             electrolyte_potential = [0]
             positive_electrode_potential = [0]
+            specific_energy = [0]
 
             # Capture log messages
             seekstart(log_buffer)
             log_messages = split(String(take!(log_buffer)), "\n")
-            return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential
+            return log_messages, number_of_states, cell_voltage, cell_current, time_values, negative_electrode_grid, negative_electrode_grid_bc, electrolyte_grid, electrolyte_grid_bc, positive_electrode_grid, positive_electrode_grid_bc, negative_electrode_concentration, electrolyte_concentration, positive_electrode_concentration, negative_electrode_potential, electrolyte_potential, positive_electrode_potential,specific_energy
 
         finally
             close(log_buffer)  

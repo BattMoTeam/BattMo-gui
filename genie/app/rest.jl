@@ -38,7 +38,8 @@ function create_hdf5_output_file(output,file_path)
     positive_electrode_concentration, 
     negative_electrode_potential, 
     electrolyte_potential, 
-    positive_electrode_potential = output
+    positive_electrode_potential,
+    specific_energy = output
 
     log_messages_strings = string.(log_messages)
     #bio = IOBuffer()
@@ -60,6 +61,12 @@ function create_hdf5_output_file(output,file_path)
         grids = create_group(file, "grids")
         concentrations = create_group(file, "concentrations")
         potentials = create_group(file, "potentials")
+        indicators = create_group(file, "indicators")
+
+        # Write indicators
+        cell = create_group(indicators, "cell")
+        cell_spec_energy = create_group(cell, "specific_energy")
+        write(cell_spec_energy, "value", specific_energy)
 
         # Write grid datasets
         grids["negative_electrode_grid"] = negative_electrode_grid
