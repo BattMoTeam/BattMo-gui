@@ -6503,21 +6503,47 @@ class SetGraphs:
 
     def find_closest_value_index(self, array, value):
         """Find the index of the value in the array that is closest to the specified value."""
-        if isinstance(array, np.ndarray):
-            diff = np.abs(array - value)
-            idx = np.where(diff <= np.diff(array).min())[0]
-            if idx.size > 0:
-                return idx[diff[idx].argmin()]
-        elif isinstance(array, list):
-            min_diff = float("inf")
-            closest_index = None
-            for i, elem in enumerate(array):
-                diff = abs(elem - value)
-                if diff <= min_diff:
-                    min_diff = diff
-                    closest_index = i
+        if isinstance(array, (np.ndarray, list)):
+            # Convert the array to a numpy array for uniform handling
+            array = np.array(array)
+            mask = ~np.isnan(array)
+
+            # Filter the array to exclude NaN values
+            valid_array = array[mask]
+
+            # Compute the absolute difference with the valid array
+            diff = np.abs(valid_array - value)
+
+            # Find the index of the minimum difference in the valid array
+            closest_index_in_valid_array = np.argmin(diff)
+
+            # Map the index back to the original array
+            closest_index = np.where(mask)[0][closest_index_in_valid_array]
+
             return closest_index
-        return None
+        else:
+            st.write("Type not handled:", type(array))
+            return None
+
+    # def find_closest_value_index(self,array, value):
+    #     """Find the index of the value in the array that is closest to the specified value."""
+    #     if isinstance(array, np.ndarray):
+    #         diff = np.abs(array - value)
+    #         idx = np.where(diff <= np.diff(array).min())[0]
+    #         if idx.size > 0:
+    #             return idx[diff[idx].argmin()]
+    #     elif isinstance(array, list):
+    #         min_diff = float('inf')
+    #         closest_index = None
+    #         for i, elem in enumerate(array):
+    #             diff = abs(elem - value)
+    #             if diff <= min_diff:
+    #                 min_diff = diff
+    #                 closest_index = i
+    #         return closest_index
+    #     else:
+    #         st.write("type " + type(array)+"not handled")
+    #         return None
 
     def view_plots_static(_self, time, state):
 
