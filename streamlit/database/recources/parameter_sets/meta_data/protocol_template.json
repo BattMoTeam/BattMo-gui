@@ -76,7 +76,7 @@
       "lower_cutoff_voltage": {
          "model_name": ["P2D","P3D"],
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_534dd59c_904c_45d9_8550_ae9d2eb6bbc9",
          "max_value": 4,
          "min_value": 0,
@@ -91,7 +91,7 @@
       "upper_cutoff_voltage": {
          "model_name": ["P2D","P3D"],
          "par_class": "non_material",
-         "difficulty": "advanced",
+         "difficulty": "basis",
          "context_type_iri":"https://w3id.org/emmo/domain/electrochemistry#electrochemistry_6dcd5baf_58cd_43f5_a692_51508e036c88",
          "max_value": 5,
          "min_value": 3,

@@ -7,10 +7,10 @@
       "Coating": {
          "thickness": 8.499999999999999e-05,
          "N": 20,
-         "effectiveDensity": 1770.4,
+         "effectiveDensity": 1789.6000000000001,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
-            "massFraction": 0.9,
+            "massFraction": 0.95,
             "density": 2260.0,
             "electronicConductivity": 100.0,
             "specificHeatCapacity": 632.0,
@@ -27,7 +27,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                  "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -44,7 +44,7 @@
          },
          "Binder": {
             "density": 1780.0,
-            "massFraction": 0.05,
+            "massFraction": 0.0,
             "electronicConductivity": 100.0,
             "specificHeatCapacity": 1400.0,
             "thermalConductivity": 0.165
@@ -67,12 +67,12 @@
       "Coating": {
          "thickness": 7.599999999999999e-05,
          "N": 20,
-         "effectiveDensity": 3151.12,
+         "effectiveDensity": 3258.8999999999996,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
-            "massFraction": 0.9,
+            "massFraction": 0.95,
             "density": 4950.0,
-            "electronicConductivity": 100.0,
+            "electronicConductivity": 0.8,
             "specificHeatCapacity": 632.0,
             "thermalConductivity": 2.1,
             "Interface": {
@@ -87,7 +87,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "functionname": "computeOCP_NMC811_Chen2020",
+                  "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -96,15 +96,15 @@
             },
             "diffusionModelType": "full",
             "SolidDiffusion": {
-               "activationEnergyOfDiffusion": 5000.0,
-               "referenceDiffusionCoefficient": 3.9e-14,
-               "particleRadius": 1e-06,
+               "activationEnergyOfDiffusion": 80000.0,
+               "referenceDiffusionCoefficient": 1e-14,
+               "particleRadius": 5e-07,
                "N": 10
             }
          },
          "Binder": {
             "density": 1780.0,
-            "massFraction": 0.05,
+            "massFraction": 0.0,
             "electronicConductivity": 100.0,
             "specificHeatCapacity": 1400.0,
             "thermalConductivity": 0.165
@@ -139,14 +139,14 @@
       "density": 1200,
       "ionicConductivity": {
          "type": "function",
-         "functionname": "computeElectrolyteConductivity_Chen2020",
+         "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
          "argumentlist": [
             "c"
          ]
       },
       "diffusionCoefficient": {
          "type": "function",
-         "functionname": "computeDiffusionCoefficient_Chen2020",
+         "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
          "argumentlist": [
             "c"
          ]
@@ -170,11 +170,11 @@
    "Control": {
       "controlPolicy": "CCCV",
       "initialControl": "charging",
-      "numberOfCycles": 1,
+      "numberOfCycles": 5,
       "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
-      "upperCutoffVoltage": 4.1,
+      "upperCutoffVoltage": 3.6,
       "rampupTime": 10.0,
       "dIdtLimit": 0.0001,
       "dEdtLimit": 0.01
