@@ -5,8 +5,11 @@
          "positive_electrode": 3151.12
       },
       "mass_loadings": {
-         "negative_electrode": 35.407999999999994,
+         "negative_electrode": 15.0484,
          "positive_electrode": 23.948511999999994
+      },
+      "cell": {
+         "mass": 28.8335340992
       }
    }
 }

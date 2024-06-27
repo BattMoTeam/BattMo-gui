@@ -9,7 +9,7 @@ using HDF5
 using Base.Threads: ReentrantLock, lock, unlock
 
 
-include("runP2DBattery.jl") 
+include("runP2DBattery.jl")
 
 
 # Set the host explicitly
@@ -22,24 +22,25 @@ const simulation_lock = ReentrantLock()
 
 function create_hdf5_output_file(output,file_path)
 
-    log_messages, 
-    number_of_states, 
-    cell_voltage, 
-    cell_current, 
-    time_values, 
-    negative_electrode_grid, 
-    negative_electrode_grid_bc, 
-    electrolyte_grid, 
-    electrolyte_grid_bc, 
-    positive_electrode_grid, 
-    positive_electrode_grid_bc, 
-    negative_electrode_concentration, 
-    electrolyte_concentration, 
-    positive_electrode_concentration, 
-    negative_electrode_potential, 
-    electrolyte_potential, 
+    log_messages,
+    number_of_states,
+    cell_voltage,
+    cell_current,
+    time_values,
+    negative_electrode_grid,
+    negative_electrode_grid_bc,
+    electrolyte_grid,
+    electrolyte_grid_bc,
+    positive_electrode_grid,
+    positive_electrode_grid_bc,
+    negative_electrode_concentration,
+    electrolyte_concentration,
+    positive_electrode_concentration,
+    negative_electrode_potential,
+    electrolyte_potential,
     positive_electrode_potential,
-    specific_energy = output
+    discharge_energy,
+    energy_efficiency = output
 
     log_messages_strings = string.(log_messages)
     #bio = IOBuffer()
@@ -47,14 +48,14 @@ function create_hdf5_output_file(output,file_path)
     HDF5.h5open(file_path, "w") do file
         print(number_of_states)
         file["number_of_states"] = number_of_states[1]
-        
+
         # Write datasets
         print(typeof(log_messages))
         file["log_messages"] = log_messages_strings
         file["cell_voltage"] = cell_voltage
         file["cell_current"] = cell_current
         file["time_values"] = time_values
-    
+
         println("number of states = ", number_of_states[1])
 
         # Create groups
@@ -65,8 +66,12 @@ function create_hdf5_output_file(output,file_path)
 
         # Write indicators
         cell = create_group(indicators, "cell")
+        cell_discharge_energy = create_group(cell, "discharge_energy")
+        write(cell_discharge_energy, "value", discharge_energy)
         cell_spec_energy = create_group(cell, "specific_energy")
-        write(cell_spec_energy, "value", specific_energy)
+        # write(cell_spec_energy,"value",)
+        cell_spec_energy = create_group(cell, "energy_efficiency")
+        write(cell_spec_energy, "value", energy_efficiency)
 
         # Write grid datasets
         grids["negative_electrode_grid"] = negative_electrode_grid
@@ -76,7 +81,7 @@ function create_hdf5_output_file(output,file_path)
         grids["electrolyte_grid_bc"] = electrolyte_grid_bc
         grids["positive_electrode_grid_bc"] = positive_electrode_grid_bc
 
-        
+
         negative_electrode_concentrations = create_group(concentrations, "negative_electrode")
         electrolyte_concentrations = create_group(concentrations, "electrolyte")
         positive_electrode_concentrations = create_group(concentrations, "positive_electrode")
@@ -96,7 +101,7 @@ function create_hdf5_output_file(output,file_path)
             write(negative_electrode_concentrations, ne_c_dataset_name, negative_electrode_concentration[i])
             write(positive_electrode_concentrations, pe_c_dataset_name, positive_electrode_concentration[i])
             write(electrolyte_concentrations, elyte_c_dataset_name, electrolyte_concentration[i])
-            
+
             write(negative_electrode_potentials, ne_p_dataset_name, negative_electrode_potential[i])
             write(positive_electrode_potentials, pe_p_dataset_name, positive_electrode_potential[i])
             write(electrolyte_potentials, elyte_p_dataset_name, electrolyte_potential[i])
@@ -124,7 +129,7 @@ route("/run_simulation", method = POST) do
     open(input_file_name, "w") do temp_input_file
         JSON.print(temp_input_file, input_data)
     end
-    
+
      # Process the input data as needed
     # For example, you can access input_data["key"] to access specific values
 
@@ -143,7 +148,8 @@ route("/run_simulation", method = POST) do
             create_hdf5_output_file(output,"results/$output_path_name.h5")
         end
     catch e
-        return json(Dict("error" => string(e)))
+        return JSON.json(Dict("error" => string(e)))
+
 
     end
 
@@ -155,7 +161,7 @@ route("/run_simulation", method = POST) do
     #     println(number_of_states)
     # end
 
-    
+
     # Concatenate the vectors of UInt8 into a single vector
     concatenated_data = vcat(hdf5_data...)
 

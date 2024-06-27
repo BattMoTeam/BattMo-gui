@@ -144,6 +144,22 @@
          "unit_iri": "",
          "display_name": "Cell Mass"
       },
+      "discharge_energy": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "N/A",
+         "context_type": "emmo:DischargeEnergy",
+         "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_ca36cbf3_1fed_4b88_9177_b4e16ad00cf7",
+         "max_value": 10000000,
+         "min_value": 0.0,
+         "description": "",
+         "is_shown_to_user": false,
+         "type": "float",
+         "unit": "Wh",
+         "unit_name": "WattHour",
+         "unit_iri": "https://w3id.org/emmo#Watthour",
+         "display_name": "Discharge Energy"
+      },
       "specific_energy": {
          "model_name": ["P2D","P3D"],
          "par_class": "non_material",
@@ -158,7 +174,7 @@
          "unit": "Wh\u00B7kg\u207b\u00b9",
          "unit_name": "WattHourPerKilogram",
          "unit_iri": "https://w3id.org/emmo#WattHourPerKilogram",
-         "display_name": "Energy"
+         "display_name": "Specific Energy"
       },
       "round_trip_efficiency": {
          "model_name": ["P2D","P3D"],

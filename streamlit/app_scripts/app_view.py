@@ -640,6 +640,7 @@ class SetupLinkedDataStruct:
         cap_pe,
         rte,
         energy,
+        dis_energy,
     ):
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
             _self.hasQuantitativeProperty
@@ -656,6 +657,9 @@ class SetupLinkedDataStruct:
         dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
             _self.hasQuantitativeProperty
         ] += energy
+        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
+            _self.hasQuantitativeProperty
+        ] += dis_energy
         dict[_self.universe_label][_self.hasCell][_self.hasElectrode][
             _self.hasNegativeElectrode
         ][_self.hasNegativeElectrode][_self.hasQuantitativeProperty] += specific_cap_ne
@@ -1057,8 +1061,14 @@ class SetTabs:
     def calc_indicators(_self, user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
-        with open(app_access.get_path_to_calculated_values(), "r") as f:
-            calculated_values = json.load(f)["calculatedParameters"]
+        try:
+            with open(app_access.get_path_to_calculated_values(), "r") as f:
+                parameters_dict = json.load(f)
+        except:
+            parameters_dict = {}
+
+        if "calculatedParameters" not in parameters_dict:
+            parameters_dict["calculatedParameters"] = {}
 
         # Retrieve parameter values
         number_of_electrode_pairs = input_dict.cell.get(
@@ -1081,12 +1091,12 @@ class SetTabs:
             "positive_electrode_active_material": input_dict.pe.am.get("density").get(
                 "value"
             ),
-            "negative_electrode": calculated_values["effective_density"][
-                "negative_electrode"
-            ],
-            "positive_electrode": calculated_values["effective_density"][
-                "positive_electrode"
-            ],
+            "negative_electrode": parameters_dict["calculatedParameters"][
+                "effective_density"
+            ]["negative_electrode"],
+            "positive_electrode": parameters_dict["calculatedParameters"][
+                "effective_density"
+            ]["positive_electrode"],
             "separator": input_dict.sep_mat.get("density").get("value"),
             "electrolyte": input_dict.elyte_mat.get("density").get("value"),
         }
@@ -1233,6 +1243,14 @@ class SetTabs:
             raw_template_cellcap, value=cell_capacity
         )
 
+        # Discharge energy
+        raw_template_dis_energy = db_helper.get_template_parameter_by_parameter_name(
+            "discharge_energy"
+        )
+        dis_energy_category_parameters = _self.LD.setup_parameter_struct(
+            raw_template_dis_energy, value=None
+        )
+
         # Specific energy
         raw_template_energy = db_helper.get_template_parameter_by_parameter_name(
             "specific_energy"
@@ -1249,6 +1267,15 @@ class SetTabs:
             raw_template_rte, value=None
         )
 
+        # Include indicators in calculated_values file
+        if "cell" not in parameters_dict["calculatedParameters"]:
+            parameters_dict["calculatedParameters"]["cell"] = {}
+
+        parameters_dict["calculatedParameters"]["cell"]["mass"] = cell_mass
+
+        with open(app_access.get_path_to_calculated_values(), "w") as f:
+            json.dump(parameters_dict, f)
+
         # Include indicators in linked data input dict
         user_input = _self.LD.add_indicators_to_struct(
             user_input,
@@ -1261,6 +1288,7 @@ class SetTabs:
             specific_capacities_category_parameters_am_pe,
             rte_category_parameters,
             energy_category_parameters,
+            dis_energy_category_parameters,
         )
 
         return user_input
@@ -2290,7 +2318,14 @@ class SetTabs:
                 with open(app_access.get_path_to_calculated_values(), "r") as f:
                     parameters_dict = json.load(f)
             except json.JSONDecodeError as e:
+                parameters_dict = {}
                 st.write(app_access.get_path_to_calculated_values())
+
+            if "calculatedParameters" not in parameters_dict:
+                parameters_dict["calculatedParameters"] = {}
+
+            if "effective_density" not in parameters_dict["calculatedParameters"]:
+                parameters_dict["calculatedParameters"]["effective_density"] = {}
 
             parameters_dict["calculatedParameters"]["effective_density"][
                 category_name
@@ -3721,10 +3756,24 @@ class DivergenceCheck:
                 dtype=h5py.string_dtype(encoding="utf-8"),
             )
 
+            cell_spec_energy = cell["discharge_energy"]
+            cell_spec_energy.create_dataset(
+                "unit",
+                data=indicators["Cell"]["dischargeEnergy"]["unit"].encode("utf-8"),
+                dtype=h5py.string_dtype(encoding="utf-8"),
+            )
+
             cell_spec_energy = cell["specific_energy"]
             cell_spec_energy.create_dataset(
                 "unit",
                 data=indicators["Cell"]["specificEnergy"]["unit"].encode("utf-8"),
+                dtype=h5py.string_dtype(encoding="utf-8"),
+            )
+
+            cell_spec_energy = cell["energy_efficiency"]
+            cell_spec_energy.create_dataset(
+                "unit",
+                data=indicators["Cell"]["energyEfficiency"]["unit"].encode("utf-8"),
                 dtype=h5py.string_dtype(encoding="utf-8"),
             )
 
@@ -4020,6 +4069,7 @@ class GetResultsData:
     def get_results_data(self, file_names):
 
         results, indicators = self.retrieve_results(file_names)
+
         formatted_results, indicators = self.format_results(
             results, indicators, file_names
         )
@@ -4030,6 +4080,7 @@ class GetResultsData:
         return self.results, indicators
 
     def retrieve_results(self, file_names):
+
         if isinstance(file_names, list):
             results = []
             indicators = []
@@ -4176,8 +4227,22 @@ class GetResultsData:
             cell_np_unit = result["indicators/cell/n_to_p_ratio/unit"][()].decode(
                 "utf-8"
             )
-            cell_energy_value = result["indicators/cell/specific_energy/value"][()]
-            cell_energy_unit = result["indicators/cell/specific_energy/unit"][
+            cell_energy_value = result["indicators/cell/discharge_energy/value"][()]
+            cell_energy_unit = result["indicators/cell/discharge_energy/unit"][
+                ()
+            ].decode("utf-8")
+            with open(app_access.get_path_to_calculated_values()) as f:
+                values = json.load(f)["calculatedParameters"]
+            mass = values["cell"]["mass"]
+            specific_energy_value = cell_energy_value / mass
+            specific_energy_unit = result["indicators/cell/specific_energy/unit"][
+                ()
+            ].decode("utf-8")
+
+            energy_efficiency_value = result["indicators/cell/energy_efficiency/value"][
+                ()
+            ]
+            energy_efficiency_unit = result["indicators/cell/energy_efficiency/unit"][
                 ()
             ].decode("utf-8")
 
@@ -4210,6 +4275,10 @@ class GetResultsData:
                 cell_np_unit,
                 cell_energy_value,
                 cell_energy_unit,
+                specific_energy_value,
+                specific_energy_unit,
+                energy_efficiency_value,
+                energy_efficiency_unit,
             ]
         except Exception as e:
             indicators = None
@@ -4310,6 +4379,7 @@ class SetIndicators:
             indicators = self.get_indicators_from_LD()
 
         else:
+
             indicators = self.indicators
             # st.write(self.results_simulation)
             # if self.results_simulation:
@@ -4361,6 +4431,7 @@ class SetIndicators:
             electrolyte_potential,
             positive_electrode_potential,
             specific_energy,
+            energy_efficiency,
         ] = self.results_simulation
 
         round_trip_eff = self.calc_round_trip_efficiency(
@@ -4420,6 +4491,7 @@ class SetIndicators:
                     n_to_p_ratio = indicator["Cell"]["NPRatio"]
                     energy_efficiency = indicator["Cell"]["roundTripEfficiency"]
                     specific_energy = indicator["Cell"]["specificEnergy"]
+                    energy_efficiency = indicator["Cell"]["energyEfficiency"]
 
                     ne_mass_loading = indicator["NegativeElectrode"]["massLoading"]
                     ne_thickness = indicator["NegativeElectrode"]["thickness"]
@@ -4471,10 +4543,22 @@ class SetIndicators:
                         cell_np_unit,
                         cell_energy_value,
                         cell_energy_unit,
+                        specific_energy_value,
+                        specific_energy_unit,
+                        energy_efficiency_value,
+                        energy_efficiency_unit,
                     ] = indicator
 
                     cell_mass = {"value": cell_mass_value, "unit": cell_mass_unit}
                     cell_energy = {"value": cell_energy_value, "unit": cell_energy_unit}
+                    specific_energy = {
+                        "value": specific_energy_value,
+                        "unit": specific_energy_unit,
+                    }
+                    energy_efficiency = {
+                        "value": energy_efficiency_value,
+                        "unit": energy_efficiency_unit,
+                    }
                     cell_capacity = {"value": cell_cap_value, "unit": cell_cap_unit}
                     n_to_p_ratio = {"value": cell_np_value, "unit": cell_np_unit}
 
@@ -4546,7 +4630,7 @@ class SetIndicators:
                     Electrode_ne, AM_ne = NE.tabs(["Electrode", "Active material"])
                     Electrode_pe, AM_pe = PE.tabs(["Electrode", "Active material"])
 
-                    col1, col2, col3, col4 = cell.columns(4)
+                    col1, col2, col3, col4, col5 = cell.columns(5)
 
                     col2.metric(
                         label="Mass / {}".format(cell_mass["unit"]),
@@ -4554,8 +4638,16 @@ class SetIndicators:
                         label_visibility="visible",
                     )
                     col4.metric(
-                        label="Specific energy / {}".format(cell_energy["unit"]),
-                        value=int(np.round(cell_energy["value"])),
+                        label="Specific energy / {}".format(specific_energy["unit"]),
+                        value=int(np.round(specific_energy["value"])),
+                        label_visibility="visible",
+                    )
+
+                    col5.metric(
+                        label="Round trip efficiency / {}".format(
+                            energy_efficiency["unit"]
+                        ),
+                        value=np.round(energy_efficiency["value"], 2),
                         label_visibility="visible",
                     )
                     # if isinstance(energy_efficiency["value"], str):
@@ -5651,6 +5743,10 @@ class SetHDF5Download:
             cell_np_unit,
             cell_energy_value,
             cell_energy_unit,
+            specific_energy_value,
+            specific_energy_unit,
+            energy_efficiency_value,
+            energy_efficiency_unit,
         ] = indicators
 
         bio = io.BytesIO()
@@ -5787,9 +5883,17 @@ class SetHDF5Download:
             cell_np.create_dataset("value", data=cell_np_value)
             cell_np.create_dataset("unit", data=cell_np_unit)
 
-            cell_energy = cell.create_group("specific_energy")
+            cell_energy = cell.create_group("discharge_energy")
             cell_energy.create_dataset("unit", data=cell_energy_unit)
             cell_energy.create_dataset("value", data=cell_energy_value)
+
+            cell_energy = cell.create_group("specific_energy")
+            cell_energy.create_dataset("unit", data=specific_energy_unit)
+            cell_energy.create_dataset("value", data=specific_energy_value)
+
+            energy_efficiency = cell.create_group("energy_efficiency")
+            energy_efficiency.create_dataset("unit", data=energy_efficiency_unit)
+            energy_efficiency.create_dataset("value", data=energy_efficiency_value)
 
         return bio
 
@@ -5850,6 +5954,9 @@ class SetHDF5Upload:
 
             number_of_states = int(f["number_of_states"][()])
             specific_energy = f["indicators"]["cell"]["specific_energy"]["value"][()]
+            energy_efficiency = f["indicators"]["cell"]["energy_efficiency"]["value"][
+                ()
+            ]
 
             time_values = np.array(f["time_values"][:])
             cell_voltage = np.array(f["cell_voltage"][:])
@@ -5993,6 +6100,7 @@ class SetHDF5Upload:
                 electrolyte_potential,
                 positive_electrode_potential,
                 specific_energy,
+                energy_efficiency,
             ]
 
             indicators = [

@@ -7,8 +7,13 @@ Pkg.add(PackageSpec(;name="BattMo", rev="dev"))
 Pkg.add(PackageSpec(;name="Jutul", rev="battmo"))
 Pkg.add("JSON")
 Pkg.add("UUIDs")
-Pkg.add("HDF5")
 Pkg.add("PackageCompiler")
+Pkg.add("HDF5")
+
+
+
+
+
 
 
 

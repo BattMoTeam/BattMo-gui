@@ -16,11 +16,12 @@
        "maximum_lithium_stoichiometry": 0.0875,
        "minimum_lithium_stoichiometry":0.95038,
        "open_circuit_potential": {
-          "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
-          "argument_list": [
+         "functionname": "computeOCP_LFP_Gerver2011",
+         "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
+         "argument_list": [
              "c",
              "cmax"
-           ]
+         ]
        }
     }
  }

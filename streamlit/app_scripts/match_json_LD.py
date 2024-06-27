@@ -524,6 +524,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get(
                 "value"
             ),
+            "rampupTime": 10.0,
             "dIdtLimit": json_ld.protocol.get("d_idt_limit").get("value"),
             "dEdtLimit": json_ld.protocol.get("d_edt_limit").get("value"),
         },
@@ -535,6 +536,7 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "TimeStepping": {
             "useRampup": json_ld.model.get("use_ramp_up"),
+            "rampupTime": 10.0,
             # "totalTime": total_time,
             "numberOfRampupSteps": json_ld.protocol.get("number_of_ramp_up_steps").get(
                 "value"
@@ -560,7 +562,13 @@ def get_indicators_from_gui_dict(gui_dict):
             "roundTripEfficiency": {
                 "unit": json_ld.cell.get("round_trip_efficiency").get("unit")
             },
+            "dischargeEnergy": {
+                "unit": json_ld.cell.get("discharge_energy").get("unit")
+            },
             "specificEnergy": {"unit": json_ld.cell.get("specific_energy").get("unit")},
+            "energyEfficiency": {
+                "unit": json_ld.cell.get("round_trip_efficiency").get("unit")
+            },
             "nominalCellCapacity": {
                 "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
                 "unit": json_ld.cell.get("nominal_cell_capacity").get("unit"),
