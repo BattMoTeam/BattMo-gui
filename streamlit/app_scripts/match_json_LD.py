@@ -218,7 +218,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "Geometry": {
             "case": "1D",
             "faceArea": json_ld.cell.get("length").get("value")
-            * json_ld.cell.get("width").get("value"),
+            * json_ld.cell.get("width").get("value")
+            * json_ld.cell.get("number_parallel_electrode_pairs_within_cell").get(
+                "value"
+            ),
         },
         "NegativeElectrode": {
             "Coating": {

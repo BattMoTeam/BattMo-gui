@@ -69,7 +69,7 @@ function create_hdf5_output_file(output,file_path)
         cell_discharge_energy = create_group(cell, "discharge_energy")
         write(cell_discharge_energy, "value", discharge_energy)
         cell_spec_energy = create_group(cell, "specific_energy")
-        # write(cell_spec_energy,"value",)
+        write(cell_spec_energy,"value",1)
         cell_spec_energy = create_group(cell, "energy_efficiency")
         write(cell_spec_energy, "value", energy_efficiency)
 

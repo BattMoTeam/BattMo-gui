@@ -1078,9 +1078,15 @@ class SetTabs:
         mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
         length = input_dict.cell.get("length").get("value")
         width = input_dict.cell.get("width").get("value")
-        CC_thickness = input_dict.ne.properties.get("current_collector_thickness").get(
-            "value"
-        )
+
+        CC_thickness = {
+            "ne": input_dict.ne.properties.get("current_collector_thickness").get(
+                "value"
+            ),
+            "pe": input_dict.pe.properties.get("current_collector_thickness").get(
+                "value"
+            ),
+        }
         packing_mass = input_dict.cell.get("packing_mass").get("value")
         c_max_ne = input_dict.ne.am.get("maximum_concentration").get("value")
         c_max_pe = input_dict.pe.am.get("maximum_concentration").get("value")
@@ -1113,16 +1119,28 @@ class SetTabs:
             "negative_electrode": length
             * width
             * input_dict.ne.properties.get("coating_thickness").get("value")
-            * 10 ** (-6),
+            * 10 ** (-6)
+            * number_of_electrode_pairs,
             "positive_electrode": length
             * width
             * input_dict.pe.properties.get("coating_thickness").get("value")
-            * 10 ** (-6),
+            * 10 ** (-6)
+            * number_of_electrode_pairs,
             "separator": length
             * width
             * input_dict.sep_prop.get("thickness").get("value")
-            * 10 ** (-6),
-            "current_collector": length * width * CC_thickness * 10 ** (-6),
+            * 10 ** (-6)
+            * number_of_electrode_pairs,
+            "current_collector_ne": length
+            * width
+            * CC_thickness["ne"]
+            * 10 ** (-6)
+            * number_of_electrode_pairs,
+            "current_collector_pe": length
+            * width
+            * CC_thickness["pe"]
+            * 10 ** (-6)
+            * number_of_electrode_pairs,
         }
 
         li_stoich_max_ne = input_dict.ne.am.get("maximum_lithium_stoichiometry").get(
@@ -1215,15 +1233,19 @@ class SetTabs:
         )
 
         # Cell Mass
-        cc_mass = volumes["current_collector"] * 8950
+        cc_mass = (
+            volumes["current_collector_ne"] * 8950
+            + volumes["current_collector_pe"] * 2710
+        )
+
         cell_mass, ne_mass, pe_mass = _self.calc_cell_mass(
             densities,
             porosities,
             volumes,
             cc_mass,
             packing_mass,
-            number_of_electrode_pairs,
         )
+
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name(
             "cell_mass"
         )
@@ -3757,6 +3779,8 @@ class DivergenceCheck:
             )
 
             cell_spec_energy = cell["discharge_energy"]
+            cell_energy_value = indicators_h5["cell"]["discharge_energy"]["value"]
+
             cell_spec_energy.create_dataset(
                 "unit",
                 data=indicators["Cell"]["dischargeEnergy"]["unit"].encode("utf-8"),
@@ -3764,6 +3788,20 @@ class DivergenceCheck:
             )
 
             cell_spec_energy = cell["specific_energy"]
+
+            with open(app_access.get_path_to_calculated_values()) as f:
+                values = json.load(f)["calculatedParameters"]
+
+            mass = values["cell"]["mass"]
+            cell_energy_value = indicators_h5["cell"]["discharge_energy"]["value"][()]
+
+            specific_energy_value = (
+                cell_energy_value / 3600 / (mass / 1000)
+            )  # grams to kg
+
+            cell_spec_energy_val = cell_spec_energy["value"]
+            cell_spec_energy_val[...] = specific_energy_value
+
             cell_spec_energy.create_dataset(
                 "unit",
                 data=indicators["Cell"]["specificEnergy"]["unit"].encode("utf-8"),
@@ -4231,10 +4269,8 @@ class GetResultsData:
             cell_energy_unit = result["indicators/cell/discharge_energy/unit"][
                 ()
             ].decode("utf-8")
-            with open(app_access.get_path_to_calculated_values()) as f:
-                values = json.load(f)["calculatedParameters"]
-            mass = values["cell"]["mass"]
-            specific_energy_value = cell_energy_value / mass
+
+            specific_energy_value = result["indicators/cell/specific_energy/value"][()]
             specific_energy_unit = result["indicators/cell/specific_energy/unit"][
                 ()
             ].decode("utf-8")
@@ -4281,6 +4317,8 @@ class GetResultsData:
                 energy_efficiency_unit,
             ]
         except Exception as e:
+
+            # st.write("error:", e)
             indicators = None
 
         result = [

@@ -97,9 +97,7 @@ def calc_n_to_p_ratio(electrode_capacities):
 
 
 @st.cache_data
-def calc_cell_mass(
-    densities, porosities, volumes, CC_mass, packing_mass, number_of_electrode_pairs
-):
+def calc_cell_mass(densities, porosities, volumes, CC_mass, packing_mass):
 
     vf_sep = 1 - porosities["separator"]
     vf_el_ne = 1 - porosities["negative_electrode"]
@@ -124,7 +122,7 @@ def calc_cell_mass(
     )
     mass_elyte_sep = densities["electrolyte"] * volumes["separator"] * vf_elyte_sep
 
-    mass = (
+    mass_cell = (
         mass_ne
         + mass_pe
         + mass_sep
@@ -132,11 +130,11 @@ def calc_cell_mass(
         + mass_elyte_pe
         + mass_elyte_sep
         + mass_elyte_sep
-        + CC_mass
     )
-    mass = mass * 1000 + packing_mass
-    mass = mass * number_of_electrode_pairs
-    return mass, mass_ne, mass_pe
+
+    mass_full = (mass_cell + CC_mass) * 1000 + packing_mass
+
+    return mass_full, mass_ne, mass_pe
 
 
 @st.cache_data
