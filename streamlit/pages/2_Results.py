@@ -110,9 +110,9 @@ def run_page():
         # app_view.st_space(space_number=1)
         if selected_data_sets:
 
-            results, indicators = get_results_data(selected_data_sets).get_results_data(
+            results, indicators, input_files = get_results_data(
                 selected_data_sets
-            )
+            ).get_results_data(selected_data_sets)
 
             if len(selected_data_sets) <= 1:
                 results = results[0]
@@ -130,9 +130,9 @@ def run_page():
             st.session_state["selected_data"] = last_file_name
             selected_data_sets = last_file_name
 
-            results, indicators = get_results_data(last_file_name).get_results_data(
+            results, indicators, input_files = get_results_data(
                 last_file_name
-            )
+            ).get_results_data(last_file_name)
 
             app.set_indicators(page_name, indicators, last_file_name)
 

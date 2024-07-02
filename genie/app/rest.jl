@@ -63,6 +63,7 @@ function create_hdf5_output_file(output,file_path)
         concentrations = create_group(file, "concentrations")
         potentials = create_group(file, "potentials")
         indicators = create_group(file, "indicators")
+        json_files = create_group(file, "json_input_files")
 
         # Write indicators
         cell = create_group(indicators, "cell")

@@ -4,20 +4,18 @@
     "component": "positive_electrode_active_material",
     "material": true,
     "Parameters": {
-       "maximum_concentration": 21200,
-       "particle_radius": 5e-07,
+       "maximum_concentration": 22800,
+       "particle_radius": 52e-08,
        "density": 3600,
-       "electronic_conductivity": 0.80,
-       "volumetric_surface_area": 4418460,
+       "electronic_conductivity": 0.50,
+       "thermal_conductivity": 1.0,
+       "volumetric_surface_area": 346000,
        "number_of_electrons_transferred": 1,
-       "activation_energy_of_reaction": 35000,
-       "activation_energy_of_diffusion": 80000,
-       "reaction_rate_constant": 9.736e-07,
-       "maximum_lithium_stoichiometry": 0.0875,
-       "minimum_lithium_stoichiometry":0.95038,
+       "maximum_lithium_stoichiometry": 0.048,
+       "minimum_lithium_stoichiometry":0.892,
        "open_circuit_potential": {
          "functionname": "computeOCP_LFP_Gerver2011",
-         "function": "3.41285712e+00 - 1.49721852e-02 * c/cmax + 3.54866018e+14 * exp(-3.95729493e+02 * c/cmax) - 1.45998465e+00 * exp(-1.10108622e+02 * (1 - c/cmax))",
+         "function": "3.42 + (T-refT)*(-0.35376*(c/cmax)^8 + 1.3902*(c/cmax)^7 - 2.2585*(c/cmax)^6 + 1.9635*(c/cmax)^5 - 0.98716*(c/cmax)^4 + 0.28857*(c/cmax)^3 - 0.046272*(c/cmax)^2 + 0.0032158*(c/cmax) - 1.9186*10^(-5))",
          "argument_list": [
              "c",
              "cmax"

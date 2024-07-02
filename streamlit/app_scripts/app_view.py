@@ -3561,7 +3561,7 @@ class DivergenceCheck:
 
         if self.response != None:
 
-            results, _ = app_controller.get_results_data(None).get_results_data(None)
+            results, _, _ = app_controller.get_results_data(None).get_results_data(None)
 
             # N = self.get_timesteps_setting()
             number_of_states, log_messages = self.get_timesteps_execution(results)
@@ -3603,6 +3603,34 @@ class DivergenceCheck:
         ] = results
 
         return number_of_states, log_messages
+
+    def add_input_json_to_results(self, response):
+
+        response = io.BytesIO(response)
+
+        response.seek(0)
+
+        with h5py.File(response, "a") as hdf5_file:
+            input_jsons = hdf5_file["json_input_files"]
+
+            with open(app_access.get_path_to_battmo_formatted_input(), "r") as f:
+                battmo_formatted_input = json.load(f)
+            with open(app_access.get_path_to_linked_data_input(), "r") as f:
+                linked_data_input = json.load(f)
+
+            battmo_formatted_input_str = json.dumps(battmo_formatted_input)
+            linked_data_input_str = json.dumps(linked_data_input)
+
+            input_jsons.create_dataset(
+                "battmo_formatted_input", data=battmo_formatted_input_str
+            )
+            input_jsons.create_dataset("linked_data_input", data=linked_data_input_str)
+
+            hdf5_file.flush()
+
+            response.seek(0)
+
+            return response.getvalue()
 
     def add_indicators_to_results(self, indicators, response):
 
@@ -3892,6 +3920,8 @@ class DivergenceCheck:
                         indicators, self.response
                     )
 
+                    self.response = self.add_input_json_to_results(self.response)
+
                     with open(file_path, "wb") as f:
                         f.write(self.response)
 
@@ -4106,16 +4136,16 @@ class GetResultsData:
 
     def get_results_data(self, file_names):
 
-        results, indicators = self.retrieve_results(file_names)
+        results, indicators, input_files = self.retrieve_results(file_names)
 
-        formatted_results, indicators = self.format_results(
-            results, indicators, file_names
+        formatted_results, indicators, input_files = self.format_results(
+            results, indicators, file_names, input_files
         )
         self.results = formatted_results
         # file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
         # with open(file_path, "wb") as f:
         #     f.write(uploaded_file[0].getbuffer())
-        return self.results, indicators
+        return self.results, indicators, input_files
 
     def retrieve_results(self, file_names):
 
@@ -4125,7 +4155,7 @@ class GetResultsData:
             for file_name in file_names:
                 file_path = os.path.join(st.session_state.temp_dir, file_name)
                 result = h5py.File(file_path, "r")
-                result, indicator = self.translate_results(result)
+                result, indicator, input_files = self.translate_results(result)
 
                 results.append(result)
                 indicators.append(indicator)
@@ -4134,14 +4164,15 @@ class GetResultsData:
 
             file_path = os.path.join(st.session_state.temp_dir, file_names)
             result = h5py.File(file_path, "r")
-            results, indicators = self.translate_results(result)
+            results, indicators, input_files = self.translate_results(result)
 
         else:
             file_path = app_access.get_path_to_battmo_results()
             results = h5py.File(file_path, "r")
             indicators = None
+            input_files = None
 
-        return results, indicators
+        return results, indicators, input_files
 
     def translate_results(self, result):
         # Retrieve the attributes
@@ -4316,10 +4347,19 @@ class GetResultsData:
                 energy_efficiency_value,
                 energy_efficiency_unit,
             ]
-        except Exception as e:
 
+            json_files = {}
+            json_files["battmo_formatted_input"] = result["json_input_files"][
+                "battmo_formatted_input"
+            ][()].decode("utf-8")
+            json_files["linked_data_input"] = result["json_input_files"][
+                "linked_data_input"
+            ][()].decode("utf-8")
+
+        except Exception as e:
             # st.write("error:", e)
             indicators = None
+            json_files = None
 
         result = [
             log_messages,
@@ -4341,9 +4381,9 @@ class GetResultsData:
             positive_electrode_potential,
         ]
 
-        return result, indicators
+        return result, indicators, json_files
 
-    def format_results(self, results, indicators, file_names):
+    def format_results(self, results, indicators, file_names, json_files):
 
         if file_names == None:
             file_names = [file_names]
@@ -4354,9 +4394,10 @@ class GetResultsData:
             if file_name:
                 results = results
                 indicators = indicators
+                json_files = json_files
             else:
                 result = results
-                result, indicators = self.translate_results(result)
+                result, indicators, json_files = self.translate_results(result)
                 results = result
 
             # length_1d_ne = len(negative_electrode_concentration_jl)
@@ -4393,7 +4434,7 @@ class GetResultsData:
             #         negative_electrode_concentration[i,j] = ne_c_sub[j]
             #         negative_electrode_potential[i,j] = ne_p_sub[j]
 
-        return results, indicators
+        return results, indicators, json_files
 
 
 class SetIndicators:
@@ -5728,7 +5769,7 @@ class SetHDF5Download:
 
         file_path = os.path.join(st.session_state.temp_dir, _self.selected_data_sets[0])
 
-        results, indicators = app_controller.get_results_data(
+        results, indicators, input_files = app_controller.get_results_data(
             file_path
         ).get_results_data(file_path)
 
@@ -5932,6 +5973,14 @@ class SetHDF5Download:
             energy_efficiency = cell.create_group("energy_efficiency")
             energy_efficiency.create_dataset("unit", data=energy_efficiency_unit)
             energy_efficiency.create_dataset("value", data=energy_efficiency_value)
+
+            json_files = f.create_group("json_input_files")
+            json_files.create_dataset(
+                "battmo_formatted_input", data=input_files["battmo_formatted_input"]
+            )
+            json_files.create_dataset(
+                "linked_data_input", data=input_files["linked_data_input"]
+            )
 
         return bio
 
