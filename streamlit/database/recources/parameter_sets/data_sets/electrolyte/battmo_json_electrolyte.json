@@ -3,6 +3,7 @@
    "Header": {},
    "component": "electrolyte_properties",
    "material": false,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "concentration": 1000,
       "EC_DMC_ratio": 1.2

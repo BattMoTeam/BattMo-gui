@@ -3,14 +3,16 @@ import sys
 
 ##############################
 # Set page directory to base level to allow for module import from different folder
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+sys.path.insert(
+    0,
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    ),
+)
 ##############################
 
 from database import db_handler
 from app_scripts import app_access
-
-
-
 
 
 class TemplateField(object):
@@ -81,13 +83,14 @@ class UpdateTemplates:
         name = template.get("Name")
         type = template.get("Type")
         parameters = template.get("Parameters")
-        
 
         if type != self.template_type:
             # not a template
             return None, False
         assert name is not None, "Name of template {} must have a name".format(path)
-        assert parameters is not None, "Parameters of template {} is not defined".format(name)
+        assert (
+            parameters is not None
+        ), "Parameters of template {} is not defined".format(name)
 
         template_id, template_already_exists = self.create_or_update_parameter_set(
             name=name
@@ -95,22 +98,6 @@ class UpdateTemplates:
         print(template_already_exists)
         fields = TemplateField()
 
-        # Can be adapted to add the model_id links:
-        # for parameter in parameters:
-        #     details = parameters.get(parameter)
-        #     model = details.get("model_name")
-        
-        #     if model == 'p2d_p3d_p4d':
-        #         model_name = 'P2D' 
-        #         model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
-                
-        #     if model == 'p3d_p4d':
-        #         model_name = 'P3D' 
-        #         model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
-        #     if model == 'p4d':
-        #         model_name = 'P4D' 
-        #         model_id = int(self.sql_model.get_model_id_from_model_name(model_name))
-            
         if template_already_exists:
             if self.print_details:
                 print("\n Updating {}".format(name))
@@ -118,10 +105,10 @@ class UpdateTemplates:
             self.update_parameters(
                 parameters=parameters,
                 template_id=template_id,
-                #model_id=model_id,
-                fields=fields
+                # model_id=model_id,
+                fields=fields,
             )
-            
+
         else:
             if self.print_details:
                 print("\n Creating {}".format(name))
@@ -129,88 +116,106 @@ class UpdateTemplates:
             self.add_parameters(
                 parameters=parameters,
                 template_id=template_id,
-               # model_id=model_id,
-                fields=fields
+                # model_id=model_id,
+                fields=fields,
             )
 
-        
-        return template_id, template_already_exists, name#, model_id
-
+        return template_id, template_already_exists, name  # , model_id
 
     def create_or_update_parameter_set(self, name):
-        print("name = ",name)
+        print("name = ", name)
 
         template_id = self.sql_template.get_id_from_name(name)
-        print("template_id = ",template_id)
-        return (template_id, True) if template_id else (self.sql_template.insert_value(name=name), False)
+        print("template_id = ", template_id)
+        return (
+            (template_id, True)
+            if template_id
+            else (self.sql_template.insert_value(name=name), False)
+        )
 
     def add_parameters(self, parameters, template_id, fields):
         added_parameters = []
         for parameter in parameters:
             details = parameters.get(parameter)
-            
-            self.sql_template_parameter.insert_value(
-                name=parameter,
-                template_id=template_id,
-                #model_id = model_id,
-                model_name=details.get(fields.model_name),
-                par_class=details.get(fields.par_class),
-                difficulty=details.get(fields.difficulty),
-                context_type=details.get(fields.context_type),
-                context_type_iri=details.get(fields.context_type_iri),
-                type=details.get(fields.type),
-                unit=details.get(fields.unit),
-                unit_name=details.get(fields.unit_name),
-                unit_iri=details.get(fields.unit_iri),
-                max_value=details.get(fields.max_value),
-                min_value=details.get(fields.min_value),
-                is_shown_to_user=details.get(fields.is_shown_to_user),
-                description=details.get(fields.description),
-                display_name = details.get(fields.display_name)
-            )
-            added_parameters.append(parameter)
+            model_names = details.get(fields.model_name)
+            if model_names:
+                for model_name in model_names:
+
+                    self.sql_template_parameter.insert_value(
+                        name=parameter,
+                        template_id=template_id,
+                        # model_id = model_id,
+                        model_name=model_name,
+                        par_class=details.get(fields.par_class),
+                        difficulty=details.get(fields.difficulty),
+                        context_type=details.get(fields.context_type),
+                        context_type_iri=details.get(fields.context_type_iri),
+                        type=details.get(fields.type),
+                        unit=details.get(fields.unit),
+                        unit_name=details.get(fields.unit_name),
+                        unit_iri=details.get(fields.unit_iri),
+                        max_value=details.get(fields.max_value),
+                        min_value=details.get(fields.min_value),
+                        is_shown_to_user=details.get(fields.is_shown_to_user),
+                        description=details.get(fields.description),
+                        display_name=details.get(fields.display_name),
+                    )
+                    added_parameters.append(parameter)
         if self.print_details:
-            print('  Added parameters: ', added_parameters)
+            print("  Added parameters: ", added_parameters)
 
     def update_parameters(self, parameters, template_id, fields):
         new_parameters = {}
         # every item which is not updated will be deleted, so we don't keep useless items in db
-        existing_ids_to_be_deleted = self.sql_template_parameter.get_all_ids_by_template_id(template_id)
+        existing_ids_to_be_deleted = (
+            self.sql_template_parameter.get_all_ids_by_template_id(template_id)
+        )
 
         for parameter in parameters:
             details = parameters.get(parameter)
-            parameter_id = self.sql_template_parameter.get_id_from_name_and_template_id(
-                name=parameter,
-                template_id=template_id
-            )
-            if parameter_id:  # existing parameter, update fields
-                try:
-                   
-                    self.sql_template_parameter.update_by_id(
-                        id=parameter_id,
-                        columns_and_values={
-                            "model_name": details.get(fields.model_name),
-                            "par_class": details.get(fields.par_class),
-                            "difficulty": details.get(fields.difficulty),
-                            #"model_id": model_id,
-                            "context_type": details.get(fields.context_type),
-                            "context_type_iri": details.get(fields.context_type_iri),
-                            "type": details.get(fields.type),
-                            "unit": details.get(fields.unit),
-                            "unit_name": details.get(fields.unit_name),
-                            "unit_iri": details.get(fields.unit_iri),
-                            "max_value": details.get(fields.max_value),
-                            "min_value": details.get(fields.min_value),
-                            "is_shown_to_user": details.get(fields.is_shown_to_user),
-                            "description": details.get(fields.description),
-                            "display_name": details.get(fields.display_name)
-                        }
+
+            model_names = details.get(fields.model_name)
+            if model_names:
+                for model_name in model_names:
+                    parameter_id = (
+                        self.sql_template_parameter.get_id_from_name_and_template_id(
+                            name=parameter,
+                            template_id=template_id,
+                            model_name=model_name,
+                        )
                     )
-                    existing_ids_to_be_deleted.remove(parameter_id)
-                except:
-                    # SQL query in update_by_id could fail, for example for str containing quotes
-                    # In that case, we delete and recreate the parameter instead of updating it
-                    new_parameters[parameter] = details
+
+                    if parameter_id:  # existing parameter, update fields
+                        try:
+                            self.sql_template_parameter.update_by_id(
+                                id=parameter_id,
+                                columns_and_values={
+                                    "model_name": model_name,
+                                    "par_class": details.get(fields.par_class),
+                                    "difficulty": details.get(fields.difficulty),
+                                    # "model_id": model_id,
+                                    "context_type": details.get(fields.context_type),
+                                    "context_type_iri": details.get(
+                                        fields.context_type_iri
+                                    ),
+                                    "type": details.get(fields.type),
+                                    "unit": details.get(fields.unit),
+                                    "unit_name": details.get(fields.unit_name),
+                                    "unit_iri": details.get(fields.unit_iri),
+                                    "max_value": details.get(fields.max_value),
+                                    "min_value": details.get(fields.min_value),
+                                    "is_shown_to_user": details.get(
+                                        fields.is_shown_to_user
+                                    ),
+                                    "description": details.get(fields.description),
+                                    "display_name": details.get(fields.display_name),
+                                },
+                            )
+                            existing_ids_to_be_deleted.remove(parameter_id)
+                        except:
+                            # SQL query in update_by_id could fail, for example for str containing quotes
+                            # In that case, we delete and recreate the parameter instead of updating it
+                            new_parameters[parameter] = details
 
             else:  # non-existing parameter, create it
                 new_parameters[parameter] = details
@@ -220,11 +225,13 @@ class UpdateTemplates:
 
         deleted_parameters = []
         for id_to_delete in existing_ids_to_be_deleted:
-            deleted_parameters.append(self.sql_template_parameter.get_name_from_id(id_to_delete))
+            deleted_parameters.append(
+                self.sql_template_parameter.get_name_from_id(id_to_delete)
+            )
             self.sql_template_parameter.delete_by_id(id_to_delete)
 
         if self.print_details:
-            print('  Deleted parameters: ', deleted_parameters)
+            print("  Deleted parameters: ", deleted_parameters)
 
     #####################################
     #    DELETE TEMPLATE
@@ -233,7 +240,9 @@ class UpdateTemplates:
         template = self.sql_template.select_by_id(template_id)
         if template:
             _, name = template
-            parameter_ids = self.sql_template_parameter.get_all_ids_by_template_id(template_id)
+            parameter_ids = self.sql_template_parameter.get_all_ids_by_template_id(
+                template_id
+            )
 
             self.sql_template.delete_by_id(template_id)
             for parameter_id in parameter_ids:
@@ -256,9 +265,11 @@ class UpdateTemplates:
 
         for file_path in all_file_path:
             file_as_json = app_access.get_json_from_path(file_path)
-            template_id, template_already_exists, name = self.update_template_from_json(file_as_json, file_path)
+            template_id, template_already_exists, name = self.update_template_from_json(
+                file_as_json, file_path
+            )
             new_or_updated.append(name)
-            
+
             if template_already_exists:
                 existing_ids_to_be_deleted.remove(template_id)
 
@@ -266,7 +277,9 @@ class UpdateTemplates:
             for id_to_be_deleted in existing_ids_to_be_deleted:
                 deleted.append(self.delete_template_by_id(id_to_be_deleted))
 
-            print("\n SQL tables template and template_parameter are up to date according to the templates resource files")
+            print(
+                "\n SQL tables template and template_parameter are up to date according to the templates resource files"
+            )
             if new_or_updated:
                 print(" Created or updated templates : ", new_or_updated)
             if deleted:

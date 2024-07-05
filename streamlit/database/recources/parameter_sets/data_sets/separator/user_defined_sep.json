@@ -2,12 +2,13 @@
    "Name": "user_defined_sep",
    "component": "separator_materials",
    "material": true,
+   "model_name": ["P2D", "P3D"],
    "Header": {},
    "Parameters": {
       
-      "specific_heat_capacity": 1,
-      "thermal_conductivity": 1,
-      "density": 1
+      "specific_heat_capacity": 1692,
+      "thermal_conductivity": 0.334,
+      "density": 946
       
    }
 }

@@ -27,7 +27,13 @@ import math
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_parameter_model import *
 from database import db_helper, db_handler
-from app_scripts import app_access, match_json_LD, match_json_upload, app_controller
+from app_scripts import (
+    app_access,
+    match_json_LD,
+    match_json_upload,
+    app_controller,
+    app_development,
+)
 from app_scripts import app_calculations as calc
 
 # con, cur = app_access.get_sqlite_con_and_cur()
@@ -1174,10 +1180,10 @@ class SetTabs:
         )
 
         raw_template_am_ne = db_helper.get_template_parameter_by_parameter_name(
-            "specific_capacity"
+            "specific_capacity", _self.model_name
         )
         raw_template_am_pe = db_helper.get_template_parameter_by_parameter_name(
-            "specific_capacity"
+            "specific_capacity", _self.model_name
         )
         # specific_cap_am_ne_parameter = self.formatter.initialize_parameters(raw_template_am_ne)
         # specific_cap_am_ne_parameter["selected_value"] = specific_capacity_am_ne
@@ -1211,10 +1217,10 @@ class SetTabs:
             "positive_electrode": specific_capacity_pe,
         }
         raw_template_ne = db_helper.get_template_parameter_by_parameter_name(
-            "electrode_capacity"
+            "electrode_capacity", _self.model_name
         )
         raw_template_pe = db_helper.get_template_parameter_by_parameter_name(
-            "electrode_capacity"
+            "electrode_capacity", _self.model_name
         )
         specific_capacities_category_parameters_ne = _self.LD.setup_parameter_struct(
             raw_template_ne, value=specific_capacity_ne
@@ -1226,7 +1232,7 @@ class SetTabs:
         # N to P ratio
         n_to_p_ratio = _self.calc_n_to_p_ratio(specific_capacities_electrodes)
         raw_template_np = db_helper.get_template_parameter_by_parameter_name(
-            "n_to_p_ratio"
+            "n_to_p_ratio", _self.model_name
         )
         n_to_p_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_np, value=n_to_p_ratio
@@ -1247,7 +1253,7 @@ class SetTabs:
         )
 
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name(
-            "cell_mass"
+            "cell_mass", _self.model_name
         )
         cell_mass_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_cellmass, value=cell_mass
@@ -1259,7 +1265,7 @@ class SetTabs:
             specific_capacities_electrodes, number_of_electrode_pairs
         )
         raw_template_cellcap = db_helper.get_template_parameter_by_parameter_name(
-            "nominal_cell_capacity"
+            "nominal_cell_capacity", _self.model_name
         )
         cell_capacity_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_cellcap, value=cell_capacity
@@ -1267,7 +1273,7 @@ class SetTabs:
 
         # Discharge energy
         raw_template_dis_energy = db_helper.get_template_parameter_by_parameter_name(
-            "discharge_energy"
+            "discharge_energy", _self.model_name
         )
         dis_energy_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_dis_energy, value=None
@@ -1275,7 +1281,7 @@ class SetTabs:
 
         # Specific energy
         raw_template_energy = db_helper.get_template_parameter_by_parameter_name(
-            "specific_energy"
+            "specific_energy", _self.model_name
         )
         energy_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_energy, value=None
@@ -1283,7 +1289,7 @@ class SetTabs:
 
         # Round trip efficiency
         raw_template_rte = db_helper.get_template_parameter_by_parameter_name(
-            "round_trip_efficiency"
+            "round_trip_efficiency", _self.model_name
         )
         rte_category_parameters = _self.LD.setup_parameter_struct(
             raw_template_rte, value=None
@@ -1336,7 +1342,7 @@ class SetTabs:
             material_components = None
         else:
             material_components = db_helper.get_material_components_from_category_id(
-                category_id
+                category_id, self.model_name
             )
 
         if (
@@ -1364,6 +1370,7 @@ class SetTabs:
                 material_comp_context_type_iri,
                 _,
             ) = material_components[0]
+
             (
                 parameter_id,
                 name,
@@ -1385,7 +1392,7 @@ class SetTabs:
             ) = tuple(
                 np.squeeze(
                     db_helper.get_mf_template_by_template_id(
-                        material_comp_default_template_id
+                        material_comp_default_template_id, self.model_name
                     )
                 )
             )
@@ -1553,7 +1560,7 @@ class SetTabs:
             )
 
         non_material_component = db_helper.get_non_material_components_from_category_id(
-            category_id
+            category_id, self.model_name
         )
 
         (
@@ -1635,7 +1642,7 @@ class SetTabs:
         component_parameters_ = []
         component_parameters = {}
         non_material_component = db_helper.get_non_material_components_from_category_id(
-            category_id
+            category_id, self.model_name
         )
 
         (
@@ -1664,7 +1671,7 @@ class SetTabs:
         )
 
         parameter_sets_name_by_id = {}
-        for id, name, _, _, _ in parameter_sets:
+        for id, name, _, _, _, _ in parameter_sets:
             parameter_sets_name_by_id[id] = name
 
         selected_parameter_set_id = tab.selectbox(
@@ -2104,7 +2111,8 @@ class SetTabs:
             )
         )
         non_material_parameter_sets_name_by_id = {}
-        non_material_parameter_set_id, non_material_parameters_set_name, _, _, _ = (
+
+        non_material_parameter_set_id, non_material_parameters_set_name, _, _, _, _ = (
             non_material_parameters_sets
         )
 
@@ -2709,330 +2717,316 @@ class SetTabs:
         emmo_relation=None,
     ):
 
-        material_parameter_sets = []
+        with app_development.time_measure("Fill_material_component"):
+            material_parameter_sets = []
 
-        materials = db_helper.get_material_from_component_id(
-            self.model_name, material_component_id
-        )
-
-        for material in materials:
-
-            (
-                material_id,
-                material_name,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-            ) = material
-            # get parameter sets corresponding to component, then parameters from each set
-            material_parameter_sets.append(
-                db_helper.get_material_by_material_id(material_id)[0]
+            # Fetch all materials
+            materials = db_helper.get_material_from_component_id(
+                self.model_name, material_component_id
             )
 
-        material_parameter_sets_name_by_id = {}
+            # Extract material ids and fetch parameter sets
+            material_ids = [material[0] for material in materials]
+            material_parameter_sets = db_helper.get_parameter_sets_by_material_ids(
+                material_ids
+            )
 
-        for material_parameter_set in material_parameter_sets:
-            id, name, _, _, _ = material_parameter_set
-            material_parameter_sets_name_by_id[id] = name
+            # Create a dictionary for material parameter sets
+            material_parameter_sets_name_by_id = {
+                material_parameter_set[0]: material_parameter_set[1]
+                for material_parameter_set in material_parameter_sets
+            }
 
-        material_raw_parameters = []
-        for material_parameter_set_id in material_parameter_sets_name_by_id:
-            material_raw_parameters.append(
-                db_helper.extract_parameters_by_parameter_set_id(
-                    material_parameter_set_id
+            # Fetch all parameters for all material parameter sets
+            material_raw_parameters = db_helper.extract_parameters_by_parameter_set_ids(
+                list(material_parameter_sets_name_by_id.keys())
+            )
+
+            # Fetch all template parameters in one call
+            template_parameter_ids = [
+                param[3]
+                for raw_params in material_raw_parameters.values()
+                for param in raw_params
+            ]
+            material_raw_template_parameters = (
+                db_helper.get_parameters_by_template_parameter_ids(
+                    template_parameter_ids, self.model_name
                 )
             )
 
-        material_raw_template_parameters_sub = []
-        material_raw_template_parameters = []
-        ind = 0
+            # Initialize containers for further use
+            material_raw_template_parameters = {
+                param[0]: param for param in material_raw_template_parameters
+            }
 
-        for material_parameter_set_id in material_parameter_sets_name_by_id:
-            for material_raw_parameter in material_raw_parameters[ind]:
-                _, _, _, template_parameter_id, _ = material_raw_parameter
-
-                # get corresponding template parameters from db
-                material_raw_template_parameters_sub.append(
-                    db_helper.get_parameter_by_template_parameter_id(
-                        template_parameter_id
-                    )
+            all_basis_material_raw_template_parameters = (
+                db_helper.get_all_basis_material_by_template_id(
+                    material_comp_default_template_id, self.model_name
                 )
-
-            material_raw_template_parameters.append(
-                material_raw_template_parameters_sub
             )
-            ind += 1
-
-        material_raw_template_parameters = material_raw_template_parameters[0]
-        all_basis_material_raw_template_parameters = (
-            db_helper.get_all_basis_material_by_template_id(
-                material_comp_default_template_id, self.model_name
+            material_raw_template_parameters = list(
+                material_raw_template_parameters.values()
             )
-        )
-        # material_raw_parameters = tuple(material_raw_parameters)
-        # format all those parameters: use template parameters for metadata, and parameters for values.
-        # all information is packed in a single python object
-        # formatted_parameters is a dict containing those python objects
+            # format all those parameters: use template parameters for metadata, and parameters for values.
+            # all information is packed in a single python object
+            # formatted_parameters is a dict containing those python objects
 
-        material_formatted_parameters, formatted_component, formatted_components = (
-            self.formatter.format_parameter_sets(
-                material_component,
-                materials,
-                material_parameter_sets,
-                material_parameter_sets_name_by_id,
-                material_raw_template_parameters,
-                material_raw_parameters,
-                material_component_id,
+            material_formatted_parameters, formatted_component, formatted_components = (
+                self.formatter.format_parameter_sets(
+                    material_component,
+                    materials,
+                    material_parameter_sets,
+                    material_parameter_sets_name_by_id,
+                    material_raw_template_parameters,
+                    material_raw_parameters,
+                    material_component_id,
+                )
             )
-        )
 
-        index = 0
-        ### Use this perhaps when input file utility is implemented #############
-        # if st.session_state.upload:
-        #     uploaded_id = self.uploaded_input[component_name]
-        #     index = list(formatted_component.options.keys()).index(uploaded_id)
-        #########################################################################
+            index = 0
+            ### Use this perhaps when input file utility is implemented #############
+            # if st.session_state.upload:
+            #     uploaded_id = self.uploaded_input[component_name]
+            #     index = list(formatted_component.options.keys()).index(uploaded_id)
+            #########################################################################
 
-        selected_value_id = material_col.selectbox(
-            label="[{}]({})".format(
-                formatted_component.name, formatted_component.context_type_iri
-            ),
-            options=list(formatted_component.options.keys()),
-            index=index,
-            key="select_{}".format(material_component_id),
-            label_visibility="collapsed",
-            format_func=lambda x: formatted_component.options.get(x).display_name,
-            # on_change=reset_func,
-            # args=(material_component_id, material_parameter_set_id, formatted_component)
-        )
+            selected_value_id = material_col.selectbox(
+                label="[{}]({})".format(
+                    formatted_component.name, formatted_component.context_type_iri
+                ),
+                options=list(formatted_component.options.keys()),
+                index=index,
+                key="select_{}".format(material_component_id),
+                label_visibility="collapsed",
+                format_func=lambda x: formatted_component.options.get(x).display_name,
+                # on_change=reset_func,
+                # args=(material_component_id, material_parameter_set_id, formatted_component)
+            )
 
-        # db_helper.reset_material_template_parameters(material_comp_default_template_id)
+            # db_helper.reset_material_template_parameters(material_comp_default_template_id)
 
-        if formatted_component:
+            if formatted_component:
 
-            material_choice = formatted_component.options.get(selected_value_id)
-            material_parameter_set_id = material_choice.parameter_set_id
-            material = material_choice.display_name
+                material_choice = formatted_component.options.get(selected_value_id)
+                material_parameter_set_id = material_choice.parameter_set_id
+                material = material_choice.display_name
 
-            parameter_ids = material_choice.parameter_ids
-            parameters = material_choice.parameters
+                parameter_ids = material_choice.parameter_ids
+                parameters = material_choice.parameters
 
-            template_parameter_ids = []
-            excluded_template_parameter_ids = []
-            for template_parameter in all_basis_material_raw_template_parameters:
+                template_parameter_ids = []
+                excluded_template_parameter_ids = []
+                for template_parameter in all_basis_material_raw_template_parameters:
 
-                id, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _ = template_parameter
+                    id, *_ = template_parameter
 
-                for parameter_id in parameters:
+                    for parameter_id in parameters:
 
-                    parameter = parameters.get(parameter_id)
-                    set_parameter = parameter.options.get(material_parameter_set_id)
-                    template_parameter_id = parameter.id
+                        parameter = parameters.get(parameter_id)
+                        set_parameter = parameter.options.get(material_parameter_set_id)
+                        template_parameter_id = parameter.id
 
-                    if set_parameter:
-                        parameter.set_selected_value(set_parameter.value)
-                        component_parameters_ = self.LD.setup_parameter_struct(
-                            parameter, component_parameters=component_parameters_
-                        )
-
-                        template_parameter_ids.append(template_parameter_id)
-
-                    if parameter.name == "density" and density != None:
                         if set_parameter:
-                            density[material_component_id] = set_parameter.value
-
-                if id not in template_parameter_ids:
-                    excluded_template_parameter_ids.append(id)
-
-            if excluded_template_parameter_ids:
-
-                expander_missing_parameters = tab.expander(
-                    label="Define {} missing material parameters".format(material)
-                )
-
-                with expander_missing_parameters:
-
-                    for i, ex_id in enumerate(excluded_template_parameter_ids):
-
-                        template_parameter = (
-                            db_helper.get_parameter_by_template_parameter_id(ex_id)
-                        )
-                        (
-                            id,
-                            par_name,
-                            _,
-                            _,
-                            _,
-                            _,
-                            context_type,
-                            context_type_iri,
-                            par_type,
-                            unit,
-                            _,
-                            unit_iri,
-                            max_value,
-                            min_value,
-                            _,
-                            _,
-                            par_display_name,
-                        ) = template_parameter
-
-                        raw_parameters = (
-                            db_helper.get_parameter_from_template_parameter_id(ex_id)
-                        )
-                        material_display_names = []
-                        material_values = []
-                        for raw_parameter in raw_parameters:
-                            id, name, material_parameter_set_id, _, value = (
-                                raw_parameter
+                            parameter.set_selected_value(set_parameter.value)
+                            component_parameters_ = self.LD.setup_parameter_struct(
+                                parameter, component_parameters=component_parameters_
                             )
 
-                            # if par_type == "float":
-                            #     value = float(value)
-                            #     min_value = float(min_value)
-                            #     max_value = float(max_value)
+                            template_parameter_ids.append(template_parameter_id)
 
-                            # elif par_type == "int":
-                            #     value = int(value)
-                            #     min_value = int(min_value)
-                            #     max_value = int(max_value)
+                        if parameter.name == "density" and density != None:
+                            if set_parameter:
+                                density[material_component_id] = set_parameter.value
 
-                            material_name = db_helper.get_parameter_set_name_from_id(
-                                material_parameter_set_id
-                            )
-                            material_display_name = (
-                                db_helper.get_material_display_name_from_name(
-                                    material_name[0]
+                    if id not in template_parameter_ids:
+                        excluded_template_parameter_ids.append(id)
+
+                if excluded_template_parameter_ids:
+
+                    expander_missing_parameters = tab.expander(
+                        label="Define {} missing material parameters".format(material)
+                    )
+
+                    with expander_missing_parameters:
+
+                        for i, ex_id in enumerate(excluded_template_parameter_ids):
+
+                            template_parameter = (
+                                db_helper.get_parameter_by_template_parameter_id(
+                                    ex_id, self.model_name
                                 )
                             )
 
-                            if material_display_name:
-                                if material_display_name[0][0] == "User defined":
-                                    pass
-                                else:
-                                    material_display_names.append(
-                                        material_display_name[0][0]
-                                    )
-                                    material_values.append(value)
-                            else:
-                                if "Default" not in material_display_names:
-                                    material_display_names.append("Default")
-                                    material_values.append(value)
-
-                        st.write(
-                            "[{}]({})".format(par_name, context_type_iri)
-                            + " / "
-                            + "[{}]({})".format(unit, unit_iri)
-                        )
-                        select_col, value_col = st.columns(2)
-
-                        key_select = "select_{}_{}".format(material_component_id, id)
-                        key_input_number = "input_number_{}_{}".format(
-                            material_component_id, id
-                        )
-
-                        if key_select not in st.session_state:
-                            st.session_state[key_select] = "Default"
-
-                        if key_input_number not in st.session_state:
-                            st.session_state[key_input_number] = None
-
-                        selected_parameter_set = select_col.selectbox(
-                            label=par_display_name,
-                            options=material_display_names,
-                            key=key_select,
-                            on_change=set_select,
-                            args=(
-                                raw_parameters,
-                                material_display_names,
-                                material_values,
-                                material_component_id,
+                            (
                                 id,
-                            ),
-                            label_visibility="collapsed",
-                        )
+                                par_name,
+                                _,
+                                _,
+                                _,
+                                _,
+                                context_type,
+                                context_type_iri,
+                                par_type,
+                                unit,
+                                _,
+                                unit_iri,
+                                max_value,
+                                min_value,
+                                _,
+                                _,
+                                par_display_name,
+                            ) = template_parameter
 
-                        index = material_display_names.index(selected_parameter_set)
-                        material_value = material_values[index]
+                            raw_parameters = (
+                                db_helper.get_parameter_from_template_parameter_id(
+                                    ex_id
+                                )
+                            )
+                            material_display_names = []
+                            material_values = []
+                            for raw_parameter in raw_parameters:
+                                id, name, material_parameter_set_id, _, value = (
+                                    raw_parameter
+                                )
 
-                        if st.session_state[key_input_number] is None:
-                            st.session_state[key_input_number] = material_value
+                                # if par_type == "float":
+                                #     value = float(value)
+                                #     min_value = float(min_value)
+                                #     max_value = float(max_value)
 
-                        user_input = value_col.text_input(
-                            label=par_display_name,
-                            value=st.session_state[key_input_number],
-                            # min_value=min_value,
-                            # max_value=max_value,
-                            key=key_input_number,
-                            on_change=set_number_input,
-                            args=(material_component_id, id),
-                            label_visibility="collapsed",
-                        )
+                                # elif par_type == "int":
+                                #     value = int(value)
+                                #     min_value = int(min_value)
+                                #     max_value = int(max_value)
 
-                        if user_input != st.session_state[key_input_number]:
-                            st.session_state[key_input_number] = user_input
+                                material_name = (
+                                    db_helper.get_parameter_set_name_from_id(
+                                        material_parameter_set_id
+                                    )
+                                )
 
-                        if par_name == "density" and density != None:
-                            density[material_component_id] = float(user_input)
+                                material_display_name = (
+                                    db_helper.get_material_display_name_from_name(
+                                        material_name[0], self.model_name
+                                    )
+                                )
 
-                        if par_type == "int":
-                            user_input = int(user_input)
-                        elif par_type == "float":
-                            user_input = float(user_input)
-                        else:
-                            user_input = str(user_input)
+                                if material_display_name:
+                                    if material_display_name[0][0] == "User defined":
+                                        pass
+                                    else:
+                                        material_display_names.append(
+                                            material_display_name[0][0]
+                                        )
+                                        material_values.append(value)
+                                else:
+                                    if "Default" not in material_display_names:
+                                        material_display_names.append("Default")
+                                        material_values.append(value)
 
-                        component_parameters_ = self.LD.setup_parameter_struct(
-                            template_parameter,
-                            component_parameters=component_parameters_,
-                            value=user_input,
-                        )
+                            st.write(
+                                "[{}]({})".format(par_name, context_type_iri)
+                                + " / "
+                                + "[{}]({})".format(unit, unit_iri)
+                            )
+                            select_col, value_col = st.columns(2)
 
-            # con, cur = app_access.get_sqlite_con_and_cur()
-            # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
-            # # Fetch all rows from the result
-            # data = cur.fetchall()
+                            key_select = "select_{}_{}".format(
+                                material_component_id, id
+                            )
+                            key_input_number = "input_number_{}_{}".format(
+                                material_component_id, id
+                            )
 
-            # # Check if there are columns to describe
-            # if cur.description:
-            #     # Print the column information
-            #     print("Column names:", [col[0] for col in cur.description])
+                            if key_select not in st.session_state:
+                                st.session_state[key_select] = "Default"
 
-            # else:
-            #     print("No columns to describe (empty result set)")
+                            if key_input_number not in st.session_state:
+                                st.session_state[key_input_number] = None
 
-            # # Print the retrieved data
-            # for row in data:
-            #     st.write(row)
+                            selected_parameter_set = select_col.selectbox(
+                                label=par_display_name,
+                                options=material_display_names,
+                                key=key_select,
+                                on_change=set_select,
+                                args=(
+                                    raw_parameters,
+                                    material_display_names,
+                                    material_values,
+                                    material_component_id,
+                                    id,
+                                ),
+                                label_visibility="collapsed",
+                            )
 
-            # # Don't forget to close the cursor and connection when done
-            # cur.close()
-            # con.close()
+                            index = material_display_names.index(selected_parameter_set)
+                            material_value = material_values[index]
 
-        # self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
+                            if st.session_state[key_input_number] is None:
+                                st.session_state[key_input_number] = material_value
 
-        return (
-            material_formatted_parameters,
-            formatted_component,
-            selected_value_id,
-            component_parameters_,
-            emmo_relation,
-            density,
-        )
+                            user_input = value_col.text_input(
+                                label=par_display_name,
+                                value=st.session_state[key_input_number],
+                                # min_value=min_value,
+                                # max_value=max_value,
+                                key=key_input_number,
+                                on_change=set_number_input,
+                                args=(material_component_id, id),
+                                label_visibility="collapsed",
+                            )
+
+                            if user_input != st.session_state[key_input_number]:
+                                st.session_state[key_input_number] = user_input
+
+                            if par_name == "density" and density != None:
+                                density[material_component_id] = float(user_input)
+
+                            if par_type == "int":
+                                user_input = int(user_input)
+                            elif par_type == "float":
+                                user_input = float(user_input)
+                            else:
+                                user_input = str(user_input)
+
+                            component_parameters_ = self.LD.setup_parameter_struct(
+                                template_parameter,
+                                component_parameters=component_parameters_,
+                                value=user_input,
+                            )
+
+                # con, cur = app_access.get_sqlite_con_and_cur()
+                # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
+                # # Fetch all rows from the result
+                # data = cur.fetchall()
+
+                # # Check if there are columns to describe
+                # if cur.description:
+                #     # Print the column information
+                #     print("Column names:", [col[0] for col in cur.description])
+
+                # else:
+                #     print("No columns to describe (empty result set)")
+
+                # # Print the retrieved data
+                # for row in data:
+                #     st.write(row)
+
+                # # Don't forget to close the cursor and connection when done
+                # cur.close()
+                # con.close()
+
+            # self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
+
+            return (
+                material_formatted_parameters,
+                formatted_component,
+                selected_value_id,
+                component_parameters_,
+                emmo_relation,
+                density,
+            )
+            pass
 
     def fill_advanced_expander(
         self, tab, category_name, category_display_name, category_parameters
@@ -3097,7 +3091,9 @@ class SetTabs:
                 i += 1
 
                 non_material_component = tuple(
-                    db_helper.get_advanced_components_from_category_id(category_id)
+                    db_helper.get_advanced_components_from_category_id(
+                        category_id, self.model_name
+                    )
                 )
 
                 (
@@ -3133,6 +3129,7 @@ class SetTabs:
                     (
                         non_material_parameter_set_id,
                         non_material_parameters_set_name,
+                        _,
                         _,
                         _,
                         _,
@@ -3275,7 +3272,7 @@ class SetTabs:
     ):
 
         volume_fraction_raw_template = db_helper.get_mf_template_by_template_id(
-            material_comp_default_template_id
+            material_comp_default_template_id, self.model_name
         )
 
         parameter_set_id, parameters_set_name = (

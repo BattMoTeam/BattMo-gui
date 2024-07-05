@@ -33,6 +33,9 @@
             "type": "bool"
         },
         "solid_diffusion_model_type": {
+            "model_name": ["P2D","P3D"],
+            "par_class": "non_material",
+            "difficulty": "advanced",
             "context_type": ["diffusionModelType","parameter"],
             "label": "diffusionModelType",
             "description": "",
@@ -40,6 +43,9 @@
             "is_shown_to_user": false
          },
          "use_ramp_up": {
+            "model_name": ["P2D","P3D"],
+            "par_class": "non_material",
+            "difficulty": "advanced",
             "context_type": ["LinearCurrentRamp"],
             "label": "useRampup",
             "description": "simulation option to use a ramp up time at the beginning of the simulation",

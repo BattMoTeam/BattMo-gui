@@ -3,6 +3,7 @@
    "Header": {},
    "component": "negative_electrode_current_collector_materials",
    "material": true,
+   "model_name": ["P3D"],
    "Parameters": {
       "thickness": 1.1e-05,
       "density": 8950,

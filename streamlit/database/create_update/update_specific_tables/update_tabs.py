@@ -3,7 +3,12 @@ import sys
 
 ##############################
 # Set page directory to base level to allow for module import from different folder
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+sys.path.insert(
+    0,
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    ),
+)
 ##############################
 
 from database import db_handler
@@ -17,9 +22,7 @@ class UpdateTabs:
         self.sql_model = db_handler.ModelHandler()
 
     def get_resource_as_json(self):
-        return app_access.get_json_from_path(
-            app_access.get_path_to_tabs()
-        )
+        return app_access.get_json_from_path(app_access.get_path_to_tabs())
 
     def update_tab_from_json(self, resource_file):
         """
@@ -44,51 +47,44 @@ class UpdateTabs:
 
         for tab_name in tabs:
             details = tabs.get(tab_name)
-            model_name = details.get("model_name")
-            difficulty = details.get("difficulty")
-            context_type = details.get("context_type")
-            context_type_iri = details.get("context_type_iri")
-            display_name = details.get("display_name")
-            description = details.get("description")
-            tab_id = self.sql_tab.get_id_from_name(tab_name)
+            model_names = details.get("model_name")
+            for model_name in model_names:
+                difficulty = details.get("difficulty")
+                context_type = details.get("context_type")
+                context_type_iri = details.get("context_type_iri")
+                display_name = details.get("display_name")
+                description = details.get("description")
+                print(model_name)
+                tab_id = self.sql_tab.get_id_from_name_and_model(tab_name, model_name)
 
-            # if model_name == "p2d_p3d_p4d":
-            #     model = "P2D"
-            #     model_id = self.sql_model.get_model_id_from_model_name(model)
-            # if model_name == "p3d_p4d":
-            #     model = "P3D"
-            #     model_id = self.sql_model.get_model_id_from_model_name(model)
-            # if model_name == "p4d":
-            #     model = "P4D"
-            #     model_id = self.sql_model.get_model_id_from_model_name(model)
+                if tab_id:  # existing type
+                    self.sql_tab.update_by_id(
+                        id=tab_id,
+                        columns_and_values={
+                            "model_name": model_name,
+                            "difficulty": difficulty,
+                            "display_name": display_name,
+                            "context_type": context_type,
+                            "context_type_iri": context_type_iri,
+                            "description": description,
+                        },
+                    )
+                    updated_types.append(tab_name)
+                    if existing_ids_to_be_deleted:
+                        existing_ids_to_be_deleted.remove(tab_id)
 
-            if tab_id:  # existing type
-                self.sql_tab.update_by_id(
-                    id=tab_id,
-                    columns_and_values={
-                        "model_name": model_name,
-                        "difficulty": difficulty,
-                        "display_name": display_name,
-                        "context_type": context_type,
-                        "context_type_iri": context_type_iri,
-                        "description": description
-                    }
-                )
-                updated_types.append(tab_name)
-                existing_ids_to_be_deleted.remove(tab_id)
-
-            else:  # non-existing type, create it
-                self.sql_tab.insert_value(
-                    name=tab_name,
-                    model_name=model_name,
-                    difficulty=difficulty,
-                    display_name=display_name,
-                    context_type=context_type,
-                    context_type_iri=context_type_iri,
-                    description=description
-                )
-                new_types.append(tab_name)
-# Delete unused types which remain in the sql table
+                else:  # non-existing type, create it
+                    self.sql_tab.insert_value(
+                        name=tab_name,
+                        model_name=model_name,
+                        difficulty=difficulty,
+                        display_name=display_name,
+                        context_type=context_type,
+                        context_type_iri=context_type_iri,
+                        description=description,
+                    )
+                    new_types.append(tab_name)
+        # Delete unused types which remain in the sql table
         deleted_types = []
         if existing_ids_to_be_deleted:
             for id_to_delete in existing_ids_to_be_deleted:
