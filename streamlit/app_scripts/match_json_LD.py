@@ -19,20 +19,49 @@ def get_dict_from_has_quantitative(has_quantitative):
 
         if type(item) != str:
 
-            item_value_type = item.get("value", {}).get("@type", None)
-            if item_value_type == "emmo:Numerical":
-                new_dict[item.get("label")] = {
-                    "value": item.get("value", {}).get("hasNumericalData"),
-                    "unit": item.get("unit", {}).get("symbol"),
-                }
-            elif item_value_type == "emmo:String":
-                new_dict[item.get("label")] = item.get("value", {}).get("hasStringData")
-            elif item_value_type == "emmo:Boolean":
-                new_dict[item.get("label")] = bool(
-                    item.get("value", {}).get("hasStringData")
-                )
-            elif item_value_type is None:
-                new_dict[item.get("label")] = {"value": item.get("value", {})}
+            if "hasNumericalPart" in item:
+                item_value_type = item.get("hasNumericalPart", {}).get("@type", None)
+
+                if item_value_type == "Real":
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": item.get("hasNumericalPart", {}).get(
+                            "hasNumericalValue"
+                        ),
+                        "unit": item.get("hasMeasurementUnit", {}).get(
+                            "hasSymbolValue"
+                        ),
+                    }
+
+                elif item_value_type == "Boolean":
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": bool(
+                            item.get("hasNumericalPart", {}).get("hasNumericalValue")
+                        )
+                    }
+
+            elif "hasStringPart" in item:
+
+                item_value_type = item.get("hasStringPart", {}).get("@type", None)
+                if item.get("@type") and "Expression" in item.get("@type"):
+
+                    variables = item.get("hasVariable")
+                    # variables_list = [
+                    #     variable["hasSymbolValue"] for variable in variables
+                    # ]
+                    variables_list = variables
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": item.get("hasStringPart", {}).get("hasStringValue"),
+                        "variable": variables_list,
+                        "unit": item.get("hasMeasurementUnit", {}).get(
+                            "hasSymbolValue"
+                        ),
+                    }
+
+                else:
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": item.get("hasStringPart", {}).get("hasStringValue")
+                    }
+
             else:
                 assert False, "item not handled. {}".format(item)
 
@@ -79,25 +108,17 @@ class GuiDict(object):
     def __init__(self, gui_dict):
 
         self.model = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasModel")
-            .get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasModel").get("hasQuantitativeProperty")
         )
         self.cell = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
-            .get("hasBatteryCell")
-            .get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasBatteryCell").get("hasQuantitativeProperty")
         )
         self.bc = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
+            gui_dict.get("@graph")
             .get("hasBoundaryConditions")
             .get("hasQuantitativeProperty")
         )
-        self.raw_ele = (
-            gui_dict.get("MySimulationSetup").get("hasCell").get("hasElectrode")
-        )
+        self.raw_ele = gui_dict.get("@graph").get("hasElectrode")
         self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
         self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
 
@@ -126,26 +147,16 @@ class GuiDict(object):
         )
 
         self.elyte_mat = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
-            .get("hasElectrolyte")
-            .get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasElectrolyte").get("hasQuantitativeProperty")
         )
         self.sep_mat = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
-            .get("hasSeparator")
-            .get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
         )
         self.sep_prop = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
-            .get("hasSeparator")
-            .get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
         )
         self.protocol = get_dict_from_has_quantitative(
-            gui_dict.get("MySimulationSetup")
-            .get("hasCell")
+            gui_dict.get("@graph")
             .get("hasCyclingProcess")
             .get("hasQuantitativeProperty")
         )
@@ -158,7 +169,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         calculated_values = json.load(f)["calculatedParameters"]
 
     json_ld = GuiDict(gui_dict)
-    if json_ld.protocol.get("protocol_name") == "CCCV":
+
+    if json_ld.protocol.get("protocol_name").get("value") == "CCCV":
 
         total_time = 2 / json_ld.protocol.get("d_rate").get(
             "value"
@@ -173,41 +185,42 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         ).get(
             "value"
         )
-    elif json_ld.protocol.get("protocol_name") == "CCDischarge":
+    elif json_ld.protocol.get("protocol_name").get("value") == "CCDischarge":
         total_time = 2 / json_ld.protocol.get("d_rate").get("value") * 3600
     else:
+
         st.error("This cycling protocol is not handled yet.")
 
-    if "functionname" in json_ld.ne.am["open_circuit_potential"]:
+    if "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
         ne_am_function = "functionname"
-    elif "function" in json_ld.ne.am["open_circuit_potential"]:
+    elif "function" in json_ld.ne.am["open_circuit_potential"].get("value"):
         ne_am_function = "function"
     # elif "functionname" in json_ld.ne.am["open_circuit_potential"]:
     #     ne_am_function = "functionname"
     else:
         ne_am_function = None
 
-    if "functionname" in json_ld.pe.am["open_circuit_potential"]:
+    if "functionname" in json_ld.pe.am["open_circuit_potential"].get("value"):
         pe_am_function = "functionname"
-    elif "function" in json_ld.pe.am["open_circuit_potential"]:
+    elif "function" in json_ld.pe.am["open_circuit_potential"].get("value"):
         pe_am_function = "function"
     # elif "functionname" in json_ld.pe.am["open_circuit_potential"]:
     #     pe_am_function = "functionname"
     else:
         pe_am_function = None
 
-    if "functionname" in json_ld.elyte_mat["conductivity"]:
+    if "functionname" in json_ld.elyte_mat["conductivity"].get("value"):
         elyte_cond_function = "functionname"
-    elif "function" in json_ld.elyte_mat["conductivity"]:
+    elif "function" in json_ld.elyte_mat["conductivity"].get("value"):
         elyte_cond_function = "function"
     # elif "functionname" in json_ld.elyte_mat["conductivity"]:
     #     elyte_cond_function = "functionname"
     else:
         elyte_cond_function = None
 
-    if "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
+    if "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
         elyte_diff_function = "functionname"
-    elif "function" in json_ld.elyte_mat["diffusion_coefficient"]:
+    elif "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
         elyte_diff_function = "function"
     # elif "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
     #     elyte_diff_function = "functionname"
@@ -274,12 +287,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",
-                            ne_am_function: json_ld.ne.am.get("open_circuit_potential")[
-                                ne_am_function
-                            ],
-                            "argumentlist": json_ld.ne.am.get("open_circuit_potential")[
-                                "argument_list"
-                            ],
+                            ne_am_function: json_ld.ne.am.get(
+                                "open_circuit_potential"
+                            ).get("value")[ne_am_function],
+                            "argumentlist": json_ld.ne.am.get(
+                                "open_circuit_potential"
+                            ).get("value")["argument_list"],
                         },
                     },
                     "diffusionModelType": json_ld.model.get(
@@ -387,12 +400,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "chargeTransferCoefficient": 0.5,
                         "openCircuitPotential": {
                             "type": "function",
-                            pe_am_function: json_ld.pe.am.get("open_circuit_potential")[
-                                pe_am_function
-                            ],
-                            "argumentlist": json_ld.pe.am.get("open_circuit_potential")[
-                                "argument_list"
-                            ],
+                            pe_am_function: json_ld.pe.am.get(
+                                "open_circuit_potential"
+                            ).get("value")[pe_am_function],
+                            "argumentlist": json_ld.pe.am.get(
+                                "open_circuit_potential"
+                            ).get("value")["argument_list"],
                         },
                     },
                     "diffusionModelType": json_ld.model.get(
@@ -477,19 +490,21 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "density": json_ld.elyte_mat.get("density").get("value"),
             "ionicConductivity": {
                 "type": "function",
-                elyte_cond_function: json_ld.elyte_mat.get("conductivity")[
+                elyte_cond_function: json_ld.elyte_mat.get("conductivity").get("value")[
                     elyte_cond_function
                 ],
-                "argumentlist": json_ld.elyte_mat.get("conductivity")["argument_list"],
+                "argumentlist": json_ld.elyte_mat.get("conductivity").get("value")[
+                    "argument_list"
+                ],
             },
             "diffusionCoefficient": {
                 "type": "function",
-                elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient")[
-                    elyte_diff_function
-                ],
-                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient")[
-                    "argument_list"
-                ],
+                elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient").get(
+                    "value"
+                )[elyte_diff_function],
+                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient").get(
+                    "value"
+                )["argument_list"],
             },
             "compnames": [
                 json_ld.elyte_mat.get("charge_carrier_name"),

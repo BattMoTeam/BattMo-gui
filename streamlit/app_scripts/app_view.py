@@ -286,6 +286,7 @@ class SetupLinkedDataStruct:
         self.id = "@id"
         self.type = "@type"
         self.label = "rdfs:label"
+        self.graph = "@graph"
 
         self.hasInput = "hasInput"
         self.hasActiveMaterial = "hasActiveMaterial"
@@ -300,74 +301,39 @@ class SetupLinkedDataStruct:
         self.hasCyclingProcess = "hasCyclingProcess"
         self.hasBatteryCell = "hasBatteryCell"
 
+        self.hasProperty = "hasProperty"
         self.hasQuantitativeProperty = "hasQuantitativeProperty"
         self.hasObjectiveProperty = "hasObjectiveProperty"
         self.hasConstituent = "hasConstituent"
-        self.hasNumericalData = "hasNumericalData"
         self.hasNumericalPart = "hasNumericalPart"
         self.hasNumericalValue = "hasNumericalValue"
-        self.hasStringData = "hasStringData"
         self.hasStringValue = "hasStringValue"
         self.hasStringPart = "hasStringPart"
         self.hasModel = "hasModel"
         self.hasCell = "hasCell"
 
-        self.universe_label = "MySimulationSetup"
-        self.cell_label = "MyCell"
         self.cell_type = "battery:Cell"
 
-        self.context = {
-            "schema": "https://schema.org/",
-            "": "https://raw.githubusercontent.com/BIG-MAP/BattINFO/master/context.json",
-            "emmo": "https://w3id.org/emmo#",
-            "echem": "https://w3id.org/emmo/domain/electrochemistry#",
-            "battery": "https://w3id.org/emmo/domain/battery#",
-            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-            "hasConstituent": "emmo:hasConstituent",
-            # "hasNumericalData": "emmo:hasNumericalData",
-            # "hasStringData": "emmo:hasStringData",
-            # "value": "emmo:hasQuantityValue",
-            # "unit": "emmo:hasReferenceUnit",
-            # "label": "skos:prefLabel"
-            # "skos": "http://www.w3.org/2004/02/skos/core#",
-            # "bkb": "https://w3id.org/emmo/domain/battery_knowledge_base#",
-            # "qudt": "http://qudt.org/vocab/unit/",
-        }
+        self.context = "https://w3id.org/emmo/domain/battery/context"
 
     @st.cache_data
     def setup_linked_data_dict(_self, model_id, model_name):
 
-        model_label = "{} model".format(model_name)
-        id = ""
-        model_type = "battery:{}Model".format(model_name)
+        model_type = "{}Model".format(model_name)
 
         dict = {
             "@context": _self.context,
-            _self.universe_label: {
+            _self.graph: {
+                _self.id: "https://www.batterymodel.org/parameters/m309c-ed93mdp3d",
+                _self.type: "Icon",
                 _self.hasModel: {
-                    "label": model_label,
-                    "@type": model_type,
+                    _self.type: model_type,
                     _self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(
                         model_name
                     ),
-                }
+                },
             },
         }
-
-        # dict = {
-        #     "@context": self.context,
-
-        #     self.id:id,
-        #     self.type:["Dataset"],
-        #     "schema:headline": headline,
-        #     "battinfo:hasModel":{
-        #         self.type: model_type,
-        #         self.id: model_id,
-        #         self.label: model_label,
-
-        #         self.hasInput: db_helper.get_model_parameters_as_dict(model_id)
-        #     }
-        #     }
 
         return dict
 
@@ -382,21 +348,17 @@ class SetupLinkedDataStruct:
         relation_par=None,
     ):
         parameters = parameters.copy()
-        if _self.universe_label in dict:
+        if _self.graph in dict:
             if relation_par:
                 if existence == "new":
-                    dict[_self.universe_label][relation_dict_1] = parameters[
-                        relation_par
-                    ]
+                    dict[_self.graph][relation_dict_1] = parameters[relation_par]
                 elif existence == "existing":
-                    dict[_self.universe_label][relation_dict_1] += parameters[
-                        relation_par
-                    ]
+                    dict[_self.graph][relation_dict_1] += parameters[relation_par]
             else:
                 if existence == "new":
-                    dict[_self.universe_label][relation_dict_1] = parameters
+                    dict[_self.graph][relation_dict_1] = parameters
                 elif existence == "existing":
-                    dict[_self.universe_label][relation_dict_1] += parameters
+                    dict[_self.graph][relation_dict_1] += parameters
         else:
             if relation_par:
                 if existence == "new":
@@ -433,77 +395,86 @@ class SetupLinkedDataStruct:
         type=None,
         existence=None,
     ):
-
-        if type:
-            if type == "cell":
-                dict = {"label": _self.cell_label, "@type": _self.cell_type}
-        elif existence == "new":
-            dict = {"label": display_name, "@type": context_type}
+        if existence == "new":
+            dict = {_self.label: display_name, _self.type: context_type}
 
         else:
-            dict["label"] = display_name
-            dict["@type"] = context_type
+            dict[_self.label] = display_name
+            dict[_self.type] = context_type
 
         return dict
 
     @st.cache_data
     def fill_linked_data_dict(_self, user_input, content):
-        user_input[_self.universe_label][_self.hasCell] = content
+        user_input[_self.graph].update(content)
 
         return user_input
 
-    def setup_parameter_struct(self, parameter, component_parameters=None, value=None):
+    def setup_parameter_struct(_self, parameter, component_parameters=None, value=None):
         if component_parameters is None:
             component_parameters = []
-
-        numeric = isinstance(parameter, NumericalParameter)
-        # print("numeric =", numeric)
-        # print("object =", parameter)
 
         try:
 
             if isinstance(parameter, NumericalParameter):
 
                 formatted_value_dict = {
-                    "@type": "emmo:Numerical",
-                    self.hasNumericalData: parameter.selected_value,
+                    _self.type: "Real",
+                    _self.hasNumericalValue: parameter.selected_value,
+                }
+
+                parameter_details = {
+                    _self.label: parameter.name,
+                    _self.type: parameter.context_type,
+                    _self.hasNumericalPart: formatted_value_dict,
+                }
+
+                parameter_details["hasMeasurementUnit"] = {
+                    "hasSymbolValue": parameter.unit,
+                    _self.type: (parameter.unit_iri if parameter.unit_iri else None),
                 }
 
             elif isinstance(parameter, StrParameter):
 
                 formatted_value_dict = {
-                    "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value,
+                    _self.type: "String",
+                    _self.hasStringValue: parameter.selected_value,
+                }
+                parameter_details = {
+                    _self.label: parameter.name,
+                    _self.type: parameter.context_type,
+                    _self.hasStringPart: formatted_value_dict,
                 }
 
             elif isinstance(parameter, BooleanParameter):
                 formatted_value_dict = {
-                    "@type": "emmo:Boolean",
-                    self.hasStringData: parameter.selected_value,
-                }
-            elif isinstance(parameter, FunctionParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value,
+                    _self.type: "Boolean",
+                    _self.hasNumericalValue: int(
+                        ast.literal_eval(parameter.selected_value)
+                    ),
                 }
 
-            parameter_details = {
-                "label": parameter.name,
-                "@type": parameter.context_type if parameter.context_type else "string",
-                "value": formatted_value_dict,
-            }
-            if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = {
-                    "label": (
-                        parameter.unit_name if parameter.unit_name else parameter.unit
-                    ),
-                    "symbol": parameter.unit,
-                    "@type": (
-                        "emmo:" + parameter.unit_name
-                        if parameter.unit_name
-                        else parameter.unit
-                    ),
+                parameter_details = {
+                    _self.label: parameter.name,
+                    _self.type: parameter.context_type,
+                    _self.hasNumericalPart: formatted_value_dict,
                 }
+
+            elif isinstance(parameter, FunctionParameter):
+                formatted_value_dict = {
+                    _self.type: "String",
+                    _self.hasStringValue: parameter.selected_value,
+                }
+
+                variable_dict = parameter.selected_value["argument_list"]
+
+                parameter_details = {
+                    _self.label: parameter.name,
+                    _self.type: parameter.context_type,
+                    _self.hasStringPart: formatted_value_dict,
+                    "hasVariable": variable_dict,
+                }
+
             component_parameters.append(parameter_details)
 
             return component_parameters
@@ -535,20 +506,20 @@ class SetupLinkedDataStruct:
                 formatted_value_dict = value
 
                 formatted_value_dict = {
-                    "@type": "emmo:Numerical",
-                    self.hasNumericalData: value,
+                    _self.type: "Real",
+                    _self.hasNumericalValue: value,
                 }
 
                 parameter_details = {
-                    "label": name,
-                    "@type": context_type,
-                    "value": formatted_value_dict,
+                    _self.label: name,
+                    _self.type: context_type,
+                    "hasNumericalPart": formatted_value_dict,
                 }
 
-                parameter_details["unit"] = {
-                    "label": unit_name,
-                    "symbol": unit,
-                    "@type": "emmo:" + unit_name,
+                parameter_details["hasMeasurementUnit"] = {
+                    # _self.label: unit_name,
+                    "hasSymbolValue": unit,
+                    _self.type: (unit_iri if unit_iri else None),
                 }
 
                 component_parameters.append(parameter_details)
@@ -556,11 +527,11 @@ class SetupLinkedDataStruct:
                 st.error("An error occurred 2: {}".format(e))
 
                 st.error(
-                    "This instance of parameter is not handled: {}".format(
+                    "This instance of parameter is not handled 2: {}".format(
                         type(parameter)
                     )
                 )
-                st.info(NumericalParameter)
+                st.info(parameter)
 
             return component_parameters
 
@@ -621,9 +592,9 @@ class SetupLinkedDataStruct:
     @st.cache_data
     def change_numerical_value(_self, dict, index, value):
         try:
-            dict[index]["value"][_self.hasNumericalData] = value
+            dict[index]["hasNumericalPart"][_self.hasNumericalValue] = value
         except:
-            dict[index]["value"] = value
+            dict[index]["hasNumericalPart"] = value
 
         return dict
 
@@ -642,36 +613,30 @@ class SetupLinkedDataStruct:
         energy,
         dis_energy,
     ):
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
-            _self.hasQuantitativeProperty
-        ] += n_to_p
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
+        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += n_to_p
+        dict[_self.graph][_self.hasBatteryCell][
             _self.hasQuantitativeProperty
         ] += cell_mass
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
+        dict[_self.graph][_self.hasBatteryCell][
             _self.hasQuantitativeProperty
         ] += cell_cap
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
-            _self.hasQuantitativeProperty
-        ] += rte
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
-            _self.hasQuantitativeProperty
-        ] += energy
-        dict[_self.universe_label][_self.hasCell][_self.hasBatteryCell][
+        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += rte
+        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += energy
+        dict[_self.graph][_self.hasBatteryCell][
             _self.hasQuantitativeProperty
         ] += dis_energy
-        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][
+        dict[_self.graph][_self.hasElectrode][_self.hasNegativeElectrode][
             _self.hasNegativeElectrode
-        ][_self.hasNegativeElectrode][_self.hasQuantitativeProperty] += specific_cap_ne
-        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][
+        ][_self.hasQuantitativeProperty] += specific_cap_ne
+        dict[_self.graph][_self.hasElectrode][_self.hasPositiveElectrode][
             _self.hasPositiveElectrode
-        ][_self.hasPositiveElectrode][_self.hasQuantitativeProperty] += specific_cap_pe
-        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][
-            _self.hasNegativeElectrode
-        ][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_ne
-        dict[_self.universe_label][_self.hasCell][_self.hasElectrode][
-            _self.hasPositiveElectrode
-        ][_self.hasActiveMaterial][_self.hasQuantitativeProperty] += cap_pe
+        ][_self.hasQuantitativeProperty] += specific_cap_pe
+        dict[_self.graph][_self.hasElectrode][_self.hasNegativeElectrode][
+            _self.hasActiveMaterial
+        ][_self.hasQuantitativeProperty] += cap_ne
+        dict[_self.graph][_self.hasElectrode][_self.hasPositiveElectrode][
+            _self.hasActiveMaterial
+        ][_self.hasQuantitativeProperty] += cap_pe
 
         return dict
 
@@ -874,7 +839,7 @@ class SetTabs:
 
     def set_tabs(self):
 
-        cell_parameters = self.LD.setup_sub_dict(type="cell")
+        cell_parameters = {}
 
         all_tab_display_names = db_helper.get_basis_tabs_display_names(self.model_name)
 
@@ -1752,9 +1717,14 @@ class SetTabs:
                 )
 
         parameter_details = {
-            "label": "protocol_name",
-            "value": {"@type": "emmo:String", "hasStringData": Protocol_name},
+            "rdfs:label": "protocol_name",
+            "@type": "Cycling",
+            "hasStringPart": {
+                "@type": "emmo:String",
+                "hasStringValue": Protocol_name,
+            },
         }
+
         component_parameters_.append(parameter_details)
         component_parameters_ = self.LD.fill_component_dict(
             component_parameters_, "new"
@@ -3969,22 +3939,32 @@ class DownloadParameters:
 
         self.set_submit_button()
 
-    def update_on_click(self):
+    def update_on_click(self, headline, description, creator):
 
-        self.update_json_LD()
+        self.update_json_LD(headline, description, creator)
         self.update_json_battmo_input()
 
         # st.session_state.update_par = True
 
         # save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
-    def update_json_LD(self):
+    def update_json_LD(self, headline, description, creator):
 
         path_to_battmo_input = app_access.get_path_to_linked_data_input()
 
+        parameters = self.gui_parameters
+        if headline:
+            parameters["@graph"]["schema:headline"] = headline
+        if description:
+            parameters["@graph"]["schema:description"] = description
+        if len(creator[0]):
+            parameters["@graph"]["schema:creator"] = creator
+
         # save formatted parameters in json file
         with open(path_to_battmo_input, "w") as new_file:
-            json.dump(self.gui_parameters, new_file, indent=3)
+            json.dump(parameters, new_file, indent=3)
+
+        st.session_state.gui_schema = json.dumps(parameters, indent=3)
 
     def update_json_battmo_input(self):
 
@@ -4005,18 +3985,83 @@ class DownloadParameters:
             # set Download header
             st.markdown("### " + self.download_header)
 
-            # set download button
-            st.download_button(
-                label=self.download_label,
-                on_click=self.update_on_click(),
-                data=self.gui_file_data,
-                file_name=self.gui_file_name,
-                mime=self.file_mime_type,
-            )
+            # set popover button
+            popover = st.popover(self.download_label, use_container_width=False)
+
+            with popover:
+
+                st.markdown("###### " + "Schema headline")
+                headline = st.text_input(label="headline", label_visibility="collapsed")
+
+                st.markdown("###### " + "Schema description")
+                description = st.text_input(
+                    label="description", label_visibility="collapsed"
+                )
+
+                st.markdown("###### " + "Schema creators")
+                col1, col2 = st.columns(2)
+                col1.markdown("Number of creators")
+                number = col2.number_input(
+                    label="number of creators",
+                    value=1,
+                    label_visibility="collapsed",
+                    format="%d",
+                )
+                creator = []
+                cols = st.columns(number)
+                for i in range(number):
+
+                    with cols[i]:
+
+                        name = st.text_input(
+                            label="Name",
+                            label_visibility="visible",
+                            key="creator_name_{}".format(i + 1),
+                        )
+
+                        orcid = st.text_input(
+                            label="Orcid id",
+                            label_visibility="visible",
+                            key="creator_id_{}".format(i + 1),
+                        )
+
+                        aff_name = st.text_input(
+                            label="Affiliation",
+                            label_visibility="visible",
+                            key="aff_name_{}".format(i + 1),
+                        )
+
+                        creator_temp = {}
+                        if name or orcid or aff_name:
+                            creator_temp["@type"] = "schema:Person"
+
+                            if orcid:
+                                creator_temp["@id"] = orcid
+                            if name:
+                                creator_temp["schema:name"] = name
+                            if aff_name:
+                                creator_temp["schema:affiliation"] = {}
+                                creator_temp["schema:affiliation"][
+                                    "schema:name"
+                                ] = aff_name
+
+                        creator.append(creator_temp)
+
+                    self.update_json_LD(headline, description, creator)
+
+                st.download_button(
+                    label="Download",
+                    on_click=self.update_on_click,
+                    args=(headline, description, creator),
+                    data=st.session_state.gui_schema,
+                    file_name=self.gui_file_name,
+                    mime=self.file_mime_type,
+                )
 
             st.download_button(
                 label=self.download_label_formatted_parameters,
-                on_click=self.update_on_click(),
+                on_click=self.update_on_click,
+                args=(headline, description, creator),
                 data=self.formatted_parameters_file_data,
                 file_name=self.formatted_parameters_file_name,
                 mime=self.file_mime_type,
@@ -4080,8 +4125,10 @@ class SetModelDescription:
     def __init__(self):
 
         self.model = "P2D"
-        self.hasNumericalData = "hasNumericalData"
-        self.hasStringData = "hasStringData"
+        self.hasNumericalValue = "hasNumericalValue"
+        self.hasNumericalPart = "hasNumericalPart"
+        self.hasStringValue = "hasStringValue"
+        self.hasStringPart = "hasStringPart"
         self.set_model_description()
 
     def set_model_description(self):
@@ -4098,25 +4145,25 @@ class SetModelDescription:
             st.markdown("""**Includes** """)
             st.markdown(
                 "- Thermal effects = <span style='color: blue;'>"
-                + str(P2D_model[0]["value"][self.hasStringData])
+                + str(bool(P2D_model[0][self.hasNumericalPart][self.hasNumericalValue]))
                 + "</span>",
                 unsafe_allow_html=True,
             )
             st.markdown(
                 "- Current collector = <span style='color: blue;'>"
-                + str(P2D_model[1]["value"][self.hasStringData])
+                + str(bool(P2D_model[1][self.hasNumericalPart][self.hasNumericalValue]))
                 + "</span>",
                 unsafe_allow_html=True,
             )
             st.markdown(
                 "- Solid Diffusion model = <span style='color: blue;'>"
-                + str(P2D_model[2]["value"][self.hasStringData])
+                + str(bool(P2D_model[2][self.hasNumericalPart][self.hasNumericalValue]))
                 + "</span>",
                 unsafe_allow_html=True,
             )
             st.markdown(
                 "- Solid Diffusion model type = <span style='color: blue;'>"
-                + str(P2D_model[3]["value"][self.hasStringData])
+                + str(P2D_model[3][self.hasStringPart][self.hasStringValue])
                 + "</span>",
                 unsafe_allow_html=True,
             )

@@ -135,8 +135,7 @@
          "difficulty": "advanced",
          "max_value": 1000,
          "min_value": 1,
-         "context_type": ["CurrentCollector","parameter"],
-         "label": "CurrentCollector",
+         "context_type": ["Duration"],
          "description": "",
          "type": "float",
          "is_shown_to_user": true,
@@ -151,7 +150,6 @@
          "max_value": 100,
          "min_value": 0.0001,
          "context_type": ["LinearCurrentRamp", "Duration"],
-         "label": "rampupTime",
          "description": "duration of the switch between changing from rest, discharging, or charging",
          "type": "float",
          "is_shown_to_user": true,
@@ -161,7 +159,6 @@
       },
       "total_time": {
          "context_type": ["Duration"],
-         "label": "totalTime",
          "description": "",
          "max_value": 100000,
          "min_value": 0.0001,
@@ -173,7 +170,6 @@
       },
       "number_of_time_steps": {
          "context_type": ["Duration"],
-         "label": "numberOfTimeSteps",
          "description": "",
          "max_value": 1000,
          "min_value": 1,

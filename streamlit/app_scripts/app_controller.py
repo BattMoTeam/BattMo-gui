@@ -1,4 +1,3 @@
-
 import os
 import streamlit as st
 import sys
@@ -10,12 +9,12 @@ import app_development as dev
 import app_access
 
 
-
 class AppController:
     """
     Centralize app features in a single class
     Use cache data when it's possible to optimize software's performance
     """
+
     def __init__(self, images, context):
         self.path_to_python_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,31 +34,31 @@ class AppController:
 
     def run_simulation(self, gui_parameters):
         return view.RunSimulation(gui_parameters)
-    
-    def divergence_check(self,save_run,error):
-        return view.DivergenceCheck(save_run,error)
 
-    def download_parameters(self,gui_parameters):
+    def divergence_check(self, save_run, error):
+        return view.DivergenceCheck(save_run, error)
+
+    def download_parameters(self, gui_parameters):
         return view.DownloadParameters(gui_parameters)
 
     def json_LD_to_BattMo(self, gui_dict):
         return view.match_json_LD.get_batt_mo_dict_from_gui_dict(gui_dict)
-    
-    def set_indicators(self, page_name, results_simulation=None, file_names =None):
-        return view.SetIndicators(page_name,results_simulation, file_names)
-    
-    def set_geometry_visualization(self,gui_parameters):
+
+    def set_indicators(self, page_name, results_simulation=None, file_names=None):
+        return view.SetIndicators(page_name, results_simulation, file_names)
+
+    def set_geometry_visualization(self, gui_parameters):
         return view.SetGeometryVisualization(gui_parameters)
-    
-    def set_download_hdf5_button(self, results,selected_data_sets):
-        return view.SetHDF5Download(results,selected_data_sets)
-    
-    def set_graphs(self, results,selected_data_sets):
-        return view.SetGraphs(results,selected_data_sets)
-    
+
+    def set_download_hdf5_button(self, results, selected_data_sets):
+        return view.SetHDF5Download(results, selected_data_sets)
+
+    def set_graphs(self, results, selected_data_sets):
+        return view.SetGraphs(results, selected_data_sets)
+
     def set_hdf5_upload(self):
         return view.SetHDF5Upload()
-    
+
     def set_data_set_selector(self):
         return view.SetDataSetSelector()
 
@@ -80,19 +79,24 @@ def set_heading():
 def set_page_navigation():
     return view.SetPageNavigation()
 
+
 @st.cache_data
 def set_external_links():
     return view.SetExternalLinks()
+
 
 @st.cache_data
 def set_model_description():
     return view.SetModelDescription()
 
+
 def set_material_description():
     return view.SetMaterialDescription()
 
+
 def get_results_data(file_names):
     return view.GetResultsData(file_names)
+
 
 def set_acknowlegent_info():
     return view.SetAcknowledgementInfo()
@@ -103,10 +107,14 @@ def set_acknowlegent_info():
 #####################################
 
 
+def setup_linked_data_structure():
+    return view.SetupLinkedDataStruct()
+
 
 #####################################
 # Images
 #####################################
+
 
 @st.cache_data
 def get_images():
@@ -128,7 +136,9 @@ def get_logo():
 #####################################
 @st.cache_data
 def get_context():
-    return app_access.get_json_from_path(app_access.get_path_to_categories()).get("context")
+    return app_access.get_json_from_path(app_access.get_path_to_categories()).get(
+        "context"
+    )
 
 
 #####################################
