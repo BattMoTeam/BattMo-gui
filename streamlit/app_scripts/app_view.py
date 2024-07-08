@@ -723,7 +723,7 @@ class SetTabs:
         self.user_input = self.LD.setup_linked_data_dict(self.model_id, self.model_name)
 
         # Create file input
-        # self.set_file_input()
+        self.set_file_input()
 
         # Fill tabs
         self.set_tabs()
@@ -731,13 +731,27 @@ class SetTabs:
     def set_title(self):
         st.markdown("### " + self.title)
 
+    def set_sessions_state_upload_true(self):
+        st.session_state.upload = True
+
+    def set_sessions_state_upload_false(self):
+        st.session_state.upload = False
+
     def set_file_input(self):
         """Function that create a file input at the Simulation page"""
 
         upload, update = st.columns((3, 1))
-        uploaded_file = upload.file_uploader(self.info, type="json", help=self.help)
+        uploaded_file = upload.file_uploader(
+            self.info,
+            type="json",
+            help=self.help,
+            # on_change=self.set_sessions_state_upload_true,
+        )
 
         if uploaded_file:
+
+            st.session_state.upload = True
+
             uploaded_file = uploaded_file.read()
             uploaded_file_dict = json.loads(uploaded_file)
             # uploaded_file_str = str(uploaded_file_dict)
@@ -745,36 +759,26 @@ class SetTabs:
             with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
                 json.dump(uploaded_file_dict, outfile, indent=3)
 
-            gui_formatted_dict = match_json_upload.GuiInputFormatting(
-                self.model_name
-            ).gui_dict
+            # gui_formatted_dict = match_json_upload.GuiInputFormatting(
+            #     self.model_name
+            # ).gui_dict
 
-            with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
-                json.dump(gui_formatted_dict, outfile, indent=3)
+            # with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
+            #     json.dump(gui_formatted_dict, outfile, indent=3)
 
             st.success(
-                "Your file is succesfully uploaded. Click on the 'PUSH' button to automatically fill in the parameter inputs specified in your file."
+                "Your file is succesfully uploaded. Click on the 'CLEAR' button if you want to reset the parameters to the default values again."
             )
 
+        else:
+            st.session_state.upload = False
+
         update.text(" ")
         update.text(" ")
 
-        push = update.button("PUSH")
-        if push:
-            if uploaded_file is not None:
+        update.button("CLEAR", on_click=self.set_sessions_state_upload_false)
 
-                with open(app_access.get_path_to_gui_formatted_input(), "r") as outfile:
-                    uploaded_input = json.load(outfile)
-
-                self.uploaded_input = uploaded_input
-                st.session_state.upload = True
-
-                st.success(
-                    "The input values are succesfully adapted to your input file. You can still change some settings below if wanted."
-                )
-
-            else:
-                st.error("ERROR: No file has been uploaded yet.")
+        st.write(st.session_state.upload)
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
