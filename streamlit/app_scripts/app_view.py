@@ -7640,7 +7640,7 @@ class SetMaterialDescription:
             x = np.linspace(0, 1, 100)
             x_title = "c/cmax"
         else:
-            x = np.linspace(0.6, 1.6, 100)
+            x = np.linspace(0, 2, 100) * 10 ** (3)
             x_title = "c"
 
         y = np.zeros(len(x))
@@ -7656,7 +7656,7 @@ class SetMaterialDescription:
             yaxis_title=parameter_display_name,
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
 
     def set_material_description(_self):
 
@@ -7817,16 +7817,24 @@ class SetMaterialDescription:
                                                 "This material doesn't include the function yet."
                                             )
                                         else:
-                                            st.latex(sp.latex(sp.sympify(string_py)))
+                                            # st.latex(sp.latex(sp.sympify(string_py)))
 
-                                            # contains_c_cmax = "c/cmax" in string_py
+                                            contains_c_cmax = "c/cmax" in string_py
 
-                                            # if contains_c_cmax:
-                                            #     updated_string = string_py.replace("c/cmax", "x")
-                                            # else:
-                                            #     updated_string = string_py.replace("c", "x")
+                                            if contains_c_cmax:
+                                                updated_string = string_py.replace(
+                                                    "c/cmax", "x"
+                                                )
+                                            else:
+                                                updated_string = string_py.replace(
+                                                    "c", "x"
+                                                )
 
-                                            # _self.plot_function(updated_string, parameter_display_name, contains_c_cmax)
+                                            _self.plot_function(
+                                                updated_string,
+                                                parameter_display_name,
+                                                contains_c_cmax,
+                                            )
 
                                 else:
                                     st.markdown(
