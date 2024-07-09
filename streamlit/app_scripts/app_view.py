@@ -4056,6 +4056,7 @@ class DownloadParameters:
                 st.download_button(
                     label="Download",
                     on_click=self.update_on_click,
+                    use_container_width=True,
                     args=(headline, description, creator),
                     data=st.session_state.gui_schema,
                     file_name=self.gui_file_name,
