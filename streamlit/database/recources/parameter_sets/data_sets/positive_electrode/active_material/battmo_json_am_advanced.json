@@ -3,6 +3,7 @@
    "Header": {},
    "component": "positive_electrode_active_material_advanced",
    "material": false,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "electronic_conductivity": 100.0,
       "activation_energy_of_diffusion": 5e3,

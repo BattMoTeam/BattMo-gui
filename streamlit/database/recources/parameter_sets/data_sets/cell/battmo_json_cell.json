@@ -3,6 +3,7 @@
    "Header": {},
    "component": "cell_properties",
    "material": false,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "nominal_cell_capacity": 12.5,
       "number_parallel_electrode_pairs_within_cell": 1,
