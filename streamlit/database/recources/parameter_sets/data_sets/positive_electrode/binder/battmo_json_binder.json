@@ -3,7 +3,6 @@
    "Header": {},
    "component": "positive_electrode_binder",
    "material": false,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "mass_fraction": 0.05
    }

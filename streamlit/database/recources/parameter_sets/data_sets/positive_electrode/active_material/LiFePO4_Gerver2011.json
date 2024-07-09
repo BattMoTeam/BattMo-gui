@@ -3,7 +3,6 @@
     "Header": {},
     "component": "positive_electrode_active_material",
     "material": true,
-    "model_name": ["P2D", "P3D"],
     "Parameters": {
        "maximum_concentration": 22800,
        "particle_radius": 52e-08,

@@ -3,7 +3,6 @@
    "Header": {},
    "component": "negative_electrode_additive",
    "material": false,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "mass_fraction": 0.05
    }

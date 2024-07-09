@@ -3,7 +3,6 @@
    "Header": {},
    "component": "positive_electrode_current_collector_materials",
    "material": true,
-   "model_name": ["P3D"],
    "Parameters": {
       "thickness": 1.73e-05,
       "density": 2710,

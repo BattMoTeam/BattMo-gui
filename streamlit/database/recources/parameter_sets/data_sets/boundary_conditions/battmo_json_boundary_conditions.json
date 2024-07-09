@@ -3,7 +3,6 @@
     "Header": {},
     "component": "boundary_conditions",
     "material": false,
-    "model_name": ["P2D", "P3D"],
     "Parameters": {
         "external_heat_transfer_coefficient": 1000,
         "ambient_temperature": 298.15,

@@ -3,7 +3,6 @@
     "Header": {},
     "component": "electrolyte_materials",
     "material": true,
-    "model_name": ["P2D", "P3D"],
     "Parameters": {
        "specific_heat_capacity": 1518.0,
        "thermal_conductivity": 0.099,

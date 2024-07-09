@@ -3,11 +3,10 @@
    "Header": {},
    "component": "negative_electrode_additive",
    "material": true,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
-      "density": 1800,
-      "specific_heat_capacity": 300,
-      "thermal_conductivity": 0.5
+      "density": 1,
+      "specific_heat_capacity": 1,
+      "thermal_conductivity": 1
       
    }
 }

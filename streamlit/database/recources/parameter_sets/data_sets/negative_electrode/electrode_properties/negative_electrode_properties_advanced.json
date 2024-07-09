@@ -3,7 +3,6 @@
    "Header": {},
    "component": "negative_electrode_properties_advanced",
    "material": false,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "bruggeman_coefficient": 1.5,
       "current_collector_thickness": 12,

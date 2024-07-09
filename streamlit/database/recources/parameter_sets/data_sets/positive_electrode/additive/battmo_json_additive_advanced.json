@@ -3,7 +3,6 @@
    "Header": {},
    "component": "positive_electrode_additive_advanced",
    "material": false,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "electronic_conductivity": 100,
       "density": 1800,

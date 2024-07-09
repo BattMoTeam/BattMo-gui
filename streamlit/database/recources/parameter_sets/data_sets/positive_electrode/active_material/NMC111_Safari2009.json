@@ -6,7 +6,6 @@
    "Header": {},
    "component": "positive_electrode_active_material",
    "material": true,
-   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "maximum_concentration": 55554,
       "volumetric_surface_area": 885000,

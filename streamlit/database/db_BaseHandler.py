@@ -83,16 +83,6 @@ class BaseHandler:
                     con.commit()
                     # con.close()
 
-    def _create_index(_self, index_name, table_name, columns):
-        if isinstance(columns, (list, tuple)):
-            columns = ", ".join(columns)
-        query = """
-            CREATE INDEX IF NOT EXISTS {} ON {} ({})
-            """.format(
-            index_name, table_name, columns
-        )
-        return _self.thread_safe_db_access(query)
-
     def select(_self, values, where=None, like=None):
         if where:
             if like:
@@ -222,19 +212,7 @@ class BaseHandler:
         )
 
     def get_id_from_name(self, name):
-        res = self.select_one(values="id", where="name='%s'" % (name))
-        return res[0] if res else None
-
-    def get_id_from_name_and_model_name(self, name, model_name):
-        res = self.select_one(
-            values="id", where="name='%s' and model_name = '%s'" % (name, model_name)
-        )
-        return res[0] if res else None
-
-    def get_id_from_name_and_model(self, name, model_name):
-        res = self.select_one(
-            values="id", where="name='{}'and model_name= '{}'".format(name, model_name)
-        )
+        res = self.select_one(values="id", where="name='%s'" % name)
         return res[0] if res else None
 
     def get_name_from_id(self, id):

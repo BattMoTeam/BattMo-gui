@@ -2,7 +2,6 @@
     "Name": "ceramic_coated_polyolefin_Chen2020",
     "component": "separator_materials",
     "material": true,
-    "model_name": ["P2D", "P3D"],
     "Header": {},
     "Parameters": {
        
