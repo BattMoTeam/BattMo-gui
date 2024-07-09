@@ -368,7 +368,7 @@ class FormatParameters:
             )
             material_display_names.append(material_display_name)
 
-            raw_parameters_set = raw_parameters[index_set]
+            raw_parameters_set = raw_parameters[parameter_set_id]
 
             # Create list with parameter set ids
 

@@ -462,62 +462,42 @@ class SetupLinkedDataStruct:
         if component_parameters is None:
             component_parameters = []
 
-        numeric = isinstance(parameter, NumericalParameter)
-        # print("numeric =", numeric)
-        # print("object =", parameter)
+        # Determine parameter type and format the value accordingly
+        if isinstance(parameter, NumericalParameter):
+            formatted_value_dict = {
+                "@type": "emmo:Numerical",
+                self.hasNumericalData: parameter.selected_value,
+            }
+            unit_details = {
+                "label": parameter.unit_name if parameter.unit_name else parameter.unit,
+                "symbol": parameter.unit,
+                "@type": "emmo:"
+                + (parameter.unit_name if parameter.unit_name else parameter.unit),
+            }
 
-        try:
-
-            if isinstance(parameter, NumericalParameter):
-
-                formatted_value_dict = {
-                    "@type": "emmo:Numerical",
-                    self.hasNumericalData: parameter.selected_value,
-                }
-
-            elif isinstance(parameter, StrParameter):
-
-                formatted_value_dict = {
-                    "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value,
-                }
-
-            elif isinstance(parameter, BooleanParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:Boolean",
-                    self.hasStringData: parameter.selected_value,
-                }
-            elif isinstance(parameter, FunctionParameter):
-                formatted_value_dict = {
-                    "@type": "emmo:String",
-                    self.hasStringData: parameter.selected_value,
-                }
-
+            # Prepare parameter details
             parameter_details = {
                 "label": parameter.name,
                 "@type": parameter.context_type if parameter.context_type else "string",
                 "value": formatted_value_dict,
             }
-            if isinstance(parameter, NumericalParameter):
-                parameter_details["unit"] = {
-                    "label": (
-                        parameter.unit_name if parameter.unit_name else parameter.unit
-                    ),
-                    "symbol": parameter.unit,
-                    "@type": (
-                        "emmo:" + parameter.unit_name
-                        if parameter.unit_name
-                        else parameter.unit
-                    ),
-                }
-            component_parameters.append(parameter_details)
 
-            return component_parameters
+        elif isinstance(parameter, (StrParameter, BooleanParameter, FunctionParameter)):
+            formatted_value_dict = {
+                "@type": "emmo:String",
+                self.hasStringData: parameter.selected_value,
+            }
+            unit_details = None
 
-        except Exception as e:
-            # st.error("An error occurred 1: {}".format(e))
-
+            # Prepare parameter details
+            parameter_details = {
+                "label": parameter.name,
+                "@type": parameter.context_type if parameter.context_type else None,
+                "value": formatted_value_dict,
+            }
+        else:
             try:
+                # Handle exceptional cases with minimal redundant code
                 (
                     parameter_id,
                     name,
@@ -538,37 +518,36 @@ class SetupLinkedDataStruct:
                     display_name,
                 ) = np.squeeze(parameter)
 
-                formatted_value_dict = value
-
                 formatted_value_dict = {
                     "@type": "emmo:Numerical",
                     self.hasNumericalData: value,
                 }
-
-                parameter_details = {
-                    "label": name,
-                    "@type": context_type,
-                    "value": formatted_value_dict,
-                }
-
-                parameter_details["unit"] = {
+                unit_details = {
                     "label": unit_name,
                     "symbol": unit,
                     "@type": "emmo:" + unit_name,
                 }
 
-                component_parameters.append(parameter_details)
+                # Prepare parameter details
+                parameter_details = {
+                    "label": name,
+                    "@type": context_type if context_type else None,
+                    "value": formatted_value_dict,
+                }
+
+                if unit_details:
+                    parameter_details["unit"] = unit_details
+
             except Exception as e:
-                st.error("An error occurred 2: {}".format(e))
-
+                st.error(f"An error occurred: {e}")
                 st.error(
-                    "This instance of parameter is not handled: {}".format(
-                        type(parameter)
-                    )
+                    f"This instance of parameter is not handled: {type(parameter)}"
                 )
-                st.info(NumericalParameter)
+                return component_parameters
 
-            return component_parameters
+        component_parameters.append(parameter_details)
+
+        return component_parameters
 
     @st.cache_data
     def get_relation(_self, id, type):
@@ -2104,560 +2083,596 @@ class SetTabs:
         mass_fraction_id_dict,
         mass_loadings,
     ):
-        par_index = None
-        non_material_parameters_raw_template = (
-            db_helper.get_non_material_template_by_template_id(
-                non_material_comp_default_template_id, self.model_name
+
+        with app_development.time_measure("Fill_material_component"):
+            par_index = None
+            non_material_parameters_raw_template = (
+                db_helper.get_non_material_template_by_template_id(
+                    non_material_comp_default_template_id, self.model_name
+                )
             )
-        )
-        non_material_parameter_sets_name_by_id = {}
-
-        non_material_parameter_set_id, non_material_parameters_set_name, _, _, _, _ = (
-            non_material_parameters_sets
-        )
-
-        parameter_id = []
-        non_material_parameters_raw = []
-        for non_material_parameter_raw_template in non_material_parameters_raw_template:
+            non_material_parameter_sets_name_by_id = {}
 
             (
-                non_material_parameter_id,
-                name,
+                non_material_parameter_set_id,
+                non_material_parameters_set_name,
                 _,
                 _,
                 _,
                 _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-                _,
-            ) = non_material_parameter_raw_template
+            ) = non_material_parameters_sets
 
-            non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(
-                non_material_parameter_id, non_material_parameter_set_id
-            )[
-                0
-            ]
+            parameter_id = []
+            non_material_parameters_raw = []
+            for (
+                non_material_parameter_raw_template
+            ) in non_material_parameters_raw_template:
 
-            parameter_id.append(str(non_material_parameter_id))
-            non_material_parameters_raw.append(non_material_parameter_raw)
-        non_material_parameters_raw = tuple(non_material_parameters_raw)
-        formatted_non_material_parameters = self.formatter.format_parameters(
-            non_material_parameters_raw,
-            non_material_parameters_raw_template,
-            non_material_parameter_sets_name_by_id,
-        )
+                (
+                    non_material_parameter_id,
+                    name,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
+                ) = non_material_parameter_raw_template
 
-        if check_col:
-            with check_col:
-                placeholder = st.empty()
-        ac = 1
-        i = 0
+                non_material_parameter_raw = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(
+                    non_material_parameter_id, non_material_parameter_set_id
+                )[
+                    0
+                ]
 
-        toggle_names = parameter_id
-
-        parameter_names = []
-        # Initialize session state values outside of the loop
-        state_prefix = "state_"  # A prefix for state keys
-
-        for non_material_parameter_id in formatted_non_material_parameters:
-            non_material_parameter = formatted_non_material_parameters.get(
-                non_material_parameter_id
+                parameter_id.append(str(non_material_parameter_id))
+                non_material_parameters_raw.append(non_material_parameter_raw)
+            non_material_parameters_raw = tuple(non_material_parameters_raw)
+            formatted_non_material_parameters = self.formatter.format_parameters(
+                non_material_parameters_raw,
+                non_material_parameters_raw_template,
+                non_material_parameter_sets_name_by_id,
             )
-            non_material_parameter_name = non_material_parameter.name
-            parameter_names.append(non_material_parameter_name)
-            checkbox_key = "checkbox_{}_{}".format(
-                category_id, non_material_parameter_name
-            )
-            input_key = "input_{}_{}".format(category_id, non_material_parameter_name)
-            state_key = state_prefix + checkbox_key
-            input_value = "input_value_{}_{}".format(
-                category_id, non_material_parameter_name
-            )
-            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name)
-            state_count = "state_count_" + str(category_id)
-            states = "states_" + str(category_id)
-            states_to_count = "counts_" + str(category_id)
-
-            if state_count not in st.session_state:
-                st.session_state[state_count] = 0
-
-            if states not in st.session_state:
-                st.session_state[states] = {
-                    "coating_thickness": True,
-                    "coating_porosity": True,
-                    "mass_loading": False,
-                }
-
-            if states_to_count not in st.session_state:
-                st.session_state[states_to_count] = {}
-
-            if checkbox_key not in st.session_state:
-
-                if non_material_parameter_name == "mass_loading":
-                    st.session_state[checkbox_key] = False
-                else:
-                    st.session_state[checkbox_key] = True
-
-            if input_value not in st.session_state:
-                st.session_state[input_value] = None
-
-            if state_key not in st.session_state:
-                states = []
-                state = {}
-                for id in parameter_id:
-                    state[id] = False
-                st.session_state[state_key] = state
-
-        for non_material_parameter_id in formatted_non_material_parameters:
-            non_material_parameter = formatted_non_material_parameters.get(
-                non_material_parameter_id
-            )
-            non_material_parameter_name = non_material_parameter.name
-            if non_material_parameter.is_shown_to_user:
-                selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
-                    template_parameter_id=non_material_parameter.id,
-                    parameter_set_id=non_material_parameter_set_id,
-                )
-            input_key = "input_{}_{}".format(category_id, non_material_parameter_name)
-            checkbox_key = "checkbox_{}_{}".format(
-                category_id, non_material_parameter_name
-            )
-            state_key = state_prefix + checkbox_key
-            input_value = "input_value_{}_{}".format(
-                category_id, non_material_parameter_name
-            )
-            empty_key = "empty_{}_{}".format(category_id, non_material_parameter_name)
-            states_to_count = "counts_" + str(category_id)
-
-            st.session_state[states_to_count][checkbox_key] = st.session_state[
-                checkbox_key
-            ]
 
             if check_col:
-                with value_col:
-                    if i == 0:
-                        co_th_place = st.empty()
-                    elif i == 1:
-                        co_po_place = st.empty()
-                    elif i == 2:
-                        ml_place = st.empty()
-
                 with check_col:
-                    state = st.toggle(
-                        label=checkbox_key,
-                        key=checkbox_key,
-                        value=st.session_state[checkbox_key],
-                        on_change=self.checkbox_input_connect,
-                        args=(
-                            checkbox_key,
-                            tab,
-                            category_id,
-                            non_material_parameter.name,
+                    placeholder = st.empty()
+            ac = 1
+            i = 0
+
+            toggle_names = parameter_id
+
+            parameter_names = []
+            # Initialize session state values outside of the loop
+            state_prefix = "state_"  # A prefix for state keys
+
+            for non_material_parameter_id in formatted_non_material_parameters:
+                non_material_parameter = formatted_non_material_parameters.get(
+                    non_material_parameter_id
+                )
+                non_material_parameter_name = non_material_parameter.name
+                parameter_names.append(non_material_parameter_name)
+                checkbox_key = "checkbox_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                input_key = "input_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                state_key = state_prefix + checkbox_key
+                input_value = "input_value_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                empty_key = "empty_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                state_count = "state_count_" + str(category_id)
+                states = "states_" + str(category_id)
+                states_to_count = "counts_" + str(category_id)
+
+                if state_count not in st.session_state:
+                    st.session_state[state_count] = 0
+
+                if states not in st.session_state:
+                    st.session_state[states] = {
+                        "coating_thickness": True,
+                        "coating_porosity": True,
+                        "mass_loading": False,
+                    }
+
+                if states_to_count not in st.session_state:
+                    st.session_state[states_to_count] = {}
+
+                if checkbox_key not in st.session_state:
+
+                    if non_material_parameter_name == "mass_loading":
+                        st.session_state[checkbox_key] = False
+                    else:
+                        st.session_state[checkbox_key] = True
+
+                if input_value not in st.session_state:
+                    st.session_state[input_value] = None
+
+                if state_key not in st.session_state:
+                    states = []
+                    state = {}
+                    for id in parameter_id:
+                        state[id] = False
+                    st.session_state[state_key] = state
+
+            for non_material_parameter_id in formatted_non_material_parameters:
+                non_material_parameter = formatted_non_material_parameters.get(
+                    non_material_parameter_id
+                )
+                non_material_parameter_name = non_material_parameter.name
+                if non_material_parameter.is_shown_to_user:
+                    selected_parameter_id = db_helper.get_parameter_id_from_template_parameter_and_parameter_set(
+                        template_parameter_id=non_material_parameter.id,
+                        parameter_set_id=non_material_parameter_set_id,
+                    )
+                input_key = "input_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                checkbox_key = "checkbox_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                state_key = state_prefix + checkbox_key
+                input_value = "input_value_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                empty_key = "empty_{}_{}".format(
+                    category_id, non_material_parameter_name
+                )
+                states_to_count = "counts_" + str(category_id)
+
+                st.session_state[states_to_count][checkbox_key] = st.session_state[
+                    checkbox_key
+                ]
+
+                if check_col:
+                    with value_col:
+                        if i == 0:
+                            co_th_place = st.empty()
+                        elif i == 1:
+                            co_po_place = st.empty()
+                        elif i == 2:
+                            ml_place = st.empty()
+
+                    with check_col:
+                        state = st.toggle(
+                            label=checkbox_key,
+                            key=checkbox_key,
+                            value=st.session_state[checkbox_key],
+                            on_change=self.checkbox_input_connect,
+                            args=(
+                                checkbox_key,
+                                tab,
+                                category_id,
+                                non_material_parameter.name,
+                            ),
+                            label_visibility="collapsed",
+                        )
+                        st.text(" ")
+
+                property_col.write(
+                    "[{}]({})".format(
+                        non_material_parameter.display_name,
+                        non_material_parameter.context_type_iri,
+                    )
+                    + " / "
+                    + "[{}]({})".format(
+                        non_material_parameter.unit, non_material_parameter.unit_iri
+                    )
+                )
+
+                property_col.text(" ")
+
+                if not st.session_state[input_value]:
+                    st.session_state[input_value] = non_material_parameter.default_value
+
+                else:
+                    pass
+
+                if not check_col:
+                    user_input = value_col.number_input(
+                        label=non_material_parameter.name,
+                        value=non_material_parameter.default_value,
+                        min_value=non_material_parameter.min_value,
+                        max_value=non_material_parameter.max_value,
+                        key=input_key,
+                        # format=non_material_parameter.format,
+                        format=self.set_format(
+                            non_material_parameter.options.get(
+                                selected_parameter_id
+                            ).value
+                        ),
+                        step=self.set_increment(
+                            non_material_parameter.options.get(
+                                selected_parameter_id
+                            ).value
                         ),
                         label_visibility="collapsed",
+                        disabled=False,
                     )
-                    st.text(" ")
 
-            property_col.write(
-                "[{}]({})".format(
-                    non_material_parameter.display_name,
-                    non_material_parameter.context_type_iri,
-                )
-                + " / "
-                + "[{}]({})".format(
-                    non_material_parameter.unit, non_material_parameter.unit_iri
-                )
-            )
+                if check_col:
+                    if i == 0:
+                        place = co_th_place
+                    elif i == 1:
+                        place = co_po_place
+                    elif i == 2:
+                        place = ml_place
 
-            property_col.text(" ")
+                    user_input = place.number_input(
+                        label=non_material_parameter.name,
+                        value=st.session_state[input_value],
+                        min_value=non_material_parameter.min_value,
+                        max_value=non_material_parameter.max_value,
+                        key=input_key,
+                        format=self.set_format(st.session_state[input_value]),
+                        step=self.set_increment(st.session_state[input_value]),
+                        label_visibility="collapsed",
+                        disabled=not st.session_state[checkbox_key],
+                    )
 
-            if not st.session_state[input_value]:
-                st.session_state[input_value] = non_material_parameter.default_value
+                if non_material_parameter:
+                    non_material_parameter.set_selected_value(user_input)
+                    component_parameters_ = self.LD.setup_parameter_struct(
+                        non_material_parameter,
+                        component_parameters=component_parameters_,
+                    )
 
-            else:
-                pass
+                    if non_material_parameter.name == "coating_thickness":
+                        thickness = non_material_parameter.selected_value
+                    elif non_material_parameter.name == "coating_porosity":
+                        porosity = non_material_parameter.selected_value
+                    elif non_material_parameter.name == "mass_loading":
+                        mass_loading = non_material_parameter.selected_value
+                        mass_loadings[category_name] = mass_loading
+                i += 1
+                ac += 1
 
-            if not check_col:
-                user_input = value_col.number_input(
-                    label=non_material_parameter.name,
-                    value=non_material_parameter.default_value,
-                    min_value=non_material_parameter.min_value,
-                    max_value=non_material_parameter.max_value,
-                    key=input_key,
-                    # format=non_material_parameter.format,
-                    format=self.set_format(
-                        non_material_parameter.options.get(selected_parameter_id).value
-                    ),
-                    step=self.set_increment(
-                        non_material_parameter.options.get(selected_parameter_id).value
-                    ),
-                    label_visibility="collapsed",
-                    disabled=False,
-                )
+            if mass_fraction_id_dict:
+
+                density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
+                density_eff = self.calc_density_eff(density_mix, porosity)
+
+                try:
+                    with open(app_access.get_path_to_calculated_values(), "r") as f:
+                        parameters_dict = json.load(f)
+                except json.JSONDecodeError as e:
+                    parameters_dict = {}
+                    st.write(app_access.get_path_to_calculated_values())
+
+                if "calculatedParameters" not in parameters_dict:
+                    parameters_dict["calculatedParameters"] = {}
+
+                if "effective_density" not in parameters_dict["calculatedParameters"]:
+                    parameters_dict["calculatedParameters"]["effective_density"] = {}
+
+                parameters_dict["calculatedParameters"]["effective_density"][
+                    category_name
+                ] = density_eff
+
+                with open(app_access.get_path_to_calculated_values(), "w") as f:
+                    json.dump(parameters_dict, f, indent=3)
 
             if check_col:
-                if i == 0:
-                    place = co_th_place
-                elif i == 1:
-                    place = co_po_place
-                elif i == 2:
-                    place = ml_place
+                states = "states_" + str(category_id)
 
-                user_input = place.number_input(
-                    label=non_material_parameter.name,
-                    value=st.session_state[input_value],
-                    min_value=non_material_parameter.min_value,
-                    max_value=non_material_parameter.max_value,
-                    key=input_key,
-                    format=self.set_format(st.session_state[input_value]),
-                    step=self.set_increment(st.session_state[input_value]),
-                    label_visibility="collapsed",
-                    disabled=not st.session_state[checkbox_key],
-                )
-
-            if non_material_parameter:
-                non_material_parameter.set_selected_value(user_input)
-                component_parameters_ = self.LD.setup_parameter_struct(
-                    non_material_parameter, component_parameters=component_parameters_
-                )
-
-                if non_material_parameter.name == "coating_thickness":
-                    thickness = non_material_parameter.selected_value
-                elif non_material_parameter.name == "coating_porosity":
-                    porosity = non_material_parameter.selected_value
-                elif non_material_parameter.name == "mass_loading":
-                    mass_loading = non_material_parameter.selected_value
-                    mass_loadings[category_name] = mass_loading
-            i += 1
-            ac += 1
-
-        if mass_fraction_id_dict:
-
-            density_mix = self.calc_density_mix(mass_fraction_id_dict, density)
-            density_eff = self.calc_density_eff(density_mix, porosity)
-
-            try:
-                with open(app_access.get_path_to_calculated_values(), "r") as f:
-                    parameters_dict = json.load(f)
-            except json.JSONDecodeError as e:
-                parameters_dict = {}
-                st.write(app_access.get_path_to_calculated_values())
-
-            if "calculatedParameters" not in parameters_dict:
-                parameters_dict["calculatedParameters"] = {}
-
-            if "effective_density" not in parameters_dict["calculatedParameters"]:
-                parameters_dict["calculatedParameters"]["effective_density"] = {}
-
-            parameters_dict["calculatedParameters"]["effective_density"][
-                category_name
-            ] = density_eff
-
-            with open(app_access.get_path_to_calculated_values(), "w") as f:
-                json.dump(parameters_dict, f, indent=3)
-
-        if check_col:
-            states = "states_" + str(category_id)
-
-            if (
-                st.session_state[states]["coating_thickness"]
-                and st.session_state[states]["coating_porosity"]
-            ):
-                for non_material_parameter_id in formatted_non_material_parameters:
-                    non_material_parameter = formatted_non_material_parameters.get(
-                        non_material_parameter_id
-                    )
-                    non_material_parameter_name = non_material_parameter.name
-                    if non_material_parameter_name == "mass_loading":
-                        par_value_ml = self.calc_mass_loading(
-                            density_mix, thickness, porosity
+                if (
+                    st.session_state[states]["coating_thickness"]
+                    and st.session_state[states]["coating_porosity"]
+                ):
+                    for non_material_parameter_id in formatted_non_material_parameters:
+                        non_material_parameter = formatted_non_material_parameters.get(
+                            non_material_parameter_id
                         )
-                        par_index = 2
-                        mass_loadings[category_name] = par_value_ml
-
-                        with open(app_access.get_path_to_calculated_values(), "r") as f:
-                            parameters_dict = json.load(f)
-
-                        parameters_dict["calculatedParameters"][
-                            "mass_loadings"
-                        ] = mass_loadings
-
-                        with open(app_access.get_path_to_calculated_values(), "w") as f:
-                            json.dump(parameters_dict, f, indent=3)
-
-                        input_key = "input_key_{}_{}".format(
-                            category_id, "mass_loading"
-                        )
-                        empty_key = "empty_{}_{}".format(category_id, "mass_loading")
-                        input_value = "input_value_{}_{}".format(
-                            category_id, "mass_loading"
-                        )
-                        checkbox_key = "checkbox_{}_{}".format(
-                            category_id, "mass_loading"
-                        )
-
-                        st.session_state[input_value] = par_value_ml
-                        tab.write(
-                            "Mass loading is now equal to {}".format(
-                                round(par_value_ml, 2)
+                        non_material_parameter_name = non_material_parameter.name
+                        if non_material_parameter_name == "mass_loading":
+                            par_value_ml = self.calc_mass_loading(
+                                density_mix, thickness, porosity
                             )
-                        )
+                            par_index = 2
+                            mass_loadings[category_name] = par_value_ml
 
-                        if (
-                            st.session_state[input_value]
-                            > non_material_parameter.max_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
+                            with open(
+                                app_access.get_path_to_calculated_values(), "r"
+                            ) as f:
+                                parameters_dict = json.load(f)
+
+                            parameters_dict["calculatedParameters"][
+                                "mass_loadings"
+                            ] = mass_loadings
+
+                            with open(
+                                app_access.get_path_to_calculated_values(), "w"
+                            ) as f:
+                                json.dump(parameters_dict, f, indent=3)
+
+                            input_key = "input_key_{}_{}".format(
+                                category_id, "mass_loading"
+                            )
+                            empty_key = "empty_{}_{}".format(
+                                category_id, "mass_loading"
+                            )
+                            input_value = "input_value_{}_{}".format(
+                                category_id, "mass_loading"
+                            )
+                            checkbox_key = "checkbox_{}_{}".format(
+                                category_id, "mass_loading"
+                            )
+
+                            st.session_state[input_value] = par_value_ml
+                            tab.write(
+                                "Mass loading is now equal to {}".format(
+                                    round(par_value_ml, 2)
                                 )
                             )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
+
+                            if (
+                                st.session_state[input_value]
+                                > non_material_parameter.max_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
+
+                            elif (
+                                st.session_state[input_value]
+                                < non_material_parameter.min_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
+
+                            user_input = ml_place.number_input(
+                                label=non_material_parameter.name,
+                                value=st.session_state[input_value],
+                                min_value=non_material_parameter.min_value,
+                                max_value=non_material_parameter.max_value,
+                                key=input_value + str(np.random.rand(100)),
+                                # format=non_material_parameter.format,
+                                format=self.set_format(st.session_state[input_value]),
+                                step=self.set_increment(st.session_state[input_value]),
+                                label_visibility="collapsed",
+                                disabled=not st.session_state[checkbox_key],
                             )
 
-                        elif (
-                            st.session_state[input_value]
-                            < non_material_parameter.min_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
+                elif (
+                    st.session_state[states]["coating_thickness"]
+                    and st.session_state[states]["mass_loading"]
+                ):
+                    for non_material_parameter_id in formatted_non_material_parameters:
+                        non_material_parameter = formatted_non_material_parameters.get(
+                            non_material_parameter_id
+                        )
+                        non_material_parameter_name = non_material_parameter.name
+                        if non_material_parameter_name == "coating_porosity":
+                            par_value_co = self.calc_porosity(
+                                density_mix, thickness, mass_loading
+                            )
+                            par_index = 1
+
+                            input_key = "input_key_{}_{}".format(
+                                category_id, "coating_porosity"
+                            )
+                            empty_key = "empty_{}_{}".format(
+                                category_id, "coating_porosity"
+                            )
+                            input_value = "input_value_{}_{}".format(
+                                category_id, "coating_porosity"
+                            )
+                            checkbox_key = "checkbox_{}_{}".format(
+                                category_id, "coating_porosity"
+                            )
+
+                            st.session_state[input_value] = par_value_co
+                            if (
+                                st.session_state[input_value]
+                                > non_material_parameter.max_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
+
+                            elif (
+                                st.session_state[input_value]
+                                < non_material_parameter.min_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
+
+                            user_input = co_po_place.number_input(
+                                label=non_material_parameter.name,
+                                value=st.session_state[input_value],
+                                min_value=non_material_parameter.min_value,
+                                max_value=non_material_parameter.max_value,
+                                key=input_value + str(np.random.rand(100)),
+                                # format=non_material_parameter.format,
+                                format=self.set_format(st.session_state[input_value]),
+                                step=self.set_increment(st.session_state[input_value]),
+                                label_visibility="collapsed",
+                                disabled=not st.session_state[checkbox_key],
+                            )
+
+                            tab.write(
+                                "Coating porosity is now equal to {}".format(
+                                    round(par_value_co, 2)
                                 )
                             )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
+
+                elif (
+                    st.session_state[states]["mass_loading"]
+                    and st.session_state[states]["coating_porosity"]
+                ):
+                    for non_material_parameter_id in formatted_non_material_parameters:
+                        non_material_parameter = formatted_non_material_parameters.get(
+                            non_material_parameter_id
+                        )
+                        non_material_parameter_name = non_material_parameter.name
+                        if non_material_parameter_name == "coating_thickness":
+                            par_value_th = self.calc_thickness(
+                                density_mix, mass_loading, porosity
                             )
 
-                        user_input = ml_place.number_input(
-                            label=non_material_parameter.name,
-                            value=st.session_state[input_value],
-                            min_value=non_material_parameter.min_value,
-                            max_value=non_material_parameter.max_value,
-                            key=input_value + str(np.random.rand(100)),
-                            # format=non_material_parameter.format,
-                            format=self.set_format(st.session_state[input_value]),
-                            step=self.set_increment(st.session_state[input_value]),
-                            label_visibility="collapsed",
-                            disabled=not st.session_state[checkbox_key],
-                        )
+                            input_key = "input_key_{}_{}".format(
+                                category_id, "coating_thickness"
+                            )
+                            empty_key = "empty_{}_{}".format(
+                                category_id, "coating_thickness"
+                            )
+                            input_value = "input_value_{}_{}".format(
+                                category_id, "coating_thickness"
+                            )
+                            checkbox_key = "checkbox_{}_{}".format(
+                                category_id, "coating_thickness"
+                            )
 
-            elif (
-                st.session_state[states]["coating_thickness"]
-                and st.session_state[states]["mass_loading"]
-            ):
-                for non_material_parameter_id in formatted_non_material_parameters:
-                    non_material_parameter = formatted_non_material_parameters.get(
-                        non_material_parameter_id
-                    )
-                    non_material_parameter_name = non_material_parameter.name
-                    if non_material_parameter_name == "coating_porosity":
-                        par_value_co = self.calc_porosity(
-                            density_mix, thickness, mass_loading
-                        )
-                        par_index = 1
+                            st.session_state[input_value] = par_value_th
+                            if (
+                                st.session_state[input_value]
+                                > non_material_parameter.max_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
 
-                        input_key = "input_key_{}_{}".format(
-                            category_id, "coating_porosity"
-                        )
-                        empty_key = "empty_{}_{}".format(
-                            category_id, "coating_porosity"
-                        )
-                        input_value = "input_value_{}_{}".format(
-                            category_id, "coating_porosity"
-                        )
-                        checkbox_key = "checkbox_{}_{}".format(
-                            category_id, "coating_porosity"
-                        )
+                            elif (
+                                st.session_state[input_value]
+                                < non_material_parameter.min_value
+                            ):
+                                tab.warning(
+                                    "{} outside range: the {} should have a value between {} and {}".format(
+                                        st.session_state[input_value],
+                                        non_material_parameter.display_name,
+                                        non_material_parameter.min_value,
+                                        non_material_parameter.max_value,
+                                    )
+                                )
+                                st.session_state[input_value] = (
+                                    non_material_parameter.default_value
+                                )
 
-                        st.session_state[input_value] = par_value_co
-                        if (
-                            st.session_state[input_value]
-                            > non_material_parameter.max_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
+                            user_input = co_th_place.number_input(
+                                label=non_material_parameter.name,
+                                value=st.session_state[input_value],
+                                min_value=non_material_parameter.min_value,
+                                max_value=non_material_parameter.max_value,
+                                key=input_value + str(np.random.rand(100)),
+                                # format=non_material_parameter.format,
+                                format=self.set_format(st.session_state[input_value]),
+                                step=self.set_increment(st.session_state[input_value]),
+                                label_visibility="collapsed",
+                                disabled=not st.session_state[checkbox_key],
+                            )
+                            par_index = 0
+                            tab.write(
+                                "Coating thickness is now equal to {}".format(
+                                    round(par_value_th, 2)
                                 )
                             )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
-                            )
-
-                        elif (
-                            st.session_state[input_value]
-                            < non_material_parameter.min_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
-                                )
-                            )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
-                            )
-
-                        user_input = co_po_place.number_input(
-                            label=non_material_parameter.name,
-                            value=st.session_state[input_value],
-                            min_value=non_material_parameter.min_value,
-                            max_value=non_material_parameter.max_value,
-                            key=input_value + str(np.random.rand(100)),
-                            # format=non_material_parameter.format,
-                            format=self.set_format(st.session_state[input_value]),
-                            step=self.set_increment(st.session_state[input_value]),
-                            label_visibility="collapsed",
-                            disabled=not st.session_state[checkbox_key],
-                        )
-
-                        tab.write(
-                            "Coating porosity is now equal to {}".format(
-                                round(par_value_co, 2)
-                            )
-                        )
-
-            elif (
-                st.session_state[states]["mass_loading"]
-                and st.session_state[states]["coating_porosity"]
-            ):
-                for non_material_parameter_id in formatted_non_material_parameters:
-                    non_material_parameter = formatted_non_material_parameters.get(
-                        non_material_parameter_id
-                    )
-                    non_material_parameter_name = non_material_parameter.name
-                    if non_material_parameter_name == "coating_thickness":
-                        par_value_th = self.calc_thickness(
-                            density_mix, mass_loading, porosity
-                        )
-
-                        input_key = "input_key_{}_{}".format(
-                            category_id, "coating_thickness"
-                        )
-                        empty_key = "empty_{}_{}".format(
-                            category_id, "coating_thickness"
-                        )
-                        input_value = "input_value_{}_{}".format(
-                            category_id, "coating_thickness"
-                        )
-                        checkbox_key = "checkbox_{}_{}".format(
-                            category_id, "coating_thickness"
-                        )
-
-                        st.session_state[input_value] = par_value_th
-                        if (
-                            st.session_state[input_value]
-                            > non_material_parameter.max_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
-                                )
-                            )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
-                            )
-
-                        elif (
-                            st.session_state[input_value]
-                            < non_material_parameter.min_value
-                        ):
-                            tab.warning(
-                                "{} outside range: the {} should have a value between {} and {}".format(
-                                    st.session_state[input_value],
-                                    non_material_parameter.display_name,
-                                    non_material_parameter.min_value,
-                                    non_material_parameter.max_value,
-                                )
-                            )
-                            st.session_state[input_value] = (
-                                non_material_parameter.default_value
-                            )
-
-                        user_input = co_th_place.number_input(
-                            label=non_material_parameter.name,
-                            value=st.session_state[input_value],
-                            min_value=non_material_parameter.min_value,
-                            max_value=non_material_parameter.max_value,
-                            key=input_value + str(np.random.rand(100)),
-                            # format=non_material_parameter.format,
-                            format=self.set_format(st.session_state[input_value]),
-                            step=self.set_increment(st.session_state[input_value]),
-                            label_visibility="collapsed",
-                            disabled=not st.session_state[checkbox_key],
-                        )
-                        par_index = 0
-                        tab.write(
-                            "Coating thickness is now equal to {}".format(
-                                round(par_value_th, 2)
-                            )
-                        )
-            else:
-                st.session_state[
-                    "input_value_{}_{}".format(category_id, "coating_thickness")
-                ] = None
-                st.session_state[
-                    "input_value_{}_{}".format(category_id, "coating_porosity")
-                ] = None
-                st.session_state[
-                    "input_value_{}_{}".format(category_id, "mass_loading")
-                ] = None
-                st.experimental_rerun
-
-            if st.session_state[input_value]:
-                if component_parameters_:
-
-                    component_parameters_ = self.LD.change_numerical_value(
-                        component_parameters_, par_index, st.session_state[input_value]
-                    )
+                else:
+                    st.session_state[
+                        "input_value_{}_{}".format(category_id, "coating_thickness")
+                    ] = None
+                    st.session_state[
+                        "input_value_{}_{}".format(category_id, "coating_porosity")
+                    ] = None
+                    st.session_state[
+                        "input_value_{}_{}".format(category_id, "mass_loading")
+                    ] = None
                     st.experimental_rerun
 
-        component_parameters_ = self.LD.fill_component_dict(
-            component_parameters_, "new"
-        )
-        component_parameters = self.LD.setup_sub_dict(
-            dict=component_parameters,
-            display_name=non_material_comp_display_name,
-            context_type=non_material_comp_context_type,
-        )
-        component_parameters = self.LD.fill_component_dict(
-            component_parameters_, "existing", dict=component_parameters
-        )
+                if st.session_state[input_value]:
+                    if component_parameters_:
 
-        component_relation = self.LD.get_relation(
-            non_material_component_id, "component"
-        )
+                        component_parameters_ = self.LD.change_numerical_value(
+                            component_parameters_,
+                            par_index,
+                            st.session_state[input_value],
+                        )
+                        st.experimental_rerun
 
-        category_parameters = self.LD.fill_component_dict(
-            component_parameters,
-            "existing",
-            dict=category_parameters,
-            relation=component_relation,
-        )
+            component_parameters_ = self.LD.fill_component_dict(
+                component_parameters_, "new"
+            )
+            component_parameters = self.LD.setup_sub_dict(
+                dict=component_parameters,
+                display_name=non_material_comp_display_name,
+                context_type=non_material_comp_context_type,
+            )
+            component_parameters = self.LD.fill_component_dict(
+                component_parameters_, "existing", dict=component_parameters
+            )
 
-        return non_material_parameter, user_input, category_parameters, mass_loadings
+            component_relation = self.LD.get_relation(
+                non_material_component_id, "component"
+            )
+
+            category_parameters = self.LD.fill_component_dict(
+                component_parameters,
+                "existing",
+                dict=category_parameters,
+                relation=component_relation,
+            )
+
+            return (
+                non_material_parameter,
+                user_input,
+                category_parameters,
+                mass_loadings,
+            )
+            pass
 
     def checkbox_input_connect(self, checkbox_key, tab, category_id, parameter_name):
         """
@@ -2700,6 +2715,70 @@ class SetTabs:
         else:
             pass
 
+    @st.cache_data
+    def setup_material_components(
+        _self, material_component_id, material_comp_default_template_id
+    ):
+
+        material_parameter_sets = []
+
+        # Fetch all materials
+        materials = db_helper.get_material_from_component_id(
+            _self.model_name, material_component_id
+        )
+
+        # Extract material ids and fetch parameter sets
+        material_ids = [material[0] for material in materials]
+        material_parameter_sets = db_helper.get_parameter_sets_by_material_ids(
+            material_ids
+        )
+
+        # Create a dictionary for material parameter sets
+        material_parameter_sets_name_by_id = {
+            material_parameter_set[0]: material_parameter_set[1]
+            for material_parameter_set in material_parameter_sets
+        }
+
+        # Fetch all parameters for all material parameter sets
+        material_raw_parameters = db_helper.extract_parameters_by_parameter_set_ids(
+            list(material_parameter_sets_name_by_id.keys())
+        )
+
+        # Fetch all template parameters in one call
+        template_parameter_ids = [
+            param[3]
+            for raw_params in material_raw_parameters.values()
+            for param in raw_params
+        ]
+        material_raw_template_parameters = (
+            db_helper.get_parameters_by_template_parameter_ids(
+                template_parameter_ids, _self.model_name
+            )
+        )
+
+        # Initialize containers for further use
+        material_raw_template_parameters = {
+            param[0]: param for param in material_raw_template_parameters
+        }
+
+        all_basis_material_raw_template_parameters = (
+            db_helper.get_all_basis_material_by_template_id(
+                material_comp_default_template_id, _self.model_name
+            )
+        )
+        material_raw_template_parameters = list(
+            material_raw_template_parameters.values()
+        )
+
+        return (
+            materials,
+            material_parameter_sets,
+            material_parameter_sets_name_by_id,
+            material_raw_template_parameters,
+            material_raw_parameters,
+            all_basis_material_raw_template_parameters,
+        )
+
     def fill_material_components(
         self,
         component_name,
@@ -2717,316 +2796,271 @@ class SetTabs:
         emmo_relation=None,
     ):
 
-        with app_development.time_measure("Fill_material_component"):
-            material_parameter_sets = []
+        (
+            materials,
+            material_parameter_sets,
+            material_parameter_sets_name_by_id,
+            material_raw_template_parameters,
+            material_raw_parameters,
+            all_basis_material_raw_template_parameters,
+        ) = self.setup_material_components(
+            material_component_id, material_comp_default_template_id
+        )
 
-            # Fetch all materials
-            materials = db_helper.get_material_from_component_id(
-                self.model_name, material_component_id
+        # format all those parameters: use template parameters for metadata, and parameters for values.
+        # all information is packed in a single python object
+        # formatted_parameters is a dict containing those python objects
+
+        material_formatted_parameters, formatted_component, formatted_components = (
+            self.formatter.format_parameter_sets(
+                material_component,
+                materials,
+                material_parameter_sets,
+                material_parameter_sets_name_by_id,
+                material_raw_template_parameters,
+                material_raw_parameters,
+                material_component_id,
             )
+        )
 
-            # Extract material ids and fetch parameter sets
-            material_ids = [material[0] for material in materials]
-            material_parameter_sets = db_helper.get_parameter_sets_by_material_ids(
-                material_ids
-            )
+        index = 0
+        ### Use this perhaps when input file utility is implemented #############
+        # if st.session_state.upload:
+        #     uploaded_id = self.uploaded_input[component_name]
+        #     index = list(formatted_component.options.keys()).index(uploaded_id)
+        #########################################################################
 
-            # Create a dictionary for material parameter sets
-            material_parameter_sets_name_by_id = {
-                material_parameter_set[0]: material_parameter_set[1]
-                for material_parameter_set in material_parameter_sets
-            }
+        selected_value_id = material_col.selectbox(
+            label="[{}]({})".format(
+                formatted_component.name, formatted_component.context_type_iri
+            ),
+            options=list(formatted_component.options.keys()),
+            index=index,
+            key="select_{}".format(material_component_id),
+            label_visibility="collapsed",
+            format_func=lambda x: formatted_component.options.get(x).display_name,
+            # on_change=reset_func,
+            # args=(material_component_id, material_parameter_set_id, formatted_component)
+        )
 
-            # Fetch all parameters for all material parameter sets
-            material_raw_parameters = db_helper.extract_parameters_by_parameter_set_ids(
-                list(material_parameter_sets_name_by_id.keys())
-            )
+        # db_helper.reset_material_template_parameters(material_comp_default_template_id)
 
-            # Fetch all template parameters in one call
-            template_parameter_ids = [
-                param[3]
-                for raw_params in material_raw_parameters.values()
-                for param in raw_params
-            ]
-            material_raw_template_parameters = (
-                db_helper.get_parameters_by_template_parameter_ids(
-                    template_parameter_ids, self.model_name
-                )
-            )
+        if formatted_component:
 
-            # Initialize containers for further use
-            material_raw_template_parameters = {
-                param[0]: param for param in material_raw_template_parameters
-            }
+            material_choice = formatted_component.options.get(selected_value_id)
+            material_parameter_set_id = material_choice.parameter_set_id
+            material = material_choice.display_name
 
-            all_basis_material_raw_template_parameters = (
-                db_helper.get_all_basis_material_by_template_id(
-                    material_comp_default_template_id, self.model_name
-                )
-            )
-            material_raw_template_parameters = list(
-                material_raw_template_parameters.values()
-            )
-            # format all those parameters: use template parameters for metadata, and parameters for values.
-            # all information is packed in a single python object
-            # formatted_parameters is a dict containing those python objects
+            parameter_ids = material_choice.parameter_ids
+            parameters = material_choice.parameters
 
-            material_formatted_parameters, formatted_component, formatted_components = (
-                self.formatter.format_parameter_sets(
-                    material_component,
-                    materials,
-                    material_parameter_sets,
-                    material_parameter_sets_name_by_id,
-                    material_raw_template_parameters,
-                    material_raw_parameters,
-                    material_component_id,
-                )
-            )
+            template_parameter_ids = set()
+            excluded_template_parameter_ids = []
 
-            index = 0
-            ### Use this perhaps when input file utility is implemented #############
-            # if st.session_state.upload:
-            #     uploaded_id = self.uploaded_input[component_name]
-            #     index = list(formatted_component.options.keys()).index(uploaded_id)
-            #########################################################################
+            for template_parameter in all_basis_material_raw_template_parameters:
 
-            selected_value_id = material_col.selectbox(
-                label="[{}]({})".format(
-                    formatted_component.name, formatted_component.context_type_iri
-                ),
-                options=list(formatted_component.options.keys()),
-                index=index,
-                key="select_{}".format(material_component_id),
-                label_visibility="collapsed",
-                format_func=lambda x: formatted_component.options.get(x).display_name,
-                # on_change=reset_func,
-                # args=(material_component_id, material_parameter_set_id, formatted_component)
-            )
+                id, *_ = template_parameter
 
-            # db_helper.reset_material_template_parameters(material_comp_default_template_id)
+                for parameter_id in parameters:
 
-            if formatted_component:
+                    parameter = parameters.get(parameter_id)
+                    set_parameter = parameter.options.get(material_parameter_set_id)
+                    template_parameter_id = parameter.id
 
-                material_choice = formatted_component.options.get(selected_value_id)
-                material_parameter_set_id = material_choice.parameter_set_id
-                material = material_choice.display_name
+                    if set_parameter:
+                        parameter.set_selected_value(set_parameter.value)
+                        component_parameters_ = self.LD.setup_parameter_struct(
+                            parameter, component_parameters=component_parameters_
+                        )
 
-                parameter_ids = material_choice.parameter_ids
-                parameters = material_choice.parameters
+                        template_parameter_ids.add(template_parameter_id)
 
-                template_parameter_ids = []
-                excluded_template_parameter_ids = []
-                for template_parameter in all_basis_material_raw_template_parameters:
-
-                    id, *_ = template_parameter
-
-                    for parameter_id in parameters:
-
-                        parameter = parameters.get(parameter_id)
-                        set_parameter = parameter.options.get(material_parameter_set_id)
-                        template_parameter_id = parameter.id
-
+                    if parameter.name == "density" and density is not None:
                         if set_parameter:
-                            parameter.set_selected_value(set_parameter.value)
-                            component_parameters_ = self.LD.setup_parameter_struct(
-                                parameter, component_parameters=component_parameters_
-                            )
+                            density[material_component_id] = set_parameter.value
 
-                            template_parameter_ids.append(template_parameter_id)
+                if id not in template_parameter_ids:
+                    excluded_template_parameter_ids.append(id)
 
-                        if parameter.name == "density" and density != None:
-                            if set_parameter:
-                                density[material_component_id] = set_parameter.value
+            if excluded_template_parameter_ids:
 
-                    if id not in template_parameter_ids:
-                        excluded_template_parameter_ids.append(id)
+                expander_missing_parameters = tab.expander(
+                    label=f"Define {material} missing material parameters"
+                )
 
-                if excluded_template_parameter_ids:
-
-                    expander_missing_parameters = tab.expander(
-                        label="Define {} missing material parameters".format(material)
+                with expander_missing_parameters:
+                    missing_parameters = (
+                        db_helper.get_parameters_by_template_parameter_ids(
+                            excluded_template_parameter_ids, self.model_name
+                        )
                     )
 
-                    with expander_missing_parameters:
+                    for template_parameter in missing_parameters:
+                        (
+                            id,
+                            par_name,
+                            _,
+                            _,
+                            _,
+                            _,
+                            context_type,
+                            context_type_iri,
+                            par_type,
+                            unit,
+                            _,
+                            unit_iri,
+                            max_value,
+                            min_value,
+                            _,
+                            _,
+                            par_display_name,
+                        ) = template_parameter
 
-                        for i, ex_id in enumerate(excluded_template_parameter_ids):
+                        raw_parameters = (
+                            db_helper.get_parameter_from_template_parameter_id(id)
+                        )
 
-                            template_parameter = (
-                                db_helper.get_parameter_by_template_parameter_id(
-                                    ex_id, self.model_name
+                        material_display_names = []
+                        material_values = []
+                        for raw_parameter in raw_parameters:
+                            id, name, material_parameter_set_id, _, value = (
+                                raw_parameter
+                            )
+
+                            # if par_type == "float":
+                            #     value = float(value)
+                            #     min_value = float(min_value)
+                            #     max_value = float(max_value)
+
+                            # elif par_type == "int":
+                            #     value = int(value)
+                            #     min_value = int(min_value)
+                            #     max_value = int(max_value)
+
+                            material_name = db_helper.get_parameter_set_name_from_id(
+                                material_parameter_set_id
+                            )
+
+                            material_display_name = (
+                                db_helper.get_material_display_name_from_name(
+                                    material_name[0], self.model_name
                                 )
                             )
 
-                            (
+                            material_display_names.append(material_display_name)
+                            material_values.append(value)
+
+                            if (
+                                material_display_name
+                                and material_display_name[0][0] != "User defined"
+                            ):
+                                material_display_names.append(
+                                    material_display_name[0][0]
+                                )
+                                material_values.append(value)
+                            elif (
+                                not material_display_name
+                                and "Default" not in material_display_names
+                            ):
+                                material_display_names.append("Default")
+                                material_values.append(value)
+
+                        st.write(
+                            "[{}]({})".format(par_name, context_type_iri)
+                            + " / "
+                            + "[{}]({})".format(unit, unit_iri)
+                        )
+                        select_col, value_col = st.columns(2)
+
+                        key_select = f"select_{material_component_id}_{id}"
+                        key_input_number = f"input_number_{material_component_id}_{id}"
+
+                        # Initialize session state keys if not already set
+                        st.session_state.setdefault(key_select, "Default")
+                        st.session_state.setdefault(key_input_number, None)
+
+                        selected_parameter_set = select_col.selectbox(
+                            label=par_display_name,
+                            options=material_display_names,
+                            key=key_select,
+                            on_change=set_select,
+                            args=(
+                                raw_parameters,
+                                material_display_names,
+                                material_values,
+                                material_component_id,
                                 id,
-                                par_name,
-                                _,
-                                _,
-                                _,
-                                _,
-                                context_type,
-                                context_type_iri,
-                                par_type,
-                                unit,
-                                _,
-                                unit_iri,
-                                max_value,
-                                min_value,
-                                _,
-                                _,
-                                par_display_name,
-                            ) = template_parameter
+                            ),
+                            label_visibility="collapsed",
+                        )
 
-                            raw_parameters = (
-                                db_helper.get_parameter_from_template_parameter_id(
-                                    ex_id
-                                )
-                            )
-                            material_display_names = []
-                            material_values = []
-                            for raw_parameter in raw_parameters:
-                                id, name, material_parameter_set_id, _, value = (
-                                    raw_parameter
-                                )
+                        index = material_display_names.index(selected_parameter_set)
+                        material_value = material_values[index]
 
-                                # if par_type == "float":
-                                #     value = float(value)
-                                #     min_value = float(min_value)
-                                #     max_value = float(max_value)
+                        if st.session_state[key_input_number] is None:
+                            st.session_state[key_input_number] = material_value
 
-                                # elif par_type == "int":
-                                #     value = int(value)
-                                #     min_value = int(min_value)
-                                #     max_value = int(max_value)
+                        user_input = value_col.text_input(
+                            label=par_display_name,
+                            value=st.session_state[key_input_number],
+                            # min_value=min_value,
+                            # max_value=max_value,
+                            key=key_input_number,
+                            on_change=set_number_input,
+                            args=(material_component_id, id),
+                            label_visibility="collapsed",
+                        )
 
-                                material_name = (
-                                    db_helper.get_parameter_set_name_from_id(
-                                        material_parameter_set_id
-                                    )
-                                )
+                        if user_input != st.session_state[key_input_number]:
+                            st.session_state[key_input_number] = user_input
 
-                                material_display_name = (
-                                    db_helper.get_material_display_name_from_name(
-                                        material_name[0], self.model_name
-                                    )
-                                )
+                        if par_name == "density" and density != None:
+                            density[material_component_id] = float(user_input)
 
-                                if material_display_name:
-                                    if material_display_name[0][0] == "User defined":
-                                        pass
-                                    else:
-                                        material_display_names.append(
-                                            material_display_name[0][0]
-                                        )
-                                        material_values.append(value)
-                                else:
-                                    if "Default" not in material_display_names:
-                                        material_display_names.append("Default")
-                                        material_values.append(value)
+                        if par_type == "int":
+                            user_input = int(user_input)
+                        elif par_type == "float":
+                            user_input = float(user_input)
+                        else:
+                            user_input = str(user_input)
 
-                            st.write(
-                                "[{}]({})".format(par_name, context_type_iri)
-                                + " / "
-                                + "[{}]({})".format(unit, unit_iri)
-                            )
-                            select_col, value_col = st.columns(2)
+                        component_parameters_ = self.LD.setup_parameter_struct(
+                            template_parameter,
+                            component_parameters=component_parameters_,
+                            value=user_input,
+                        )
 
-                            key_select = "select_{}_{}".format(
-                                material_component_id, id
-                            )
-                            key_input_number = "input_number_{}_{}".format(
-                                material_component_id, id
-                            )
+            # con, cur = app_access.get_sqlite_con_and_cur()
+            # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
+            # # Fetch all rows from the result
+            # data = cur.fetchall()
 
-                            if key_select not in st.session_state:
-                                st.session_state[key_select] = "Default"
+            # # Check if there are columns to describe
+            # if cur.description:
+            #     # Print the column information
+            #     print("Column names:", [col[0] for col in cur.description])
 
-                            if key_input_number not in st.session_state:
-                                st.session_state[key_input_number] = None
+            # else:
+            #     print("No columns to describe (empty result set)")
 
-                            selected_parameter_set = select_col.selectbox(
-                                label=par_display_name,
-                                options=material_display_names,
-                                key=key_select,
-                                on_change=set_select,
-                                args=(
-                                    raw_parameters,
-                                    material_display_names,
-                                    material_values,
-                                    material_component_id,
-                                    id,
-                                ),
-                                label_visibility="collapsed",
-                            )
+            # # Print the retrieved data
+            # for row in data:
+            #     st.write(row)
 
-                            index = material_display_names.index(selected_parameter_set)
-                            material_value = material_values[index]
+            # # Don't forget to close the cursor and connection when done
+            # cur.close()
+            # con.close()
 
-                            if st.session_state[key_input_number] is None:
-                                st.session_state[key_input_number] = material_value
+        # self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
 
-                            user_input = value_col.text_input(
-                                label=par_display_name,
-                                value=st.session_state[key_input_number],
-                                # min_value=min_value,
-                                # max_value=max_value,
-                                key=key_input_number,
-                                on_change=set_number_input,
-                                args=(material_component_id, id),
-                                label_visibility="collapsed",
-                            )
-
-                            if user_input != st.session_state[key_input_number]:
-                                st.session_state[key_input_number] = user_input
-
-                            if par_name == "density" and density != None:
-                                density[material_component_id] = float(user_input)
-
-                            if par_type == "int":
-                                user_input = int(user_input)
-                            elif par_type == "float":
-                                user_input = float(user_input)
-                            else:
-                                user_input = str(user_input)
-
-                            component_parameters_ = self.LD.setup_parameter_struct(
-                                template_parameter,
-                                component_parameters=component_parameters_,
-                                value=user_input,
-                            )
-
-                # con, cur = app_access.get_sqlite_con_and_cur()
-                # data=cur.execute('''SELECT * FROM template_parameter WHERE id = 52''')
-                # # Fetch all rows from the result
-                # data = cur.fetchall()
-
-                # # Check if there are columns to describe
-                # if cur.description:
-                #     # Print the column information
-                #     print("Column names:", [col[0] for col in cur.description])
-
-                # else:
-                #     print("No columns to describe (empty result set)")
-
-                # # Print the retrieved data
-                # for row in data:
-                #     st.write(row)
-
-                # # Don't forget to close the cursor and connection when done
-                # cur.close()
-                # con.close()
-
-            # self.set_material_parameter_difficulty(material_parameter_sets,material_raw_parameters,material_comp_default_template_id)
-
-            return (
-                material_formatted_parameters,
-                formatted_component,
-                selected_value_id,
-                component_parameters_,
-                emmo_relation,
-                density,
-            )
-            pass
+        return (
+            material_formatted_parameters,
+            formatted_component,
+            selected_value_id,
+            component_parameters_,
+            emmo_relation,
+            density,
+        )
 
     def fill_advanced_expander(
         self, tab, category_name, category_display_name, category_parameters

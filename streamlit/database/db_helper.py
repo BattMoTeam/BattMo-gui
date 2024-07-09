@@ -629,6 +629,15 @@ def get_parameters_by_template_parameter_ids(template_parameter_ids, model_name)
     return res
 
 
+@st.cache_data
+def get_parameter_by_template_parameter_id(template_parameter_id, model_name):
+    res = sql_template_parameter().select(
+        values="*",
+        where="id = '%s' AND model_name = '%s'" % (template_parameter_id, model_name),
+    )
+    return res[0]
+
+
 def reset_material_template_parameters(template_id):
     sql_template_parameter().update(
         set="difficulty = 'advanced'",
