@@ -9,9 +9,7 @@ from update_specific_tables.create_indexes import CreateIndexes
 import os
 import sys
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from database import db_handler
 from app_scripts import app_access
 
@@ -60,7 +58,7 @@ if __name__ == "__main__":
 # Uncomment to see data in material table:
 
 con, cur = app_access.get_sqlite_con_and_cur()
-data = cur.execute("""SELECT * FROM material""")
+data = cur.execute("""SELECT * FROM parameter""")
 # Fetch all rows from the result
 data = cur.fetchall()
 

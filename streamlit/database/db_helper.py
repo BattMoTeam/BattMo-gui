@@ -187,8 +187,7 @@ def get_tab_index_from_st_tab(st_tab):
 def get_basis_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values="*",
-        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % tab_id,
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id,
     )
     return res
 
@@ -197,8 +196,7 @@ def get_basis_categories_from_tab_id(tab_id):
 def get_basis_categories_display_names(tab_id):
     res = sql_category().select(
         values="display_name",
-        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % tab_id,
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id,
     )
     return res
 
@@ -207,8 +205,7 @@ def get_basis_categories_display_names(tab_id):
 def get_categories_context_type_iri(tab_id):
     res = sql_category().select(
         values="context_type_iri",
-        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % tab_id,
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id,
     )
     return res
 
@@ -217,8 +214,7 @@ def get_categories_context_type_iri(tab_id):
 def get_categories_context_type(tab_id):
     res = sql_category().select(
         values="context_type",
-        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % tab_id,
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id,
     )
     return res
 
@@ -234,8 +230,7 @@ def get_categories_context_type_from_id(id):
 def get_advanced_categories_from_tab_id(tab_id):
     res = sql_category().select(
         values="*",
-        where="tab_id=%d AND (difficulty = 'advanced' or difficulty = 'basis_advanced')"
-        % tab_id,
+        where="tab_id=%d AND (difficulty = 'advanced' or difficulty = 'basis_advanced')" % tab_id,
     )
     return res
 
@@ -365,6 +360,15 @@ def get_parameter_id_from_template_parameter_and_parameter_set(
 
 
 @st.cache_data
+def get_parameter_id_from_template_parameters_and_parameter_set(
+    template_parameter_ids, parameter_set_id
+):
+    return sql_parameter().get_id_from_template_parameter_ids_and_parameter_set_id(
+        template_parameter_ids, parameter_set_id
+    )
+
+
+@st.cache_data
 def get_parameter_from_template_parameter_id(template_parameter_id):
     res = sql_parameter().select(
         values="*", where="template_parameter_id = '%d'" % int(template_parameter_id)
@@ -474,9 +478,7 @@ def get_mf_raw_parameter_by_parameter_set_id(parameter_set_id):
 
 @st.cache_data
 def get_n_p_parameter_by_template_id(parameter_set_id):
-    res = sql_parameter().select(
-        values="*", where="parameter_set_id=%d" % parameter_set_id
-    )
+    res = sql_parameter().select(values="*", where="parameter_set_id=%d" % parameter_set_id)
     return res
 
 
@@ -493,15 +495,34 @@ def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id
 
 
 @st.cache_data
-def get_advanced_parameters_by_parameter_set_id(
-    template_parameter_id, parameter_set_id
-):
+def get_advanced_parameters_by_parameter_set_id(template_parameter_id, parameter_set_id):
     res = sql_parameter().select(
         values="*",
         where="template_parameter_id=%d AND parameter_set_id=%d"
         % (int(template_parameter_id), int(parameter_set_id)),
     )
     return res[0] if res else None
+
+
+@st.cache_data
+def get_advanced_parameters_by_parameter_set_ids(template_parameter_ids, parameter_set_id):
+
+    ids_str = ",".join(map(str, template_parameter_ids))
+    # Ensure template_parameter_ids is a list or tuple
+    if not isinstance(template_parameter_ids, (list, tuple)):
+        raise ValueError("template_parameter_ids must be a list or tuple")
+
+    # Convert parameter_set_id to int for safety
+    parameter_set_id = int(parameter_set_id)
+
+    # Execute the query with parameter values
+    res = sql_parameter().select(
+        values="*",
+        where="template_parameter_id IN ({}) AND parameter_set_id = {}".format(
+            ids_str, parameter_set_id
+        ),
+    )
+    return res
 
 
 #####################################
@@ -540,9 +561,7 @@ def get_model_name_from_id(model_id):
 @st.cache_data
 def get_model_parameters_as_dict(model_name):
 
-    parameter_set_id = sql_parameter_set().get_id_from_name_and_model(
-        model_name, model_name
-    )
+    parameter_set_id = sql_parameter_set().get_id_from_name_and_model(model_name, model_name)
     parameters = sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
 
     model_quantitative_properties = []
@@ -589,9 +608,7 @@ def get_model_parameters_as_dict(model_name):
                 "@type": "emmo:" + unit_name if unit_name else unit,
             }
         else:
-            assert False, "model parameter type={} not handled. name={}".format(
-                value_type, name
-            )
+            assert False, "model parameter type={} not handled. name={}".format(value_type, name)
 
         parameter_details["value"] = formatted_value_dict
         model_quantitative_properties.append(parameter_details)

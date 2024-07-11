@@ -17,12 +17,8 @@ class ParameterHandler(db.BaseHandler):
 
     def insert_value(self, name, parameter_set_id, template_parameter_id, value=None):
         assert name is not None, "parameter's name can't be None"
-        assert (
-            parameter_set_id is not None
-        ), "parameter's parameter_set_id can't be None"
-        assert (
-            template_parameter_id is not None
-        ), "parameter's template_parameter_id can't be None"
+        assert parameter_set_id is not None, "parameter's parameter_set_id can't be None"
+        assert template_parameter_id is not None, "parameter's template_parameter_id can't be None"
 
         return self._insert_value_query(
             columns_and_values={
@@ -72,6 +68,18 @@ class ParameterHandler(db.BaseHandler):
         )
         return res[0] if res else None
 
+    def get_id_from_template_parameter_ids_and_parameter_set_id(
+        self, template_parameter_ids, parameter_set_id
+    ):
+        ids_str = ",".join(map(str, template_parameter_ids))
+        res = self.select(
+            values="id",
+            where="template_parameter_id IN ({}) and parameter_set_id={}".format(
+                ids_str, int(parameter_set_id)
+            ),
+        )
+        return [sub_res[0] for sub_res in res]
+
 
 #####################################
 # PARAMETER SET
@@ -96,9 +104,7 @@ class ParameterSetHandler(db.BaseHandler):
             }
         )
 
-    def get_id_by_name_and_category_and_model_name(
-        self, name, component_id, model_name
-    ):
+    def get_id_by_name_and_category_and_model_name(self, name, component_id, model_name):
         res = self.select_one(
             values="*",
             where="name = '%s' and component_id Like %d and model_name = '%s'"
@@ -246,9 +252,7 @@ class TemplateParameterHandler(db.BaseHandler):
         if all_types:
             assert all_types.issubset(self.types_handled), (
                 "\n Not all parameter types are handled. Please handle missing type in app_parameter_model.py"
-                "\n types_handled={} \n all_types={}".format(
-                    self.types_handled, all_types
-                )
+                "\n types_handled={} \n all_types={}".format(self.types_handled, all_types)
             )
 
 
@@ -328,9 +332,7 @@ class ModelParameterHandler(db.BaseHandler):
         )
 
     def get_id_from_name_and_model_id(self, name, model_id):
-        res = self.select_one(
-            values="id", where="name='%s' and model_id=%d" % (name, model_id)
-        )
+        res = self.select_one(values="id", where="name='%s' and model_id=%d" % (name, model_id))
         return res[0] if res else None
 
     def get_all_ids_by_model_id(self, model_id):
@@ -405,9 +407,7 @@ class CategoryHandler(db.BaseHandler):
     ):
         assert name is not None, "Category's name can't be None"
         assert tab_id is not None, "Category's tab_id can't be None"
-        assert (
-            default_template_id is not None
-        ), "Category's default_template_id can't be None"
+        assert default_template_id is not None, "Category's default_template_id can't be None"
         print("model = ", model_name)
         return self._insert_value_query(
             columns_and_values={
@@ -464,9 +464,7 @@ class ComponentHandler(db.BaseHandler):
     ):
         assert name is not None, "Category's name can't be None"
         # assert category_id is not None, "Components's category_id can't be None"
-        assert (
-            default_template_id is not None
-        ), "Category's default_template_id can't be None"
+        assert default_template_id is not None, "Category's default_template_id can't be None"
 
         return self._insert_value_query(
             columns_and_values={
