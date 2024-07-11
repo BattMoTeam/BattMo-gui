@@ -69,6 +69,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -77,6 +82,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -85,6 +95,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -93,6 +108,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -101,6 +121,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -109,6 +134,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -117,6 +147,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -125,6 +160,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -133,6 +173,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -156,6 +201,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -164,6 +214,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -172,6 +227,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -180,6 +240,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -188,6 +253,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -196,6 +266,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -204,6 +279,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -212,6 +292,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -220,6 +305,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -243,6 +333,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -251,6 +346,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -259,6 +359,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -267,6 +372,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -275,6 +385,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -283,6 +398,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -291,6 +411,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -299,6 +424,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -307,6 +437,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -330,6 +465,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -338,6 +478,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -346,6 +491,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -354,6 +504,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -362,6 +517,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -370,6 +530,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -378,6 +543,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -386,6 +556,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -394,6 +569,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -417,6 +597,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -425,6 +610,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -433,6 +623,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -441,6 +636,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -449,6 +649,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -457,6 +662,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -465,6 +675,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -473,6 +688,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -481,6 +701,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -504,6 +729,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -512,6 +742,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -520,6 +755,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -528,6 +768,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -536,6 +781,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -544,6 +794,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -552,6 +807,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -560,6 +820,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -568,6 +833,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -591,6 +861,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -599,6 +874,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -607,6 +887,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -615,6 +900,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -623,6 +913,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -631,6 +926,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -639,6 +939,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -647,6 +952,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -655,6 +965,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -678,6 +993,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -686,6 +1006,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -694,6 +1019,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -702,6 +1032,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -710,6 +1045,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -718,6 +1058,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -726,6 +1071,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -734,6 +1084,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -742,6 +1097,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -765,6 +1125,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -773,6 +1138,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -781,6 +1151,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -789,6 +1164,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -797,6 +1177,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -805,6 +1190,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -813,6 +1203,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -821,6 +1216,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -829,6 +1229,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -852,6 +1257,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -860,6 +1270,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -868,6 +1283,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -876,6 +1296,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -884,6 +1309,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -892,6 +1322,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -900,6 +1335,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -908,6 +1348,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -916,6 +1361,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -939,6 +1389,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -947,6 +1402,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -955,6 +1415,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -963,6 +1428,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -971,6 +1441,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -979,6 +1454,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -987,6 +1467,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -995,6 +1480,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1003,6 +1493,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1026,6 +1521,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1034,6 +1534,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1042,6 +1547,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1050,6 +1560,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1058,6 +1573,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1066,6 +1586,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1074,6 +1599,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1082,6 +1612,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1090,6 +1625,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1113,6 +1653,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1121,6 +1666,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1129,6 +1679,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1137,6 +1692,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1145,6 +1705,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1153,6 +1718,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1161,6 +1731,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1169,6 +1744,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1177,6 +1757,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1200,6 +1785,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 29583.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1208,6 +1798,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 383959.0
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1216,6 +1811,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2260.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1224,6 +1824,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1232,6 +1837,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1240,6 +1850,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 35000.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1248,6 +1863,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 6.716e-12
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1256,6 +1876,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9014
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1264,6 +1889,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.0279
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1291,7 +1921,7 @@
                         "unit": {
                            "label": "SiemensPerMetre",
                            "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
+                           "@type": "https://w3id.org/emmo#SiemensPerMetre"
                         }
                      },
                      {
@@ -1304,7 +1934,7 @@
                         "unit": {
                            "label": "JoulePerMole",
                            "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
+                           "@type": "https://w3id.org/emmo#JoulePerMole"
                         }
                      },
                      {
@@ -1317,7 +1947,7 @@
                         "unit": {
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
-                           "@type": "emmo:ReciprocalSecond"
+                           "@type": "https://w3id.org/emmo#ReciprocalSecond"
                         }
                      },
                      {
@@ -1330,7 +1960,7 @@
                         "unit": {
                            "label": "Metre",
                            "symbol": "m",
-                           "@type": "emmo:Metre"
+                           "@type": "https://w3id.org/emmo#Metre"
                         }
                      },
                      {
@@ -1339,6 +1969,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1347,6 +1982,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.04
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1355,6 +1995,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1367,7 +2012,7 @@
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
                            "symbol": "mAh\u00b7g\u207b\u00b9",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "@type": ""
                         }
                      }
                   ]
@@ -1382,6 +2027,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1390,6 +2040,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1398,6 +2053,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1406,6 +2066,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1414,6 +2079,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1422,6 +2092,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1430,6 +2105,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1438,6 +2118,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1446,6 +2131,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1454,6 +2144,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.05
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1462,6 +2157,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
+                        },
+                        "unit": {
+                           "label": "SiemensPerMetre",
+                           "symbol": "S\u00b7m\u207b\u00b9",
+                           "@type": "emmo:SiemensPerMetre"
                         }
                      }
                   ]
@@ -1476,6 +2176,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1484,6 +2189,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1492,6 +2202,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1500,6 +2215,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1508,6 +2228,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1516,6 +2241,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1524,6 +2254,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1532,6 +2267,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -1540,6 +2280,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -1548,6 +2293,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.05
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1556,6 +2306,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
+                        },
+                        "unit": {
+                           "label": "SiemensPerMetre",
+                           "symbol": "S\u00b7m\u207b\u00b9",
+                           "@type": "emmo:SiemensPerMetre"
                         }
                      }
                   ]
@@ -1570,6 +2325,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 85.0
+                        },
+                        "unit": {
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
                         }
                      },
                      {
@@ -1578,6 +2338,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1586,6 +2351,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 15.0484
+                        },
+                        "unit": {
+                           "label": "MiliGramPerCubicCentiMeter",
+                           "symbol": "mg\u00b7cm\u207b\u00b2",
+                           "@type": "emmo:MiliGramPerCubicCentiMeter"
                         }
                      },
                      {
@@ -1594,6 +2364,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.5
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1602,6 +2377,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 12.0
+                        },
+                        "unit": {
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
                         }
                      },
                      {
@@ -1610,6 +2390,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 20
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1622,7 +2407,7 @@
                         "unit": {
                            "label": "MiliAmpereHour",
                            "symbol": "mAh",
-                           "@type": "emmo:MiliAmpereHour"
+                           "@type": ""
                         }
                      }
                   ]
@@ -1641,6 +2426,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1649,6 +2439,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1657,6 +2452,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1665,6 +2465,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1673,6 +2478,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1681,6 +2491,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1689,6 +2504,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1697,6 +2517,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1720,6 +2545,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1728,6 +2558,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1736,6 +2571,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1744,6 +2584,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1752,6 +2597,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1760,6 +2610,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1768,6 +2623,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1776,6 +2636,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1799,6 +2664,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1807,6 +2677,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1815,6 +2690,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1823,6 +2703,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1831,6 +2716,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1839,6 +2729,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1847,6 +2742,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1855,6 +2755,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1878,6 +2783,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1886,6 +2796,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1894,6 +2809,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1902,6 +2822,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1910,6 +2835,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1918,6 +2848,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -1926,6 +2861,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1934,6 +2874,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1957,6 +2902,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -1965,6 +2915,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -1973,6 +2928,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -1981,6 +2941,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -1989,6 +2954,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -1997,6 +2967,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2005,6 +2980,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2013,6 +2993,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2036,6 +3021,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2044,6 +3034,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2052,6 +3047,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2060,6 +3060,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2068,6 +3073,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2076,6 +3086,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2084,6 +3099,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2092,6 +3112,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2115,6 +3140,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2123,6 +3153,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2131,6 +3166,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2139,6 +3179,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2147,6 +3192,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2155,6 +3205,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2163,6 +3218,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2171,6 +3231,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2194,6 +3259,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2202,6 +3272,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2210,6 +3285,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2218,6 +3298,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2226,6 +3311,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2234,6 +3324,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2242,6 +3337,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2250,6 +3350,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2273,6 +3378,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2281,6 +3391,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2289,6 +3404,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2297,6 +3417,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2305,6 +3430,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2313,6 +3443,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2321,6 +3456,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2329,6 +3469,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2352,6 +3497,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2360,6 +3510,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2368,6 +3523,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2376,6 +3536,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2384,6 +3549,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2392,6 +3562,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2400,6 +3575,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2408,6 +3588,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2431,6 +3616,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2439,6 +3629,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2447,6 +3642,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2455,6 +3655,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2463,6 +3668,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2471,6 +3681,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2479,6 +3694,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2487,6 +3707,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2510,6 +3735,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2518,6 +3748,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2526,6 +3761,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2534,6 +3774,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2542,6 +3787,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2550,6 +3800,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2558,6 +3813,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2566,6 +3826,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2589,6 +3854,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2597,6 +3867,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2605,6 +3880,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2613,6 +3893,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2621,6 +3906,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2629,6 +3919,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2637,6 +3932,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2645,6 +3945,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2668,6 +3973,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 51765.0
+                        },
+                        "unit": {
+                           "label": "MolePerCubicMetre",
+                           "symbol": "mol\u00b7m\u207b\u00b3",
+                           "@type": "emmo:MolePerCubicMetre"
                         }
                      },
                      {
@@ -2676,6 +3986,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 382183.9
+                        },
+                        "unit": {
+                           "label": "Metre",
+                           "symbol": "m\u00b2m\u207b\u00b3",
+                           "@type": "emmo:Metre"
                         }
                      },
                      {
@@ -2684,6 +3999,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 4950.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2692,6 +4012,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2700,6 +4025,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 17800.0
+                        },
+                        "unit": {
+                           "label": "JoulePerMole",
+                           "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
+                           "@type": "emmo:JoulePerMole"
                         }
                      },
                      {
@@ -2708,6 +4038,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 3.545e-11
+                        },
+                        "unit": {
+                           "label": "MolePerSquareMetrePerSecond",
+                           "symbol": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                           "@type": "emmo:MolePerSquareMetrePerSecond"
                         }
                      },
                      {
@@ -2716,6 +4051,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.2661
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2724,6 +4064,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9084
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2751,7 +4096,7 @@
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
                            "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
+                           "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2764,7 +4109,7 @@
                         "unit": {
                            "label": "SiemensPerMetre",
                            "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
+                           "@type": "https://w3id.org/emmo#SiemensPerMetre"
                         }
                      },
                      {
@@ -2777,7 +4122,7 @@
                         "unit": {
                            "label": "JoulePerMole",
                            "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
+                           "@type": "https://w3id.org/emmo#JoulePerMole"
                         }
                      },
                      {
@@ -2790,7 +4135,7 @@
                         "unit": {
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
-                           "@type": "emmo:ReciprocalSecond"
+                           "@type": "https://w3id.org/emmo#ReciprocalSecond"
                         }
                      },
                      {
@@ -2803,7 +4148,7 @@
                         "unit": {
                            "label": "Metre",
                            "symbol": "m",
-                           "@type": "emmo:Metre"
+                           "@type": "https://w3id.org/emmo#Metre"
                         }
                      },
                      {
@@ -2812,6 +4157,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.9
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2820,6 +4170,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 2.1
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2828,6 +4183,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 10
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2840,7 +4200,7 @@
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
                            "symbol": "mAh\u00b7g\u207b\u00b9",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "@type": ""
                         }
                      }
                   ]
@@ -2855,6 +4215,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2863,6 +4228,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2871,6 +4241,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2879,6 +4254,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2887,6 +4267,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2895,6 +4280,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2903,6 +4293,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1780.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2911,6 +4306,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1400.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2919,6 +4319,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.165
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2927,6 +4332,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.05
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -2935,6 +4345,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
+                        },
+                        "unit": {
+                           "label": "SiemensPerMetre",
+                           "symbol": "S\u00b7m\u207b\u00b9",
+                           "@type": "emmo:SiemensPerMetre"
                         }
                      }
                   ]
@@ -2949,6 +4364,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2957,6 +4377,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2965,6 +4390,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2973,6 +4403,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -2981,6 +4416,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -2989,6 +4429,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -2997,6 +4442,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1800.0
+                        },
+                        "unit": {
+                           "label": "GramPerCubicMetre",
+                           "symbol": "kg\u00b7m\u207b\u00b3",
+                           "@type": "emmo:GramPerCubicMetre"
                         }
                      },
                      {
@@ -3005,6 +4455,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 300.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -3013,6 +4468,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.5
+                        },
+                        "unit": {
+                           "label": "WattPerMetreKelvin",
+                           "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:WattPerMetreKelvin"
                         }
                      },
                      {
@@ -3021,6 +4481,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.05
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -3029,6 +4494,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 100.0
+                        },
+                        "unit": {
+                           "label": "SiemensPerMetre",
+                           "symbol": "S\u00b7m\u207b\u00b9",
+                           "@type": "emmo:SiemensPerMetre"
                         }
                      }
                   ]
@@ -3043,6 +4513,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 76.0
+                        },
+                        "unit": {
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
                         }
                      },
                      {
@@ -3051,6 +4526,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 0.32
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -3059,6 +4539,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 23.948511999999994
+                        },
+                        "unit": {
+                           "label": "MiliGramPerCubicCentiMeter",
+                           "symbol": "mg\u00b7cm\u207b\u00b2",
+                           "@type": "emmo:MiliGramPerCubicCentiMeter"
                         }
                      },
                      {
@@ -3067,6 +4552,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 1.5
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -3075,6 +4565,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 16.0
+                        },
+                        "unit": {
+                           "label": "MicroMetre",
+                           "symbol": "\u03bcm",
+                           "@type": "emmo:MicroMetre"
                         }
                      },
                      {
@@ -3083,6 +4578,11 @@
                         "value": {
                            "@type": "emmo:Numerical",
                            "hasNumericalData": 20
+                        },
+                        "unit": {
+                           "label": "UnitOne",
+                           "symbol": "1",
+                           "@type": "emmo:UnitOne"
                         }
                      },
                      {
@@ -3095,7 +4595,7 @@
                         "unit": {
                            "label": "MiliAmpereHour",
                            "symbol": "mAh",
-                           "@type": "emmo:MiliAmpereHour"
+                           "@type": ""
                         }
                      }
                   ]
@@ -3112,6 +4612,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3120,6 +4625,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3128,6 +4638,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3144,6 +4659,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3152,6 +4672,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3168,6 +4693,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3204,6 +4734,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3212,6 +4747,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3220,6 +4760,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3236,6 +4781,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3244,6 +4794,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3260,6 +4815,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3296,6 +4856,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3304,6 +4869,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3312,6 +4882,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3328,6 +4903,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3336,6 +4916,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3352,6 +4937,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3388,6 +4978,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3396,6 +4991,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3404,6 +5004,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3420,6 +5025,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3428,6 +5038,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3444,6 +5059,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3480,6 +5100,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3488,6 +5113,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3496,6 +5126,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3512,6 +5147,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3520,6 +5160,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3536,6 +5181,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3572,6 +5222,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3580,6 +5235,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3588,6 +5248,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3604,6 +5269,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3612,6 +5282,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3628,6 +5303,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3664,6 +5344,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3672,6 +5357,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3680,6 +5370,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3696,6 +5391,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3704,6 +5404,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3720,6 +5425,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3756,6 +5466,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3764,6 +5479,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3772,6 +5492,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3788,6 +5513,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3796,6 +5526,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3812,6 +5547,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3848,6 +5588,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3856,6 +5601,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3864,6 +5614,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3880,6 +5635,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3888,6 +5648,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3904,6 +5669,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3940,6 +5710,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1518.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -3948,6 +5723,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.099
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -3956,6 +5736,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1200
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -3972,6 +5757,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3980,6 +5770,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.2594
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -3996,6 +5791,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.7406
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4032,6 +5832,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1000.0
+                  },
+                  "unit": {
+                     "label": "MolPerLiter",
+                     "symbol": "mol\u00b7L\u207b",
+                     "@type": "emmo:MolPerLiter"
                   }
                },
                {
@@ -4040,6 +5845,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.5
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                }
             ]
@@ -4054,6 +5864,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1692.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -4062,6 +5877,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.334
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -4070,6 +5890,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 946.0
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -4078,6 +5903,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1692.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -4086,6 +5916,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.334
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -4094,6 +5929,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 946.0
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -4102,6 +5942,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1692.0
+                  },
+                  "unit": {
+                     "label": "JoulePerKiloGramKelvin",
+                     "symbol": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
                   }
                },
                {
@@ -4110,6 +5955,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.334
+                  },
+                  "unit": {
+                     "label": "WattPerMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
+                     "@type": "emmo:WattPerMetreKelvin"
                   }
                },
                {
@@ -4118,6 +5968,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 946.0
+                  },
+                  "unit": {
+                     "label": "GramPerCubicMetre",
+                     "symbol": "kg\u00b7m\u207b\u00b3",
+                     "@type": "emmo:GramPerCubicMetre"
                   }
                },
                {
@@ -4126,6 +5981,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 15.0
+                  },
+                  "unit": {
+                     "label": "MicroMetre",
+                     "symbol": "\u03bcm",
+                     "@type": "emmo:MicroMetre"
                   }
                },
                {
@@ -4134,6 +5994,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.4
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4142,6 +6007,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.5
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4150,6 +6020,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 10
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                }
             ]
@@ -4164,6 +6039,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.8
+                  },
+                  "unit": {
+                     "label": "Metre",
+                     "symbol": "m",
+                     "@type": "emmo:Metre"
                   }
                },
                {
@@ -4172,6 +6052,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.065
+                  },
+                  "unit": {
+                     "label": "Metre",
+                     "symbol": "m",
+                     "@type": "emmo:Metre"
                   }
                },
                {
@@ -4180,6 +6065,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 11.0
+                  },
+                  "unit": {
+                     "label": "Gram",
+                     "symbol": "g",
+                     "@type": "emmo:Gram"
                   }
                },
                {
@@ -4188,6 +6078,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4196,6 +6091,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.0379
+                  },
+                  "unit": {
+                     "label": "SquareMetre",
+                     "symbol": "m\u00b2",
+                     "@type": "emmo:SquareMetre"
                   }
                },
                {
@@ -4208,7 +6108,7 @@
                   "unit": {
                      "label": "UnitOne",
                      "symbol": "1",
-                     "@type": "emmo:UnitOne"
+                     "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                   }
                },
                {
@@ -4221,7 +6121,7 @@
                   "unit": {
                      "label": "Gram",
                      "symbol": "g",
-                     "@type": "emmo:Gram"
+                     "@type": ""
                   }
                },
                {
@@ -4234,7 +6134,7 @@
                   "unit": {
                      "label": "AmpereHour",
                      "symbol": "mAh",
-                     "@type": "emmo:AmpereHour"
+                     "@type": "https://w3id.org/emmo#AmpereHour"
                   }
                },
                {
@@ -4247,7 +6147,7 @@
                   "unit": {
                      "label": "UnitOne",
                      "symbol": "1",
-                     "@type": "emmo:UnitOne"
+                     "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                   }
                },
                {
@@ -4260,7 +6160,7 @@
                   "unit": {
                      "label": "WattHourPerKilogram",
                      "symbol": "Wh\u00b7kg\u207b\u00b9",
-                     "@type": "emmo:WattHourPerKilogram"
+                     "@type": "https://w3id.org/emmo#WattHourPerKilogram"
                   }
                },
                {
@@ -4273,7 +6173,7 @@
                   "unit": {
                      "label": "WattHour",
                      "symbol": "Wh",
-                     "@type": "emmo:WattHour"
+                     "@type": "https://w3id.org/emmo#Watthour"
                   }
                }
             ]
@@ -4288,6 +6188,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 298.15
+                  },
+                  "unit": {
+                     "label": "Kelvin",
+                     "symbol": "K",
+                     "@type": "emmo:Kelvin"
                   }
                },
                {
@@ -4296,6 +6201,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 298.15
+                  },
+                  "unit": {
+                     "label": "Kelvin",
+                     "symbol": "K",
+                     "@type": "emmo:Kelvin"
                   }
                },
                {
@@ -4304,6 +6214,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1000.0
+                  },
+                  "unit": {
+                     "label": "WattPerSquareMetreKelvin",
+                     "symbol": "W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9",
+                     "@type": "emmo:WattPerSquareMetreKelvin"
                   }
                }
             ]
@@ -4326,6 +6241,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.01
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4334,6 +6254,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4342,6 +6267,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4350,6 +6280,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 1.0
+                  },
+                  "unit": {
+                     "label": "UnitOne",
+                     "symbol": "1",
+                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4358,6 +6293,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 2.4
+                  },
+                  "unit": {
+                     "label": "Volt",
+                     "symbol": "V",
+                     "@type": "emmo:Volt"
                   }
                },
                {
@@ -4366,6 +6306,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 4.1
+                  },
+                  "unit": {
+                     "label": "Volt",
+                     "symbol": "V",
+                     "@type": "emmo:Volt"
                   }
                },
                {
@@ -4381,6 +6326,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.0001
+                  },
+                  "unit": {
+                     "label": "A\u00b7s\u207b\u00b9",
+                     "symbol": "A\u00b7s\u207b\u00b9",
+                     "@type": "emmo:A\u00b7s\u207b\u00b9"
                   }
                },
                {
@@ -4389,6 +6339,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 0.01
+                  },
+                  "unit": {
+                     "label": "VoltPerSecond",
+                     "symbol": "V\u00b7s\u207b\u00b9",
+                     "@type": "emmo:VoltPerSecond"
                   }
                },
                {
@@ -4397,6 +6352,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 30.0
+                  },
+                  "unit": {
+                     "label": "Second",
+                     "symbol": "s",
+                     "@type": "emmo:Second"
                   }
                },
                {
@@ -4405,6 +6365,11 @@
                   "value": {
                      "@type": "emmo:Numerical",
                      "hasNumericalData": 5.0
+                  },
+                  "unit": {
+                     "label": "Second",
+                     "symbol": "s",
+                     "@type": "emmo:Second"
                   }
                }
             ]

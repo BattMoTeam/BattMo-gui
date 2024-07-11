@@ -481,6 +481,8 @@ class SetupLinkedDataStruct:
                 "@type": parameter.context_type if parameter.context_type else "string",
                 "value": formatted_value_dict,
             }
+            if unit_details:
+                parameter_details["unit"] = unit_details
 
         elif isinstance(parameter, (StrParameter, BooleanParameter, FunctionParameter)):
             formatted_value_dict = {
@@ -525,7 +527,7 @@ class SetupLinkedDataStruct:
                 unit_details = {
                     "label": unit_name,
                     "symbol": unit,
-                    "@type": "emmo:" + unit_name,
+                    "@type": unit_iri,
                 }
 
                 # Prepare parameter details
@@ -2947,9 +2949,6 @@ class SetTabs:
                                 )
                             )
 
-                            material_display_names.append(material_display_name)
-                            material_values.append(value)
-
                             if (
                                 material_display_name
                                 and material_display_name[0][0] != "User defined"
@@ -2966,7 +2965,7 @@ class SetTabs:
                                 material_values.append(value)
 
                         st.write(
-                            "[{}]({})".format(par_name, context_type_iri)
+                            "[{}]({})".format(par_display_name, context_type_iri)
                             + " / "
                             + "[{}]({})".format(unit, unit_iri)
                         )
