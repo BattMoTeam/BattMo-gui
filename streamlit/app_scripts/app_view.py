@@ -7527,12 +7527,6 @@ class SetGraphs:
         vertical_line=None,
     ):
 
-        # Create a DataFrame from the data
-        # df = pd.DataFrame({
-        #     "x": [x for sublist in x_data for x in sublist],
-        #     "y": [y for sublist in y_data for y in sublist],
-        #     "label": [label for label in _self.selected_data_sets for _ in range(len(x_data))]
-        # })
         fig = go.Figure(layout=go.Layout(autosize=True))
 
         if (
@@ -7551,7 +7545,6 @@ class SetGraphs:
                         name=trace_label,
                     )
                 )
-                # fig = px.line(x=x_data, y=y_data[i])
 
         else:
             fig.add_trace(
@@ -7564,37 +7557,14 @@ class SetGraphs:
             title=title,
             xaxis_title=x_label,
             yaxis_title=y_label,
-            # xaxis = dict(range =[0, x_max]),
-            # yaxis=dict(range=[0, y_max])
         )
         fig.update_xaxes(
-            # range=[0,x_max],  # sets the range of xaxis
             constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
         )
         if vertical_line:
             fig.add_vline(
                 x=vertical_line, line_width=3, line_dash="dash", line_color="grey"
             )
-            # ax.axvline(x=vertical_line, color='k', linestyle="dashed")
-
-        # fig, ax = plt.subplots()
-
-        # ax.plot(x_data, y_data)
-
-        # ax.set_title(title)
-        # ax.set_xlabel(x_label)
-        # ax.get_yaxis().get_major_formatter().set_useOffset(False)
-
-        # if x_max:
-        #     ax.set_xlim(x_min, x_max)
-        # if y_max and y_min != y_max:
-        #     ax.set_ylim(y_min, y_max)
-        # if y_max and y_min_sub and abs(y_min_sub- y_max_sub) <= 0.001:
-        #     delta = y_min_sub/10
-        #     ax.set_ylim(y_min - delta, y_max + delta)
-
-        # if vertical_line:
-        #     ax.axvline(x=vertical_line, color='k', linestyle="dashed")
 
         return fig
 
