@@ -2324,7 +2324,7 @@
                         "@type": "emmo:Thickness",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 85.0
+                           "hasNumericalData": 95.0
                         },
                         "unit": {
                            "label": "MicroMetre",
@@ -2337,7 +2337,7 @@
                         "@type": "emmo:Porosity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 0.2
+                           "hasNumericalData": 0.19
                         },
                         "unit": {
                            "label": "UnitOne",
@@ -2350,7 +2350,7 @@
                         "@type": "emmo:MassLoading",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 15.0484
+                           "hasNumericalData": 17.029035
                         },
                         "unit": {
                            "label": "MiliGramPerCubicCentiMeter",
@@ -2402,7 +2402,7 @@
                         "@type": "emmo:Capacity",
                         "value": {
                            "@type": "emmo:Numerical",
-                           "hasNumericalData": 2158.1611092334356
+                           "hasNumericalData": 2442.213196404601
                         },
                         "unit": {
                            "label": "MiliAmpereHour",
@@ -6103,7 +6103,7 @@
                   "@type": "emmo:N/PRatio",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 1.07
+                     "hasNumericalData": 1.21
                   },
                   "unit": {
                      "label": "UnitOne",
@@ -6116,7 +6116,7 @@
                   "@type": "emmo:CellMass",
                   "value": {
                      "@type": "emmo:Numerical",
-                     "hasNumericalData": 37.33774424320001
+                     "hasNumericalData": 38.31575938520001
                   },
                   "unit": {
                      "label": "Gram",

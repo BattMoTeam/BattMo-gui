@@ -73,12 +73,12 @@ class ParameterHandler(db.BaseHandler):
     ):
         ids_str = ",".join(map(str, template_parameter_ids))
         res = self.select(
-            values="id",
+            values="id,template_parameter_id",
             where="template_parameter_id IN ({}) and parameter_set_id={}".format(
                 ids_str, int(parameter_set_id)
             ),
         )
-        return [sub_res[0] for sub_res in res]
+        return [sub_res for sub_res in res]
 
 
 #####################################

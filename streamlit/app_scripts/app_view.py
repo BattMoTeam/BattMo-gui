@@ -22,6 +22,8 @@ import pandas as pd
 import random
 import re
 import math
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -444,7 +446,6 @@ class SetupLinkedDataStruct:
 
         return dict
 
-    @st.cache_data
     def fill_linked_data_dict(_self, user_input, content):
         user_input[_self.universe_label][_self.hasCell] = content
 
@@ -1562,6 +1563,7 @@ class SetTabs:
         """
         same idea as fill category, just choosing a Protocol to set all params
         """
+
         component_parameters_ = []
         component_parameters = {}
         non_material_component = db_helper.get_non_material_components_from_category_id(
@@ -2054,17 +2056,19 @@ class SetTabs:
             non_material_parameters_sets
         )
 
-        parameter_id = []
-        non_material_parameters_raw = []
-        for template in non_material_parameters_raw_template:
-            non_material_parameter_id = template[0]
-            parameter_id.append(str(non_material_parameter_id))
-            raw_parameter = db_helper.get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(
-                non_material_parameter_id, non_material_parameter_set_id
-            )[
-                0
-            ]
-            non_material_parameters_raw.append(raw_parameter)
+        # Extract template IDs from non_material_parameters_raw_template
+        template_ids = [template[0] for template in non_material_parameters_raw_template]
+
+        # Fetch all raw parameters in one batch call
+        raw_parameters = db_helper.get_non_material_raw_parameters_by_template_parameter_ids_and_parameter_set_id(
+            template_ids, non_material_parameter_set_id
+        )
+
+        # Map parameter IDs to strings (if needed)
+        parameter_id = list(map(str, template_ids))
+
+        # Optionally, extract raw parameter data if necessary
+        non_material_parameters_raw = raw_parameters
 
         formatted_non_material_parameters = self.formatter.format_parameters(
             tuple(non_material_parameters_raw), non_material_parameters_raw_template, {}
@@ -2556,6 +2560,7 @@ class SetTabs:
 
         # Extract material ids and fetch parameter sets
         material_ids = [material[0] for material in materials]
+        material_display_names = [material[9] for material in materials]
         material_parameter_sets = db_helper.get_parameter_sets_by_material_ids(material_ids)
 
         # Create a dictionary for material parameter sets
@@ -2591,6 +2596,7 @@ class SetTabs:
 
         return (
             materials,
+            material_display_names,
             material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -2617,6 +2623,7 @@ class SetTabs:
 
         (
             materials,
+            material_display_names,
             material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -2635,6 +2642,7 @@ class SetTabs:
         ) = self.formatter.format_parameter_sets(
             material_component,
             materials,
+            material_display_names,
             material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -2901,6 +2909,12 @@ class SetTabs:
             non_material_parameter_set_id,
         )
 
+    def get_first_id_by_second_id(self, data, target_id2):
+        for sublist in data:
+            if sublist[1] == int(target_id2):
+                return sublist[0]
+        return None
+
     def format_and_setup_parameters(
         self,
         tab_advanced,
@@ -2909,6 +2923,7 @@ class SetTabs:
         non_material_component_id,
         non_material_parameter_set_id,
     ):
+
         component_parameters_ = []
 
         # Gather all parameter IDs
@@ -2917,8 +2932,6 @@ class SetTabs:
             for parameter in formatted_parameters.values()
             if parameter.is_shown_to_user
         ]
-
-        st.write(parameter_ids)
 
         # Fetch all selected parameter IDs in bulk
         selected_parameter_ids = (
@@ -2930,18 +2943,17 @@ class SetTabs:
 
         name_col, input_col = tab_advanced.columns(2)
 
-        index = 0
         for parameter_id, parameter in formatted_parameters.items():
             if not parameter.is_shown_to_user:
+                st.write(f"Parameter {parameter_id} is not shown to user.")
                 continue
 
-            selected_parameter_id = selected_parameter_ids[index]
+            selected_parameter_id = self.get_first_id_by_second_id(
+                selected_parameter_ids, parameter_id
+            )
             if selected_parameter_id is None:
+                st.write(f"selected parameter id: {selected_parameter_id} ")
                 continue
-
-            st.write(selected_parameter_ids)
-            st.write(selected_parameter_id)
-            st.write(parameter_id)
 
             if isinstance(parameter, NumericalParameter):
                 name_col.write(
@@ -2963,6 +2975,7 @@ class SetTabs:
                     step=self.set_increment(parameter.options.get(selected_parameter_id).value),
                     label_visibility="collapsed",
                 )
+
             else:
                 name_col.write(parameter.display_name)
                 user_input = input_col.selectbox(
@@ -2976,120 +2989,146 @@ class SetTabs:
                 parameter, component_parameters=component_parameters_
             )
 
-            index += 1
-
         return component_parameters_
+
+    @st.cache_data
+    def fetch_advanced_data(_self, category_name):
+
+        db_tab_ids_advanced = db_helper.get_advanced_db_tab_id(_self.model_name, category_name)
+
+        tab_id_to_categories = {
+            db_tab_id_advanced[0]: db_helper.get_advanced_categories_from_tab_id(
+                db_tab_id_advanced[0]
+            )
+            for db_tab_id_advanced in db_tab_ids_advanced
+        }
+        category_id_to_components = {
+            category[0]: db_helper.get_advanced_components_from_category_id(
+                category[0], _self.model_name
+            )
+            for categories in tab_id_to_categories.values()
+            for category in categories
+        }
+        template_id_to_parameters = {
+            category[-2]: db_helper.get_advanced_template_by_template_id(
+                category[-2], _self.model_name
+            )
+            for categories in tab_id_to_categories.values()
+            for category in categories
+            if category[-2] is not None
+        }
+
+        return (
+            db_tab_ids_advanced,
+            tab_id_to_categories,
+            category_id_to_components,
+            template_id_to_parameters,
+        )
 
     def fill_advanced_expander(
         self, tab, category_name, category_display_name, category_parameters
     ):
-        with app_development.time_measure("Time duration: "):
 
-            advanced_input = tab.expander(
-                "Show '{}' advanced parameters".format(category_display_name)
+        advanced_input = tab.expander(f"Show '{category_display_name}' advanced parameters")
+        tab_display_names = db_helper.get_advanced_tab_display_names(self.model_name, category_name)
+        all_advanced_tabs = advanced_input.tabs(tab_display_names)
+
+        # Fetch all categories and components in batch mode
+        (
+            db_tab_ids_advanced,
+            tab_id_to_categories,
+            category_id_to_components,
+            template_id_to_parameters,
+        ) = self.fetch_advanced_data(category_name)
+
+        for index_advanced, tab_advanced in enumerate(all_advanced_tabs):
+            db_tab_id_advanced = db_tab_ids_advanced[index_advanced][0]
+            categories_advanced = tab_id_to_categories[db_tab_id_advanced]
+            all_category_display_names = [a[7] for a in categories_advanced]
+
+            all_sub_tabs = (
+                tab_advanced.tabs(all_category_display_names)
+                if len(categories_advanced) > 1
+                else [tab_advanced]
             )
-            all_advanced_tabs = advanced_input.tabs(
-                db_helper.get_advanced_tab_display_names(self.model_name, category_name)
-            )
-            db_tab_ids_advanced = db_helper.get_advanced_db_tab_id(self.model_name, category_name)
 
-            for index_advanced, tab_advanced in enumerate(all_advanced_tabs):
-                db_tab_id_advanced = db_tab_ids_advanced[index_advanced][0]
-                categories_advanced = db_helper.get_advanced_categories_from_tab_id(
-                    db_tab_id_advanced
-                )
-                all_category_display_names = [a[7] for a in categories_advanced]
+            for category, tab_advanced in zip(categories_advanced, all_sub_tabs):
+                (
+                    category_id,
+                    category_name,
+                    _,
+                    _,
+                    category_context_type,
+                    category_context_type_iri,
+                    emmo_relation,
+                    category_display_name,
+                    _,
+                    default_template_id,
+                    _,
+                ) = category
 
-                all_sub_tabs = (
-                    tab_advanced.tabs(all_category_display_names)
-                    if len(categories_advanced) > 1
-                    else [tab_advanced]
-                )
+                non_material_component = category_id_to_components[category_id]
+                (
+                    non_material_component_id,
+                    non_material_component_name,
+                    _,
+                    _,
+                    _,
+                    _,
+                    non_material_comp_display_name,
+                    _,
+                    _,
+                    _,
+                    non_material_comp_context_type,
+                    non_material_comp_context_type_iri,
+                    *_,
+                ) = non_material_component
 
-                for i, (category, tab_advanced) in enumerate(
-                    zip(categories_advanced, all_sub_tabs)
-                ):
+                raw_template_parameters = template_id_to_parameters.get(default_template_id)
+                if raw_template_parameters:
                     (
-                        category_id,
-                        category_name,
-                        _,
-                        _,
-                        category_context_type,
-                        category_context_type_iri,
-                        emmo_relation,
-                        category_display_name,
-                        _,
-                        default_template_id,
-                        _,
-                    ) = category
-
-                    non_material_component = db_helper.get_advanced_components_from_category_id(
-                        category_id, self.model_name
+                        non_material_parameters_raw,
+                        non_material_parameters_set_name,
+                        non_material_parameter_set_id,
+                    ) = self.get_non_material_parameters(
+                        non_material_component_id, raw_template_parameters
                     )
 
-                    (
-                        non_material_component_id,
+                    formatted_parameters = self.formatter.format_parameters(
+                        non_material_parameters_raw,
+                        raw_template_parameters,
+                        non_material_parameters_set_name,
+                    )
+
+                    component_parameters_ = self.format_and_setup_parameters(
+                        tab_advanced,
+                        formatted_parameters,
                         non_material_component_name,
-                        _,
-                        _,
-                        _,
-                        _,
-                        non_material_comp_display_name,
-                        _,
-                        _,
-                        _,
-                        non_material_comp_context_type,
-                        non_material_comp_context_type_iri,
-                        *_,
-                    ) = non_material_component
-
-                    raw_template_parameters = db_helper.get_advanced_template_by_template_id(
-                        default_template_id, self.model_name
+                        non_material_component_id,
+                        non_material_parameter_set_id,
                     )
-                    if raw_template_parameters:
-                        (
-                            non_material_parameters_raw,
-                            non_material_parameters_set_name,
-                            non_material_parameter_set_id,
-                        ) = self.get_non_material_parameters(
-                            non_material_component_id, raw_template_parameters
-                        )
 
-                        formatted_parameters = self.formatter.format_parameters(
-                            non_material_parameters_raw,
-                            raw_template_parameters,
-                            non_material_parameters_set_name,
-                        )
-                        component_parameters_ = self.format_and_setup_parameters(
-                            tab_advanced,
-                            formatted_parameters,
-                            non_material_component_name,
-                            non_material_component_id,
-                            non_material_parameter_set_id,
-                        )
+                    component_parameters = self.LD.setup_sub_dict(
+                        display_name=non_material_comp_display_name,
+                        context_type=non_material_comp_context_type,
+                        existence="new",
+                    )
+                    component_parameters = self.LD.fill_component_dict(
+                        component_parameters_,
+                        existence="new",
+                        dict=component_parameters,
+                    )
+                    non_material_comp_relation = self.LD.get_relation(
+                        non_material_component_id, "component"
+                    )
+                    category_parameters = self.LD.fill_component_dict(
+                        component_parameters,
+                        "existing",
+                        dict=category_parameters,
+                        relation=non_material_comp_relation,
+                    )
 
-                        component_parameters = self.LD.setup_sub_dict(
-                            display_name=non_material_comp_display_name,
-                            context_type=non_material_comp_context_type,
-                            existence="new",
-                        )
-                        component_parameters = self.LD.fill_component_dict(
-                            component_parameters_,
-                            existence="new",
-                            dict=component_parameters,
-                        )
-                        non_material_comp_relation = self.LD.get_relation(
-                            non_material_component_id, "component"
-                        )
-                        category_parameters = self.LD.fill_component_dict(
-                            component_parameters,
-                            "existing",
-                            dict=category_parameters,
-                            relation=non_material_comp_relation,
-                        )
-
-            return category_parameters
-            pass
+        return category_parameters
 
     def fill_mass_fraction_column(
         self,

@@ -189,8 +189,7 @@ class NumericalParameter(TemplateParameter):
             max_readable_value = 10000
             min_readable_value = 0.0001
             is_readable = (
-                self.max_value < max_readable_value
-                and self.min_value > min_readable_value
+                self.max_value < max_readable_value and self.min_value > min_readable_value
             )
             self.format = "%g" if is_readable else "%.2e"
 
@@ -277,9 +276,7 @@ class BooleanParameter(TemplateParameter):
 
 
 class FunctionParameter(TemplateParameter):
-    def __init__(
-        self, id, name, template_id, type, is_shown_to_user, description, display_name
-    ):
+    def __init__(self, id, name, template_id, type, is_shown_to_user, description, display_name):
         super().__init__(id, name, template_id, type, is_shown_to_user, description)
 
     #     self.set_display_name()
@@ -345,6 +342,7 @@ class FormatParameters:
         self,
         material_component,
         materials,
+        material_display_names,
         parameter_sets,
         material_parameter_sets_name_by_id,
         raw_template_parameters,
@@ -356,25 +354,16 @@ class FormatParameters:
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
         # if np.ndim(parameter_sets)> 1:
-
-        material_display_names = []
         index_set = 0
 
         for parameter_set in parameter_sets:
             parameter_set_id, parameter_set, _, _, _, material_id = parameter_set
-
-            material_display_name = db_helper.get_display_name_from_material_id(
-                int(material_id)
-            )
-            material_display_names.append(material_display_name)
-
+            material_display_name = material_display_names[index_set]
             raw_parameters_set = raw_parameters[parameter_set_id]
 
             # Create list with parameter set ids
 
-            raw_parameters_set_ids = np.array(
-                [sub_list[2] for sub_list in raw_parameters_set]
-            )
+            raw_parameters_set_ids = np.array([sub_list[2] for sub_list in raw_parameters_set])
 
             parameter_ids = []
             parameter_names = []
@@ -411,9 +400,7 @@ class FormatParameters:
                 template_parameter_id = template_parameter_ids[i]
                 parameter_id = parameter_ids[i]
 
-                template_parameter = formatted_parameters.get(
-                    str(template_parameter_id)
-                )
+                template_parameter = formatted_parameters.get(str(template_parameter_id))
 
                 if template_parameter:
                     if isinstance(template_parameter, NumericalParameter):
@@ -437,9 +424,7 @@ class FormatParameters:
 
                     else:
 
-                        assert (
-                            False
-                        ), "Unexpected template_parameter. parameter_id={}".format(
+                        assert False, "Unexpected template_parameter. parameter_id={}".format(
                             parameter_id
                         )
 
@@ -459,9 +444,7 @@ class FormatParameters:
                     else:
                         new_option = Option_parameter(
                             formatted_value=formatted_value,
-                            parameter_set=material_parameter_sets_name_by_id.get(
-                                parameter_set_id
-                            ),
+                            parameter_set=material_parameter_sets_name_by_id.get(parameter_set_id),
                             parameter_display_name=parameter_display_name,
                             parameter_name=parameter_name,
                         )
@@ -470,13 +453,13 @@ class FormatParameters:
             formatted_material = formatted_materials.get(str(material_component_id))
 
             if isinstance(formatted_material, Material):
-                formatted_display_name = eval(str(material_display_name))
+                formatted_display_name = str(material_display_name)
                 formatted_material.set_selected_value(formatted_display_name)
 
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option_material(
                 parameter_set_name=parameter_set,
-                parameter_set_display_name=formatted_display_name[0],
+                parameter_set_display_name=formatted_display_name,
                 parameter_set_id=parameter_set_id,
                 parameters=formatted_parameters,
                 parameter_ids=parameter_ids,
@@ -497,9 +480,7 @@ class FormatParameters:
             format_str = "{:.2f}"  # Normal notation with 2 decimal places
         return format_str.format(value)
 
-    def format_parameters(
-        self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id
-    ):
+    def format_parameters(self, raw_parameters, raw_template_parameters, parameter_sets_name_by_id):
 
         if np.ndim(raw_parameters) > 1:
 
@@ -507,13 +488,9 @@ class FormatParameters:
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
             for parameter in raw_parameters:
-                parameter_id, name, parameter_set_id, template_parameter_id, value = (
-                    parameter
-                )
+                parameter_id, name, parameter_set_id, template_parameter_id, value = parameter
 
-                template_parameter = formatted_parameters.get(
-                    str(template_parameter_id)
-                )
+                template_parameter = formatted_parameters.get(str(template_parameter_id))
 
                 if template_parameter:
                     if isinstance(template_parameter, NumericalParameter):
@@ -537,9 +514,7 @@ class FormatParameters:
                         template_parameter.set_selected_value(formatted_value)
                     else:
 
-                        assert (
-                            False
-                        ), "Unexpected template_parameter. parameter_id={}".format(
+                        assert False, "Unexpected template_parameter. parameter_id={}".format(
                             parameter_id
                         )
 
@@ -555,9 +530,7 @@ class FormatParameters:
                     else:
                         new_option = Option_parameter(
                             formatted_value=formatted_value,
-                            parameter_set=parameter_sets_name_by_id.get(
-                                parameter_set_id
-                            ),
+                            parameter_set=parameter_sets_name_by_id.get(parameter_set_id),
                             parameter_display_name=parameter_display_name,
                         )
 
@@ -567,9 +540,7 @@ class FormatParameters:
             # initialize from template parameters
             formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
-            parameter_id, name, parameter_set_id, template_parameter_id, value = (
-                raw_parameters
-            )
+            parameter_id, name, parameter_set_id, template_parameter_id, value = raw_parameters
 
             template_parameter = formatted_parameters.get(str(template_parameter_id))
 
@@ -580,9 +551,7 @@ class FormatParameters:
                     formatted_value = float(value)
                     # formatted_value = self.custom_number_input(formatted_value)
                 else:
-                    assert (
-                        False
-                    ), "Unexpected NumericalParameter. parameter_id={} type={}".format(
+                    assert False, "Unexpected NumericalParameter. parameter_id={} type={}".format(
                         parameter_id, template_parameter.type
                     )
             elif isinstance(template_parameter, StrParameter):
@@ -594,9 +563,7 @@ class FormatParameters:
                 template_parameter.set_selected_value(formatted_value)
             else:
 
-                assert False, "Unexpected template_parameter. parameter_id={}".format(
-                    parameter_id
-                )
+                assert False, "Unexpected template_parameter. parameter_id={}".format(parameter_id)
 
             parameter_display_name = template_parameter.display_name
 
@@ -784,9 +751,7 @@ class FormatParameters:
                     )
 
                 else:
-                    assert (
-                        False
-                    ), "parameter_type={} is not handled. parameter_id={}".format(
+                    assert False, "parameter_type={} is not handled. parameter_id={}".format(
                         parameter_type, parameter_id
                     )
         else:
@@ -876,9 +841,7 @@ class FormatParameters:
                 )
 
             else:
-                assert (
-                    False
-                ), "parameter_type={} is not handled. parameter_id={}".format(
+                assert False, "parameter_type={} is not handled. parameter_id={}".format(
                     parameter_type, parameter_id
                 )
 

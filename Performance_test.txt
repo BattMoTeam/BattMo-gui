@@ -58,3 +58,36 @@ Fill_material_component: 0.01914238929748535 seconds
 Fill_material_component: 0.021799802780151367 seconds
 
 Fill_material_component: 0.016103744506835938 seconds
+
+
+# Advanced expander:
+
+
+Time duration: : 0.4142138957977295 seconds
+
+Time duration: : 0.43922853469848633 seconds
+
+Time duration: : 0.11533069610595703 seconds
+
+Time duration: : 0.121063232421875 seconds
+
+Time duration: : 0.09844732284545898 seconds
+
+Time duration: : 0.09279918670654297 seconds
+
+Time duration: : 0.12476754188537598 seconds
+
+------------------------------------------------------
+Time duration: : 0.46494030952453613 seconds
+
+Time duration: : 0.3109757900238037 seconds
+
+Time duration: : 0.08638429641723633 seconds
+
+Time duration: : 0.11872482299804688 seconds
+
+Time duration: : 0.1134026050567627 seconds
+
+Time duration: : 0.11967825889587402 seconds
+
+Time duration: : 0.13161921501159668 seconds

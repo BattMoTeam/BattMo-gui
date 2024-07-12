@@ -291,7 +291,11 @@ def get_components_context_type_from_id(id):
 def get_material_from_component_id(model_name, component_id):
     res = sql_material().select(
         values="*",
-        where="model_name = '{}' AND is_shown_to_user = 'True' AND (component_id_1={} or component_id_2={})".format(
+        where="""model_name = '{}' AND is_shown_to_user = 'True' AND (component_id_1={} or component_id_2={}) AND id IN (
+            SELECT MIN(id)  
+            FROM material
+            GROUP BY name
+        )""".format(
             model_name, component_id, component_id
         ),
     )
@@ -342,7 +346,12 @@ def get_display_name_from_material_id(material_id):
 def get_all_default_material():
     res = sql_material().select(
         values="*",
-        where="default_material= '%s' AND context_type IS NOT NULL " % "True",
+        where="""default_material= '%s' AND context_type IS NOT NULL AND id IN (
+            SELECT MIN(id)  
+            FROM material
+            GROUP BY name
+        )"""
+        % "True",
     )
     return res  # [a[0] for a in res]
 
@@ -435,7 +444,12 @@ def get_parameter_sets_by_material_ids(material_ids):
     ids_str = ",".join(map(str, material_ids))
     return sql_parameter_set().select(
         values="*",
-        where="material_id IN (%s)" % ids_str,
+        where="""material_id IN (%s) AND id IN (
+            SELECT MIN(id)  
+            FROM parameter_set
+            GROUP BY name
+        )"""
+        % ids_str,
     )
 
 
@@ -479,6 +493,20 @@ def get_mf_raw_parameter_by_parameter_set_id(parameter_set_id):
 @st.cache_data
 def get_n_p_parameter_by_template_id(parameter_set_id):
     res = sql_parameter().select(values="*", where="parameter_set_id=%d" % parameter_set_id)
+    return res
+
+
+@st.cache_data
+def get_non_material_raw_parameters_by_template_parameter_ids_and_parameter_set_id(
+    template_parameter_ids, parameter_set_id
+):
+    ids_str = ",".join(map(str, template_parameter_ids))
+    res = sql_parameter().select(
+        values="*",
+        where="template_parameter_id IN ({}) AND parameter_set_id={}".format(
+            ids_str, parameter_set_id
+        ),
+    )
     return res
 
 
