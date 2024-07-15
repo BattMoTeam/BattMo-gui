@@ -13,9 +13,7 @@ import uuid
 
 ##############################
 # Page Config
-path_to_images = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images"
-)
+path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
 st.set_page_config(
     page_title="BattMo",
     page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png")),
@@ -97,9 +95,7 @@ def run_page():
     model_id = app.set_model_choice().selected_model
 
     if st.session_state.success and st.session_state.transfer_results:
-        st.session_state["toast"](
-            ":green-background[Gathering the results!]", icon="💤"
-        )
+        st.session_state["toast"](":green-background[Gathering the results!]", icon="💤")
 
     gui_parameters = app.set_tabs(model_id).user_input
 

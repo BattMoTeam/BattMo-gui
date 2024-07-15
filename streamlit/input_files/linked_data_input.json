@@ -63,6 +63,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -75,6 +78,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -87,6 +93,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -99,6 +108,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -111,6 +123,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -123,6 +138,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -135,6 +153,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -147,6 +168,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -159,6 +183,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -178,7 +205,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -190,6 +220,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -202,6 +235,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -214,6 +250,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -226,6 +265,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -238,6 +280,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -250,6 +295,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -262,6 +310,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -274,6 +325,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -286,6 +340,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -305,7 +362,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -317,6 +377,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -329,6 +392,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -341,6 +407,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -353,6 +422,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -365,6 +437,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -377,6 +452,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -389,6 +467,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -401,6 +482,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -413,6 +497,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -432,7 +519,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -444,6 +534,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -456,6 +549,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -468,6 +564,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -480,6 +579,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -492,6 +594,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -504,6 +609,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -516,6 +624,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -528,6 +639,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -540,6 +654,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -559,7 +676,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -571,6 +691,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -583,6 +706,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -595,6 +721,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -607,6 +736,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -619,6 +751,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -631,6 +766,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -643,6 +781,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -655,6 +796,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -667,6 +811,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -686,7 +833,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -698,6 +848,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -710,6 +863,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -722,6 +878,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -734,6 +893,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -746,6 +908,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -758,6 +923,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -770,6 +938,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -782,6 +953,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -794,6 +968,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -813,7 +990,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -825,6 +1005,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -837,6 +1020,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -849,6 +1035,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -861,6 +1050,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -873,6 +1065,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -885,6 +1080,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -897,6 +1095,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -909,6 +1110,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -921,6 +1125,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -940,7 +1147,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -952,6 +1162,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -964,6 +1177,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -976,6 +1192,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -988,6 +1207,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1000,6 +1222,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1012,6 +1237,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1024,6 +1252,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1036,6 +1267,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1048,6 +1282,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1067,7 +1304,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1079,6 +1319,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1091,6 +1334,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1103,6 +1349,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1115,6 +1364,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1127,6 +1379,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1139,6 +1394,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1151,6 +1409,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1163,6 +1424,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1175,6 +1439,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1194,7 +1461,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1206,6 +1476,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1218,6 +1491,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1230,6 +1506,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1242,6 +1521,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1254,6 +1536,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1266,6 +1551,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1278,6 +1566,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1290,6 +1581,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1302,6 +1596,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1321,7 +1618,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1333,6 +1633,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1345,6 +1648,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1357,6 +1663,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1369,6 +1678,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1381,6 +1693,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1393,6 +1708,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1405,6 +1723,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1417,6 +1738,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1429,6 +1753,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1448,7 +1775,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1460,6 +1790,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1472,6 +1805,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1484,6 +1820,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1496,6 +1835,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1508,6 +1850,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1520,6 +1865,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1532,6 +1880,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1544,6 +1895,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1556,6 +1910,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1575,7 +1932,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1587,6 +1947,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1599,6 +1962,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1611,6 +1977,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1623,6 +1992,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1635,6 +2007,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1647,6 +2022,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1659,6 +2037,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1671,6 +2052,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1683,6 +2067,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1702,7 +2089,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -1714,6 +2104,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1726,6 +2119,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1738,6 +2134,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1750,6 +2149,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1762,6 +2164,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1774,6 +2179,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1786,6 +2194,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1798,6 +2209,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1810,6 +2224,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -1829,7 +2246,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "electronic_conductivity",
@@ -2313,6 +2733,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2325,6 +2748,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2337,6 +2763,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2349,6 +2778,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2361,6 +2793,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2373,6 +2808,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2385,6 +2823,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2397,6 +2838,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2416,7 +2860,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -2428,6 +2875,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2440,6 +2890,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2452,6 +2905,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2464,6 +2920,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2476,6 +2935,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2488,6 +2950,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2500,6 +2965,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2512,6 +2980,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2531,7 +3002,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -2543,6 +3017,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2555,6 +3032,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2567,6 +3047,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2579,6 +3062,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2591,6 +3077,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2603,6 +3092,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2615,6 +3107,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2627,6 +3122,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2646,7 +3144,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -2658,6 +3159,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2670,6 +3174,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2682,6 +3189,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2694,6 +3204,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2706,6 +3219,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2718,6 +3234,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2730,6 +3249,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2742,6 +3264,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2761,7 +3286,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -2773,6 +3301,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2785,6 +3316,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2797,6 +3331,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2809,6 +3346,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2821,6 +3361,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2833,6 +3376,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2845,6 +3391,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2857,6 +3406,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2876,7 +3428,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -2888,6 +3443,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2900,6 +3458,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2912,6 +3473,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2924,6 +3488,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2936,6 +3503,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2948,6 +3518,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2960,6 +3533,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2972,6 +3548,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -2991,7 +3570,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3003,6 +3585,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3015,6 +3600,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3027,6 +3615,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3039,6 +3630,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3051,6 +3645,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3063,6 +3660,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3075,6 +3675,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3087,6 +3690,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3106,7 +3712,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3118,6 +3727,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3130,6 +3742,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3142,6 +3757,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3154,6 +3772,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3166,6 +3787,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3178,6 +3802,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3190,6 +3817,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3202,6 +3832,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3221,7 +3854,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3233,6 +3869,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3245,6 +3884,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3257,6 +3899,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3269,6 +3914,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3281,6 +3929,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3293,6 +3944,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3305,6 +3959,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3317,6 +3974,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3336,7 +3996,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3348,6 +4011,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3360,6 +4026,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3372,6 +4041,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3384,6 +4056,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3396,6 +4071,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3408,6 +4086,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3420,6 +4101,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3432,6 +4116,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3451,7 +4138,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3463,6 +4153,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3475,6 +4168,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3487,6 +4183,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3499,6 +4198,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3511,6 +4213,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3523,6 +4228,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3535,6 +4243,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3547,6 +4258,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3566,7 +4280,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3578,6 +4295,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3590,6 +4310,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3602,6 +4325,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3614,6 +4340,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3626,6 +4355,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3638,6 +4370,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3650,6 +4385,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3662,6 +4400,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3681,7 +4422,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3693,6 +4437,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3705,6 +4452,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3717,6 +4467,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3729,6 +4482,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3741,6 +4497,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3753,6 +4512,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3765,6 +4527,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3777,6 +4542,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3796,7 +4564,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "maximum_concentration",
@@ -3808,6 +4579,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3820,6 +4594,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3832,6 +4609,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3844,6 +4624,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3856,6 +4639,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3868,6 +4654,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3880,6 +4669,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3892,6 +4684,9 @@
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -3911,7 +4706,10 @@
                      "hasVariable": [
                         "c",
                         "cmax"
-                     ]
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
                   },
                   {
                      "rdfs:label": "specific_heat_capacity",
@@ -4405,6 +5203,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4417,6 +5218,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4429,6 +5233,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4446,7 +5253,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -4463,7 +5273,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -4471,6 +5284,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4483,6 +5299,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4495,6 +5314,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4503,6 +5325,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4515,6 +5340,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4527,6 +5355,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4539,6 +5370,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4551,6 +5385,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4563,6 +5400,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4580,7 +5420,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -4597,7 +5440,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -4605,6 +5451,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4617,6 +5466,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4629,6 +5481,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4637,6 +5492,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4649,6 +5507,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4661,6 +5522,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4673,6 +5537,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4685,6 +5552,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4697,6 +5567,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4714,7 +5587,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -4731,7 +5607,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -4739,6 +5618,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4751,6 +5633,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4763,6 +5648,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4771,6 +5659,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4783,6 +5674,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4795,6 +5689,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4807,6 +5704,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4819,6 +5719,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4831,6 +5734,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4848,7 +5754,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -4865,7 +5774,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -4873,6 +5785,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4885,6 +5800,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4897,6 +5815,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4905,6 +5826,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4917,6 +5841,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4929,6 +5856,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4941,6 +5871,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4953,6 +5886,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4965,6 +5901,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -4982,7 +5921,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -4999,7 +5941,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5007,6 +5952,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5019,6 +5967,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5031,6 +5982,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5039,6 +5993,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5051,6 +6008,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5063,6 +6023,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5075,6 +6038,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5087,6 +6053,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5099,6 +6068,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5116,7 +6088,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -5133,7 +6108,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5141,6 +6119,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5153,6 +6134,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5165,6 +6149,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5173,6 +6160,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5185,6 +6175,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5197,6 +6190,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5209,6 +6205,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5221,6 +6220,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5233,6 +6235,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5250,7 +6255,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -5267,7 +6275,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5275,6 +6286,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5287,6 +6301,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5299,6 +6316,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5307,6 +6327,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5319,6 +6342,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5331,6 +6357,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5343,6 +6372,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5355,6 +6387,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5367,6 +6402,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5384,7 +6422,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -5401,7 +6442,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5409,6 +6453,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5421,6 +6468,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5433,6 +6483,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5441,6 +6494,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5453,6 +6509,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5465,6 +6524,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5477,6 +6539,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5489,6 +6554,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5501,6 +6569,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5518,7 +6589,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -5535,7 +6609,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5543,6 +6620,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5555,6 +6635,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5567,6 +6650,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5575,6 +6661,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5587,6 +6676,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5599,6 +6691,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5611,6 +6706,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5623,6 +6721,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5635,6 +6736,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5652,7 +6756,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "diffusion_coefficient",
@@ -5669,7 +6776,10 @@
                },
                "hasVariable": [
                   "c"
-               ]
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
             },
             {
                "rdfs:label": "charge_carrier_name",
@@ -5677,6 +6787,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5689,6 +6802,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5701,6 +6817,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5709,6 +6828,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5721,6 +6843,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5733,6 +6858,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
                   "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5775,6 +6903,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5787,6 +6918,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5799,6 +6933,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5811,6 +6948,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5823,6 +6963,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5835,6 +6978,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5847,6 +6993,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5859,6 +7008,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
                   "@type": "https://w3id.org/emmo#WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
@@ -5871,6 +7023,9 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                   "@type": "https://w3id.org/emmo#GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                }
             },
             {
