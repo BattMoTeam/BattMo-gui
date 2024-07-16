@@ -637,15 +637,14 @@ class SetupLinkedDataStruct:
 
 
 def set_select(
-    raw_parameters,
     material_display_names,
     material_values,
     material_component_id,
     id,
     user_interaction,
+    key_input_number,
+    key_select,
 ):
-    key_input_number = "input_number_{}_{}".format(material_component_id, id)
-    key_select = "select_{}_{}".format(material_component_id, id)
 
     selected_parameter_set = st.session_state[key_select]
     index = material_display_names.index(selected_parameter_set)
@@ -1366,6 +1365,7 @@ class SetTabs:
 
                 (
                     material_formatted_parameters,
+                    formatted_material,
                     formatted_materials,
                     selected_value_id,
                     component_parameters_,
@@ -1406,15 +1406,18 @@ class SetTabs:
                     "new",
                 )
 
-                material_choice = formatted_materials.options.get(selected_value_id).display_name
+                material_choice = formatted_material.options.get(selected_value_id).display_name
 
-                material = formatted_materials.options.get(selected_value_id)
+                material = formatted_material.options.get(selected_value_id)
                 parameters = material.parameters
 
                 if material_choice == "User defined":
                     component_parameters_ = []
                     component_parameters = {}
                     category_parameters = self.fill_user_defined_expander(
+                        material_formatted_parameters,
+                        formatted_material,
+                        formatted_materials,
                         parameters,
                         category_parameters,
                         component_parameters,
@@ -1707,8 +1710,17 @@ class SetTabs:
 
         return category_parameters
 
+    def ud_set_select(self, key_select, key_input_number, material, parameter, user_interaction):
+        selected_parameter_set = st.session_state[key_select]
+        parameter_set_id = material.options.get(selected_parameter_set).parameter_set_id
+        st.session_state[key_input_number] = parameter.options.get(parameter_set_id).value
+        st.session_state[user_interaction] = False
+
     def fill_user_defined_expander(
         self,
+        material_formatted_parameters,
+        formatted_material,
+        formatted_materials,
         parameters,
         category_parameters,
         component_parameters,
@@ -1717,24 +1729,46 @@ class SetTabs:
         tab,
         category_id,
         component_name,
-        material_comp_display_name,
-        material_component_id,
-        material_comp_context_type,
+        comp_display_name,
+        component_id,
+        comp_context_type,
         selected_value_id,
     ):
 
-        ex = tab.expander("Fill in '%s' parameters" % material_comp_display_name)
+        ex = tab.expander("Fill in '%s' parameters" % comp_display_name)
 
         with ex:
-            for parameter_id in parameters:
-                parameter = parameters.get(parameter_id)
-                parameter_options = parameter.options.get(selected_value_id)
+
+            for parameter_id in material_formatted_parameters:
+                parameter = material_formatted_parameters.get(parameter_id)
+
+                keys_to_include = list(parameter.options.keys())
+                sub_formatted_material = {
+                    key: formatted_material.options[key]
+                    for key in keys_to_include
+                    if key in formatted_material.options
+                }
+
+                key_select = "ud_select_{}_{}".format(component_id, parameter_id)
+                key_input_number = "ud_input_number_{}_{}".format(component_id, parameter_id)
+                user_interaction = 'ud_number_input_changed_by_user_{}'.format(parameter_id)
+
+                if key_select not in st.session_state:
+                    keys = list(sub_formatted_material.keys())
+                    st.session_state[key_select] = keys[0]
+
+                if key_input_number not in st.session_state:
+                    st.session_state[key_input_number] = parameter.options.get(
+                        st.session_state[key_select]
+                    ).value
+
+                if user_interaction not in st.session_state:
+                    st.session_state[user_interaction] = False
 
                 if not isinstance(parameter, FunctionParameter):
-                    property_col, value_col = ex.columns((1.5, 2))
 
                     if isinstance(parameter, StrParameter):
-                        property_col.write(
+                        st.write(
                             "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                         )
 
@@ -1747,23 +1781,55 @@ class SetTabs:
 
                     else:
 
-                        property_col.write(
+                        st.write(
                             "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                             + " / "
                             + "[{}]({})".format(parameter.unit, parameter.unit_iri)
                         )
+                        select_col, value_col = ex.columns((1.5, 2))
+                        selected_parameter_set = select_col.selectbox(
+                            label=parameter.name,
+                            options=list(sub_formatted_material.keys()),
+                            key=key_select,
+                            on_change=self.ud_set_select,
+                            args=(
+                                key_select,
+                                key_input_number,
+                                formatted_material,
+                                parameter,
+                                user_interaction,
+                            ),
+                            label_visibility="collapsed",
+                            format_func=lambda x: sub_formatted_material.get(x).display_name,
+                        )
 
                         user_input = value_col.number_input(
                             label=parameter.name,
-                            value=parameter.default_value,
+                            value=parameter.options.get(st.session_state[key_select]).value,
                             min_value=parameter.min_value,
                             max_value=parameter.max_value,
-                            key="input_{}_{}".format(category_id, parameter.id),
-                            # format=parameter.format,
-                            format=self.set_format(parameter.default_value),
-                            step=self.set_increment(parameter.default_value),
+                            key=key_input_number,
+                            on_change=set_number_input,
+                            args=(
+                                parameter.options.get(selected_parameter_set).value,
+                                key_input_number,
+                                user_interaction,
+                            ),
+                            format=self.set_format(
+                                parameter.options.get(selected_parameter_set).value
+                            ),
+                            step=self.set_increment(
+                                parameter.options.get(selected_parameter_set).value
+                            ),
                             label_visibility="collapsed",
                         )
+
+                        if st.session_state[user_interaction] == False:
+                            reference_url = db_helper.get_reference_url_from_parameter_set(
+                                formatted_material.options.get(selected_parameter_set).display_name
+                            )
+                        else:
+                            reference_url = None
 
                 elif isinstance(parameter, FunctionParameter):
 
@@ -1775,8 +1841,8 @@ class SetTabs:
                         or component_name == "positive_electrode_active_material"
                     ):
 
-                        ref_ocp = "ref_ocp_{}".format(material_component_id)
-                        variables = "variables_{}".format(material_component_id)
+                        ref_ocp = "ref_ocp_{}".format(component_id)
+                        variables = "variables_{}".format(component_id)
 
                         if variables not in st.session_state:
 
@@ -1793,7 +1859,7 @@ class SetTabs:
 
                         info = ex.toggle(
                             label="OCP guidelines",
-                            key="toggle_{}".format(material_component_id),
+                            key="toggle_{}".format(component_id),
                         )
                         if info:
                             parameters_col, language_col = ex.columns(2)
@@ -1832,7 +1898,7 @@ class SetTabs:
                         ref_ocp_str = st.session_state[ref_ocp]
                         func_ocpref = ex.toggle(
                             label="Visualize OCP_ref",
-                            key="toggle_vis_{}".format(material_component_id),
+                            key="toggle_vis_{}".format(component_id),
                         )
 
                         if func_ocpref:
@@ -1966,24 +2032,26 @@ class SetTabs:
 
                     parameter.set_selected_value(user_input)
                     component_parameters_ = self.LD.setup_parameter_struct(
-                        parameter, component_parameters=component_parameters_
+                        parameter,
+                        component_parameters=component_parameters_,
+                        reference_url=reference_url,
                     )
 
                     if parameter.name == "density" and density:
-                        density[material_component_id] = parameter.selected_value
+                        density[component_id] = parameter.selected_value
 
             component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
 
             component_parameters = self.LD.setup_sub_dict(
                 existence="new",
-                display_name=material_comp_display_name,
-                context_type=material_comp_context_type,
+                display_name=comp_display_name,
+                context_type=comp_context_type,
             )
             component_parameters = self.LD.fill_component_dict(
                 component_parameters_, "existing", dict=component_parameters
             )
 
-            material_comp_relation = self.LD.get_relation(material_component_id, "component")
+            material_comp_relation = self.LD.get_relation(component_id, "component")
 
             category_parameters = self.LD.fill_sub_dict(
                 category_parameters,
@@ -2834,12 +2902,13 @@ class SetTabs:
                             key=key_select,
                             on_change=set_select,
                             args=(
-                                raw_parameters,
                                 material_display_names,
                                 material_values,
                                 material_component_id,
                                 id,
                                 user_interaction,
+                                key_input_number,
+                                key_select,
                             ),
                             label_visibility="collapsed",
                         )
@@ -2912,6 +2981,7 @@ class SetTabs:
         return (
             material_formatted_parameters,
             formatted_component,
+            formatted_components,
             selected_value_id,
             component_parameters_,
             emmo_relation,

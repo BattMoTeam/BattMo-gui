@@ -5,9 +5,9 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.999999999999999e-05,
+         "thickness": 8.499999999999999e-05,
          "N": 20,
-         "effectiveDensity": 1792.5300000000002,
+         "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
             "massFraction": 0.9,
@@ -16,7 +16,7 @@
             "specificHeatCapacity": 632.0,
             "thermalConductivity": 1.04,
             "Interface": {
-               "saturationConcentration": 29583.0,
+               "saturationConcentration": 30555.0,
                "volumetricSurfaceArea": 383959.0,
                "density": 2260.0,
                "numberOfElectronsTransferred": 1,
@@ -27,7 +27,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                  "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -133,7 +133,7 @@
       "bruggemanCoefficient": 1.5
    },
    "Electrolyte": {
-      "initialConcentration": 1500.0,
+      "initialConcentration": 1000.0,
       "specificHeatCapacity": 1518.0,
       "thermalConductivity": 0.099,
       "density": 1200,
