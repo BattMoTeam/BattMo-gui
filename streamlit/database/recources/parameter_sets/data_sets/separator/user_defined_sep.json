@@ -2,6 +2,7 @@
    "Name": "user_defined_sep",
    "component": "separator_materials",
    "material": true,
+   "model_name": ["P2D", "P3D"],
    "Header": {},
    "Parameters": {
       

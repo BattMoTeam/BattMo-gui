@@ -3,6 +3,7 @@
    "Header": {},
    "component": "negative_electrode_binder",
    "material": true,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "density": 1,
       "specific_heat_capacity": 1,

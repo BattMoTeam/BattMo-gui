@@ -2,6 +2,7 @@
    "Name": "celgard2500_Xu2015",
    "component": "separator_materials",
    "material": true,
+   "model_name": ["P2D", "P3D"],
    "Header": {},
    "Parameters": {
       

@@ -15,9 +15,7 @@ import shutil
 
 ##############################
 # Page Config
-path_to_images = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images"
-)
+path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
 st.set_page_config(
     page_title="BattMo",
     page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png")),
@@ -130,9 +128,9 @@ def run_page():
             st.session_state["selected_data"] = last_file_name
             selected_data_sets = last_file_name
 
-            results, indicators, input_files = get_results_data(
+            results, indicators, input_files = get_results_data(last_file_name).get_results_data(
                 last_file_name
-            ).get_results_data(last_file_name)
+            )
 
             app.set_indicators(page_name, indicators, last_file_name)
 
@@ -152,9 +150,7 @@ def run_page():
         and st.session_state.transfer_results == False
         and not selected_data_sets
     ):
-        st.error(
-            "Your simulation was not succesful unfortunately, give it another try."
-        )
+        st.error("Your simulation was not succesful unfortunately, give it another try.")
 
     with st.sidebar:
         st.divider()

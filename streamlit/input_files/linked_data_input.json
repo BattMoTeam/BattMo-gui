@@ -103,6 +103,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -168,21 +181,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -235,6 +235,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -300,21 +313,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -367,6 +367,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -432,21 +445,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -499,6 +499,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -564,21 +577,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -631,6 +631,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -696,21 +709,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -763,6 +763,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -828,21 +841,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -895,6 +895,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -960,21 +973,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1027,6 +1027,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1092,21 +1105,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1159,6 +1159,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1224,21 +1237,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1291,6 +1291,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1356,21 +1369,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1423,6 +1423,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1488,21 +1501,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1555,6 +1555,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1620,21 +1633,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1687,6 +1687,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1752,21 +1765,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1819,6 +1819,19 @@
                         }
                      },
                      {
+                        "label": "specific_heat_capacity",
+                        "@type": "emmo:SpecificHeatCapacity",
+                        "value": {
+                           "@type": "emmo:Numerical",
+                           "hasNumericalData": 632.0
+                        },
+                        "unit": {
+                           "label": "JoulePerKiloGramKelvin",
+                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                           "@type": "emmo:JoulePerKiloGramKelvin"
+                        }
+                     },
+                     {
                         "label": "number_of_electrons_transferred",
                         "@type": "emmo:NumberOfEntities",
                         "value": {
@@ -1884,21 +1897,8 @@
                         }
                      },
                      {
-                        "label": "specific_heat_capacity",
-                        "@type": "emmo:SpecificHeatCapacity",
-                        "value": {
-                           "@type": "emmo:Numerical",
-                           "hasNumericalData": 632.0
-                        },
-                        "unit": {
-                           "label": "JoulePerKiloGramKelvin",
-                           "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
-                        }
-                     },
-                     {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -1921,7 +1921,7 @@
                         "unit": {
                            "label": "SiemensPerMetre",
                            "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
+                           "@type": "https://w3id.org/emmo#SiemensPerMetre"
                         }
                      },
                      {
@@ -1934,7 +1934,7 @@
                         "unit": {
                            "label": "JoulePerMole",
                            "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
+                           "@type": "https://w3id.org/emmo#JoulePerMole"
                         }
                      },
                      {
@@ -1947,7 +1947,7 @@
                         "unit": {
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
-                           "@type": "emmo:ReciprocalSecond"
+                           "@type": "https://w3id.org/emmo#ReciprocalSecond"
                         }
                      },
                      {
@@ -1960,7 +1960,7 @@
                         "unit": {
                            "label": "Metre",
                            "symbol": "m",
-                           "@type": "emmo:Metre"
+                           "@type": "https://w3id.org/emmo#Metre"
                         }
                      },
                      {
@@ -2012,7 +2012,7 @@
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
                            "symbol": "mAh\u00b7g\u207b\u00b9",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "@type": ""
                         }
                      }
                   ]
@@ -2407,7 +2407,7 @@
                         "unit": {
                            "label": "MiliAmpereHour",
                            "symbol": "mAh",
-                           "@type": "emmo:MiliAmpereHour"
+                           "@type": ""
                         }
                      }
                   ]
@@ -2526,7 +2526,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -2645,7 +2645,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -2764,7 +2764,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -2883,7 +2883,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3002,7 +3002,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3121,7 +3121,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3240,7 +3240,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3359,7 +3359,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3478,7 +3478,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3597,7 +3597,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3716,7 +3716,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3835,7 +3835,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -3954,7 +3954,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -4073,7 +4073,7 @@
                      },
                      {
                         "label": "open_circuit_potential",
-                        "@type": "string",
+                        "@type": null,
                         "value": {
                            "@type": "emmo:String",
                            "hasStringData": {
@@ -4096,7 +4096,7 @@
                         "unit": {
                            "label": "JoulePerKiloGramKelvin",
                            "symbol": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                           "@type": "emmo:JoulePerKiloGramKelvin"
+                           "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
                         }
                      },
                      {
@@ -4109,7 +4109,7 @@
                         "unit": {
                            "label": "SiemensPerMetre",
                            "symbol": "S\u00b7m\u207b\u00b9",
-                           "@type": "emmo:SiemensPerMetre"
+                           "@type": "https://w3id.org/emmo#SiemensPerMetre"
                         }
                      },
                      {
@@ -4122,7 +4122,7 @@
                         "unit": {
                            "label": "JoulePerMole",
                            "symbol": "J\u00b7mol\u207b\u00b9\u00b7",
-                           "@type": "emmo:JoulePerMole"
+                           "@type": "https://w3id.org/emmo#JoulePerMole"
                         }
                      },
                      {
@@ -4135,7 +4135,7 @@
                         "unit": {
                            "label": "ReciprocalSecond",
                            "symbol": "s\u207b\u00b9",
-                           "@type": "emmo:ReciprocalSecond"
+                           "@type": "https://w3id.org/emmo#ReciprocalSecond"
                         }
                      },
                      {
@@ -4148,7 +4148,7 @@
                         "unit": {
                            "label": "Metre",
                            "symbol": "m",
-                           "@type": "emmo:Metre"
+                           "@type": "https://w3id.org/emmo#Metre"
                         }
                      },
                      {
@@ -4200,7 +4200,7 @@
                         "unit": {
                            "label": "MiliAmpereHourPerGram",
                            "symbol": "mAh\u00b7g\u207b\u00b9",
-                           "@type": "emmo:MiliAmpereHourPerGram"
+                           "@type": ""
                         }
                      }
                   ]
@@ -4595,7 +4595,7 @@
                         "unit": {
                            "label": "MiliAmpereHour",
                            "symbol": "mAh",
-                           "@type": "emmo:MiliAmpereHour"
+                           "@type": ""
                         }
                      }
                   ]
@@ -4646,34 +4646,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -4709,23 +4681,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4739,6 +4698,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -4781,34 +4768,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -4844,23 +4803,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -4874,6 +4820,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -4916,34 +4890,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -4979,23 +4925,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5009,6 +4942,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5051,34 +5012,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5114,23 +5047,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5144,6 +5064,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5186,34 +5134,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5249,23 +5169,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5279,6 +5186,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5321,34 +5256,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5384,23 +5291,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5414,6 +5308,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5456,34 +5378,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5519,23 +5413,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5549,6 +5430,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5591,34 +5500,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5654,23 +5535,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5684,6 +5552,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5726,34 +5622,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5789,23 +5657,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5819,6 +5674,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -5861,34 +5744,6 @@
                   }
                },
                {
-                  "label": "conductivity",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeElectrolyteConductivity_Chen2020",
-                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
-                  "label": "diffusion_coefficient",
-                  "@type": "string",
-                  "value": {
-                     "@type": "emmo:String",
-                     "hasStringData": {
-                        "functionname": "computeDiffusionCoefficient_Chen2020",
-                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
-                        "argument_list": [
-                           "c"
-                        ]
-                     }
-                  }
-               },
-               {
                   "label": "charge_carrier_name",
                   "@type": "echem:ChargeCarrierIon",
                   "value": {
@@ -5924,23 +5779,10 @@
                },
                {
                   "label": "counter_ion_name",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "PF6"
-                  }
-               },
-               {
-                  "label": "counter_ion_charge_number",
-                  "@type": "emmo:ChargeNumber",
-                  "value": {
-                     "@type": "emmo:Numerical",
-                     "hasNumericalData": -1
-                  },
-                  "unit": {
-                     "label": "UnitOne",
-                     "symbol": "1",
-                     "@type": "emmo:UnitOne"
                   }
                },
                {
@@ -5954,6 +5796,34 @@
                      "label": "UnitOne",
                      "symbol": "1",
                      "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "label": "conductivity",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeElectrolyteConductivity_Chen2020",
+                        "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
+                  }
+               },
+               {
+                  "label": "diffusion_coefficient",
+                  "@type": null,
+                  "value": {
+                     "@type": "emmo:String",
+                     "hasStringData": {
+                        "functionname": "computeDiffusionCoefficient_Chen2020",
+                        "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)",
+                        "argument_list": [
+                           "c"
+                        ]
+                     }
                   }
                },
                {
@@ -6238,7 +6108,7 @@
                   "unit": {
                      "label": "UnitOne",
                      "symbol": "1",
-                     "@type": "emmo:UnitOne"
+                     "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                   }
                },
                {
@@ -6251,7 +6121,7 @@
                   "unit": {
                      "label": "Gram",
                      "symbol": "g",
-                     "@type": "emmo:Gram"
+                     "@type": ""
                   }
                },
                {
@@ -6264,7 +6134,7 @@
                   "unit": {
                      "label": "AmpereHour",
                      "symbol": "mAh",
-                     "@type": "emmo:AmpereHour"
+                     "@type": "https://w3id.org/emmo#AmpereHour"
                   }
                },
                {
@@ -6277,7 +6147,7 @@
                   "unit": {
                      "label": "UnitOne",
                      "symbol": "1",
-                     "@type": "emmo:UnitOne"
+                     "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                   }
                },
                {
@@ -6290,7 +6160,7 @@
                   "unit": {
                      "label": "WattHourPerKilogram",
                      "symbol": "Wh\u00b7kg\u207b\u00b9",
-                     "@type": "emmo:WattHourPerKilogram"
+                     "@type": "https://w3id.org/emmo#WattHourPerKilogram"
                   }
                },
                {
@@ -6303,7 +6173,7 @@
                   "unit": {
                      "label": "WattHour",
                      "symbol": "Wh",
-                     "@type": "emmo:WattHour"
+                     "@type": "https://w3id.org/emmo#Watthour"
                   }
                }
             ]
@@ -6359,7 +6229,7 @@
             "hasQuantitativeProperty": [
                {
                   "label": "initial_step_type",
-                  "@type": "string",
+                  "@type": null,
                   "value": {
                      "@type": "emmo:String",
                      "hasStringData": "charging"
@@ -6460,7 +6330,7 @@
                   "unit": {
                      "label": "A\u00b7s\u207b\u00b9",
                      "symbol": "A\u00b7s\u207b\u00b9",
-                     "@type": "A\u00b7s\u207b\u00b9"
+                     "@type": "emmo:A\u00b7s\u207b\u00b9"
                   }
                },
                {

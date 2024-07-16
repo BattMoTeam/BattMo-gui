@@ -1,0 +1,93 @@
+Total_set_tabs: 3.50412654876709 seconds
+
+Fill_material_component_am: 0.3070085048675537 seconds
+
+Fill_material_component_b: 0.07267403602600098 seconds
+
+Fill_material_component_ad: 0.04957938194274902 seconds
+
+Fill_material_component_am: 0.4606776237487793 seconds
+
+Fill_material_component_b: 0.05380511283874512 seconds
+
+Fill_material_component_ad: 0.04636812210083008 seconds
+
+Fill_material_component_elyte: 0.14020657539367676 seconds
+
+Fill_material_component_sep: 0.05643415451049805 seconds
+
+
+
+
+
+
+
+##########################################
+
+Fill_material_component: 0.21378588676452637 seconds
+
+Fill_material_component: 0.07092809677124023 seconds
+
+Fill_material_component: 0.056206703186035156 seconds
+
+Fill_material_component: 0.24208784103393555 seconds
+
+Fill_material_component: 0.04981684684753418 seconds
+
+Fill_material_component: 0.04890918731689453 seconds
+
+Fill_material_component: 0.061142921447753906 seconds
+
+Fill_material_component: 0.06696653366088867 seconds
+
+
+############################################
+
+Fill_material_component: 0.14279460906982422 seconds
+
+Fill_material_component: 0.02029585838317871 seconds
+
+Fill_material_component: 0.01629042625427246 seconds
+
+Fill_material_component: 0.16681957244873047 seconds
+
+Fill_material_component: 0.02377009391784668 seconds
+
+Fill_material_component: 0.01914238929748535 seconds
+
+Fill_material_component: 0.021799802780151367 seconds
+
+Fill_material_component: 0.016103744506835938 seconds
+
+
+# Advanced expander:
+
+
+Time duration: : 0.4142138957977295 seconds
+
+Time duration: : 0.43922853469848633 seconds
+
+Time duration: : 0.11533069610595703 seconds
+
+Time duration: : 0.121063232421875 seconds
+
+Time duration: : 0.09844732284545898 seconds
+
+Time duration: : 0.09279918670654297 seconds
+
+Time duration: : 0.12476754188537598 seconds
+
+------------------------------------------------------
+Time duration: : 0.46494030952453613 seconds
+
+Time duration: : 0.3109757900238037 seconds
+
+Time duration: : 0.08638429641723633 seconds
+
+Time duration: : 0.11872482299804688 seconds
+
+Time duration: : 0.1134026050567627 seconds
+
+Time duration: : 0.11967825889587402 seconds
+
+Time duration: : 0.13161921501159668 seconds

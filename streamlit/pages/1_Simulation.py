@@ -13,17 +13,16 @@ import uuid
 
 ##############################
 # Page Config
-path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),"images")
+path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
 st.set_page_config(
-    page_title="BattMo",
-    page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png"))
+    page_title="BattMo", page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png"))
 )
 ##############################
 
 # set config before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage, set_acknowlegent_info
-from app_scripts import app_view,app_access
+from app_scripts import app_view, app_access
 
 
 # Get page name
@@ -76,7 +75,6 @@ if "toast" not in st.session_state:
     st.session_state["toast"] = st.toast
 
 
-
 def run_page():
 
     # with open(app_access.get_path_to_custom_style_css()) as f:
@@ -105,35 +103,31 @@ def run_page():
     gui_parameters = app.set_tabs(model_id).user_input
 
     app.set_indicators(page_name)
-    #st.divider()
+    # st.divider()
 
     app.set_geometry_visualization(gui_parameters)
 
-
     app.download_parameters(gui_parameters)
 
-    
     success = app.run_simulation(gui_parameters).success
 
     # st.session_state.succes = True
-    
+
     save_run = st.container()
-    app.divergence_check(save_run,st.session_state.success)
+    # app.divergence_check(save_run,st.session_state.success)
 
     if st.session_state.success and st.session_state.transfer_results:
-        st.session_state["toast"](":green-background[Find your results on the results page!]", icon='✅')
+        st.session_state["toast"](
+            ":green-background[Find your results on the results page!]", icon='✅'
+        )
         st.session_state.success = False
-    
+
     st.session_state.response = None
     with st.sidebar:
-       # app_view.st_space(space_width=3)
+        # app_view.st_space(space_width=3)
 
         st.divider()
         set_acknowlegent_info()
-
-
-    
-
 
     ############################################
     # Can be used to check the structure of gui_parameters in the terminal
@@ -141,9 +135,6 @@ def run_page():
     # pp.pprint(gui_parameters)
     # pdb.set_trace()
     ############################################
-    
-    
-    
 
 
 if __name__ == "__main__":

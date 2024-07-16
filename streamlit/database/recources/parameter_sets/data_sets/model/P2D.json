@@ -2,6 +2,7 @@
     "Name": "P2D",
     "Header": {},
     "material": false,
+    "model_name": ["P2D", "P3D"],
     "Parameters": {
        "use_thermal": false,
        "include_current_collector": false,

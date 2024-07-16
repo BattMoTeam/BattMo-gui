@@ -1,4 +1,3 @@
-
 from update_specific_tables.update_templates import UpdateTemplates
 from update_specific_tables.update_models import UpdateModels
 from update_specific_tables.update_tabs import UpdateTabs
@@ -25,18 +24,17 @@ Those files are located in the directory python/resources/db/resources
 
 if __name__ == "__main__":
     # IF NEEDED, uncomment following lines to reset table, in order to update template parameters' order
-    
+
     # sql_template_parameter = db_handler.TemplateParameterHandler()
     # sql_template_parameter.drop_table(confirm=True)
     # os.system("db_model.py")
-    
 
     # 1. Templates (independent)
     UpdateTemplates().execute_script()
 
     # 2. Models (depends on templates)
     UpdateModels().execute_script()
-    
+
     # 3. Tabs (depends on models)
     UpdateTabs().execute_script()
 
@@ -52,12 +50,11 @@ if __name__ == "__main__":
     # 5. Parameter sets (depend on templates and components)
     UpdateParameterSets().execute_script()
 
-    
 
 # Uncomment to see data in material table:
 
 con, cur = app_access.get_sqlite_con_and_cur()
-data=cur.execute('''SELECT * FROM material''')
+data = cur.execute("""SELECT * FROM category""")
 # Fetch all rows from the result
 data = cur.fetchall()
 
@@ -72,7 +69,7 @@ else:
 # Print the retrieved data
 for row in data:
     print(row)
-    
+
 # Don't forget to close the cursor and connection when done
 cur.close()
 con.close()
