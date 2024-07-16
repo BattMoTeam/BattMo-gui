@@ -3,6 +3,7 @@
    "Header": {},
    "component": "positive_electrode_additive",
    "material": true,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "density": 1,
       "specific_heat_capacity": 1,

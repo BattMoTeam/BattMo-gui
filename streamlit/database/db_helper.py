@@ -93,7 +93,7 @@ def get_tabs_display_name_from_id(tab_id):
 def get_basis_tabs_display_names(model_name):
     res = sql_tab().select(
         values="display_name",
-        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(
+        where="model_name = '{}' and difficulty= 'basis' or model_name = '{}' and difficulty= 'basis_advanced'".format(
             model_name, model_name
         ),
     )
@@ -104,7 +104,7 @@ def get_basis_tabs_display_names(model_name):
 def get_basis_tab_names(model_name):
     res = sql_tab().select(
         values="name",
-        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(
+        where="model_name = '{}' and difficulty= 'basis' or model_name = '{}' and difficulty= 'basis_advanced'".format(
             model_name, model_name
         ),
     )
@@ -115,7 +115,7 @@ def get_basis_tab_names(model_name):
 def get_advanced_tabs_display_names(model_name):
     res = sql_tab().select(
         values="display_name",
-        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(
+        where="model_name = '{}' and difficulty= 'basis' or model_name = '{}' and difficulty= 'basis_advanced'".format(
             model_name, model_name
         ),
     )
@@ -126,7 +126,7 @@ def get_advanced_tabs_display_names(model_name):
 def get_advanced_tab_display_names(model_name, category_name):
     res = sql_tab().select(
         values="display_name",
-        where="model_name LIKE '%{}%' AND name = '{}'".format(model_name, category_name),
+        where="model_name = '{}' AND name = '{}'".format(model_name, category_name),
     )
     return [a[0] for a in res]
 
@@ -159,7 +159,7 @@ def st_tab_id_to_db_tab_id():
 def get_db_tab_id(model_name):
     res = sql_tab().select(
         values="id",
-        where="model_name LIKE '%{}%' and difficulty= 'basis' or model_name LIKE '%{}%' and difficulty= 'basis_advanced'".format(
+        where="model_name = '{}' and difficulty= 'basis' or model_name = '{}' and difficulty= 'basis_advanced'".format(
             model_name, model_name
         ),
     )
@@ -170,7 +170,7 @@ def get_db_tab_id(model_name):
 def get_advanced_db_tab_id(model_name, category_name):
     res = sql_tab().select(
         values="id",
-        where="model_name LIKE '%{}%' AND name = '{}'".format(model_name, category_name),
+        where="model_name = '{}' AND name = '{}'".format(model_name, category_name),
     )
     return res
 
@@ -240,31 +240,31 @@ def get_advanced_categories_from_tab_id(tab_id):
 # COMPONENT
 #####################################
 @st.cache_data
-def get_material_components_from_category_id(category_id):
+def get_material_components_from_category_id(category_id, model_name):
     res = sql_component().select(
         values="*",
-        where="category_id=%d AND material = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % (category_id, 1),
+        where="category_id=%d AND material = %d and model_name = '%s' AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
+        % (category_id, 1, model_name),
     )
     return res
 
 
 @st.cache_data
-def get_non_material_components_from_category_id(category_id):
+def get_non_material_components_from_category_id(category_id, model_name):
     res = sql_component().select(
         values="*",
-        where="category_id=%d AND material = %d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
-        % (category_id, 0),
+        where="category_id=%d AND material = %d AND model_name = '%s' AND (difficulty = 'basis' OR difficulty = 'basis_advanced')"
+        % (category_id, 0, model_name),
     )
     return np.squeeze(res)
 
 
 @st.cache_data
-def get_advanced_components_from_category_id(category_id):
+def get_advanced_components_from_category_id(category_id, model_name):
     res = sql_component().select(
         values="*",
-        where="category_id=%d AND (difficulty = 'advanced' OR difficulty = 'basis_advanced')"
-        % category_id,
+        where="category_id=%d AND model_name = '%s' AND (difficulty = 'advanced' OR difficulty = 'basis_advanced')"
+        % (category_id, model_name),
     )
     return np.squeeze(res)
 
@@ -292,7 +292,11 @@ def get_components_context_type_from_id(id):
 def get_material_from_component_id(model_name, component_id):
     res = sql_material().select(
         values="*",
-        where="model_name LIKE '%{}%' AND is_shown_to_user = 'True' AND (component_id_1={} or component_id_2={})".format(
+        where="""model_name = '{}' AND is_shown_to_user = 'True' AND (component_id_1={} or component_id_2={}) AND id IN (
+            SELECT MIN(id)  
+            FROM material
+            GROUP BY name
+        )""".format(
             model_name, component_id, component_id
         ),
     )
@@ -309,15 +313,21 @@ def get_material_names_from_component_id(component_id):
 
 
 @st.cache_data
-def get_material_id_by_parameter_set_name(name):
-    res = sql_material().select(values="id", where="name='%s'" % name)
-    print(res)
+def get_material_id_by_parameter_set_name_and_model_name(name, model_name):
+    res = sql_material().select(
+        values="id", where="name='%s' and model_name = '%s'" % (name, model_name)
+    )
+    print("parameter_set_name = ", name)
+    print("material_id = ", res)
     return [a[0] for a in res]
 
 
 @st.cache_data
-def get_material_display_name_from_name(name):
-    res = sql_material().select(values="display_name", where="name='%s'" % name)
+def get_material_display_name_from_name(name, model_name):
+    res = sql_material().select(
+        values="display_name",
+        where="name='%s' and model_name = '%s'" % (name, model_name),
+    )
     return res
 
 
@@ -329,6 +339,8 @@ def get_material_id_by_display_name(name):
 
 @st.cache_data
 def get_display_name_from_material_id(material_id):
+    res = sql_material().select(values="display_name", where="id=%d " % material_id)
+    return [a[0] for a in res]
     res = sql_material().select(values="display_name, reference_url", where="id=%d " % material_id)
     return tuple(res[0])
 
@@ -337,7 +349,12 @@ def get_display_name_from_material_id(material_id):
 def get_all_default_material():
     res = sql_material().select(
         values="*",
-        where="default_material= '%s' AND context_type IS NOT NULL " % "True",
+        where="""default_material= '%s' AND context_type IS NOT NULL AND id IN (
+            SELECT MIN(id)  
+            FROM material
+            GROUP BY name
+        )"""
+        % "True",
     )
     return res  # [a[0] for a in res]
 
@@ -359,6 +376,15 @@ def get_parameter_id_from_template_parameter_and_parameter_set(
 ):
     return sql_parameter().get_id_from_template_parameter_id_and_parameter_set_id(
         template_parameter_id, parameter_set_id
+    )
+
+
+@st.cache_data
+def get_parameter_id_from_template_parameters_and_parameter_set(
+    template_parameter_ids, parameter_set_id
+):
+    return sql_parameter().get_id_from_template_parameter_ids_and_parameter_set_id(
+        template_parameter_ids, parameter_set_id
     )
 
 
@@ -394,6 +420,18 @@ def extract_parameters_by_parameter_set_id(parameter_set_id):
 
 
 @st.cache_data
+def extract_parameters_by_parameter_set_ids(parameter_set_ids):
+    parameters = sql_parameter().get_all_by_parameter_set_ids(parameter_set_ids)
+    parameter_dict = {}
+    for param in parameters:
+        id, _, set_id, *_ = param
+        if set_id not in parameter_dict:
+            parameter_dict[set_id] = []
+        parameter_dict[set_id].append(param)
+    return parameter_dict
+
+
+@st.cache_data
 def get_parameter_set_name_from_id(id):
     res = sql_parameter_set().select(values="name", where="id = %d" % id)
     return res[0]
@@ -413,8 +451,17 @@ def get_all_material_by_component_id(component_id):
 
 
 @st.cache_data
-def get_material_by_material_id(material_id):
-    return sql_parameter_set().select(values="*", where="material_id = %d" % (material_id))
+def get_parameter_sets_by_material_ids(material_ids):
+    ids_str = ",".join(map(str, material_ids))
+    return sql_parameter_set().select(
+        values="*",
+        where="""material_id IN (%s) AND id IN (
+            SELECT MIN(id)  
+            FROM parameter_set
+            GROUP BY name
+        )"""
+        % ids_str,
+    )
 
 
 @st.cache_data
@@ -461,6 +508,20 @@ def get_n_p_parameter_by_template_id(parameter_set_id):
 
 
 @st.cache_data
+def get_non_material_raw_parameters_by_template_parameter_ids_and_parameter_set_id(
+    template_parameter_ids, parameter_set_id
+):
+    ids_str = ",".join(map(str, template_parameter_ids))
+    res = sql_parameter().select(
+        values="*",
+        where="template_parameter_id IN ({}) AND parameter_set_id={}".format(
+            ids_str, parameter_set_id
+        ),
+    )
+    return res
+
+
+@st.cache_data
 def get_non_material_raw_parameter_by_template_parameter_id_and_parameter_set_id(
     template_parameter_id, parameter_set_id
 ):
@@ -482,6 +543,27 @@ def get_advanced_parameters_by_parameter_set_id(template_parameter_id, parameter
     return res[0] if res else None
 
 
+@st.cache_data
+def get_advanced_parameters_by_parameter_set_ids(template_parameter_ids, parameter_set_id):
+
+    ids_str = ",".join(map(str, template_parameter_ids))
+    # Ensure template_parameter_ids is a list or tuple
+    if not isinstance(template_parameter_ids, (list, tuple)):
+        raise ValueError("template_parameter_ids must be a list or tuple")
+
+    # Convert parameter_set_id to int for safety
+    parameter_set_id = int(parameter_set_id)
+
+    # Execute the query with parameter values
+    res = sql_parameter().select(
+        values="*",
+        where="template_parameter_id IN ({}) AND parameter_set_id = {}".format(
+            ids_str, parameter_set_id
+        ),
+    )
+    return res
+
+
 #####################################
 # MODEL
 #####################################
@@ -493,7 +575,7 @@ def get_models_as_dict():
     models_as_dict = {}
 
     for model in models:
-        model_id, model_name, _, _, _ = model
+        model_id, model_name, _, _, _, _ = model
 
         models_as_dict[model_id] = model_name
 
@@ -518,7 +600,7 @@ def get_model_name_from_id(model_id):
 @st.cache_data
 def get_model_parameters_as_dict(model_name):
 
-    parameter_set_id = sql_parameter_set().get_id_from_name(model_name)
+    parameter_set_id = sql_parameter_set().get_id_from_name_and_model(model_name, model_name)
     parameters = sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
 
     model_quantitative_properties = []
@@ -548,7 +630,7 @@ def get_model_parameters_as_dict(model_name):
             _,
         ) = template_parameter
 
-        parameter_details = {"@type": name}
+        parameter_details = {"rdfs:label": name, "@type": context_type}
         if value_type == "bool":
 
             formatted_value_dict = {
@@ -598,10 +680,22 @@ def get_template_from_name(name):
 
 
 @st.cache_data
-def get_parameter_by_template_parameter_id(template_parameter_id):
-    return sql_template_parameter().select(values="*", where="id={}".format(template_parameter_id))[
-        0
-    ]
+def get_parameters_by_template_parameter_ids(template_parameter_ids, model_name):
+    ids_str = ",".join(map(str, template_parameter_ids))
+    res = sql_template_parameter().select(
+        values="*",
+        where="id IN (%s) AND model_name = '%s'" % (ids_str, model_name),
+    )
+    return res
+
+
+@st.cache_data
+def get_parameter_by_template_parameter_id(template_parameter_id, model_name):
+    res = sql_template_parameter().select(
+        values="*",
+        where="id = '%s' AND model_name = '%s'" % (template_parameter_id, model_name),
+    )
+    return res[0]
 
 
 def reset_material_template_parameters(template_id):
@@ -621,7 +715,7 @@ def set_material_template_parameters_to_basis_by_id(template_parameter_id):
 def get_all_material_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
         values="*",
-        where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%'".format(
+        where="template_id={} AND par_class = '{}' AND model_name = '{}'".format(
             template_id, "material", model_name
         ),
     )
@@ -631,16 +725,17 @@ def get_all_material_by_template_id(template_id, model_name):
 def get_all_basis_material_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
         values="*",
-        where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis'".format(
+        where="template_id={} AND par_class = '{}' AND model_name = '{}' AND difficulty = 'basis'".format(
             template_id, "material", model_name
         ),
     )
 
 
-def get_mf_template_by_template_id(template_id):
+def get_mf_template_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
         values="*",
-        where="template_id=%d AND name = '%s'" % (template_id, "mass_fraction"),
+        where="template_id=%d AND name = '%s' and model_name = '%s'"
+        % (template_id, "mass_fraction", model_name),
     )
 
 
@@ -648,7 +743,7 @@ def get_mf_template_by_template_id(template_id):
 def get_non_material_template_by_template_id(template_id, model_name):
     return sql_template_parameter().select(
         values="*",
-        where="template_id={} AND par_class = '{}' AND model_name LIKE '%{}%' AND difficulty = 'basis' AND is_shown_to_user = 'True'".format(
+        where="template_id={} AND par_class = '{}' AND model_name = '{}' AND difficulty = 'basis' AND is_shown_to_user = 'True'".format(
             template_id, "non_material", model_name
         ),
     )
@@ -657,7 +752,7 @@ def get_non_material_template_by_template_id(template_id, model_name):
 def get_advanced_template_by_template_id(template_id, model_name):
     res = sql_template_parameter().select(
         values="*",
-        where="template_id={} AND model_name LIKE '%{}%' AND difficulty = 'advanced' AND is_shown_to_user = 'True'".format(
+        where="template_id={} AND model_name = '{}' AND difficulty = 'advanced' AND is_shown_to_user = 'True'".format(
             template_id, model_name
         ),
     )
@@ -674,8 +769,11 @@ def get_n_p_template_by_template_id(template_id):
 
 
 @st.cache_data
-def get_template_parameter_by_parameter_name(parameter_name):
-    return sql_template_parameter().select(values="*", where="name='%s'" % parameter_name)
+def get_template_parameter_by_parameter_name(parameter_name, model_name):
+    return sql_template_parameter().select(
+        values="*",
+        where="name='%s' and model_name = '%s'" % (parameter_name, model_name),
+    )
 
 
 # all_basis_tab_display_names = get_basis_tabs_display_names(model_id)

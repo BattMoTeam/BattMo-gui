@@ -31,16 +31,31 @@ class ParameterHandler(db.BaseHandler):
 
     def get_id_from_name_and_parameter_set_id(self, name, parameter_set_id):
         res = self.select_one(
-            values="id", where="name='%s' and parameter_set_id=%d" % (name, parameter_set_id)
+            values="id",
+            where="name='%s' and parameter_set_id=%d" % (name, parameter_set_id),
         )
         return res[0] if res else None
 
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
+
     def get_all_ids_by_parameter_set_id(self, parameter_set_id):
-        res = self.select(values='id', where='parameter_set_id=%d' % parameter_set_id)
+        res = self.select(values="id", where="parameter_set_id=%d" % parameter_set_id)
         return [a[0] for a in res]
 
     def get_all_by_parameter_set_id(self, parameter_set_id):
-        res = self.select(values='*', where='parameter_set_id=%d ' % parameter_set_id)
+        res = self.select(
+            values="*",
+            where="parameter_set_id=%d  " % (parameter_set_id),
+        )
+        return res
+
+    def get_all_by_parameter_set_ids(self, parameter_set_id):
+        ids_str = ",".join(map(str, parameter_set_id))
+        res = self.select(
+            values="*",
+            where="parameter_set_id IN (%s)" % ids_str,
+        )
         return res
 
     def get_id_from_template_parameter_id_and_parameter_set_id(
@@ -53,6 +68,18 @@ class ParameterHandler(db.BaseHandler):
         )
         return res[0] if res else None
 
+    def get_id_from_template_parameter_ids_and_parameter_set_id(
+        self, template_parameter_ids, parameter_set_id
+    ):
+        ids_str = ",".join(map(str, template_parameter_ids))
+        res = self.select(
+            values="id,template_parameter_id",
+            where="template_parameter_id IN ({}) and parameter_set_id={}".format(
+                ids_str, int(parameter_set_id)
+            ),
+        )
+        return [sub_res for sub_res in res]
+
 
 #####################################
 # PARAMETER SET
@@ -62,7 +89,7 @@ class ParameterSetHandler(db.BaseHandler):
         self._table_name = "parameter_set"
         self._columns = "name, component_id, material"
 
-    def insert_value(self, name, component_id, material, material_id):
+    def insert_value(self, name, component_id, material, model_name, material_id):
         assert name is not None, "parameter_set's name can't be None"
         # assert component_id is not None, "parameter_set's component_id can't be None"
         # assert material is not None, "parameter_set's component_id can't be None"
@@ -72,24 +99,35 @@ class ParameterSetHandler(db.BaseHandler):
                 "name": name,
                 "component_id": component_id,
                 "material": material,
+                "model_name": model_name,
                 "material_id": material_id,
             }
         )
 
-    def get_id_by_name_and_category(self, name, component_id):
+    def get_id_by_name_and_category_and_model_name(self, name, component_id, model_name):
         res = self.select_one(
-            values="*", where="name = '%s' and component_id Like %d" % (name, component_id)
+            values="*",
+            where="name = '%s' and component_id Like %d and model_name = '%s'"
+            % (name, component_id, model_name),
         )
         return res[0] if res else None
 
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
+
     def get_all_by_category_id(self, category_id):
-        return self.select(values='*', where='category_id=%d' % category_id)
+        return self.select(values="*", where="category_id=%d" % category_id)
 
     def get_all_by_component_id(self, component_id):
-        return self.select(values='*', where='component_id=%d' % component_id)
+        return self.select(values="*", where="component_id=%d" % component_id)
 
     def get_material_from_name(self, name):
-        return self.select(values='material', where="name='%s'" % name)
+        return self.select(values="material", where="name='%s'" % name)
+
+    def get_id_from_name_and_model(self, name, model_name):
+        return self.select_one(
+            values="id", where="name = '%s' AND model_name='%s'" % (name, model_name)
+        )
 
     def get_id_from_name(self, name):
         res = self.select_one(values="id", where="name='%s'" % name)
@@ -110,6 +148,12 @@ class TemplateHandler(db.BaseHandler):
 
         return self._insert_value_query(columns_and_values={"name": "{}".format(name)})
 
+    def get_id_from_name_and_model_name(self, name, model_name):
+        res = self.select_one(
+            values="id", where="name='%s' and model_name = '%s'" % (name, model_name)
+        )
+        return res[0] if res else None
+
     def get_id_from_name(self, name):
         res = self.select_one(values="id", where="name='%s'" % (name))
         return res[0] if res else None
@@ -122,7 +166,7 @@ class TemplateParameterHandler(db.BaseHandler):
     def __init__(self):
         self._table_name = "template_parameter"
         self._columns = "name, template_id,model_name,par_class,difficulty, context_type, context_type_iri, type, unit, unit_name, unit_iri, max_value, min_value, is_shown_to_user, description, display_name"
-        self.types_handled = {'str', 'bool', 'int', 'float', 'function'}
+        self.types_handled = {"str", "bool", "int", "float", "function"}
         self.assert_all_types_are_handled()
 
     def insert_value(
@@ -170,27 +214,35 @@ class TemplateParameterHandler(db.BaseHandler):
         )
 
     def get_model_id_from_model_name(self, model_name):
-        return self.select(values='id', where='model_name=%s' % model_name)
+        return self.select(values="id", where="model_name=%s" % model_name)
 
-    def get_id_from_name_and_template_id(self, name, template_id):
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
+
+    def get_id_from_name_and_template_id(self, name, template_id, model_name):
         res = self.select_one(
-            values="id", where="name='%s' and template_id=%d" % (name, template_id)
+            values="id",
+            where="name='%s' and template_id=%d and model_name = '%s'"
+            % (name, template_id, model_name),
         )
         return res[0] if res else None
 
     def get_all_ids_by_template_id(self, template_id):
-        res = self.select(values='id', where='template_id=%d' % template_id)
+        res = self.select(values="id", where="template_id=%d" % template_id)
         return [a[0] for a in res]
 
     def get_all_by_name(self, name):
-        res = self.select(values='*', where="name='%s'" % name)
+        res = self.select(values="*", where="name='%s'" % name)
         return res[0]
 
     def get_all_by_template_id(self, template_id):
-        return self.select(values='*', where='template_id=%d' % template_id)
+        return self.select(values="*", where="template_id=%d" % template_id)
 
-    def get_id_name_and_type_by_template_id(self, template_id):
-        return self.select(values='id, name, type', where='template_id=%d' % template_id)
+    def get_id_name_and_type_by_template_id(self, template_id, model_name):
+        return self.select(
+            values="id, name, type",
+            where="template_id=%d and model_name = '%s'" % (template_id, model_name),
+        )
 
     def get_all_types(self):
         res = self.select(values="type")
@@ -218,13 +270,20 @@ class ModelHandler(db.BaseHandler):
         self._columns = "name, show_to_user, description"
 
     def insert_value(
-        self, name, is_shown_to_user, default_template, templates="{}", description=""
+        self,
+        name,
+        model_name,
+        is_shown_to_user,
+        default_template,
+        templates="{}",
+        description="",
     ):
         assert name is not None, "Model's name can't be None"
 
         return self._insert_value_query(
             columns_and_values={
                 "name": name,
+                "model_name": model_name,
                 "is_shown_to_user": is_shown_to_user,
                 "default_template": default_template,
                 "description": description,
@@ -232,11 +291,14 @@ class ModelHandler(db.BaseHandler):
         )
 
     def get_model_id_from_model_name(self, name):
-        res = self.select_one(values='id', where="name='%s'" % name)
+        res = self.select_one(values="id", where="name='%s'" % name)
         return res[0]
 
-    def get_default_template_name_by_name(self, name):
-        res = self.select_one(values='default_template', where="name='%s'" % name)
+    def get_default_template_name_by_name_and_model_name(self, name, model_name):
+        res = self.select_one(
+            values="default_template",
+            where="name='%s' and model_name = '%s'" % (name, model_name),
+        )
         return res[0]
 
 
@@ -279,12 +341,12 @@ class ModelParameterHandler(db.BaseHandler):
         return res[0] if res else None
 
     def get_all_ids_by_model_id(self, model_id):
-        res = self.select(values='id', where='model_id=%d' % model_id)
+        res = self.select(values="id", where="model_id=%d" % model_id)
         return [a[0] for a in res]
 
     @st.cache_data
     def get_all_by_model_id(_self, model_id):
-        return _self.select(values='*', where='model_id=%d' % model_id)
+        return _self.select(values="*", where="model_id=%d" % model_id)
 
 
 #####################################
@@ -321,7 +383,16 @@ class TabHandler(db.BaseHandler):
         )
 
     def get_model_id_from_model_name(self, model_name):
-        return self.select(values='id', where='model_name=%s' % model_name)
+        return self.select(values="id", where="model_name=%s" % model_name)
+
+    def get_id_from_name_and_model(self, name, model_name):
+        res = self.select_one(
+            values="id", where="name = '%s' AND model_name='%s'" % (name, model_name)
+        )
+        return res
+
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
 
 
 #####################################
@@ -348,7 +419,7 @@ class CategoryHandler(db.BaseHandler):
         assert name is not None, "Category's name can't be None"
         assert tab_id is not None, "Category's tab_id can't be None"
         assert default_template_id is not None, "Category's default_template_id can't be None"
-
+        print("model = ", model_name)
         return self._insert_value_query(
             columns_and_values={
                 "name": name,
@@ -366,10 +437,18 @@ class CategoryHandler(db.BaseHandler):
 
     @st.cache_data
     def get_all_by_tab_id(_self, tab_id):
-        return _self.select(values='*', where='tab_id=%d' % tab_id)
+        return _self.select(values="*", where="tab_id=%d" % tab_id)
+
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
 
     def get_model_id_from_model_name(self, model_name):
-        return self.select(values='id', where='model_name=%s' % model_name)
+        return self.select(values="id", where="model_name=%s" % model_name)
+
+    def get_id_from_name_and_model(self, name, model_name):
+        return self.select(
+            values="id", where="name = '%s' AND model_name='%s'" % (name, model_name)
+        )
 
     def get_default_template_id_by_id(self, id):
         res = self.select_one(values="default_template_id", where="id={}".format(id))
@@ -426,11 +505,19 @@ class ComponentHandler(db.BaseHandler):
     #         where='category_id=%d' % category_id
     #     )
     def get_model_id_from_model_name(self, model_name):
-        return self.select(values='id', where='model_name=%s' % model_name)
+        return self.select(values="id", where="model_name=%s" % model_name)
+
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
 
     @st.cache_data
     def get_all_by_category_id(_self, category_id):
-        return _self.select(values='*', where='category_id=%d' % category_id)
+        return _self.select(values="*", where="category_id=%d" % category_id)
+
+    def get_id_from_name_and_model(self, name, model_name):
+        return self.select(
+            values="id", where="name = '%s' AND model_name='%s'" % (name, model_name)
+        )
 
     def get_default_template_id_by_id(self, id):
         res = self.select_one(values="default_template_id", where="id={}".format(id))
@@ -469,7 +556,7 @@ class MaterialHandler(db.BaseHandler):
         assert name is not None, "Category's name can't be None"
         assert component_id_1 is not None, "Category's component_id_1 can't be None"
         assert default_material is not None, "Category's default_material can't be None"
-
+        print(model_name)
         return self._insert_value_query(
             columns_and_values={
                 "name": name,
@@ -499,11 +586,19 @@ class MaterialHandler(db.BaseHandler):
     #         where='tab_id=%d' % tab_id
     #     )
     def get_model_id_from_model_name(self, model_name):
-        return self.select(values='id', where='model_name=%s' % model_name)
+        return self.select(values="id", where="model_name=%s" % model_name)
+
+    def create_index(self, index_name, columns):
+        return self._create_index(index_name, self._table_name, columns)
+
+    def get_id_from_name_and_model(self, name, model_name):
+        return self.select(
+            values="id", where="name = '%s' AND model_name='%s'" % (name, model_name)
+        )
 
     @st.cache_data
     def get_all_by_component_id(_self, component_id):
-        return _self.select(values='*', where='component_id=%d' % component_id)
+        return _self.select(values="*", where="component_id=%d" % component_id)
 
     # def get_default_template_id_by_id(self, id):
     #     res = self.select_one(

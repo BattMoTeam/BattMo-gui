@@ -384,6 +384,8 @@ class FormatParameters:
         self,
         material_component,
         materials,
+        material_display_names,
+        reference_urls,
         parameter_sets,
         material_parameter_sets_name_by_id,
         raw_template_parameters,
@@ -394,20 +396,19 @@ class FormatParameters:
         formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
-        # if np.ndim(parameter_sets)> 1:
-
-        material_display_names = []
         index_set = 0
 
         for parameter_set in parameter_sets:
-            parameter_set_id, parameter_set, _, _, material_id = parameter_set
+            (
+                parameter_set_id,
+                parameter_set,
+                *_,
+            ) = parameter_set
 
-            material_display_name, reference_url = db_helper.get_display_name_from_material_id(
-                int(material_id)
-            )
-            material_display_names.append(material_display_name)
+            material_display_name = material_display_names[parameter_set_id]
+            reference_url = reference_urls[parameter_set_id]
 
-            raw_parameters_set = raw_parameters[index_set]
+            raw_parameters_set = raw_parameters[parameter_set_id]
 
             # Create list with parameter set ids
 

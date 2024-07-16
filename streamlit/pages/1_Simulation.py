@@ -22,11 +22,7 @@ st.set_page_config(
 
 # set config before import to avoid streamlit error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app_scripts.app_controller import (
-    get_app_controller,
-    log_memory_usage,
-    set_acknowlegent_info,
-)
+from app_scripts.app_controller import get_app_controller, log_memory_usage, set_acknowlegent_info
 from app_scripts import app_view, app_access
 
 
@@ -70,6 +66,12 @@ if "toast" not in st.session_state:
 
 if "gui_schema" not in st.session_state:
     st.session_state.gui_schema = None
+
+if "number_of_states" not in st.session_state:
+    st.session_state.number_of_states = None
+
+if "log_messages" not in st.session_state:
+    st.session_state.log_messages = None
 
 
 def run_page():

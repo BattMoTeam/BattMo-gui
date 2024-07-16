@@ -83,7 +83,17 @@ class BaseHandler:
                     con.commit()
                     # con.close()
 
-    def select(_self, values, where=None, like=None):
+    def _create_index(_self, index_name, table_name, columns):
+        if isinstance(columns, (list, tuple)):
+            columns = ", ".join(columns)
+        query = """
+            CREATE INDEX IF NOT EXISTS {} ON {} ({})
+            """.format(
+            index_name, table_name, columns
+        )
+        return _self.thread_safe_db_access(query)
+
+    def select(_self, values, where=None, like=None, params=None):
         if where:
             if like:
                 query = """
@@ -109,7 +119,7 @@ class BaseHandler:
                 values,
                 _self._table_name,
             )
-        return _self.thread_safe_db_access(query, fetch="fetchall")
+        return _self.thread_safe_db_access(query, fetch="fetchall", params=params)
 
     def select_one(_self, values, where=None, like=None):
         if where:
@@ -207,9 +217,7 @@ class BaseHandler:
             self.thread_safe_db_access(query)
 
     def delete_by_id(self, id):
-        self.thread_safe_db_access(
-            "DELETE FROM %s WHERE id=%d" % (self._table_name, id)
-        )
+        self.thread_safe_db_access("DELETE FROM %s WHERE id=%d" % (self._table_name, id))
 
     def get_id_from_name(self, name):
         res = self.select_one(values="id", where="name='%s'" % name)
@@ -228,10 +236,7 @@ class BaseHandler:
             if confirm:
                 self.thread_safe_db_access("DROP TABLE %s" % other_table)
             else:
-                print(
-                    "Please set confirm parameter as True to delete the table '%s'"
-                    % other_table
-                )
+                print("Please set confirm parameter as True to delete the table '%s'" % other_table)
         else:
             if confirm:
                 self.thread_safe_db_access("DROP TABLE %s" % self._table_name)

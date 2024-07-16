@@ -1,7 +1,7 @@
 {
    "Cell": {
       "cellMass": {
-         "value": 37.33774424320001,
+         "value": 37.8789725672,
          "unit": "g"
       },
       "roundTripEfficiency": {
@@ -21,25 +21,25 @@
          "unit": "mAh"
       },
       "NPRatio": {
-         "value": 1.07,
+         "value": 1.15,
          "unit": "1"
       }
    },
    "NegativeElectrode": {
       "massLoading": {
-         "value": 15.0484,
+         "value": 16.13277,
          "unit": "mg\u00b7cm\u207b\u00b2"
       },
       "thickness": {
-         "value": 85.0,
+         "value": 90.0,
          "unit": "\u03bcm"
       },
       "porosity": {
-         "value": 0.2,
+         "value": 0.19,
          "unit": "1"
       },
       "specificCapacity": {
-         "value": 2158.1611092334356,
+         "value": 2313.675659751727,
          "unit": "mAh"
       },
       "ActiveMaterial": {

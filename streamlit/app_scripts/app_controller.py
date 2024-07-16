@@ -94,8 +94,8 @@ def set_material_description():
     return view.SetMaterialDescription()
 
 
-def get_results_data(file_names):
-    return view.GetResultsData(file_names)
+def get_results_data(file_names, response=None):
+    return view.GetResultsData(file_names, response)
 
 
 def set_acknowlegent_info():
@@ -136,9 +136,7 @@ def get_logo():
 #####################################
 @st.cache_data
 def get_context():
-    return app_access.get_json_from_path(app_access.get_path_to_categories()).get(
-        "context"
-    )
+    return app_access.get_json_from_path(app_access.get_path_to_categories()).get("context")
 
 
 #####################################

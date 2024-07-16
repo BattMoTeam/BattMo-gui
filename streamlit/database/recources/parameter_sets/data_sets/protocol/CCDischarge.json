@@ -3,6 +3,7 @@
     "Category": "protocol",
     "component": "protocol_properties",
     "material": false,
+    "model_name": ["P2D", "P3D"],
     "Header": {},
     "Parameters": {
        "initial_step_type": "discharging",

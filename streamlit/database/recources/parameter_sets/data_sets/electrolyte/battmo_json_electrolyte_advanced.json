@@ -3,6 +3,7 @@
    "Header": {},
    "component": "electrolyte_advanced",
    "material": false,
+   "model_name": ["P2D", "P3D"],
    "Parameters": {
       "bruggeman_coefficient": 1.5,
       "EC_DMC_ratio": 1.2,

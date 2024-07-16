@@ -34,6 +34,7 @@
         },
         "solid_diffusion_model_type": {
             "context_type": ["diffusionModelType","parameter"],
+            "model_name": ["P2D","P3D"],
             "label": "diffusionModelType",
             "description": "",
             "type": "str",
@@ -41,6 +42,7 @@
          },
          "use_ramp_up": {
             "context_type": ["LinearCurrentRamp"],
+            "model_name": ["P2D","P3D"],
             "label": "useRampup",
             "description": "simulation option to use a ramp up time at the beginning of the simulation",
             "type": "bool",

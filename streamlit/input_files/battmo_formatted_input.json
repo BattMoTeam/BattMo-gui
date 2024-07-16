@@ -5,9 +5,9 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
+         "thickness": 8.999999999999999e-05,
          "N": 20,
-         "effectiveDensity": 1770.4,
+         "effectiveDensity": 1792.5300000000002,
          "bruggemanCoefficient": 1.5,
          "ActiveMaterial": {
             "massFraction": 0.9,
@@ -34,7 +34,7 @@
                   ]
                }
             },
-            "diffusionModelType": null,
+            "diffusionModelType": "full",
             "SolidDiffusion": {
                "activationEnergyOfDiffusion": 5000.0,
                "referenceDiffusionCoefficient": 3.9e-14,
@@ -94,7 +94,7 @@
                   ]
                }
             },
-            "diffusionModelType": null,
+            "diffusionModelType": "full",
             "SolidDiffusion": {
                "activationEnergyOfDiffusion": 5000.0,
                "referenceDiffusionCoefficient": 3.9e-14,
@@ -133,7 +133,7 @@
       "bruggemanCoefficient": 1.5
    },
    "Electrolyte": {
-      "initialConcentration": 1000.0,
+      "initialConcentration": 1500.0,
       "specificHeatCapacity": 1518.0,
       "thermalConductivity": 0.099,
       "density": 1200,
@@ -169,15 +169,11 @@
    "G": [],
    "SOC": 0.01,
    "initT": 298.15,
-   "use_thermal": null,
+   "use_thermal": false,
    "include_current_collectors": false,
    "Control": {
-      "controlPolicy": {
-         "value": "CCCV"
-      },
-      "initialControl": {
-         "value": "charging"
-      },
+      "controlPolicy": "CCCV",
+      "initialControl": "charging",
       "numberOfCycles": 1,
       "CRate": 1.0,
       "DRate": 1.0,
@@ -192,7 +188,7 @@
       "externalTemperature": 298.15
    },
    "TimeStepping": {
-      "useRampup": null,
+      "useRampup": true,
       "rampupTime": 10.0,
       "numberOfRampupSteps": 5.0,
       "timeStepDuration": 30.0
