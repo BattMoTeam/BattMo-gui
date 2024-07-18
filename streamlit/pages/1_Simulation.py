@@ -15,7 +15,8 @@ import uuid
 # Page Config
 path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
 st.set_page_config(
-    page_title="BattMo", page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png"))
+    page_title="BattMo",
+    page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png")),
 )
 ##############################
 
@@ -24,17 +25,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage, set_acknowlegent_info
 from app_scripts import app_view, app_access
 
-
-# Get page name
-# url = str(st_javascript("await fetch('').then(r => window.parent.location.href)"))
-# url_parts = url.rsplit('/',1)
-
-# if len(url_parts) > 1:
-#     # Extract the page name from the last part
-#     page_name = url_parts[1]
-# else:
-#     # Handle the case where '/' is not found in the URL
-#     page_name = "Unknown"
 
 if "sim_finished" not in st.session_state:
     st.session_state.sim_finished = False
@@ -54,6 +44,9 @@ if "response" not in st.session_state:
 if "upload" not in st.session_state:
     st.session_state.upload = None
 
+if "clear_upload" not in st.session_state:
+    st.session_state.clear_upload = None
+
 if "theme" not in st.session_state:
     st.session_state.theme = None
 
@@ -61,18 +54,27 @@ if "simulation_results_file_name" not in st.session_state:
     st.session_state.simulation_results_file_name = None
 
 # Generate a unique identifier for the session
-if 'unique_id_temp_folder' not in st.session_state:
-    st.session_state['unique_id_temp_folder'] = str(uuid.uuid4())
+if "unique_id_temp_folder" not in st.session_state:
+    st.session_state["unique_id_temp_folder"] = str(uuid.uuid4())
 
-if 'temp_dir' not in st.session_state:
-    unique_id = st.session_state['unique_id_temp_folder']
+if "temp_dir" not in st.session_state:
+    unique_id = st.session_state["unique_id_temp_folder"]
     # Create a temporary directory for the session
     temp_dir = tempfile.mkdtemp(prefix=f"session_{unique_id}_")
     # Store the temp_dir in session state
-    st.session_state['temp_dir'] = temp_dir
+    st.session_state["temp_dir"] = temp_dir
 
 if "toast" not in st.session_state:
     st.session_state["toast"] = st.toast
+
+if "gui_schema" not in st.session_state:
+    st.session_state.gui_schema = None
+
+if "number_of_states" not in st.session_state:
+    st.session_state.number_of_states = None
+
+if "log_messages" not in st.session_state:
+    st.session_state.log_messages = None
 
 
 def run_page():
@@ -98,7 +100,7 @@ def run_page():
     model_id = app.set_model_choice().selected_model
 
     if st.session_state.success and st.session_state.transfer_results:
-        st.session_state["toast"](":green-background[Gathering the results!]", icon='💤')
+        st.session_state["toast"](":green-background[Gathering the results!]", icon="💤")
 
     gui_parameters = app.set_tabs(model_id).user_input
 
@@ -114,11 +116,11 @@ def run_page():
     # st.session_state.succes = True
 
     save_run = st.container()
-    # app.divergence_check(save_run,st.session_state.success)
+    app.divergence_check(save_run, st.session_state.success)
 
     if st.session_state.success and st.session_state.transfer_results:
         st.session_state["toast"](
-            ":green-background[Find your results on the results page!]", icon='✅'
+            ":green-background[Find your results on the results page!]", icon="✅"
         )
         st.session_state.success = False
 

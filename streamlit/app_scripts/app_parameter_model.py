@@ -55,6 +55,9 @@ class Materials(object):
     def set_selected_value(self, value):
         self.selected_value = value
 
+    def set_reference_url(self, reference_url):
+        self.reference_url = reference_url
+
 
 class TemplateParameter(object):
     """
@@ -181,6 +184,9 @@ class NumericalParameter(TemplateParameter):
             description=description,
         )
 
+    def set_reference_url(self, url):
+        self.reference_url = url
+
     def set_format(self):
         if self.type == int.__name__:
             self.format = "%d"
@@ -249,6 +255,9 @@ class StrParameter(TemplateParameter):
             description=description,
         )
 
+    def set_reference_url(self, url):
+        self.reference_url = url
+
 
 class BooleanParameter(TemplateParameter):
     def __init__(
@@ -276,8 +285,39 @@ class BooleanParameter(TemplateParameter):
 
 
 class FunctionParameter(TemplateParameter):
-    def __init__(self, id, name, template_id, type, is_shown_to_user, description, display_name):
-        super().__init__(id, name, template_id, type, is_shown_to_user, description)
+    def __init__(
+        self,
+        id,
+        name,
+        template_id,
+        context_type,
+        context_type_iri,
+        type,
+        is_shown_to_user,
+        description,
+        unit,
+        unit_name,
+        unit_iri,
+        display_name,
+    ):
+
+        self.unit = unit
+        self.unit_name = unit_name
+        self.unit_iri = unit_iri
+        super().__init__(
+            id=id,
+            name=name,
+            template_id=template_id,
+            context_type=context_type,
+            context_type_iri=context_type_iri,
+            type=type,
+            is_shown_to_user=is_shown_to_user,
+            description=description,
+            display_name=display_name,
+        )
+
+    def set_reference_url(self, url):
+        self.reference_url = url
 
     #     self.set_display_name()
 
@@ -297,9 +337,11 @@ class Option_material(object):
         parameter_values=None,
         parameter_display_names=None,
         parameter_set_id=None,
+        reference_url=None,
     ):
         self.display_name = parameter_set_display_name
         self.name = parameter_set_name
+        self.reference_url = reference_url
         self.parameter_set_id = parameter_set_id
         self.parameters = parameters
         self.parameter_ids = parameter_ids
@@ -343,6 +385,7 @@ class FormatParameters:
         material_component,
         materials,
         material_display_names,
+        reference_urls,
         parameter_sets,
         material_parameter_sets_name_by_id,
         raw_template_parameters,
@@ -353,12 +396,18 @@ class FormatParameters:
         formatted_materials = self.initialize_parameter_set(material_component)
         formatted_parameters = self.initialize_parameters(raw_template_parameters)
 
-        # if np.ndim(parameter_sets)> 1:
         index_set = 0
 
         for parameter_set in parameter_sets:
-            parameter_set_id, parameter_set, _, _, _, material_id = parameter_set
+            (
+                parameter_set_id,
+                parameter_set,
+                *_,
+            ) = parameter_set
+
             material_display_name = material_display_names[parameter_set_id]
+            reference_url = reference_urls[parameter_set_id]
+
             raw_parameters_set = raw_parameters[parameter_set_id]
 
             # Create list with parameter set ids
@@ -379,9 +428,13 @@ class FormatParameters:
                 # parameter_set_id_index = self.get_index(raw_parameters_set_ids, parameter_set_id)
                 if raw_parameters_set_ids[index_parameter] == parameter_set_id:
 
-                    parameter_id, parameter_name, _, template_parameter_id, parameter_value = (
-                        parameter
-                    )
+                    (
+                        parameter_id,
+                        parameter_name,
+                        _,
+                        template_parameter_id,
+                        parameter_value,
+                    ) = parameter
 
                     parameter_ids.append(parameter_id)
                     parameter_names.append(parameter_name)
@@ -451,6 +504,7 @@ class FormatParameters:
             if isinstance(formatted_material, Material):
                 formatted_display_name = str(material_display_name)
                 formatted_material.set_selected_value(formatted_display_name)
+                formatted_material.set_reference_url(reference_url)
 
             # each parameter has metadata from the "template", to which we add the options containing value and origin
             new_option = Option_material(
@@ -462,6 +516,7 @@ class FormatParameters:
                 parameter_names=parameter_names,
                 parameter_values=values,
                 parameter_display_names=parameter_display_names,
+                reference_url=reference_url,
             )
             # template_parameter.set_selected_value(formatted_value)
             formatted_material.add_option(parameter_set_id, new_option)
@@ -606,7 +661,7 @@ class FormatParameters:
                     description,
                 ) = material
 
-                initialized_materials['%d' % int(material_id)] = Material(
+                initialized_materials["%d" % int(material_id)] = Material(
                     id=material_id,
                     name=material_name,
                     model_name=model_name,
@@ -639,7 +694,7 @@ class FormatParameters:
                 description,
             ) = tuple(np.squeeze(materials))
 
-            initialized_materials['%d' % int(material_id)] = Material(
+            initialized_materials["%d" % int(material_id)] = Material(
                 id=material_id,
                 name=material_name,
                 model_name=model_name,
@@ -686,7 +741,7 @@ class FormatParameters:
 
                 if parameter_type in [int.__name__, float.__name__]:
 
-                    initialized_parameters['%d' % parameter_id] = NumericalParameter(
+                    initialized_parameters["%d" % parameter_id] = NumericalParameter(
                         id=parameter_id,
                         name=name,
                         model_name=model_name,
@@ -707,7 +762,7 @@ class FormatParameters:
                     )
 
                 elif parameter_type == bool.__name__:
-                    initialized_parameters['%d' % parameter_id] = BooleanParameter(
+                    initialized_parameters["%d" % parameter_id] = BooleanParameter(
                         id=parameter_id,
                         name=name,
                         template_id=template_id,
@@ -720,7 +775,7 @@ class FormatParameters:
                     )
 
                 elif parameter_type == str.__name__:
-                    initialized_parameters['%d' % int(parameter_id)] = StrParameter(
+                    initialized_parameters["%d" % int(parameter_id)] = StrParameter(
                         id=parameter_id,
                         name=name,
                         template_id=template_id,
@@ -735,13 +790,18 @@ class FormatParameters:
                 elif parameter_type == _self.type_function:
                     # function parameters should be changed, using a more robust way to define them.
                     # for now functions are defined as string (ex: computeOCP_nmc111)
-                    initialized_parameters['%d' % parameter_id] = FunctionParameter(
+                    initialized_parameters["%d" % parameter_id] = FunctionParameter(
                         id=parameter_id,
                         name=name,
                         template_id=template_id,
+                        context_type=context_type,
+                        context_type_iri=context_type_iri,
                         type=parameter_type,
                         is_shown_to_user=True,
                         description=description,
+                        unit=unit,
+                        unit_name=unit_name,
+                        unit_iri=unit_iri,
                         display_name=display_name,
                     )
 
@@ -774,7 +834,7 @@ class FormatParameters:
 
             if parameter_type in [int.__name__, float.__name__]:
 
-                initialized_parameters['%d' % parameter_id] = NumericalParameter(
+                initialized_parameters["%d" % parameter_id] = NumericalParameter(
                     id=parameter_id,
                     name=name,
                     model_name=model_name,
@@ -796,7 +856,7 @@ class FormatParameters:
 
             elif parameter_type == bool.__name__:
 
-                initialized_parameters['%d' % int(parameter_id)] = BooleanParameter(
+                initialized_parameters["%d" % int(parameter_id)] = BooleanParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
@@ -810,7 +870,7 @@ class FormatParameters:
 
             elif parameter_type == str.__name__:
 
-                initialized_parameters['%d' % int(parameter_id)] = StrParameter(
+                initialized_parameters["%d" % int(parameter_id)] = StrParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,
@@ -825,7 +885,7 @@ class FormatParameters:
             elif parameter_type == _self.type_function:
                 # function parameters should be changed, using a more robust way to define them.
                 # for now functions are defined as string (ex: computeOCP_nmc111)
-                initialized_parameters['%d' % int(parameter_id)] = FunctionParameter(
+                initialized_parameters["%d" % int(parameter_id)] = FunctionParameter(
                     id=parameter_id,
                     name=name,
                     template_id=template_id,

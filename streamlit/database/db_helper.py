@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import sys
 import os
+import ast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database import db_handler
@@ -340,6 +341,8 @@ def get_material_id_by_display_name(name):
 def get_display_name_from_material_id(material_id):
     res = sql_material().select(values="display_name", where="id=%d " % material_id)
     return [a[0] for a in res]
+    res = sql_material().select(values="display_name, reference_url", where="id=%d " % material_id)
+    return tuple(res[0])
 
 
 @st.cache_data
@@ -354,6 +357,14 @@ def get_all_default_material():
         % "True",
     )
     return res  # [a[0] for a in res]
+
+
+@st.cache_data
+def get_reference_url_from_parameter_set(parameter_set_name):
+    res = sql_material().select_one(
+        values='reference_url', where="display_name='%s'" % parameter_set_name
+    )
+    return res
 
 
 #####################################
@@ -404,8 +415,8 @@ def get_all_material_parameter_sets_by_component_id(component_id):
 
 
 @st.cache_data
-def extract_parameters_by_parameter_set_id(parameter_set_ids):
-    return sql_parameter().get_all_by_parameter_set_id(parameter_set_ids)
+def extract_parameters_by_parameter_set_id(parameter_set_id):
+    return sql_parameter().get_all_by_parameter_set_id(parameter_set_id)
 
 
 @st.cache_data
@@ -619,26 +630,30 @@ def get_model_parameters_as_dict(model_name):
             _,
         ) = template_parameter
 
-        parameter_details = {"label": name}
+        parameter_details = {"rdfs:label": name, "@type": context_type}
         if value_type == "bool":
 
-            formatted_value_dict = {"@type": "emmo:Boolean", "hasStringData": value}
-        elif value_type == "str":
-            formatted_value_dict = {"@type": "emmo:String", "hasStringData": value}
-        elif value_type == "float":
             formatted_value_dict = {
-                "@type": "emmo:Numerical",
-                "hasNumericalData": float(value),
+                "@type": "Boolean",
+                "hasNumericalValue": int(ast.literal_eval(value)),
             }
-            parameter_details["unit"] = {
-                "label": unit_name if unit_name else unit,
-                "symbol": unit,
-                "@type": "emmo:" + unit_name if unit_name else unit,
+            parameter_details["hasNumericalPart"] = formatted_value_dict
+        elif value_type == "str":
+            formatted_value_dict = {"@type": "String", "hasStringValue": value}
+            parameter_details["hasStringPart"] = formatted_value_dict
+
+        elif value_type == "float":
+            formatted_value_dict = {"@type": "Real", "hasNumericalValue": float(value)}
+            parameter_details["hasNumericalPart"] = formatted_value_dict
+
+            parameter_details["hasMeasurementUnit"] = {
+                "hasSymbolValue": unit,
+                "@type": unit_iri if unit_iri else None,
             }
+
         else:
             assert False, "model parameter type={} not handled. name={}".format(value_type, name)
 
-        parameter_details["value"] = formatted_value_dict
         model_quantitative_properties.append(parameter_details)
 
     return model_quantitative_properties

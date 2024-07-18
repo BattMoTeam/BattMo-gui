@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
+         "thickness": 0.000195,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
@@ -165,7 +165,7 @@
    "G": [],
    "SOC": 0.01,
    "initT": 298.15,
-   "use_thermal": true,
+   "use_thermal": false,
    "include_current_collectors": false,
    "Control": {
       "controlPolicy": "CCCV",
