@@ -44,6 +44,9 @@ if "response" not in st.session_state:
 if "upload" not in st.session_state:
     st.session_state.upload = None
 
+if "clear_upload" not in st.session_state:
+    st.session_state.clear_upload = None
+
 if "theme" not in st.session_state:
     st.session_state.theme = None
 

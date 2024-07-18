@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 8.499999999999999e-05,
+         "thickness": 0.000195,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
@@ -16,7 +16,7 @@
             "specificHeatCapacity": 632.0,
             "thermalConductivity": 1.04,
             "Interface": {
-               "saturationConcentration": 30555.0,
+               "saturationConcentration": 29583.0,
                "volumetricSurfaceArea": 383959.0,
                "density": 2260.0,
                "numberOfElectronsTransferred": 1,
@@ -27,7 +27,7 @@
                "chargeTransferCoefficient": 0.5,
                "openCircuitPotential": {
                   "type": "function",
-                  "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))",
+                  "functionname": "computeOCP_Graphite_SiOx_Chen2020",
                   "argumentlist": [
                      "c",
                      "cmax"
@@ -152,12 +152,8 @@
          ]
       },
       "compnames": [
-         {
-            "value": "Li"
-         },
-         {
-            "value": "PF6"
-         }
+         "Li",
+         "PF6"
       ],
       "species": {
          "chargeNumber": 1,

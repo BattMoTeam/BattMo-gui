@@ -9,11 +9,12 @@ import json
 import app_access
 
 
-def get_dict_from_has_quantitative(has_quantitative):
+def get_dict_from_has_quantitative(has_quantitative, give_references=False):
     """
     Simplifies json ld dict to increase readability in this file
     """
     new_dict = {}
+    reference_list = []
 
     for item in has_quantitative:
 
@@ -27,6 +28,11 @@ def get_dict_from_has_quantitative(has_quantitative):
                         "value": item.get("hasNumericalPart", {}).get("hasNumericalValue"),
                         "unit": item.get("hasMeasurementUnit", {}).get("hasSymbolValue"),
                     }
+                    if "schema:citation" in item:
+                        reference = item["schema:citation"]["@id"]
+                        new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                        if reference not in reference_list:
+                            reference_list.append(reference)
 
                 elif item_value_type == "Boolean":
                     new_dict[item.get("rdfs:label")] = {
@@ -38,24 +44,30 @@ def get_dict_from_has_quantitative(has_quantitative):
                 item_value_type = item.get("hasStringPart", {}).get("@type", None)
                 if item_value_type:
 
-                    if "Expression" in item_value_type:
+                    if item.get("@type") != None and "Expression" in item.get("@type"):
 
-                        variables = item.get("hasVariable")
-                        # variables_list = [
-                        #     variable["hasSymbolValue"] for variable in variables
-                        # ]
-                        variables_list = variables
                         new_dict[item.get("rdfs:label")] = {
                             "value": item.get("hasStringPart", {}).get("hasStringValue"),
-                            "variable": variables_list,
+                            "variable": item.get("hasVariable"),
                             "unit": item.get("hasMeasurementUnit", {}).get("hasSymbolValue"),
                         }
+
+                        if "schema:citation" in item:
+                            reference = item["schema:citation"]["@id"]
+                            new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                            if reference not in reference_list:
+                                reference_list.append(reference)
 
                     elif item_value_type == "String":
                         new_dict[item.get("rdfs:label")] = {
                             "value": item.get("hasStringPart", {}).get("hasStringValue")
                         }
 
+                        if "schema:citation" in item:
+                            reference = item["schema:citation"]["@id"]
+                            new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                            if reference not in reference_list:
+                                reference_list.append(reference)
             else:
                 assert False, "item not handled. {}".format(item)
 
@@ -147,36 +159,60 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
 
         st.error("This cycling protocol is not handled yet.")
 
-    if "functionname" in json_ld.ne.am["open_circuit_potential"].get("value"):
+    if (
+        "functionname" in json_ld.ne.am["open_circuit_potential"].get("value")
+        and json_ld.ne.am["open_circuit_potential"].get("value")["functionname"] != None
+    ):
         ne_am_function = "functionname"
-    elif "function" in json_ld.ne.am["open_circuit_potential"].get("value"):
+    elif (
+        "function" in json_ld.ne.am["open_circuit_potential"].get("value")
+        and json_ld.ne.am["open_circuit_potential"].get("value")["function"] != None
+    ):
         ne_am_function = "function"
     # elif "functionname" in json_ld.ne.am["open_circuit_potential"]:
     #     ne_am_function = "functionname"
     else:
         ne_am_function = None
 
-    if "functionname" in json_ld.pe.am["open_circuit_potential"].get("value"):
+    if (
+        "functionname" in json_ld.pe.am["open_circuit_potential"].get("value")
+        and json_ld.pe.am["open_circuit_potential"].get("value")["functionname"] != None
+    ):
         pe_am_function = "functionname"
-    elif "function" in json_ld.pe.am["open_circuit_potential"].get("value"):
+    elif (
+        "function" in json_ld.pe.am["open_circuit_potential"].get("value")
+        and json_ld.pe.am["open_circuit_potential"].get("value")["function"] != None
+    ):
         pe_am_function = "function"
     # elif "functionname" in json_ld.pe.am["open_circuit_potential"]:
     #     pe_am_function = "functionname"
     else:
         pe_am_function = None
 
-    if "functionname" in json_ld.elyte_mat["conductivity"].get("value"):
+    if (
+        "functionname" in json_ld.elyte_mat["conductivity"].get("value")
+        and json_ld.elyte_mat["conductivity"].get("value")["functionname"] != None
+    ):
         elyte_cond_function = "functionname"
-    elif "function" in json_ld.elyte_mat["conductivity"].get("value"):
+    elif (
+        "function" in json_ld.elyte_mat["conductivity"].get("value")
+        and json_ld.elyte_mat["conductivity"].get("value")["function"] != None
+    ):
         elyte_cond_function = "function"
     # elif "functionname" in json_ld.elyte_mat["conductivity"]:
     #     elyte_cond_function = "functionname"
     else:
         elyte_cond_function = None
 
-    if "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
+    if (
+        "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
+        and json_ld.elyte_mat["diffusion_coefficient"].get("value")["functionname"] != None
+    ):
         elyte_diff_function = "functionname"
-    elif "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value"):
+    elif (
+        "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
+        and json_ld.elyte_mat["diffusion_coefficient"].get("value")["function"] != None
+    ):
         elyte_diff_function = "function"
     # elif "functionname" in json_ld.elyte_mat["diffusion_coefficient"]:
     #     elyte_diff_function = "functionname"
@@ -239,8 +275,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                                 "value"
                             )[ne_am_function],
                             "argumentlist": json_ld.ne.am.get("open_circuit_potential").get(
-                                "value"
-                            )["argument_list"],
+                                "variable"
+                            ),
                         },
                     },
                     "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
@@ -342,8 +378,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                                 "value"
                             )[pe_am_function],
                             "argumentlist": json_ld.pe.am.get("open_circuit_potential").get(
-                                "value"
-                            )["argument_list"],
+                                "variable"
+                            ),
                         },
                     },
                     "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
@@ -415,20 +451,18 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 elyte_cond_function: json_ld.elyte_mat.get("conductivity").get("value")[
                     elyte_cond_function
                 ],
-                "argumentlist": json_ld.elyte_mat.get("conductivity").get("value")["argument_list"],
+                "argumentlist": json_ld.elyte_mat.get("conductivity").get("variable"),
             },
             "diffusionCoefficient": {
                 "type": "function",
                 elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient").get("value")[
                     elyte_diff_function
                 ],
-                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient").get("value")[
-                    "argument_list"
-                ],
+                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient").get("variable"),
             },
             "compnames": [
-                json_ld.elyte_mat.get("charge_carrier_name"),
-                json_ld.elyte_mat.get("counter_ion_name"),
+                json_ld.elyte_mat.get("charge_carrier_name").get("value"),
+                json_ld.elyte_mat.get("counter_ion_name").get("value"),
             ],
             "species": {
                 "chargeNumber": json_ld.elyte_mat.get("charge_carrier_charge_number").get("value"),

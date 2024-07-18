@@ -465,9 +465,24 @@ class SetupLinkedDataStruct:
                 }
 
             elif isinstance(parameter, FunctionParameter):
+
+                if "functionname" in parameter.selected_value:
+                    functionname = parameter.selected_value["functionname"]
+
+                else:
+                    functionname = None
+
+                if "function" in parameter.selected_value:
+                    function = parameter.selected_value["function"]
+                else:
+                    function = None
+
                 formatted_value_dict = {
                     _self.type: "String",
-                    _self.hasStringValue: parameter.selected_value,
+                    _self.hasStringValue: {
+                        "functionname": functionname,
+                        "function": function,
+                    },
                 }
 
                 variable_dict = parameter.selected_value["argument_list"]
@@ -698,10 +713,8 @@ class SetTabs:
         self.formatter = FormatParameters()
 
         # File input feature
-        self.info = (
-            "Upload here your JSON input parameter file to automatically fill the parameter inputs."
-        )
-        self.help = "Check the documentation for the correct format. A link to the documentation can be found on the 'Introduction' page."
+        self.info = "Upload here your JSON LD input parameter file to automatically fill the parameter inputs."
+        self.help = "You can only upload the JSON LD format"
 
         # Initialize tabs
         self.title = "Parameters"
@@ -725,7 +738,7 @@ class SetTabs:
         self.user_input = self.LD.setup_linked_data_dict(self.model_id, self.model_name)
 
         # Create file input
-        self.set_file_input()
+        self.uploaded_input_dict = self.set_file_input()
 
         # Fill tabs
         self.set_tabs()
@@ -733,54 +746,63 @@ class SetTabs:
     def set_title(self):
         st.markdown("### " + self.title)
 
-    def set_sessions_state_upload_true(self):
-        st.session_state.upload = True
+    def set_sessions_state_upload(self):
+        st.session_state.clear_upload = False
 
-    def set_sessions_state_upload_false(self):
+        # st.session_state.upload = True
+
+    def set_sessions_state_clear_upload(self):
         st.session_state.upload = False
+        st.session_state.clear_upload = True
 
     def set_file_input(self):
         """Function that create a file input at the Simulation page"""
 
-        upload, update = st.columns((3, 1))
-        uploaded_file = upload.file_uploader(
-            self.info,
-            type="json",
-            help=self.help,
-            # on_change=self.set_sessions_state_upload_true,
-        )
+        # upload_col, update_col = st.columns((3, 1))
+        # uploaded_file = st.file_uploader(
+        #     self.info,
+        #     type="json",
+        #     help=self.help,
+        #     on_change=self.set_sessions_state_upload,
+        #     # on_change=self.set_sessions_state_upload_true,
+        # )
+        uploaded_file = None
 
         if uploaded_file:
+            if st.session_state.clear_upload == False:
 
-            st.session_state.upload = True
+                st.session_state.upload = True
 
-            uploaded_file = uploaded_file.read()
-            uploaded_file_dict = json.loads(uploaded_file)
-            # uploaded_file_str = str(uploaded_file_dict)
+                uploaded_file = uploaded_file.read()
+                uploaded_file_dict = json.loads(uploaded_file)
+                # uploaded_file_str = str(uploaded_file_dict)
 
-            with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
-                json.dump(uploaded_file_dict, outfile, indent=3)
+                with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
+                    json.dump(uploaded_file_dict, outfile, indent=3)
 
-            # gui_formatted_dict = match_json_upload.GuiInputFormatting(
-            #     self.model_name
-            # ).gui_dict
+                uploaded_input_dict = match_json_LD.GuiDict(uploaded_file_dict)
 
-            # with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
-            #     json.dump(gui_formatted_dict, outfile, indent=3)
+                # gui_formatted_dict = match_json_upload.GuiInputFormatting(
+                #     self.model_name
+                # ).gui_dict
 
-            st.success(
-                "Your file is succesfully uploaded. Click on the 'CLEAR' button if you want to reset the parameters to the default values again."
-            )
+                # with open(app_access.get_path_to_gui_formatted_input(), "w") as outfile:
+                #     json.dump(gui_formatted_dict, outfile, indent=3)
 
+                st.success(
+                    "Your file is succesfully uploaded. Click on the 'CLEAR' button if you want to reset the parameters to the default values again."
+                )
+            else:
+                uploaded_input_dict = None
         else:
-            st.session_state.upload = False
+            uploaded_input_dict = None
 
-        update.text(" ")
-        update.text(" ")
+        # update_col.text(" ")
+        # update_col.text(" ")
 
-        update.button("CLEAR", on_click=self.set_sessions_state_upload_false)
+        # st.button("CLEAR", on_click=self.set_sessions_state_clear_upload, use_container_width=True)
 
-        st.write(st.session_state.upload)
+        return uploaded_input_dict
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
@@ -1710,11 +1732,28 @@ class SetTabs:
 
         return category_parameters
 
-    def ud_set_select(self, key_select, key_input_number, material, parameter, user_interaction):
-        selected_parameter_set = st.session_state[key_select]
-        parameter_set_id = material.options.get(selected_parameter_set).parameter_set_id
-        st.session_state[key_input_number] = parameter.options.get(parameter_set_id).value
-        st.session_state[user_interaction] = False
+    def ud_set_select(
+        self, key_select, key_input_number, material, parameter, user_interaction, key_arg=None
+    ):
+        if key_arg:
+            selected_parameter_set = st.session_state[key_select]
+            parameter_set_id = material.options.get(selected_parameter_set).parameter_set_id
+            st.session_state[key_input_number] = str(
+                parameter.options.get(parameter_set_id).value["function"]
+            )
+            st.session_state[key_arg] = self.create_string_from_list(
+                parameter.options.get(parameter_set_id).value["argument_list"]
+            )
+            st.session_state[user_interaction] = False
+        else:
+            selected_parameter_set = st.session_state[key_select]
+            parameter_set_id = material.options.get(selected_parameter_set).parameter_set_id
+            st.session_state[key_input_number] = parameter.options.get(parameter_set_id).value
+            st.session_state[user_interaction] = False
+
+    @st.cache_data
+    def create_string_from_list(_self, list):
+        return ','.join(list)
 
     def fill_user_defined_expander(
         self,
@@ -1752,6 +1791,7 @@ class SetTabs:
                 key_select = "ud_select_{}_{}".format(component_id, parameter_id)
                 key_input_number = "ud_input_number_{}_{}".format(component_id, parameter_id)
                 user_interaction = 'ud_number_input_changed_by_user_{}'.format(parameter_id)
+                key_list = list(sub_formatted_material.keys())
 
                 if key_select not in st.session_state:
                     keys = list(sub_formatted_material.keys())
@@ -1765,6 +1805,19 @@ class SetTabs:
                 if user_interaction not in st.session_state:
                     st.session_state[user_interaction] = False
 
+                # if st.session_state.upload == True:
+                #     self.uploaded_input_dict.
+
+                #     if uploaded_reference:
+
+                #         self.use_uploaded_dataset(sub_formatted_material,"reference_url", key_list, uploaded_reference, key_select)
+
+                #     else:
+                #         self.use_uploaded_dataset(sub_formatted_material, "display_names", key_list, "User defined", )
+
+                elif st.session_state.upload == False and st.session_state.clear_upload == True:
+                    st.session_state[key_select] = key_list[0]
+
                 if not isinstance(parameter, FunctionParameter):
 
                     if isinstance(parameter, StrParameter):
@@ -1772,12 +1825,42 @@ class SetTabs:
                             "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                         )
 
+                        select_col, value_col = ex.columns((1.5, 2))
+                        selected_parameter_set = select_col.selectbox(
+                            label=parameter.name,
+                            options=key_list,
+                            key=key_select,
+                            on_change=self.ud_set_select,
+                            args=(
+                                key_select,
+                                key_input_number,
+                                formatted_material,
+                                parameter,
+                                user_interaction,
+                            ),
+                            label_visibility="collapsed",
+                            format_func=lambda x: sub_formatted_material.get(x).display_name,
+                        )
+
                         user_input = value_col.text_input(
                             label=parameter.name,
-                            value=parameter_options.value,
-                            key="input_{}_{}".format(category_id, parameter.id),
+                            value=parameter.options.get(st.session_state[key_select]).value,
+                            key=key_input_number,
+                            on_change=set_number_input,
+                            args=(
+                                parameter.options.get(selected_parameter_set).value,
+                                key_input_number,
+                                user_interaction,
+                            ),
                             label_visibility="collapsed",
                         )
+
+                        if st.session_state[user_interaction] == False:
+                            reference_url = db_helper.get_reference_url_from_parameter_set(
+                                formatted_material.options.get(selected_parameter_set).display_name
+                            )
+                        else:
+                            reference_url = None
 
                     else:
 
@@ -1833,200 +1916,339 @@ class SetTabs:
 
                 elif isinstance(parameter, FunctionParameter):
 
+                    key_input_function = "ud_input_function_{}_{}".format(
+                        component_id, parameter_id
+                    )
+                    user_interaction_function = 'ud_function_input_changed_by_user_{}'.format(
+                        parameter_id
+                    )
+                    key_input_args = "ud_input_args_{}_{}".format(component_id, parameter_id)
+                    user_interaction_args = 'ud_args_input_changed_by_user_{}'.format(parameter_id)
+
+                    if key_input_function not in st.session_state:
+                        st.session_state[key_input_function] = str(
+                            parameter.options.get(st.session_state[key_select]).value["function"]
+                        )
+
+                    if user_interaction_function not in st.session_state:
+                        st.session_state[user_interaction_function] = False
+
+                    if key_input_args not in st.session_state:
+                        st.session_state[key_input_args] = self.create_string_from_list(
+                            parameter.options.get(st.session_state[key_select]).value[
+                                "argument_list"
+                            ]
+                        )
+
+                    if user_interaction_args not in st.session_state:
+                        st.session_state[user_interaction_args] = False
+
                     st.divider()
                     st.write("[{}]({})".format(parameter.display_name, parameter.context_type_iri))
 
-                    if (
-                        component_name == "negative_electrode_active_material"
-                        or component_name == "positive_electrode_active_material"
-                    ):
+                    selected_parameter_set = st.selectbox(
+                        label=parameter.name,
+                        options=list(sub_formatted_material.keys()),
+                        key=key_select,
+                        on_change=self.ud_set_select,
+                        args=(
+                            key_select,
+                            key_input_function,
+                            formatted_material,
+                            parameter,
+                            user_interaction,
+                            key_input_args,
+                        ),
+                        label_visibility="collapsed",
+                        format_func=lambda x: sub_formatted_material.get(x).display_name,
+                    )
 
-                        ref_ocp = "ref_ocp_{}".format(component_id)
-                        variables = "variables_{}".format(component_id)
+                    info = st.toggle(
+                        label="OCP guidelines",
+                        key="toggle_{}_{}".format(component_id, parameter_id),
+                    )
+                    if info:
+                        parameters_col, language_col = ex.columns(2)
+                        language_col.markdown(
+                            r"""
+                                **Allowed language**
+                                - Use '^' to indicate a superscript
+                                - Use '*' to indicate a multiplication
+                                - Use 'exp(a)' to indicate an exponential with power a
+                                - Use 'tanh()' for hyperbolic tangent
+                                - Use '/' for dividing
 
-                        if variables not in st.session_state:
-
-                            st.session_state[variables] = r"c,cmax"
-                        if ref_ocp not in st.session_state:
-                            if component_name == "negative_electrode_active_material":
-                                st.session_state[ref_ocp] = (
-                                    r"""1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"""
-                                )
-                            elif component_name == "positive_electrode_active_material":
-                                st.session_state[ref_ocp] = (
-                                    r"""-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))"""
-                                )
-
-                        info = ex.toggle(
-                            label="OCP guidelines",
-                            key="toggle_{}".format(component_id),
-                        )
-                        if info:
-                            parameters_col, language_col = ex.columns(2)
-                            language_col.markdown(
-                                r"""
-                                    **Allowed language**
-                                    - Use '^' to indicate a superscript
-                                    - Use '*' to indicate a multiplication
-                                    - Use 'exp(a)' to indicate an exponential with power a
-                                    - Use 'tanh()' for hyperbolic tangent
-                                    - Use '/' for dividing
-
-                                    """
-                            )
-
-                            parameters_col.markdown(
-                                r"""
-                                    **Allowed variables**
-                                    - Surface concentration : c
-                                    - Maximum concentration : cmax
-                                    - Temperature    : T
-                                    - Reference Temperature : refT
-                                    - State of charge: SOC
-
-
-
-                                    """
-                            )
-
-                        ex.text_input(
-                            label="OCP",
-                            value=st.session_state[ref_ocp],
-                            key=ref_ocp,
-                            label_visibility="visible",
-                        )
-                        ref_ocp_str = st.session_state[ref_ocp]
-                        func_ocpref = ex.toggle(
-                            label="Visualize OCP_ref",
-                            key="toggle_vis_{}".format(component_id),
+                                """
                         )
 
-                        if func_ocpref:
-                            # Convert the input string to a SymPy equation
-                            try:
-                                ref_ocp_str_py = ref_ocp_str.replace("^", "**")
-                                eq_ref_ocp = sp.sympify(ref_ocp_str_py)
-                                ex.latex("OCP = " + sp.latex(eq_ref_ocp))
+                        parameters_col.markdown(
+                            r"""
+                                **Allowed variables**
+                                - Surface concentration : c
+                                - Maximum concentration : cmax
+                                - Temperature    : T
+                                - Reference Temperature : refT
+                                - State of charge: SOC
 
-                            except sp.SympifyError:
-                                ex.warning(
-                                    "Invalid equation input. Please enter a valid mathematical expression."
-                                )
 
-                        ex.text_input(
-                            label="Variables (ex: c,T,refT,cmax)",
-                            value=st.session_state[variables],
-                            key=variables,
-                            label_visibility="visible",
+
+                                """
                         )
 
-                        variables_str = st.session_state[variables]
+                    user_input_func = st.text_input(
+                        label=parameter.display_name,
+                        value=str(
+                            parameter.options.get(st.session_state[key_select]).value["function"]
+                        ),
+                        key=key_input_function,
+                        on_change=set_number_input,
+                        args=(
+                            str(parameter.options.get(selected_parameter_set).value["function"]),
+                            key_input_function,
+                            user_interaction_function,
+                        ),
+                        label_visibility="visible",
+                    )
 
-                        if variables_str == "":
+                    func_ocpref = ex.toggle(
+                        label="Visualize OCP_ref",
+                        key="toggle_vis_{}_{}".format(component_id, parameter_id),
+                    )
+
+                    if func_ocpref:
+                        # Convert the input string to a SymPy equation
+                        try:
+                            ref_ocp_str_py = user_input_func.replace("^", "**")
+                            eq_ref_ocp = sp.sympify(ref_ocp_str_py)
+                            ex.latex("OCP = " + sp.latex(eq_ref_ocp))
+
+                        except sp.SympifyError:
                             ex.warning(
-                                "You haven't specified the variables your equation depends on."
+                                "Invalid equation input. Please enter a valid mathematical expression."
                             )
 
-                        else:
-                            variables_array = variables_str.split(",")
-                            # user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
-                            user_input = {
-                                "function": ref_ocp_str,
-                                "argument_list": variables_array,
-                            }
+                    user_input_arg = st.text_input(
+                        label="Variables (ex: c,T)",
+                        value=self.create_string_from_list(
+                            parameter.options.get(st.session_state[key_select]).value[
+                                "argument_list"
+                            ]
+                        ),
+                        key=key_input_args,
+                        on_change=set_number_input,
+                        args=(
+                            self.create_string_from_list(
+                                parameter.options.get(selected_parameter_set).value["argument_list"]
+                            ),
+                            key_input_args,
+                            user_interaction_args,
+                        ),
+                        label_visibility="visible",
+                    )
 
-                    if component_name == "electrolyte_materials":
+                    variables_array = user_input_arg.split(",")
 
-                        variables = "variables_{}".format(parameter_id)
+                    user_input = {
+                        "function": user_input_func,
+                        "argument_list": variables_array,
+                    }
 
-                        if variables not in st.session_state:
-
-                            st.session_state[variables] = r"c"
-
-                        if "conductivity" not in st.session_state:
-                            st.session_state.conductivity = (
-                                r"""0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)"""
-                            )
-
-                        if "diffusion_coefficient" not in st.session_state:
-                            st.session_state.diffusion_coefficient = r"""8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)"""
-
-                        info = ex.toggle(
-                            label="{} Guidelines".format(parameter.display_name),
-                            key="toggle_{}".format(parameter_id),
+                    if st.session_state[user_interaction_function] == False:
+                        reference_url = db_helper.get_reference_url_from_parameter_set(
+                            formatted_material.options.get(selected_parameter_set).display_name
                         )
-                        if info:
-                            parameters_col, language_col = ex.columns(2)
-                            language_col.markdown(
-                                r"""
-                                    **Allowed language**
-                                    - Use '^' to indicate a superscript
-                                    - Use '*' to indicate a multiplication
-                                    - Use 'exp(a)' to indicate an exponential with power a
-                                    - Use 'tanh()' for hyperbolic tangent
-                                    - Use '/' for dividing
+                    else:
+                        reference_url = None
 
-                                    """
-                            )
+                    # if (
+                    #     component_name == "negative_electrode_active_material"
+                    #     or component_name == "positive_electrode_active_material"
+                    # ):
 
-                            parameters_col.markdown(
-                                r"""
-                                    **Allowed variables**
-                                    - Surface concentration : c
-                                    - Temperature    : T
+                    #     ref_ocp = "ref_ocp_{}".format(component_id)
+                    #     variables = "variables_{}".format(component_id)
 
-                                    """
-                            )
+                    #     if variables not in st.session_state:
 
-                        # quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
+                    #         st.session_state[variables] = r"c,cmax"
+                    #     if ref_ocp not in st.session_state:
+                    #         if component_name == "negative_electrode_active_material":
+                    #             st.session_state[ref_ocp] = (
+                    #                 r"""1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"""
+                    #             )
+                    #         elif component_name == "positive_electrode_active_material":
+                    #             st.session_state[ref_ocp] = (
+                    #                 r"""-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))"""
+                    #             )
 
-                        # if quantity:
-                        ex.text_input(
-                            label="{}".format(parameter.display_name),
-                            value=st.session_state[parameter.name],
-                            key=parameter.name,
-                            label_visibility="visible",
-                        )
-                        quantity_str = st.session_state[parameter.name]
-                        func_quantity = ex.toggle(
-                            label="Visualize {}".format(parameter.display_name),
-                            key="toggle_vis_{}".format(parameter_id),
-                        )
+                    #     info = ex.toggle(
+                    #         label="OCP guidelines",
+                    #         key="toggle_{}".format(component_id),
+                    #     )
+                    #     if info:
+                    #         parameters_col, language_col = ex.columns(2)
+                    #         language_col.markdown(
+                    #             r"""
+                    #                 **Allowed language**
+                    #                 - Use '^' to indicate a superscript
+                    #                 - Use '*' to indicate a multiplication
+                    #                 - Use 'exp(a)' to indicate an exponential with power a
+                    #                 - Use 'tanh()' for hyperbolic tangent
+                    #                 - Use '/' for dividing
 
-                        if func_quantity:
-                            # Convert the input string to a SymPy equation
-                            try:
-                                quantity_str_py = quantity_str.replace("^", "**")
-                                eq_quantity = sp.sympify(quantity_str_py)
-                                ex.latex(
-                                    "{} = ".format(parameter.display_name) + sp.latex(eq_quantity)
-                                )
+                    #                 """
+                    #         )
 
-                            except sp.SympifyError:
-                                ex.warning(
-                                    "Invalid equation input. Please enter a valid mathematical expression."
-                                )
+                    #         parameters_col.markdown(
+                    #             r"""
+                    #                 **Allowed variables**
+                    #                 - Surface concentration : c
+                    #                 - Maximum concentration : cmax
+                    #                 - Temperature    : T
+                    #                 - Reference Temperature : refT
+                    #                 - State of charge: SOC
 
-                        ex.text_input(
-                            label="Variables (ex: c,T)",
-                            value=st.session_state[variables],
-                            key=variables,
-                            label_visibility="visible",
-                        )
+                    #                 """
+                    #         )
 
-                        variables_str = st.session_state[variables]
+                    #     ex.text_input(
+                    #         label="OCP",
+                    #         value=st.session_state[ref_ocp],
+                    #         key=ref_ocp,
+                    #         label_visibility="visible",
+                    #     )
+                    #     ref_ocp_str = st.session_state[ref_ocp]
+                    #     func_ocpref = ex.toggle(
+                    #         label="Visualize OCP_ref",
+                    #         key="toggle_vis_{}".format(component_id),
+                    #     )
 
-                        if variables_str == "":
-                            ex.warning(
-                                "You haven't specified the variables your equation depends on."
-                            )
+                    #     if func_ocpref:
+                    #         # Convert the input string to a SymPy equation
+                    #         try:
+                    #             ref_ocp_str_py = ref_ocp_str.replace("^", "**")
+                    #             eq_ref_ocp = sp.sympify(ref_ocp_str_py)
+                    #             ex.latex("OCP = " + sp.latex(eq_ref_ocp))
 
-                        else:
-                            variables_array = variables_str.split(",")
-                            user_input = {
-                                "function": quantity_str,
-                                "argument_list": variables_array,
-                            }
+                    #         except sp.SympifyError:
+                    #             ex.warning(
+                    #                 "Invalid equation input. Please enter a valid mathematical expression."
+                    #             )
+
+                    #     ex.text_input(
+                    #         label="Variables (ex: c,T,refT,cmax)",
+                    #         value=st.session_state[variables],
+                    #         key=variables,
+                    #         label_visibility="visible",
+                    #     )
+
+                    #     variables_str = st.session_state[variables]
+
+                    #     if variables_str == "":
+                    #         ex.warning(
+                    #             "You haven't specified the variables your equation depends on."
+                    #         )
+
+                    #     else:
+                    #         variables_array = variables_str.split(",")
+                    #         # user_input = {'@type': 'emmo:String', 'hasStringData': {'function': ref_ocp_str, 'argument_list':variables_array}}
+                    #         user_input = {
+                    #             "function": ref_ocp_str,
+                    #             "argument_list": variables_array,
+                    #         }
+
+                    # if component_name == "electrolyte_materials":
+
+                    #     variables = "variables_{}".format(parameter_id)
+
+                    #     if variables not in st.session_state:
+
+                    #         st.session_state[variables] = r"c"
+
+                    #     if "conductivity" not in st.session_state:
+                    #         st.session_state.conductivity = (
+                    #             r"""0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)"""
+                    #         )
+
+                    #     if "diffusion_coefficient" not in st.session_state:
+                    #         st.session_state.diffusion_coefficient = r"""8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)"""
+
+                    #     info = ex.toggle(
+                    #         label="{} Guidelines".format(parameter.display_name),
+                    #         key="toggle_{}".format(parameter_id),
+                    #     )
+                    #     if info:
+                    #         parameters_col, language_col = ex.columns(2)
+                    #         language_col.markdown(
+                    #             r"""
+                    #                 **Allowed language**
+                    #                 - Use '^' to indicate a superscript
+                    #                 - Use '*' to indicate a multiplication
+                    #                 - Use 'exp(a)' to indicate an exponential with power a
+                    #                 - Use 'tanh()' for hyperbolic tangent
+                    #                 - Use '/' for dividing
+
+                    #                 """
+                    #         )
+
+                    #         parameters_col.markdown(
+                    #             r"""
+                    #                 **Allowed variables**
+                    #                 - Surface concentration : c
+                    #                 - Temperature    : T
+
+                    #                 """
+                    #         )
+
+                    #     # quantity = ex.toggle(label="Create your own {} function".format(parameter.display_name), key = "toggle_quantity_{}".format(parameter_id))
+
+                    #     # if quantity:
+                    #     ex.text_input(
+                    #         label="{}".format(parameter.display_name),
+                    #         value=st.session_state[parameter.name],
+                    #         key=parameter.name,
+                    #         label_visibility="visible",
+                    #     )
+                    #     quantity_str = st.session_state[parameter.name]
+                    #     func_quantity = ex.toggle(
+                    #         label="Visualize {}".format(parameter.display_name),
+                    #         key="toggle_vis_{}".format(parameter_id),
+                    #     )
+
+                    #     if func_quantity:
+                    #         # Convert the input string to a SymPy equation
+                    #         try:
+                    #             quantity_str_py = quantity_str.replace("^", "**")
+                    #             eq_quantity = sp.sympify(quantity_str_py)
+                    #             ex.latex(
+                    #                 "{} = ".format(parameter.display_name) + sp.latex(eq_quantity)
+                    #             )
+
+                    #         except sp.SympifyError:
+                    #             ex.warning(
+                    #                 "Invalid equation input. Please enter a valid mathematical expression."
+                    #             )
+
+                    #     ex.text_input(
+                    #         label="Variables (ex: c,T)",
+                    #         value=st.session_state[variables],
+                    #         key=variables,
+                    #         label_visibility="visible",
+                    #     )
+
+                    #     variables_str = st.session_state[variables]
+
+                    #     if variables_str == "":
+                    #         ex.warning(
+                    #             "You haven't specified the variables your equation depends on."
+                    #         )
+
+                    #     else:
+                    #         variables_array = variables_str.split(",")
+                    #         user_input = {
+                    #             "function": quantity_str,
+                    #             "argument_list": variables_array,
+                    #         }
 
                 if parameter:
 
@@ -2686,6 +2908,14 @@ class SetTabs:
             all_basis_material_raw_template_parameters,
         )
 
+    def reset_clear_upload_button(self):
+        st.session_state.clear_upload = None
+
+    def use_uploaded_dataset(self, options, value_key, key_list, value, widget_key):
+        list = [options.get(key)[value_key] for key in key_list]
+        index = list.index(value)
+        st.session_state[widget_key] = key_list[index]
+
     def fill_material_components(
         self,
         component_name,
@@ -2733,8 +2963,24 @@ class SetTabs:
             material_raw_parameters,
             material_component_id,
         )
+        key_select_mat = "select_{}".format(material_component_id)
+        key_list = list(formatted_component.options.keys())
 
-        index = 0
+        if key_select_mat not in st.session_state:
+            st.session_state[key_select_mat] = key_list[0]
+
+        if st.session_state.upload == True:
+
+            self.use_uploaded_dataset(
+                formatted_component.options,
+                "display_name",
+                key_list,
+                "User defined",
+                key_select_mat,
+            )
+
+        elif st.session_state.upload == False and st.session_state.clear_upload == True:
+            st.session_state[key_select_mat] = key_list[0]
         ### Use this perhaps when input file utility is implemented #############
         # if st.session_state.upload:
         #     uploaded_id = self.uploaded_input[component_name]
@@ -2743,12 +2989,11 @@ class SetTabs:
 
         selected_value_id = material_col.selectbox(
             label="[{}]({})".format(formatted_component.name, formatted_component.context_type_iri),
-            options=list(formatted_component.options.keys()),
-            index=index,
-            key="select_{}".format(material_component_id),
+            options=key_list,
+            key=key_select_mat,
             label_visibility="collapsed",
             format_func=lambda x: formatted_component.options.get(x).display_name,
-            # on_change=reset_func,
+            on_change=self.reset_clear_upload_button,
             # args=(material_component_id, material_parameter_set_id, formatted_component)
         )
 
@@ -3069,6 +3314,7 @@ class SetTabs:
                 continue
 
             if isinstance(parameter, NumericalParameter):
+
                 name_col.write(
                     "[{}]({}) / [{}]({})".format(
                         parameter.display_name,
@@ -3077,6 +3323,7 @@ class SetTabs:
                         parameter.unit_iri,
                     )
                 )
+                name_col.text(" ")
 
                 user_input = input_col.number_input(
                     label=parameter.name,
@@ -3937,30 +4184,78 @@ class DownloadParameters:
 
     def update_on_click(self, headline, description, creator):
 
-        self.update_json_LD(headline, description, creator)
+        # self.update_json_LD(headline, description, creator)
         self.update_json_battmo_input()
 
         # st.session_state.update_par = True
 
         # save_run.success("Your parameters are saved! Run the simulation to get your results.")
 
-    def update_json_LD(self, headline, description, creator):
+    def collect_unique_references(self, LD_dict):
 
-        path_to_battmo_input = app_access.get_path_to_linked_data_input()
+        gui_dict = match_json_LD.GuiDict(LD_dict)
+        dict_list = [
+            gui_dict.ne.am,
+            gui_dict.ne.binder,
+            gui_dict.ne.add,
+            gui_dict.pe.am,
+            gui_dict.pe.binder,
+            gui_dict.pe.add,
+            gui_dict.elyte_mat,
+            gui_dict.sep_mat,
+        ]
+
+        reference_list = []
+        reference_dict = {}
+
+        for sub_dict in dict_list:
+            for key, value in sub_dict.items():
+                if "reference_url" in value:
+                    reference = value["reference_url"]
+                    if reference not in reference_list:
+                        reference_list.append(reference)
+
+        reference_dict["@id"] = reference_list
+
+        return reference_dict
+
+    def setup_gui_schema(self, headline, description, creator):
+
+        # path_to_battmo_input = app_access.get_path_to_linked_data_input()
 
         parameters = self.gui_parameters
+
+        isBasedOn = self.collect_unique_references(parameters)
+
+        schema = {}
+
+        schema["@context"] = parameters["@context"]
+        schema["@graph"] = {}
+        schema["@graph"]["@id"] = parameters["@graph"]["@id"]
+        schema["@graph"]["@type"] = parameters["@graph"]["@type"]
+
+        if isBasedOn:
+            schema["@graph"]["schema:isBasedOn"] = isBasedOn
+
         if headline:
-            parameters["@graph"]["schema:headline"] = headline
+            schema["@graph"]["schema:headline"] = headline
         if description:
-            parameters["@graph"]["schema:description"] = description
+            schema["@graph"]["schema:description"] = description
         if len(creator[0]):
-            parameters["@graph"]["schema:creator"] = creator
+            schema["@graph"]["schema:creator"] = creator
+
+        schema["@graph"]["hasElectrode"] = parameters["@graph"]["hasElectrode"]
+        schema["@graph"]["hasElectrolyte"] = parameters["@graph"]["hasElectrolyte"]
+        schema["@graph"]["hasSeparator"] = parameters["@graph"]["hasSeparator"]
+        schema["@graph"]["hasBatteryCell"] = parameters["@graph"]["hasBatteryCell"]
+        schema["@graph"]["hasBoundaryConditions"] = parameters["@graph"]["hasBoundaryConditions"]
+        schema["@graph"]["hasCyclingProcess"] = parameters["@graph"]["hasCyclingProcess"]
 
         # save formatted parameters in json file
-        with open(path_to_battmo_input, "w") as new_file:
-            json.dump(parameters, new_file, indent=3)
+        # with open(path_to_battmo_input, "w") as new_file:
+        #     json.dump(parameters, new_file, indent=3)
 
-        st.session_state.gui_schema = json.dumps(parameters, indent=3)
+        return json.dumps(schema, indent=3)
 
     def update_json_battmo_input(self):
 
@@ -3986,12 +4281,13 @@ class DownloadParameters:
 
             with popover:
 
-                st.markdown("###### " + "Schema headline")
-                headline = st.text_input(label="headline", label_visibility="collapsed")
-
+                # st.markdown("###### " + "Schema headline")
+                # headline = st.text_input(label="headline", label_visibility="collapsed")
+                headline = None
                 st.markdown("###### " + "Schema description")
                 description = st.text_input(label="description", label_visibility="collapsed")
 
+                cola, colb = st.columns(2)
                 st.markdown("###### " + "Schema creators")
                 col1, col2 = st.columns(2)
                 col1.markdown("Number of creators")
@@ -4019,11 +4315,12 @@ class DownloadParameters:
                             key="creator_id_{}".format(i + 1),
                         )
 
-                        aff_name = st.text_input(
-                            label="Affiliation",
-                            label_visibility="visible",
-                            key="aff_name_{}".format(i + 1),
-                        )
+                        aff_name = None
+                        # aff_name = st.text_input(
+                        #     label="Affiliation",
+                        #     label_visibility="visible",
+                        #     key="aff_name_{}".format(i + 1),
+                        # )
 
                         creator_temp = {}
                         if name or orcid or aff_name:
@@ -4039,14 +4336,11 @@ class DownloadParameters:
 
                         creator.append(creator_temp)
 
-                    self.update_json_LD(headline, description, creator)
-
                 st.download_button(
                     label="Download",
-                    on_click=self.update_on_click,
                     use_container_width=True,
                     args=(headline, description, creator),
-                    data=st.session_state.gui_schema,
+                    data=self.setup_gui_schema(headline, description, creator),
                     file_name=self.gui_file_name,
                     mime=self.file_mime_type,
                 )
