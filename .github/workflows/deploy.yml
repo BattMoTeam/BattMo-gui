@@ -42,7 +42,7 @@ jobs:
           echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H  ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Test SSH Connection
-        run: ssh -o StrictHostKeyChecking=no ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
+        run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
       - name: Login to Registry
         run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin
       - name: Pull and Run Containers
