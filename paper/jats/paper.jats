@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.2 20190208//EN"
+                  "JATS-publishing1.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" dtd-version="1.2" article-type="other">
+<front>
+<journal-meta>
+<journal-id></journal-id>
+<journal-title-group>
+<journal-title>Journal of Open Source Software</journal-title>
+<abbrev-journal-title>JOSS</abbrev-journal-title>
+</journal-title-group>
+<issn publication-format="electronic">2475-9066</issn>
+<publisher>
+<publisher-name>Open Journals</publisher-name>
+</publisher>
+</journal-meta>
+<article-meta>
+<article-id pub-id-type="publisher-id">0</article-id>
+<article-id pub-id-type="doi">N/A</article-id>
+<title-group>
+<article-title>BattMoApp: A Web-Based application for running cell-level
+battery simulations</article-title>
+</title-group>
+<contrib-group>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">https://orcid.org/0009-0006-9621-6122</contrib-id>
+<name>
+<surname>Hendrix</surname>
+<given-names>Lorena</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<name>
+<surname>Bolzinger</surname>
+<given-names>Oscar</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">https://orcid.org/0000-0002-8758-6109</contrib-id>
+<name>
+<surname>Clark</surname>
+<given-names>Simon</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">https://orcid.org/0000-0003-2954-1233</contrib-id>
+<name>
+<surname>Flores</surname>
+<given-names>Eibar</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<aff id="aff-1">
+<institution-wrap>
+<institution>SINTEF Industry, Norway</institution>
+</institution-wrap>
+</aff>
+</contrib-group>
+<pub-date date-type="pub" publication-format="electronic" iso-8601-date="2024-08-14">
+<day>14</day>
+<month>8</month>
+<year>2024</year>
+</pub-date>
+<volume>¿VOL?</volume>
+<issue>¿ISSUE?</issue>
+<fpage>¿PAGE?</fpage>
+<permissions>
+<copyright-statement>Authors of papers retain copyright and release the
+work under a Creative Commons Attribution 4.0 International License (CC
+BY 4.0)</copyright-statement>
+<copyright-year>2022</copyright-year>
+<copyright-holder>The article authors</copyright-holder>
+<license license-type="open-access" xlink:href="https://creativecommons.org/licenses/by/4.0/">
+<license-p>Authors of papers retain copyright and release the work under
+a Creative Commons Attribution 4.0 International License (CC BY
+4.0)</license-p>
+</license>
+</permissions>
+<kwd-group kwd-group-type="author">
+<kwd>BattMo</kwd>
+<kwd>Python</kwd>
+<kwd>Julia</kwd>
+<kwd>graphical user interface</kwd>
+<kwd>battery simulations</kwd>
+<kwd>PXD model</kwd>
+<kwd>Streamlit</kwd>
+<kwd>Genie</kwd>
+</kwd-group>
+</article-meta>
+</front>
+<body>
+<sec id="summary">
+  <title>Summary</title>
+  <p>BattMoApp is a web-based application built upon the command-line
+  based battery modelling software, BattMo. It features a user-friendly
+  graphical interface that simplifies the simulation of battery cells.
+  The development of BattMoApp has been centered on accessibility,
+  intuitiveness, and usability, with the aim of making it a practical
+  and valuable tool for both educational and research purposes in the
+  battery field. Its design allows users to simulate, obtain, analyze,
+  and compare results within just a few minutes. While BattMoApp
+  leverages a small yet crucial portion of BattMo’s capabilities, its
+  intuitive and explanatory design also makes it an ideal starting point
+  for those looking to explore the more comprehensive and complex BattMo
+  software.</p>
+</sec>
+<sec id="statement-of-need">
+  <title>Statement of need</title>
+  <p>The Battery Modelling Toolbox (BattMo) is a framework for continuum
+  modeling of electrochemical devices. Built primarily in Matlab, it
+  offers a pseudo X-dimensional (PXD) framework for the
+  Doyle-Fuller-Newman model of lithium-ion battery cells. Additionally,
+  extensions for other battery chemistries and hydrogen systems are in
+  development. BattMo provides a flexible framework for creating fully
+  coupled electrochemical-thermal simulations of electrochemical devices
+  using 1D, 2D, or 3D geometries. Besides the Matlab toolbox, the
+  framework is also being developed in Julia to leverage increased
+  simulation speed and the non-proprietary nature of Julia.</p>
+  <p>The primary objective of BattMoApp is to overcome common barriers
+  associated with using battery modelling software. These barriers often
+  arise from resource limitations, as many available software options
+  are proprietary. Another challenge could be the complexity of using
+  the software, whether due to a complicated graphical user interface or
+  the difficulty of coding with command-line based software. While
+  BattMo is open-source, its command-line interface may pose a hurdle
+  for experimental researchers not familiar with coding, seeking to
+  complement their lab work with simulations. BattMoApp, offering an
+  accessible and intuitive graphical user interface, has the potential
+  to reduce these barriers.</p>
+  <p>BattMoApp builds upon the P2D model implemented in the Julia
+  version of BattMo. The development of BattMoApp has focused on
+  accessibility, intuitiveness, and usability. Users can quickly and
+  easily obtain results using the default input parameter sets available
+  in the application or input their own values in a straightforward
+  manner. The results can be easily analyzed and compared using the
+  predefined plots that can handle multiple sets of simulation results.
+  Users can also download their results and later upload them back into
+  the application to review. Furthermore, significant effort has been
+  made to ensure the parameters are realistic for both computational
+  research and lab use, making it easier for experimentalists to fulfill
+  the necessary inputs.</p>
+  <p>Another important aspect, besides accessibility, intuitiveness, and
+  usability, is interoperability. To ensure that the data used in the
+  simulation is inter-operable, the selected data format adheres to the
+  FAIR principles and the 5-star open data guidelines. The data entered
+  by the user is automatically formatted into a JSON Linked Data (LD)
+  format which includes all the semantic metadata along with the actual
+  data. This semantic data connects the actual data to the ontology
+  documentations, EMMO and BattINFO, which contain descriptions of the
+  linked data definitions. With this, the JSON LD format eliminates any
+  confusion about definitions. If the user wishes to publish their
+  results, they can include the JSON LD file in their publication,
+  allowing anyone seeking to replicate the results to simply upload the
+  JSON LD file into BattMoApp and obtain the anticipated results.</p>
+  <p>The documentation of BattMoApp includes an overview on what the
+  application has to offer and a troubleshooting section that provides
+  insights into the relationship between input parameters and results.
+  As BattMoApp is designed to be informative and explanatory, it can
+  also be a powerful tool for educational purposes, helping students
+  understand batteries, battery modelling, and the impact of material
+  and cell design parameters on battery cell performance.</p>
+</sec>
+<sec id="technical-setup">
+  <title>Technical setup</title>
+  <p>The application consists of two main components: the graphical user
+  interface (GUI), which includes the frontend, a database, and the
+  backend that provides the frontend’s functionality, and the
+  application programming interface (API) that runs the BattMo software
+  in the background. These two components are isolated from each other,
+  each running in its own Docker container.</p>
+  <sec id="battmo-gui">
+    <title>BattMo GUI</title>
+    <p>The frontend is Python-based and developed using the Streamlit
+    framework. Streamlit was chosen because it is easy to use and does
+    not require experience with JavaScript and CSS, while still offering
+    the flexibility needed for BattMoApp. The backend, also written in
+    Python, supports the frontend’s functionality. The database that
+    supports both the frontend and backend is created using the sqlite3
+    Python package.</p>
+  </sec>
+  <sec id="battmo-api">
+    <title>BattMo API</title>
+    <p>Integrating Julia, a pre-compiled language, with Python, a
+    runtime language, to form a smoothly running and stable application
+    turned out to be complex. Therefore, a Julia-based API was created
+    and containerized within a separate Docker container, isolating it
+    from the BattMo GUI. This separation ensures that the Julia and
+    Python components do not interfere with each other. The framework
+    used for creating the API is Genie. Within the BattMo API’s docker
+    image a system image of BattMo’s pre-compilation is created to
+    ensure an instantanious API response.</p>
+  </sec>
+</sec>
+<sec id="examples">
+  <title>Examples</title>
+  <p>The following figures show screenshots of the ‘Simulation’ page and
+  the ‘Results’ page of the application. On the ‘Simulation’ page, the
+  input parameters can be defined, the cell geometry can be visualized,
+  and a simulation can be initiated. On the ‘Results’ page, the results
+  of the simulation can be visualized using the predefined plots. For
+  the shown results in figure
+  <xref alt="[fig:results]" rid="figU003Aresults">[fig:results]</xref>,
+  two simulations were run using the default parameters sets from Chen
+  et al. One with smaller negative and positive electrode coating
+  thicknesses, and one with bigger negative and positive electrode
+  coating thicknesses.</p>
+  <fig>
+    <caption><p>A screenshot of the Simulation page.
+    <styled-content id="figU003Asimulation"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="BattMo_Simulation.png" />
+  </fig>
+  <fig>
+    <caption><p>A screenshot of the Results page.
+    <styled-content id="figU003Aresults"></styled-content></p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="BattMo_Results.png" />
+  </fig>
+</sec>
+<sec id="future-work">
+  <title>Future work</title>
+  <p>While BattMoApp has reached a matured state and provides a valuable
+  design for P2D simulations, there are still endless possibilities in
+  its development. The development of BattMoApp will go alongside the
+  development of BattMo.jl so that in the future additional simulation
+  models as well as other features like paramatrization can be
+  integrated in the application. BattMoApp will continuou seeking
+  feedback from its target audiences to keep improving its usability and
+  practicality. Furthermore, more effort will be put into improving its
+  performance and stability when having multiple users.</p>
+</sec>
+<sec id="installation-and-contribution">
+  <title>Installation and contribution</title>
+  <p><monospace>BattMoApp</monospace> can easily be used online at the
+  following address: app.batterymodel.com. Furthermore, it can be
+  locally installed using Docker. The Docker images and a detailed
+  instruction on how to install <monospace>BattMoApp</monospace> locally
+  can be found in the Github repository.</p>
+</sec>
+<sec id="acknowledgements">
+  <title>Acknowledgements</title>
+  <p>BattMo has received funding from the European Union’s Horizon 2020
+  innovation program under grant agreement numbers:</p>
+  <list list-type="bullet">
+    <list-item>
+      <p>875527 HYDRA</p>
+    </list-item>
+    <list-item>
+      <p>957189 BIG-MAP</p>
+    </list-item>
+  </list>
+</sec>
+</body>
+<back>
+</back>
+</article>
