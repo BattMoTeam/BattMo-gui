@@ -5,8 +5,8 @@
    "material": true,
    "model_name": ["P2D", "P3D"],
    "Parameters": {
-      "density":  1,
-      "specific_heat_capacity": 1,
+      "density":  100,
+      "specific_heat_capacity": 100,
       "thermal_conductivity": 1
       
    }

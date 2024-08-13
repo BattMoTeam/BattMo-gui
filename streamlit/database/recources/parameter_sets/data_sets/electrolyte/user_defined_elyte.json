@@ -7,21 +7,23 @@
    "Parameters": {
       "specific_heat_capacity": 1,
       "thermal_conductivity": 1,
-      "density": 1,
+      "density": 100,
       "charge_carrier_name": "Li",
       "charge_carrier_charge_number": 1,
-      "charge_carrier_transference_number": 1,
+      "charge_carrier_transference_number": 0.01,
       "counter_ion_name": "PF6",
-      "counter_ion_charge_number": 1,
-      "counter_ion_transference_number": 1,
+      "counter_ion_charge_number": -1,
+      "counter_ion_transference_number": 0.01,
       "conductivity": {
          "functionname": "",
+         "function": "",
          "argument_list": [
            ""
          ]
       },
       "diffusion_coefficient": {
          "functionname": "",
+         "function": "",
          "argument_list": [
            ""
          ]

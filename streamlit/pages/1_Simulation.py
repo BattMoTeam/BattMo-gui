@@ -76,6 +76,9 @@ if "number_of_states" not in st.session_state:
 if "log_messages" not in st.session_state:
     st.session_state.log_messages = None
 
+if "uploaded_input_dict" not in st.session_state:
+    st.session_state.uploaded_input_dict = None
+
 
 def run_page():
 

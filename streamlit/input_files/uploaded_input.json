@@ -3,49 +3,9 @@
    "@graph": {
       "@id": "https://www.batterymodel.org/parameters/m309c-ed93mdp3d",
       "@type": "Icon",
-      "hasModel": {
-         "@type": "P2DModel",
-         "hasQuantitativeProperty": [
-            {
-               "rdfs:label": "use_thermal",
-               "@type": "['ThermalModel']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 0
-               }
-            },
-            {
-               "rdfs:label": "include_current_collector",
-               "@type": "['CurrentCollector']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 0
-               }
-            },
-            {
-               "rdfs:label": "use_solid_diffusion_model",
-               "@type": "['usediffusionModel']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 1
-               }
-            },
-            {
-               "rdfs:label": "solid_diffusion_model_type",
-               "@type": "['diffusionModelType', 'parameter']",
-               "hasStringPart": {
-                  "@type": "String",
-                  "hasStringValue": "full"
-               }
-            },
-            {
-               "rdfs:label": "use_ramp_up",
-               "@type": "['LinearCurrentRamp']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 1
-               }
-            }
+      "schema:isBasedOn": {
+         "@id": [
+            "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
          ]
       },
       "hasElectrode": {
@@ -63,7 +23,7 @@
                      "@type": "echem:MaximumConcentration",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 29583.0
+                        "hasNumericalValue": 30000.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
@@ -264,7 +224,7 @@
                      "@type": "emmo:MassFraction",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 0.9
+                        "hasNumericalValue": 0.8
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
@@ -450,7 +410,7 @@
                      "@type": "emmo:Thickness",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 85.0
+                        "hasNumericalValue": 90.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "\u03bcm",
@@ -1166,7 +1126,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 1000.0
+                  "hasNumericalValue": 2000.0
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "mol\u00b7L\u207b",
@@ -1433,7 +1393,7 @@
                "@type": "echem:AmbientThermodynamicTemperature",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 298.15
+                  "hasNumericalValue": 300
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "K",
@@ -1483,7 +1443,7 @@
                "@type": "battery:StateOfCharge",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.01
+                  "hasNumericalValue": 0.3
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1604,6 +1564,51 @@
                "hasMeasurementUnit": {
                   "hasSymbolValue": "s",
                   "@type": "https://w3id.org/emmo/domain/emmo#Second"
+               }
+            }
+         ]
+      },
+      "hasModel": {
+         "@type": "P2DModel",
+         "hasQuantitativeProperty": [
+            {
+               "rdfs:label": "use_thermal",
+               "@type": "['ThermalModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
+               }
+            },
+            {
+               "rdfs:label": "include_current_collector",
+               "@type": "['CurrentCollector']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
+               }
+            },
+            {
+               "rdfs:label": "use_solid_diffusion_model",
+               "@type": "['usediffusionModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
+               }
+            },
+            {
+               "rdfs:label": "solid_diffusion_model_type",
+               "@type": "['diffusionModelType', 'parameter']",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "full"
+               }
+            },
+            {
+               "rdfs:label": "use_ramp_up",
+               "@type": "['LinearCurrentRamp']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
                }
             }
          ]

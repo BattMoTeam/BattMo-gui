@@ -5,10 +5,11 @@
    "material": true,
    "model_name": ["P2D", "P3D"],
    "Parameters": {
-      "maximum_concentration": 1,
+      "maximum_concentration": 1000,
       "volumetric_surface_area": 1,
-      "density": 1,
+      "density": 100,
       "electronic_conductivity": 100.0,
+      "thermal_conductivity": 100,
       "activation_energy_of_diffusion": 5e3,
       "diffusion_pre_exponential_factor": 3.9e-14,
       "particle_radius": 1e-6,
@@ -20,6 +21,7 @@
       "minimum_lithium_stoichiometry": 0.1,
       "open_circuit_potential": {
          "function": "",
+         "functionname": "",
          "argument_list": [
             ""
           ]
