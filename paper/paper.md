@@ -6,6 +6,7 @@ tags:
   - Julia
   - graphical user interface
   - battery simulations
+  - Battery cell
   - PXD model
   - Streamlit
   - Genie
@@ -13,10 +14,10 @@ authors:
   - name: Lorena Hendrix
     orcid: 0009-0006-9621-6122
     affiliation: 1
-  - name: Oscar Bolzinger
-    affiliation: 1
-  - name: Simon Clark
+  - name: Simon Clark*
     orcid: 0000-0002-8758-6109
+    affiliation: 1
+  - name: Oscar Bolzinger
     affiliation: 1
   - name: Eibar Flores
     orcid: 0000-0003-2954-1233
@@ -56,15 +57,15 @@ The application consists of two main components: the graphical user interface (G
 
 ### BattMo GUI
 
-The frontend is Python-based and developed using the Streamlit framework. Streamlit was chosen because it is easy to use and does not require experience with JavaScript and CSS, while still offering the flexibility needed for BattMoApp. The backend, also written in Python, supports the frontend's functionality. The database that supports both the frontend and backend is created using the sqlite3 Python package.
+The frontend is Python-based and developed using the Streamlit framework. Streamlit was chosen due to its user-friendly framework, which greatly accelerates the development process. The backend, also written in Python, supports the frontend's functionality. The database that supports both the frontend and backend is created using the sqlite3 Python package.
 
 ### BattMo API
 
-Integrating Julia, a pre-compiled language, with Python, a runtime language, to form a smoothly running and stable application turned out to be complex. Therefore, a Julia-based API was created and containerized within a separate Docker container, isolating it from the BattMo GUI. This separation ensures that the Julia and Python components do not interfere with each other. The framework used for creating the API is Genie. Within the BattMo API's docker image a system image of BattMo's pre-compilation is created to ensure an instantanious API response.
+The API runs the Julia package BattMo. Integrating Julia, a pre-compiled language, with Python, a runtime language, to form a smoothly running and stable application turned out to be complex. Therefore, a Julia-based API was created and containerized within a separate Docker container, isolating it from the BattMo GUI. This separation ensures that the Julia and Python components do not interfere with each other. The framework used for creating the API is Genie. Within the BattMo API's docker image a system image of BattMo's pre-compilation is created to ensure an instantanious API response.
 
 # Examples
 
-The following figures show screenshots of the 'Simulation' page and the 'Results' page of the application. On the 'Simulation' page, the input parameters can be defined, the cell geometry can be visualized, and a simulation can be initiated. On the 'Results' page, the results of the simulation can be visualized using the predefined plots. For the shown results in figure \autoref{fig:results}, two simulations were run using the default parameters sets from Chen et al. One with smaller negative and positive electrode coating thicknesses, and one with bigger negative and positive electrode coating thicknesses.
+The following figures display screenshots of the application's 'Simulation' and 'Results' pages. On the 'Simulation' page, users can define input parameters, visualize their cell geometry, and initiate a simulation. The 'Results' page then allows for the visualization of simulation outcomes using predefined plots. In \autoref{fig:results}, the results of two simulations are visualized to show an example. The two simulations were conducted using the default parameter sets from Chen et al., with the electrode coating thicknesses varied to illustrate a comparison of results. Both pages also present key indicators of the battery cell, such as capacities, cell energy, and round-trip efficiency.
 
 ![A screenshot of the Simulation page. \label{fig:simulation}](BattMo_Simulation.png)
 
@@ -75,7 +76,7 @@ pe_thick = 130 -->
 
 # Future work
 
-While BattMoApp has reached a matured state and provides a valuable design for P2D simulations, there are still endless possibilities in its development. The development of BattMoApp will go alongside the development of BattMo.jl so that in the future additional simulation models as well as other features like paramatrization can be integrated in the application. BattMoApp will continuou seeking feedback from its target audiences to keep improving its usability and practicality. Furthermore, more effort will be put into improving its performance and stability when having multiple users.
+While BattMoApp has reached a mature state and offers a valuable platform for P2D simulations, there are still countless possibilities for further development. Its evolution will continue in parallel with BattMo.jl, allowing for the future integration of additional simulation models and features like parameterization. BattMoApp will continue seeking feedback from its target audience to enhance usability and practicality. Additionally, more effort will be dedicated to improving the performance of the GUI.
 
 
 # Installation and contribution
