@@ -431,7 +431,7 @@ class SetupLinkedDataStruct:
 
                 parameter_details["hasMeasurementUnit"] = {
                     "hasSymbolValue": parameter.unit,
-                    _self.type: (parameter.unit_iri if parameter.unit_iri else None),
+                    _self.type: (parameter.unit_name if parameter.unit_name else None),
                 }
 
                 if reference_url:
@@ -540,7 +540,7 @@ class SetupLinkedDataStruct:
                 parameter_details["hasMeasurementUnit"] = {
                     # _self.label: unit_name,
                     "hasSymbolValue": unit,
-                    _self.type: (unit_iri if unit_iri else None),
+                    _self.type: (unit_name if unit_name else None),
                 }
 
                 if reference_url:
@@ -669,11 +669,13 @@ def set_select(
         st.session_state[key_input_number] = material_value
 
     st.session_state[user_interaction] = False
+    st.session_state.clear_upload = None
 
 
 def set_number_input(
     material_value, key_input_number, user_interaction, key_select=None, material_dict=None
 ):
+    st.session_state.clear_upload = None
     if st.session_state[key_input_number] != material_value:
 
         st.session_state[user_interaction] = True
@@ -789,6 +791,7 @@ class SetTabs:
             if st.session_state.clear_upload != True:
 
                 st.session_state.upload = True
+                st.session_state.clear_upload = False
 
                 uploaded_file = uploaded_file.read()
                 uploaded_file_dict = json.loads(uploaded_file)
@@ -877,7 +880,6 @@ class SetTabs:
             return int(increment)
 
     def set_tabs(self):
-
         cell_parameters = {}
 
         all_tab_display_names = db_helper.get_basis_tabs_display_names(self.model_name)
@@ -994,6 +996,7 @@ class SetTabs:
                     # different way of filling parameters for protocol section, the idea is to choose the name of the
                     # protocol and then the parameters are filled. Could be done also for the Cell tab
                     category_parameters = self.fill_category_protocol(
+                        tab_display_name,
                         category_id=category_id,
                         category_display_name=category_display_name,
                         category_name=category_name,
@@ -1589,12 +1592,13 @@ class SetTabs:
         )
 
         category_parameters = self.fill_advanced_expander(
-            tab, category_name, category_display_name, category_parameters
+            tab, tab_display_name, category_name, category_display_name, category_parameters
         )
         return category_parameters, emmo_relation, mass_loadings
 
     def fill_category_protocol(
         self,
+        tab_display_name,
         category_id,
         category_display_name,
         category_name,
@@ -1644,10 +1648,21 @@ class SetTabs:
         ) in parameter_sets:
             parameter_sets_name_by_id[id] = name
 
+        key_select = "select_{}".format(non_material_component_id)
+        user_change_key = "user_select_change_{}".format(non_material_component_id)
+        key_list = list(parameter_sets_name_by_id.keys())
+
+        if key_select not in st.session_state:
+            keys = list(parameter_sets_name_by_id.keys())
+            st.session_state[key_select] = keys[0]
+
+        if user_change_key not in st.session_state:
+            st.session_state[user_change_key] = False
+
         selected_parameter_set_id = tab.selectbox(
             label="Protocol",
             options=parameter_sets_name_by_id,
-            key="{}_{}".format(category_id, "parameter_sets"),
+            key=key_select,
             label_visibility="visible",
             format_func=lambda x: parameter_sets_name_by_id.get(x),
         )
@@ -1663,6 +1678,12 @@ class SetTabs:
         for parameter_id in formatted_parameters:
             parameter = formatted_parameters.get(parameter_id)
 
+            key_input_number = "input_number_{}_{}".format(non_material_component_id, parameter_id)
+            user_interaction = 'number_input_changed_by_user_{}'.format(parameter_id)
+
+            if user_interaction not in st.session_state:
+                st.session_state[user_interaction] = False
+
             if parameter.is_shown_to_user:
 
                 selected_parameter_id = (
@@ -1673,6 +1694,44 @@ class SetTabs:
                 )
 
                 if parameter.options.get(selected_parameter_id):
+
+                    if key_input_number not in st.session_state:
+                        value_ses = parameter.options.get(selected_parameter_id).value
+                        if isinstance(value_ses, str):
+                            value_ses = "charging"
+                        st.session_state[key_input_number] = value_ses
+
+                    if (
+                        st.session_state.upload == True
+                        and st.session_state[user_interaction] == False
+                        and st.session_state[user_change_key] == False
+                    ):
+
+                        name_dict = {
+                            "Protocol": "protocol",
+                        }
+                        cat = getattr(
+                            self.uploaded_input_dict, name_dict[category_display_name], None
+                        )
+                        par = cat.get(parameter.name)
+                        value = par.get('value')
+                        if parameter.name == "protocol_name":
+                            self.use_uploaded_dataset(
+                                options=parameter_sets_name_by_id,
+                                key_list=key_list,
+                                option_value=value,
+                                select_key=key_select,
+                            )
+                        else:
+                            self.use_uploaded_dataset(
+                                input_key=key_input_number, uploaded_value=value
+                            )
+
+                    elif st.session_state.upload == False and st.session_state.clear_upload == True:
+                        value_ses = parameter.options.get(selected_parameter_id).value
+                        if isinstance(value_ses, str):
+                            value_ses = "charging"
+                        st.session_state[key_input_number] = value_ses
 
                     name_col, input_col = tab.columns([1, 2])
 
@@ -1689,7 +1748,7 @@ class SetTabs:
                             value=parameter.options.get(selected_parameter_id).value,
                             min_value=parameter.min_value,
                             max_value=parameter.max_value,
-                            key="input_{}_{}".format(non_material_component_id, parameter_id),
+                            key=key_input_number,
                             # format=parameter.format,
                             format=self.set_format(
                                 parameter.options.get(selected_parameter_id).value
@@ -1698,6 +1757,12 @@ class SetTabs:
                                 parameter.options.get(selected_parameter_id).value
                             ),
                             label_visibility="collapsed",
+                            on_change=set_number_input,
+                            args=(
+                                parameter.options.get(selected_parameter_id).value,
+                                key_input_number,
+                                user_interaction,
+                            ),
                         )
                     else:
                         try:
@@ -1711,12 +1776,14 @@ class SetTabs:
                         user_input = input_col.selectbox(
                             label=parameter.display_name,
                             options=value_list,
-                            key="input_{}_{}_{}".format(
-                                non_material_component_id,
-                                parameter_id,
-                                Protocol_name,
-                            ),
+                            key=key_input_number,
                             label_visibility="collapsed",
+                            on_change=set_number_input,
+                            args=(
+                                parameter.options.get(selected_parameter_id).value,
+                                key_input_number,
+                                user_interaction,
+                            ),
                         )
                     parameter.set_selected_value(user_input)
 
@@ -1750,19 +1817,19 @@ class SetTabs:
         )
 
         category_parameters = self.fill_advanced_expander(
-            tab, category_name, category_display_name, category_parameters
+            tab, tab_display_name, category_name, category_display_name, category_parameters
         )
 
         return category_parameters
 
     def ud_set_select(
         self,
-        key_select,
-        key_input_number,
-        material,
-        parameter,
-        user_interaction,
-        user_change_key,
+        key_select=None,
+        key_input_number=None,
+        material=None,
+        parameter=None,
+        user_interaction=None,
+        user_change_key=None,
         key_arg=None,
     ):
         if key_arg:
@@ -1777,10 +1844,13 @@ class SetTabs:
             st.session_state[user_interaction] = False
             st.session_state[user_change_key] = True
 
-        else:
+        elif material:
             selected_parameter_set = st.session_state[key_select]
             parameter_set_id = material.options.get(selected_parameter_set).parameter_set_id
             st.session_state[key_input_number] = parameter.options.get(parameter_set_id).value
+            st.session_state[user_interaction] = False
+            st.session_state[user_change_key] = True
+        else:
             st.session_state[user_interaction] = False
             st.session_state[user_change_key] = True
 
@@ -2540,8 +2610,8 @@ class SetTabs:
                         "Negative electrode": "ne",
                         "Positive electrode": "pe",
                     }
+
                     cat = getattr(self.uploaded_input_dict, name_dict[category_display_name], None)
-                    st.write(cat)
                     comp = getattr(cat, "properties", None)
                     par = comp.get(non_material_parameter_name)
                     value = par.get('value')
@@ -2555,7 +2625,6 @@ class SetTabs:
                         "Protocol": "protocol",
                     }
                     cat = getattr(self.uploaded_input_dict, name_dict[category_display_name], None)
-                    st.write(cat)
                     par = cat.get(non_material_parameter_name)
                     value = par.get('value')
 
@@ -2563,6 +2632,9 @@ class SetTabs:
                     input_key=input_key,
                     uploaded_value=value,
                 )
+
+            elif st.session_state.upload == False and st.session_state.clear_upload == True:
+                st.session_state[input_key] = non_material_parameter.default_value
 
             st.session_state[states_to_count][checkbox_key] = st.session_state[checkbox_key]
 
@@ -3076,6 +3148,7 @@ class SetTabs:
         )
 
     def set_user_change_session_state(self, key, key_select=None, options=None):
+        st.session_state.clear_upload = None
         id = st.session_state[key_select]
         if options.get(id).display_name == "User defined":
             st.session_state[key] = False
@@ -3349,7 +3422,7 @@ class SetTabs:
                             st.session_state.upload == False
                             and st.session_state.clear_upload == True
                         ):
-                            st.session_state[key_select] = key_list[0]
+                            st.session_state[key_select] = material_display_names[0]
 
                         selected_parameter_set = select_col.selectbox(
                             label=par_display_name,
@@ -3492,7 +3565,10 @@ class SetTabs:
         self,
         tab_advanced,
         formatted_parameters,
+        tab_display_name,
+        category_display_name,
         non_material_component_name,
+        component_display_name,
         non_material_component_id,
         non_material_parameter_set_id,
     ):
@@ -3524,6 +3600,55 @@ class SetTabs:
             selected_parameter_id = self.get_first_id_by_second_id(
                 selected_parameter_ids, parameter_id
             )
+
+            key_input_number = "input_{}_{}".format(non_material_component_name, parameter.name)
+            user_interaction = 'number_input_changed_by_user_{}'.format(parameter.id)
+
+            if key_input_number not in st.session_state:
+                st.session_state[key_input_number] = parameter.default_value
+
+            if user_interaction not in st.session_state:
+                st.session_state[user_interaction] = False
+
+            if st.session_state.upload == True and st.session_state[user_interaction] == False:
+                if tab_display_name == "Electrodes":
+                    name_dict = {
+                        "Negative electrode": "ne",
+                        "Positive electrode": "pe",
+                        "Active Material": "am",
+                        "Additive": "add",
+                        "Binder": "binder",
+                        "Negative electrode properties": "properties",
+                        "Positive electrode properties": "properties",
+                    }
+
+                    cat = getattr(self.uploaded_input_dict, name_dict[category_display_name], None)
+                    comp = getattr(cat, name_dict[component_display_name], None)
+                    par = comp.get(parameter.name)
+                    value = par.get('value')
+
+                else:
+                    name_dict = {
+                        "Electrolyte": "elyte_mat",
+                        "Separator": "sep_mat",
+                        "Cell": "cell",
+                        "Boundary conditions": "bc",
+                        "Protocol": "protocol",
+                    }
+                    cat = getattr(self.uploaded_input_dict, name_dict[category_display_name], None)
+                    par = cat.get(parameter.name)
+                    value = par.get('value')
+
+                self.use_uploaded_dataset(
+                    input_key=key_input_number,
+                    uploaded_value=value,
+                )
+
+            elif st.session_state.upload == False and st.session_state.clear_upload == True:
+                st.session_state[key_input_number] = parameter.options.get(
+                    selected_parameter_id
+                ).value
+
             if selected_parameter_id is None:
                 st.write(f"selected parameter id: {selected_parameter_id} ")
                 continue
@@ -3545,10 +3670,16 @@ class SetTabs:
                     value=parameter.options.get(selected_parameter_id).value,
                     min_value=parameter.min_value,
                     max_value=parameter.max_value,
-                    key="input_{}_{}".format(non_material_component_name, parameter.name),
+                    key=key_input_number,
                     format=self.set_format(parameter.options.get(selected_parameter_id).value),
                     step=self.set_increment(parameter.options.get(selected_parameter_id).value),
                     label_visibility="collapsed",
+                    on_change=set_number_input,
+                    args=(
+                        parameter.options.get(selected_parameter_id).value,
+                        key_input_number,
+                        user_interaction,
+                    ),
                 )
 
             else:
@@ -3556,8 +3687,14 @@ class SetTabs:
                 user_input = input_col.selectbox(
                     label=parameter.display_name,
                     options=[parameter.options.get(selected_parameter_id).value],
-                    key="input_{}_{}".format(non_material_component_id, parameter_id),
+                    key=key_input_number,
                     label_visibility="collapsed",
+                    on_change=set_number_input,
+                    args=(
+                        parameter.options.get(selected_parameter_id).value,
+                        key_input_number,
+                        user_interaction,
+                    ),
                 )
             parameter.set_selected_value(user_input)
             component_parameters_ = self.LD.setup_parameter_struct(
@@ -3601,9 +3738,8 @@ class SetTabs:
         )
 
     def fill_advanced_expander(
-        self, tab, category_name, category_display_name, category_parameters
+        self, tab, tab_display_name, category_name, category_display_name, category_parameters
     ):
-
         advanced_input = tab.expander(f"Show '{category_display_name}' advanced parameters")
         tab_display_names = db_helper.get_advanced_tab_display_names(self.model_name, category_name)
         all_advanced_tabs = advanced_input.tabs(tab_display_names)
@@ -3636,7 +3772,7 @@ class SetTabs:
                     category_context_type,
                     category_context_type_iri,
                     emmo_relation,
-                    category_display_name,
+                    _,
                     _,
                     default_template_id,
                     _,
@@ -3681,7 +3817,10 @@ class SetTabs:
                     component_parameters_ = self.format_and_setup_parameters(
                         tab_advanced,
                         formatted_parameters,
+                        tab_display_name,
+                        category_display_name,
                         non_material_component_name,
+                        non_material_comp_display_name,
                         non_material_component_id,
                         non_material_parameter_set_id,
                     )
