@@ -28,10 +28,7 @@
                "openCircuitPotential": {
                   "type": "function",
                   "functionname": "computeOCP_Graphite_SiOx_Chen2020",
-                  "argumentlist": [
-                     "c",
-                     "cmax"
-                  ]
+                  "argumentlist": null
                }
             },
             "diffusionModelType": "full",
@@ -88,10 +85,7 @@
                "openCircuitPotential": {
                   "type": "function",
                   "functionname": "computeOCP_NMC811_Chen2020",
-                  "argumentlist": [
-                     "c",
-                     "cmax"
-                  ]
+                  "argumentlist": null
                }
             },
             "diffusionModelType": "full",
@@ -140,16 +134,12 @@
       "ionicConductivity": {
          "type": "function",
          "functionname": "computeElectrolyteConductivity_Chen2020",
-         "argumentlist": [
-            "c"
-         ]
+         "argumentlist": null
       },
       "diffusionCoefficient": {
          "type": "function",
          "functionname": "computeDiffusionCoefficient_Chen2020",
-         "argumentlist": [
-            "c"
-         ]
+         "argumentlist": null
       },
       "compnames": [
          "Li",

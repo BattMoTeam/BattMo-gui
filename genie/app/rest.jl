@@ -111,6 +111,23 @@ function create_hdf5_output_file(output,file_path)
 
 end
 
+function run_simulation(input_file_name, output_path_name)
+
+    try
+        output = runP2DBattery.runP2DBatt(input_file_name);
+
+        lock(simulation_lock) do
+            create_hdf5_output_file(output,"results/$output_path_name.h5")
+        end
+
+    catch e
+        @error "Simulation error: $e"
+
+
+    end
+
+end
+
 
 
 route("/run_simulation", method = POST) do
@@ -131,37 +148,34 @@ route("/run_simulation", method = POST) do
         JSON.print(temp_input_file, input_data)
     end
 
-     # Process the input data as needed
-    # For example, you can access input_data["key"] to access specific values
-
-    # Run BattMo simulation
-    try
-        lock(simulation_lock) do
-            output = runP2DBattery.runP2DBatt(input_file_name);
-
-            if isfile(input_file_name)
-                rm(input_file_name)  # Delete the file
-                println("File deleted successfully.")
-            else
-                println("File does not exist.")
-            end
-
-            create_hdf5_output_file(output,"results/$output_path_name.h5")
-        end
-    catch e
-        return JSON.json(Dict("error" => string(e)))
+    # Spawn a new thread to handle the simulation
+    simulation_thread = Threads.@spawn run_simulation(input_file_name, output_path_name)
 
 
+    # Polling to wait until the file is ready
+    output_file_path = "results/$output_path_name.h5"
+    max_retries = 600
+    sleep_interval = 0.1
+    retries = 0
+
+    while !isfile(output_file_path) && retries < max_retries
+        sleep(sleep_interval)
+        retries += 1
     end
 
+    if retries >= max_retries
+        return HTTP.Response(500, "Simulation timed out or failed.")
+    end
+
+    if isfile(input_file_name)
+        rm(input_file_name)  # Delete the file
+        println("File deleted successfully.")
+    else
+        println("File does not exist.")
+    end
+
+    # Once the file is ready, read it and return the response
     hdf5_data = read("results/$output_path_name.h5")
-
-    # h5file = h5open("results/$output_path_name.h5", "r") do file
-    #     # Read datasets
-    #     number_of_states = read(file["concentrations"]["electrolyte"]["elyte_c_state_1"])
-    #     println(number_of_states)
-    # end
-
 
     # Concatenate the vectors of UInt8 into a single vector
     concatenated_data = vcat(hdf5_data...)
