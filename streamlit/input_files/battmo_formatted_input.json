@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 0.000195,
+         "thickness": 8.499999999999999e-05,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
@@ -176,7 +176,7 @@
       "lowerCutoffVoltage": 2.4,
       "upperCutoffVoltage": 4.1,
       "rampupTime": 10.0,
-      "dIdtLimit": 0.0001,
+      "dIdtLimit": 0.001,
       "dEdtLimit": 0.01
    },
    "ThermalModel": {
