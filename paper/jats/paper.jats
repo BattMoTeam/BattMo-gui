@@ -31,14 +31,6 @@ battery simulations</article-title>
 <xref ref-type="aff" rid="aff-1"/>
 </contrib>
 <contrib contrib-type="author">
-<contrib-id contrib-id-type="orcid">https://orcid.org/0000-0002-8758-6109</contrib-id>
-<name>
-<surname>Clark*</surname>
-<given-names>Simon</given-names>
-</name>
-<xref ref-type="aff" rid="aff-1"/>
-</contrib>
-<contrib contrib-type="author">
 <name>
 <surname>Bolzinger</surname>
 <given-names>Oscar</given-names>
@@ -50,6 +42,14 @@ battery simulations</article-title>
 <name>
 <surname>Flores</surname>
 <given-names>Eibar</given-names>
+</name>
+<xref ref-type="aff" rid="aff-1"/>
+</contrib>
+<contrib contrib-type="author">
+<contrib-id contrib-id-type="orcid">https://orcid.org/0000-0002-8758-6109</contrib-id>
+<name>
+<surname>Clark*</surname>
+<given-names>Simon</given-names>
 </name>
 <xref ref-type="aff" rid="aff-1"/>
 </contrib>
@@ -120,17 +120,13 @@ a Creative Commons Attribution 4.0 International License (CC BY
   using 1D, 2D, or 3D geometries. Besides the Matlab toolbox, the
   framework is also being developed in Julia to leverage increased
   simulation speed and the non-proprietary nature of Julia.</p>
-  <p>The primary objective of BattMoApp is to overcome common barriers
-  associated with using battery modelling software. These barriers often
-  arise from resource limitations, as many available software options
-  are proprietary. Another challenge could be the complexity of using
-  the software, whether due to a complicated graphical user interface or
-  the difficulty of coding with command-line based software. While
-  BattMo is open-source, its command-line interface may pose a hurdle
-  for experimental researchers not familiar with coding, seeking to
-  complement their lab work with simulations. BattMoApp, offering an
-  accessible and intuitive graphical user interface, has the potential
-  to reduce these barriers.</p>
+  <p>The primary objective of BattMoApp is to unlock access to battery
+  simulations for users without coding experience. Most researchers who
+  can benefit from battery simulations are not familier with any
+  scripting language. A simple to use graphical user interface brings
+  battery simulations to laboratory engineers and battery scientists who
+  can use the results to inform their cell design and development
+  activities.</p>
   <p>BattMoApp builds upon the P2D model implemented in the Julia
   version of BattMo. The development of BattMoApp has focused on
   accessibility, intuitiveness, and usability. Users can quickly and
@@ -144,7 +140,7 @@ a Creative Commons Attribution 4.0 International License (CC BY
   research and lab use, making it easier for experimentalists to fulfill
   the necessary inputs.</p>
   <p>Another important aspect, besides accessibility, intuitiveness, and
-  usability, is interoperability. To ensure that the data used in the
+  usability, is interoperability. To ensure that the input data of the
   simulation is inter-operable, the selected data format adheres to the
   FAIR principles and the 5-star open data guidelines. The data entered
   by the user is automatically formatted into a JSON Linked Data (LD)
@@ -197,6 +193,40 @@ a Creative Commons Attribution 4.0 International License (CC BY
 </sec>
 <sec id="examples">
   <title>Examples</title>
+  <p>The application provides a list of features:</p>
+  <list list-type="bullet">
+    <list-item>
+      <p>Access to parameter sets from literature, and costomization of
+      these sets.</p>
+    </list-item>
+    <list-item>
+      <p>Download input parameter values as a BattMo formatted JSON file
+      or as a linked data formatted JSON file.</p>
+    </list-item>
+    <list-item>
+      <p>Visualization of 3D grids.</p>
+    </list-item>
+    <list-item>
+      <p>P2D model.</p>
+    </list-item>
+    <list-item>
+      <p>Quick calculations of key indicators.</p>
+    </list-item>
+    <list-item>
+      <p>Interactive plots that zoom, hover, and downloads PNGs.</p>
+    </list-item>
+    <list-item>
+      <p>Visualization of not only voltage curves but also internal
+      states to provide further insight into gradients of concentrations
+      and potentials.</p>
+    </list-item>
+    <list-item>
+      <p>Comparison of multiple simulation results.</p>
+    </list-item>
+    <list-item>
+      <p>Download full results as HDF5.</p>
+    </list-item>
+  </list>
   <p>The following figures display screenshots of the application’s
   ‘Simulation’ and ‘Results’ pages. On the ‘Simulation’ page, users can
   define input parameters, visualize their cell geometry, and initiate a
@@ -210,12 +240,12 @@ a Creative Commons Attribution 4.0 International License (CC BY
   indicators of the battery cell, such as capacities, cell energy, and
   round-trip efficiency.</p>
   <fig>
-    <caption><p>A screenshot of the Simulation page.
+    <caption><p>A screenshot of the Simulation page of BattMoApp.
     <styled-content id="figU003Asimulation"></styled-content></p></caption>
     <graphic mimetype="image" mime-subtype="png" xlink:href="BattMo_Simulation.png" />
   </fig>
   <fig>
-    <caption><p>A screenshot of the Results page.
+    <caption><p>A screenshot of the Results page of BattMoApp.
     <styled-content id="figU003Aresults"></styled-content></p></caption>
     <graphic mimetype="image" mime-subtype="png" xlink:href="BattMo_Results.png" />
   </fig>
@@ -229,7 +259,8 @@ a Creative Commons Attribution 4.0 International License (CC BY
   simulation models and features like parameterization. BattMoApp will
   continue seeking feedback from its target audience to enhance
   usability and practicality. Additionally, more effort will be
-  dedicated to improving the performance of the GUI.</p>
+  dedicated to improving the performance BattMo GUI to improve user
+  interactivity.</p>
 </sec>
 <sec id="installation-and-contribution">
   <title>Installation and contribution</title>
