@@ -195,7 +195,7 @@
                   },
                   {
                      "rdfs:label": "open_circuit_potential",
-                     "@type": "['emmo:OpenCircuitVoltage', 'Expression']",
+                     "@type": "emmo:Potential",
                      "hasStringPart": {
                         "@type": "String",
                         "hasStringValue": {
@@ -450,7 +450,7 @@
                      "@type": "emmo:Thickness",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 195.0
+                        "hasNumericalValue": 85.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "\u03bcm",
@@ -474,7 +474,7 @@
                      "@type": "emmo:MassLoading",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 34.522800000000004
+                        "hasNumericalValue": 15.0484
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mg\u00b7cm\u207b\u00b2",
@@ -522,7 +522,7 @@
                      "@type": "emmo:Capacity",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 4951.075485888468
+                        "hasNumericalValue": 2158.1611092334356
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mAh",
@@ -661,7 +661,7 @@
                   },
                   {
                      "rdfs:label": "open_circuit_potential",
-                     "@type": "['emmo:OpenCircuitVoltage', 'Expression']",
+                     "@type": "emmo:Potential",
                      "hasStringPart": {
                         "@type": "String",
                         "hasStringValue": {
@@ -1129,7 +1129,7 @@
             },
             {
                "rdfs:label": "conductivity",
-               "@type": "['IonicConductivity', 'Expression']",
+               "@type": null,
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
@@ -1146,7 +1146,7 @@
             },
             {
                "rdfs:label": "diffusion_coefficient",
-               "@type": "['DiffusionCoefficient', 'Expression']",
+               "@type": null,
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
@@ -1355,7 +1355,7 @@
                "@type": "emmo:N/PRatio",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 2.45
+                  "hasNumericalValue": 1.07
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1367,7 +1367,7 @@
                "@type": "emmo:CellMass",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 46.811894643200006
+                  "hasNumericalValue": 37.33774424320001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "g",
@@ -1584,7 +1584,7 @@
             },
             {
                "rdfs:label": "time_step_duration",
-               "@type": "['Duration']",
+               "@type": "['CurrentCollector', 'parameter']",
                "hasNumericalPart": {
                   "@type": "Real",
                   "hasNumericalValue": 30.0

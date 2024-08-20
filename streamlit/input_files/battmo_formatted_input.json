@@ -5,7 +5,7 @@
    },
    "NegativeElectrode": {
       "Coating": {
-         "thickness": 0.000195,
+         "thickness": 8.499999999999999e-05,
          "N": 20,
          "effectiveDensity": 1770.4,
          "bruggemanCoefficient": 1.5,
@@ -28,10 +28,7 @@
                "openCircuitPotential": {
                   "type": "function",
                   "functionname": "computeOCP_Graphite_SiOx_Chen2020",
-                  "argumentlist": [
-                     "c",
-                     "cmax"
-                  ]
+                  "argumentlist": null
                }
             },
             "diffusionModelType": "full",
@@ -88,10 +85,7 @@
                "openCircuitPotential": {
                   "type": "function",
                   "functionname": "computeOCP_NMC811_Chen2020",
-                  "argumentlist": [
-                     "c",
-                     "cmax"
-                  ]
+                  "argumentlist": null
                }
             },
             "diffusionModelType": "full",
@@ -140,16 +134,12 @@
       "ionicConductivity": {
          "type": "function",
          "functionname": "computeElectrolyteConductivity_Chen2020",
-         "argumentlist": [
-            "c"
-         ]
+         "argumentlist": null
       },
       "diffusionCoefficient": {
          "type": "function",
          "functionname": "computeDiffusionCoefficient_Chen2020",
-         "argumentlist": [
-            "c"
-         ]
+         "argumentlist": null
       },
       "compnames": [
          "Li",

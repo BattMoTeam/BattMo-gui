@@ -34,9 +34,12 @@ module runP2DBattery
 
             print("Calling BattMo simulation")
             states,cellSpecifications , reports, extra = run_battery(json_file, max_timestep_cuts = 10);
+
+            energy_efficiency = computeEnergyEfficiency(states)
+            discharge_energy = computeCellEnergy(states)
             
-            energy_efficiency, init2,_ = computeEnergyEfficiency(json_file)
-            discharge_energy,_,_ = computeDischargeEnergy(json_file)
+            # energy_efficiency, init2,_ = computeEnergyEfficiency(json_file)
+            # discharge_energy,_,_ = computeDischargeEnergy(json_file)
 
             print("Simulation finished")
             
