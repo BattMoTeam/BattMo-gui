@@ -195,7 +195,7 @@
                   },
                   {
                      "rdfs:label": "open_circuit_potential",
-                     "@type": "emmo:Potential",
+                     "@type": "['emmo:OpenCircuitVoltage', 'Expression']",
                      "hasStringPart": {
                         "@type": "String",
                         "hasStringValue": {
@@ -661,7 +661,7 @@
                   },
                   {
                      "rdfs:label": "open_circuit_potential",
-                     "@type": "emmo:Potential",
+                     "@type": "['emmo:OpenCircuitVoltage', 'Expression']",
                      "hasStringPart": {
                         "@type": "String",
                         "hasStringValue": {
@@ -1129,7 +1129,7 @@
             },
             {
                "rdfs:label": "conductivity",
-               "@type": null,
+               "@type": "['IonicConductivity', 'Expression']",
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
@@ -1146,7 +1146,7 @@
             },
             {
                "rdfs:label": "diffusion_coefficient",
-               "@type": null,
+               "@type": "['DiffusionCoefficient', 'Expression']",
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
@@ -1584,7 +1584,7 @@
             },
             {
                "rdfs:label": "time_step_duration",
-               "@type": "['CurrentCollector', 'parameter']",
+               "@type": "['Duration']",
                "hasNumericalPart": {
                   "@type": "Real",
                   "hasNumericalValue": 30.0

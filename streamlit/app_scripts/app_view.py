@@ -113,9 +113,9 @@ class SetHeading:
 
     def set_title_and_logo(self):
         # Title and subtitle
-        logo_col, title_col = st.columns([1, 5])
-        logo_col.image(self.logo)
-        title_col.title(self.title)
+        # logo_col, title_col = st.columns([1, 5])
+        # logo_col.image(self.logo)
+        st.title(self.title)
         # st.text(self.subtitle)
 
     def set_description(self):
@@ -156,30 +156,38 @@ class SetPageNavigation:
         _, col3, col4 = st.columns(3)
         st_space(space_width=6)
 
-        simulation_page = col1.button(
+        simulation_page = col1.page_link(
+            os.path.join(app_access.get_path_to_pages_dir(), "Simulation.py"),
             label="Simulation",
             help=self.help_simulation,
-            use_container_width=True,
+            use_container_width=False,
+            icon="🔋",
         )
 
-        results_page = col2.button(
-            label="Results", help=self.help_results, use_container_width=True
+        results_page = col2.page_link(
+            os.path.join(app_access.get_path_to_pages_dir(), "Results.py"),
+            label="Results",
+            help=self.help_results,
+            use_container_width=False,
+            icon="📈",
         )
 
-        materials_and_models_page = col3.button(
+        materials_and_models_page = col3.page_link(
+            os.path.join(app_access.get_path_to_pages_dir(), "Materials_and_models.py"),
             label="Materials and models",
             help=self.help_materials_and_models,
-            use_container_width=True,
+            use_container_width=False,
+            icon="🍪",
         )
 
-        if simulation_page:
-            switch_page("Simulation")
+        # if simulation_page:
+        #     switch_page("Simulation")
 
-        if results_page:
-            switch_page("Results")
+        # if results_page:
+        #     switch_page("Results")
 
-        if materials_and_models_page:
-            switch_page("Materials and models")
+        # if materials_and_models_page:
+        #     switch_page("Materials and models")
 
         return col4
 
@@ -6533,8 +6541,8 @@ class SetDataSetSelector:
         with st.sidebar:
 
             # Remember user changed values when switching between pages
-            for k, v in st.session_state.items():
-                st.session_state[k] = v
+            # for k, v in st.session_state.items():
+            #     st.session_state[k] = v
 
             st.markdown("## " + self.header)
 
@@ -7869,9 +7877,9 @@ class SetMaterialDescription:
     def set_material_description(_self):
 
         ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
+        # # Remember user changed values
+        # for k, v in st.session_state.items():
+        #     st.session_state[k] = v
         ##############################
 
         materials = db_helper.get_all_default_material()
