@@ -12,4 +12,4 @@ plotly == 5.22.0
 streamlit-elements==0.1
 st-theme
 scipy
-streamlit-navigation-bar
+streamlit-option-menu

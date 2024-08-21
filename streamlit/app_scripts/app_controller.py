@@ -47,8 +47,8 @@ class AppController:
     def set_indicators(self, page_name, results_simulation=None, file_names=None):
         return view.SetIndicators(page_name, results_simulation, file_names)
 
-    def set_geometry_visualization(self, gui_parameters):
-        return view.SetGeometryVisualization(gui_parameters)
+    def set_geometry_visualization(self, gui_parameters, geometry_holder):
+        return view.SetGeometryVisualization(gui_parameters, geometry_holder)
 
     def set_download_hdf5_button(self, results, selected_data_sets):
         return view.SetHDF5Download(results, selected_data_sets)

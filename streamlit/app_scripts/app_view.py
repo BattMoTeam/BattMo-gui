@@ -267,9 +267,12 @@ class SetModelChoice:
         self.set_model_choice()
 
     def set_model_choice(self):
-        self.set_title()
-        self.set_dropdown()
-        st_space()
+
+        col1, col2 = st.columns((1, 2))
+        with col1:
+            self.set_title()
+        with col2:
+            self.set_dropdown()
 
     def set_title(self):
         st.markdown("### " + self.title)
@@ -723,7 +726,7 @@ class SetTabs:
 
         # Initialize tabs
         self.title = "Parameters"
-        self.set_title()
+        # self.set_title()
 
         # Import functions for calculations
         self.validate_mass_fraction = calc.validate_mass_fraction
@@ -4783,6 +4786,7 @@ class SetIndicators:
 
     def __init__(self, page_name, results_simulation=None, file_names=None):
 
+        self.header = "Indicators"
         self.page_name = page_name
         self.indicators = results_simulation
         self.file_names = file_names
@@ -4891,284 +4895,410 @@ class SetIndicators:
 
             trace_labels.append(file_name.rsplit(".", 1)[0])
 
-        tabs = st.tabs(trace_labels)
+        if self.page_name == "Simulation":
 
-        for i, tab in enumerate(tabs):
+            st.text("")
+            st.text("")
+            st.divider
+            # st.markdown("### " + self.header)
+            indicator = indicators[0]
+            if isinstance(indicator, dict):
 
-            with tab:
+                cell_mass = indicator["Cell"]["cellMass"]
+                # cell_energy = indicator["Cell"]["cellEnergy"]
+                cell_capacity = indicator["Cell"]["nominalCellCapacity"]
+                n_to_p_ratio = indicator["Cell"]["NPRatio"]
+                energy_efficiency = indicator["Cell"]["roundTripEfficiency"]
+                specific_energy = indicator["Cell"]["specificEnergy"]
+                energy_efficiency = indicator["Cell"]["energyEfficiency"]
 
-                indicator = indicators[i]
+                ne_mass_loading = indicator["NegativeElectrode"]["massLoading"]
+                ne_thickness = indicator["NegativeElectrode"]["thickness"]
+                ne_porosity = indicator["NegativeElectrode"]["porosity"]
+                ne_specific_capacity = indicator["NegativeElectrode"]["specificCapacity"]
+                ne_am_specific_capacity = indicator["NegativeElectrode"]["ActiveMaterial"][
+                    "specificCapacity"
+                ]
+                pe_mass_loading = indicator["PositiveElectrode"]["massLoading"]
+                pe_thickness = indicator["PositiveElectrode"]["thickness"]
+                pe_porosity = indicator["PositiveElectrode"]["porosity"]
+                pe_specific_capacity = indicator["PositiveElectrode"]["specificCapacity"]
+                pe_am_specific_capacity = indicator["PositiveElectrode"]["ActiveMaterial"][
+                    "specificCapacity"
+                ]
 
-                if isinstance(indicator, dict):
+            elif isinstance(indicator, list):
 
-                    cell_mass = indicator["Cell"]["cellMass"]
-                    # cell_energy = indicator["Cell"]["cellEnergy"]
-                    cell_capacity = indicator["Cell"]["nominalCellCapacity"]
-                    n_to_p_ratio = indicator["Cell"]["NPRatio"]
-                    energy_efficiency = indicator["Cell"]["roundTripEfficiency"]
-                    specific_energy = indicator["Cell"]["specificEnergy"]
-                    energy_efficiency = indicator["Cell"]["energyEfficiency"]
+                [
+                    ne_electrode_ml_value,
+                    ne_electrode_ml_unit,
+                    ne_electrode_thi_value,
+                    ne_electrode_thi_unit,
+                    ne_electrode_po_value,
+                    ne_electrode_po_unit,
+                    ne_electrode_cap_value,
+                    ne_electrode_cap_unit,
+                    ne_am_cap_value,
+                    ne_am_cap_unit,
+                    pe_electrode_ml_value,
+                    pe_electrode_ml_unit,
+                    pe_electrode_thi_value,
+                    pe_electrode_thi_unit,
+                    pe_electrode_po_value,
+                    pe_electrode_po_unit,
+                    pe_electrode_cap_value,
+                    pe_electrode_cap_unit,
+                    pe_am_cap_value,
+                    pe_am_cap_unit,
+                    cell_cap_value,
+                    cell_cap_unit,
+                    cell_mass_value,
+                    cell_mass_unit,
+                    cell_np_value,
+                    cell_np_unit,
+                    cell_energy_value,
+                    cell_energy_unit,
+                    specific_energy_value,
+                    specific_energy_unit,
+                    energy_efficiency_value,
+                    energy_efficiency_unit,
+                ] = indicator
 
-                    ne_mass_loading = indicator["NegativeElectrode"]["massLoading"]
-                    ne_thickness = indicator["NegativeElectrode"]["thickness"]
-                    ne_porosity = indicator["NegativeElectrode"]["porosity"]
-                    ne_specific_capacity = indicator["NegativeElectrode"]["specificCapacity"]
-                    ne_am_specific_capacity = indicator["NegativeElectrode"]["ActiveMaterial"][
-                        "specificCapacity"
-                    ]
-                    pe_mass_loading = indicator["PositiveElectrode"]["massLoading"]
-                    pe_thickness = indicator["PositiveElectrode"]["thickness"]
-                    pe_porosity = indicator["PositiveElectrode"]["porosity"]
-                    pe_specific_capacity = indicator["PositiveElectrode"]["specificCapacity"]
-                    pe_am_specific_capacity = indicator["PositiveElectrode"]["ActiveMaterial"][
-                        "specificCapacity"
-                    ]
+                cell_mass = {
+                    "value": cell_mass_value,
+                    "unit": cell_mass_unit,
+                }
+                cell_energy = {
+                    "value": cell_energy_value,
+                    "unit": cell_energy_unit,
+                }
+                specific_energy = {
+                    "value": specific_energy_value,
+                    "unit": specific_energy_unit,
+                }
+                energy_efficiency = {
+                    "value": energy_efficiency_value,
+                    "unit": energy_efficiency_unit,
+                }
+                cell_capacity = {
+                    "value": cell_cap_value,
+                    "unit": cell_cap_unit,
+                }
+                n_to_p_ratio = {
+                    "value": cell_np_value,
+                    "unit": cell_np_unit,
+                }
 
-                elif isinstance(indicator, list):
+                ne_mass_loading = {
+                    "value": ne_electrode_ml_value,
+                    "unit": ne_electrode_ml_unit,
+                }
+                ne_thickness = {
+                    "value": ne_electrode_thi_value,
+                    "unit": ne_electrode_thi_unit,
+                }
+                ne_porosity = {
+                    "value": ne_electrode_po_value,
+                    "unit": ne_electrode_po_unit,
+                }
+                ne_specific_capacity = {
+                    "value": ne_electrode_cap_value,
+                    "unit": ne_electrode_cap_unit,
+                }
+                ne_am_specific_capacity = {
+                    "value": ne_am_cap_value,
+                    "unit": ne_am_cap_unit,
+                }
+                pe_mass_loading = {
+                    "value": pe_electrode_ml_value,
+                    "unit": pe_electrode_ml_unit,
+                }
+                pe_thickness = {
+                    "value": pe_electrode_thi_value,
+                    "unit": pe_electrode_thi_unit,
+                }
+                pe_porosity = {
+                    "value": pe_electrode_po_value,
+                    "unit": pe_electrode_po_unit,
+                }
+                pe_specific_capacity = {
+                    "value": pe_electrode_cap_value,
+                    "unit": pe_electrode_cap_unit,
+                }
+                pe_am_specific_capacity = {
+                    "value": pe_am_cap_value,
+                    "unit": pe_am_cap_unit,
+                }
 
-                    [
-                        ne_electrode_ml_value,
-                        ne_electrode_ml_unit,
-                        ne_electrode_thi_value,
-                        ne_electrode_thi_unit,
-                        ne_electrode_po_value,
-                        ne_electrode_po_unit,
-                        ne_electrode_cap_value,
-                        ne_electrode_cap_unit,
-                        ne_am_cap_value,
-                        ne_am_cap_unit,
-                        pe_electrode_ml_value,
-                        pe_electrode_ml_unit,
-                        pe_electrode_thi_value,
-                        pe_electrode_thi_unit,
-                        pe_electrode_po_value,
-                        pe_electrode_po_unit,
-                        pe_electrode_cap_value,
-                        pe_electrode_cap_unit,
-                        pe_am_cap_value,
-                        pe_am_cap_unit,
-                        cell_cap_value,
-                        cell_cap_unit,
-                        cell_mass_value,
-                        cell_mass_unit,
-                        cell_np_value,
-                        cell_np_unit,
-                        cell_energy_value,
-                        cell_energy_unit,
-                        specific_energy_value,
-                        specific_energy_unit,
-                        energy_efficiency_value,
-                        energy_efficiency_unit,
-                    ] = indicator
+            # col1, col2, col3, col4 = st.columns(4)
+            st.metric(
+                label="Cell Mass / {}".format(cell_mass["unit"]),
+                value=int(np.round(cell_mass["value"])),
+                label_visibility="visible",
+            )
 
-                    cell_mass = {
-                        "value": cell_mass_value,
-                        "unit": cell_mass_unit,
-                    }
-                    cell_energy = {
-                        "value": cell_energy_value,
-                        "unit": cell_energy_unit,
-                    }
-                    specific_energy = {
-                        "value": specific_energy_value,
-                        "unit": specific_energy_unit,
-                    }
-                    energy_efficiency = {
-                        "value": energy_efficiency_value,
-                        "unit": energy_efficiency_unit,
-                    }
-                    cell_capacity = {
-                        "value": cell_cap_value,
-                        "unit": cell_cap_unit,
-                    }
-                    n_to_p_ratio = {
-                        "value": cell_np_value,
-                        "unit": cell_np_unit,
-                    }
+            st.metric(
+                label="Cell Capacity / {}".format(cell_capacity["unit"]),
+                value=int(np.round(cell_capacity["value"])),
+                label_visibility="visible",
+            )
+            st.metric(
+                label="N/P ratio / {}".format(n_to_p_ratio["unit"]),
+                value=np.round(n_to_p_ratio["value"], 1),
+                label_visibility="visible",
+            )
+        else:
 
-                    ne_mass_loading = {
-                        "value": ne_electrode_ml_value,
-                        "unit": ne_electrode_ml_unit,
-                    }
-                    ne_thickness = {
-                        "value": ne_electrode_thi_value,
-                        "unit": ne_electrode_thi_unit,
-                    }
-                    ne_porosity = {
-                        "value": ne_electrode_po_value,
-                        "unit": ne_electrode_po_unit,
-                    }
-                    ne_specific_capacity = {
-                        "value": ne_electrode_cap_value,
-                        "unit": ne_electrode_cap_unit,
-                    }
-                    ne_am_specific_capacity = {
-                        "value": ne_am_cap_value,
-                        "unit": ne_am_cap_unit,
-                    }
-                    pe_mass_loading = {
-                        "value": pe_electrode_ml_value,
-                        "unit": pe_electrode_ml_unit,
-                    }
-                    pe_thickness = {
-                        "value": pe_electrode_thi_value,
-                        "unit": pe_electrode_thi_unit,
-                    }
-                    pe_porosity = {
-                        "value": pe_electrode_po_value,
-                        "unit": pe_electrode_po_unit,
-                    }
-                    pe_specific_capacity = {
-                        "value": pe_electrode_cap_value,
-                        "unit": pe_electrode_cap_unit,
-                    }
-                    pe_am_specific_capacity = {
-                        "value": pe_am_cap_value,
-                        "unit": pe_am_cap_unit,
-                    }
+            tabs = st.tabs(trace_labels)
 
-                if self.page_name == "Simulation":
-                    col1, col2, col3, col4 = st.columns(4)
-                    col2.metric(
-                        label="Cell Mass / {}".format(cell_mass["unit"]),
-                        value=int(np.round(cell_mass["value"])),
-                        label_visibility="visible",
-                    )
+            for i, tab in enumerate(tabs):
 
-                    col3.metric(
-                        label="Cell Capacity / {}".format(cell_capacity["unit"]),
-                        value=int(np.round(cell_capacity["value"])),
-                        label_visibility="visible",
-                    )
-                    col1.metric(
-                        label="N/P ratio / {}".format(n_to_p_ratio["unit"]),
-                        value=np.round(n_to_p_ratio["value"], 1),
-                        label_visibility="visible",
-                    )
+                with tab:
 
-                elif self.page_name == "Results":
+                    indicator = indicators[i]
 
-                    NE, PE, cell = st.tabs(["Negative Electrode", "Positive Electrode", "Cell"])
-                    Electrode_ne, AM_ne = NE.tabs(["Electrode", "Active material"])
-                    Electrode_pe, AM_pe = PE.tabs(["Electrode", "Active material"])
+                    if isinstance(indicator, dict):
 
-                    col1, col2, col3, col4, col5 = cell.columns(5)
+                        cell_mass = indicator["Cell"]["cellMass"]
+                        # cell_energy = indicator["Cell"]["cellEnergy"]
+                        cell_capacity = indicator["Cell"]["nominalCellCapacity"]
+                        n_to_p_ratio = indicator["Cell"]["NPRatio"]
+                        energy_efficiency = indicator["Cell"]["roundTripEfficiency"]
+                        specific_energy = indicator["Cell"]["specificEnergy"]
+                        energy_efficiency = indicator["Cell"]["energyEfficiency"]
 
-                    col2.metric(
-                        label="Mass / {}".format(cell_mass["unit"]),
-                        value=int(np.round(cell_mass["value"])),
-                        label_visibility="visible",
-                    )
-                    col4.metric(
-                        label="Specific energy / {}".format(specific_energy["unit"]),
-                        value=int(np.round(specific_energy["value"])),
-                        label_visibility="visible",
-                    )
+                        ne_mass_loading = indicator["NegativeElectrode"]["massLoading"]
+                        ne_thickness = indicator["NegativeElectrode"]["thickness"]
+                        ne_porosity = indicator["NegativeElectrode"]["porosity"]
+                        ne_specific_capacity = indicator["NegativeElectrode"]["specificCapacity"]
+                        ne_am_specific_capacity = indicator["NegativeElectrode"]["ActiveMaterial"][
+                            "specificCapacity"
+                        ]
+                        pe_mass_loading = indicator["PositiveElectrode"]["massLoading"]
+                        pe_thickness = indicator["PositiveElectrode"]["thickness"]
+                        pe_porosity = indicator["PositiveElectrode"]["porosity"]
+                        pe_specific_capacity = indicator["PositiveElectrode"]["specificCapacity"]
+                        pe_am_specific_capacity = indicator["PositiveElectrode"]["ActiveMaterial"][
+                            "specificCapacity"
+                        ]
 
-                    col5.metric(
-                        label="Round trip efficiency / {}".format(energy_efficiency["unit"]),
-                        value=np.round(energy_efficiency["value"], 2),
-                        label_visibility="visible",
-                    )
-                    # if isinstance(energy_efficiency["value"], str):
-                    #     col4.metric(
-                    #         label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                    #         value = energy_efficiency["value"],
-                    #         label_visibility= "visible"
-                    #     )
-                    # elif isinstance(energy_efficiency["value"],  np.ndarray):
-                    #     col4.metric(
-                    #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                    #             value = np.round(energy_efficiency["value"][0],2),
-                    #             label_visibility= "visible"
-                    #         )
-                    # else:
-                    #     col4.metric(
-                    #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
-                    #             value = np.round(energy_efficiency["value"],2),
-                    #             label_visibility= "visible"
-                    #         )
-                    col3.metric(
-                        label="Capacity / {}".format(cell_capacity["unit"]),
-                        value=int(np.round(cell_capacity["value"])),
-                        label_visibility="visible",
-                    )
-                    col1.metric(
-                        label="N/P ratio / {}".format(n_to_p_ratio["unit"]),
-                        value=np.round(n_to_p_ratio["value"], 1),
-                        label_visibility="visible",
-                    )
+                    elif isinstance(indicator, list):
 
-                    mass_loading, thickness, porosity, capacity = Electrode_ne.columns(4)
+                        [
+                            ne_electrode_ml_value,
+                            ne_electrode_ml_unit,
+                            ne_electrode_thi_value,
+                            ne_electrode_thi_unit,
+                            ne_electrode_po_value,
+                            ne_electrode_po_unit,
+                            ne_electrode_cap_value,
+                            ne_electrode_cap_unit,
+                            ne_am_cap_value,
+                            ne_am_cap_unit,
+                            pe_electrode_ml_value,
+                            pe_electrode_ml_unit,
+                            pe_electrode_thi_value,
+                            pe_electrode_thi_unit,
+                            pe_electrode_po_value,
+                            pe_electrode_po_unit,
+                            pe_electrode_cap_value,
+                            pe_electrode_cap_unit,
+                            pe_am_cap_value,
+                            pe_am_cap_unit,
+                            cell_cap_value,
+                            cell_cap_unit,
+                            cell_mass_value,
+                            cell_mass_unit,
+                            cell_np_value,
+                            cell_np_unit,
+                            cell_energy_value,
+                            cell_energy_unit,
+                            specific_energy_value,
+                            specific_energy_unit,
+                            energy_efficiency_value,
+                            energy_efficiency_unit,
+                        ] = indicator
 
-                    mass_loading.metric(
-                        label="Mass Loading / {}".format(ne_mass_loading["unit"]),
-                        value=int(np.round(ne_mass_loading["value"])),
-                        label_visibility="visible",
-                    )
+                        cell_mass = {
+                            "value": cell_mass_value,
+                            "unit": cell_mass_unit,
+                        }
+                        cell_energy = {
+                            "value": cell_energy_value,
+                            "unit": cell_energy_unit,
+                        }
+                        specific_energy = {
+                            "value": specific_energy_value,
+                            "unit": specific_energy_unit,
+                        }
+                        energy_efficiency = {
+                            "value": energy_efficiency_value,
+                            "unit": energy_efficiency_unit,
+                        }
+                        cell_capacity = {
+                            "value": cell_cap_value,
+                            "unit": cell_cap_unit,
+                        }
+                        n_to_p_ratio = {
+                            "value": cell_np_value,
+                            "unit": cell_np_unit,
+                        }
 
-                    thickness.metric(
-                        label="Thickness / {}".format(ne_thickness["unit"]),
-                        value=int(np.round(ne_thickness["value"])),
-                        label_visibility="visible",
-                    )
+                        ne_mass_loading = {
+                            "value": ne_electrode_ml_value,
+                            "unit": ne_electrode_ml_unit,
+                        }
+                        ne_thickness = {
+                            "value": ne_electrode_thi_value,
+                            "unit": ne_electrode_thi_unit,
+                        }
+                        ne_porosity = {
+                            "value": ne_electrode_po_value,
+                            "unit": ne_electrode_po_unit,
+                        }
+                        ne_specific_capacity = {
+                            "value": ne_electrode_cap_value,
+                            "unit": ne_electrode_cap_unit,
+                        }
+                        ne_am_specific_capacity = {
+                            "value": ne_am_cap_value,
+                            "unit": ne_am_cap_unit,
+                        }
+                        pe_mass_loading = {
+                            "value": pe_electrode_ml_value,
+                            "unit": pe_electrode_ml_unit,
+                        }
+                        pe_thickness = {
+                            "value": pe_electrode_thi_value,
+                            "unit": pe_electrode_thi_unit,
+                        }
+                        pe_porosity = {
+                            "value": pe_electrode_po_value,
+                            "unit": pe_electrode_po_unit,
+                        }
+                        pe_specific_capacity = {
+                            "value": pe_electrode_cap_value,
+                            "unit": pe_electrode_cap_unit,
+                        }
+                        pe_am_specific_capacity = {
+                            "value": pe_am_cap_value,
+                            "unit": pe_am_cap_unit,
+                        }
 
-                    porosity.metric(
-                        label="Porosity / {}".format(ne_porosity["unit"]),
-                        value=np.round(ne_porosity["value"], 2),
-                        label_visibility="visible",
-                    )
-                    capacity.metric(
-                        label="Capacity / {}".format(ne_specific_capacity["unit"]),
-                        value=int(np.round(ne_specific_capacity["value"])),
-                        label_visibility="visible",
-                    )
+                        NE, PE, cell = st.tabs(["Negative Electrode", "Positive Electrode", "Cell"])
+                        Electrode_ne, AM_ne = NE.tabs(["Electrode", "Active material"])
+                        Electrode_pe, AM_pe = PE.tabs(["Electrode", "Active material"])
 
-                    capacity, _, _, _ = AM_ne.columns(4)
-                    capacity.metric(
-                        label="Specific Capacity / {}".format(ne_am_specific_capacity["unit"]),
-                        value=int(np.round(ne_am_specific_capacity["value"])),
-                        label_visibility="visible",
-                    )
+                        col1, col2, col3, col4, col5 = cell.columns(5)
 
-                    mass_loading, thickness, porosity, capacity = Electrode_pe.columns(4)
-
-                    mass_loading.metric(
-                        label="Mass Loading / {}".format(pe_mass_loading["unit"]),
-                        value=int(np.round(pe_mass_loading["value"])),
-                        label_visibility="visible",
-                    )
-
-                    thickness.metric(
-                        label="Thickness / {}".format(pe_thickness["unit"]),
-                        value=int(np.round(pe_thickness["value"])),
-                        label_visibility="visible",
-                    )
-
-                    porosity.metric(
-                        label="Porosity / {}".format(pe_porosity["unit"]),
-                        value=np.round(pe_porosity["value"], 2),
-                        label_visibility="visible",
-                    )
-                    capacity.metric(
-                        label="Capacity / {}".format(pe_specific_capacity["unit"]),
-                        value=int(np.round(pe_specific_capacity["value"])),
-                        label_visibility="visible",
-                    )
-
-                    capacity, _, _, _ = AM_pe.columns(4)
-                    capacity.metric(
-                        label="Specific Capacity / {}".format(pe_am_specific_capacity["unit"]),
-                        value=int(np.round(pe_am_specific_capacity["value"])),
-                        label_visibility="visible",
-                    )
-
-                else:
-                    print(
-                        "ERROR: Page name '{}' to get indicators doesn't match.".format(
-                            self.page_name
+                        col2.metric(
+                            label="Mass / {}".format(cell_mass["unit"]),
+                            value=int(np.round(cell_mass["value"])),
+                            label_visibility="visible",
                         )
-                    )
+                        col4.metric(
+                            label="Specific energy / {}".format(specific_energy["unit"]),
+                            value=int(np.round(specific_energy["value"])),
+                            label_visibility="visible",
+                        )
+
+                        col5.metric(
+                            label="Round trip efficiency / {}".format(energy_efficiency["unit"]),
+                            value=np.round(energy_efficiency["value"], 2),
+                            label_visibility="visible",
+                        )
+                        # if isinstance(energy_efficiency["value"], str):
+                        #     col4.metric(
+                        #         label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                        #         value = energy_efficiency["value"],
+                        #         label_visibility= "visible"
+                        #     )
+                        # elif isinstance(energy_efficiency["value"],  np.ndarray):
+                        #     col4.metric(
+                        #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                        #             value = np.round(energy_efficiency["value"][0],2),
+                        #             label_visibility= "visible"
+                        #         )
+                        # else:
+                        #     col4.metric(
+                        #             label = "Energy efficiency({})".format(energy_efficiency["unit"]),
+                        #             value = np.round(energy_efficiency["value"],2),
+                        #             label_visibility= "visible"
+                        #         )
+                        col3.metric(
+                            label="Capacity / {}".format(cell_capacity["unit"]),
+                            value=int(np.round(cell_capacity["value"])),
+                            label_visibility="visible",
+                        )
+                        col1.metric(
+                            label="N/P ratio / {}".format(n_to_p_ratio["unit"]),
+                            value=np.round(n_to_p_ratio["value"], 1),
+                            label_visibility="visible",
+                        )
+
+                        mass_loading, thickness, porosity, capacity = Electrode_ne.columns(4)
+
+                        mass_loading.metric(
+                            label="Mass Loading / {}".format(ne_mass_loading["unit"]),
+                            value=int(np.round(ne_mass_loading["value"])),
+                            label_visibility="visible",
+                        )
+
+                        thickness.metric(
+                            label="Thickness / {}".format(ne_thickness["unit"]),
+                            value=int(np.round(ne_thickness["value"])),
+                            label_visibility="visible",
+                        )
+
+                        porosity.metric(
+                            label="Porosity / {}".format(ne_porosity["unit"]),
+                            value=np.round(ne_porosity["value"], 2),
+                            label_visibility="visible",
+                        )
+                        capacity.metric(
+                            label="Capacity / {}".format(ne_specific_capacity["unit"]),
+                            value=int(np.round(ne_specific_capacity["value"])),
+                            label_visibility="visible",
+                        )
+
+                        capacity, _, _, _ = AM_ne.columns(4)
+                        capacity.metric(
+                            label="Specific Capacity / {}".format(ne_am_specific_capacity["unit"]),
+                            value=int(np.round(ne_am_specific_capacity["value"])),
+                            label_visibility="visible",
+                        )
+
+                        mass_loading, thickness, porosity, capacity = Electrode_pe.columns(4)
+
+                        mass_loading.metric(
+                            label="Mass Loading / {}".format(pe_mass_loading["unit"]),
+                            value=int(np.round(pe_mass_loading["value"])),
+                            label_visibility="visible",
+                        )
+
+                        thickness.metric(
+                            label="Thickness / {}".format(pe_thickness["unit"]),
+                            value=int(np.round(pe_thickness["value"])),
+                            label_visibility="visible",
+                        )
+
+                        porosity.metric(
+                            label="Porosity / {}".format(pe_porosity["unit"]),
+                            value=np.round(pe_porosity["value"], 2),
+                            label_visibility="visible",
+                        )
+                        capacity.metric(
+                            label="Capacity / {}".format(pe_specific_capacity["unit"]),
+                            value=int(np.round(pe_specific_capacity["value"])),
+                            label_visibility="visible",
+                        )
+
+                        capacity, _, _, _ = AM_pe.columns(4)
+                        capacity.metric(
+                            label="Specific Capacity / {}".format(pe_am_specific_capacity["unit"]),
+                            value=int(np.round(pe_am_specific_capacity["value"])),
+                            label_visibility="visible",
+                        )
 
 
 class SetGeometryVisualization:
@@ -5176,21 +5306,21 @@ class SetGeometryVisualization:
     Used to render the geometry in a Plotly 3D volume plot on the 'Simulation' page.
     """
 
-    def __init__(self, gui_parameters):
-        self.header = "Visualize geometry"
+    def __init__(self, gui_parameters, geometry_holder):
+        self.header = "Cell visualization"
         self.info = """This geometry visualization is an approximation based on the input parameters specified above.
                         The particles are for example visualized using a random data generator."""
         self.gui_parameters = gui_parameters
-        self.set_geometry_visualization()
+        self.set_geometry_visualization(geometry_holder)
 
-    def set_geometry_visualization(self):
-        with st.sidebar:
-            self.set_header_info()
-            geometry_data = self.get_data()
-            self.create_graphs(geometry_data)
+    def set_geometry_visualization(self, geometry_holder):
+        # with st.sidebar:
+        # self.set_header_info(geometry_holder)
+        geometry_data = self.get_data()
+        self.create_graphs(geometry_data, geometry_holder)
 
-    def set_header_info(self):
-        st.markdown("## " + self.header)
+    def set_header_info(self, geometry_holder):
+        geometry_holder.markdown("### " + self.header)
 
     def get_data(self):
         geometry_data = match_json_LD.get_geometry_data_from_gui_dict(self.gui_parameters)
@@ -5206,19 +5336,23 @@ class SetGeometryVisualization:
         radii = 2 * np.ones(num_particles) * particle_radius  # get diameter instead of radius
         return pts, radii
 
-    def create_graphs(_self, geometry_data):
+    def create_graphs(_self, geometry_data, _geometry_holder):
 
-        toggle_box = st.toggle("Full 3D geometry", key="full", label_visibility="visible")
+        col1, col2 = _geometry_holder.tabs(["Full geometry", "Scaled geometry"])
 
-        if toggle_box:
-            _self.create_3d_graph_box(geometry_data)
+        # toggle_box = _geometry_holder.toggle(
+        #     "Full 3D geometry", key="full", label_visibility="visible", value=False
+        # )
 
-        toggle_box_scaled = st.toggle(
-            "Scaled 3D geometry", key="scaled", label_visibility="visible"
-        )
+        # if toggle_box:
+        _self.create_3d_graph_box(geometry_data, col1)
 
-        if toggle_box_scaled:
-            _self.create_3d_graph_box_scaled(geometry_data)
+        # toggle_box_scaled = _geometry_holder.toggle(
+        #     "Scaled 3D geometry", key="scaled", label_visibility="visible", value=True
+        # )
+
+        # if toggle_box_scaled:
+        _self.create_3d_graph_box_scaled(geometry_data, col2)
 
         # toggle_full = st.toggle("Full 3D geometry",key="full", label_visibility="visible")
 
@@ -5236,7 +5370,7 @@ class SetGeometryVisualization:
         #     _self.create_2d_graph(geometry_data)
 
     @st.cache_data
-    def create_3d_graph_box_scaled(_self, geometry_data):
+    def create_3d_graph_box_scaled(_self, geometry_data, _geometry_holder):
 
         thickness_ne = geometry_data["thickness_ne"]
         thickness_pe = geometry_data["thickness_pe"]
@@ -5391,10 +5525,10 @@ class SetGeometryVisualization:
             # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0)
         )
 
-        st.plotly_chart(fig, theme=None, use_container_width=True)
+        _geometry_holder.plotly_chart(fig, theme=None, use_container_width=True)
 
     @st.cache_data
-    def create_3d_graph_box(_self, geometry_data):
+    def create_3d_graph_box(_self, geometry_data, _geometry_holder):
 
         thickness_ne = geometry_data["thickness_ne"]
         thickness_pe = geometry_data["thickness_pe"]
@@ -5549,7 +5683,7 @@ class SetGeometryVisualization:
             # colorbar3=dict(coloraxis_colorbar_x=0.75)#, colorbar_y=0.95, colorbar_yanchor='top', colorbar_ypad=0)
         )
 
-        st.plotly_chart(fig, theme=None, use_container_width=True)
+        _geometry_holder.plotly_chart(fig, theme=None, use_container_width=True)
 
     @st.cache_data
     def create_3d_graph_full(_self, geometry_data):

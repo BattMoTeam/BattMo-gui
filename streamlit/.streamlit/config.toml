@@ -3,3 +3,7 @@
 [global]
 
 disableWidgetStateDuplicationWarning = true
+
+[client]
+
+showSidebarNavigation = false
