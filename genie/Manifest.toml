@@ -1,8 +1,8 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.0"
+julia_version = "1.10.3"
 manifest_format = "2.0"
-project_hash = "a735e578041b15cb5680b00aee07fa383ce116eb"
+project_hash = "a3602f4d5ed55edd642fffd57f0de9c45ee2f9d6"
 
 [[deps.AMD]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse_jll"]
@@ -163,7 +163,7 @@ weakdeps = ["Dates", "LinearAlgebra"]
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.5+1"
+version = "1.1.1+0"
 
 [[deps.ConcurrentUtilities]]
 deps = ["Serialization", "Sockets"]
@@ -428,6 +428,12 @@ version = "1.14.0"
 
     [deps.JSON3.weakdeps]
     ArrowTypes = "31f734f8-188a-4ce0-8406-c8a06bd891cd"
+
+[[deps.JSONSchema]]
+deps = ["Downloads", "JSON", "JSON3", "URIs"]
+git-tree-sha1 = "12b043193737b6f3224715c642a1ae2097b0e75d"
+uuid = "7d188eb4-7ad8-530c-ae41-71a32a6d4692"
+version = "1.4.0"
 
 [[deps.JuliaFormatter]]
 deps = ["CSTParser", "CommonMark", "DataStructures", "Glob", "Pkg", "PrecompileTools", "Tokenize"]
@@ -737,7 +743,7 @@ weakdeps = ["Adapt"]
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.23+2"
+version = "0.3.23+4"
 
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1041,6 +1047,18 @@ uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
 deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
 uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
 version = "7.2.1+1"
+
+[[deps.SwagUI]]
+deps = ["HTTP", "JSON", "Test"]
+git-tree-sha1 = "3b131b0726fc1b56e9ae86668b5e5bc44fe14d08"
+uuid = "bf05d729-34b2-4f1f-a2f1-2452bece7ebc"
+version = "0.10.0"
+
+[[deps.SwaggerMarkdown]]
+deps = ["JSON", "JSONSchema", "Test", "UUIDs", "YAML"]
+git-tree-sha1 = "ea2513768e67b5ca27bbbab19e34179714a78cab"
+uuid = "1b6eb727-ad4b-44eb-9669-b9596a6e760f"
+version = "0.2.1"
 
 [[deps.SymRCM]]
 deps = ["LinearAlgebra", "SparseArrays", "Test"]

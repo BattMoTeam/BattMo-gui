@@ -7,6 +7,8 @@ using UUIDs
 using JSON
 using HDF5
 using Base.Threads: ReentrantLock, lock, unlock
+using SwagUI
+using SwaggerMarkdown
 
 
 include("runP2DBattery.jl")
@@ -188,6 +190,17 @@ route("/run_simulation", method = POST) do
 
     return response
 
+end
+
+
+#############################################################################
+# Build a swagger swagger_document
+#############################################################################
+
+swagger_document = JSON.parsefile("/home/genie/app/app/swagger.json")
+
+route("/docs") do 
+    render_swagger(swagger_document)
 end
 
 up()
