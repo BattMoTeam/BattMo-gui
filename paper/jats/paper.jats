@@ -96,16 +96,18 @@ a Creative Commons Attribution 4.0 International License (CC BY
 <sec id="summary">
   <title>Summary</title>
   <p>BattMoApp is a web-based application built upon the command-line
-  based battery modelling software, BattMo. It features a user-friendly
-  graphical interface that simplifies the simulation of battery cells.
-  The development of BattMoApp has been centered on accessibility,
-  intuitiveness, and usability, with the aim of making it a practical
-  and valuable tool for both educational and research purposes in the
-  battery field. Its design allows users to simulate, obtain, analyze,
-  and compare results within just a few minutes. While BattMoApp
-  leverages a small yet crucial portion of BattMo’s capabilities, its
-  intuitive and explanatory design also makes it an ideal starting point
-  for those looking to explore the more comprehensive and complex BattMo
+  based battery modelling software, BattMo
+  (<xref alt="al., n.d." rid="ref-BattMoDoc" ref-type="bibr">al.,
+  n.d.</xref>). It features a user-friendly graphical interface that
+  simplifies the simulation of battery cells. The development of
+  BattMoApp has been centered on accessibility, intuitiveness, and
+  usability, with the aim of making it a practical and valuable tool for
+  both educational and research purposes in the battery field. Its
+  design allows users to simulate, obtain, analyze, and compare results
+  within just a few minutes. While BattMoApp leverages a small yet
+  crucial portion of BattMo’s capabilities, its intuitive and
+  explanatory design also makes it an ideal starting point for those
+  looking to explore the more comprehensive and complex BattMo
   software.</p>
 </sec>
 <sec id="statement-of-need">
@@ -259,11 +261,14 @@ a Creative Commons Attribution 4.0 International License (CC BY
   simulation models and features like parameterization. BattMoApp will
   continue seeking feedback from its target audience to enhance
   usability and practicality. Additionally, more effort will be
-  dedicated to improving the performance BattMo GUI to improve user
-  interactivity.</p>
+  dedicated to improving the performance of BattMo GUI to improve user
+  interactivity. As the Streamlit framework comes with some limitations
+  in terms of flexibility and performance, changing to a different front
+  end framework that is better suited for reactive applications will be
+  a serious consideration in the future.</p>
 </sec>
-<sec id="installation-and-contribution">
-  <title>Installation and contribution</title>
+<sec id="installation">
+  <title>Installation</title>
   <p><monospace>BattMoApp</monospace> can easily be used online at the
   following address: app.batterymodel.com. Furthermore, it can be
   locally installed using Docker. The Docker images and a detailed
@@ -285,5 +290,17 @@ a Creative Commons Attribution 4.0 International License (CC BY
 </sec>
 </body>
 <back>
+<ref-list>
+  <title></title>
+  <ref id="ref-BattMoDoc">
+    <element-citation>
+      <person-group person-group-type="author">
+        <name><surname>al.</surname><given-names>Simon Clark et</given-names></name>
+      </person-group>
+      <article-title>BattMo documentation</article-title>
+      <source>https://battmoteam.github.io/BattMo-doc</source>
+    </element-citation>
+  </ref>
+</ref-list>
 </back>
 </article>
