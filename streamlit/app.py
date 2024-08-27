@@ -13,11 +13,34 @@ st.set_page_config(
     page_icon=Image.open(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png")
     ),
-    layout="wide",
+    # layout="wide",
 )
 
 
-st.logo(os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png"))
+st.logo(
+    image=os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo_text.png"
+    ),
+    link="https://batterymodel.com/",
+    icon_image=os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png"
+    ),
+)
+
+# Inject CSS to make the logo bigger
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] img {
+        width: 250px !important;  /* Adjust this value to your desired width */
+        height: auto;  /* Maintain the aspect ratio */
+        margin: 0 auto;  /* Center the logo */
+        display: block;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 ##############################
 # Remember user changed values

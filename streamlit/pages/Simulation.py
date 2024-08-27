@@ -9,6 +9,7 @@ import json
 import numpy as np
 import tempfile
 import uuid
+import h5py
 from streamlit_extras.stylable_container import stylable_container
 
 
@@ -54,6 +55,12 @@ if "success" not in st.session_state:
 if "transfer_results" not in st.session_state:
     st.session_state.transfer_results = None
 
+if "simulation_uuid" not in st.session_state:
+    st.session_state.simulation_uuid = None
+
+if "simulation_results" not in st.session_state:
+    st.session_state.simulation_results = None
+
 if "response" not in st.session_state:
     st.session_state.response = None
 
@@ -92,6 +99,9 @@ if "number_of_states" not in st.session_state:
 if "log_messages" not in st.session_state:
     st.session_state.log_messages = None
 
+if "stop_simulation" not in st.session_state:
+    st.session_state.stop_simulation = None
+
 page_name = "Simulation"
 
 log_memory_usage()
@@ -114,16 +124,20 @@ app.download_parameters(gui_parameters)
 
 success = app.run_simulation(gui_parameters).success
 
-# st.session_state.succes = True
+if st.session_state.sim_finished == True:
 
-save_run = st.container()
-app.divergence_check(save_run, st.session_state.success)
+    # with h5py.File(app_access.get_path_to_battmo_results(), "r") as f:
+    #     data = f
+
+    save_run = st.container()
+    app.divergence_check(save_run, st.session_state.simulation_results)
 
 if st.session_state.success and st.session_state.transfer_results:
     st.session_state["toast"](
         ":green-background[Find your results on the results page!]", icon="✅"
     )
-    st.session_state.success = False
+    st.session_state.success = None
+    st.session_state.sim_finished = None
 
 st.session_state.response = None
 

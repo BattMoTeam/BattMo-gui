@@ -1,12 +1,13 @@
 
 println("Current project genie: $(Base.active_project())")
 println("BattMo loaded")
-using Genie, Genie.Renderer.Json, Genie.Requests
+using Genie, Genie.Renderer.Json, Genie.Requests, Genie.Router, Genie.Assets
 using HTTP
+using HTTP.WebSockets
 using UUIDs
 using JSON
 using HDF5
-using Base.Threads: ReentrantLock, lock, unlock
+using Base.Threads: ReentrantLock, lock, unlock, @async, wait, Condition
 using SwagUI
 using SwaggerMarkdown
 
@@ -19,8 +20,143 @@ Genie.config.run_as_server = true
 Genie.config.server_host = "0.0.0.0"
 Genie.config.cors_allowed_origins = ["*"]
 
+
+
+
 # Initialize lock
 const simulation_lock = ReentrantLock()
+const simulations = Dict{String, Tuple{Task, Condition}}()
+
+
+#############################################################################
+# Websocket 
+#############################################################################
+
+const ws_port = 8081  # Choose an available port
+
+function handle_websocket(ws::WebSocket)
+    try
+        while true
+            # Attempt to read a message from the WebSocket
+            input_data = WebSockets.receive(ws)
+            if input_data === nothing
+                break  # Exit the loop if no message is received (end of stream)
+            end
+            
+            parsed_data = JSON.parse(input_data)
+
+            # Handle "start_simulation" command
+            if haskey(parsed_data, "command") && parsed_data["command"] == "start_simulation"
+
+                uuid_str_in = string(UUIDs.uuid4())
+                uuid_str_out = string(UUIDs.uuid4())
+
+                println("Received JSON input data with id: ", uuid_str_in)
+                WebSockets.send(ws, "UUID: $uuid_str_in")
+
+                # Create a file name with the UUID
+                input_file_name = "$uuid_str_in.json"
+                output_path_name = uuid_str_out
+
+                json_input_data = parsed_data["parameters"]
+                
+                # Write the JSON data to the file
+                open(input_file_name, "w") do temp_input_file
+                    JSON.print(temp_input_file, json_input_data)
+                end
+
+                stop_condition = Condition()
+
+                # Spawn a new thread to handle the simulation
+                simulation_thread = @async run_simulation(input_file_name, output_path_name, stop_condition)
+
+                # Store the simulation thread and condition variable
+                simulations[uuid_str_in] = (simulation_thread, stop_condition)
+
+                # Inform the client that the simulation has started
+                # WebSockets.send(ws, "Simulation started with ID: $uuid_str_out")
+
+                # Polling to wait until the file is ready
+                output_file_path = "results/$output_path_name.h5"
+                max_retries = 600
+                sleep_interval = 0.1
+                retries = 0
+
+                while !isfile(output_file_path) && retries < max_retries
+                    sleep(sleep_interval)
+                    retries += 1
+
+                    WebSockets.send(ws, "Simulation progress: $((retries / max_retries) * 100)")
+                end
+
+                if retries >= max_retries
+                    WebSockets.send(ws, "Simulation timed out or failed.")
+                    WebSockets.close(ws)  # Ensure the WebSocket is closed 
+                end
+
+                # Clean up: remove the input file
+                if isfile(input_file_name)
+                    rm(input_file_name)  # Delete the file
+                    println("File deleted successfully.")
+                else
+                    println("File does not exist.")
+                end
+
+                # Once the file is ready, read it and return the response
+                open("results/$output_path_name.h5", "r") do hdf5_file
+                    hdf5_data = read(hdf5_file)
+                    WebSockets.send(ws, hdf5_data)
+                end
+
+                WebSockets.send(ws, "Simulation complete! HDF5 data has been sent.")
+
+                rm("results/$output_path_name.h5")
+
+                WebSockets.close(ws)  # Ensure the WebSocket is closed
+
+            # Handle "stop_simulation" command
+            elseif haskey(parsed_data, "command") && parsed_data["command"] == "stop_simulation"
+
+                uuid = parsed_data["uuid"]
+                if haskey(simulations, uuid)
+                    task, stop_condition = simulations[uuid]
+
+                    # Signal the task to stop
+                    lock(simulation_lock) do
+                        notify(stop_condition)
+                    end
+
+                    # Wait for the task to complete
+                    wait(task)
+                    delete!(simulations, uuid)
+
+                    WebSockets.send(ws, JSON.json(Dict("status" => "stopped", "uuid" => uuid)))
+                else
+                    WebSockets.send(ws, JSON.json(Dict("status" => "error", "message" => "No simulation found with ID $uuid")))
+                end
+            end
+        end
+    catch e
+        println("Error handling WebSocket: ", e)
+    finally
+        WebSockets.close(ws)  # Ensure the WebSocket is closed
+    end
+end
+
+function start_websocket_server()
+    ws_port = 8081
+    HTTP.WebSockets.listen!("0.0.0.0", ws_port) do ws
+        handle_websocket(ws)
+    end
+end
+
+start_websocket_server()
+
+
+#############################################################################
+# Run BattMo simulation
+#############################################################################
+
 
 function create_hdf5_output_file(output,file_path)
 
@@ -113,7 +249,7 @@ function create_hdf5_output_file(output,file_path)
 
 end
 
-function run_simulation(input_file_name, output_path_name)
+function run_simulation(input_file_name, output_path_name, stop_condition::Condition)
 
     try
         output = runP2DBattery.runP2DBatt(input_file_name);
@@ -125,73 +261,14 @@ function run_simulation(input_file_name, output_path_name)
     catch e
         @error "Simulation error: $e"
 
+    finally
+        lock(simulation_lock) do
+            notify(stop_condition)
+        end
 
     end
 
 end
-
-
-
-route("/run_simulation", method = POST) do
-    # Retrieve JSON data from the request sent by Client
-    input_data = jsonpayload()
-
-    # Generate a UUID
-    uuid_str_in = string(UUIDs.uuid4())
-    uuid_str_out = string(UUIDs.uuid4())
-
-    # Create a file name with the UUID
-    input_file_name = "$uuid_str_in.json"
-    output_path_name = uuid_str_out
-
-
-    # Write the JSON data to the file
-    open(input_file_name, "w") do temp_input_file
-        JSON.print(temp_input_file, input_data)
-    end
-
-    # Spawn a new thread to handle the simulation
-    simulation_thread = Threads.@spawn run_simulation(input_file_name, output_path_name)
-
-
-    # Polling to wait until the file is ready
-    output_file_path = "results/$output_path_name.h5"
-    max_retries = 600
-    sleep_interval = 0.1
-    retries = 0
-
-    while !isfile(output_file_path) && retries < max_retries
-        sleep(sleep_interval)
-        retries += 1
-    end
-
-    if retries >= max_retries
-        return HTTP.Response(500, "Simulation timed out or failed.")
-    end
-
-    if isfile(input_file_name)
-        rm(input_file_name)  # Delete the file
-        println("File deleted successfully.")
-    else
-        println("File does not exist.")
-    end
-
-    # Once the file is ready, read it and return the response
-    hdf5_data = read("results/$output_path_name.h5")
-
-    # Concatenate the vectors of UInt8 into a single vector
-    concatenated_data = vcat(hdf5_data...)
-
-    # Set up the HTTP response
-    response = HTTP.Response(200)
-    push!(response.headers, "Content-Type" => "application/octet-stream")
-    response.body = concatenated_data
-    # response = HTTP.Response(200, headers=Dict("Content-Type" => "application/octet-stream"), body=concatenated_data)
-
-    return response
-
-end
-
 
 #############################################################################
 # Build a swagger swagger_document

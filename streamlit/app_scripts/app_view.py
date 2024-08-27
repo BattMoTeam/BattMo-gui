@@ -5,6 +5,7 @@ import pickle
 import io
 import h5py
 import streamlit as st
+from streamlit.runtime.scriptrunner import add_script_run_ctx
 import numpy as np
 from uuid import uuid4
 import sys
@@ -22,6 +23,10 @@ import pandas as pd
 import random
 import re
 import math
+import threading
+import websocket
+import time
+import asyncio
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -3603,7 +3608,7 @@ class RunSimulation:
         # self.gui_file_name = "gui_output_parameters.json"
         # self.file_mime_type = "application/json"
         self.success = st.session_state.success
-        self.api_url = "http://genie:8000/run_simulation"
+        self.api_url = "ws://genie:8081"
         self.json_input_folder = "BattMoJulia"
         self.json_input_file = "battmo_formatted_input.json"
         self.julia_module_folder = "BattMoJulia"
@@ -3620,6 +3625,7 @@ class RunSimulation:
 
         self.set_header(save_run)
         file_name = self.set_naming(save_run)
+        self.file_name = file_name
         self.set_buttons(save_run, file_name)
 
     def set_header(self, save_run):
@@ -3642,8 +3648,13 @@ class RunSimulation:
                 "Give your results a name.",
                 value=st.session_state["simulation_results_file_name"],
             )
-
             st.session_state["simulation_results_file_name"] = file_name
+
+        else:
+
+            random_number = random.randint(1000, 9999)
+            random_file_name = str(random_number)
+            st.session_state["simulation_results_file_name"] = "data_" + random_file_name
 
     def set_buttons(self, save_run, file_name):
 
@@ -3656,16 +3667,19 @@ class RunSimulation:
         #     #help = "Update the parameter values."
         # )
         col1, col2 = save_run.columns((1, 1))
-        runing = col1.button(
+        running = col1.button(
             label="RUN",
-            on_click=self.execute_api_on_click,
-            args=(save_run, file_name),
+            # on_click=self.execute_api_on_click,
+            # args=(save_run, file_name),
             type="primary",
             use_container_width=True,
             # help = "Run the simulation (after updating the parameters)."
         )
 
         results_page = col2.button(label="Results", type="primary", use_container_width=True)
+
+        if running:
+            self.execute_api_on_click(save_run, file_name)
 
         if results_page:
             switch_page("Results")
@@ -3699,6 +3713,93 @@ class RunSimulation:
                 indent=3,
             )
 
+    def on_message(self, ws, message):
+        try:
+            if message == "Simulation failed or timed out.":
+                st.error("Simulation failed or timed out.")
+                st.session_state.sim_finished = True
+            else:
+                if isinstance(message, str):
+                    if "Simulation progress" in message:
+                        self.bar.progress(int(round(float(message.split(": ")[1]))), "Progress")
+                    elif "UUID" in message:
+                        st.session_state.simulation_uuid = message.split(": ")[1]
+                    else:
+                        st.write(message)
+
+                else:
+                    st.session_state.response = True
+                    st.session_state.sim_finished = True
+                    # message_h5 = h5py.File(message, "r")
+                    st.session_state.simulation_results = message
+
+                    # st.write("class:", DivergenceCheck)
+                    # self.success = DivergenceCheck(save_run=None, response=message).success
+                    # st.write("succes:", self.success)
+        except EOFError as e:
+            st.error(f"WebSocket message handling error: {e}")
+            st.session_state.sim_finished = True
+
+    def on_error(self, ws, error):
+        st.error(f"WebSocket error: {error}")
+
+        st.session_state.response = False
+        st.session_state.sim_finished = True
+        st.session_state.simulation_results = False
+
+    def on_close(self, ws, close_status_code, close_msg):
+        st.write("WebSocket connection closed")
+
+    def on_open(self, ws):
+        # Send the JSON data as soon as the WebSocket connection is established
+        with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
+            json_data = json.load(j)
+            start_dict = {"command": "start_simulation", "parameters": json_data}
+        ws.send(json.dumps(start_dict))
+
+    def run_simulation(self):
+
+        ws = websocket.WebSocketApp(
+            self.api_url,
+            on_open=self.on_open,
+            on_message=self.on_message,
+            on_error=self.on_error,
+            on_close=self.on_close,
+        )
+
+        async def run_websocket():
+            stop_simulation = st.button(
+                "stop simulation", key="stop simulation", on_click=self.stop_simulation
+            )
+            ws.run_forever()
+
+        self.bar = st.progress(0, "Progress")
+        asyncio.run(run_websocket())
+
+        # ws_thread = threading.Thread(target=run_websocket)
+        # add_script_run_ctx(ws_thread)
+        # ws_thread.start()
+
+        # thread = threading.Thread(target=run_websocket)
+        # add_script_run_ctx(thread)
+        # thread.start()
+
+        while not st.session_state.stop_simulation and not st.session_state.sim_finished:
+            st.write("..")
+            if st.session_state.stop_simulation == True:
+                stop_dict = {"command": "stop_simulation", "uuid": st.session_state.simulation_uuid}
+                ws.send(json.dumps(stop_dict))
+                st.session_state.sim_finished = True
+
+            time.sleep(0.2)  # Keep the loop running until the simulation is done
+
+        ws.close()
+
+    def stop_simulation():
+
+        st.session_state.stop_simulation = True
+
+    @st.dialog("Simulation")
     def execute_api_on_click(self, save_run, file_name):
 
         st.session_state["toast"](":green-background[Starting simulation!]", icon="🕙")
@@ -3712,70 +3813,45 @@ class RunSimulation:
 
         self.update_on_click(file_name)
 
-        # if st.session_state.update_par != True:
-        # save_run.warning("""The parameters are not updated yet.
-        #             Simulation not initiated. Click on the 'UPDATE' button first.""")
+        st.session_state.stop_simulation = False
 
-        # elif st.session_state.update_par == True:
-
-        with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
-            json_data = json.loads(j.read())
-
-        # Set the Content-Type header to application/json
-        headers = {"Content-Type": "application/json"}
-
-        response_start = requests.post(self.api_url, json=json_data)
-
-        if response_start.status_code == 200:
-
-            st.session_state.response = True
-
-            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
-            #     f.write(response_start.content)
-
-            # file_like_object = io.BytesIO(response_start.content)
-            # with h5py.File(file_like_object, 'r') as hdf5_file:
-
-            #     st.write(hdf5_file["concentrations"]["electrolyte"]["elyte_c_state_1"][()])
-
-            if st.session_state["checkbox_value"] == False:
-
-                # random_file_name = str(uuid4())
-                random_number = random.randint(1000, 9999)
-                random_file_name = str(random_number)
-                st.session_state["simulation_results_file_name"] = "data_" + random_file_name
-
-            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
-            #     f.write(response_start.content)
-
-            self.success = DivergenceCheck(save_run, response_start.content).success
-
-        else:
-
-            # st.error("The data has not been retrieved succesfully, most probably due to an unsuccesful simulation")
-            # st.session_state.success = False
-            # self.success = False
-
-            self.success = DivergenceCheck(save_run, False).success
-
-            st.session_state.response = False
-
-            # with open("BattMo_results.pkl", "rb") as f:
-            #     data = pickle.load(f)
-
-            # with open(os.path.join(app_access.get_path_to_gui_dir(), self.results_folder, uuids), "rb") as pickle_result:
-            #     result = pickle.load(pickle_result)
-
-            # with open(os.path.join(app_access.get_path_to_python_dir(), self.temporary_results_file), "wb") as new_pickle_file:
-            #             pickle.dump(result, new_pickle_file)
-
-            # clear cache to get new data in hdf5 file (cf Plot_latest_results)
-            st.cache_data.clear()
-
-            st.session_state.update_par = False
-            st.session_state.sim_finished = True
+        self.run_simulation()
 
 
+# def run_simulation(self, save_run, file_name):
+
+#     with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
+#         json_data = json.loads(j.read())
+
+#     # Set the Content-Type header to application/json
+#     headers = {"Content-Type": "application/json"}
+
+#     while st.session_state.stop_simulation != True and st.session_state.sim_finished != True:
+
+#         response_start = requests.post(self.api_url, json=json_data)
+
+#     if response_start.status_code == 200:
+
+#         st.session_state.response = True
+
+#         if st.session_state["checkbox_value"] == False:
+
+#             random_number = random.randint(1000, 9999)
+#             random_file_name = str(random_number)
+#             st.session_state["simulation_results_file_name"] = "data_" + random_file_name
+
+#         self.success = DivergenceCheck(save_run, response_start.content).success
+
+#     else:
+#         self.success = DivergenceCheck(save_run, False).success
+
+#         st.session_state.response = False
+
+#         st.cache_data.clear()
+
+
+#         st.session_state.update_par = False
+#         st.session_state.sim_finished = True
 class DivergenceCheck:
     """
     Checks if the simulation is fully executed. If not it provides a warning to the user.
@@ -4078,7 +4154,7 @@ class DivergenceCheck:
             and st.session_state.success == False
             and st.session_state.response != None
         ):
-            self.save_run.error(
+            st.error(
                 "The data has not been retrieved succesfully, most probably due to an unsuccesful simulation"
             )
             st.session_state.success = False
@@ -4106,7 +4182,7 @@ class DivergenceCheck:
                     c.code(log_message + """ \n""")
                 else:
 
-                    self.save_run.error("Simulation wasn't successful unfortunately.")
+                    st.error("Simulation wasn't successful unfortunately.")
 
             else:
 
@@ -4114,7 +4190,7 @@ class DivergenceCheck:
                 file_path = os.path.join(st.session_state["temp_dir"], temp_file_name + ".hdf5")
 
                 self.success = True
-                self.save_run.success(
+                st.success(
                     f"""Simulation finished successfully! Check the results on the 'Results' page."""
                 )  # \n\n
 
@@ -4150,6 +4226,8 @@ class DivergenceCheck:
 
         elif st.session_state.response == None:
             pass
+
+        st.session_state.response == None
 
 
 class DownloadParameters:
@@ -4480,6 +4558,7 @@ class GetResultsData:
         formatted_results, indicators, input_files = self.format_results(
             results, indicators, file_names, input_files
         )
+
         self.results = formatted_results
         # file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
         # with open(file_path, "wb") as f:
@@ -4490,10 +4569,10 @@ class GetResultsData:
 
         if response:
             response = io.BytesIO(response)
-
             response.seek(0)
 
             results = h5py.File(response, "r")
+
             indicators = None
             input_files = None
         else:
@@ -6359,9 +6438,9 @@ class SetHDF5Upload:
 
                 st.success(
                     f"""File is saved with name {uploaded_file[0].name}.
-                           
+
                            All results are stored temporarily and will be deleted on refreshing or closing the browser.
-                           
+
                            """
                 )
 
