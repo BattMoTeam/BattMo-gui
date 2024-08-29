@@ -3721,11 +3721,15 @@ class RunSimulation:
             else:
                 if isinstance(message, str):
                     if "Simulation progress" in message:
-                        self.bar.progress(int(round(float(message.split(": ")[1]))), "Progress")
+                        progress_bar = self.bar.progress(0, "Simulation progress")
+                        dt_perc = float(message.split(": ")[1])
+                        progress = st.session_state.simulation_progress + dt_perc
+                        progress_bar.progress(progress, "Simulation progress")
+                        st.session_state.simulation_progress = progress
                     elif "UUID" in message:
                         st.session_state.simulation_uuid = message.split(": ")[1]
                     else:
-                        st.write(message)
+                        st.success(message)
 
                 else:
                     st.session_state.response = True
@@ -3748,9 +3752,10 @@ class RunSimulation:
         st.session_state.simulation_results = False
 
     def on_close(self, ws, close_status_code, close_msg):
-        st.write("WebSocket connection closed")
+        st.info("WebSocket connection closed")
 
     def on_open(self, ws):
+        self.bar = st.empty()
         # Send the JSON data as soon as the WebSocket connection is established
         with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
             json_data = json.load(j)
@@ -3767,14 +3772,11 @@ class RunSimulation:
             on_close=self.on_close,
         )
 
-        async def run_websocket():
-            stop_simulation = st.button(
-                "stop simulation", key="stop simulation", on_click=self.stop_simulation
-            )
+        def run_websocket():
             ws.run_forever()
 
-        self.bar = st.progress(0, "Progress")
-        asyncio.run(run_websocket())
+        st.info("Pre-processing started")
+        run_websocket()
 
         # ws_thread = threading.Thread(target=run_websocket)
         # add_script_run_ctx(ws_thread)
@@ -3784,18 +3786,25 @@ class RunSimulation:
         # add_script_run_ctx(thread)
         # thread.start()
 
-        while not st.session_state.stop_simulation and not st.session_state.sim_finished:
-            st.write("..")
-            if st.session_state.stop_simulation == True:
-                stop_dict = {"command": "stop_simulation", "uuid": st.session_state.simulation_uuid}
-                ws.send(json.dumps(stop_dict))
-                st.session_state.sim_finished = True
+        # empty_stop = st.empty()
+        # i = 0
+        # while not st.session_state.sim_finished:  # and not st.session_state.stop_simulation:
+        #     #     stop_simulation = empty_stop.button(
+        #     #         "stop simulation", key="{}".format(i), on_click=self.stop_simulation
+        #     #     )
 
-            time.sleep(0.2)  # Keep the loop running until the simulation is done
+        #     # if st.session_state.stop_simulation == True:
+        #     #     stop_dict = {"command": "stop_simulation", "uuid": st.session_state.simulation_uuid}
+        #     #     ws.send(json.dumps(stop_dict))
+        #     #     st.session_state.sim_finished = True
 
+        #     time.sleep(0.2)  # Keep the loop running until the simulation is done
+        #     i += 1
+        # ws_thread.join()
+        st.session_state.simulation_progress = 0
         ws.close()
 
-    def stop_simulation():
+    def stop_simulation(self):
 
         st.session_state.stop_simulation = True
 

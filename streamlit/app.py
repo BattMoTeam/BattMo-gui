@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from streamlit_navigation_bar import st_navbar
-import pages as pg
+import app_pages as pg
 from PIL import Image
 
 
@@ -49,14 +49,14 @@ for k, v in st.session_state.items():
 ##############################
 
 
-home_page = st.Page("pages/Home.py", title="Home", default=True)  # , icon="🏠")
+home_page = st.Page("app_pages/Home.py", title="Home", default=True)  # , icon="🏠")
 
-simulation_page = st.Page("pages/Simulation.py", title="Simulation")  # , icon="🔋")
+simulation_page = st.Page("app_pages/Simulation.py", title="Simulation")  # , icon="🔋")
 
-results_page = st.Page("pages/Results.py", title="Results")  # , icon="📈")
+results_page = st.Page("app_pages/Results.py", title="Results")  # , icon="📈")
 
 materials_models_page = st.Page(
-    "pages/Materials_and_models.py", title="Materials and models"
+    "app_pages/Materials_and_models.py", title="Materials and models"
 )  # , icon="🍪")
 
 

@@ -61,6 +61,9 @@ if "simulation_uuid" not in st.session_state:
 if "simulation_results" not in st.session_state:
     st.session_state.simulation_results = None
 
+if "simulation_progress" not in st.session_state:
+    st.session_state.simulation_progress = 0
+
 if "response" not in st.session_state:
     st.session_state.response = None
 

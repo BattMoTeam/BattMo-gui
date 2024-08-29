@@ -76,7 +76,7 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.BattMo]]
 deps = ["JLD2", "JSON", "Jutul", "MAT", "Polynomials", "PrecompileTools", "RuntimeGeneratedFunctions", "StaticArrays", "Test", "Tullio", "x264_jll"]
-git-tree-sha1 = "7aaeee020a758723b584275f7e554cbc930967df"
+git-tree-sha1 = "23a5656d4da94a58c71690b7a896faf06e9dc234"
 repo-rev = "dev"
 repo-url = "https://github.com/BattMoTeam/BattMo.jl.git"
 uuid = "6f0c0536-3c2c-4762-a987-c605a8a6f898"
@@ -449,11 +449,11 @@ version = "0.9.30"
 
 [[deps.Jutul]]
 deps = ["AlgebraicMultigrid", "Crayons", "DataStructures", "Dates", "ExprTools", "ForwardDiff", "Graphs", "ILUZero", "JLD2", "Krylov", "LinearAlgebra", "LinearOperators", "Logging", "LoopVectorization", "MAT", "MappedArrays", "Metis", "OrderedCollections", "Polyester", "PolyesterWeave", "Polynomials", "PrettyTables", "Printf", "ProgressMeter", "SparseArrays", "SparsityTracing", "StaticArrays", "Statistics", "SymRCM", "Test", "TimerOutputs", "Tullio"]
-git-tree-sha1 = "75acf926235d3ac1f31816b26d87f5d0e89d126d"
+git-tree-sha1 = "c28dba86c4626716247d33ea717d71c94bdbab47"
 repo-rev = "battmo"
 repo-url = "https://github.com/sintefmath/Jutul.jl.git"
 uuid = "2b460a1a-8a2b-45b2-b125-b5c536396eb9"
-version = "0.2.26"
+version = "0.2.31"
 
     [deps.Jutul.extensions]
     JutulGLMakieExt = "GLMakie"

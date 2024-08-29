@@ -68,7 +68,7 @@ function handle_websocket(ws::WebSocket)
                 stop_condition = Condition()
 
                 # Spawn a new thread to handle the simulation
-                simulation_thread = @async run_simulation(input_file_name, output_path_name, stop_condition)
+                simulation_thread = @async run_simulation(input_file_name, output_path_name, stop_condition,ws)
 
                 # Store the simulation thread and condition variable
                 simulations[uuid_str_in] = (simulation_thread, stop_condition)
@@ -86,7 +86,7 @@ function handle_websocket(ws::WebSocket)
                     sleep(sleep_interval)
                     retries += 1
 
-                    WebSockets.send(ws, "Simulation progress: $((retries / max_retries) * 100)")
+                    # WebSockets.send(ws, "Simulation progress: $((retries / max_retries) * 100)")
                 end
 
                 if retries >= max_retries
@@ -249,10 +249,10 @@ function create_hdf5_output_file(output,file_path)
 
 end
 
-function run_simulation(input_file_name, output_path_name, stop_condition::Condition)
+function run_simulation(input_file_name, output_path_name, stop_condition::Condition, ws::WebSocket)
 
     try
-        output = runP2DBattery.runP2DBatt(input_file_name);
+        output = runP2DBattery.runP2DBatt(input_file_name,ws);
 
         lock(simulation_lock) do
             create_hdf5_output_file(output,"results/$output_path_name.h5")
