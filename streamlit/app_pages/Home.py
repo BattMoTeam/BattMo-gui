@@ -26,7 +26,7 @@ set_heading()
 app_view.st_space(space_width=3)
 
 # Set page navigation
-# col = set_page_navigation()
+col = set_page_navigation()
 
 # Set external links to websites and documentation
 set_external_links()

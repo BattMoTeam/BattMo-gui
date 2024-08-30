@@ -113,8 +113,8 @@ app = get_app_controller()
 
 model_id = app.set_model_choice().selected_model
 
-if st.session_state.success and st.session_state.transfer_results:
-    st.session_state["toast"](":green-background[Gathering the results!]", icon="💤")
+# if st.session_state.success and st.session_state.transfer_results:
+#     st.session_state["toast"](":green-background[Gathering the results!]", icon="💤")
 
 gui_parameters = app.set_tabs(model_id).user_input
 
@@ -136,9 +136,9 @@ if st.session_state.sim_finished == True:
     app.divergence_check(save_run, st.session_state.simulation_results)
 
 if st.session_state.success and st.session_state.transfer_results:
-    st.session_state["toast"](
-        ":green-background[Find your results on the results page!]", icon="✅"
-    )
+    # st.session_state["toast"](
+    #     ":green-background[Find your results on the results page!]", icon="✅"
+    # )
     st.session_state.success = None
     st.session_state.sim_finished = None
 

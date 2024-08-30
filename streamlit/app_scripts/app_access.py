@@ -31,7 +31,7 @@ def get_path_to_streamlit_dir():
 @st.cache_data
 def get_path_to_pages_dir():
     streamlit_path = get_path_to_streamlit_dir()
-    pages_path = os.path.join(streamlit_path, "pages")
+    pages_path = os.path.join(streamlit_path, "app_pages")
     return pages_path
 
 

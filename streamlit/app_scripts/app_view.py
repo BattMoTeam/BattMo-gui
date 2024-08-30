@@ -99,7 +99,7 @@ class SetHeading:
     def __init__(self, logo):
         self.logo = logo
 
-        self.title = "BattMo"
+        self.title = "Battery Model"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
             This graphical user interface can be used to run (cell level) battery simulations
@@ -162,38 +162,34 @@ class SetPageNavigation:
         _, col3, col4 = st.columns(3)
         st_space(space_width=6)
 
-        simulation_page = col1.page_link(
-            os.path.join(app_access.get_path_to_pages_dir(), "Simulation.py"),
+        simulation_page = col1.button(
             label="Simulation",
             help=self.help_simulation,
-            use_container_width=False,
-            icon="🔋",
+            use_container_width=True,
         )
 
-        results_page = col2.page_link(
-            os.path.join(app_access.get_path_to_pages_dir(), "Results.py"),
+        results_page = col2.button(
             label="Results",
             help=self.help_results,
-            use_container_width=False,
-            icon="📈",
+            use_container_width=True,
         )
 
-        materials_and_models_page = col3.page_link(
-            os.path.join(app_access.get_path_to_pages_dir(), "Materials_and_models.py"),
+        materials_and_models_page = col3.button(
             label="Materials and models",
             help=self.help_materials_and_models,
-            use_container_width=False,
-            icon="🍪",
+            use_container_width=True,
         )
 
-        # if simulation_page:
-        #     switch_page("Simulation")
+        if simulation_page:
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Simulation.py"))
 
-        # if results_page:
-        #     switch_page("Results")
+        if results_page:
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
 
-        # if materials_and_models_page:
-        #     switch_page("Materials and models")
+        if materials_and_models_page:
+            st.switch_page(
+                os.path.join(app_access.get_path_to_pages_dir(), "Materials_and_models.py")
+            )
 
         return col4
 
@@ -1554,6 +1550,7 @@ class SetTabs:
         tab.markdown("**%s**" % non_material_comp_display_name)
         if category_name == "negative_electrode" or category_name == "positive_electrode":
             check_col, property_col, value_col = tab.columns((0.3, 1, 2))
+
         else:
             property_col, value_col = tab.columns(2)
             check_col = None
@@ -2477,7 +2474,7 @@ class SetTabs:
                         ),
                         label_visibility="collapsed",
                     )
-                    st.text(" ")
+                    st.text("")
 
             property_col.write(
                 "[{}]({})".format(
@@ -2489,6 +2486,11 @@ class SetTabs:
             )
 
             property_col.text(" ")
+            if (
+                category_display_name == "Negative electrode"
+                or category_display_name == "Positive electrode"
+            ):
+                property_col.text(" ")
 
             if not st.session_state[input_value]:
                 st.session_state[input_value] = non_material_parameter.default_value

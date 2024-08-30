@@ -14,7 +14,7 @@ st.set_page_config(
     page_icon=Image.open(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png")
     ),
-    # layout="wide",
+    layout="wide",
 )
 
 
