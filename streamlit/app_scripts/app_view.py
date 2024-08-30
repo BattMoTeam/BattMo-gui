@@ -3701,7 +3701,7 @@ class RunSimulation:
             self.execute_api_on_click(save_run, file_name)
 
         if results_page:
-            switch_page("Results")
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
 
     def update_on_click(self, file_name):
         self.update_json_LD()
@@ -3740,15 +3740,17 @@ class RunSimulation:
             else:
                 if isinstance(message, str):
                     if "Simulation progress" in message:
-                        progress_bar = self.bar.progress(0, "Simulation progress")
+                        self.sim_start.info("Simulation running")
+                        with self.bar:
+                            self.progress_bar = st.progress(0)
                         dt_perc = float(message.split(": ")[1])
                         progress = st.session_state.simulation_progress + dt_perc
-                        progress_bar.progress(progress, "Simulation progress")
+                        self.progress_bar.progress(progress)
                         st.session_state.simulation_progress = progress
                     elif "UUID" in message:
                         st.session_state.simulation_uuid = message.split(": ")[1]
                     else:
-                        st.success(message)
+                        self.sim_start.success(message)
 
                 else:
                     st.session_state.response = True
@@ -3771,10 +3773,10 @@ class RunSimulation:
         st.session_state.simulation_results = False
 
     def on_close(self, ws, close_status_code, close_msg):
-        st.info("WebSocket connection closed")
+        self.progress_bar.progress(100)
+        print("WebSocket connection closed")
 
     def on_open(self, ws):
-        self.bar = st.empty()
         # Send the JSON data as soon as the WebSocket connection is established
         with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
             json_data = json.load(j)
@@ -3794,7 +3796,6 @@ class RunSimulation:
         def run_websocket():
             ws.run_forever()
 
-        st.info("Pre-processing started")
         run_websocket()
 
         # ws_thread = threading.Thread(target=run_websocket)
@@ -3827,10 +3828,10 @@ class RunSimulation:
 
         st.session_state.stop_simulation = True
 
-    @st.dialog("Simulation")
+    @st.dialog("Simulation progress")
     def execute_api_on_click(self, save_run, file_name):
 
-        st.session_state["toast"](":green-background[Starting simulation!]", icon="🕙")
+        # st.session_state["toast"](":green-background[Starting simulation!]", icon="🕙")
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
@@ -3843,7 +3844,15 @@ class RunSimulation:
 
         st.session_state.stop_simulation = False
 
-        self.run_simulation()
+        self.sim_start = st.empty()
+        self.sim_start.info("Pre-processing steps are being executed")
+        self.bar = st.empty()
+
+        with self.bar:
+
+            with st.spinner():
+                self.run_simulation()
+                time.sleep(1)
 
 
 # def run_simulation(self, save_run, file_name):
@@ -4218,9 +4227,26 @@ class DivergenceCheck:
                 file_path = os.path.join(st.session_state["temp_dir"], temp_file_name + ".hdf5")
 
                 self.success = True
-                st.success(
-                    f"""Simulation finished successfully! Check the results on the 'Results' page."""
-                )  # \n\n
+
+                if len(log_messages) > 1:
+                    c = self.save_run.container()
+                    c.warning(
+                        "Simulation results retrieved, but Some errors/warnings were produced. See the logging."
+                    )
+                    c.markdown("***Logging:***")
+
+                    log_message = """ \n"""
+                    for message in log_messages:
+                        log_message = log_message + message + """\n"""
+
+                    c.code(log_message + """ \n""")
+
+                else:
+
+                    
+                    st.success(
+                        f"""Simulation finished successfully! Check the results on the 'Results' page."""
+                    )  # \n\n
 
                 # Your results are stored under the following name: {temp_file_name}""")
                 st.session_state.success = True
