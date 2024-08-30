@@ -3,6 +3,7 @@ import os
 from streamlit_navigation_bar import st_navbar
 import app_pages as pg
 from PIL import Image
+from app_scripts import app_access
 
 
 ##############################
@@ -27,7 +28,6 @@ st.logo(
     ),
 )
 
-# Inject CSS to make the logo bigger
 st.markdown(
     """
     <style>

@@ -27,6 +27,7 @@ import threading
 import websocket
 import time
 import asyncio
+import base64
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -224,7 +225,23 @@ class SetAcknowledgementInfo:
 
     def set_europe_flag(self):
 
-        st.image(self.flag_image, width=90)
+        # st.image(self.flag_image, width=90)
+
+        # Function to convert an image to base64
+        def image_to_base64(image_path):
+            with open(image_path, "rb") as image_file:
+                return base64.b64encode(image_file.read()).decode()
+
+        # Path to the image
+        image_path = os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg")
+
+        # Convert image to base64
+        image_base64 = image_to_base64(image_path)
+
+        # Embed the image in HTML
+        st.html(
+            f'<img src="data:image/jpeg;base64,{image_base64}" id="flag_of_europe" style="width: 100px;">'
+        )
 
 
 class SetExternalLinks:
