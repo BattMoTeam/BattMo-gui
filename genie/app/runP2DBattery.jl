@@ -44,10 +44,12 @@ module runP2DBattery
 
                 # buf = IOBuffer()
                 # redirect_stdout(buf) do
-
+                fraction_tot = 0
+                dt_tot = 0
+                i = 0
                 print("Calling BattMo simulation")
                 # WebSockets.send(ws, "Pre-processing done")
-                states,_ , _, extra = run_battery_test(json_file,ws = ws);
+                states,_ , _, extra = run_battery_test(json_file,fraction_tot=fraction_tot,dt_tot=dt_tot,i=i,ws = ws);
                 # states,cellSpecifications , reports, extra = run_battery(json_file, max_timestep_cuts = 10);
 
                 energy_efficiency = computeEnergyEfficiency(states);
@@ -168,6 +170,9 @@ module runP2DBattery
             linear_solver::Symbol,
             extra_timing::Bool,
             timesteps,
+            fraction_tot,
+            dt_tot,
+            i,
             ws::WebSocket;
             kwarg...)
         """
@@ -210,8 +215,15 @@ module runP2DBattery
                 end
 
                 if done 
+                    i +=1
                     total_time = sum(timesteps)
+                    println("total time = ", total_time)
+                    dt_tot += dt
+                    println("progress dt= ", dt_tot)
                     fraction = dt/total_time
+                    fraction_tot += fraction
+                    println("progress fraction= ", fraction_tot)
+                    println("progress i= ", i)
                     send_simulation_progress(ws,fraction)
                 end
 
@@ -234,6 +246,9 @@ module runP2DBattery
                             linear_solver::Symbol             = :direct,
                             general_ad::Bool                  = false,
                             use_groups::Bool                  = false,
+                            fraction_tot,
+                            dt_tot,
+                            i,
                             ws::WebSocket                     = nothing,
                             kwarg...)
         """
@@ -246,7 +261,7 @@ module runP2DBattery
 
         #Set up config and timesteps
         timesteps = BattMo.setup_timesteps(init; max_step = max_step);
-        cfg = setup_config_test(sim, model, linear_solver, extra_timing,timesteps,ws; kwarg...);
+        cfg = setup_config_test(sim, model, linear_solver, extra_timing,timesteps,fraction_tot,dt_tot,i,ws; kwarg...);
         # cfg = BattMo.setup_config(sim, model, linear_solver, extra_timing; kwarg...);
 
         # Perform simulation
