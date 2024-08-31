@@ -41,7 +41,24 @@ from app_scripts import app_view, app_access
 ##############################
 
 
-# def show_simulation():
+# JSON file session states
+
+if "json_uploaded_input" not in st.session_state:
+    st.session_state.json_uploaded_input = {}
+
+if "json_battmo_formatted_input" not in st.session_state:
+    st.session_state.json_battmo_formatted_input = {}
+
+if "json_linked_data_input" not in st.session_state:
+    st.session_state.json_linked_data_input = {}
+
+if "json_gui_calculated_quantities" not in st.session_state:
+    st.session_state.json_gui_calculated_quantities = {}
+
+if "json_indicator_quantities" not in st.session_state:
+    st.session_state.json_indicator_quantities = {}
+
+# Other session states
 
 if "sim_finished" not in st.session_state:
     st.session_state.sim_finished = False

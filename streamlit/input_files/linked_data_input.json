@@ -1494,7 +1494,7 @@
                "@type": "emmo:NumberOfEntities",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 10
+                  "hasNumericalValue": 1
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",

@@ -1048,26 +1048,32 @@ class SetTabs:
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(self.user_input, new_file, indent=3)
 
+        st.session_state.json_linked_data_input = self.user_input
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input),
+                battmo_input,
                 new_file,
                 indent=3,
             )
+
+        st.session_state.json_battmo_formatted_input = battmo_input
 
     @st.cache_data
     def calc_indicators(_self, user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
         try:
-            with open(app_access.get_path_to_calculated_values(), "r") as f:
-                parameters_dict = json.load(f)
+            # with open(app_access.get_path_to_calculated_values(), "r") as f:
+            #     parameters_dict = json.load(f)
+            parameters_dict = st.session_state.json_gui_calculated_quantities
         except:
             parameters_dict = {}
 
@@ -1277,6 +1283,8 @@ class SetTabs:
 
         with open(app_access.get_path_to_calculated_values(), "w") as f:
             json.dump(parameters_dict, f)
+
+        st.session_state.json_gui_calculated_quantities = parameters_dict
 
         # Include indicators in linked data input dict
         user_input = _self.LD.add_indicators_to_struct(
@@ -2559,8 +2567,11 @@ class SetTabs:
             density_eff = self.calc_density_eff(density_mix, porosity)
 
             try:
-                with open(app_access.get_path_to_calculated_values(), "r") as f:
-                    parameters_dict = json.load(f)
+                # with open(app_access.get_path_to_calculated_values(), "r") as f:
+                #     parameters_dict = json.load(f)
+
+                parameters_dict = st.session_state.json_gui_calculated_quantities
+
             except json.JSONDecodeError as e:
                 parameters_dict = {}
                 st.write(app_access.get_path_to_calculated_values())
@@ -2577,6 +2588,8 @@ class SetTabs:
 
             with open(app_access.get_path_to_calculated_values(), "w") as f:
                 json.dump(parameters_dict, f, indent=3)
+
+            st.session_state.json_gui_calculated_quantities = parameters_dict
 
         if check_col:
             states = "states_" + str(category_id)
@@ -2596,13 +2609,16 @@ class SetTabs:
                         par_index = 2
                         mass_loadings[category_name] = par_value_ml
 
-                        with open(app_access.get_path_to_calculated_values(), "r") as f:
-                            parameters_dict = json.load(f)
+                        # with open(app_access.get_path_to_calculated_values(), "r") as f:
+                        #     parameters_dict = json.load(f)
+                        parameters_dict = st.session_state.json_gui_calculated_quantities
 
                         parameters_dict["calculatedParameters"]["mass_loadings"] = mass_loadings
 
                         with open(app_access.get_path_to_calculated_values(), "w") as f:
                             json.dump(parameters_dict, f, indent=3)
+
+                        st.session_state.json_gui_calculated_quantities = parameters_dict
 
                         (
                             input_key,
@@ -2782,7 +2798,7 @@ class SetTabs:
                 )
                 st.session_state["input_value_{}_{}".format(category_id, "coating_porosity")] = None
                 st.session_state["input_value_{}_{}".format(category_id, "mass_loading")] = None
-                st.experimental_rerun
+                st.rerun
 
             if st.session_state[input_value]:
 
@@ -2793,7 +2809,7 @@ class SetTabs:
                         par_index,
                         st.session_state[input_value],
                     )
-                    # st.experimental_rerun
+                    # st.rerun
 
         component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
         component_parameters = self.LD.setup_sub_dict(
@@ -3719,18 +3735,22 @@ class RunSimulation:
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(self.gui_parameters, new_file, indent=3)
 
+        st.session_state.json_linked_data_input = self.gui_parameters
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                battmo_input,
                 new_file,
                 indent=3,
             )
+        st.session_state.json_battmo_formatted_input = battmo_input
 
     def on_message(self, ws, message):
         try:
@@ -3778,9 +3798,10 @@ class RunSimulation:
 
     def on_open(self, ws):
         # Send the JSON data as soon as the WebSocket connection is established
-        with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
-            json_data = json.load(j)
-            start_dict = {"command": "start_simulation", "parameters": json_data}
+        # with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
+        #     json_data = json.load(j)
+        json_data = st.session_state.json_battmo_formatted_input
+        start_dict = {"command": "start_simulation", "parameters": json_data}
         ws.send(json.dumps(start_dict))
 
     def run_simulation(self):
@@ -3929,8 +3950,10 @@ class DivergenceCheck:
     def get_timesteps_setting(self):
 
         # retrieve saved parameters from json file
-        with open(app_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
-            gui_parameters = json.load(json_gui_parameters)
+        # with open(app_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
+        #     gui_parameters = json.load(json_gui_parameters)
+
+        gui_parameters = st.session_state.json_battmo_formatted_input
 
         N = gui_parameters["TimeStepping"]["numberOfTimeSteps"]
 
@@ -3969,10 +3992,12 @@ class DivergenceCheck:
         with h5py.File(response, "a") as hdf5_file:
             input_jsons = hdf5_file["json_input_files"]
 
-            with open(app_access.get_path_to_battmo_formatted_input(), "r") as f:
-                battmo_formatted_input = json.load(f)
-            with open(app_access.get_path_to_linked_data_input(), "r") as f:
-                linked_data_input = json.load(f)
+            # with open(app_access.get_path_to_battmo_formatted_input(), "r") as f:
+            #     battmo_formatted_input = json.load(f)
+            # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+            #     linked_data_input = json.load(f)
+            battmo_formatted_input = st.session_state.json_battmo_formatted_input
+            linked_data_input = st.session_state.json_linked_data_input
 
             battmo_formatted_input_str = json.dumps(battmo_formatted_input)
             linked_data_input_str = json.dumps(linked_data_input)
@@ -4154,8 +4179,11 @@ class DivergenceCheck:
 
             cell_spec_energy = cell["specific_energy"]
 
-            with open(app_access.get_path_to_calculated_values()) as f:
-                values = json.load(f)["calculatedParameters"]
+            # with open(app_access.get_path_to_calculated_values()) as f:
+            #     values = json.load(f)["calculatedParameters"]
+
+            values = st.session_state.json_gui_calculated_quantities
+            values = values["calculatedParameters"]
 
             mass = values["cell"]["mass"]
             cell_energy_value = indicators_h5["cell"]["discharge_energy"]["value"][()]
@@ -4243,7 +4271,6 @@ class DivergenceCheck:
 
                 else:
 
-                    
                     st.success(
                         f"""Simulation finished successfully! Check the results on the 'Results' page."""
                     )  # \n\n
@@ -4254,13 +4281,17 @@ class DivergenceCheck:
 
                 # if self.response:
                 if not isinstance(self.response, bool):
-                    with open(app_access.get_path_to_linked_data_input(), "r") as f:
-                        gui_parameters = json.load(f)
+                    # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+                    #     gui_parameters = json.load(f)
+
+                    gui_parameters = st.session_state.json_linked_data_input
 
                     indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
                     with open(app_access.get_path_to_indicator_values(), "w") as f:
                         json.dump(indicators, f, indent=3)
+
+                    st.session_state.json_indicator_quantities = indicators
 
                     # with open(app_access.get_path_to_battmo_results(), "wb") as f:
                     #     f.write(results)
@@ -4308,10 +4339,10 @@ class DownloadParameters:
         self.file_mime_type = "application/JSON"
 
         # retrieve saved formatted parameters from json file
-        with open(
-            app_access.get_path_to_battmo_formatted_input(), "r"
-        ) as json_formatted_gui_parameters:
-            self.formatted_gui_parameters = json.load(json_formatted_gui_parameters)
+        # with open(
+        #     app_access.get_path_to_battmo_formatted_input(), "r"
+        # ) as json_formatted_gui_parameters:
+        self.formatted_gui_parameters = st.session_state.json_battmo_formatted_input
 
         self.download_label_formatted_parameters = "BattMo format"
         self.formatted_parameters_file_data = json.dumps(self.formatted_gui_parameters, indent=2)
@@ -4400,12 +4431,15 @@ class DownloadParameters:
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                battmo_input,
                 new_file,
                 indent=3,
             )
+
+        st.session_state.json_battmo_formatted_input = battmo_input
 
     def set_submit_button(self):
 
@@ -4948,14 +4982,17 @@ class SetIndicators:
         self.render_indicators(indicators)
 
     def get_indicators_from_run(self):
-        with open(app_access.get_path_to_indicator_values(), "r") as f:
-            indicators = json.load(f)
+        # with open(app_access.get_path_to_indicator_values(), "r") as f:
+        #     indicators = json.load(f)
+        indicators = st.session_state.json_indicator_quantities
         return indicators
 
     def get_indicators_from_LD(self):
 
-        with open(app_access.get_path_to_linked_data_input(), "r") as f:
-            gui_parameters = json.load(f)
+        # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+        #     gui_parameters = json.load(f)
+
+        gui_parameters = st.session_state.json_linked_data_input
 
         indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
