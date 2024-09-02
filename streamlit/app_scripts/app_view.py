@@ -3645,6 +3645,7 @@ class RunSimulation:
         # self.gui_file_data = json.dumps(gui_parameters, indent=2)
         # self.gui_file_name = "gui_output_parameters.json"
         # self.file_mime_type = "application/json"
+        # self.progress_bar = st.progress(st.session_state.simulation_progress)
         self.success = st.session_state.success
         self.api_url = "ws://genie:8081"
         self.json_input_folder = "BattMoJulia"
@@ -3793,8 +3794,8 @@ class RunSimulation:
     def on_close(self, ws, close_status_code, close_msg):
 
         if st.session_state.sim_finished == True:
-            if "progress_bar" in vars(RunSimulation).values():
-                self.progress_bar.progress(100)
+            # if "progress_bar" in vars(RunSimulation).values():
+            st.progress(100)
             self.success = DivergenceCheck(
                 self.sim_start, st.session_state.simulation_results
             ).success
@@ -4325,6 +4326,8 @@ class DivergenceCheck:
                     with open(app_access.get_path_to_battmo_results(), "wb") as f:
                         f.write(self.response)
 
+                    st.session_state.simulation_results = self.response
+
                 # except:
                 #     pass
 
@@ -4701,8 +4704,10 @@ class GetResultsData:
                 results, indicators, input_files = self.translate_results(result)
 
             else:
-                file_path = app_access.get_path_to_battmo_results()
-                results = h5py.File(file_path, "r")
+                # file_path = app_access.get_path_to_battmo_results()
+                # results = h5py.File(file_path, "r")
+                bytes_h5 = io.BytesIO(st.session_state.simulation_results)
+                results = h5py.File(bytes_h5, "r")
                 indicators = None
                 input_files = None
 

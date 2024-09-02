@@ -150,7 +150,7 @@ if st.session_state.sim_finished == True:
     #     data = f
 
     save_run = st.container()
-    app.divergence_check(save_run, st.session_state.simulation_results)
+    app.divergence_check(save_run, True)
 
 if st.session_state.success and st.session_state.transfer_results:
     # st.session_state["toast"](
