@@ -45,7 +45,6 @@ COPY --chown=genie:genie app /home/genie/app/app
 COPY --chown=genie:genie bin /home/genie/app/bin
 COPY --chown=genie:genie results /home/genie/app/results
 
-
 # Copy compiled files
 # COPY --chown=genie:genie compiled /home/genie/app/compiled
 

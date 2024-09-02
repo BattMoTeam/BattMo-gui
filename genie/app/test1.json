@@ -168,10 +168,10 @@
    "use_thermal": false,
    "include_current_collectors": false,
    "Control": {
-      "controlPolicy": "CCDischarge",
-      "initialControl": "discharging",
-      "numberOfCycles": null,
-      "CRate": null,
+      "controlPolicy": "CCCV",
+      "initialControl": "charging",
+      "numberOfCycles": 1,
+      "CRate": 1.0,
       "DRate": 1.0,
       "lowerCutoffVoltage": 2.4,
       "upperCutoffVoltage": 4.1,
@@ -186,8 +186,9 @@
    "TimeStepping": {
       "useRampup": true,
       "rampupTime": 10.0,
-      "numberOfRampupSteps": 5,
-      "timeStepDuration": 30.0
+      "numberOfRampupSteps": 5.0,
+      "timeStepDuration": 30.0,
+      "numberOfTimeSteps": 100
    },
    "Output": {
       "variables": [

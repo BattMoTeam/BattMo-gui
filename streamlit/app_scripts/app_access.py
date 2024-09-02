@@ -29,6 +29,13 @@ def get_path_to_streamlit_dir():
 
 
 @st.cache_data
+def get_path_to_pages_dir():
+    streamlit_path = get_path_to_streamlit_dir()
+    pages_path = os.path.join(streamlit_path, "app_pages")
+    return pages_path
+
+
+@st.cache_data
 def get_path_to_html_dir():
     streamlit_path = get_path_to_streamlit_dir()
     html_path = os.path.join(streamlit_path, "html")
@@ -66,9 +73,7 @@ def get_path_to_input_files_dir():
 @st.cache_data
 def get_path_to_battmo_formatted_input():
     input_files_path = get_path_to_input_files_dir()
-    battmo_formatted_input_path = os.path.join(
-        input_files_path, "battmo_formatted_input.json"
-    )
+    battmo_formatted_input_path = os.path.join(input_files_path, "battmo_formatted_input.json")
     return battmo_formatted_input_path
 
 
@@ -82,9 +87,7 @@ def get_path_to_uploaded_input():
 @st.cache_data
 def get_path_to_gui_formatted_input():
     input_files_path = get_path_to_input_files_dir()
-    gui_formatted_input_path = os.path.join(
-        input_files_path, "gui_formatted_input.json"
-    )
+    gui_formatted_input_path = os.path.join(input_files_path, "gui_formatted_input.json")
     return gui_formatted_input_path
 
 
@@ -126,14 +129,14 @@ def get_path_to_battmo_results():
 @st.cache_data
 def get_path_to_indicator_values():
     output_files_path = get_path_to_output_files_dir()
-    indicator_values_path = os.path.join(output_files_path, "indicator_values.json")
+    indicator_values_path = os.path.join(output_files_path, "indicator_quantities.json")
     return indicator_values_path
 
 
 @st.cache_data
 def get_path_to_calculated_values():
     output_files_path = get_path_to_output_files_dir()
-    calculated_values_path = os.path.join(output_files_path, "calculated_values.json")
+    calculated_values_path = os.path.join(output_files_path, "gui_calculated_quantities.json")
     return calculated_values_path
 
 
@@ -242,9 +245,7 @@ def get_all_parameter_sets_experimental_data_files_path():
 @st.cache_data
 def get_all_parameter_sets_meta_data_files_path():
     all_files = []
-    for root, _, files in os.walk(
-        get_path_to_database_recources_parameter_sets_meta_data_dir()
-    ):
+    for root, _, files in os.walk(get_path_to_database_recources_parameter_sets_meta_data_dir()):
         for name in files:
             all_files.append(os.path.join(root, name))
     return all_files

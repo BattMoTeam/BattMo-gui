@@ -450,7 +450,7 @@
                      "@type": "emmo:Thickness",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 195.0
+                        "hasNumericalValue": 85.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "\u03bcm",
@@ -474,7 +474,7 @@
                      "@type": "emmo:MassLoading",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 34.522800000000004
+                        "hasNumericalValue": 15.0484
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mg\u00b7cm\u207b\u00b2",
@@ -522,7 +522,7 @@
                      "@type": "emmo:Capacity",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 4951.075485888468
+                        "hasNumericalValue": 2158.1611092334356
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mAh",
@@ -1355,7 +1355,7 @@
                "@type": "emmo:N/PRatio",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 2.45
+                  "hasNumericalValue": 1.07
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1367,7 +1367,7 @@
                "@type": "emmo:CellMass",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 46.811894643200006
+                  "hasNumericalValue": 37.33774424320001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "g",
@@ -1475,7 +1475,7 @@
                "@type": null,
                "hasStringPart": {
                   "@type": "String",
-                  "hasStringValue": "charging"
+                  "hasStringValue": "discharging"
                }
             },
             {
@@ -1495,7 +1495,7 @@
                "@type": "emmo:NumberOfEntities",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 1
+                  "hasNumericalValue": null
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1519,7 +1519,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 1.0
+                  "hasNumericalValue": null
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1555,7 +1555,7 @@
                "@type": "Cycling",
                "hasStringPart": {
                   "@type": "String",
-                  "hasStringValue": "CCCV"
+                  "hasStringValue": "CCDischarge"
                }
             },
             {
@@ -1563,7 +1563,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.0001
+                  "hasNumericalValue": 0.001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "A\u00b7s\u207b\u00b9",
@@ -1599,7 +1599,7 @@
                "@type": "['LinearCurrentRamp', 'Duration']",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 5.0
+                  "hasNumericalValue": 5
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "s",
