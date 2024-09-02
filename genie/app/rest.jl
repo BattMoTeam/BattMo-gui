@@ -26,6 +26,7 @@ Genie.config.cors_allowed_origins = ["*"]
 # Initialize lock
 const simulation_lock = ReentrantLock()
 const simulations = Dict{String, Tuple{Task, Condition}}()
+const clients = Dict{UUID, HTTP.WebSockets.WebSocket}()
 
 
 #############################################################################
@@ -36,48 +37,50 @@ const ws_port = 8081  # Choose an available port
 
 function handle_websocket(ws::WebSocket)
     try
-        while true
+        for msg in ws
             # Attempt to read a message from the WebSocket
-            input_data = WebSockets.receive(ws)
-            if input_data === nothing
+            # input_data = WebSockets.receive(ws)
+            if msg === nothing
                 break  # Exit the loop if no message is received (end of stream)
             end
             
-            parsed_data = JSON.parse(input_data)
+            parsed_data = JSON.parse(msg)
+            client_id_str = parsed_data["user_id"]
+            client_id = UUID(client_id_str)
+            clients[client_id] = ws
 
             # Handle "start_simulation" command
             if haskey(parsed_data, "command") && parsed_data["command"] == "start_simulation"
 
-                uuid_str_in = string(UUIDs.uuid4())
-                uuid_str_out = string(UUIDs.uuid4())
-
-                println("Received JSON input data with id: ", uuid_str_in)
-                WebSockets.send(ws, "UUID: $uuid_str_in")
+                println("Received JSON input data with id: ", client_id_str)
+                WebSockets.send(ws, "UUID: $client_id_str")
 
                 # Create a file name with the UUID
-                input_file_name = "$uuid_str_in.json"
-                output_path_name = uuid_str_out
+                input_file_name = "$client_id_str.json"
+                output_path_name = "$client_id_str.h5"
+                input_file_path = "input_files/$input_file_name"
+                output_file_path = "results/$output_path_name"
 
                 json_input_data = parsed_data["parameters"]
                 
                 # Write the JSON data to the file
-                open(input_file_name, "w") do temp_input_file
+                open(input_file_path, "w") do temp_input_file
                     JSON.print(temp_input_file, json_input_data)
                 end
 
                 stop_condition = Condition()
 
                 # Spawn a new thread to handle the simulation
-                simulation_thread = @async run_simulation(input_file_name, output_path_name, stop_condition,ws)
+                simulation_thread = @async run_simulation(input_file_path, output_file_path, stop_condition,ws)
 
                 # Store the simulation thread and condition variable
-                simulations[uuid_str_in] = (simulation_thread, stop_condition)
+                # simulations[client_id_str] = (simulation_thread, stop_condition)
 
                 # Inform the client that the simulation has started
                 # WebSockets.send(ws, "Simulation started with ID: $uuid_str_out")
 
                 # Polling to wait until the file is ready
-                output_file_path = "results/$output_path_name.h5"
+                
                 max_retries = 600
                 sleep_interval = 0.1
                 retries = 0
@@ -95,22 +98,23 @@ function handle_websocket(ws::WebSocket)
                 end
 
                 # Clean up: remove the input file
-                if isfile(input_file_name)
-                    rm(input_file_name)  # Delete the file
+                if isfile(input_file_path)
+                    rm(input_file_path)  # Delete the file
                     println("File deleted successfully.")
                 else
                     println("File does not exist.")
                 end
 
                 # Once the file is ready, read it and return the response
-                open("results/$output_path_name.h5", "r") do hdf5_file
+                open(output_file_path, "r") do hdf5_file
                     hdf5_data = read(hdf5_file)
                     WebSockets.send(ws, hdf5_data)
                 end
 
-                WebSockets.send(ws, "Simulation complete! HDF5 data has been sent.")
+                # WebSockets.send(ws, "Simulation complete! HDF5 data has been sent.")
+                # WebSockets.send(ws, "Simulation complete! HDF5 data (ID: $client_id_str) has been sent.")
 
-                rm("results/$output_path_name.h5")
+                rm(output_file_path)
 
                 WebSockets.close(ws)  # Ensure the WebSocket is closed
 
@@ -138,6 +142,7 @@ function handle_websocket(ws::WebSocket)
         end
     catch e
         println("Error handling WebSocket: ", e)
+        WebSockets.send(ws, "Error handling WebSocket: ", e)
     finally
         WebSockets.close(ws)  # Ensure the WebSocket is closed
     end
@@ -249,13 +254,13 @@ function create_hdf5_output_file(output,file_path)
 
 end
 
-function run_simulation(input_file_name, output_path_name, stop_condition::Condition, ws::WebSocket)
+function run_simulation(input_file_path, output_path_path, stop_condition::Condition, ws::WebSocket)
 
     try
-        output = runP2DBattery.runP2DBatt(input_file_name,ws);
+        output = runP2DBattery.runP2DBatt(input_file_path,ws);
 
         lock(simulation_lock) do
-            create_hdf5_output_file(output,"results/$output_path_name.h5")
+            create_hdf5_output_file(output,output_path_path)
         end
 
     catch e

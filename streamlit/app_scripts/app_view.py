@@ -2582,6 +2582,9 @@ class SetTabs:
             if "effective_density" not in parameters_dict["calculatedParameters"]:
                 parameters_dict["calculatedParameters"]["effective_density"] = {}
 
+            if "cell" not in parameters_dict["calculatedParameters"]:
+                parameters_dict["calculatedParameters"]["cell"] = {}
+
             parameters_dict["calculatedParameters"]["effective_density"][
                 category_name
             ] = density_eff
@@ -3691,17 +3694,10 @@ class RunSimulation:
             random_file_name = str(random_number)
             st.session_state["simulation_results_file_name"] = "data_" + random_file_name
 
+    @st.fragment()
     def set_buttons(self, save_run, file_name):
 
-        # empty,run,empty2 = save_run.columns((0.3,1,1))
-
-        # update = update.button(
-        #     label="UPDATE",
-        #     on_click=self.update_on_click,
-        #     args= (save_run, )
-        #     #help = "Update the parameter values."
-        # )
-        col1, col2 = save_run.columns((1, 1))
+        col1, col2 = st.columns((1, 1))
         running = col1.button(
             label="RUN",
             # on_click=self.execute_api_on_click,
@@ -3767,10 +3763,12 @@ class RunSimulation:
                         progress = st.session_state.simulation_progress + dt_perc
                         self.progress_bar.progress(progress)
                         st.session_state.simulation_progress = progress
+                    elif "Error" in message:
+                        st.error(message)
                     elif "UUID" in message:
                         st.session_state.simulation_uuid = message.split(": ")[1]
                     else:
-                        self.sim_start.success(message)
+                        self.sim_start.info(message)
 
                 else:
                     st.session_state.response = True
@@ -3793,7 +3791,18 @@ class RunSimulation:
         st.session_state.simulation_results = False
 
     def on_close(self, ws, close_status_code, close_msg):
-        self.progress_bar.progress(100)
+
+        if st.session_state.sim_finished == True:
+            if "progress_bar" in vars(RunSimulation).values():
+                self.progress_bar.progress(100)
+            self.success = DivergenceCheck(
+                self.sim_start, st.session_state.simulation_results
+            ).success
+        else:
+            self.sim_start.error(
+                "WebSocket was closed unexpectedly: {}_{}".format(close_status_code, close_msg)
+            )
+
         print("WebSocket connection closed")
 
     def on_open(self, ws):
@@ -3801,7 +3810,12 @@ class RunSimulation:
         # with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
         #     json_data = json.load(j)
         json_data = st.session_state.json_battmo_formatted_input
-        start_dict = {"command": "start_simulation", "parameters": json_data}
+        # st.info("data send with ID: {}".format(st.session_state.unique_id_temp_folder))
+        start_dict = {
+            "command": "start_simulation",
+            "user_id": st.session_state.unique_id_temp_folder,
+            "parameters": json_data,
+        }
         ws.send(json.dumps(start_dict))
 
     def run_simulation(self):
@@ -3819,29 +3833,6 @@ class RunSimulation:
 
         run_websocket()
 
-        # ws_thread = threading.Thread(target=run_websocket)
-        # add_script_run_ctx(ws_thread)
-        # ws_thread.start()
-
-        # thread = threading.Thread(target=run_websocket)
-        # add_script_run_ctx(thread)
-        # thread.start()
-
-        # empty_stop = st.empty()
-        # i = 0
-        # while not st.session_state.sim_finished:  # and not st.session_state.stop_simulation:
-        #     #     stop_simulation = empty_stop.button(
-        #     #         "stop simulation", key="{}".format(i), on_click=self.stop_simulation
-        #     #     )
-
-        #     # if st.session_state.stop_simulation == True:
-        #     #     stop_dict = {"command": "stop_simulation", "uuid": st.session_state.simulation_uuid}
-        #     #     ws.send(json.dumps(stop_dict))
-        #     #     st.session_state.sim_finished = True
-
-        #     time.sleep(0.2)  # Keep the loop running until the simulation is done
-        #     i += 1
-        # ws_thread.join()
         st.session_state.simulation_progress = 0
         ws.close()
 
@@ -3874,6 +3865,36 @@ class RunSimulation:
             with st.spinner():
                 self.run_simulation()
                 time.sleep(1)
+
+        if st.session_state.success == True:
+            self.set_results_button()
+        if st.session_state.success == False or st.session_state.sim_finished == False:
+            self.set_close_button()
+
+    @st.fragment()
+    def set_close_button(self):
+
+        close_dialog = st.button(
+            label="Close",
+            use_container_width=True,
+            help="Use this button to exit this dialog",
+        )
+        if close_dialog:
+            st.rerun()
+
+    @st.fragment()
+    def set_results_button(self):
+        cola, colb = st.columns(2)
+        results_page2 = cola.button(label="Results", use_container_width=True)
+        close_dialog2 = colb.button(
+            label="Close",
+            use_container_width=True,
+            help="Use this button to exit this dialog",
+        )
+        if results_page2:
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
+        if close_dialog2:
+            st.rerun()
 
 
 # def run_simulation(self, save_run, file_name):
@@ -4219,7 +4240,7 @@ class DivergenceCheck:
             and st.session_state.success == False
             and st.session_state.response != None
         ):
-            st.error(
+            self.save_run.error(
                 "The data has not been retrieved succesfully, most probably due to an unsuccesful simulation"
             )
             st.session_state.success = False
@@ -4234,7 +4255,7 @@ class DivergenceCheck:
                 st.session_state.transfer_results = False
 
                 if len(log_messages) > 1:
-                    c = self.save_run.container()
+                    c = self.save_run.container(height=400)
                     c.error(
                         "Simulation wasn't successful unfortunately. Some errors were produced, see the logging."
                     )
@@ -4247,7 +4268,7 @@ class DivergenceCheck:
                     c.code(log_message + """ \n""")
                 else:
 
-                    st.error("Simulation wasn't successful unfortunately.")
+                    self.save_run.error("Simulation wasn't successful unfortunately.")
 
             else:
 
@@ -4271,9 +4292,7 @@ class DivergenceCheck:
 
                 else:
 
-                    st.success(
-                        f"""Simulation finished successfully! Check the results on the 'Results' page."""
-                    )  # \n\n
+                    self.save_run.success(f"""Simulation finished successfully!""")  # \n\n
 
                 # Your results are stored under the following name: {temp_file_name}""")
                 st.session_state.success = True

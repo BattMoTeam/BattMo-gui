@@ -63,14 +63,14 @@
                      "@type": "echem:MaximumConcentration",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 30555.0
+                        "hasNumericalValue": 29583.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#MolePerCubicMetre"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -78,14 +78,14 @@
                      "@type": "echem:VolumetricSurfaceArea",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 723600.0
+                        "hasNumericalValue": 383959.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "m\u00b2m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#Metre"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -93,14 +93,29 @@
                      "@type": "emmo:Density",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 2240.0
+                        "hasNumericalValue": 2260.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
                         "@type": "https://w3id.org/emmo#GramPerCubicMetre"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "emmo:SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 632.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -115,7 +130,7 @@
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -123,14 +138,14 @@
                      "@type": "emmo:Energy",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 5000.0
+                        "hasNumericalValue": 35000.0
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
                         "@type": "https://w3id.org/emmo#JoulePerMole"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -138,14 +153,14 @@
                      "@type": null,
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 5.031e-11
+                        "hasNumericalValue": 6.716e-12
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
                         "@type": "https://w3id.org/emmo#MolePerSquareMetrePerSecond"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -153,14 +168,14 @@
                      "@type": "emmo:StoichiometricNumberOfSubstance",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 0.88551
+                        "hasNumericalValue": 0.9014
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -168,14 +183,14 @@
                      "@type": "emmo:StoichiometricNumberOfSubstance",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 0.1429
+                        "hasNumericalValue": 0.0279
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "1",
                         "@type": "https://w3id.org/emmo#EMMO_5ebd5e01_0ed3_49a2_a30d_cd05cbe72978"
                      },
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -184,30 +199,16 @@
                      "hasStringPart": {
                         "@type": "String",
                         "hasStringValue": {
-                           "functionname": "computeOCP_Graphite_Torchio",
-                           "function": "0.7222+ 0.1387*(c/cmax) + 0.0290*(c/cmax)^(0.5) - 0.0172/(c/cmax) + 0.0019/(c/cmax)^(1.5)+ 0.2808 * exp(0.9 - 15.0*(c/cmax)) - 0.7984 * exp(0.4465*(c/cmax) - 0.4108)+ (T - refT) * (1e-3 * ( 0.005269056+ 3.299265709 * (c/cmax)- 91.79325798 * (c/cmax)^2+ 1004.911008 * (c/cmax)^3- 5812.278127 * (c/cmax)^4+ 19329.75490 * (c/cmax)*5- 37147.89470 * (c/cmax)*6+ 38379.18127 * (c/cmax)*7- 16515.05308 * (c/cmax)*8 )/ ( 1- 48.09287227 * (c/cmax)+ 1017.234804 * (c/cmax)^2- 10481.80419 * (c/cmax)^3+ 59431.30000 * (c/cmax)^4- 195881.6488 * (c/cmax)*5+ 374577.3152 * (c/cmax)*6- 385821.1607 * (c/cmax)*7+ 165705.8597 * (c/cmax)*8 ))"
+                           "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                           "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"
                         }
                      },
                      "hasVariable": [
                         "c",
-                        "T",
-                        "cmax",
-                        "refT"
+                        "cmax"
                      ],
                      "schema:citation": {
-                        "@id": "https://iopscience.iop.org/article/10.1149/1.3043429/meta"
-                     }
-                  },
-                  {
-                     "rdfs:label": "specific_heat_capacity",
-                     "@type": "emmo:SpecificHeatCapacity",
-                     "hasNumericalPart": {
-                        "@type": "Real",
-                        "hasNumericalValue": 632.0
-                     },
-                     "hasMeasurementUnit": {
-                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                        "@type": "https://w3id.org/emmo#JoulePerKiloGramKelvin"
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                      }
                   },
                   {
@@ -299,7 +300,7 @@
                      "@type": "emmo:SpecificCapacity",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 271.48513910203127
+                        "hasNumericalValue": 306.44157263296455
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mAh\u00b7g\u207b\u00b9",
@@ -473,7 +474,7 @@
                      "@type": "emmo:MassLoading",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 14.926
+                        "hasNumericalValue": 15.0484
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mg\u00b7cm\u207b\u00b2",
@@ -521,7 +522,7 @@
                      "@type": "emmo:Capacity",
                      "hasNumericalPart": {
                         "@type": "Real",
-                        "hasNumericalValue": 1896.4236031588784
+                        "hasNumericalValue": 2158.1611092334356
                      },
                      "hasMeasurementUnit": {
                         "hasSymbolValue": "mAh",
@@ -1354,7 +1355,7 @@
                "@type": "emmo:N/PRatio",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.94
+                  "hasNumericalValue": 1.07
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1366,7 +1367,7 @@
                "@type": "emmo:CellMass",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 37.286825843200006
+                  "hasNumericalValue": 37.33774424320001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "g",
@@ -1378,7 +1379,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 1896.4236031588784
+                  "hasNumericalValue": 2017.6430124379945
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "mAh",
@@ -1598,7 +1599,7 @@
                "@type": "['LinearCurrentRamp', 'Duration']",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 5.0
+                  "hasNumericalValue": 5
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "s",
