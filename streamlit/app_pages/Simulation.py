@@ -33,11 +33,11 @@ from app_scripts import app_view, app_access
 
 ##############################
 # Remember user changed values when switching between pages
-# for k, v in st.session_state.items():
-#     st.session_state[k] = v
+for k, v in st.session_state.items():
+    st.session_state[k] = v
 
 # Remember widget actions when switching between pages (for example: selectbox choice)
-# st.session_state.update(st.session_state)
+st.session_state.update(st.session_state)
 ##############################
 
 

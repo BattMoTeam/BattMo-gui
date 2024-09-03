@@ -20,8 +20,11 @@ import sympy as sp
 
 # ##############################
 # # Remember user changed values
-# for k, v in st.session_state.items():
-#     st.session_state[k] = v
+for k, v in st.session_state.items():
+    st.session_state[k] = v
+
+# Remember widget actions when switching between pages (for example: selectbox choice)
+st.session_state.update(st.session_state)
 # ##############################
 
 # set config is done before import to avoid streamlit error

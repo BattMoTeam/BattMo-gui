@@ -1475,7 +1475,7 @@
                "@type": null,
                "hasStringPart": {
                   "@type": "String",
-                  "hasStringValue": "discharging"
+                  "hasStringValue": "charging"
                }
             },
             {
@@ -1495,7 +1495,7 @@
                "@type": "emmo:NumberOfEntities",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": null
+                  "hasNumericalValue": 1
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1519,7 +1519,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": null
+                  "hasNumericalValue": 1.0
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
@@ -1555,7 +1555,7 @@
                "@type": "Cycling",
                "hasStringPart": {
                   "@type": "String",
-                  "hasStringValue": "CCDischarge"
+                  "hasStringValue": "CCCV"
                }
             },
             {

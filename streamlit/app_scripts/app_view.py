@@ -3853,7 +3853,7 @@ class RunSimulation:
 
         ##############################
 
-        self.update_on_click(file_name)
+        # self.update_on_click(file_name)
 
         st.session_state.stop_simulation = False
 
@@ -3869,7 +3869,7 @@ class RunSimulation:
 
         if st.session_state.success == True:
             self.set_results_button()
-        if st.session_state.success == False or st.session_state.sim_finished == False:
+        elif st.session_state.success == False or st.session_state.sim_finished == False:
             self.set_close_button()
 
     @st.fragment()
