@@ -1066,7 +1066,6 @@ class SetTabs:
 
         st.session_state.json_battmo_formatted_input = battmo_input
 
-    @st.cache_data
     def calc_indicators(_self, user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
@@ -1233,6 +1232,17 @@ class SetTabs:
             packing_mass,
         )
 
+        # Include indicators in calculated_values file
+        if "cell" not in parameters_dict["calculatedParameters"]:
+            parameters_dict["calculatedParameters"]["cell"] = {}
+
+        parameters_dict["calculatedParameters"]["cell"]["mass"] = cell_mass
+
+        with open(app_access.get_path_to_calculated_values(), "w") as f:
+            json.dump(parameters_dict, f)
+
+        st.session_state.json_gui_calculated_quantities = parameters_dict
+
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name(
             "cell_mass", _self.model_name
         )
@@ -1274,17 +1284,6 @@ class SetTabs:
             "round_trip_efficiency", _self.model_name
         )
         rte_category_parameters = _self.LD.setup_parameter_struct(raw_template_rte, value=None)
-
-        # Include indicators in calculated_values file
-        if "cell" not in parameters_dict["calculatedParameters"]:
-            parameters_dict["calculatedParameters"]["cell"] = {}
-
-        parameters_dict["calculatedParameters"]["cell"]["mass"] = cell_mass
-
-        with open(app_access.get_path_to_calculated_values(), "w") as f:
-            json.dump(parameters_dict, f)
-
-        st.session_state.json_gui_calculated_quantities = parameters_dict
 
         # Include indicators in linked data input dict
         user_input = _self.LD.add_indicators_to_struct(
@@ -3848,7 +3847,6 @@ class RunSimulation:
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
-
         sys.path.insert(0, app_access.get_path_to_streamlit_dir())
 
         ##############################
