@@ -13,3 +13,5 @@ streamlit-elements==0.1
 st-theme
 scipy
 streamlit-option-menu
+websocket-client
+websocat 

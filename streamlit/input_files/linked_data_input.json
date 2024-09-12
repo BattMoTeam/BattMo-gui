@@ -1599,7 +1599,7 @@
                "@type": "['LinearCurrentRamp', 'Duration']",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 5.0
+                  "hasNumericalValue": 5
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "s",

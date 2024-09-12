@@ -1,8 +1,9 @@
 import streamlit as st
 import os
 from streamlit_option_menu import option_menu
-import pages as pg
+import app_pages as pg
 from PIL import Image
+from app_scripts import app_access
 
 
 ##############################
@@ -17,7 +18,29 @@ st.set_page_config(
 )
 
 
-st.logo(os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png"))
+st.logo(
+    image=os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo_text.png"
+    ),
+    link="https://batterymodel.com/",
+    icon_image=os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png"
+    ),
+)
+
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] img {
+        width: 250px !important;  /* Adjust this value to your desired width */
+        height: auto;  /* Maintain the aspect ratio */
+        margin: 0 auto;  /* Center the logo */
+        display: block;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 ##############################
 # Remember user changed values
@@ -31,7 +54,7 @@ with st.sidebar:
     st.text("")
     st.text("")
     page = option_menu(
-        "Main menu",
+        None,
         ["Home", "Simulation", "Results", "Materials and models"],
         icons=['house', 'cloud-upload', "list-task", 'gear'],
         menu_icon="cast",

@@ -9,5 +9,8 @@ const PACKAGES = [
   "HTTP",
   "JSON",
   "UUIDs",
-  "ZipFile"
+  "HDF5",
+  "Jutul",
+  "SwagUI",
+  "SwaggerMarkdown"
 ]
