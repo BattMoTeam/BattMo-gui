@@ -9,9 +9,7 @@
       "number_parallel_electrode_pairs_within_cell": 1,
       "external_surface_area": 0.0379,
       "packing_mass": 11,
-      "volume": 0.000128,
-      "length": 0.8,
-      "width": 0.065
+      "volume": 0.000128
       
    }
 }

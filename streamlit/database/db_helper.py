@@ -203,6 +203,15 @@ def get_basis_categories_display_names(tab_id):
 
 
 @st.cache_data
+def get_basis_categories_names(tab_id):
+    res = sql_category().select(
+        values="name",
+        where="tab_id=%d AND (difficulty = 'basis' OR difficulty = 'basis_advanced')" % tab_id,
+    )
+    return res
+
+
+@st.cache_data
 def get_categories_context_type_iri(tab_id):
     res = sql_category().select(
         values="context_type_iri",
@@ -364,7 +373,7 @@ def get_reference_url_from_parameter_set(parameter_set_name):
     res = sql_material().select_one(
         values='reference_url', where="display_name='%s'" % parameter_set_name
     )
-    return res
+    return res[0]
 
 
 #####################################

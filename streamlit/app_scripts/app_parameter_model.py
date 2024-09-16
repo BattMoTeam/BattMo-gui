@@ -338,6 +338,7 @@ class Option_material(object):
         parameter_display_names=None,
         parameter_set_id=None,
         reference_url=None,
+        context_type=None,
     ):
         self.display_name = parameter_set_display_name
         self.name = parameter_set_name
@@ -348,6 +349,7 @@ class Option_material(object):
         self.parameter_names = parameter_names
         self.parameter_values = parameter_values
         self.parameter_display_names = parameter_display_names
+        self.context_type = context_type
 
 
 class Option_parameter(object):
@@ -386,6 +388,7 @@ class FormatParameters:
         materials,
         material_display_names,
         reference_urls,
+        context_types,
         parameter_sets,
         material_parameter_sets_name_by_id,
         raw_template_parameters,
@@ -401,12 +404,13 @@ class FormatParameters:
         for parameter_set in parameter_sets:
             (
                 parameter_set_id,
-                parameter_set,
+                parameter_set_name,
                 *_,
             ) = parameter_set
 
             material_display_name = material_display_names[parameter_set_id]
             reference_url = reference_urls[parameter_set_id]
+            material_context_type = context_types[parameter_set_id]
 
             raw_parameters_set = raw_parameters[parameter_set_id]
 
@@ -517,6 +521,7 @@ class FormatParameters:
                 parameter_values=values,
                 parameter_display_names=parameter_display_names,
                 reference_url=reference_url,
+                context_type=material_context_type,
             )
             # template_parameter.set_selected_value(formatted_value)
             formatted_material.add_option(parameter_set_id, new_option)

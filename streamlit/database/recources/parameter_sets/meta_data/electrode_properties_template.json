@@ -82,6 +82,38 @@
          "unit_iri": "https://w3id.org/emmo#MilliAmpereHour",
          "display_name": "Capacity"
       },
+      "length": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "Length",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_cd2cd0de_e0cc_4ef1_b27e_2e88db027bac",
+         "max_value": 1,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "m",
+         "unit_name": "emmo:Metre",
+         "unit_iri": "https://w3id.org/emmo#Metre",
+         "display_name": "Length"
+      },
+      "width": {
+         "model_name": ["P2D","P3D"],
+         "par_class": "non_material",
+         "difficulty": "advanced",
+         "context_type": "Width",
+         "context_type_iri": "https://w3id.org/emmo#EMMO_e4de48b1_dabb_4490_ac2b_040f926c64f0",
+         "max_value": 1,
+         "min_value": 0.001,
+         "description": "",
+         "is_shown_to_user": true,
+         "type": "float",
+         "unit": "m",
+         "unit_name": "emmo:Metre",
+         "unit_iri": "https://w3id.org/emmo#Metre",
+         "display_name": "Width"
+      },
       "current_collector_thickness": {
          "model_name": ["P2D","P3D"],
          "par_class": "non_material",

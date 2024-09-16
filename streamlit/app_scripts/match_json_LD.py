@@ -7,6 +7,7 @@ from itertools import chain
 import streamlit as st
 import json
 import app_access
+import copy
 
 
 def get_dict_from_has_quantitative(has_quantitative, give_references=False):
@@ -92,45 +93,43 @@ class GuiDict(object):
     def __init__(self, gui_dict):
 
         self.model = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasModel").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasModel").get("hasProperty")
         )
-        self.cell = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasBatteryCell").get("hasQuantitativeProperty")
-        )
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("@graph").get("hasProperty"))
         self.bc = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasBoundaryConditions").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasBoundaryConditions").get("hasProperty")
         )
-        self.raw_ele = gui_dict.get("@graph").get("hasElectrode")
+        self.raw_ele = gui_dict.get("@graph")
         self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
         self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
 
         self.pe = Electrode(
-            am=self.raw_ele_pe.get("hasActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_pe.get("hasBinder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
+            am=self.raw_ele_pe.get("hasActiveMaterial").get("hasProperty"),
+            binder=self.raw_ele_pe.get("hasBinder").get("hasProperty"),
+            add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasProperty"),
             # cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
-            prop=self.raw_ele_pe.get("hasPositiveElectrode").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_pe.get("hasProperty"),
         )
 
         self.ne = Electrode(
-            am=self.raw_ele_ne.get("hasActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_ne.get("hasBinder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
+            am=self.raw_ele_ne.get("hasActiveMaterial").get("hasProperty"),
+            binder=self.raw_ele_ne.get("hasBinder").get("hasProperty"),
+            add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasProperty"),
             # cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ele_ne.get("hasNegativeElectrode").get("hasQuantitativeProperty"),
+            prop=self.raw_ele_ne.get("hasProperty"),
         )
 
         self.elyte_mat = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasElectrolyte").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasElectrolyte").get("hasProperty")
         )
         self.sep_mat = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasProperty")
         )
         self.sep_prop = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasProperty")
         )
         self.protocol = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasCyclingProcess").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasCyclingProcess").get("hasProperty")
         )
 
 
@@ -222,8 +221,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": json_ld.cell.get("length").get("value")
-            * json_ld.cell.get("width").get("value")
+            "faceArea": json_ld.pe.properties.get("length").get("value")
+            * json_ld.pe.properties.get("width").get("value")
             * json_ld.cell.get("number_parallel_electrode_pairs_within_cell").get("value"),
         },
         "NegativeElectrode": {
@@ -591,8 +590,8 @@ def get_geometry_data_from_gui_dict(gui_dict):
 
     json_ld = GuiDict(gui_dict)
     geometry_data = {
-        "length": json_ld.cell.get("length").get("value"),
-        "width": json_ld.cell.get("width").get("value"),
+        "length": json_ld.pe.properties.get("length").get("value"),
+        "width": json_ld.pe.properties.get("width").get("value"),
         "thickness_ne": json_ld.ne.properties.get("coating_thickness").get("value"),
         "thickness_pe": json_ld.pe.properties.get("coating_thickness").get("value"),
         "thickness_sep": json_ld.sep_prop.get("thickness").get("value"),
@@ -604,3 +603,63 @@ def get_geometry_data_from_gui_dict(gui_dict):
     }
 
     return geometry_data
+
+
+def get_gui_dict_from_linked_data(linked_data):
+
+    # Negative electrode
+    ne_prop = linked_data["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasProperty"]
+    ne_am_prop = linked_data["@graph"]["hasNegativeElectrode"]["@reverse"]["hasParticipant"][
+        "hasProperty"
+    ]
+
+    gui_dict = copy.deepcopy(linked_data)
+
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasProperty"].extend(ne_prop)
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasProperty"].extend(
+        linked_data["@graph"]["hasNegativeElectrode"]["hasCurrentCollector"]["hasProperty"]
+    )
+
+    del gui_dict["@graph"]["hasNegativeElectrode"]["hasCoating"]
+
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasActiveMaterial"] = linked_data["@graph"][
+        "hasNegativeElectrode"
+    ]["hasCoating"]["hasActiveMaterial"]
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasActiveMaterial"]["hasProperty"].extend(
+        ne_am_prop
+    )
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasBinder"] = linked_data["@graph"][
+        "hasNegativeElectrode"
+    ]["hasCoating"]["hasBinder"]
+    gui_dict["@graph"]["hasNegativeElectrode"]["hasConductiveAdditive"] = linked_data["@graph"][
+        "hasNegativeElectrode"
+    ]["hasCoating"]["hasConductiveAdditive"]
+
+    # Positive electrode
+
+    pe_prop = linked_data["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasProperty"]
+    pe_am_prop = linked_data["@graph"]["hasPositiveElectrode"]["@reverse"]["hasParticipant"][
+        "hasProperty"
+    ]
+
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasProperty"].extend(pe_prop)
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasProperty"].extend(
+        linked_data["@graph"]["hasPositiveElectrode"]["hasCurrentCollector"]["hasProperty"]
+    )
+
+    del gui_dict["@graph"]["hasPositiveElectrode"]["hasCoating"]
+
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasActiveMaterial"] = linked_data["@graph"][
+        "hasPositiveElectrode"
+    ]["hasCoating"]["hasActiveMaterial"]
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasActiveMaterial"]["hasProperty"].extend(
+        pe_am_prop
+    )
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasBinder"] = linked_data["@graph"][
+        "hasPositiveElectrode"
+    ]["hasCoating"]["hasBinder"]
+    gui_dict["@graph"]["hasPositiveElectrode"]["hasConductiveAdditive"] = linked_data["@graph"][
+        "hasPositiveElectrode"
+    ]["hasCoating"]["hasConductiveAdditive"]
+
+    return gui_dict

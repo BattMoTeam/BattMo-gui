@@ -279,7 +279,7 @@ class SetupLinkedDataStruct:
         self.hasBatteryCell = "hasBatteryCell"
 
         self.hasProperty = "hasProperty"
-        self.hasQuantitativeProperty = "hasQuantitativeProperty"
+        self.hasQuantitativeProperty = "hasProperty"
         self.hasObjectiveProperty = "hasObjectiveProperty"
         self.hasConstituent = "hasConstituent"
         self.hasNumericalPart = "hasNumericalPart"
@@ -287,9 +287,6 @@ class SetupLinkedDataStruct:
         self.hasStringValue = "hasStringValue"
         self.hasStringPart = "hasStringPart"
         self.hasModel = "hasModel"
-        self.hasCell = "hasCell"
-
-        self.cell_type = "battery:Cell"
 
         self.context = "https://w3id.org/emmo/domain/battery/context"
 
@@ -302,7 +299,7 @@ class SetupLinkedDataStruct:
             "@context": _self.context,
             _self.graph: {
                 _self.id: "https://www.batterymodel.org/parameters/m309c-ed93mdp3d",
-                _self.type: "Icon",
+                _self.type: "BatteryCell",
                 _self.hasModel: {
                     _self.type: model_type,
                     _self.hasQuantitativeProperty: db_helper.get_model_parameters_as_dict(
@@ -363,16 +360,16 @@ class SetupLinkedDataStruct:
     def setup_sub_dict(
         _self,
         dict=None,
-        display_name=None,
+        name=None,
         context_type=None,
         type=None,
         existence=None,
     ):
         if existence == "new":
-            dict = {_self.label: display_name, _self.type: context_type}
+            dict = {_self.label: name, _self.type: context_type}
 
         else:
-            dict[_self.label] = display_name
+            dict[_self.label] = name
             dict[_self.type] = context_type
 
         return dict
@@ -542,7 +539,11 @@ class SetupLinkedDataStruct:
         else:
             print("Error: The relation for type {} is non-existing.".format(type))
 
-        relation = "has" + context_type.split(":")[1]
+        if len(context_type.split(":")) > 1:
+            relation = "has" + context_type.split(":")[1]
+        else:
+            relation = "has" + context_type
+
         return relation
 
     @st.cache_data
@@ -554,17 +555,20 @@ class SetupLinkedDataStruct:
         elif existence == "existing":
             if _self.hasQuantitativeProperty in component_parameters:
 
-                if _self.hasQuantitativeProperty in dict:
-                    dict[_self.hasQuantitativeProperty] += component_parameters[
-                        _self.hasQuantitativeProperty
-                    ]
-                elif relation in dict:
+                if relation in dict:
                     if _self.hasQuantitativeProperty in dict[relation]:
                         dict[relation][_self.hasQuantitativeProperty] += component_parameters[
                             _self.hasQuantitativeProperty
                         ]
+
                     else:
                         dict[relation][_self.hasQuantitativeProperty] = component_parameters
+
+                elif _self.hasQuantitativeProperty in dict:
+                    dict[_self.hasQuantitativeProperty] += component_parameters[
+                        _self.hasQuantitativeProperty
+                    ]
+
                 else:
                     if relation:
                         dict[relation] = component_parameters
@@ -603,22 +607,22 @@ class SetupLinkedDataStruct:
         energy,
         dis_energy,
     ):
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += n_to_p
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_mass
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += cell_cap
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += rte
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += energy
-        dict[_self.graph][_self.hasBatteryCell][_self.hasQuantitativeProperty] += dis_energy
-        dict[_self.graph][_self.hasElectrode][_self.hasNegativeElectrode][
-            _self.hasNegativeElectrode
-        ][_self.hasQuantitativeProperty] += specific_cap_ne
-        dict[_self.graph][_self.hasElectrode][_self.hasPositiveElectrode][
-            _self.hasPositiveElectrode
-        ][_self.hasQuantitativeProperty] += specific_cap_pe
-        dict[_self.graph][_self.hasElectrode][_self.hasNegativeElectrode][_self.hasActiveMaterial][
+        dict[_self.graph][_self.hasQuantitativeProperty] += n_to_p
+        dict[_self.graph][_self.hasQuantitativeProperty] += cell_mass
+        dict[_self.graph][_self.hasQuantitativeProperty] += cell_cap
+        dict[_self.graph][_self.hasQuantitativeProperty] += rte
+        dict[_self.graph][_self.hasQuantitativeProperty] += energy
+        dict[_self.graph][_self.hasQuantitativeProperty] += dis_energy
+        dict[_self.graph][_self.hasNegativeElectrode][
+            _self.hasQuantitativeProperty
+        ] += specific_cap_ne
+        dict[_self.graph][_self.hasPositiveElectrode][
+            _self.hasQuantitativeProperty
+        ] += specific_cap_pe
+        dict[_self.graph][_self.hasNegativeElectrode][_self.hasActiveMaterial][
             _self.hasQuantitativeProperty
         ] += cap_ne
-        dict[_self.graph][_self.hasElectrode][_self.hasPositiveElectrode][_self.hasActiveMaterial][
+        dict[_self.graph][_self.hasPositiveElectrode][_self.hasActiveMaterial][
             _self.hasQuantitativeProperty
         ] += cap_pe
 
@@ -774,25 +778,29 @@ class SetTabs:
                 with open(app_access.get_path_to_uploaded_input(), "w") as outfile:
                     json.dump(uploaded_file_dict, outfile, indent=3)
 
-                uploaded_input_dict = match_json_LD.GuiDict(uploaded_file_dict)
+                uploaded_input_gui_dict = match_json_LD.get_gui_dict_from_linked_data(
+                    uploaded_file_dict
+                )
 
-                st.session_state.uploaded_input_dict = uploaded_input_dict
+                uploaded_input_gui_dict = match_json_LD.GuiDict(uploaded_input_gui_dict)
+
+                st.session_state.uploaded_input_dict = uploaded_input_gui_dict
 
                 st.success(
                     "Your file is succesfully uploaded. Click on the 'CLEAR' button if you want to reset the parameters to the default values again."
                 )
             else:
-                uploaded_input_dict = None
+                uploaded_input_gui_dict = None
 
         else:
-            uploaded_input_dict = st.session_state.uploaded_input_dict
+            uploaded_input_gui_dict = st.session_state.uploaded_input_dict
 
         # update_col.text(" ")
         # update_col.text(" ")
 
         st.button("CLEAR", on_click=self.set_sessions_state_clear_upload, use_container_width=True)
 
-        return uploaded_input_dict
+        return uploaded_input_gui_dict
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:
@@ -870,9 +878,10 @@ class SetTabs:
             tab_context_type = db_helper.get_context_type_and_iri_by_id(db_tab_id)
             # tab_name = db_helper.get_tab_name_by_id(db_tab_id)
             tab_display_name = db_helper.get_basis_tabs_display_names(self.model_name)[index]
+            tab_name = db_helper.get_basis_tab_names(self.model_name)[index]
 
             tab_parameters = self.LD.setup_sub_dict(
-                display_name=tab_display_name,
+                name=tab_name,
                 context_type=tab_context_type,
                 existence="new",
             )
@@ -910,7 +919,7 @@ class SetTabs:
                 for category in categories:
 
                     category_parameters = self.LD.setup_sub_dict(
-                        display_name=db_helper.get_basis_categories_display_names(db_tab_id)[i][0],
+                        name=db_helper.get_basis_categories_names(db_tab_id)[i][0],
                         context_type=db_helper.get_categories_context_type(db_tab_id)[i][0],
                         existence="new",
                     )
@@ -944,8 +953,8 @@ class SetTabs:
                     )
                     i += 1
 
-                    tab_parameters[category_relation] = category_parameters
-                    cell_parameters[tab_relation] = tab_parameters
+                    # tab_parameters[category_relation] = category_parameters
+                    cell_parameters[category_relation] = category_parameters
 
             else:  # no sub tab is needed
 
@@ -997,7 +1006,10 @@ class SetTabs:
                         mass_loadings=None,
                     )
 
-                    cell_parameters[tab_relation] = category_parameters[tab_relation]
+                    if category_display_name == "Cell":
+                        cell_parameters.update(category_parameters)
+                    else:
+                        cell_parameters[tab_relation] = category_parameters[tab_relation]
 
                     # cell_parameters = LD.fill_sub_dict(cell_parameters, tab_relation, category_parameters,"new",relation_dict_2=tab_relation)
 
@@ -1050,8 +1062,8 @@ class SetTabs:
         ).get("value")
         mf_ne = input_dict.ne.am.get("mass_fraction").get("value")
         mf_pe = input_dict.pe.am.get("mass_fraction").get("value")
-        length = input_dict.cell.get("length").get("value")
-        width = input_dict.cell.get("width").get("value")
+        length = input_dict.pe.properties.get("length").get("value")
+        width = input_dict.pe.properties.get("width").get("value")
 
         CC_thickness = {
             "ne": input_dict.ne.properties.get("current_collector_thickness").get("value"),
@@ -1387,6 +1399,7 @@ class SetTabs:
                     component_parameters_,
                     emmo_relation,
                     density,
+                    material_context_type,
                 ) = self.fill_material_components(
                     component_name,
                     component_parameters,
@@ -1402,10 +1415,43 @@ class SetTabs:
                     tab,
                 )
 
+                if material_context_type != None:
+
+                    if material_context_type.startswith("["):
+                        material_context_type = ast.literal_eval(material_context_type)
+                        if material_comp_context_type.startswith("["):
+                            material_comp_context_type = ast.literal_eval(
+                                material_comp_context_type
+                            )
+
+                            for type_str in material_context_type:
+                                material_comp_context_type = material_comp_context_type.append(
+                                    type_str
+                                )
+
+                        else:
+                            context_type_list = [material_comp_context_type]
+
+                            for type_str in material_context_type:
+                                context_type_list.append(type_str)
+
+                    else:
+                        if material_comp_context_type.startswith("["):
+                            material_comp_context_type = ast.literal_eval(
+                                material_comp_context_type
+                            )
+                            context_type_list = material_comp_context_type.append(
+                                material_context_type
+                            )
+                        else:
+                            context_type_list = [material_comp_context_type, material_context_type]
+                else:
+                    context_type_list = material_comp_context_type
+
                 component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
                 component_parameters = self.LD.setup_sub_dict(
-                    display_name=material_comp_display_name,
-                    context_type=material_comp_context_type,
+                    name=component_name,
+                    context_type=context_type_list,
                     existence="new",
                 )
                 component_parameters = self.LD.fill_component_dict(
@@ -1476,7 +1522,7 @@ class SetTabs:
                     )
                     component_parameters = self.LD.setup_sub_dict(
                         dict=component_parameters,
-                        display_name=material_comp_display_name,
+                        name=component_name,
                         context_type=material_comp_context_type,
                     )
                     component_parameters = self.LD.fill_component_dict(
@@ -1796,7 +1842,7 @@ class SetTabs:
         component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
         component_parameters = self.LD.setup_sub_dict(
             existence="new",
-            display_name=non_material_comp_display_name,
+            name=non_material_component_name,
             context_type=non_material_comp_context_type,
         )
         component_parameters = self.LD.fill_component_dict(
@@ -2023,6 +2069,7 @@ class SetTabs:
                             reference_url = db_helper.get_reference_url_from_parameter_set(
                                 formatted_material.options.get(selected_parameter_set).display_name
                             )
+
                         else:
                             reference_url = None
 
@@ -2258,7 +2305,7 @@ class SetTabs:
 
             component_parameters = self.LD.setup_sub_dict(
                 existence="new",
-                display_name=comp_display_name,
+                name=component_name,
                 context_type=comp_context_type,
             )
             component_parameters = self.LD.fill_component_dict(
@@ -2829,12 +2876,12 @@ class SetTabs:
                         par_index,
                         st.session_state[input_value],
                     )
-                    # st.experimental_rerun
 
         component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
+
         component_parameters = self.LD.setup_sub_dict(
             dict=component_parameters,
-            display_name=non_material_comp_display_name,
+            name=non_material_component_name,
             context_type=non_material_comp_context_type,
         )
         component_parameters = self.LD.fill_component_dict(
@@ -2843,12 +2890,21 @@ class SetTabs:
 
         component_relation = self.LD.get_relation(non_material_component_id, "component")
 
-        category_parameters = self.LD.fill_component_dict(
-            component_parameters,
-            "existing",
-            dict=category_parameters,
-            relation=component_relation,
-        )
+        if (
+            category_display_name == "Cell"
+            or category_display_name == "Negative electrode"
+            or category_display_name == "Positive electrode"
+        ):
+            category_parameters = self.LD.fill_component_dict(
+                component_parameters, "existing", dict=category_parameters
+            )
+        else:
+            category_parameters = self.LD.fill_component_dict(
+                component_parameters,
+                "existing",
+                dict=category_parameters,
+                relation=component_relation,
+            )
 
         return (
             non_material_parameter,
@@ -2907,6 +2963,7 @@ class SetTabs:
 
         # Extract material ids and fetch parameter sets
         material_ids = [material[0] for material in materials]
+        # context_types = [material[14] for material in materials]
         material_parameter_sets = db_helper.get_parameter_sets_by_material_ids(material_ids)
 
         # Reorder the material_parameter_sets to match the order of materials
@@ -2927,6 +2984,13 @@ class SetTabs:
 
         reference_urls = {
             material_parameter_set[0]: material[7]
+            for material_parameter_set, material in zip(
+                reordered_material_parameter_sets, materials
+            )
+        }
+
+        material_context_types = {
+            material_parameter_set[0]: material[14]
             for material_parameter_set, material in zip(
                 reordered_material_parameter_sets, materials
             )
@@ -2967,6 +3031,7 @@ class SetTabs:
             materials,
             material_display_names,
             reference_urls,
+            material_context_types,
             reordered_material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -3021,6 +3086,7 @@ class SetTabs:
             materials,
             material_display_names,
             reference_urls,
+            context_types,
             material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -3041,6 +3107,7 @@ class SetTabs:
             materials,
             material_display_names,
             reference_urls,
+            context_types,
             material_parameter_sets,
             material_parameter_sets_name_by_id,
             material_raw_template_parameters,
@@ -3091,6 +3158,7 @@ class SetTabs:
             material_parameter_set_id = material_choice.parameter_set_id
             material = material_choice.display_name
             reference_url = material_choice.reference_url
+            material_context_type = material_choice.context_type
 
             parameter_ids = material_choice.parameter_ids
             parameters = material_choice.parameters
@@ -3302,6 +3370,8 @@ class SetTabs:
                             reference_url = db_helper.get_reference_url_from_parameter_set(
                                 selected_parameter_set
                             )
+                        else:
+                            reference_url = None
 
                         if user_input != st.session_state[key_user_input]:
                             st.session_state[key_user_input] = user_input
@@ -3331,6 +3401,7 @@ class SetTabs:
             component_parameters_,
             emmo_relation,
             density,
+            material_context_type,
         )
 
     @st.cache_data
@@ -3652,7 +3723,7 @@ class SetTabs:
                     )
 
                     component_parameters = self.LD.setup_sub_dict(
-                        display_name=non_material_comp_display_name,
+                        name=non_material_component_name,
                         context_type=non_material_comp_context_type,
                         existence="new",
                     )
@@ -3664,12 +3735,23 @@ class SetTabs:
                     non_material_comp_relation = self.LD.get_relation(
                         non_material_component_id, "component"
                     )
-                    category_parameters = self.LD.fill_component_dict(
-                        component_parameters,
-                        "existing",
-                        dict=category_parameters,
-                        relation=non_material_comp_relation,
-                    )
+
+                    if (
+                        category_display_name == "Cell"
+                        or category_name == "negative_electrode_properties"
+                        or category_name == "positive_electrode_properties"
+                    ):
+                        category_parameters = self.LD.fill_component_dict(
+                            component_parameters, "existing", dict=category_parameters
+                        )
+                    else:
+
+                        category_parameters = self.LD.fill_component_dict(
+                            component_parameters,
+                            "existing",
+                            dict=category_parameters,
+                            relation=non_material_comp_relation,
+                        )
 
         return category_parameters
 
@@ -4386,12 +4468,26 @@ class DownloadParameters:
             for key, value in sub_dict.items():
                 if "reference_url" in value:
                     reference = value["reference_url"]
-                    if reference not in reference_list:
-                        reference_list.append(reference)
+                    if reference != None:
+                        if reference not in reference_list:
+                            reference_list.append(reference)
 
         reference_dict["@id"] = reference_list
 
         return reference_dict
+
+    def move_dict_by_label(self, data_list, labels):
+        # Create a new list to store the removed dictionaries
+        removed_dicts = []
+
+        for label in labels:
+            # Iterate over the original list in reverse to avoid issues while modifying the list
+            for item in data_list[:]:  # Using a copy of the list for safe iteration
+                if item.get("rdfs:label") == label:
+                    removed_dicts.append(item)
+                    data_list.remove(item)
+
+        return removed_dicts, data_list
 
     def setup_gui_schema(self, headline, description, creator):
 
@@ -4417,11 +4513,192 @@ class DownloadParameters:
             schema["@graph"]["schema:description"] = description
         if len(creator[0]):
             schema["@graph"]["schema:creator"] = creator
+        # Cel properties
+        schema["@graph"]["hasProperty"] = parameters["@graph"]["hasProperty"]
 
-        schema["@graph"]["hasElectrode"] = parameters["@graph"]["hasElectrode"]
+        # Negative electrode
+        ne = parameters["@graph"]["hasNegativeElectrode"]
+        ne_properties = ne["hasProperty"]
+        ne_am_properties = ne["hasActiveMaterial"]["hasProperty"]
+        reaction_prop_labels = [
+            "number_of_electrons_transferred",
+            "activation_energy_of_reaction",
+            "reaction_rate_constant",
+        ]
+        coating_prop_labels = [
+            "coating_thickness",
+            "coating_porosity",
+            "mass_loading",
+            "bruggeman_coefficient",
+            "number_of_discrete_cells_electrode",
+        ]
+
+        coating_prop_dict_list, ne_prop_dict_list = self.move_dict_by_label(
+            ne_properties, coating_prop_labels
+        )
+
+        cc_prop_list, ne_prop_dict_list = self.move_dict_by_label(
+            ne_prop_dict_list, ["current_collector_thickness"]
+        )
+
+        reaction_prop_dict_list, ne_am_prop_dict_list = self.move_dict_by_label(
+            ne_am_properties, reaction_prop_labels
+        )
+
+        schema["@graph"]["hasNegativeElectrode"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["rdfs:label"] = ne["rdfs:label"]
+        schema["@graph"]["hasNegativeElectrode"]["@type"] = ne["@type"]
+        schema["@graph"]["hasNegativeElectrode"]["hasProperty"] = ne_prop_dict_list
+
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"][
+            "rdfs:label"
+        ] = "negative_electrode_coating"
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["@type"] = "Coating"
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"][
+            "hasProperty"
+        ] = coating_prop_dict_list
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasActiveMaterial"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasActiveMaterial"][
+            "rdfs:label"
+        ] = ne["hasActiveMaterial"]["rdfs:label"]
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasActiveMaterial"]["@type"] = ne[
+            "hasActiveMaterial"
+        ]["@type"]
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasActiveMaterial"][
+            "hasProperty"
+        ] = ne_am_prop_dict_list
+
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasBinder"] = ne["hasBinder"]
+        schema["@graph"]["hasNegativeElectrode"]["hasCoating"]["hasConductiveAdditive"] = ne[
+            "hasConductiveAdditive"
+        ]
+
+        schema["@graph"]["hasNegativeElectrode"]["hasCurrentCollector"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["hasCurrentCollector"][
+            "rdfs:label"
+        ] = "negative_electrode_current_collector"
+        schema["@graph"]["hasNegativeElectrode"]["hasCurrentCollector"]["@type"] = [
+            "CurrentCollector",
+            "Copper",
+            "Foil",
+        ]
+        schema["@graph"]["hasNegativeElectrode"]["hasCurrentCollector"][
+            "hasProperty"
+        ] = cc_prop_list
+
+        schema["@graph"]["hasNegativeElectrode"]["@reverse"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["@reverse"]["hasParticipant"] = {}
+        schema["@graph"]["hasNegativeElectrode"]["@reverse"]["hasParticipant"][
+            "rdfs:label"
+        ] = "negative_electrode_reaction"
+        schema["@graph"]["hasNegativeElectrode"]["@reverse"]["hasParticipant"][
+            "@type"
+        ] = "ElectrodeReaction"
+        schema["@graph"]["hasNegativeElectrode"]["@reverse"]["hasParticipant"][
+            "hasProperty"
+        ] = reaction_prop_dict_list
+
+        # Positive electrode
+        pe = parameters["@graph"]["hasPositiveElectrode"]
+        pe_properties = pe["hasProperty"]
+        pe_am_properties = pe["hasActiveMaterial"]["hasProperty"]
+        reaction_prop_labels = [
+            "number_of_electrons_transferred",
+            "activation_energy_of_reaction",
+            "reaction_rate_constant",
+        ]
+        coating_prop_labels = [
+            "coating_thickness",
+            "coating_porosity",
+            "mass_loading",
+            "bruggeman_coefficient",
+            "number_of_discrete_cells_electrode",
+        ]
+
+        coating_prop_dict_list, pe_prop_dict_list = self.move_dict_by_label(
+            pe_properties, coating_prop_labels
+        )
+
+        cc_prop_list, pe_prop_dict_list = self.move_dict_by_label(
+            pe_prop_dict_list, ["current_collector_thickness"]
+        )
+
+        reaction_prop_dict_list, pe_am_prop_dict_list = self.move_dict_by_label(
+            pe_am_properties, reaction_prop_labels
+        )
+
+        schema["@graph"]["hasPositiveElectrode"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["rdfs:label"] = pe["rdfs:label"]
+        schema["@graph"]["hasPositiveElectrode"]["@type"] = pe["@type"]
+        schema["@graph"]["hasPositiveElectrode"]["hasProperty"] = pe_prop_dict_list
+
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"][
+            "rdfs:label"
+        ] = "negative_electrode_coating"
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["@type"] = "Coating"
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"][
+            "hasProperty"
+        ] = coating_prop_dict_list
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasActiveMaterial"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasActiveMaterial"][
+            "rdfs:label"
+        ] = pe["hasActiveMaterial"]["rdfs:label"]
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasActiveMaterial"]["@type"] = ne[
+            "hasActiveMaterial"
+        ]["@type"]
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasActiveMaterial"][
+            "hasProperty"
+        ] = pe_am_prop_dict_list
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasBinder"] = pe["hasBinder"]
+        schema["@graph"]["hasPositiveElectrode"]["hasCoating"]["hasConductiveAdditive"] = pe[
+            "hasConductiveAdditive"
+        ]
+
+        schema["@graph"]["hasPositiveElectrode"]["hasCurrentCollector"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["hasCurrentCollector"][
+            "rdfs:label"
+        ] = "negative_electrode_current_collector"
+        schema["@graph"]["hasPositiveElectrode"]["hasCurrentCollector"]["@type"] = [
+            "CurrentCollector",
+            "Copper",
+            "Foil",
+        ]
+        schema["@graph"]["hasPositiveElectrode"]["hasCurrentCollector"][
+            "hasProperty"
+        ] = cc_prop_list
+
+        schema["@graph"]["hasPositiveElectrode"]["@reverse"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["@reverse"]["hasParticipant"] = {}
+        schema["@graph"]["hasPositiveElectrode"]["@reverse"]["hasParticipant"][
+            "rdfs:label"
+        ] = "negative_electrode_reaction"
+        schema["@graph"]["hasPositiveElectrode"]["@reverse"]["hasParticipant"][
+            "@type"
+        ] = "ElectrodeReaction"
+        schema["@graph"]["hasPositiveElectrode"]["@reverse"]["hasParticipant"][
+            "hasProperty"
+        ] = reaction_prop_dict_list
+
+        # Electrolyte
+
+        schema["@graph"]["hasElectrolyte"] = {}
+        schema["@graph"]["hasElectrolyte"]["rdfs:label"] = {}
+        schema["@graph"]["hasElectrolyte"]["@type"] = {}
+        schema["@graph"]["hasElectrolyte"]["hasSolvent"] = {}
+        schema["@graph"]["hasElectrolyte"]["hasSolvent"]["@type"] = "Solvent"
+        schema["@graph"]["hasElectrolyte"]["hasSolvent"]["hasConstituent"] = {}
+        schema["@graph"]["hasElectrolyte"]["hasSolute"] = {}
+        schema["@graph"]["hasElectrolyte"]["hasSolute"]["@type"] = "Solute"
+        schema["@graph"]["hasElectrolyte"]["hasSolute"]["hasProperty"] = {}
+
+        schema["@graph"]["hasElectrolyte"]["hasConstituent"] = []
+
+        schema["@graph"]["hasElectrolyte"]["hasProperty"] = {}
+
         schema["@graph"]["hasElectrolyte"] = parameters["@graph"]["hasElectrolyte"]
         schema["@graph"]["hasSeparator"] = parameters["@graph"]["hasSeparator"]
-        schema["@graph"]["hasBatteryCell"] = parameters["@graph"]["hasBatteryCell"]
         schema["@graph"]["hasBoundaryConditions"] = parameters["@graph"]["hasBoundaryConditions"]
         schema["@graph"]["hasCyclingProcess"] = parameters["@graph"]["hasCyclingProcess"]
         schema["@graph"]["hasModel"] = parameters["@graph"]["hasModel"]

@@ -4,7 +4,7 @@
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "tab_name": "boundary_conditions",
-            "context_type": "battery:BoundaryConditions",
+            "context_type": "BoundaryConditions",
             "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
             "description": "",
             "display_name": "Boundary conditions",
@@ -13,7 +13,7 @@
         "protocol": {
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
-            "context_type": "echem:CyclingProcess",
+            "context_type": "CyclingProcess",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_d3e2d213_d078_4b9a_8beb_62f063e57d69",
             "tab_name": "protocol",
             "description": "",
@@ -23,7 +23,7 @@
         "cell": {
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
-            "context_type": "battery:BatteryCell",
+            "context_type": "BatteryCell",
             "context_type_iri": "https://w3id.org/emmo/domain/battery#battery_68ed592a_7924_45d0_a108_94d6275d57f0",
             "tab_name": "cell",
             "description": "",
@@ -36,14 +36,14 @@
             "tab_name": "electrolyte",
             "description": "",
             "display_name": "Electrolyte",
-            "context_type": "echem:Electrolyte",
+            "context_type": "Electrolyte",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_fb0d9eef_92af_4628_8814_e065ca255d59",
             "default_template": "electrolyte_template"
         },
         "negative_electrode": {
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "context_type": "echem:NegativeElectrode",
+            "context_type": "NegativeElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Negative electrode",
             "tab_name": "electrodes",
@@ -53,7 +53,7 @@
         "positive_electrode": {
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "context_type": "echem:PositiveElectrode",
+            "context_type": "PositiveElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Positive electrode",
             "tab_name": "electrodes",
@@ -64,7 +64,7 @@
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "tab_name": "separator",
-            "context_type": "echem:Separator",
+            "context_type": "Separator",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
             "description": "",
             "display_name": "Separator",
@@ -73,7 +73,7 @@
         "negative_electrode_active_material": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:ActiveMaterial",
+            "context_type": "ActiveMaterial",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261",
             "emmo_relation": "hasActiveMaterial",
             "display_name": "Active Material",
@@ -84,7 +84,7 @@
         "negative_electrode_binder": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:Binder",
+            "context_type": "Binder",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "Binder",
             "tab_name": "negative_electrode",
@@ -94,7 +94,7 @@
         "negative_electrode_additive": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:ConductiveAdditive",
+            "context_type": "ConductiveAdditive",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
             "display_name": "Additive",
             "tab_name": "negative_electrode",
@@ -104,7 +104,7 @@
         "negative_electrode_properties": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:NegativeElectrode",
+            "context_type": "NegativeElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Electrode properties",
             "tab_name": "negative_electrode",
@@ -114,7 +114,7 @@
         "positive_electrode_active_material": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:ActiveMaterial",
+            "context_type": "ActiveMaterial",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_79d1b273-58cd-4be6-a250-434817f7c261",
             "emmo_relation": "hasActiveMaterial",
             "display_name": "Active Material",
@@ -125,7 +125,7 @@
         "positive_electrode_binder": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:Binder",
+            "context_type": "Binder",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_68eb5e35_5bd8_47b1_9b7f_f67224fa291e",
             "display_name": "Binder",
             "tab_name": "positive_electrode",
@@ -135,7 +135,7 @@
         "positive_electrode_additive": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:ConductiveAdditive",
+            "context_type": "ConductiveAdditive",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_82fef384_8eec_4765_b707_5397054df594",
             "display_name": "Additive",
             "tab_name": "positive_electrode",
@@ -145,7 +145,7 @@
         "positive_electrode_properties": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:PositiveElectrode",
+            "context_type": "PositiveElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Electrode properties",
             "tab_name": "positive_electrode",

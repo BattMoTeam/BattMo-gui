@@ -3,14 +3,14 @@
         "electrodes": {
             "model_name": ["P2D","P3D"],
             "difficulty": "basis",
-            "context_type": "echem:Electrode",
+            "context_type": "Electrode",
             "display_name": "Electrodes",
             "description": ""
         },
         "negative_electrode": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:NegativeElectrode",
+            "context_type": "NegativeElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_c94c041b_8ea6_43e7_85cc_d2bce7785b4c",
             "display_name": "Negative electrode",
             "description": ""
@@ -18,7 +18,7 @@
         "positive_electrode": {
             "model_name": ["P2D","P3D"],
             "difficulty": "advanced",
-            "context_type": "echem:PositiveElectrode",
+            "context_type": "PositiveElectrode",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_aff732a9_238a_4734_977c_b2ba202af126",
             "display_name": "Positive electrode",
             "description": ""
@@ -27,7 +27,7 @@
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "display_name": "Electrolyte",
-            "context_type": "echem:Electrolyte",
+            "context_type": "Electrolyte",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_fb0d9eef_92af_4628_8814_e065ca255d59",
             "description": ""
         },
@@ -35,7 +35,7 @@
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "display_name": "Separator",
-            "context_type": "echem:Separator",
+            "context_type": "Separator",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_331e6cca_f260_4bf8_af55_35304fe1bbe0",
             "description": ""
         },
@@ -60,7 +60,7 @@
             "model_name": ["P2D","P3D"],
             "difficulty": "basis_advanced",
             "display_name": "Protocol",
-            "context_type": "echem:CyclingProcess",
+            "context_type": "CyclingProcess",
             "context_type_iri": "https://w3id.org/emmo/domain/electrochemistry#electrochemistry_d3e2d213_d078_4b9a_8beb_62f063e57d69",
             "description": ""
         }
