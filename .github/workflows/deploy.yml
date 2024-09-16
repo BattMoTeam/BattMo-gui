@@ -26,7 +26,7 @@ jobs:
 
       - name: Build
         run: |
-          docker compose -f docker-compose-deploy.yml build 
+          docker compose -f docker-compose-deploy.yml build
       - name: Publish
         run: docker compose -f docker-compose-deploy.yml push
 
@@ -34,21 +34,21 @@ jobs:
     name: Deploy image
     runs-on: ubuntu-latest
     needs: publish
-    
+
     steps:
-    - name: Install SSH keys
-      run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
-    - name: Test SSH Connection
-      run: ssh -o StrictHostKeyChecking=no ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
-    - name: Login to Registry
-      run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin  
-    - name: Pull and Run Containers
-      run: |
-        ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && \
-        docker compose -f docker-compose.yml pull && \
-        docker compose -f docker-compose.yml up -d"
-    - name: Cleanup
-      run: rm -rf ~/.ssh
+      - name: Install SSH keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H  ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
+      - name: Login to Registry
+        run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin
+      - name: Pull and Run Containers
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && \
+          docker compose -f docker-compose.yml pull && \
+          docker compose -f docker-compose.yml up -d"
+      - name: Cleanup
+        run: rm -rf ~/.ssh

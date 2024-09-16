@@ -39,4 +39,4 @@ services:
     depends_on:
       - genie
 
-    command: streamlit run Introduction.py --global.disableWidgetStateDuplicationWarning true --server.port=8501
+    command: streamlit run app.py --global.disableWidgetStateDuplicationWarning true --server.port=8501

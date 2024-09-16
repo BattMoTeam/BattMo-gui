@@ -12,9 +12,19 @@
                "hasNumericalPart": {
                   "@type": "Boolean",
                   "hasNumericalValue": 0
+               "rdfs:label": "use_thermal",
+               "@type": "['ThermalModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
                }
             },
             {
+               "rdfs:label": "include_current_collector",
+               "@type": "['CurrentCollector']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
                "rdfs:label": "include_current_collector",
                "@type": "['CurrentCollector']",
                "hasNumericalPart": {
@@ -28,6 +38,11 @@
                "hasNumericalPart": {
                   "@type": "Boolean",
                   "hasNumericalValue": 1
+               "rdfs:label": "use_solid_diffusion_model",
+               "@type": "['usediffusionModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
                }
             },
             {
@@ -36,9 +51,19 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "full"
+               "rdfs:label": "solid_diffusion_model_type",
+               "@type": "['diffusionModelType', 'parameter']",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "full"
                }
             },
             {
+               "rdfs:label": "use_ramp_up",
+               "@type": "['LinearCurrentRamp']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
                "rdfs:label": "use_ramp_up",
                "@type": "['LinearCurrentRamp']",
                "hasNumericalPart": {

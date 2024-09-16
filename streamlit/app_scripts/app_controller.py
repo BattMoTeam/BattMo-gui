@@ -66,12 +66,12 @@ class AppController:
 #####################################
 # Main setting functions
 #####################################
-@st.cache_data
+
+
 def get_app_controller():
     return AppController(get_image_dict(), get_context())
 
 
-@st.cache_data
 def set_heading():
     return view.SetHeading(get_logo())
 
@@ -80,12 +80,10 @@ def set_page_navigation():
     return view.SetPageNavigation()
 
 
-@st.cache_data
 def set_external_links():
     return view.SetExternalLinks()
 
 
-@st.cache_data
 def set_model_description():
     return view.SetModelDescription()
 
@@ -121,12 +119,10 @@ def get_images():
     return view.LoadImages(app_access.get_path_to_images_dir())
 
 
-@st.cache_data
 def get_image_dict():
     return get_images().image_dict
 
 
-@st.cache_data
 def get_logo():
     return get_images().logo
 

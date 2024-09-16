@@ -22,7 +22,7 @@ global_logger(Logging.SimpleLogger(stdout, Logging.Debug))
 open("compiler_log.txt", "w") do io
 	redirect_stdout(io) do
 		# Create the system image
-		create_sysimage([:LoggingExtras,:Genie,:BattMo,:HTTP,:JSON,:UUIDs,:HDF5];
+		create_sysimage([:LoggingExtras,:Genie,:BattMo,:HTTP,:JSON,:UUIDs,:HDF5,:SwagUI,:SwaggerMarkdown,:Jutul];
 		sysimage_path = sysimage_path,
 		project = project_path,
 		precompile_execution_file=example_path,

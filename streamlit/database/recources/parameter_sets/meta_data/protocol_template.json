@@ -157,7 +157,7 @@
          "context_type": ["LinearCurrentRamp", "NumberOfEntities"],
          "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "description": "duration of the switch between changing from rest, discharging, or charging",
-         "type": "float",
+         "type": "int",
          "is_shown_to_user": true,
          "unit": "1",
          "unit_name": "emmo:UnitOne",

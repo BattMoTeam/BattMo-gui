@@ -5,6 +5,7 @@ import pickle
 import io
 import h5py
 import streamlit as st
+from streamlit.runtime.scriptrunner import add_script_run_ctx
 import numpy as np
 from uuid import uuid4
 import sys
@@ -22,8 +23,11 @@ import pandas as pd
 import random
 import re
 import math
-from concurrent.futures import ThreadPoolExecutor
+import threading
+import websocket
+import time
 import asyncio
+import base64
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -69,7 +73,7 @@ class SetHeading:
     def __init__(self, logo):
         self.logo = logo
 
-        self.title = "BattMo"
+        self.title = "Battery Model"
         self.subtitle = "Framework for continuum modelling of electrochemical devices."
         self.description = """
             This graphical user interface can be used to run (cell level) battery simulations
@@ -77,7 +81,6 @@ class SetHeading:
             devices. It simulates the Current-Voltage response of a battery using
             Physics-based models.
         """
-        self.info = "Hover over the following buttons to see what you can find on each page."
         self.info = "Hover over the following buttons to see what you can find on each page."
 
         # Set heading
@@ -90,9 +93,9 @@ class SetHeading:
 
     def set_title_and_logo(self):
         # Title and subtitle
-        logo_col, title_col = st.columns([1, 5])
-        logo_col.image(self.logo)
-        title_col.title(self.title)
+        # logo_col, title_col = st.columns([1, 5])
+        # logo_col.image(self.logo)
+        st.title(self.title)
         # st.text(self.subtitle)
 
     def set_description(self):
@@ -140,7 +143,9 @@ class SetPageNavigation:
         )
 
         results_page = col2.button(
-            label="Results", help=self.help_results, use_container_width=True
+            label="Results",
+            help=self.help_results,
+            use_container_width=True,
         )
 
         materials_and_models_page = col3.button(
@@ -150,13 +155,15 @@ class SetPageNavigation:
         )
 
         if simulation_page:
-            switch_page("Simulation")
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Simulation.py"))
 
         if results_page:
-            switch_page("Results")
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
 
         if materials_and_models_page:
-            switch_page("Materials and models")
+            st.switch_page(
+                os.path.join(app_access.get_path_to_pages_dir(), "Materials_and_models.py")
+            )
 
         return col4
 
@@ -188,7 +195,23 @@ class SetAcknowledgementInfo:
 
     def set_europe_flag(self):
 
-        st.image(self.flag_image, width=90)
+        # st.image(self.flag_image, width=90)
+
+        # Function to convert an image to base64
+        def image_to_base64(image_path):
+            with open(image_path, "rb") as image_file:
+                return base64.b64encode(image_file.read()).decode()
+
+        # Path to the image
+        image_path = os.path.join(app_access.get_path_to_images_dir(), "flag_of_europe.jpg")
+
+        # Convert image to base64
+        image_base64 = image_to_base64(image_path)
+
+        # Embed the image in HTML
+        st.html(
+            f'<img src="data:image/jpeg;base64,{image_base64}" id="flag_of_europe" style="width: 100px;">'
+        )
 
 
 class SetExternalLinks:
@@ -408,6 +431,9 @@ class SetupLinkedDataStruct:
                 if reference_url:
                     parameter_details["schema:citation"] = {_self.id: reference_url}
 
+                if reference_url:
+                    parameter_details["schema:citation"] = {_self.id: reference_url}
+
             elif isinstance(parameter, StrParameter):
 
                 formatted_value_dict = {
@@ -517,6 +543,9 @@ class SetupLinkedDataStruct:
                 if reference_url:
                     parameter_details["schema:citation"] = {_self.id: reference_url}
 
+                if reference_url:
+                    parameter_details["schema:citation"] = {_self.id: reference_url}
+
                 component_parameters.append(parameter_details)
             except Exception as e:
                 st.error("An error occurred 2: {}".format(e))
@@ -557,6 +586,7 @@ class SetupLinkedDataStruct:
 
                 if relation in dict:
                     if _self.hasQuantitativeProperty in dict[relation]:
+                        dict[relation][_self.hasQuantitativeProperty] += component_parameters[
                         dict[relation][_self.hasQuantitativeProperty] += component_parameters[
                             _self.hasQuantitativeProperty
                         ]
@@ -1030,26 +1060,31 @@ class SetTabs:
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(self.user_input, new_file, indent=3)
 
+        st.session_state.json_linked_data_input = self.user_input
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.user_input),
+                battmo_input,
                 new_file,
                 indent=3,
             )
 
-    @st.cache_data
+        st.session_state.json_battmo_formatted_input = battmo_input
+
     def calc_indicators(_self, user_input):
 
         input_dict = match_json_LD.GuiDict(user_input)
         try:
-            with open(app_access.get_path_to_calculated_values(), "r") as f:
-                parameters_dict = json.load(f)
+            # with open(app_access.get_path_to_calculated_values(), "r") as f:
+            #     parameters_dict = json.load(f)
+            parameters_dict = st.session_state.json_gui_calculated_quantities
         except:
             parameters_dict = {}
 
@@ -1208,6 +1243,17 @@ class SetTabs:
             cc_mass,
             packing_mass,
         )
+
+        # Include indicators in calculated_values file
+        if "cell" not in parameters_dict["calculatedParameters"]:
+            parameters_dict["calculatedParameters"]["cell"] = {}
+
+        parameters_dict["calculatedParameters"]["cell"]["mass"] = cell_mass
+
+        with open(app_access.get_path_to_calculated_values(), "w") as f:
+            json.dump(parameters_dict, f)
+
+        st.session_state.json_gui_calculated_quantities = parameters_dict
 
         raw_template_cellmass = db_helper.get_template_parameter_by_parameter_name(
             "cell_mass", _self.model_name
@@ -1572,6 +1618,7 @@ class SetTabs:
         tab.markdown("**%s**" % non_material_comp_display_name)
         if category_name == "negative_electrode" or category_name == "positive_electrode":
             check_col, property_col, value_col = tab.columns((0.3, 1, 2))
+
         else:
             property_col, value_col = tab.columns(2)
             check_col = None
@@ -2077,6 +2124,8 @@ class SetTabs:
 
                         st.write(
                             "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
+                        st.write(
+                            "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                             + " / "
                             + "[{}]({})".format(parameter.unit, parameter.unit_iri)
                         )
@@ -2535,7 +2584,7 @@ class SetTabs:
                         ),
                         label_visibility="collapsed",
                     )
-                    st.text(" ")
+                    st.text("")
 
             property_col.write(
                 "[{}]({})".format(
@@ -2547,6 +2596,11 @@ class SetTabs:
             )
 
             property_col.text(" ")
+            if (
+                category_display_name == "Negative electrode"
+                or category_display_name == "Positive electrode"
+            ):
+                property_col.text(" ")
 
             if not st.session_state[input_value]:
                 st.session_state[input_value] = non_material_parameter.default_value
@@ -2621,8 +2675,11 @@ class SetTabs:
             density_eff = self.calc_density_eff(density_mix, porosity)
 
             try:
-                with open(app_access.get_path_to_calculated_values(), "r") as f:
-                    parameters_dict = json.load(f)
+                # with open(app_access.get_path_to_calculated_values(), "r") as f:
+                #     parameters_dict = json.load(f)
+
+                parameters_dict = st.session_state.json_gui_calculated_quantities
+
             except json.JSONDecodeError as e:
                 parameters_dict = {}
                 st.write(app_access.get_path_to_calculated_values())
@@ -2633,12 +2690,17 @@ class SetTabs:
             if "effective_density" not in parameters_dict["calculatedParameters"]:
                 parameters_dict["calculatedParameters"]["effective_density"] = {}
 
+            if "cell" not in parameters_dict["calculatedParameters"]:
+                parameters_dict["calculatedParameters"]["cell"] = {}
+
             parameters_dict["calculatedParameters"]["effective_density"][
                 category_name
             ] = density_eff
 
             with open(app_access.get_path_to_calculated_values(), "w") as f:
                 json.dump(parameters_dict, f, indent=3)
+
+            st.session_state.json_gui_calculated_quantities = parameters_dict
 
         if check_col:
             states = "states_" + str(category_id)
@@ -2658,13 +2720,16 @@ class SetTabs:
                         par_index = 2
                         mass_loadings[category_name] = par_value_ml
 
-                        with open(app_access.get_path_to_calculated_values(), "r") as f:
-                            parameters_dict = json.load(f)
+                        # with open(app_access.get_path_to_calculated_values(), "r") as f:
+                        #     parameters_dict = json.load(f)
+                        parameters_dict = st.session_state.json_gui_calculated_quantities
 
                         parameters_dict["calculatedParameters"]["mass_loadings"] = mass_loadings
 
                         with open(app_access.get_path_to_calculated_values(), "w") as f:
                             json.dump(parameters_dict, f, indent=3)
+
+                        st.session_state.json_gui_calculated_quantities = parameters_dict
 
                         (
                             input_key,
@@ -2674,7 +2739,6 @@ class SetTabs:
                             state_count,
                             states,
                             states_to_count,
-                            user_interaction,
                         ) = self.define_session_state_keys(category_id, non_material_parameter_name)
 
                         st.session_state[input_value] = par_value_ml
@@ -2865,7 +2929,7 @@ class SetTabs:
                 )
                 st.session_state["input_value_{}_{}".format(category_id, "coating_porosity")] = None
                 st.session_state["input_value_{}_{}".format(category_id, "mass_loading")] = None
-                st.experimental_rerun
+                st.rerun
 
             if st.session_state[input_value]:
 
@@ -2876,6 +2940,7 @@ class SetTabs:
                         par_index,
                         st.session_state[input_value],
                     )
+                    # st.rerun
 
         component_parameters_ = self.LD.fill_component_dict(component_parameters_, "new")
 
@@ -3326,6 +3391,9 @@ class SetTabs:
                         ):
                             st.session_state[key_select] = material_display_names[0]
 
+                        if user_interaction not in st.session_state:
+                            st.session_state[user_interaction] = False
+
                         selected_parameter_set = select_col.selectbox(
                             label=par_display_name,
                             options=material_display_names,
@@ -3365,6 +3433,11 @@ class SetTabs:
                             step=self.set_increment(st.session_state[key_user_input]),
                             label_visibility="collapsed",
                         )
+
+                        if st.session_state[user_interaction] == False:
+                            reference_url = db_helper.get_reference_url_from_parameter_set(
+                                selected_parameter_set
+                            )
 
                         if st.session_state[user_interaction] == False:
                             reference_url = db_helper.get_reference_url_from_parameter_set(
@@ -3903,8 +3976,9 @@ class RunSimulation:
         # self.gui_file_data = json.dumps(gui_parameters, indent=2)
         # self.gui_file_name = "gui_output_parameters.json"
         # self.file_mime_type = "application/json"
+        # self.progress_bar = st.progress(st.session_state.simulation_progress)
         self.success = st.session_state.simulation_success
-        self.api_url = "http://genie:8000/run_simulation"
+        self.api_url = "ws://genie:8081"
         self.json_input_folder = "BattMoJulia"
         self.json_input_file = "battmo_formatted_input.json"
         self.julia_module_folder = "BattMoJulia"
@@ -3921,6 +3995,7 @@ class RunSimulation:
 
         self.set_header(save_run)
         file_name = self.set_naming(save_run)
+        self.file_name = file_name
         self.set_buttons(save_run, file_name)
 
     def set_header(self, save_run):
@@ -3943,24 +4018,33 @@ class RunSimulation:
                 "Give your results a name.",
                 value=st.session_state["simulation_results_file_name"],
             )
-
             st.session_state["simulation_results_file_name"] = file_name
 
+        else:
+
+            random_number = random.randint(1000, 9999)
+            random_file_name = str(random_number)
+            st.session_state["simulation_results_file_name"] = "data_" + random_file_name
+
+    @st.fragment()
     def set_buttons(self, save_run, file_name):
 
-        col1, col2 = save_run.columns((1, 1))
-        runing = col1.button(
+        col1, col2 = st.columns((1, 1))
+        running = col1.button(
             label="RUN",
-            on_click=self.execute_api_on_click,
-            args=(save_run, file_name),
+            # on_click=self.execute_api_on_click,
+            # args=(save_run, file_name),
             type="primary",
             use_container_width=True,
         )
 
         results_page = col2.button(label="Results", type="primary", use_container_width=True)
 
+        if running:
+            self.execute_api_on_click(save_run, file_name)
+
         if results_page:
-            switch_page("Results")
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
 
     def update_on_click(self, file_name):
         self.update_json_LD()
@@ -3974,71 +4058,205 @@ class RunSimulation:
         with open(path_to_battmo_input, "w") as new_file:
             json.dump(self.gui_parameters, new_file, indent=3)
 
+        st.session_state.json_linked_data_input = self.gui_parameters
+
     def update_json_battmo_input(self):
 
         # Format parameters from json-LD to needed format
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                battmo_input,
                 new_file,
                 indent=3,
             )
+        st.session_state.json_battmo_formatted_input = battmo_input
 
+    def on_message(self, ws, message):
+        try:
+            if message == "Simulation failed or timed out.":
+                st.error("Simulation failed or timed out.")
+                st.session_state.sim_finished = True
+            else:
+                if isinstance(message, str):
+                    if "Simulation progress" in message:
+                        self.sim_start.info("Simulation running")
+                        with self.bar:
+                            self.progress_bar = st.progress(0)
+                        dt_perc = float(message.split(": ")[1])
+                        progress = st.session_state.simulation_progress + dt_perc
+                        self.progress_bar.progress(progress)
+                        st.session_state.simulation_progress = progress
+                    elif "Error" in message:
+                        st.error(message)
+                    elif "UUID" in message:
+                        st.session_state.simulation_uuid = message.split(": ")[1]
+                    else:
+                        self.sim_start.info(message)
+
+                else:
+                    st.session_state.response = True
+                    st.session_state.sim_finished = True
+                    # message_h5 = h5py.File(message, "r")
+                    st.session_state.simulation_results = message
+
+                    # st.write("class:", DivergenceCheck)
+                    # self.success = DivergenceCheck(save_run=None, response=message).success
+                    # st.write("succes:", self.success)
+        except EOFError as e:
+            st.error(f"WebSocket message handling error: {e}")
+            st.session_state.sim_finished = True
+
+    def on_error(self, ws, error):
+        st.error(f"WebSocket error: {error}")
+
+        st.session_state.response = False
+        st.session_state.sim_finished = True
+        st.session_state.simulation_results = False
+
+    def on_close(self, ws, close_status_code, close_msg):
+
+        if st.session_state.sim_finished == True:
+            # if "progress_bar" in vars(RunSimulation).values():
+            st.progress(100)
+            self.success = DivergenceCheck(
+                self.sim_start, st.session_state.simulation_results
+            ).success
+        else:
+            self.sim_start.error(
+                "WebSocket was closed unexpectedly: {}_{}".format(close_status_code, close_msg)
+            )
+
+        print("WebSocket connection closed")
+
+    def on_open(self, ws):
+        # Send the JSON data as soon as the WebSocket connection is established
+        # with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
+        #     json_data = json.load(j)
+        json_data = st.session_state.json_battmo_formatted_input
+        # st.info("data send with ID: {}".format(st.session_state.unique_id_temp_folder))
+        start_dict = {
+            "command": "start_simulation",
+            "user_id": st.session_state.unique_id_temp_folder,
+            "parameters": json_data,
+        }
+        ws.send(json.dumps(start_dict))
+
+    def run_simulation(self):
+
+        ws = websocket.WebSocketApp(
+            self.api_url,
+            on_open=self.on_open,
+            on_message=self.on_message,
+            on_error=self.on_error,
+            on_close=self.on_close,
+        )
+
+        def run_websocket():
+            ws.run_forever()
+
+        run_websocket()
+
+        st.session_state.simulation_progress = 0
+        ws.close()
+
+    def stop_simulation(self):
+
+        st.session_state.stop_simulation = True
+
+    @st.dialog("Simulation progress")
     def execute_api_on_click(self, save_run, file_name):
 
-        st.session_state["toast"](":green-background[Starting simulation!]", icon="🕙")
+        # st.session_state["toast"](":green-background[Starting simulation!]", icon="🕙")
 
         ##############################
         # Set page directory to base level to allow for module import from different folder
-
         sys.path.insert(0, app_access.get_path_to_streamlit_dir())
 
         ##############################
 
-        self.update_on_click(file_name)
+        # self.update_on_click(file_name)
 
-        with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
-            json_data = json.loads(j.read())
+        st.session_state.stop_simulation = False
 
-        # Set the Content-Type header to application/json
-        headers = {"Content-Type": "application/json"}
+        self.sim_start = st.empty()
+        self.sim_start.info("Pre-processing steps are being executed")
+        self.bar = st.empty()
 
-        response_start = requests.post(self.api_url, json=json_data)
+        with self.bar:
 
-        if response_start.status_code == 200:
+            with st.spinner():
+                self.run_simulation()
+                time.sleep(1)
 
-            st.session_state.battmo_api_response = True
+        if st.session_state.success == True:
+            self.set_results_button()
+        elif st.session_state.success == False or st.session_state.sim_finished == False:
+            self.set_close_button()
 
-            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
-            #     f.write(response_start.content)
+    @st.fragment()
+    def set_close_button(self):
 
-            # file_like_object = io.BytesIO(response_start.content)
-            # with h5py.File(file_like_object, 'r') as hdf5_file:
+        close_dialog = st.button(
+            label="Close",
+            use_container_width=True,
+            help="Use this button to exit this dialog",
+        )
+        if close_dialog:
+            st.rerun()
 
-            #     st.write(hdf5_file["concentrations"]["electrolyte"]["elyte_c_state_1"][()])
-
-            if st.session_state["checkbox_value"] == False:
-
-                # random_file_name = str(uuid4())
-                random_number = random.randint(1000, 9999)
-                random_file_name = str(random_number)
-                st.session_state["simulation_results_file_name"] = "data_" + random_file_name
-
-            # with open(app_access.get_path_to_battmo_results(), "wb") as f:
-            #     f.write(response_start.content)
-
-            self.success = DivergenceCheck(save_run, response_start.content).success
-
-        else:
-
-            self.success = DivergenceCheck(save_run, False).success
-
-            st.session_state.battmo_api_response = False
+    @st.fragment()
+    def set_results_button(self):
+        cola, colb = st.columns(2)
+        results_page2 = cola.button(label="Results", use_container_width=True)
+        close_dialog2 = colb.button(
+            label="Close",
+            use_container_width=True,
+            help="Use this button to exit this dialog",
+        )
+        if results_page2:
+            st.switch_page(os.path.join(app_access.get_path_to_pages_dir(), "Results.py"))
+        if close_dialog2:
+            st.rerun()
 
 
+# def run_simulation(self, save_run, file_name):
+
+#     with open(app_access.get_path_to_battmo_formatted_input(), "r") as j:
+#         json_data = json.loads(j.read())
+
+#     # Set the Content-Type header to application/json
+#     headers = {"Content-Type": "application/json"}
+
+#     while st.session_state.stop_simulation != True and st.session_state.sim_finished != True:
+
+#         response_start = requests.post(self.api_url, json=json_data)
+
+#     if response_start.status_code == 200:
+
+#         st.session_state.response = True
+
+#         if st.session_state["checkbox_value"] == False:
+
+#             random_number = random.randint(1000, 9999)
+#             random_file_name = str(random_number)
+#             st.session_state["simulation_results_file_name"] = "data_" + random_file_name
+
+#         self.success = DivergenceCheck(save_run, response_start.content).success
+
+#     else:
+#         self.success = DivergenceCheck(save_run, False).success
+
+#         st.session_state.response = False
+
+#         st.cache_data.clear()
+
+
+#         st.session_state.update_par = False
+#         st.session_state.sim_finished = True
 class DivergenceCheck:
     """
     Checks if the simulation is fully executed. If not it provides a warning to the user.
@@ -4079,8 +4297,10 @@ class DivergenceCheck:
     def get_timesteps_setting(self):
 
         # retrieve saved parameters from json file
-        with open(app_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
-            gui_parameters = json.load(json_gui_parameters)
+        # with open(app_access.get_path_to_battmo_formatted_input()) as json_gui_parameters:
+        #     gui_parameters = json.load(json_gui_parameters)
+
+        gui_parameters = st.session_state.json_battmo_formatted_input
 
         N = gui_parameters["TimeStepping"]["numberOfTimeSteps"]
 
@@ -4119,10 +4339,12 @@ class DivergenceCheck:
         with h5py.File(response, "a") as hdf5_file:
             input_jsons = hdf5_file["json_input_files"]
 
-            with open(app_access.get_path_to_battmo_formatted_input(), "r") as f:
-                battmo_formatted_input = json.load(f)
-            with open(app_access.get_path_to_linked_data_input(), "r") as f:
-                linked_data_input = json.load(f)
+            # with open(app_access.get_path_to_battmo_formatted_input(), "r") as f:
+            #     battmo_formatted_input = json.load(f)
+            # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+            #     linked_data_input = json.load(f)
+            battmo_formatted_input = st.session_state.json_battmo_formatted_input
+            linked_data_input = st.session_state.json_linked_data_input
 
             battmo_formatted_input_str = json.dumps(battmo_formatted_input)
             linked_data_input_str = json.dumps(linked_data_input)
@@ -4304,8 +4526,11 @@ class DivergenceCheck:
 
             cell_spec_energy = cell["specific_energy"]
 
-            with open(app_access.get_path_to_calculated_values()) as f:
-                values = json.load(f)["calculatedParameters"]
+            # with open(app_access.get_path_to_calculated_values()) as f:
+            #     values = json.load(f)["calculatedParameters"]
+
+            values = st.session_state.json_gui_calculated_quantities
+            values = values["calculatedParameters"]
 
             mass = values["cell"]["mass"]
             cell_energy_value = indicators_h5["cell"]["discharge_energy"]["value"][()]
@@ -4353,7 +4578,7 @@ class DivergenceCheck:
                 self.success = st.session_state.simulation_success
 
                 if len(log_messages) > 1:
-                    c = self.save_run.container()
+                    c = self.save_run.container(height=400)
                     c.error(
                         "Simulation wasn't successful unfortunately. Some errors were produced, see the logging."
                     )
@@ -4373,22 +4598,41 @@ class DivergenceCheck:
                 temp_file_name = st.session_state["simulation_results_file_name"]
                 file_path = os.path.join(st.session_state["temp_dir"], temp_file_name + ".hdf5")
 
-                self.save_run.success(
-                    f"""Simulation finished successfully! Check the results on the 'Results' page."""
-                )
+                self.success = True
+
+                if len(log_messages) > 1:
+                    c = self.save_run.container()
+                    c.warning(
+                        "Simulation results retrieved, but Some errors/warnings were produced. See the logging."
+                    )
+                    c.markdown("***Logging:***")
+
+                    log_message = """ \n"""
+                    for message in log_messages:
+                        log_message = log_message + message + """\n"""
+
+                    c.code(log_message + """ \n""")
+
+                else:
+
+                    self.save_run.success(f"""Simulation finished successfully!""")  # \n\n
 
                 st.session_state.simulation_success = True
                 self.success = st.session_state.simulation_success
 
                 # if self.response:
                 if not isinstance(self.response, bool):
-                    with open(app_access.get_path_to_linked_data_input(), "r") as f:
-                        gui_parameters = json.load(f)
+                    # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+                    #     gui_parameters = json.load(f)
+
+                    gui_parameters = st.session_state.json_linked_data_input
 
                     indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
                     with open(app_access.get_path_to_indicator_values(), "w") as f:
                         json.dump(indicators, f, indent=3)
+
+                    st.session_state.json_indicator_quantities = indicators
 
                     # with open(app_access.get_path_to_battmo_results(), "wb") as f:
                     #     f.write(results)
@@ -4403,8 +4647,15 @@ class DivergenceCheck:
                     with open(app_access.get_path_to_battmo_results(), "wb") as f:
                         f.write(self.response)
 
+                    st.session_state.simulation_results = self.response
+
+                # except:
+                #     pass
+
         elif st.session_state.battmo_api_response == None:
             pass
+
+        st.session_state.response == None
 
 
 class DownloadParameters:
@@ -4431,10 +4682,10 @@ class DownloadParameters:
         self.file_mime_type = "application/JSON"
 
         # retrieve saved formatted parameters from json file
-        with open(
-            app_access.get_path_to_battmo_formatted_input(), "r"
-        ) as json_formatted_gui_parameters:
-            self.formatted_gui_parameters = json.load(json_formatted_gui_parameters)
+        # with open(
+        #     app_access.get_path_to_battmo_formatted_input(), "r"
+        # ) as json_formatted_gui_parameters:
+        self.formatted_gui_parameters = st.session_state.json_battmo_formatted_input
 
         self.download_label_formatted_parameters = "BattMo format"
         self.formatted_parameters_file_data = json.dumps(self.formatted_gui_parameters, indent=2)
@@ -4715,12 +4966,15 @@ class DownloadParameters:
         path_to_battmo_formatted_input = app_access.get_path_to_battmo_formatted_input()
 
         # save formatted parameters in json file
+        battmo_input = match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters)
         with open(path_to_battmo_formatted_input, "w") as new_file:
             json.dump(
-                match_json_LD.get_batt_mo_dict_from_gui_dict(self.gui_parameters),
+                battmo_input,
                 new_file,
                 indent=3,
             )
+
+        st.session_state.json_battmo_formatted_input = battmo_input
 
     def set_submit_button(self):
 
@@ -4927,6 +5181,7 @@ class GetResultsData:
         formatted_results, indicators, input_files = self.format_results(
             results, indicators, file_names, input_files
         )
+
         self.results = formatted_results
         # file_path = os.path.join(st.session_state['temp_dir'], uploaded_file[0].name)
         # with open(file_path, "wb") as f:
@@ -4962,8 +5217,10 @@ class GetResultsData:
                 results, indicators, input_files = self.translate_results(result)
 
             else:
-                file_path = app_access.get_path_to_battmo_results()
-                results = h5py.File(file_path, "r")
+                # file_path = app_access.get_path_to_battmo_results()
+                # results = h5py.File(file_path, "r")
+                bytes_h5 = io.BytesIO(st.session_state.simulation_results)
+                results = h5py.File(bytes_h5, "r")
                 indicators = None
                 input_files = None
 
@@ -5262,14 +5519,17 @@ class SetIndicators:
         self.render_indicators(indicators)
 
     def get_indicators_from_run(self):
-        with open(app_access.get_path_to_indicator_values(), "r") as f:
-            indicators = json.load(f)
+        # with open(app_access.get_path_to_indicator_values(), "r") as f:
+        #     indicators = json.load(f)
+        indicators = st.session_state.json_indicator_quantities
         return indicators
 
     def get_indicators_from_LD(self):
 
-        with open(app_access.get_path_to_linked_data_input(), "r") as f:
-            gui_parameters = json.load(f)
+        # with open(app_access.get_path_to_linked_data_input(), "r") as f:
+        #     gui_parameters = json.load(f)
+
+        gui_parameters = st.session_state.json_linked_data_input
 
         indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
@@ -6806,9 +7066,9 @@ class SetHDF5Upload:
 
                 st.success(
                     f"""File is saved with name {uploaded_file[0].name}.
-                           
+
                            All results are stored temporarily and will be deleted on refreshing or closing the browser.
-                           
+
                            """
                 )
 
@@ -6988,8 +7248,8 @@ class SetDataSetSelector:
         with st.sidebar:
 
             # Remember user changed values when switching between pages
-            for k, v in st.session_state.items():
-                st.session_state[k] = v
+            # for k, v in st.session_state.items():
+            #     st.session_state[k] = v
 
             st.markdown("## " + self.header)
 
@@ -8324,9 +8584,9 @@ class SetMaterialDescription:
     def set_material_description(_self):
 
         ##############################
-        # Remember user changed values
-        for k, v in st.session_state.items():
-            st.session_state[k] = v
+        # # Remember user changed values
+        # for k, v in st.session_state.items():
+        #     st.session_state[k] = v
         ##############################
 
         materials = db_helper.get_all_default_material()

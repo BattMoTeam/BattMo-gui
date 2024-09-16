@@ -11,16 +11,66 @@ import copy
 
 
 def get_dict_from_has_quantitative(has_quantitative, give_references=False):
+def get_dict_from_has_quantitative(has_quantitative, give_references=False):
     """
     Simplifies json ld dict to increase readability in this file
     """
     new_dict = {}
+    reference_list = []
     reference_list = []
 
     for item in has_quantitative:
 
         if type(item) != str:
 
+            if "hasNumericalPart" in item:
+                item_value_type = item.get("hasNumericalPart", {}).get("@type", None)
+
+                if item_value_type == "Real":
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": item.get("hasNumericalPart", {}).get("hasNumericalValue"),
+                        "unit": item.get("hasMeasurementUnit", {}).get("hasSymbolValue"),
+                    }
+                    if "schema:citation" in item:
+                        reference = item["schema:citation"]["@id"]
+                        new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                        if reference not in reference_list:
+                            reference_list.append(reference)
+
+                elif item_value_type == "Boolean":
+                    new_dict[item.get("rdfs:label")] = {
+                        "value": bool(item.get("hasNumericalPart", {}).get("hasNumericalValue"))
+                    }
+
+            elif "hasStringPart" in item:
+
+                item_value_type = item.get("hasStringPart", {}).get("@type", None)
+                if item_value_type:
+
+                    if item.get("@type") != None and "Expression" in item.get("@type"):
+
+                        new_dict[item.get("rdfs:label")] = {
+                            "value": item.get("hasStringPart", {}).get("hasStringValue"),
+                            "variable": item.get("hasVariable"),
+                            "unit": item.get("hasMeasurementUnit", {}).get("hasSymbolValue"),
+                        }
+
+                        if "schema:citation" in item:
+                            reference = item["schema:citation"]["@id"]
+                            new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                            if reference not in reference_list:
+                                reference_list.append(reference)
+
+                    elif item_value_type == "String":
+                        new_dict[item.get("rdfs:label")] = {
+                            "value": item.get("hasStringPart", {}).get("hasStringValue")
+                        }
+
+                        if "schema:citation" in item:
+                            reference = item["schema:citation"]["@id"]
+                            new_dict[item.get("rdfs:label")]["reference_url"] = reference
+                            if reference not in reference_list:
+                                reference_list.append(reference)
             if "hasNumericalPart" in item:
                 item_value_type = item.get("hasNumericalPart", {}).get("@type", None)
 
@@ -143,6 +193,11 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
 
     if json_ld.protocol.get("protocol_name").get("value") == "CCCV":
 
+    if json_ld.protocol.get("protocol_name").get("value") == "CCCV":
+
+        total_time = 2 / json_ld.protocol.get("d_rate").get("value") * 3600 * json_ld.protocol.get(
+            "number_of_cycles"
+        ).get("value") + 2 / json_ld.protocol.get("c_rate").get(
         total_time = 2 / json_ld.protocol.get("d_rate").get("value") * 3600 * json_ld.protocol.get(
             "number_of_cycles"
         ).get("value") + 2 / json_ld.protocol.get("c_rate").get(
@@ -153,8 +208,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             "value"
         )
     elif json_ld.protocol.get("protocol_name").get("value") == "CCDischarge":
+    elif json_ld.protocol.get("protocol_name").get("value") == "CCDischarge":
         total_time = 2 / json_ld.protocol.get("d_rate").get("value") * 3600
     else:
+
 
         st.error("This cycling protocol is not handled yet.")
 
@@ -162,7 +219,15 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "functionname" in json_ld.ne.am["open_circuit_potential"].get("value")
         and json_ld.ne.am["open_circuit_potential"].get("value")["functionname"] != None
     ):
+    if (
+        "functionname" in json_ld.ne.am["open_circuit_potential"].get("value")
+        and json_ld.ne.am["open_circuit_potential"].get("value")["functionname"] != None
+    ):
         ne_am_function = "functionname"
+    elif (
+        "function" in json_ld.ne.am["open_circuit_potential"].get("value")
+        and json_ld.ne.am["open_circuit_potential"].get("value")["function"] != None
+    ):
     elif (
         "function" in json_ld.ne.am["open_circuit_potential"].get("value")
         and json_ld.ne.am["open_circuit_potential"].get("value")["function"] != None
@@ -177,7 +242,15 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "functionname" in json_ld.pe.am["open_circuit_potential"].get("value")
         and json_ld.pe.am["open_circuit_potential"].get("value")["functionname"] != None
     ):
+    if (
+        "functionname" in json_ld.pe.am["open_circuit_potential"].get("value")
+        and json_ld.pe.am["open_circuit_potential"].get("value")["functionname"] != None
+    ):
         pe_am_function = "functionname"
+    elif (
+        "function" in json_ld.pe.am["open_circuit_potential"].get("value")
+        and json_ld.pe.am["open_circuit_potential"].get("value")["function"] != None
+    ):
     elif (
         "function" in json_ld.pe.am["open_circuit_potential"].get("value")
         and json_ld.pe.am["open_circuit_potential"].get("value")["function"] != None
@@ -192,7 +265,15 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "functionname" in json_ld.elyte_mat["conductivity"].get("value")
         and json_ld.elyte_mat["conductivity"].get("value")["functionname"] != None
     ):
+    if (
+        "functionname" in json_ld.elyte_mat["conductivity"].get("value")
+        and json_ld.elyte_mat["conductivity"].get("value")["functionname"] != None
+    ):
         elyte_cond_function = "functionname"
+    elif (
+        "function" in json_ld.elyte_mat["conductivity"].get("value")
+        and json_ld.elyte_mat["conductivity"].get("value")["function"] != None
+    ):
     elif (
         "function" in json_ld.elyte_mat["conductivity"].get("value")
         and json_ld.elyte_mat["conductivity"].get("value")["function"] != None
@@ -207,7 +288,15 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
         and json_ld.elyte_mat["diffusion_coefficient"].get("value")["functionname"] != None
     ):
+    if (
+        "functionname" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
+        and json_ld.elyte_mat["diffusion_coefficient"].get("value")["functionname"] != None
+    ):
         elyte_diff_function = "functionname"
+    elif (
+        "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
+        and json_ld.elyte_mat["diffusion_coefficient"].get("value")["function"] != None
+    ):
     elif (
         "function" in json_ld.elyte_mat["diffusion_coefficient"].get("value")
         and json_ld.elyte_mat["diffusion_coefficient"].get("value")["function"] != None
@@ -234,9 +323,21 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get(
                     "value"
                 ),
+                "N": json_ld.ne.properties.get("number_of_discrete_cells_electrode").get("value"),
+                "effectiveDensity": calculated_values["effective_density"]["negative_electrode"],
+                "bruggemanCoefficient": json_ld.ne.properties.get("bruggeman_coefficient").get(
+                    "value"
+                ),
                 "ActiveMaterial": {
                     "massFraction": json_ld.ne.am.get("mass_fraction").get("value"),
                     "density": json_ld.ne.am.get("density").get("value"),
+                    "electronicConductivity": json_ld.ne.am.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.ne.am.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.ne.am.get("thermal_conductivity").get("value"),
                     "electronicConductivity": json_ld.ne.am.get("electronic_conductivity").get(
                         "value"
                     ),
@@ -251,6 +352,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "volumetricSurfaceArea": json_ld.ne.am.get("volumetric_surface_area").get(
                             "value"
                         ),
+                        "saturationConcentration": json_ld.ne.am.get("maximum_concentration").get(
+                            "value"
+                        ),
+                        "volumetricSurfaceArea": json_ld.ne.am.get("volumetric_surface_area").get(
+                            "value"
+                        ),
                         "density": json_ld.ne.am.get("density").get("value"),
                         "numberOfElectronsTransferred": json_ld.ne.am.get(
                             "number_of_electrons_transferred"
@@ -258,6 +365,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "activationEnergyOfReaction": json_ld.ne.am.get(
                             "activation_energy_of_reaction"
                         ).get("value"),
+                        "reactionRateConstant": json_ld.ne.am.get("reaction_rate_constant").get(
+                            "value"
+                        ),
                         "reactionRateConstant": json_ld.ne.am.get("reaction_rate_constant").get(
                             "value"
                         ),
@@ -276,8 +386,16 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                             "argumentlist": json_ld.ne.am.get("open_circuit_potential").get(
                                 "variable"
                             ),
+                            ne_am_function: json_ld.ne.am.get("open_circuit_potential").get(
+                                "value"
+                            )[ne_am_function],
+                            "argumentlist": json_ld.ne.am.get("open_circuit_potential").get(
+                                "variable"
+                            ),
                         },
                     },
+                    "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
+                        "value"
                     "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
                         "value"
                     ),
@@ -288,6 +406,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "referenceDiffusionCoefficient": json_ld.ne.am.get(
                             "diffusion_pre_exponential_factor"
                         ).get("value"),
+                        "particleRadius": json_ld.ne.am.get("particle_radius").get("value"),
+                        "N": json_ld.ne.am.get("number_of_discrete_cells_particle_radius").get(
                         "particleRadius": json_ld.ne.am.get("particle_radius").get("value"),
                         "N": json_ld.ne.am.get("number_of_discrete_cells_particle_radius").get(
                             "value"
@@ -306,10 +426,26 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "thermalConductivity": json_ld.ne.binder.get("thermal_conductivity").get(
                         "value"
                     ),
+                    "electronicConductivity": json_ld.ne.binder.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.ne.binder.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.ne.binder.get("thermal_conductivity").get(
+                        "value"
+                    ),
                 },
                 "ConductingAdditive": {
                     "density": json_ld.ne.add.get("density").get("value"),
                     "massFraction": json_ld.ne.add.get("mass_fraction").get("value"),
+                    "electronicConductivity": json_ld.ne.add.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.ne.add.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.ne.add.get("thermal_conductivity").get("value"),
                     "electronicConductivity": json_ld.ne.add.get("electronic_conductivity").get(
                         "value"
                     ),
@@ -337,9 +473,21 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get(
                     "value"
                 ),
+                "N": json_ld.pe.properties.get("number_of_discrete_cells_electrode").get("value"),
+                "effectiveDensity": calculated_values["effective_density"]["positive_electrode"],
+                "bruggemanCoefficient": json_ld.pe.properties.get("bruggeman_coefficient").get(
+                    "value"
+                ),
                 "ActiveMaterial": {
                     "massFraction": json_ld.pe.am.get("mass_fraction").get("value"),
                     "density": json_ld.pe.am.get("density").get("value"),
+                    "electronicConductivity": json_ld.pe.am.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.pe.am.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.pe.am.get("thermal_conductivity").get("value"),
                     "electronicConductivity": json_ld.pe.am.get("electronic_conductivity").get(
                         "value"
                     ),
@@ -354,6 +502,12 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "volumetricSurfaceArea": json_ld.pe.am.get("volumetric_surface_area").get(
                             "value"
                         ),
+                        "saturationConcentration": json_ld.pe.am.get("maximum_concentration").get(
+                            "value"
+                        ),
+                        "volumetricSurfaceArea": json_ld.pe.am.get("volumetric_surface_area").get(
+                            "value"
+                        ),
                         "density": json_ld.pe.am.get("density").get("value"),
                         "numberOfElectronsTransferred": json_ld.pe.am.get(
                             "number_of_electrons_transferred"
@@ -361,6 +515,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "activationEnergyOfReaction": json_ld.pe.am.get(
                             "activation_energy_of_reaction"
                         ).get("value"),
+                        "reactionRateConstant": json_ld.pe.am.get("reaction_rate_constant").get(
+                            "value"
+                        ),
                         "reactionRateConstant": json_ld.pe.am.get("reaction_rate_constant").get(
                             "value"
                         ),
@@ -379,8 +536,16 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                             "argumentlist": json_ld.pe.am.get("open_circuit_potential").get(
                                 "variable"
                             ),
+                            pe_am_function: json_ld.pe.am.get("open_circuit_potential").get(
+                                "value"
+                            )[pe_am_function],
+                            "argumentlist": json_ld.pe.am.get("open_circuit_potential").get(
+                                "variable"
+                            ),
                         },
                     },
+                    "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
+                        "value"
                     "diffusionModelType": json_ld.model.get("solid_diffusion_model_type").get(
                         "value"
                     ),
@@ -391,6 +556,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                         "referenceDiffusionCoefficient": json_ld.pe.am.get(
                             "diffusion_pre_exponential_factor"
                         ).get("value"),
+                        "particleRadius": json_ld.pe.am.get("particle_radius").get("value"),
+                        "N": json_ld.pe.am.get("number_of_discrete_cells_particle_radius").get(
                         "particleRadius": json_ld.pe.am.get("particle_radius").get("value"),
                         "N": json_ld.pe.am.get("number_of_discrete_cells_particle_radius").get(
                             "value"
@@ -409,10 +576,26 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                     "thermalConductivity": json_ld.pe.binder.get("thermal_conductivity").get(
                         "value"
                     ),
+                    "electronicConductivity": json_ld.pe.binder.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.pe.binder.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.pe.binder.get("thermal_conductivity").get(
+                        "value"
+                    ),
                 },
                 "ConductingAdditive": {
                     "density": json_ld.pe.add.get("density").get("value"),
                     "massFraction": json_ld.pe.add.get("mass_fraction").get("value"),
+                    "electronicConductivity": json_ld.pe.add.get("electronic_conductivity").get(
+                        "value"
+                    ),
+                    "specificHeatCapacity": json_ld.pe.add.get("specific_heat_capacity").get(
+                        "value"
+                    ),
+                    "thermalConductivity": json_ld.pe.add.get("thermal_conductivity").get("value"),
                     "electronicConductivity": json_ld.pe.add.get("electronic_conductivity").get(
                         "value"
                     ),
@@ -434,32 +617,44 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "Separator": {
             "thickness": json_ld.sep_prop.get("thickness").get("value") * 10 ** (-6),
             "N": json_ld.sep_prop.get("number_of_discrete_cells_separator").get("value"),
+            "N": json_ld.sep_prop.get("number_of_discrete_cells_separator").get("value"),
             "porosity": json_ld.sep_prop.get("porosity").get("value"),
             "specificHeatCapacity": json_ld.sep_prop.get("specific_heat_capacity").get("value"),
             "thermalConductivity": json_ld.sep_prop.get("thermal_conductivity").get("value"),
+            "specificHeatCapacity": json_ld.sep_prop.get("specific_heat_capacity").get("value"),
+            "thermalConductivity": json_ld.sep_prop.get("thermal_conductivity").get("value"),
             "density": json_ld.sep_prop.get("density").get("value"),
+            "bruggemanCoefficient": json_ld.sep_prop.get("bruggeman_coefficient").get("value"),
             "bruggemanCoefficient": json_ld.sep_prop.get("bruggeman_coefficient").get("value"),
         },
         "Electrolyte": {
             "initialConcentration": json_ld.elyte_mat.get("concentration").get("value"),
             "specificHeatCapacity": json_ld.elyte_mat.get("specific_heat_capacity").get("value"),
             "thermalConductivity": json_ld.elyte_mat.get("thermal_conductivity").get("value"),
+            "specificHeatCapacity": json_ld.elyte_mat.get("specific_heat_capacity").get("value"),
+            "thermalConductivity": json_ld.elyte_mat.get("thermal_conductivity").get("value"),
             "density": json_ld.elyte_mat.get("density").get("value"),
             "ionicConductivity": {
                 "type": "function",
                 elyte_cond_function: json_ld.elyte_mat.get("conductivity").get("value")[
+                elyte_cond_function: json_ld.elyte_mat.get("conductivity").get("value")[
                     elyte_cond_function
                 ],
+                "argumentlist": json_ld.elyte_mat.get("conductivity").get("variable"),
                 "argumentlist": json_ld.elyte_mat.get("conductivity").get("variable"),
             },
             "diffusionCoefficient": {
                 "type": "function",
                 elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient").get("value")[
+                elyte_diff_function: json_ld.elyte_mat.get("diffusion_coefficient").get("value")[
                     elyte_diff_function
                 ],
                 "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient").get("variable"),
+                "argumentlist": json_ld.elyte_mat.get("diffusion_coefficient").get("variable"),
             },
             "compnames": [
+                json_ld.elyte_mat.get("charge_carrier_name").get("value"),
+                json_ld.elyte_mat.get("counter_ion_name").get("value"),
                 json_ld.elyte_mat.get("charge_carrier_name").get("value"),
                 json_ld.elyte_mat.get("counter_ion_name").get("value"),
             ],
@@ -468,8 +663,13 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
                 "transferenceNumber": json_ld.elyte_mat.get("counter_ion_transference_number").get(
                     "value"
                 ),
+                "chargeNumber": json_ld.elyte_mat.get("charge_carrier_charge_number").get("value"),
+                "transferenceNumber": json_ld.elyte_mat.get("counter_ion_transference_number").get(
+                    "value"
+                ),
                 "nominalConcentration": 1000,
             },
+            "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value"),
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value"),
         },
         "G": [],
@@ -478,13 +678,19 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         "initT": json_ld.bc.get("initial_temperature").get("value"),
         "use_thermal": json_ld.model.get("use_thermal").get("value"),
         "include_current_collectors": json_ld.model.get("include_current_collector").get("value"),
+        "use_thermal": json_ld.model.get("use_thermal").get("value"),
+        "include_current_collectors": json_ld.model.get("include_current_collector").get("value"),
         # "use_particle_diffusion": json_ld.model.get("use_solid_diffusion_model"),
         "Control": {
+            "controlPolicy": json_ld.protocol.get("protocol_name").get("value"),
+            "initialControl": json_ld.protocol.get("initial_step_type").get("value"),
             "controlPolicy": json_ld.protocol.get("protocol_name").get("value"),
             "initialControl": json_ld.protocol.get("initial_step_type").get("value"),
             "numberOfCycles": json_ld.protocol.get("number_of_cycles").get("value"),
             "CRate": json_ld.protocol.get("c_rate").get("value"),
             "DRate": json_ld.protocol.get("d_rate").get("value"),
+            "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
+            "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get("value"),
             "lowerCutoffVoltage": json_ld.protocol.get("lower_cutoff_voltage").get("value"),
             "upperCutoffVoltage": json_ld.protocol.get("upper_cutoff_voltage").get("value"),
             "rampupTime": 10.0,
@@ -499,8 +705,10 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
         },
         "TimeStepping": {
             "useRampup": json_ld.model.get("use_ramp_up").get("value"),
+            "useRampup": json_ld.model.get("use_ramp_up").get("value"),
             "rampupTime": 10.0,
             # "totalTime": total_time,
+            "numberOfRampupSteps": json_ld.protocol.get("number_of_ramp_up_steps").get("value"),
             "numberOfRampupSteps": json_ld.protocol.get("number_of_ramp_up_steps").get("value"),
             # "numberOfRampupSteps": 10,
             "timeStepDuration": json_ld.protocol.get("time_step_duration").get("value"),
@@ -522,7 +730,10 @@ def get_indicators_from_gui_dict(gui_dict):
             },
             "roundTripEfficiency": {"unit": json_ld.cell.get("round_trip_efficiency").get("unit")},
             "dischargeEnergy": {"unit": json_ld.cell.get("discharge_energy").get("unit")},
+            "roundTripEfficiency": {"unit": json_ld.cell.get("round_trip_efficiency").get("unit")},
+            "dischargeEnergy": {"unit": json_ld.cell.get("discharge_energy").get("unit")},
             "specificEnergy": {"unit": json_ld.cell.get("specific_energy").get("unit")},
+            "energyEfficiency": {"unit": json_ld.cell.get("round_trip_efficiency").get("unit")},
             "energyEfficiency": {"unit": json_ld.cell.get("round_trip_efficiency").get("unit")},
             "nominalCellCapacity": {
                 "value": json_ld.cell.get("nominal_cell_capacity").get("value"),
