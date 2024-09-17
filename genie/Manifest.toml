@@ -1,6 +1,6 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.3"
+julia_version = "1.10.5"
 manifest_format = "2.0"
 project_hash = "a3602f4d5ed55edd642fffd57f0de9c45ee2f9d6"
 
@@ -75,8 +75,8 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.BattMo]]
-deps = ["JLD2", "JSON", "Jutul", "MAT", "Polynomials", "PrecompileTools", "RuntimeGeneratedFunctions", "StaticArrays", "Test", "Tullio", "x264_jll"]
-git-tree-sha1 = "23a5656d4da94a58c71690b7a896faf06e9dc234"
+deps = ["Infiltrator", "JLD2", "JSON", "Jutul", "MAT", "Polynomials", "PrecompileTools", "RuntimeGeneratedFunctions", "StaticArrays", "StatsBase", "Test", "Tullio", "x264_jll"]
+git-tree-sha1 = "6e84d3e04199c7bdac97a8e084766da3a8b33d8e"
 repo-rev = "dev"
 repo-url = "https://github.com/BattMoTeam/BattMo.jl.git"
 uuid = "6f0c0536-3c2c-4762-a987-c605a8a6f898"
@@ -374,6 +374,12 @@ git-tree-sha1 = "debdd00ffef04665ccbb3e150747a77560e8fad1"
 uuid = "615f187c-cbe4-4ef1-ba3b-2fcf58d6d173"
 version = "0.1.1"
 
+[[deps.Infiltrator]]
+deps = ["InteractiveUtils", "Markdown", "REPL", "UUIDs"]
+git-tree-sha1 = "38298a8eabe09e49e6f60927c9e1ca3481688ba0"
+uuid = "5903a43b-9cc3-4c30-8d17-598619ec4e9b"
+version = "1.8.3"
+
 [[deps.Inflate]]
 git-tree-sha1 = "ea8031dea4aff6bd41f1df8f2fdfb25b33626381"
 uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
@@ -449,22 +455,22 @@ version = "0.9.30"
 
 [[deps.Jutul]]
 deps = ["AlgebraicMultigrid", "Crayons", "DataStructures", "Dates", "ExprTools", "ForwardDiff", "Graphs", "ILUZero", "JLD2", "Krylov", "LinearAlgebra", "LinearOperators", "Logging", "LoopVectorization", "MAT", "MappedArrays", "Metis", "OrderedCollections", "Polyester", "PolyesterWeave", "Polynomials", "PrettyTables", "Printf", "ProgressMeter", "SparseArrays", "SparsityTracing", "StaticArrays", "Statistics", "SymRCM", "Test", "TimerOutputs", "Tullio"]
-git-tree-sha1 = "c28dba86c4626716247d33ea717d71c94bdbab47"
-repo-rev = "battmo"
-repo-url = "https://github.com/sintefmath/Jutul.jl.git"
+git-tree-sha1 = "7e214ee0c716a14dfd13a34c3eb7ad37bd11ea85"
 uuid = "2b460a1a-8a2b-45b2-b125-b5c536396eb9"
-version = "0.2.31"
+version = "0.2.37"
 
     [deps.Jutul.extensions]
+    JutulAMGCLWrapExt = "AMGCLWrap"
     JutulGLMakieExt = "GLMakie"
     JutulGraphMakieExt = ["GraphMakie", "NetworkLayout", "LayeredLayouts", "Makie"]
-    JutulHypreExt = "HYPRE"
+    JutulHYPREExt = "HYPRE"
     JutulKaHyParExt = "KaHyPar"
     JutulMakieExt = "Makie"
     JutulMeshesExt = ["Meshes"]
     JutulPartitionedArraysExt = ["PartitionedArrays", "MPI"]
 
     [deps.Jutul.weakdeps]
+    AMGCLWrap = "4f76b812-4ba5-496d-b042-d70715554288"
     GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
     GraphMakie = "1ecd5474-83a3-4783-bb4f-06765db800d2"
     HYPRE = "b5ffcf37-a2bd-41ab-a3da-4bd9bc8ad771"
@@ -696,6 +702,12 @@ version = "10.1.4+2"
 git-tree-sha1 = "ea6a5b7e56e76d8051023faaa11d91d1d881dac3"
 uuid = "39ec1447-df44-5f4c-beaa-866f30b4d3b2"
 version = "0.2.5"
+
+[[deps.Missings]]
+deps = ["DataAPI"]
+git-tree-sha1 = "ec4f7fbeab05d7747bdf98eb74d130a2a2ed298d"
+uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
+version = "1.2.0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -951,6 +963,12 @@ version = "0.9.4"
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
+[[deps.SortingAlgorithms]]
+deps = ["DataStructures"]
+git-tree-sha1 = "66e0a8e672a0bdfca2c3f5937efb8538b9ddc085"
+uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
+version = "1.2.1"
+
 [[deps.SparseArrays]]
 deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
@@ -1014,6 +1032,18 @@ version = "1.4.2"
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 version = "1.10.0"
+
+[[deps.StatsAPI]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "1ff449ad350c9c4cbc756624d6f8a8c3ef56d3ed"
+uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
+version = "1.7.0"
+
+[[deps.StatsBase]]
+deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
+git-tree-sha1 = "5cf7606d6cef84b543b483848d4ae08ad9832b21"
+uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+version = "0.34.3"
 
 [[deps.StrideArraysCore]]
 deps = ["ArrayInterface", "CloseOpenIntervals", "IfElse", "LayoutPointers", "ManualMemory", "SIMDTypes", "Static", "StaticArrayInterface", "ThreadingUtilities"]
@@ -1202,7 +1232,7 @@ version = "1.1.2+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.8.0+1"
+version = "5.11.0+0"
 
 [[deps.libevent_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "OpenSSL_jll"]

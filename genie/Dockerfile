@@ -43,8 +43,10 @@ ENV EARLYBIND "true"
 
 COPY --chown=genie:genie app /home/genie/app/app
 COPY --chown=genie:genie bin /home/genie/app/bin
-RUN mkdir /home/genie/app/results
-RUN mkdir /home/genie/app/input_files
+COPY --chown=genie:genie results /home/genie/app/results
+COPY --chown=genie:genie input_files /home/genie/app/input_files
+# RUN mkdir /home/genie/app/results
+# RUN mkdir /home/genie/app/input_files
 
 # Copy compiled files
 # COPY --chown=genie:genie compiled /home/genie/app/compiled

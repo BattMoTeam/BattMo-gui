@@ -259,6 +259,8 @@ function run_simulation(input_file_path, output_path_path, stop_condition::Condi
     try
         output = runP2DBattery.runP2DBatt(input_file_path,ws);
 
+        print("....", output[2])
+
         lock(simulation_lock) do
             create_hdf5_output_file(output,output_path_path)
         end

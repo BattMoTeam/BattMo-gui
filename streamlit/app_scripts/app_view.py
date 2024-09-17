@@ -3795,6 +3795,7 @@ class RunSimulation:
         if st.session_state.sim_finished == True:
             # if "progress_bar" in vars(RunSimulation).values():
             st.progress(100)
+            # self.sim_start.error("WebSocket was closed: {}_{}".format(close_status_code, close_msg))
             self.success = DivergenceCheck(
                 self.sim_start, st.session_state.simulation_results
             ).success
@@ -3951,7 +3952,6 @@ class DivergenceCheck:
                 log_messages = st.session_state.log_messages
 
             else:
-
                 (
                     results,
                     *_,
@@ -4000,7 +4000,6 @@ class DivergenceCheck:
             electrolyte_potential,
             positive_electrode_potential,
         ] = results
-
         return number_of_states, log_messages
 
     def add_input_json_to_results(self, response):
@@ -6820,6 +6819,14 @@ class SetGraphs:
                     positive_electrode_potential,
                 ] = result
 
+                # 1D:
+                negative_electrode_grid = negative_electrode_grid[:, 0]
+                negative_electrode_grid_bc = negative_electrode_grid_bc[:, 0]
+                electrolyte_grid = electrolyte_grid[:, 0]
+                electrolyte_grid_bc = electrolyte_grid_bc[:, 0]
+                positive_electrode_grid = positive_electrode_grid[:, 0]
+                positive_electrode_grid_bc = positive_electrode_grid_bc[:, 0]
+
                 def array_and_transpose(data):
                     data = np.array(data)
                     if data.ndim > 1:
@@ -6881,6 +6888,14 @@ class SetGraphs:
                 _self.electrolyte_potential,
                 _self.positive_electrode_potential,
             ] = _self.results
+
+            # 1D:
+            _self.negative_electrode_grid = _self.negative_electrode_grid[:, 0]
+            _self.negative_electrode_grid_bc = _self.negative_electrode_grid_bc[:, 0]
+            _self.electrolyte_grid = _self.electrolyte_grid[:, 0]
+            _self.electrolyte_grid_bc = _self.electrolyte_grid_bc[:, 0]
+            _self.positive_electrode_grid = _self.positive_electrode_grid[:, 0]
+            _self.positive_electrode_grid_bc = _self.positive_electrode_grid_bc[:, 0]
 
     def contains_value(self, array, value):
         """Utility function to check if the array contains a specific value."""
@@ -7132,8 +7147,13 @@ class SetGraphs:
         return max_array
 
     def find_max_length_array_y_axis(self, arrays):
-        if not arrays:  # Check if the list is empty
-            return None, 0, -1
+
+        if isinstance(arrays, list):
+            if len(arrays) == 0:  # Check if the list is empty
+                return None, 0, -1
+        else:
+            if np.size(arrays) == 0:  # Check if the array is empty
+                return None, 0, -1
 
         max_length_1 = 0
         max_length_2 = 0
