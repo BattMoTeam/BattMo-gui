@@ -1,4 +1,5 @@
 using BattMo
+using Jutul
 using Genie, Genie.Renderer.Json, Genie.Requests
 using HTTP
 using UUIDs
@@ -19,5 +20,4 @@ include(module_path)
 # Specify the output path for the sysimg.so file relative to the script directory
 json_path = joinpath(script_dir, "p2d_40_cccv.json")
 
-json_file = JSONFile(json_path)
 runP2DBattery.runP2DBatt(json_path);
