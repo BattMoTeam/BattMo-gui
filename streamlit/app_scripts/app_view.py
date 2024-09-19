@@ -28,6 +28,7 @@ import websocket
 import time
 import asyncio
 import base64
+import copy
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -587,7 +588,6 @@ class SetupLinkedDataStruct:
                 if relation in dict:
                     if _self.hasQuantitativeProperty in dict[relation]:
                         dict[relation][_self.hasQuantitativeProperty] += component_parameters[
-                        dict[relation][_self.hasQuantitativeProperty] += component_parameters[
                             _self.hasQuantitativeProperty
                         ]
 
@@ -774,7 +774,7 @@ class SetTabs:
         st.markdown("### " + self.title)
 
     def set_sessions_state_upload(self):
-        st.session_state.upload_input_file = True
+        st.session_state.upload = True
         st.session_state.clear_upload = False
 
         for key in st.session_state.keys():
@@ -782,7 +782,7 @@ class SetTabs:
                 st.session_state[key] = False
 
     def set_sessions_state_clear_upload(self):
-        st.session_state.upload_input_file = False
+        st.session_state.upload = False
         st.session_state.clear_upload = True
 
     def set_file_input(self):
@@ -799,7 +799,7 @@ class SetTabs:
         # uploaded_file = None
 
         if uploaded_file:
-            if st.session_state.upload_input_file == True and st.session_state.clear_upload != True:
+            if st.session_state.upload == True and st.session_state.clear_upload != True:
 
                 uploaded_file = uploaded_file.read()
                 uploaded_file_dict = json.loads(uploaded_file)
@@ -814,7 +814,7 @@ class SetTabs:
 
                 uploaded_input_gui_dict = match_json_LD.GuiDict(uploaded_input_gui_dict)
 
-                st.session_state.uploaded_input_dict = uploaded_input_gui_dict
+                st.session_state.json_uploaded_input = uploaded_input_gui_dict
 
                 st.success(
                     "Your file is succesfully uploaded. Click on the 'CLEAR' button if you want to reset the parameters to the default values again."
@@ -823,7 +823,7 @@ class SetTabs:
                 uploaded_input_gui_dict = None
 
         else:
-            uploaded_input_gui_dict = st.session_state.uploaded_input_dict
+            uploaded_input_gui_dict = st.session_state.json_uploaded_input
 
         # update_col.text(" ")
         # update_col.text(" ")
@@ -1784,7 +1784,7 @@ class SetTabs:
                     ######################################################################################
 
                     if (
-                        st.session_state.upload_input_file == True
+                        st.session_state.upload == True
                         and st.session_state[user_interaction] == False
                         and st.session_state[user_interaction_select] == False
                     ):
@@ -1809,10 +1809,7 @@ class SetTabs:
                                 input_key=key_user_input, uploaded_value=value
                             )
 
-                    elif (
-                        st.session_state.upload_input_file == False
-                        and st.session_state.clear_upload == True
-                    ):
+                    elif st.session_state.upload == False and st.session_state.clear_upload == True:
                         value_ses = parameter.options.get(selected_parameter_id).value
                         if isinstance(value_ses, str):
                             value_ses = "charging"
@@ -2007,7 +2004,7 @@ class SetTabs:
                 ##################################################################################
 
                 if (
-                    st.session_state.upload_input_file == True
+                    st.session_state.upload == True
                     and st.session_state[user_interaction] == False
                     and st.session_state[user_interaction_select] == False
                 ):
@@ -2066,10 +2063,7 @@ class SetTabs:
                             uploaded_value=value,
                         )
 
-                elif (
-                    st.session_state.upload_input_file == False
-                    and st.session_state.clear_upload == True
-                ):
+                elif st.session_state.upload == False and st.session_state.clear_upload == True:
                     st.session_state[key_select] = key_list[0]
 
                 if not isinstance(parameter, FunctionParameter):
@@ -2122,8 +2116,6 @@ class SetTabs:
 
                     else:
 
-                        st.write(
-                            "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                         st.write(
                             "[{}]({})".format(parameter.display_name, parameter.context_type_iri)
                             + " / "
@@ -2521,10 +2513,7 @@ class SetTabs:
                 user_interaction,
             ) = self.define_session_state_keys(category_id, non_material_parameter_name)
 
-            if (
-                st.session_state.upload_input_file == True
-                and st.session_state[user_interaction] == False
-            ):
+            if st.session_state.upload == True and st.session_state[user_interaction] == False:
                 if tab_display_name == "Electrodes":
                     name_dict = {
                         "Negative electrode": "ne",
@@ -2553,10 +2542,7 @@ class SetTabs:
                     uploaded_value=value,
                 )
 
-            elif (
-                st.session_state.upload_input_file == False
-                and st.session_state.clear_upload == True
-            ):
+            elif st.session_state.upload == False and st.session_state.clear_upload == True:
                 st.session_state[input_key] = non_material_parameter.default_value
 
             st.session_state[states_to_count][checkbox_key] = st.session_state[checkbox_key]
@@ -2739,6 +2725,7 @@ class SetTabs:
                             state_count,
                             states,
                             states_to_count,
+                            user_interaction,
                         ) = self.define_session_state_keys(category_id, non_material_parameter_name)
 
                         st.session_state[input_value] = par_value_ml
@@ -3189,10 +3176,7 @@ class SetTabs:
         if user_interaction_select not in st.session_state:
             st.session_state[user_interaction_select] = False
 
-        if (
-            st.session_state.upload_input_file == True
-            and st.session_state[user_interaction_select] == False
-        ):
+        if st.session_state.upload == True and st.session_state[user_interaction_select] == False:
 
             self.use_uploaded_dataset(
                 formatted_component.options,
@@ -3202,7 +3186,7 @@ class SetTabs:
                 key_select,
             )
 
-        elif st.session_state.upload_input_file == False and st.session_state.clear_upload == True:
+        elif st.session_state.upload == False and st.session_state.clear_upload == True:
             st.session_state[key_select] = key_list[0]
 
         selected_value_id = material_col.selectbox(
@@ -3373,7 +3357,7 @@ class SetTabs:
                         #############################################################################
 
                         if (
-                            st.session_state.upload_input_file == True
+                            st.session_state.upload == True
                             and st.session_state[user_interaction_select] == False
                         ):
 
@@ -3386,7 +3370,7 @@ class SetTabs:
                             )
 
                         elif (
-                            st.session_state.upload_input_file == False
+                            st.session_state.upload == False
                             and st.session_state.clear_upload == True
                         ):
                             st.session_state[key_select] = material_display_names[0]
@@ -3574,10 +3558,7 @@ class SetTabs:
 
             #################################################################################
 
-            if (
-                st.session_state.upload_input_file == True
-                and st.session_state[user_interaction] == False
-            ):
+            if st.session_state.upload == True and st.session_state[user_interaction] == False:
                 if tab_display_name == "Electrodes":
                     name_dict = {
                         "Negative electrode": "ne",
@@ -3611,10 +3592,7 @@ class SetTabs:
                     uploaded_value=value,
                 )
 
-            elif (
-                st.session_state.upload_input_file == False
-                and st.session_state.clear_upload == True
-            ):
+            elif st.session_state.upload == False and st.session_state.clear_upload == True:
                 st.session_state[key_user_input] = parameter.options.get(
                     selected_parameter_id
                 ).value
@@ -3885,10 +3863,7 @@ class SetTabs:
 
                 #################################################################################
 
-                if (
-                    st.session_state.upload_input_file == True
-                    and st.session_state[user_interaction] == False
-                ):
+                if st.session_state.upload == True and st.session_state[user_interaction] == False:
                     name_dict = {
                         "Negative electrode": "ne",
                         "Positive electrode": "pe",
@@ -3977,7 +3952,7 @@ class RunSimulation:
         # self.gui_file_name = "gui_output_parameters.json"
         # self.file_mime_type = "application/json"
         # self.progress_bar = st.progress(st.session_state.simulation_progress)
-        self.success = st.session_state.simulation_success
+        self.success = st.session_state.success
         self.api_url = "ws://genie:8081"
         self.json_input_folder = "BattMoJulia"
         self.json_input_file = "battmo_formatted_input.json"
@@ -4111,6 +4086,7 @@ class RunSimulation:
             st.session_state.sim_finished = True
 
     def on_error(self, ws, error):
+        print(f"Error object: {error}")
         st.error(f"WebSocket error: {error}")
 
         st.session_state.response = False
@@ -4122,10 +4098,11 @@ class RunSimulation:
         if st.session_state.sim_finished == True:
             # if "progress_bar" in vars(RunSimulation).values():
             st.progress(100)
-            # self.sim_start.error("WebSocket was closed: {}_{}".format(close_status_code, close_msg))
+
             self.success = DivergenceCheck(
                 self.sim_start, st.session_state.simulation_results
             ).success
+            # self.sim_start.error("WebSocket was closed: {}_{}".format(close_status_code, close_msg))
         else:
             self.sim_start.error(
                 "WebSocket was closed unexpectedly: {}_{}".format(close_status_code, close_msg)
@@ -4268,7 +4245,7 @@ class DivergenceCheck:
 
         self.response = response
         self.save_run = save_run
-        self.success = st.session_state.simulation_success
+        self.success = st.session_state.success
         self.check_for_divergence()
 
     def check_for_divergence(self):
@@ -4279,6 +4256,7 @@ class DivergenceCheck:
                 log_messages = st.session_state.log_messages
 
             else:
+
                 (
                     results,
                     *_,
@@ -4286,7 +4264,6 @@ class DivergenceCheck:
                     None
                 ).get_results_data(None, response=self.response)
 
-                # N = self.get_timesteps_setting()
                 number_of_states, log_messages = self.get_timesteps_execution(results)
 
                 st.session_state.number_of_states = number_of_states
@@ -4562,19 +4539,19 @@ class DivergenceCheck:
 
         if (
             self.response == False
-            and st.session_state.simulation_success == False
+            and st.session_state.success == False
             and st.session_state.battmo_api_response != None
         ):
             self.save_run.error(
                 "The data has not been retrieved succesfully, most probably due to an unsuccesful simulation"
             )
-            st.session_state.simulation_success = False
-            self.success = st.session_state.simulation_success
+            st.session_state.success = False
+            self.success = st.session_state.success
 
         elif self.response:
             if number_of_states == 0:
-                st.session_state.simulation_success = False
-                self.success = st.session_state.simulation_success
+                st.session_state.success = False
+                self.success = st.session_state.success
 
                 if len(log_messages) > 1:
                     c = self.save_run.container(height=400)
@@ -4616,8 +4593,8 @@ class DivergenceCheck:
 
                     self.save_run.success(f"""Simulation finished successfully!""")  # \n\n
 
-                st.session_state.simulation_success = True
-                self.success = st.session_state.simulation_success
+                st.session_state.success = True
+                self.success = st.session_state.success
 
                 # if self.response:
                 if not isinstance(self.response, bool):
@@ -4625,7 +4602,7 @@ class DivergenceCheck:
                     #     gui_parameters = json.load(f)
 
                     gui_parameters = st.session_state.json_linked_data_input
-
+                    # self.save_run.write(gui_parameters)
                     indicators = match_json_LD.get_indicators_from_gui_dict(gui_parameters)
 
                     with open(app_access.get_path_to_indicator_values(), "w") as f:
@@ -4669,7 +4646,7 @@ class DownloadParameters:
 
         self.gui_button_label = "Save GUI output parameters"
         self.battmo_button_label = "Save BattMo input parameters"
-        self.gui_parameters = gui_parameters
+        self.gui_parameters = st.session_state.json_linked_data_input
         # retrieve saved parameters from json file
         # with open(app_access.get_path_to_linked_data_input()) as json_gui_parameters:
         #     self.gui_parameters = json.load(json_gui_parameters)
@@ -4743,7 +4720,7 @@ class DownloadParameters:
 
         # path_to_battmo_input = app_access.get_path_to_linked_data_input()
 
-        parameters = self.gui_parameters
+        parameters = copy.deepcopy(self.gui_parameters)
 
         isBasedOn = self.collect_unique_references(parameters)
 
@@ -4978,86 +4955,91 @@ class DownloadParameters:
     def set_submit_button(self):
 
         with st.sidebar:
-            # set Download header
-            st.markdown("### " + self.download_header)
+            self.render_buttons()
 
-            # set popover button
-            popover = st.popover(self.download_label, use_container_width=False)
+    @st.fragment()
+    def render_buttons(self):
 
-            with popover:
+        # set Download header
+        st.markdown("### " + self.download_header)
 
-                # st.markdown("###### " + "Schema headline")
-                # headline = st.text_input(label="headline", label_visibility="collapsed")
-                headline = None
-                st.markdown("###### " + "Schema description")
-                description = st.text_input(label="description", label_visibility="collapsed")
+        # set popover button
+        popover = st.popover(self.download_label, use_container_width=False)
 
-                cola, colb = st.columns(2)
-                st.markdown("###### " + "Schema creators")
-                col1, col2 = st.columns(2)
-                col1.markdown("Number of creators")
-                number = col2.number_input(
-                    label="number of creators",
-                    value=1,
-                    label_visibility="collapsed",
-                    format="%d",
-                )
-                creator = []
-                cols = st.columns(number)
-                for i in range(number):
+        with popover:
 
-                    with cols[i]:
+            # st.markdown("###### " + "Schema headline")
+            # headline = st.text_input(label="headline", label_visibility="collapsed")
+            headline = None
+            st.markdown("###### " + "Schema description")
+            description = st.text_input(label="description", label_visibility="collapsed")
 
-                        name = st.text_input(
-                            label="Name",
-                            label_visibility="visible",
-                            key="creator_name_{}".format(i + 1),
-                        )
+            cola, colb = st.columns(2)
+            st.markdown("###### " + "Schema creators")
+            col1, col2 = st.columns(2)
+            col1.markdown("Number of creators")
+            number = col2.number_input(
+                label="number of creators",
+                value=1,
+                label_visibility="collapsed",
+                format="%d",
+            )
+            creator = []
+            cols = st.columns(number)
+            for i in range(number):
 
-                        orcid = st.text_input(
-                            label="Orcid id",
-                            label_visibility="visible",
-                            key="creator_id_{}".format(i + 1),
-                        )
+                with cols[i]:
 
-                        aff_name = None
-                        # aff_name = st.text_input(
-                        #     label="Affiliation",
-                        #     label_visibility="visible",
-                        #     key="aff_name_{}".format(i + 1),
-                        # )
+                    name = st.text_input(
+                        label="Name",
+                        label_visibility="visible",
+                        key="creator_name_{}".format(i + 1),
+                    )
 
-                        creator_temp = {}
-                        if name or orcid or aff_name:
-                            creator_temp["@type"] = "schema:Person"
+                    orcid = st.text_input(
+                        label="Orcid id",
+                        label_visibility="visible",
+                        key="creator_id_{}".format(i + 1),
+                    )
 
-                            if orcid:
-                                creator_temp["@id"] = orcid
-                            if name:
-                                creator_temp["schema:name"] = name
-                            if aff_name:
-                                creator_temp["schema:affiliation"] = {}
-                                creator_temp["schema:affiliation"]["schema:name"] = aff_name
+                    aff_name = None
+                    # aff_name = st.text_input(
+                    #     label="Affiliation",
+                    #     label_visibility="visible",
+                    #     key="aff_name_{}".format(i + 1),
+                    # )
 
-                        creator.append(creator_temp)
+                    creator_temp = {}
+                    if name or orcid or aff_name:
+                        creator_temp["@type"] = "schema:Person"
 
-                st.download_button(
-                    label="Download",
-                    use_container_width=True,
-                    args=(headline, description, creator),
-                    data=self.setup_gui_schema(headline, description, creator),
-                    file_name=self.gui_file_name,
-                    mime=self.file_mime_type,
-                )
+                        if orcid:
+                            creator_temp["@id"] = orcid
+                        if name:
+                            creator_temp["schema:name"] = name
+                        if aff_name:
+                            creator_temp["schema:affiliation"] = {}
+                            creator_temp["schema:affiliation"]["schema:name"] = aff_name
+
+                    creator.append(creator_temp)
 
             st.download_button(
-                label=self.download_label_formatted_parameters,
-                on_click=self.update_on_click,
+                label="Download",
+                use_container_width=True,
                 args=(headline, description, creator),
-                data=self.formatted_parameters_file_data,
-                file_name=self.formatted_parameters_file_name,
+                data=self.setup_gui_schema(headline, description, creator),
+                file_name=self.gui_file_name,
                 mime=self.file_mime_type,
             )
+
+        st.download_button(
+            label=self.download_label_formatted_parameters,
+            on_click=self.update_on_click,
+            args=(headline, description, creator),
+            data=self.formatted_parameters_file_data,
+            file_name=self.formatted_parameters_file_name,
+            mime=self.file_mime_type,
+        )
 
 
 class LoadImages:

@@ -153,7 +153,7 @@
          "par_class": "non_material",
          "difficulty": "advanced",
          "max_value": 100,
-         "min_value": 0.0001,
+         "min_value": 0,
          "context_type": ["LinearCurrentRamp", "NumberOfEntities"],
          "context_type_iri": "https://w3id.org/emmo#EMMO_41efdf5d_0c9c_4ea0_bb65_f8236e663be5",
          "description": "duration of the switch between changing from rest, discharging, or charging",

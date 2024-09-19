@@ -69,9 +69,6 @@ page_name = "Results"
 if "success" not in st.session_state:
     st.session_state.success = None
 
-if "transfer_results" not in st.session_state:
-    st.session_state.transfer_results = None
-
 if "hdf5_upload" not in st.session_state:
     st.session_state.hdf5_upload = None
 
@@ -95,11 +92,7 @@ app = get_app_controller()
 app.set_hdf5_upload().set_results_uploader()
 selected_data_sets = app.set_data_set_selector().set_selector()
 
-if (
-    st.session_state.transfer_results == True
-    or st.session_state.hdf5_upload == True
-    or selected_data_sets
-):
+if st.session_state.success == True or st.session_state.hdf5_upload == True or selected_data_sets:
     session_temp_folder = st.session_state["temp_dir"]
     file_names = [
         f

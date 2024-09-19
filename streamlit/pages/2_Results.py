@@ -63,8 +63,8 @@ def run_page():
 
     page_name = "Results"
 
-    if "simulation_success" not in st.session_state:
-        st.session_state.simulation_success = None
+    if "success" not in st.session_state:
+        st.session_state.success = None
 
     if "hdf5_upload" not in st.session_state:
         st.session_state.hdf5_upload = None
@@ -90,7 +90,7 @@ def run_page():
     selected_data_sets = app.set_data_set_selector().set_selector()
 
     if (
-        st.session_state.simulation_success == True
+        st.session_state.success == True
         or st.session_state.hdf5_upload == True
         or selected_data_sets
     ):
@@ -135,12 +135,12 @@ def run_page():
 
             app.set_download_hdf5_button(results, selected_data_sets)
 
-    elif st.session_state.simulation_success == None:
+    elif st.session_state.success == None:
         st.error(
             "You have not executed a succesful simulation yet. Go to the 'Simulation' page to run a simulation or upload your previous results to visualize them."
         )
 
-    elif st.session_state.simulation_success == False and not selected_data_sets:
+    elif st.session_state.success == False and not selected_data_sets:
         st.error("Your simulation was not succesful unfortunately, give it another try.")
 
     with st.sidebar:

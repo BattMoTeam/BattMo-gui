@@ -25,14 +25,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app_scripts.app_controller import get_app_controller, log_memory_usage, set_acknowlegent_info
 from app_scripts import app_view, app_access
 
-if "simulation_success" not in st.session_state:
-    st.session_state.simulation_success = None
+if "success" not in st.session_state:
+    st.session_state.success = None
 
 if "battmo_api_response" not in st.session_state:
     st.session_state.battmo_api_response = None
 
-if "upload_input_file" not in st.session_state:
-    st.session_state.upload_input_file = None
+if "upload" not in st.session_state:
+    st.session_state.upload = None
 
 if "uploaded_input_dict" not in st.session_state:
     st.session_state.uploaded_input_dict = None
@@ -83,7 +83,7 @@ def run_page():
 
     model_id = app.set_model_choice().selected_model
 
-    if st.session_state.simulation_success:
+    if st.session_state.success:
         st.session_state["toast"](":green-background[Gathering the results!]", icon="💤")
 
     gui_parameters = app.set_tabs(model_id).user_input
@@ -100,13 +100,13 @@ def run_page():
     # st.session_state.succes = True
 
     save_run = st.container()
-    app.divergence_check(save_run, st.session_state.simulation_success)
+    app.divergence_check(save_run, st.session_state.success)
 
-    if st.session_state.simulation_success:
+    if st.session_state.success:
         st.session_state["toast"](
             ":green-background[Find your results on the results page!]", icon="✅"
         )
-        st.session_state.simulation_success = False
+        st.session_state.success = False
 
     st.session_state.battmo_api_response = None
     with st.sidebar:

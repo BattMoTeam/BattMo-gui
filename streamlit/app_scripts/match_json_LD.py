@@ -93,45 +93,43 @@ class GuiDict(object):
     def __init__(self, gui_dict):
 
         self.model = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasModel").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasModel").get("hasProperty")
         )
-        self.cell = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasBatteryCell").get("hasQuantitativeProperty")
-        )
+        self.cell = get_dict_from_has_quantitative(gui_dict.get("@graph").get("hasProperty"))
         self.bc = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasBoundaryConditions").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasBoundaryConditions").get("hasProperty")
         )
-        self.raw_ele = gui_dict.get("@graph").get("hasElectrode")
+        self.raw_ele = gui_dict.get("@graph")
         self.raw_ele_pe = self.raw_ele.get("hasPositiveElectrode")
         self.raw_ele_ne = self.raw_ele.get("hasNegativeElectrode")
 
         self.pe = Electrode(
-            am=self.raw_ele_pe.get("hasActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_pe.get("hasBinder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
-            # cc=self.raw_ele_pe.get("hasConstituent").get("hasQuantitativeProperty"),
-            prop=self.raw_ele_pe.get("hasPositiveElectrode").get("hasQuantitativeProperty"),
+            am=self.raw_ele_pe.get("hasActiveMaterial").get("hasProperty"),
+            binder=self.raw_ele_pe.get("hasBinder").get("hasProperty"),
+            add=self.raw_ele_pe.get("hasConductiveAdditive").get("hasProperty"),
+            # cc=self.raw_ele_pe.get("hasConstituent").get("hasProperty"),
+            prop=self.raw_ele_pe.get("hasProperty"),
         )
 
         self.ne = Electrode(
-            am=self.raw_ele_ne.get("hasActiveMaterial").get("hasQuantitativeProperty"),
-            binder=self.raw_ele_ne.get("hasBinder").get("hasQuantitativeProperty"),
-            add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasQuantitativeProperty"),
-            # cc=self.raw_ne.get("hasConstituent")[0].get("hasQuantitativeProperty"),
-            prop=self.raw_ele_ne.get("hasNegativeElectrode").get("hasQuantitativeProperty"),
+            am=self.raw_ele_ne.get("hasActiveMaterial").get("hasProperty"),
+            binder=self.raw_ele_ne.get("hasBinder").get("hasProperty"),
+            add=self.raw_ele_ne.get("hasConductiveAdditive").get("hasProperty"),
+            # cc=self.raw_ne.get("hasConstituent")[0].get("hasProperty"),
+            prop=self.raw_ele_ne.get("hasProperty"),
         )
 
         self.elyte_mat = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasElectrolyte").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasElectrolyte").get("hasProperty")
         )
         self.sep_mat = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasProperty")
         )
         self.sep_prop = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasSeparator").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasSeparator").get("hasProperty")
         )
         self.protocol = get_dict_from_has_quantitative(
-            gui_dict.get("@graph").get("hasCyclingProcess").get("hasQuantitativeProperty")
+            gui_dict.get("@graph").get("hasCyclingProcess").get("hasProperty")
         )
 
 
@@ -223,8 +221,8 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
     return {
         "Geometry": {
             "case": "1D",
-            "faceArea": json_ld.cell.get("length").get("value")
-            * json_ld.cell.get("width").get("value")
+            "faceArea": json_ld.pe.properties.get("length").get("value")
+            * json_ld.pe.properties.get("width").get("value")
             * json_ld.cell.get("number_parallel_electrode_pairs_within_cell").get("value"),
         },
         "NegativeElectrode": {
@@ -592,8 +590,8 @@ def get_geometry_data_from_gui_dict(gui_dict):
 
     json_ld = GuiDict(gui_dict)
     geometry_data = {
-        "length": json_ld.cell.get("length").get("value"),
-        "width": json_ld.cell.get("width").get("value"),
+        "length": json_ld.pe.properties.get("length").get("value"),
+        "width": json_ld.pe.properties.get("width").get("value"),
         "thickness_ne": json_ld.ne.properties.get("coating_thickness").get("value"),
         "thickness_pe": json_ld.pe.properties.get("coating_thickness").get("value"),
         "thickness_sep": json_ld.sep_prop.get("thickness").get("value"),

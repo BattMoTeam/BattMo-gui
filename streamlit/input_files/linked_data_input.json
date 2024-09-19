@@ -12,19 +12,9 @@
                "hasNumericalPart": {
                   "@type": "Boolean",
                   "hasNumericalValue": 0
-               "rdfs:label": "use_thermal",
-               "@type": "['ThermalModel']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 0
                }
             },
             {
-               "rdfs:label": "include_current_collector",
-               "@type": "['CurrentCollector']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 0
                "rdfs:label": "include_current_collector",
                "@type": "['CurrentCollector']",
                "hasNumericalPart": {
@@ -38,11 +28,6 @@
                "hasNumericalPart": {
                   "@type": "Boolean",
                   "hasNumericalValue": 1
-               "rdfs:label": "use_solid_diffusion_model",
-               "@type": "['usediffusionModel']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 1
                }
             },
             {
@@ -51,19 +36,9 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": "full"
-               "rdfs:label": "solid_diffusion_model_type",
-               "@type": "['diffusionModelType', 'parameter']",
-               "hasStringPart": {
-                  "@type": "String",
-                  "hasStringValue": "full"
                }
             },
             {
-               "rdfs:label": "use_ramp_up",
-               "@type": "['LinearCurrentRamp']",
-               "hasNumericalPart": {
-                  "@type": "Boolean",
-                  "hasNumericalValue": 1
                "rdfs:label": "use_ramp_up",
                "@type": "['LinearCurrentRamp']",
                "hasNumericalPart": {
@@ -78,7 +53,11 @@
          "@type": "NegativeElectrode",
          "hasActiveMaterial": {
             "rdfs:label": "negative_electrode_active_material",
-            "@type": "ActiveMaterial",
+            "@type": [
+               "ActiveMaterial",
+               "SiliconOxideGraphiteElectrode",
+               "Graphite"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "maximum_concentration",
@@ -138,30 +117,6 @@
                   },
                   "schema:citation": {
                      "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
-                  }
-               },
-               {
-                  "rdfs:label": "thermal_conductivity",
-                  "@type": "ThermalConductivity",
-                  "hasNumericalPart": {
-                     "@type": "Real",
-                     "hasNumericalValue": 1.04
-                  },
-                  "hasMeasurementUnit": {
-                     "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
-                     "@type": "emmo:WattPerMetreKelvin"
-                  }
-               },
-               {
-                  "rdfs:label": "electronic_conductivity",
-                  "@type": "ElectricConductivity",
-                  "hasNumericalPart": {
-                     "@type": "Real",
-                     "hasNumericalValue": 100.0
-                  },
-                  "hasMeasurementUnit": {
-                     "hasSymbolValue": "S\u00b7m\u207b\u00b9",
-                     "@type": "emmo:SiemensPerMetre"
                   }
                },
                {
@@ -240,6 +195,36 @@
                   }
                },
                {
+                  "rdfs:label": "open_circuit_potential",
+                  "@type": "['OpenCircuitVoltage', 'Expression']",
+                  "hasStringPart": {
+                     "@type": "String",
+                     "hasStringValue": {
+                        "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                        "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"
+                     }
+                  },
+                  "hasVariable": [
+                     "c",
+                     "cmax"
+                  ],
+                  "schema:citation": {
+                     "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                  }
+               },
+               {
+                  "rdfs:label": "electronic_conductivity",
+                  "@type": "ElectricConductivity",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 100.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                     "@type": "emmo:SiemensPerMetre"
+                  }
+               },
+               {
                   "rdfs:label": "activation_energy_of_diffusion",
                   "@type": "ActivationEnergy",
                   "hasNumericalPart": {
@@ -273,24 +258,6 @@
                   "hasMeasurementUnit": {
                      "hasSymbolValue": "m",
                      "@type": "emmo:Metre"
-                  }
-               },
-               {
-                  "rdfs:label": "open_circuit_potential",
-                  "@type": "['OpenCircuitVoltage', 'Expression']",
-                  "hasStringPart": {
-                     "@type": "String",
-                     "hasStringValue": {
-                        "functionname": null,
-                        "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"
-                     }
-                  },
-                  "hasVariable": [
-                     "c",
-                     "cmax"
-                  ],
-                  "schema:citation": {
-                     "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                   }
                },
                {
@@ -345,7 +312,10 @@
          },
          "hasBinder": {
             "rdfs:label": "negative_electrode_binder",
-            "@type": "Binder",
+            "@type": [
+               "Binder",
+               "PolyvinylideneFluoride"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "density",
@@ -411,7 +381,10 @@
          },
          "hasConductiveAdditive": {
             "rdfs:label": "negative_electrode_additive",
-            "@type": "ConductiveAdditive",
+            "@type": [
+               "ConductiveAdditive",
+               "CarbonBlack"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "density",
@@ -591,7 +564,10 @@
          "@type": "PositiveElectrode",
          "hasActiveMaterial": {
             "rdfs:label": "positive_electrode_active_material",
-            "@type": "ActiveMaterial",
+            "@type": [
+               "ActiveMaterial",
+               "LithiumNickelManganeseCobaltOxideElectrode"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "maximum_concentration",
@@ -636,42 +612,6 @@
                   },
                   "schema:citation": {
                      "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
-                  }
-               },
-               {
-                  "rdfs:label": "specific_heat_capacity",
-                  "@type": "SpecificHeatCapacity",
-                  "hasNumericalPart": {
-                     "@type": "Real",
-                     "hasNumericalValue": 632.0
-                  },
-                  "hasMeasurementUnit": {
-                     "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
-                     "@type": "emmo:JoulePerKiloGramKelvin"
-                  }
-               },
-               {
-                  "rdfs:label": "thermal_conductivity",
-                  "@type": "ThermalConductivity",
-                  "hasNumericalPart": {
-                     "@type": "Real",
-                     "hasNumericalValue": 2.1
-                  },
-                  "hasMeasurementUnit": {
-                     "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
-                     "@type": "emmo:WattPerMetreKelvin"
-                  }
-               },
-               {
-                  "rdfs:label": "electronic_conductivity",
-                  "@type": "ElectricConductivity",
-                  "hasNumericalPart": {
-                     "@type": "Real",
-                     "hasNumericalValue": 100.0
-                  },
-                  "hasMeasurementUnit": {
-                     "hasSymbolValue": "S\u00b7m\u207b\u00b9",
-                     "@type": "emmo:SiemensPerMetre"
                   }
                },
                {
@@ -750,6 +690,48 @@
                   }
                },
                {
+                  "rdfs:label": "open_circuit_potential",
+                  "@type": "['OpenCircuitVoltage', 'Expression']",
+                  "hasStringPart": {
+                     "@type": "String",
+                     "hasStringValue": {
+                        "functionname": "computeOCP_NMC811_Chen2020",
+                        "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))"
+                     }
+                  },
+                  "hasVariable": [
+                     "c",
+                     "cmax"
+                  ],
+                  "schema:citation": {
+                     "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                  }
+               },
+               {
+                  "rdfs:label": "specific_heat_capacity",
+                  "@type": "SpecificHeatCapacity",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 632.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                     "@type": "emmo:JoulePerKiloGramKelvin"
+                  }
+               },
+               {
+                  "rdfs:label": "electronic_conductivity",
+                  "@type": "ElectricConductivity",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 100.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                     "@type": "emmo:SiemensPerMetre"
+                  }
+               },
+               {
                   "rdfs:label": "activation_energy_of_diffusion",
                   "@type": "ActivationEnergy",
                   "hasNumericalPart": {
@@ -783,24 +765,6 @@
                   "hasMeasurementUnit": {
                      "hasSymbolValue": "m",
                      "@type": "emmo:Metre"
-                  }
-               },
-               {
-                  "rdfs:label": "open_circuit_potential",
-                  "@type": "['OpenCircuitVoltage', 'Expression']",
-                  "hasStringPart": {
-                     "@type": "String",
-                     "hasStringValue": {
-                        "functionname": null,
-                        "function": "-0.8090 * (c/cmax) + 4.4875 - 0.0428 * tanh(18.5138*((c/cmax) - 0.5542)) - 17.7326 * tanh(15.7890*((c/cmax) - 0.3117)) + 17.5842 * tanh(15.9308*((c/cmax) - 0.3120))"
-                     }
-                  },
-                  "hasVariable": [
-                     "c",
-                     "cmax"
-                  ],
-                  "schema:citation": {
-                     "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
                   }
                },
                {
@@ -855,7 +819,10 @@
          },
          "hasBinder": {
             "rdfs:label": "positive_electrode_binder",
-            "@type": "Binder",
+            "@type": [
+               "Binder",
+               "PolyvinylideneFluoride"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "density",
@@ -921,7 +888,10 @@
          },
          "hasConductiveAdditive": {
             "rdfs:label": "positive_electrode_additive",
-            "@type": "ConductiveAdditive",
+            "@type": [
+               "ConductiveAdditive",
+               "CarbonBlack"
+            ],
             "hasProperty": [
                {
                   "rdfs:label": "density",
@@ -1098,7 +1068,10 @@
       },
       "hasElectrolyte": {
          "rdfs:label": "electrolyte_materials",
-         "@type": "Electrolyte",
+         "@type": [
+            "Electrolyte",
+            "LithiumHexaFluoroPhosphateElectrolyte"
+         ],
          "hasProperty": [
             {
                "rdfs:label": "specific_heat_capacity",
@@ -1218,7 +1191,7 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
-                     "functionname": null,
+                     "functionname": "computeElectrolyteConductivity_Chen2020",
                      "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)"
                   }
                },
@@ -1235,7 +1208,7 @@
                "hasStringPart": {
                   "@type": "String",
                   "hasStringValue": {
-                     "functionname": null,
+                     "functionname": "computeDiffusionCoefficient_Chen2020",
                      "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)"
                   }
                },
@@ -1274,7 +1247,10 @@
       },
       "hasSeparator": {
          "rdfs:label": "separator_materials",
-         "@type": "Separator",
+         "@type": [
+            "Separator",
+            "Separator"
+         ],
          "hasProperty": [
             {
                "rdfs:label": "specific_heat_capacity",
@@ -1620,7 +1596,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.0001
+                  "hasNumericalValue": 0.001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "A\u00b7s\u207b\u00b9",
@@ -1656,7 +1632,7 @@
                "@type": "['LinearCurrentRamp', 'NumberOfEntities']",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 5.0
+                  "hasNumericalValue": 5
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
