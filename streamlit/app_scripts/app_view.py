@@ -765,7 +765,8 @@ class SetTabs:
         self.user_input = self.LD.setup_linked_data_dict(self.model_id, self.model_name)
 
         # Create file input
-        self.uploaded_input_dict = self.set_file_input()
+        self.set_file_input()
+        self.uploaded_input_dict = st.session_state.json_uploaded_input
 
         # Fill tabs
         self.set_tabs()
@@ -829,8 +830,6 @@ class SetTabs:
         # update_col.text(" ")
 
         st.button("CLEAR", on_click=self.set_sessions_state_clear_upload, use_container_width=True)
-
-        return uploaded_input_gui_dict
 
     def set_logo_and_title(self, tab, tab_index):
         if tab_index == 0:

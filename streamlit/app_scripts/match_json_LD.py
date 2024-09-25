@@ -10,6 +10,7 @@ import app_access
 import copy
 
 
+@st.cache_data
 def get_dict_from_has_quantitative(has_quantitative, give_references=False):
     """
     Simplifies json ld dict to increase readability in this file
@@ -586,6 +587,7 @@ def get_indicators_from_gui_dict(gui_dict):
     return indicators
 
 
+@st.cache_data
 def get_geometry_data_from_gui_dict(gui_dict):
 
     json_ld = GuiDict(gui_dict)

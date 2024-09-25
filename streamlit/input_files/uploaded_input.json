@@ -127,7 +127,7 @@
                "@type": "Length",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.8
+                  "hasNumericalValue": 0.9
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "m",
@@ -228,8 +228,8 @@
                "rdfs:label": "negative_electrode_active_material",
                "@type": [
                   "ActiveMaterial",
-                  "Graphite",
-                  "SiliconOxideGraphiteElectrode"
+                  "SiliconOxideGraphiteElectrode",
+                  "Graphite"
                ],
                "hasProperty": [
                   {
@@ -763,8 +763,8 @@
                "rdfs:label": "positive_electrode_active_material",
                "@type": [
                   "ActiveMaterial",
-                  "Graphite",
-                  "SiliconOxideGraphiteElectrode"
+                  "SiliconOxideGraphiteElectrode",
+                  "Graphite"
                ],
                "hasProperty": [
                   {
@@ -1605,7 +1605,7 @@
                "@type": null,
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 0.0001
+                  "hasNumericalValue": 0.001
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "A\u00b7s\u207b\u00b9",
@@ -1641,7 +1641,7 @@
                "@type": "['LinearCurrentRamp', 'NumberOfEntities']",
                "hasNumericalPart": {
                   "@type": "Real",
-                  "hasNumericalValue": 5.0
+                  "hasNumericalValue": 5
                },
                "hasMeasurementUnit": {
                   "hasSymbolValue": "1",
