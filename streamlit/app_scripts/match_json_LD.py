@@ -466,9 +466,9 @@ def get_batt_mo_dict_from_gui_dict(gui_dict):
             ],
             "species": {
                 "chargeNumber": json_ld.elyte_mat.get("charge_carrier_charge_number").get("value"),
-                "transferenceNumber": json_ld.elyte_mat.get("counter_ion_transference_number").get(
-                    "value"
-                ),
+                "transferenceNumber": json_ld.elyte_mat.get(
+                    "charge_carrier_transference_number"
+                ).get("value"),
                 "nominalConcentration": 1000,
             },
             "bruggemanCoefficient": json_ld.elyte_mat.get("bruggeman_coefficient").get("value"),
