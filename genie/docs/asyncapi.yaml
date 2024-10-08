@@ -1,0 +1,262 @@
+asyncapi: "3.0.0"
+info:
+  title: BattMo.jl API
+  version: "1.0.0"
+  description: |
+    This API allows clients to run a simulation by sending parameter inputs as a JSON payload through a WebSocket connection.
+    The server will respond with progress updates and send the final simulation results as an HDF5 file.
+servers:
+  development:
+    host: localhost:8081
+    pathname: /ws
+    protocol: ws
+
+# Details about all the channels that you can listen to or send to messages
+#
+channels:
+  RunSimulation:
+    address: /run_simulation
+    messages:
+      RunSimulation:
+        contentType: application/json
+        description: |
+          The client sends a UUID string, the messageId to start a simulation and the parameter inputs as a JSON object.
+        payload:
+          type: object
+          properties:
+            clientID:
+              type: string
+              description: a UUID string that will represent the client id.
+            parameters:
+              type: object
+              example:
+                {
+                  "Geometry":
+                    { "case": "1D", "faceArea": 0.052000000000000005 },
+                  "NegativeElectrode":
+                    {
+                      "Coating":
+                        {
+                          "thickness": 8.499999999999999e-05,
+                          "N": 20,
+                          "effectiveDensity": 1770.4,
+                          "bruggemanCoefficient": 1.5,
+                          "ActiveMaterial":
+                            {
+                              "massFraction": 0.9,
+                              "density": 2260.0,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 632.0,
+                              "thermalConductivity": 1.04,
+                              "Interface":
+                                {
+                                  "saturationConcentration": 29583.0,
+                                  "volumetricSurfaceArea": 383959.0,
+                                  "density": 2260.0,
+                                  "numberOfElectronsTransferred": 1,
+                                  "activationEnergyOfReaction": 35000.0,
+                                  "reactionRateConstant": 6.716e-12,
+                                  "guestStoichiometry100": 0.9014,
+                                  "guestStoichiometry0": 0.0279,
+                                  "chargeTransferCoefficient": 0.5,
+                                  "openCircuitPotential":
+                                    {
+                                      "type": "function",
+                                      "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                                      "argumentlist": ["c", "cmax"],
+                                    },
+                                },
+                              "diffusionModelType": "full",
+                              "SolidDiffusion":
+                                {
+                                  "activationEnergyOfDiffusion": 5000.0,
+                                  "referenceDiffusionCoefficient": 3.9e-14,
+                                  "particleRadius": 1e-06,
+                                  "N": 10,
+                                },
+                            },
+                          "Binder":
+                            {
+                              "density": 1780.0,
+                              "massFraction": 0.05,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 1400.0,
+                              "thermalConductivity": 0.165,
+                            },
+                          "ConductingAdditive":
+                            {
+                              "density": 1800.0,
+                              "massFraction": 0.05,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 300.0,
+                              "thermalConductivity": 0.5,
+                            },
+                        },
+                      "CurrentCollector":
+                        {
+                          "electronicConductivity": 35500000.0,
+                          "N": 5,
+                          "thickness": 2.5e-05,
+                        },
+                    },
+                  "PositiveElectrode":
+                    {
+                      "Coating":
+                        {
+                          "thickness": 7.599999999999999e-05,
+                          "N": 20,
+                          "effectiveDensity": 3151.12,
+                          "bruggemanCoefficient": 1.5,
+                          "ActiveMaterial":
+                            {
+                              "massFraction": 0.9,
+                              "density": 4950.0,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 632.0,
+                              "thermalConductivity": 2.1,
+                              "Interface":
+                                {
+                                  "saturationConcentration": 51765.0,
+                                  "volumetricSurfaceArea": 382183.9,
+                                  "density": 4950.0,
+                                  "numberOfElectronsTransferred": 1,
+                                  "activationEnergyOfReaction": 17800.0,
+                                  "reactionRateConstant": 3.545e-11,
+                                  "guestStoichiometry100": 0.2661,
+                                  "guestStoichiometry0": 0.9084,
+                                  "chargeTransferCoefficient": 0.5,
+                                  "openCircuitPotential":
+                                    {
+                                      "type": "function",
+                                      "functionname": "computeOCP_NMC811_Chen2020",
+                                      "argumentlist": ["c", "cmax"],
+                                    },
+                                },
+                              "diffusionModelType": "full",
+                              "SolidDiffusion":
+                                {
+                                  "activationEnergyOfDiffusion": 5000.0,
+                                  "referenceDiffusionCoefficient": 3.9e-14,
+                                  "particleRadius": 1e-06,
+                                  "N": 10,
+                                },
+                            },
+                          "Binder":
+                            {
+                              "density": 1780.0,
+                              "massFraction": 0.05,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 1400.0,
+                              "thermalConductivity": 0.165,
+                            },
+                          "ConductingAdditive":
+                            {
+                              "density": 1800.0,
+                              "massFraction": 0.05,
+                              "electronicConductivity": 100.0,
+                              "specificHeatCapacity": 300.0,
+                              "thermalConductivity": 0.5,
+                            },
+                        },
+                      "CurrentCollector":
+                        {
+                          "electronicConductivity": 59600000.0,
+                          "N": 5,
+                          "thickness": 1.5e-05,
+                        },
+                    },
+                  "Separator":
+                    {
+                      "thickness": 1.4999999999999999e-05,
+                      "N": 10,
+                      "porosity": 0.4,
+                      "specificHeatCapacity": 1692.0,
+                      "thermalConductivity": 0.334,
+                      "density": 946.0,
+                      "bruggemanCoefficient": 1.5,
+                    },
+                  "Electrolyte":
+                    {
+                      "initialConcentration": 1000.0,
+                      "specificHeatCapacity": 1518.0,
+                      "thermalConductivity": 0.099,
+                      "density": 1200,
+                      "ionicConductivity":
+                        {
+                          "type": "function",
+                          "functionname": "computeElectrolyteConductivity_Chen2020",
+                          "argumentlist": ["c"],
+                        },
+                      "diffusionCoefficient":
+                        {
+                          "type": "function",
+                          "functionname": "computeDiffusionCoefficient_Chen2020",
+                          "argumentlist": ["c"],
+                        },
+                      "compnames": ["Li", "PF6"],
+                      "species":
+                        {
+                          "chargeNumber": 1,
+                          "transferenceNumber": 0.7406,
+                          "nominalConcentration": 1000,
+                        },
+                      "bruggemanCoefficient": 1.5,
+                    },
+                  "G": [],
+                  "SOC": 0.01,
+                  "initT": 298.15,
+                  "use_thermal": false,
+                  "include_current_collectors": false,
+                  "Control":
+                    {
+                      "controlPolicy": "CCCV",
+                      "initialControl": "charging",
+                      "numberOfCycles": 1,
+                      "CRate": 1.0,
+                      "DRate": 1.0,
+                      "lowerCutoffVoltage": 2.4,
+                      "upperCutoffVoltage": 4.1,
+                      "rampupTime": 10.0,
+                      "dIdtLimit": 0.001,
+                      "dEdtLimit": 0.01,
+                    },
+                  "ThermalModel":
+                    {
+                      "externalHeatTransferCoefficient": 1000.0,
+                      "externalTemperature": 298.15,
+                    },
+                  "TimeStepping":
+                    {
+                      "useRampup": true,
+                      "rampupTime": 10.0,
+                      "numberOfRampupSteps": 5,
+                      "timeStepDuration": 30.0,
+                    },
+                  "Output": { "variables": ["energy"] },
+                }
+              description: a json dict containing all the input parameters for the simulation.
+  StopSimulation:
+    address: /stop_simulation
+    messages:
+      StopSimulation:
+        contentType: application/json
+        description: |
+          The client sends the same UUID string that was used for the "RunSimulation" message.
+        payload:
+          type: object
+          properties:
+            clientID:
+              type: string
+              description: a UUID string that will represent the client id (needs to be the same UUID string given with the corresponding "RunSimulation" message).
+
+operations:
+  onRunSimulation:
+    action: "receive"
+    description: On message, the server will run the simulation, send back progress during the simulation in a JSON dict, and after the simulation has finished, the server will send back the simulation results in HDF5 format.
+    channel:
+      $ref: "#/channels/RunSimulation"
+  onStopSimulation:
+    action: "send"
+    description: On message, the server will terminate the simulation corresponding to the given client ID.
+    channel:
+      $ref: "#/channels/StopSimulation"

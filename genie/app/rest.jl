@@ -33,8 +33,6 @@ const clients = Dict{UUID, HTTP.WebSockets.WebSocket}()
 # Websocket 
 #############################################################################
 
-const ws_port = 8081  # Choose an available port
-
 function handle_websocket(ws::WebSocket)
     try
         for msg in ws
@@ -259,6 +257,8 @@ function run_simulation(input_file_path, output_path_path, stop_condition::Condi
     try
         output = runP2DBattery.runP2DBatt(input_file_path,ws);
 
+        print("....", output[2])
+
         lock(simulation_lock) do
             create_hdf5_output_file(output,output_path_path)
         end
@@ -276,13 +276,52 @@ function run_simulation(input_file_path, output_path_path, stop_condition::Condi
 end
 
 #############################################################################
-# Build a swagger swagger_document
+# Build a AsyncAPI document
 #############################################################################
 
-swagger_document = JSON.parsefile("/home/genie/app/app/swagger.json")
+# Get the path of the directory where the current script is located
+current_dir = @__DIR__
 
-route("/docs") do 
-    render_swagger(swagger_document)
+# Set the static directory to the docs/html folder of the first app directory
+static_dir = abspath(joinpath(current_dir, "..", "docs", "html"))  # This should resolve to /home/genie/app/docs/html
+
+println("Current Directory: $current_dir")
+println("Static Directory: $static_dir")
+println("Starting server...")
+
+# Function to serve static files
+function serve_file(req::HTTP.Request)
+    # Log when the function is called
+    println("Received request for: ", req.target)
+
+    # Extract the requested file path from the URL
+    file_path = HTTP.URIs.path(req.target)
+
+    # If no specific file is requested, serve index.html
+    if file_path == "/"
+        file_path = "/index.html"  # Serve index.html if no specific file is requested
+    end
+
+    # Construct the full path to the file
+    full_path = joinpath(static_dir, file_path)
+
+    # Log the constructed path
+    println("Full path: $full_path")
+
+    # Check if the file exists
+    if isfile(full_path)
+        println("File found: $full_path")
+        mime_type = HTTP.MIMETypes.getmime(full_path)
+
+        # Read the file content
+        content = read(full_path)
+        println("Serving: $full_path with MIME type: $mime_type")
+        return HTTP.Response(200, content, Dict("Content-Type" => mime_type))
+    else
+        println("File not found: $full_path")
+        return HTTP.Response(404, "File not found")
+    end
 end
 
-up()
+# Start the HTTP server
+HTTP.serve(serve_file, "0.0.0.0", 8080)
