@@ -7,15 +7,38 @@ RUN useradd --create-home --shell /bin/bash genie
 RUN mkdir /home/genie/app
 #COPY . /home/genie/app
 COPY deps.jl /home/genie/app
-COPY Manifest.toml /home/genie/app
 COPY Project.toml /home/genie/app
+COPY Manifest.toml /home/genie/app
+COPY docs /home/genie/app/docs
+
+
 
 WORKDIR /home/genie/app
 
 RUN apt-get update && apt-get install -y g++
 
+# Install curl to download Node.js setup script
+RUN apt-get update && \
+    apt-get install -y curl gnupg git && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g @asyncapi/cli
+
+
+# Generate the HTML documentation during the build
+# RUN asyncapi generate fromFile /home/genie/app/docs/asyncapi.yaml @asyncapi/html-template -o /home/genie/app/docs/html
+RUN asyncapi generate fromTemplate /home/genie/app/docs/asyncapi.yaml @asyncapi/html-template -o docs/html
+
+# Print the contents of the generated HTML folder to confirm files were created
+RUN echo "Contents of the generated HTML folder:" && ls -l /home/genie/app/docs/html
+
 RUN chown -R genie:genie /home/
+RUN chown -R genie:genie /home/genie/app/docs/html
+
 USER genie
+
+# Print the contents of the generated HTML folder to confirm files were created
+RUN echo "Contents of the generated HTML folder:" && ls -l /home/genie/app/docs/html
 
 RUN julia --project=. -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
 RUN julia --project=. -e 'println("Current project: $(Base.active_project())")'
@@ -24,6 +47,9 @@ RUN julia --project=. -e 'println("Current project: $(Base.active_project())")'
 RUN julia --project=. /home/genie/app/deps.jl
 RUN julia --project=. -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
 
+# # Build AsyncApi html file
+# COPY --chown=genie:genie docs/asyncapi.yaml /home/genie/app/docs/asyncapi.yaml
+# RUN julia --project=. -e 'using NodeJS; npm = string(NodeJS.npm_cmd()); node = string(NodeJS.nodejs_cmd());node_path = dirname(node); ENV["PATH"] = node_path * ":" * ENV["PATH"]; run(`$npm install -g @asyncapi/generator`); ag = joinpath(dirname(npm), "../lib/node_modules/@asyncapi/generator/cli.js"); run(`$node $ag -o /home/genie/app/docs -t @asyncapi/html-template /home/genie/app/docs/asyncapi.yaml`)'
 
 
 # Copy application files
@@ -33,8 +59,7 @@ COPY --chown=genie:genie compiled /home/genie/app/compiled
 RUN chown -R genie:genie /home/genie/app/compiled
 
 # Switch to the genie user before running the Julia command
-USER genie
-
+# USER genie
 
 RUN julia --project=. /home/genie/app/compiled/make.jl
 ENV JULIA_DEPOT_PATH "/home/genie/.julia"
@@ -43,19 +68,16 @@ ENV EARLYBIND "true"
 
 COPY --chown=genie:genie app /home/genie/app/app
 COPY --chown=genie:genie bin /home/genie/app/bin
-COPY --chown=genie:genie results /home/genie/app/results
-COPY --chown=genie:genie input_files /home/genie/app/input_files
-# RUN mkdir /home/genie/app/results
-# RUN mkdir /home/genie/app/input_files
+RUN mkdir /home/genie/app/results
+RUN mkdir /home/genie/app/input_files
+# COPY --chown=genie:genie results /home/genie/app/results
+# COPY --chown=genie:genie input_files /home/genie/app/input_files
 
-# Copy compiled files
-# COPY --chown=genie:genie compiled /home/genie/app/compiled
 
-# RUN julia --project=. /home/genie/app/compiled/compile_run_battery.jl
-# RUN julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile();"
 
-# # Compile app
-# RUN julia --project=. /home/genie/app/compiled/make.jl
+
+
+
 
 
 

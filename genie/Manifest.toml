@@ -2,7 +2,7 @@
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "a3602f4d5ed55edd642fffd57f0de9c45ee2f9d6"
+project_hash = "6b9b7ca77ba61f1b92267d65b521b6763fd84b3a"
 
 [[deps.AMD]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse_jll"]
@@ -737,6 +737,12 @@ version = "3.7.2+0"
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
+
+[[deps.NodeJS]]
+deps = ["Pkg"]
+git-tree-sha1 = "bf1f49fd62754064bc42490a8ddc2aa3694a8e7a"
+uuid = "2bd173c7-0d6d-553b-b6af-13a54713934c"
+version = "2.0.0"
 
 [[deps.Nullables]]
 git-tree-sha1 = "8f87854cc8f3685a60689d8edecaa29d2251979b"
