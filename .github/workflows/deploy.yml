@@ -45,10 +45,12 @@ jobs:
         run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo SSH connection successful"
       - name: Login to Registry
         run: echo ${{ secrets.PAT }} | docker login ghcr.io -u lorenah84 --password-stdin
+      - name: Copy docker-compose-deploy file to the server
+        run: scp -P ${{ secrets.SSH_PORT }} docker-compose-deploy.yml ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:${{ env.WORKDIR }}
       - name: Pull and Run Containers
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORKDIR }} && \
-          docker compose -f docker-compose.yml pull && \
-          docker compose -f docker-compose.yml up -d"
+          docker compose -f docker-compose-deploy.yml pull && \
+          docker compose -f docker-compose-deploy.yml up -d"
       - name: Cleanup
         run: rm -rf ~/.ssh
