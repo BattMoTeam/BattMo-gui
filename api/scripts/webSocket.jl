@@ -46,19 +46,20 @@ function handle_websocket(ws::WebSocket)
                     max_retries = 600
                     sleep_interval = 0.1
                     retries = 0
+                    while_loop = true
 
-                    while !isfile(output_file_path) && retries < max_retries
+                    while !isfile(output_file_path) && while_loop
                         sleep(sleep_interval)
                         retries += 1
                     end
 
-                    if retries >= max_retries
-                        if !ws.writeclosed
-                            WebSockets.send(ws, "Simulation timed out or failed.")
-                            WebSockets.close(ws)
-                        end
-                        return  # Stop further execution
-                    end
+                    # if retries >= max_retries
+                    #     if !ws.writeclosed
+                    #         WebSockets.send(ws, "Simulation timed out or failed.")
+                    #         WebSockets.close(ws)
+                    #     end
+                    #     return  # Stop further execution
+                    # end
 
                     if !ws.writeclosed
                         WebSockets.send(ws, "Simulation finished.")

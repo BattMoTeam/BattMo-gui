@@ -3811,7 +3811,7 @@ class RunSimulation:
 
         if st.session_state.sim_finished == True:
             # if "progress_bar" in vars(RunSimulation).values():
-            # st.progress(100)
+            st.progress(100)
             # self.sim_start.error("WebSocket was closed: {}_{}".format(close_status_code, close_msg))
             self.success = DivergenceCheck(
                 self.sim_start, st.session_state.simulation_results

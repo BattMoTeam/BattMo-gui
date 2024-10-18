@@ -26,13 +26,14 @@ st.logo(
     icon_image=os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "images", "battmo_logo.png"
     ),
+    size="large",
 )
 
 st.markdown(
     """
     <style>
     [data-testid="stSidebar"] img {
-        width: 250px !important;  /* Adjust this value to your desired width */
+        width: 200px !important;  /* Adjust this value to your desired width */
         height: auto;  /* Maintain the aspect ratio */
         margin: 0 auto;  /* Center the logo */
         display: block;
