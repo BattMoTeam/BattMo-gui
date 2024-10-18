@@ -20,4 +20,4 @@ input_file_path = "./exampleInput.json"
 output_file_path = nothing
 stop_condition = nothing
 ws = nothing
-run_simulation(json_input_data,json_battmo_input, input_file_path, output_file_path, stop_condition,ws)
+run_simulation( input_file_path, output_file_path,ws)

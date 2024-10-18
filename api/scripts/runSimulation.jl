@@ -26,7 +26,7 @@ function run_simulation(input_file_path, output_path, ws::Union{WebSocket, Nothi
 
             output = runBattMo1D(input_file_path,ws);
             println(output[1])
-            cell_specifications = get_cell_specifications(input_file_path)
+           
             println(output_path)
             
             if output_path !== nothing

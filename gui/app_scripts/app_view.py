@@ -28,6 +28,7 @@ import websocket
 import time
 import asyncio
 import base64
+import uuid
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -3779,7 +3780,8 @@ class RunSimulation:
                         elif "Error" in message:
                             st.error(message)
                         elif "UUID" in message:
-                            st.session_state.simulation_uuid = message.split(": ")[1]
+                            # st.session_state.simulation_uuid = message.split(": ")[1]
+                            pass
                         else:
                             self.sim_start.info(message)
 
@@ -3799,6 +3801,7 @@ class RunSimulation:
 
     def on_error(self, ws, error):
         st.error(f"WebSocket error: {error}")
+        print(f"WebSocket error: {error}")
 
         st.session_state.response = False
         st.session_state.sim_finished = True
@@ -3808,7 +3811,7 @@ class RunSimulation:
 
         if st.session_state.sim_finished == True:
             # if "progress_bar" in vars(RunSimulation).values():
-            st.progress(100)
+            # st.progress(100)
             # self.sim_start.error("WebSocket was closed: {}_{}".format(close_status_code, close_msg))
             self.success = DivergenceCheck(
                 self.sim_start, st.session_state.simulation_results
@@ -3826,9 +3829,10 @@ class RunSimulation:
         #     json_data = json.load(j)
         json_data = st.session_state.json_battmo_formatted_input
         # st.info("data send with ID: {}".format(st.session_state.unique_id_temp_folder))
+        st.session_state.simulation_uuid = str(uuid.uuid4())
         start_dict = {
             "operation": "run_simulation",
-            "user_id": st.session_state.unique_id_temp_folder,
+            "user_id": st.session_state.simulation_uuid,
             "parameters": json_data,
         }
         ws.send(json.dumps(start_dict))

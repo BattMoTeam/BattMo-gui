@@ -65,6 +65,7 @@ function handle_websocket(ws::WebSocket)
                     end
 
                     if isfile(input_file_path)
+                        rm(input_file_path)
                         println("File deleted successfully.")
                     else
                         println("File does not exist.")
@@ -76,6 +77,8 @@ function handle_websocket(ws::WebSocket)
                             WebSockets.send(ws, hdf5_data)
                         end
                     end
+
+                    rm(output_file_path)
 
                     WebSockets.close(ws)  # Ensure the WebSocket is closed
                 end
