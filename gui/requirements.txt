@@ -1,0 +1,17 @@
+matplotlib==3.8.0
+numpy==1.24.2
+streamlit==1.39.0
+h5py==3.9.0
+altair==4.2.2
+Flask==2.3.2
+pylance==0.6.2
+streamlit_extras == 0.3.2
+sympy == 1.12
+psutil == 3.2.2
+plotly == 5.22.0
+streamlit-elements==0.1
+st-theme
+scipy
+streamlit-navigation-bar
+websocket-client
+websocat 
