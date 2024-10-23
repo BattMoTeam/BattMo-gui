@@ -3,3 +3,10 @@
 [global]
 
 disableWidgetStateDuplicationWarning = true
+
+[theme]
+base="light"
+primaryColor = "#770737"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#F0F0F0"
+textColor = "#000000"
