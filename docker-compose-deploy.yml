@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   api:
-    image: ghcr.io/battmoteam/battmogui_api:latest
+    image: ghcr.io/battmoteam/battmoapp_api:latest
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
     command: julia --project=. -e 'include("api.jl")' --color=yes --depwarn=no --project=@. --sysimage="pre-compilation/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
 
   nginx:
-    image: ghcr.io/battmoteam/battmogui_nginx:latest
+    image: ghcr.io/battmoteam/battmoapp_nginx:latest
     build: ./nginx
     container_name: nginx
     restart: always
@@ -28,7 +28,7 @@ services:
       - gui
  
   gui:
-    image: ghcr.io/battmoteam/battmogui_streamlit:latest
+    image: ghcr.io/battmoteam/battmoapp_gui:latest
     build: ./gui
     container_name: gui
     restart: always
