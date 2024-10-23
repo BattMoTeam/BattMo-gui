@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   api:
-    image: ghcr.io/battmoteam/battmogui_api:latest
+    image: ghcr.io/battmoteam/battmoapp_api:latest
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -28,7 +28,7 @@ services:
       - gui
  
   gui:
-    image: ghcr.io/battmoteam/battmogui_streamlit:latest
+    image: ghcr.io/battmoteam/battmoapp_gui:latest
     build: ./gui
     container_name: gui
     restart: always

@@ -9,16 +9,6 @@ import sympy as sp
 
 
 # ##############################
-# # Page Config
-# path_to_images = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "images")
-# st.set_page_config(
-#     page_title="BattMo",
-#     page_icon=Image.open(os.path.join(path_to_images, "battmo_logo.png")),
-#     layout="wide",
-# )
-# ##############################
-
-# ##############################
 # # Remember user changed values
 for k, v in st.session_state.items():
     st.session_state[k] = v
@@ -38,13 +28,13 @@ from app_scripts.app_controller import (
 )
 
 
-# def show_materials_and_models():
-st.text("")
-st.text("")
-set_model_description()
+def show_materials_and_models():
+    st.text("")
+    st.text("")
+    set_model_description()
 
-set_material_description()
+    set_material_description()
 
-with st.sidebar:
-    app_view.st_space(space_width=3)
-    set_acknowlegent_info()
+    with st.sidebar:
+        app_view.st_space(space_width=3)
+        set_acknowlegent_info()

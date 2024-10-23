@@ -24,24 +24,25 @@ for k, v in st.session_state.items():
 st.session_state.update(st.session_state)
 # ##############################
 
-# def show_home():
 
-st.text("")
-st.text("")
+def show_home():
 
-# Set Introduction page heading wil title, BattMo logo, and BattMo info.
-set_heading()
+    st.text("")
+    st.text("")
 
-app_view.st_space(space_width=3)
+    # Set Introduction page heading wil title, BattMo logo, and BattMo info.
+    set_heading()
 
-# Set page navigation
-col = set_page_navigation()
-
-# Set external links to websites and documentation
-set_external_links()
-
-with st.sidebar:
     app_view.st_space(space_width=3)
 
-    # Set funding acknowledgement
-    set_acknowlegent_info()
+    # Set page navigation
+    col = set_page_navigation()
+
+    # Set external links to websites and documentation
+    set_external_links()
+
+    with st.sidebar:
+        app_view.st_space(space_width=3)
+
+        # Set funding acknowledgement
+        set_acknowlegent_info()

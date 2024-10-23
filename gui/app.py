@@ -72,7 +72,7 @@ with st.sidebar:
     page = option_menu(
         None,
         ["Home", "Simulation", "Results", "Materials and models"],
-        icons=['house', 'cloud-upload', "list-task", 'gear'],
+        icons=['house', 'play', 'graph-up', 'layers'],
         menu_icon="cast",
         default_index=0,
         styles={
@@ -80,12 +80,15 @@ with st.sidebar:
         },
     )
 
-if page == "Simulation":
+if page == "Home":
+    pg.show_home()
+
+elif page == "Simulation":
 
     bar = option_menu(
         None,
         ["Cel design", 'Simulation setup'],
-        icons=['house', 'gear'],
+        icons=['', ''],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -95,6 +98,12 @@ if page == "Simulation":
         pg.show_cell_design()
     elif bar == "Simulation setup":
         pg.show_simulation()
+
+elif page == "Results":
+    pg.show_results()
+
+else:
+    pg.show_materials_and_models()
 
 
 if "theme" not in st.session_state:
