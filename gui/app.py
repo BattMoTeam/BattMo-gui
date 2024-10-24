@@ -71,7 +71,7 @@ st.markdown(
 with st.sidebar:
     page = option_menu(
         None,
-        ["Home", "Simulation", "Results", "Materials and models"],
+        ["Home", "Simulate", "Analyze", "Materials and models"],
         icons=['house', 'play', 'graph-up', 'layers'],
         menu_icon="cast",
         default_index=0,
@@ -83,23 +83,37 @@ with st.sidebar:
 if page == "Home":
     pg.show_home()
 
-elif page == "Simulation":
+elif page == "Simulate":
 
     bar = option_menu(
         None,
-        ["Cel design", 'Simulation setup'],
-        icons=['', ''],
+        [
+            "Upload",
+            "Build Model",
+            "Build Geometry",
+            "Fill Geometry",
+            "Cycling",
+            "Simulation",
+        ],
+        icons=[
+            'box-arrow-in-down',
+            'toggles',
+            'battery',
+            'battery-full',
+            'recycle',
+            'battery-charging',
+        ],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
     )
 
-    if bar == "Cel design":
+    if bar == "Build Geometry":
         pg.show_cell_design()
     elif bar == "Simulation setup":
         pg.show_simulation()
 
-elif page == "Results":
+elif page == "Analyze":
     pg.show_results()
 
 else:

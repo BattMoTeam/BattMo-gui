@@ -116,7 +116,7 @@ class SetHeading:
     def set_heading(self):
         self.set_title_and_logo()
         self.set_description()
-        self.set_info()
+        # self.set_info()
 
     def set_title_and_logo(self):
         # Title and subtitle
@@ -164,21 +164,18 @@ class SetPageNavigation:
         st_space(space_width=6)
 
         simulation_page = col1.button(
-            label="Simulation",
-            help=self.help_simulation,
-            use_container_width=True,
+            label="Simulation", help=self.help_simulation, use_container_width=True, type="primary"
         )
 
         results_page = col2.button(
-            label="Results",
-            help=self.help_results,
-            use_container_width=True,
+            label="Results", help=self.help_results, use_container_width=True, type="primary"
         )
 
         materials_and_models_page = col3.button(
             label="Materials and models",
             help=self.help_materials_and_models,
             use_container_width=True,
+            type="primary",
         )
 
         if simulation_page:
