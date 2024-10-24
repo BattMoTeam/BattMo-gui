@@ -1,0 +1,1701 @@
+{
+   "@context": "https://w3id.org/emmo/domain/battery/context",
+   "@graph": {
+      "@id": "https://www.batterymodel.org/parameters/m309c-ed93mdp3d",
+      "@type": "BatteryCell",
+      "schema:isBasedOn": {
+         "@id": [
+            "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta",
+            "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+         ]
+      },
+      "hasProperty": [
+         {
+            "rdfs:label": "packing_mass",
+            "@type": "Mass",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 11.0
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "g",
+               "@type": "emmo:Gram"
+            }
+         },
+         {
+            "rdfs:label": "number_parallel_electrode_pairs_within_cell",
+            "@type": "XXX",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 1
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "1",
+               "@type": "emmo:UnitOne"
+            }
+         },
+         {
+            "rdfs:label": "external_surface_area",
+            "@type": null,
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 0.0379
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "m\u00b2",
+               "@type": "emmo:SquareMetre"
+            }
+         },
+         {
+            "rdfs:label": "n_to_p_ratio",
+            "@type": "NPRatio",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 1.65
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "1",
+               "@type": "emmo:UnitOne"
+            }
+         },
+         {
+            "rdfs:label": "cell_mass",
+            "@type": "Mass",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 35.30139096320001
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "g",
+               "@type": "emmo:Gram"
+            }
+         },
+         {
+            "rdfs:label": "nominal_cell_capacity",
+            "@type": "NominalCapacity",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": 1386.068262945273
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "mAh",
+               "@type": "emmo:AmpereHour"
+            }
+         },
+         {
+            "rdfs:label": "round_trip_efficiency",
+            "@type": "EnergyEfficiency",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": null
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "1",
+               "@type": "emmo:UnitOne"
+            }
+         },
+         {
+            "rdfs:label": "specific_energy",
+            "@type": "SpecificEnergyDischarging",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": null
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "Wh\u00b7kg\u207b\u00b9",
+               "@type": "emmo:WattHourPerKilogram"
+            }
+         },
+         {
+            "rdfs:label": "discharge_energy",
+            "@type": "DischargeEnergy",
+            "hasNumericalPart": {
+               "@type": "Real",
+               "hasNumericalValue": null
+            },
+            "hasMeasurementUnit": {
+               "hasSymbolValue": "Wh",
+               "@type": "emmo:WattHour"
+            }
+         }
+      ],
+      "hasNegativeElectrode": {
+         "rdfs:label": "negative_electrode",
+         "@type": "NegativeElectrode",
+         "hasProperty": [
+            {
+               "rdfs:label": "length",
+               "@type": "Length",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.8
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "m",
+                  "@type": "emmo:Metre"
+               }
+            },
+            {
+               "rdfs:label": "width",
+               "@type": "Width",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.065
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "m",
+                  "@type": "emmo:Metre"
+               }
+            },
+            {
+               "rdfs:label": "electrode_capacity",
+               "@type": "Capacity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 2285.111762717755
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "mAh",
+                  "@type": "emmo:MilliAmpereHour"
+               }
+            }
+         ],
+         "hasCoating": {
+            "rdfs:label": "negative_electrode_coating",
+            "@type": "Coating",
+            "hasProperty": [
+               {
+                  "rdfs:label": "coating_thickness",
+                  "@type": "Thickness",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 90.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "\u03bcm",
+                     "@type": "emmo:MicroMetre"
+                  }
+               },
+               {
+                  "rdfs:label": "coating_porosity",
+                  "@type": "Porosity",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 0.2
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "rdfs:label": "mass_loading",
+                  "@type": "MassLoading",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 15.933599999999998
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "mg\u00b7cm\u207b\u00b2",
+                     "@type": "emmo:MiliGramPerCubicCentiMeter"
+                  }
+               },
+               {
+                  "rdfs:label": "bruggeman_coefficient",
+                  "@type": "BruggemanCoefficient",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 1.5
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "rdfs:label": "number_of_discrete_cells_electrode",
+                  "@type": "NumberOfEntities",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 20
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               }
+            ],
+            "hasActiveMaterial": {
+               "rdfs:label": "negative_electrode_active_material",
+               "@type": [
+                  "ActiveMaterial",
+                  "SiliconOxideGraphiteElectrode",
+                  "Graphite"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "maximum_concentration",
+                     "@type": "MaximumConcentration",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 29583.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
+                        "@type": "emmo:MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "volumetric_surface_area",
+                     "@type": "VolumetricSurfaceArea",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 383959.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "m\u00b2m\u207b\u00b3",
+                        "@type": "emmo:Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 2260.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 632.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "maximum_lithium_stoichiometry",
+                     "@type": "StoichiometricNumberOfSubstance",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.9014
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "minimum_lithium_stoichiometry",
+                     "@type": "StoichiometricNumberOfSubstance",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.0279
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "open_circuit_potential",
+                     "@type": "['OpenCircuitVoltage', 'Expression']",
+                     "hasStringPart": {
+                        "@type": "String",
+                        "hasStringValue": {
+                           "functionname": "computeOCP_Graphite_SiOx_Chen2020",
+                           "function": "1.9793 * exp(-39.3631*(c/cmax)) + 0.2482 - 0.0909 * tanh(29.8538*((c/cmax) - 0.1234)) - 0.04478 * tanh(14.9159*((c/cmax) - 0.2769)) - 0.0205 * tanh(30.4444*((c/cmax) - 0.6103))"
+                        }
+                     },
+                     "hasVariable": [
+                        "c",
+                        "cmax"
+                     ],
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 200.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "activation_energy_of_diffusion",
+                     "@type": "ActivationEnergy",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 5000.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
+                        "@type": "emmo:JoulePerMole"
+                     }
+                  },
+                  {
+                     "rdfs:label": "diffusion_pre_exponential_factor",
+                     "@type": null,
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 3.9e-14
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "s\u207b\u00b9",
+                        "@type": "emmo:ReciprocalSecond"
+                     }
+                  },
+                  {
+                     "rdfs:label": "particle_radius",
+                     "@type": "ParticleRadius",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1e-06
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "m",
+                        "@type": "emmo:Metre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.9
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1.04
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "number_of_discrete_cells_particle_radius",
+                     "@type": "NumberOfEntities",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 10
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_capacity",
+                     "@type": "SpecificCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 306.44157263296455
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mAh\u00b7g\u207b\u00b9",
+                        "@type": "emmo:MilliAmpereHourPerGram"
+                     }
+                  }
+               ]
+            },
+            "hasBinder": {
+               "rdfs:label": "negative_electrode_binder",
+               "@type": [
+                  "Binder",
+                  "PolyvinylideneFluoride"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1780.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1400.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.165
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.05
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 100.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  }
+               ]
+            },
+            "hasConductiveAdditive": {
+               "rdfs:label": "negative_electrode_additive",
+               "@type": [
+                  "ConductiveAdditive",
+                  "CarbonBlack"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1800.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 300.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.5
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.05
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 100.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  }
+               ]
+            }
+         },
+         "hasCurrentCollector": {
+            "rdfs:label": "negative_electrode_current_collector",
+            "@type": [
+               "CurrentCollector",
+               "Copper",
+               "Foil"
+            ],
+            "hasProperty": [
+               {
+                  "rdfs:label": "current_collector_thickness",
+                  "@type": "Thickness",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 12.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "\u03bcm",
+                     "@type": "emmo:MicroMetre"
+                  }
+               }
+            ]
+         },
+         "@reverse": {
+            "hasParticipant": {
+               "rdfs:label": "negative_electrode_reaction",
+               "@type": "ElectrodeReaction",
+               "hasProperty": [
+                  {
+                     "rdfs:label": "number_of_electrons_transferred",
+                     "@type": "NumberOfEntities",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "activation_energy_of_reaction",
+                     "@type": "Energy",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 35000.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
+                        "@type": "emmo:JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  },
+                  {
+                     "rdfs:label": "reaction_rate_constant",
+                     "@type": "ReactionRateConstant",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 6.716e-12
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                        "@type": "emmo:MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      "hasPositiveElectrode": {
+         "rdfs:label": "positive_electrode",
+         "@type": "PositiveElectrode",
+         "hasProperty": [
+            {
+               "rdfs:label": "length",
+               "@type": "Length",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.8
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "m",
+                  "@type": "emmo:Metre"
+               }
+            },
+            {
+               "rdfs:label": "width",
+               "@type": "Width",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.065
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "m",
+                  "@type": "emmo:Metre"
+               }
+            },
+            {
+               "rdfs:label": "electrode_capacity",
+               "@type": "Capacity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1386.068262945273
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "mAh",
+                  "@type": "emmo:MilliAmpereHour"
+               }
+            }
+         ],
+         "hasCoating": {
+            "rdfs:label": "negative_electrode_coating",
+            "@type": "Coating",
+            "hasProperty": [
+               {
+                  "rdfs:label": "coating_thickness",
+                  "@type": "Thickness",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 76.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "\u03bcm",
+                     "@type": "emmo:MicroMetre"
+                  }
+               },
+               {
+                  "rdfs:label": "coating_porosity",
+                  "@type": "Porosity",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 0.32
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "rdfs:label": "mass_loading",
+                  "@type": "MassLoading",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 16.971711999999997
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "mg\u00b7cm\u207b\u00b2",
+                     "@type": "emmo:MiliGramPerCubicCentiMeter"
+                  }
+               },
+               {
+                  "rdfs:label": "bruggeman_coefficient",
+                  "@type": "BruggemanCoefficient",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 1.5
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               },
+               {
+                  "rdfs:label": "number_of_discrete_cells_electrode",
+                  "@type": "NumberOfEntities",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 20
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "1",
+                     "@type": "emmo:UnitOne"
+                  }
+               }
+            ],
+            "hasActiveMaterial": {
+               "rdfs:label": "positive_electrode_active_material",
+               "@type": [
+                  "ActiveMaterial",
+                  "SiliconOxideGraphiteElectrode",
+                  "Graphite"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "maximum_concentration",
+                     "@type": "MaximumConcentration",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 26390.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mol\u00b7m\u207b\u00b3",
+                        "@type": "emmo:MolePerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "volumetric_surface_area",
+                     "@type": "VolumetricSurfaceArea",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1878260.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "m\u00b2m\u207b\u00b3",
+                        "@type": "emmo:Metre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 3450.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "maximum_lithium_stoichiometry",
+                     "@type": "StoichiometricNumberOfSubstance",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.14778
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "minimum_lithium_stoichiometry",
+                     "@type": "StoichiometricNumberOfSubstance",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.999
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "open_circuit_potential",
+                     "@type": "['OpenCircuitVoltage', 'Expression']",
+                     "hasStringPart": {
+                        "@type": "String",
+                        "hasStringValue": {
+                           "functionname": "computeOCP_LFP_Xu2015",
+                           "function": null
+                        }
+                     },
+                     "hasVariable": [
+                        "c",
+                        "T",
+                        "cmax"
+                     ],
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 632.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 100.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "activation_energy_of_diffusion",
+                     "@type": "ActivationEnergy",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 5000.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
+                        "@type": "emmo:JoulePerMole"
+                     }
+                  },
+                  {
+                     "rdfs:label": "diffusion_pre_exponential_factor",
+                     "@type": null,
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 3.9e-14
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "s\u207b\u00b9",
+                        "@type": "emmo:ReciprocalSecond"
+                     }
+                  },
+                  {
+                     "rdfs:label": "particle_radius",
+                     "@type": "ParticleRadius",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1e-06
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "m",
+                        "@type": "emmo:Metre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.9
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 2.1
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "number_of_discrete_cells_particle_radius",
+                     "@type": "NumberOfEntities",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 10
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_capacity",
+                     "@type": "SpecificCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 174.50710467704346
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mAh\u00b7g\u207b\u00b9",
+                        "@type": "emmo:MilliAmpereHourPerGram"
+                     }
+                  }
+               ]
+            },
+            "hasBinder": {
+               "rdfs:label": "positive_electrode_binder",
+               "@type": [
+                  "Binder",
+                  "PolyvinylideneFluoride"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1780.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1400.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.165
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.05
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 100.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  }
+               ]
+            },
+            "hasConductiveAdditive": {
+               "rdfs:label": "positive_electrode_additive",
+               "@type": [
+                  "ConductiveAdditive",
+                  "CarbonBlack"
+               ],
+               "hasProperty": [
+                  {
+                     "rdfs:label": "density",
+                     "@type": "Density",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1800.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                        "@type": "emmo:GramPerCubicMetre"
+                     }
+                  },
+                  {
+                     "rdfs:label": "specific_heat_capacity",
+                     "@type": "SpecificHeatCapacity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 300.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:JoulePerKiloGramKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "thermal_conductivity",
+                     "@type": "ThermalConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.5
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                        "@type": "emmo:WattPerMetreKelvin"
+                     }
+                  },
+                  {
+                     "rdfs:label": "mass_fraction",
+                     "@type": "MassFraction",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 0.05
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     }
+                  },
+                  {
+                     "rdfs:label": "electronic_conductivity",
+                     "@type": "ElectricConductivity",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 100.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "S\u00b7m\u207b\u00b9",
+                        "@type": "emmo:SiemensPerMetre"
+                     }
+                  }
+               ]
+            }
+         },
+         "hasCurrentCollector": {
+            "rdfs:label": "negative_electrode_current_collector",
+            "@type": [
+               "CurrentCollector",
+               "Copper",
+               "Foil"
+            ],
+            "hasProperty": [
+               {
+                  "rdfs:label": "current_collector_thickness",
+                  "@type": "Thickness",
+                  "hasNumericalPart": {
+                     "@type": "Real",
+                     "hasNumericalValue": 16.0
+                  },
+                  "hasMeasurementUnit": {
+                     "hasSymbolValue": "\u03bcm",
+                     "@type": "emmo:MicroMetre"
+                  }
+               }
+            ]
+         },
+         "@reverse": {
+            "hasParticipant": {
+               "rdfs:label": "negative_electrode_reaction",
+               "@type": "ElectrodeReaction",
+               "hasProperty": [
+                  {
+                     "rdfs:label": "number_of_electrons_transferred",
+                     "@type": "NumberOfEntities",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 1
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "1",
+                        "@type": "emmo:UnitOne"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "activation_energy_of_reaction",
+                     "@type": "Energy",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 4000.0
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "J\u00b7mol\u207b\u00b9\u00b7",
+                        "@type": "emmo:JoulePerMole"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  },
+                  {
+                     "rdfs:label": "reaction_rate_constant",
+                     "@type": "ReactionRateConstant",
+                     "hasNumericalPart": {
+                        "@type": "Real",
+                        "hasNumericalValue": 3.626e-11
+                     },
+                     "hasMeasurementUnit": {
+                        "hasSymbolValue": "mol\u00b7m\u207b\u00b2\u00b7s\u207b\u00b9",
+                        "@type": "emmo:MolePerSquareMetrePerSecond"
+                     },
+                     "schema:citation": {
+                        "@id": "https://www.sciencedirect.com/science/article/pii/S0360544214013437#sec2.6.1"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      "hasElectrolyte": {
+         "rdfs:label": "electrolyte_materials",
+         "@type": [
+            "Electrolyte",
+            "LithiumHexaFluoroPhosphateElectrolyte"
+         ],
+         "hasProperty": [
+            {
+               "rdfs:label": "specific_heat_capacity",
+               "@type": "SpecificHeatCapacity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1518.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "J\u00b7kg\u207b\u00b9\u00b7K\u207b\u00b9",
+                  "@type": "emmo:JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "thermal_conductivity",
+               "@type": "ThermalConductivity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.099
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "W\u00b7m\u207b\u00b9\u00b7K\u207b\u00b9",
+                  "@type": "emmo:WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "density",
+               "@type": "Density",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1200
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                  "@type": "emmo:GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "charge_carrier_name",
+               "@type": "ChargeCarrierIon",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "Li"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "charge_carrier_charge_number",
+               "@type": "ChargeNumber",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "charge_carrier_transference_number",
+               "@type": "IonTransportNumber",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.2594
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "counter_ion_name",
+               "@type": "ChargeCarrierIon",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "PF6"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "counter_ion_transference_number",
+               "@type": "IonTransportNumber",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.7406
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "UnitOne"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "conductivity",
+               "@type": "['IonicConductivity', 'Expression']",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": {
+                     "functionname": "computeElectrolyteConductivity_Chen2020",
+                     "function": "0.1297*(c/1000)^3 - 2.51*(c/1000)^(1.5) + 3.329*(c/1000)"
+                  }
+               },
+               "hasVariable": [
+                  "c"
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "diffusion_coefficient",
+               "@type": "['DiffusionCoefficient', 'Expression']",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": {
+                     "functionname": "computeDiffusionCoefficient_Chen2020",
+                     "function": "8.794*10^(-11)*(c/1000)^2 - 3.972*10^(-10)*(c/1000) + 4.862*10^(-10)"
+                  }
+               },
+               "hasVariable": [
+                  "c"
+               ],
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "concentration",
+               "@type": "IonConcentration",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1000.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "mol\u00b7L\u207b",
+                  "@type": "emmo:MolPerLiter"
+               }
+            },
+            {
+               "rdfs:label": "bruggeman_coefficient",
+               "@type": null,
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1.5
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            }
+         ]
+      },
+      "hasSeparator": {
+         "rdfs:label": "separator_materials",
+         "@type": [
+            "Separator",
+            "Separator"
+         ],
+         "hasProperty": [
+            {
+               "rdfs:label": "specific_heat_capacity",
+               "@type": "SpecificHeatCapacity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1692.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "J\u00b7kg\u207b\u00b9.K\u207b\u00b9",
+                  "@type": "emmo:JoulePerKiloGramKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "thermal_conductivity",
+               "@type": "ThermalConductivity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.334
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "W\u00b7m\u207b\u00b9.K\u207b\u00b9",
+                  "@type": "emmo:WattPerMetreKelvin"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "density",
+               "@type": "Density",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 946.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "kg\u00b7m\u207b\u00b3",
+                  "@type": "emmo:GramPerCubicMetre"
+               },
+               "schema:citation": {
+                  "@id": "https://iopscience.iop.org/article/10.1149/1945-7111/ab9050/meta"
+               }
+            },
+            {
+               "rdfs:label": "thickness",
+               "@type": "Thickness",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 15.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "\u03bcm",
+                  "@type": "emmo:MicroMetre"
+               }
+            },
+            {
+               "rdfs:label": "porosity",
+               "@type": "Porosity",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.4
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "bruggeman_coefficient",
+               "@type": "BruggemanCoefficient",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1.5
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "number_of_discrete_cells_separator",
+               "@type": "NumberOfEntities",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 10
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            }
+         ]
+      },
+      "hasBoundaryConditions": {
+         "rdfs:label": "boundary_conditions",
+         "@type": "BoundaryConditions",
+         "hasProperty": [
+            {
+               "rdfs:label": "ambient_temperature",
+               "@type": "AmbientThermodynamicTemperature",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 298.15
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "K",
+                  "@type": "emmo:Kelvin"
+               }
+            },
+            {
+               "rdfs:label": "initial_temperature",
+               "@type": "InititalThermodynamicTemperature",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 298.15
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "K",
+                  "@type": "emmo:Kelvin"
+               }
+            },
+            {
+               "rdfs:label": "external_heat_transfer_coefficient",
+               "@type": "CoefficientOfHeatTransfer",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1000.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "W\u00b7m\u207b\u00b2\u00b7K\u207b\u00b9",
+                  "@type": "emmo:WattPerSquareMetreKelvin"
+               }
+            }
+         ]
+      },
+      "hasCyclingProcess": {
+         "rdfs:label": "protocol_properties",
+         "@type": "CyclingProcess",
+         "hasProperty": [
+            {
+               "rdfs:label": "initial_step_type",
+               "@type": null,
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "charging"
+               }
+            },
+            {
+               "rdfs:label": "initial_state_of_charge",
+               "@type": "StateOfCharge",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.01
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "number_of_cycles",
+               "@type": "NumberOfEntities",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "d_rate",
+               "@type": "DischargingCRate",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "c_rate",
+               "@type": "CRate",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 1.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            },
+            {
+               "rdfs:label": "lower_cutoff_voltage",
+               "@type": "LowerVoltageLimit",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 2.4
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "V",
+                  "@type": "emmo:Volt"
+               }
+            },
+            {
+               "rdfs:label": "upper_cutoff_voltage",
+               "@type": "UpperVoltageLimit",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 3.6
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "V",
+                  "@type": "emmo:Volt"
+               }
+            },
+            {
+               "rdfs:label": "protocol_name",
+               "@type": "Cycling",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "CCCV"
+               }
+            },
+            {
+               "rdfs:label": "d_idt_limit",
+               "@type": null,
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.001
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "A\u00b7s\u207b\u00b9",
+                  "@type": null
+               }
+            },
+            {
+               "rdfs:label": "d_edt_limit",
+               "@type": null,
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 0.01
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "V\u00b7s\u207b\u00b9",
+                  "@type": "emmo:VoltPerSecond"
+               }
+            },
+            {
+               "rdfs:label": "time_step_duration",
+               "@type": "StepDuration",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 30.0
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "s",
+                  "@type": "emmo:Second"
+               }
+            },
+            {
+               "rdfs:label": "number_of_ramp_up_steps",
+               "@type": "['LinearCurrentRamp', 'NumberOfEntities']",
+               "hasNumericalPart": {
+                  "@type": "Real",
+                  "hasNumericalValue": 5
+               },
+               "hasMeasurementUnit": {
+                  "hasSymbolValue": "1",
+                  "@type": "emmo:UnitOne"
+               }
+            }
+         ]
+      },
+      "hasModel": {
+         "@type": "P2DModel",
+         "hasProperty": [
+            {
+               "rdfs:label": "use_thermal",
+               "@type": "['ThermalModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
+               }
+            },
+            {
+               "rdfs:label": "include_current_collector",
+               "@type": "['CurrentCollector']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 0
+               }
+            },
+            {
+               "rdfs:label": "use_solid_diffusion_model",
+               "@type": "['usediffusionModel']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
+               }
+            },
+            {
+               "rdfs:label": "solid_diffusion_model_type",
+               "@type": "['diffusionModelType', 'parameter']",
+               "hasStringPart": {
+                  "@type": "String",
+                  "hasStringValue": "full"
+               }
+            },
+            {
+               "rdfs:label": "use_ramp_up",
+               "@type": "['LinearCurrentRamp']",
+               "hasNumericalPart": {
+                  "@type": "Boolean",
+                  "hasNumericalValue": 1
+               }
+            }
+         ]
+      }
+   }
+}

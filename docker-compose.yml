@@ -2,18 +2,26 @@ version: "3.3"
 
 services:
 
-  genie:
-    build: ./genie
-    container_name: genie
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+      target: dev
+    container_name: api
     restart: always
     ports:
-      - "8000:8000"
+      - "8081:8081"
+      - "8080:8080"
     volumes:
-      - ./genie:/home/genie/app
-    #command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server --timeout 200
-    command: julia --project=. -e 'include("app/rest.jl")' --color=yes --depwarn=no --project=@. --sysimage="/home/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
-    # --color=yes --depwarn=no --project=@. --sysimage=/usr/local/julia/lib/julia/sys.so -q -i -- $(dirname $0)/../bootstrap.jl -s=true "$@"
+      - ./api/scripts:/api/scripts
+      - ./api/api.jl:/api/api.jl
+      - ./api/logs:/api/logs
+      - ./api/input_files:/api/input_files
+      - ./api/results:/api/results
+    # command: julia --project=. -e 'include("api.jl")' --color=yes --depwarn=no --project=@. --sysimage="pre-compilation/sysimage.so" -q -i -- $$(dirname $$0)/../bootstrap.jl -s=true "$$@"
 
+    command: julia --project=. -e 'include("api.jl")'
+  
   nginx:
     build: ./nginx
     container_name: nginx
@@ -25,18 +33,16 @@ services:
       - ./nginx:/app
 
     depends_on:
-      - genie
-      - streamlit
+      - api
+      - gui
 
-  streamlit:
-    build: ./streamlit
-    container_name: streamlit
+  gui:
+    build: ./gui
+    container_name: gui
     restart: always
     ports:
       - "8501:8501"
     volumes:
-      - ./streamlit:/app
-    depends_on:
-      - genie
+      - ./gui:/app
 
     command: streamlit run app.py --global.disableWidgetStateDuplicationWarning true --server.port=8501
